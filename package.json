@@ -17,7 +17,9 @@
   ],
   "scripts": {
     "dev": "nuxi dev .playground",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "release": "bumpp package.json --commit --push --tag",
+    "test": "pnpm lint && vitest"
   },
   "dependencies": {
     "@nuxt/kit": "^3.0.0",
@@ -29,8 +31,12 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.34.0",
+    "@nuxt/kit": "^3.0.0",
+    "@nuxt/test-utils": "3.0.0",
     "eslint": "^8.29.0",
+    "execa": "^6.1.0",
     "nitropack": "^1.0.0",
-    "nuxt": "3.0.0"
+    "nuxt": "3.0.0",
+    "vitest": "^0.25.5"
   }
 }
