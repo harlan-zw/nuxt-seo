@@ -1,5 +1,4 @@
-import { addTemplate, createResolver, defineNuxtModule, logger } from '@nuxt/kit'
-import { defu } from 'defu'
+import { addTemplate, defineNuxtModule, logger } from '@nuxt/kit'
 import chalk from 'chalk'
 import { version } from '../../package.json'
 
@@ -30,8 +29,6 @@ export default defineNuxtModule<ModuleOptions>({
     }
   },
   async setup(config, nuxt) {
-    const { resolve } = createResolver(import.meta.url)
-
     // configure nuxt-simple-sitemap
     nuxt.options.sitemap = nuxt.options.sitemap || {}
     nuxt.options.sitemap.hostname = config.hostname
