@@ -1,4 +1,4 @@
-<h1 align='center'>△ nuxt-seo-kit</h1>
+<h1 align='center'>nuxt-seo-kit</h1>
 
 <p align="center">
 <a href='https://github.com/harlan-zw/nuxt-unhead/actions/workflows/test.yml'>
@@ -27,20 +27,29 @@ Nuxt v3 layer for building super-charged SEO apps.
 </table>
 </p>
 
-## Included Modules
+## Background
 
-- △ [nuxt-unhead](https://github.com/harlan-zw/nuxt-unhead) - Nuxt v3 layer for building a super-charged SEO site.
-- 🔎 [Schema.org](https://github.com/) - Generate Schema.org JSON-LD for SEO
+Configuring SEO for a Nuxt v3 app is difficult, it requires installing many modules, configuring them all separately
+and then figuring out all the meta tags.
+
+What if you could just install one module and have all the SEO features you need in a single config?
+
+Introducing nuxt-seo-kit, a layer which aims to do just that.
+
+
+## Modules
+
 - 📖 [nuxt-simple-sitemap](https://github.com/harlan-zw/nuxt-simple-sitemap) - Sitemap support
+- 🔎 [nuxt-schema-org](https://github.com/) - Generate Schema.org JSON-LD for SEO
+- △ [nuxt-unhead](https://github.com/harlan-zw/nuxt-unhead) - Nuxt v3 layer for building a super-charged SEO site.
 
 ## Features
 
-- Easily manage robot and sitemap config with route rules
-- Robots.txt, sitemap.xml generation
-- Canonical URLs
-- SEO Components (Breadcrumb, FAQ)
-- Best practice SEO meta tags
-- Use `definePageMeta` for title, description and image
+- 🔄 Easily manage robot and sitemap config with route rules
+- 🤖 Automatic robots.txt, sitemap.xml, Schema.org, canonical URLs and SEO meta tags
+- 🔥 SEO meta tag enhancing for best practice SEO
+- 🍞 SEO Components (Breadcrumb, FAQ)
+- ✨ Use `definePageMeta` for title, description and image
 
 ## Register Layer
 
