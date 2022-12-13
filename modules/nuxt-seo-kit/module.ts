@@ -40,6 +40,7 @@ export default defineNuxtModule<ModuleOptions>({
     // configure nuxt-schema-org
     nuxt.options.schemaOrg = nuxt.options.schemaOrg || {}
     nuxt.options.schemaOrg.host = config.hostname
+    nuxt.options.schemaOrg.inLanguage = nuxt.options.runtimeConfig.public.locale
 
     if (nuxt.options.dev && config.splash) {
       let latestTag = `v${version}`
@@ -63,26 +64,5 @@ export default defineNuxtModule<ModuleOptions>({
       getContents: () => exports,
     })
     nuxt.options.alias['#nuxt-seo-kit/config'] = dst.dst
-
-    nuxt.hooks.hook('nitro:config', (nitroConfig) => {
-      nitroConfig.externals = defu(typeof nitroConfig.externals === 'object' ? nitroConfig.externals : {}, {
-        inline: [
-          // Inline module runtime in Nitro bundle
-          resolve('./runtime/nitro'),
-        ],
-      })
-      //
-      nitroConfig.plugins = nitroConfig.plugins || []
-      // config
-      nitroConfig.virtual!['nuxt-seo-kit/config'] = exports
-
-      // plugins
-      ;['meta'].forEach((plugin) => {
-        nitroConfig.alias[`#nuxt-seo-kit/${plugin}`] = resolve(`./runtime/nitro/${plugin}`)
-        nitroConfig.plugins.push(`#nuxt-seo-kit/${plugin}`)
-      })
-
-      nitroConfig.hooks = nitroConfig.hooks || {}
-    })
   },
 })

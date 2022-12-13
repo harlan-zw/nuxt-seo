@@ -8,6 +8,7 @@ export default defineNuxtConfig(<NuxtConfig> {
       indexable: true,
       siteUrl: 'https://harlanzw.com',
       trailingSlash: true,
+      locale: 'en-AU',
     }
   },
 
