@@ -28,7 +28,7 @@
   ],
   "scripts": {
     "dev": "nuxi dev .playground",
-    "lint": "eslint .",
+    "lint": "eslint . --fix",
     "release": "bumpp package.json --commit --push --tag",
     "test": "pnpm lint && vitest"
   },

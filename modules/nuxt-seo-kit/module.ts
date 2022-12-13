@@ -61,5 +61,10 @@ export default defineNuxtModule<ModuleOptions>({
       getContents: () => exports,
     })
     nuxt.options.alias['#nuxt-seo-kit/config'] = dst.dst
+
+    nuxt.hooks.hook('nitro:config', (nitroConfig) => {
+      // config
+      nitroConfig.virtual!['nuxt-seo-kit/config'] = exports
+    })
   },
 })
