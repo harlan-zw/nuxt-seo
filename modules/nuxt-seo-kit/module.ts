@@ -1,4 +1,4 @@
-import { addTemplate, defineNuxtModule, logger } from '@nuxt/kit'
+import { addTemplate, createResolver, defineNuxtModule, logger } from '@nuxt/kit'
 import chalk from 'chalk'
 import { version } from '../../package.json'
 
@@ -29,6 +29,8 @@ export default defineNuxtModule<ModuleOptions>({
     }
   },
   async setup(config, nuxt) {
+    const { resolve } = createResolver(import.meta.url)
+
     // configure nuxt-simple-sitemap
     nuxt.options.sitemap = nuxt.options.sitemap || {}
     nuxt.options.sitemap.hostname = config.hostname
@@ -38,6 +40,13 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.schemaOrg = nuxt.options.schemaOrg || {}
     nuxt.options.schemaOrg.host = config.hostname
     nuxt.options.schemaOrg.inLanguage = nuxt.options.runtimeConfig.public.locale
+
+    nuxt.options.build.transpile.push(...[
+      'nuxt-seo-kit',
+      resolve('../../server'),
+      resolve('../../components'),
+      resolve('../../composables')
+    ])
 
     if (nuxt.options.dev && config.splash) {
       let latestTag = `v${version}`
