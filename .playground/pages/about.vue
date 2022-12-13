@@ -8,5 +8,6 @@ definePageMeta({
 <template>
   <div>
     About page
+    <InternalLink to="/">home</InternalLink>
   </div>
 </template>

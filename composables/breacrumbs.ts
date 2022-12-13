@@ -1,6 +1,6 @@
 import type { ParsedURL } from 'ufo'
 import { hasTrailingSlash, parseURL, stringifyParsedURL, withTrailingSlash } from 'ufo'
-import { useRoute } from '#imports'
+import { resolveAbsoluteInternalLink, resolveTrailingSlash } from '#imports'
 
 const getBreadcrumbs = (input: string) => {
   const startNode = parseURL(input)
@@ -27,22 +27,30 @@ const getBreadcrumbs = (input: string) => {
 }
 
 export function useBreadcrumbs() {
+  const router = useRouter()
   return computed(() => {
-    const route = useRoute()
-    const routes = useRouter().getRoutes()
-    const links = getBreadcrumbs(route.path)
-    return links
-        .reverse()
-        .map(path => ({
-          path,
-          meta: routes.find(route => route.path === path)?.meta
-        }))
-        .filter(({ meta }) => Boolean(meta))
-        .map(({ path, meta }) => {
-          return {
-            name: meta.breadcrumbTitle || meta.title || path,
-            item: path === route.path ? '' : path,
-          }
-        })
+    const routes = router.getRoutes()
+    const route = router.currentRoute.value
+    return getBreadcrumbs(route.path)
+      .reverse()
+      .map(path => ({
+        path,
+        meta: routes.find(route => route.path === path)?.meta,
+      }))
+      .map(({ path, meta }) => {
+        // title case string regex
+        let title = meta?.breadcrumbTitle || meta?.title || titleCase(path.replaceAll('/', ' ').trim())
+        if (!title && path === '/')
+          title = 'Home'
+
+        return {
+          schema: {
+            name: title,
+            item: resolveAbsoluteInternalLink(path),
+          },
+          to: resolveTrailingSlash(path),
+          title,
+        }
+      })
   })
 }

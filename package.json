@@ -1,34 +1,35 @@
 {
   "name": "nuxt-seo-kit",
-  "version": "1.0.0",
   "type": "module",
+  "version": "1.0.0",
   "main": "./nuxt.config.ts",
   "files": [
-    "modules",
-    "assets",
     "components",
     "composables",
+    "modules",
+    "assets",
     "layouts",
     "plugins",
+    "server",
     "app.config.ts",
-    "app.vue",
     "nuxt.config.ts",
-    "tokens.config.ts"
+    "global.d.ts"
   ],
   "scripts": {
     "dev": "nuxi dev .playground",
     "lint": "eslint ."
   },
   "dependencies": {
-    "@funken-studio/sitemap-nuxt-3": "^4.0.4",
     "@nuxt/kit": "^3.0.0",
     "defu": "^6.1.1",
     "nuxt-schema-org": "2.0.1",
-    "nuxt-unhead": "^1.0.6",
-    "sitemap": "^7.1.1",
+    "nuxt-simple-sitemap": "^0.5.2",
+    "nuxt-unhead": "^1.0.7",
     "ufo": "^1.0.1"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.34.0",
+    "eslint": "^8.29.0",
     "nitropack": "^1.0.0",
     "nuxt": "3.0.0"
   }

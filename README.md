@@ -1,16 +1,16 @@
 <h1 align='center'>nuxt-seo-kit</h1>
 
 <p align="center">
-<a href='https://github.com/harlan-zw/nuxt-unhead/actions/workflows/test.yml'>
+<a href='https://github.com/harlan-zw/nuxt-seo-kit/actions/workflows/test.yml'>
 </a>
-<a href="https://www.npmjs.com/package/nuxt-unhead" target="__blank"><img src="https://img.shields.io/npm/v/nuxt-unhead?style=flat&colorA=002438&colorB=28CF8D" alt="NPM version"></a>
-<a href="https://www.npmjs.com/package/nuxt-unhead" target="__blank"><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/nuxt-unhead?flat&colorA=002438&colorB=28CF8D"></a>
-<a href="https://github.com/harlan-zw/nuxt-unhead" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/harlan-zw/nuxt-unhead?flat&colorA=002438&colorB=28CF8D"></a>
+<a href="https://www.npmjs.com/package/nuxt-seo-kit" target="__blank"><img src="https://img.shields.io/npm/v/nuxt-seo-kit?style=flat&colorA=002438&colorB=28CF8D" alt="NPM version"></a>
+<a href="https://www.npmjs.com/package/nuxt-seo-kit" target="__blank"><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/nuxt-seo-kit?flat&colorA=002438&colorB=28CF8D"></a>
+<a href="https://github.com/harlan-zw/nuxt-seo-kit" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/harlan-zw/nuxt-seo-kit?flat&colorA=002438&colorB=28CF8D"></a>
 </p>
 
 
 <p align="center">
-Nuxt v3 layer for building super-charged SEO apps.
+The all-in-one Nuxt v3 layer to supercharge your SEO. 
 </p>
 
 <p align="center">
@@ -34,22 +34,32 @@ and then figuring out all the meta tags.
 
 What if you could just install one module and have all the SEO features you need in a single config?
 
-Introducing nuxt-seo-kit, a layer which aims to do just that.
-
+Introducing Nuxt SEO Kit, the all-in-one SEO module for Nuxt v3.
 
 ## Modules
 
-- 📖 [nuxt-simple-sitemap](https://github.com/harlan-zw/nuxt-simple-sitemap) - Sitemap support
-- 🔎 [nuxt-schema-org](https://github.com/) - Generate Schema.org JSON-LD for SEO
-- △ [nuxt-unhead](https://github.com/harlan-zw/nuxt-unhead) - Nuxt v3 layer for building a super-charged SEO site.
+- 📖 [nuxt-simple-sitemap](https://github.com/harlan-zw/nuxt-simple-sitemap) - Sitemap.xml Support
+- 🔎 [nuxt-schema-org](https://unhead-schema-org.harlanzw.com/) - Generate Schema.org JSON-LD for SEO
+- △ [nuxt-unhead](https://github.com/harlan-zw/nuxt-unhead) - Experimental features for Nuxt v3 head management
 
 ## Features
 
-- 🔄 Easily manage robot and sitemap config with route rules
 - 🤖 Automatic robots.txt, sitemap.xml, Schema.org, canonical URLs and SEO meta tags
+- 🔄 Use route rules to manage custom robot and sitemap config
 - 🔥 SEO meta tag enhancing for best practice SEO
-- 🍞 SEO Components (Breadcrumb, FAQ)
+- 🍞 SEO Components
 - ✨ Use `definePageMeta` for title, description and image
+- 🏞️ Universal Trailing Slashes 
+
+## Install
+
+```
+```bash
+npm install --save-dev nuxt-seo-kit
+
+# Using yarn
+yarn add --dev nuxt-seo-kit
+```
 
 ## Register Layer
 
@@ -57,48 +67,12 @@ _nuxt.config.ts_
 
 ```ts
 export default defineNuxtConfig({
-  extend: [
-    'github:harlan-zw/nuxt-seo-kit#main'
+  extends: [
+    'nuxt-seo-kit'
   ]
 })
 ```
 
-
-## Composables
-
-### useSeoMeta
-
-Define your meta tags as a flat object. This function is automatically imported for you.
-
-Behind the scenes, this unpacks your meta tags and adds them as if you used `useHead` directly.
-
-Powered by [packrup](https://github.com/harlan-zw/packrup) and [zhead](https://github.com/harlan-zw/zhead).
-
-```ts
-useSeoMeta({
-  ogImage: "https://nuxtjs.org/meta_400.png",
-  ogUrl: "https://nuxtjs.org",
-  ogSiteName: "NuxtJS",
-  ogType: "website",
-  ogLocale: "en_US",
-  ogLocaleAlternate: "fr_FR",
-  twitterSite: "@nuxt_js",
-})
-```
-
-## Components
-
-### DebugHead
-
-A component to debug your head tags.
-
-<img src="https://raw.githubusercontent.com/harlan-zw/nuxt-unhead/main/.github/component.png" alt="DebugHead Component preview">
-
-```vue
-<template>
-  <DebugHead />
-</template>
-```
 
 ## Sponsors
 

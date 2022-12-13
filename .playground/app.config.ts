@@ -1,13 +1,12 @@
 export default defineAppConfig({
   site: {
-    title: '',
-    description: '',
-    locale: '',
-    url: '',
+    title: 'Nuxt SEO Kit',
+    description: 'A Nuxt 3 layer for SEO',
+    locale: 'en',
+    schema: {
+      person: definePerson({
+        name: 'Harlan Z. Wilton',
+      }),
+    }
   },
-  siteTitle: 'Nuxt SEO Kit',
-  tagline: 'A Nuxt 3 layer for SEO',
-  locale: 'en',
-  url: 'https://harlanzw.com',
-  trailingSlashes: true,
 })

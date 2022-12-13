@@ -1,24 +1,18 @@
 import {NuxtConfig} from "@nuxt/schema";
-import {NitroRouteRules} from "nitropack";
 
-const routeRules : NitroRouteRules = {
-  indexable: false,
-  sitemap: {
-    changefreq: 'daily',
-  }
-}
 export default defineNuxtConfig(<NuxtConfig> {
-    extends: ['nuxt-seo-kit'],
-
-  site: {
-    host: 'https://harlanzw.com',
-  },
+  extends: ['nuxt-seo-kit'],
 
   runtimeConfig: {
-    host: 'https://harlanzw.com',
+    public: {
+      indexable: true,
+      siteUrl: 'https://harlanzw.com',
+      trailingSlash: true,
+    }
   },
 
   routeRules: {
-    '/about': { sitemap: { changefreq: 'daily', priority: 0.3 } }
+    '/about': { sitemap: { changefreq: 'daily', priority: 0.3 } },
+    '/secret': { index: false },
   }
 })

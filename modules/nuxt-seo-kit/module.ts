@@ -1,11 +1,14 @@
-import {createResolver, defineNuxtModule, addTemplate } from '@nuxt/kit'
+import { addTemplate, createResolver, defineNuxtModule, logger } from '@nuxt/kit'
 import { defu } from 'defu'
+import chalk from 'chalk'
+import { version } from '../../package.json'
 
 export interface ModuleOptions {
   indexable: boolean
 
-  host: string
+  hostname: string
 
+  splash: boolean
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -14,18 +17,43 @@ export default defineNuxtModule<ModuleOptions>({
     version: '3.0.0',
     compatibility: {
       nuxt: '^3.0.0',
-      bridge: false
+      bridge: false,
     },
-    configKey: 'site'
+    configKey: 'site',
   },
-  defaults() {
+  defaults(nuxt) {
     return {
-      indexable: process.env.NODE_ENV === 'production',
-      host: 'https://harlanzw.com'
+      splash: true,
+      indexable: nuxt.options.runtimeConfig.indexable || process.env.NODE_ENV === 'production',
+      hostname: nuxt.options.runtimeConfig.public.siteUrl,
+      trailingSlash: nuxt.options.runtimeConfig.public.trailingSlash,
     }
   },
-  setup(config, nuxt) {
+  async setup(config, nuxt) {
     const { resolve } = createResolver(import.meta.url)
+
+    // configure nuxt-simple-sitemap
+    nuxt.options.sitemap = nuxt.options.sitemap || {}
+    nuxt.options.sitemap.hostname = config.hostname
+    nuxt.options.sitemap.trailingSlash = config.trailingSlash
+
+    // configure nuxt-schema-org
+    nuxt.options.schemaOrg = nuxt.options.schemaOrg || {}
+    nuxt.options.schemaOrg.host = config.hostname
+
+    if (nuxt.options.dev && config.splash) {
+      let latestTag = `v${version}`
+      try {
+        latestTag = (await $fetch<any>('https://ungh.unjs.io/repos/harlan-zw/nuxt-seo-kit/releases/latest')).release.tag
+      }
+      catch (e) {}
+      logger.log(`${chalk.green('Nuxt SEO Kit')} ${chalk.yellow(`v${version}`)} • Super-charging your SEO ${chalk.gray(`by ${chalk.underline('@harlan_zw')}`)}`)
+      if (latestTag !== `v${version}`)
+        logger.log(`${chalk.gray('  ├─ ')}🎉 New version available!${chalk.gray(` Run ${chalk.underline(`npm i nuxt-seo-kit@${latestTag}`)} to update.`)}`)
+
+      logger.log(chalk.dim('  └─ 💖 Like this package? Consider sponsoring me on GitHub: https://github.com/sponsors/harlan-zw'))
+      logger.log('')
+    }
 
     const exports = `const config = ${JSON.stringify(config, null, 2)};\nexport default config`
 
@@ -48,13 +76,13 @@ export default defineNuxtModule<ModuleOptions>({
       // config
       nitroConfig.virtual!['nuxt-seo-kit/config'] = exports
 
-      //plugins
-      ;['meta', 'sitemap'].forEach((plugin) => {
+      // plugins
+      ;['meta'].forEach((plugin) => {
         nitroConfig.alias[`#nuxt-seo-kit/${plugin}`] = resolve(`./runtime/nitro/${plugin}`)
         nitroConfig.plugins.push(`#nuxt-seo-kit/${plugin}`)
       })
 
       nitroConfig.hooks = nitroConfig.hooks || {}
     })
-  }
+  },
 })
