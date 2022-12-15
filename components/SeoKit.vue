@@ -84,5 +84,5 @@ useSchemaOrg([
 </script>
 
 <template>
-  <slot />
+  <div></div>
 </template>

@@ -34,13 +34,16 @@ and then figuring out all the meta tags.
 
 What if you could just install one module and have all the SEO features just work?
 
-Introducing Nuxt SEO Kit, the all-in-one SEO module for Nuxt v3.
+Introducing Nuxt SEO Kit, the all-in-one SEO module for Nuxt v3. 
+
+Combining all of my SEO modules and best practices into one, it's the easiest way to get your app SEO ready.
 
 ## Modules
 
 - 📖 [nuxt-simple-sitemap](https://github.com/harlan-zw/nuxt-simple-sitemap) - Sitemap.xml Support
 - 🔎 [nuxt-schema-org](https://unhead-schema-org.harlanzw.com/) - Generate Schema.org JSON-LD for SEO
 - △ [nuxt-unhead](https://github.com/harlan-zw/nuxt-unhead) - Experimental features for Nuxt v3 head management
+- 🖼️ [nuxt-og-image](https://github.com/harlan-zw/nuxt-unhead) - Experimental features for Nuxt v3 head management
 
 ## Features
 

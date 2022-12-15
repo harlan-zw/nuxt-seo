@@ -1,3 +1,7 @@
+import { defineEventHandler, setHeader } from 'h3'
+import { useRuntimeConfig } from '#imports'
+import { getRouteRules } from '#internal/nitro'
+
 export default defineEventHandler((event) => {
   // add noindex header
   const siteIndexable = useRuntimeConfig().public.indexable

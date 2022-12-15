@@ -1,4 +1,5 @@
 import config from 'nuxt-seo-kit/config'
+import { defineEventHandler } from 'h3'
 
 export default defineEventHandler(async (event) => {
   setHeader(event, 'Content-Type', 'text/plain')

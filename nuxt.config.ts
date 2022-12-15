@@ -23,6 +23,10 @@ export default defineNuxtConfig({
     },
   },
 
+  experimental: {
+    componentIslands: true,
+  },
+
   components: [
     {
       prefix: '',
