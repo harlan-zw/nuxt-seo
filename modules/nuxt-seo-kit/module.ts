@@ -11,11 +11,11 @@ export interface ModuleOptions {
 }
 
 export interface ModulePublicRuntimeConfig {
-  indexable: boolean,
-  siteUrl: string,
-  siteTitle: string,
-  siteDescription: string,
-  trailingSlash: boolean,
+  indexable: boolean
+  siteUrl: string
+  siteTitle: string
+  siteDescription: string
+  trailingSlash: boolean
   language: string
 }
 
@@ -56,7 +56,7 @@ export default defineNuxtModule<ModuleOptions>({
       'nuxt-seo-kit',
       resolve('../../server'),
       resolve('../../components'),
-      resolve('../../composables')
+      resolve('../../composables'),
     ])
 
     if (nuxt.options.dev && config.splash) {

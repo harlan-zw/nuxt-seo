@@ -1,11 +1,12 @@
-<script>
+<script lang="ts" setup>
 definePageMeta({
   title: 'About',
   description: 'My description',
   image: 'https://example.com/image.jpg',
 })
 
-defineOgImagePayload({
+
+defineOgImage({
   title: 'About',
   description: 'My description',
   customSomething: 'custom',
@@ -13,7 +14,8 @@ defineOgImagePayload({
 </script>
 <template>
   <div>
-    About page
-    <InternalLink to="/">home</InternalLink>
+    <div>
+      About page
+    </div>
   </div>
 </template>
