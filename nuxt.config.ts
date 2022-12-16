@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     'nuxt-schema-org',
     'nuxt-unhead',
     'nuxt-simple-sitemap',
+    'nuxt-og-image',
   ],
 
   nitro: {

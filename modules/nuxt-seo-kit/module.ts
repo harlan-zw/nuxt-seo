@@ -10,6 +10,15 @@ export interface ModuleOptions {
   splash: boolean
 }
 
+export interface ModulePublicRuntimeConfig {
+  indexable: boolean,
+  siteUrl: string,
+  siteTitle: string,
+  siteDescription: string,
+  trailingSlash: boolean,
+  language: string
+}
+
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-seo-kit',
@@ -23,7 +32,7 @@ export default defineNuxtModule<ModuleOptions>({
     return {
       splash: true,
       indexable: nuxt.options.runtimeConfig.indexable || process.env.NODE_ENV === 'production',
-      hostname: nuxt.options.runtimeConfig.public.siteUrl,
+      hostname: nuxt.options.runtimeConfig.public.siteUrl || 'localhost:3000',
       trailingSlash: nuxt.options.runtimeConfig.public.trailingSlash,
     }
   },
@@ -39,6 +48,9 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.schemaOrg = nuxt.options.schemaOrg || {}
     nuxt.options.schemaOrg.host = config.hostname
     nuxt.options.schemaOrg.inLanguage = nuxt.options.runtimeConfig.public.locale
+
+    nuxt.options.ogImage = nuxt.options.ogImage || {}
+    nuxt.options.ogImage.host = config.hostname
 
     nuxt.options.build.transpile.push(...[
       'nuxt-seo-kit',

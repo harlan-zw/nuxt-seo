@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-const runtimeConfig = useRuntimeConfig()
-const config = useAppConfig()
+const config = useRuntimeConfig().public
 const router = useRouter()
 const nuxtApp = useNuxtApp()
 
@@ -33,7 +32,7 @@ useHead({
 
 useSeoMeta({
   ogUrl: () => resolveUrl(route.value.path),
-  ogLocale: () => config.locale,
+  ogLocale: () => config.language,
   ogSiteName: () => config.siteTitle,
   ogType: 'website',
 })
@@ -43,7 +42,7 @@ useServerHead({
     {
       name: 'robots',
       content: () => {
-        if (runtimeConfig.public.indexable === false)
+        if (config.indexable === false)
           return 'noindex, nofollow'
 
         // SSR only
@@ -59,7 +58,7 @@ useServerHead({
 
 useHead({
   htmlAttrs: {
-    lang: () => config.locale,
+    lang: () => config.language,
   },
   link: [
     {
@@ -75,9 +74,9 @@ useHead({
 
 useSchemaOrg([
   defineWebSite({
-    name: config.site.title,
-    inLanguage: config.site.locale,
-    description: config.site.description,
+    name: config.siteTitle,
+    inLanguage: config.language,
+    description: config.siteDscription,
   }),
   defineWebPage(),
 ])

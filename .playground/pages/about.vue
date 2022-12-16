@@ -1,6 +1,4 @@
 <script>
-import {defineOgImagePayload} from "../../composables/ogImage";
-
 definePageMeta({
   title: 'About',
   description: 'My description',

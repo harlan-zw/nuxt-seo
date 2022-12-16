@@ -7,8 +7,10 @@ export default defineNuxtConfig(<NuxtConfig> {
     public: {
       indexable: true,
       siteUrl: 'https://harlanzw.com',
+      siteTitle: 'Nuxt Playground',
+      siteDescription: 'A Nuxt 3 playground',
       trailingSlash: true,
-      locale: 'en-AU',
+      language: 'en',
     }
   },
 
