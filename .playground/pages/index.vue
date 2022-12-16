@@ -6,5 +6,5 @@ definePageMeta({
 <template>
   <h1>Hello world</h1>
   <p>Welcome to my website</p>
-  <InternalLink to="/about">about</InternalLink>
+  <NuxtLink to="/about">about</NuxtLink>
 </template>
