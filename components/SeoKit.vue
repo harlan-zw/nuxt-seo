@@ -17,7 +17,7 @@ const computeMeta = () => {
   }
   if (route.value.meta?.image) {
     meta.push({
-      name: 'og:image',
+      property: 'og:image',
       content: () => route.value.meta?.image || null,
     })
   }

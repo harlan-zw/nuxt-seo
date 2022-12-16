@@ -42,8 +42,8 @@ Combining all of my SEO modules and best practices into one, it's the easiest wa
 
 - 📖 [nuxt-simple-sitemap](https://github.com/harlan-zw/nuxt-simple-sitemap) - Sitemap.xml Support
 - 🔎 [nuxt-schema-org](https://unhead-schema-org.harlanzw.com/) - Generate Schema.org JSON-LD for SEO
-- △ [nuxt-unhead](https://github.com/harlan-zw/nuxt-unhead) - Experimental features for Nuxt v3 head management
-- 🖼️ [nuxt-og-image](https://github.com/harlan-zw/nuxt-unhead) - Experimental features for Nuxt v3 head management
+- △ [nuxt-unhead](https://github.com/harlan-zw/nuxt-unhead) - Experimental SEO meta features
+- 🖼️ [nuxt-og-image](https://github.com/harlan-zw/nuxt-unhead) - Generate dynamic social share images
 
 ## Features
 
