@@ -6,8 +6,9 @@ export default defineNuxtConfig(<NuxtConfig> {
   runtimeConfig: {
     indexable: true,
     public: {
+      titleSeparator: '·',
       siteUrl: 'https://harlanzw.com',
-      siteTitle: 'Nuxt Playground',
+      siteName: 'Nuxt Playground',
       siteDescription: 'A Nuxt 3 playground',
       language: 'en',
     }

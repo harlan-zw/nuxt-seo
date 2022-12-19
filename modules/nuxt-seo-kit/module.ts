@@ -1,23 +1,22 @@
 import { addTemplate, createResolver, defineNuxtModule, logger } from '@nuxt/kit'
 import chalk from 'chalk'
+import { withBase } from 'ufo'
 import { version } from '../../package.json'
-import {withBase} from "ufo";
 
-export interface ModuleOptions {
+interface SeoKitOptions {
+  siteUrl: string
+  siteName: string
   indexable: boolean
+  titleSeparator: string
+  trailingSlash: boolean
+  language: string
+}
 
-  hostname: string
-
+export interface ModuleOptions extends SeoKitOptions {
   splash: boolean
 }
 
-export interface ModulePublicRuntimeConfig {
-  indexable: boolean
-  siteUrl: string
-  siteTitle: string
-  siteDescription: string
-  trailingSlash: boolean
-  language: string
+export interface ModulePublicRuntimeConfig extends SeoKitOptions {
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -31,35 +30,42 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults(nuxt) {
     return {
-      splash: true,
+      splash: nuxt.options.dev,
+      titleSeparator: false,
       indexable: (nuxt.options.runtimeConfig.indexable && nuxt.options.runtimeConfig.indexable !== false) || process.env.NODE_ENV === 'production',
-      hostname: nuxt.options.runtimeConfig.public.siteUrl || 'localhost:3000',
-      trailingSlash: nuxt.options.runtimeConfig.public.trailingSlash,
     }
   },
   async setup(config, nuxt) {
     const { resolve } = createResolver(import.meta.url)
 
+    const map = ['siteName', 'siteUrl', 'titleSeparator', 'trailingSlash', 'language']
+
+    for (const k of map)
+      config[k] = config[k] || nuxt.options.runtimeConfig.public[k]
+
+    nuxt.options.unhead = nuxt.options.unhead || {}
+    nuxt.options.unhead.ogTitleTemplate = `%s ${config.titleSeparator} ${config.siteName}`
+
     // configure nuxt-simple-sitemap
     nuxt.options.sitemap = nuxt.options.sitemap || {}
-    nuxt.options.sitemap.hostname = config.hostname
+    nuxt.options.sitemap.hostname = config.siteUrl
     nuxt.options.sitemap.trailingSlash = config.trailingSlash
 
     // configure nuxt-schema-org
     nuxt.options.schemaOrg = nuxt.options.schemaOrg || {}
-    nuxt.options.schemaOrg.host = config.hostname
-    nuxt.options.schemaOrg.inLanguage = nuxt.options.runtimeConfig.public.locale
+    nuxt.options.schemaOrg.host = config.siteUrl
+    nuxt.options.schemaOrg.inLanguage = config.language
 
     nuxt.options.ogImage = nuxt.options.ogImage || {}
-    nuxt.options.ogImage.host = config.hostname
+    nuxt.options.ogImage.host = config.siteUrl
 
     nuxt.options.linkChecker = nuxt.options.linkChecker || {}
-    nuxt.options.linkChecker.host = config.hostname
+    nuxt.options.linkChecker.host = config.siteUrl
 
     nuxt.options.robots = nuxt.options.robots || {}
 
     nuxt.options.robots.sitemap = [
-      withBase('/sitemap.xml', config.hostname),
+      withBase('/sitemap.xml', config.siteUrl),
     ]
 
     nuxt.options.build.transpile.push(...[
@@ -69,7 +75,7 @@ export default defineNuxtModule<ModuleOptions>({
       resolve('../../composables'),
     ])
 
-    if (nuxt.options.dev && config.splash) {
+    if (config.splash) {
       let latestTag = `v${version}`
       try {
         latestTag = (await $fetch<any>('https://ungh.unjs.io/repos/harlan-zw/nuxt-seo-kit/releases/latest')).release.tag
@@ -93,7 +99,6 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.alias['#nuxt-seo-kit/config'] = dst.dst
 
     nuxt.hooks.hook('nitro:config', (nitroConfig) => {
-      // config
       nitroConfig.virtual!['nuxt-seo-kit/config'] = exports
     })
   },

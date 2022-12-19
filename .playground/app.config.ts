@@ -1,8 +1,3 @@
+import { defineAppConfig } from 'nuxt/app'
 export default defineAppConfig({
-
-  // schema: {
-  //   person: definePerson({
-  //     name: 'Harlan Z. Wilton',
-  //   }),
-// }
 })

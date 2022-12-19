@@ -1,1 +1,5 @@
-export const titleCase = (s: string) => s.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+export const titleCase = (s: string) => {
+  s = s.replaceAll('-', ' ')
+  // title case each word in s
+  return s.replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.substr(1).toLowerCase())
+}
