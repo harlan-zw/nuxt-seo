@@ -29,14 +29,12 @@ The all-in-one Nuxt v3 layer to supercharge your SEO.
 
 ## Background
 
-Configuring SEO for a Nuxt v3 app is difficult, it requires installing many modules, configuring them all separately
+Configuring SEO for Nuxt v3 is a lot of work, it requires installing many modules, configuring them all separately
 and then figuring out all the meta tags.
 
-What if you could just install one module and have all the SEO features just work?
+What if it was easy and just worked?
 
-Introducing Nuxt SEO Kit, the all-in-one SEO module for Nuxt v3. 
-
-Combining all of my SEO modules and best practices into one, it's the easiest way to get your app SEO ready.
+Introducing Nuxt SEO Kit, the all-in-one SEO module for Nuxt v3. Combining all of my SEO modules and best practices into one, it's the easiest way to get your app SEO ready. 
 
 ## Modules
 
