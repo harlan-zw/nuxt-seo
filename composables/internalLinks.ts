@@ -1,16 +1,15 @@
 import { withBase, withTrailingSlash, withoutTrailingSlash } from 'ufo'
+import config from '#nuxt-seo-kit/config'
 
 export function resolveTrailingSlash(path: string) {
-  const { trailingSlash } = useRuntimeConfig().public
-  return trailingSlash ? withTrailingSlash(path) : withoutTrailingSlash(path)
+  return config.trailingSlash ? withTrailingSlash(path) : withoutTrailingSlash(path)
 }
 export function resolveAbsoluteInternalLink(path: string) {
-  const { siteUrl } = useRuntimeConfig().public
-  return withBase(resolveTrailingSlash(path), siteUrl)
+  return withBase(resolveTrailingSlash(path), config.siteUrl)
 }
 
 export function createInternalLinkResolver() {
-  const { siteUrl, trailingSlash } = useRuntimeConfig().public
+  const { siteUrl, trailingSlash } = config
   return (path: string) => {
     return withBase(trailingSlash ? withTrailingSlash(path) : withoutTrailingSlash(path), siteUrl)
   }
