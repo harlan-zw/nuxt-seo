@@ -4,12 +4,11 @@ export default defineNuxtConfig(<NuxtConfig> {
   extends: ['nuxt-seo-kit'],
 
   runtimeConfig: {
+    indexable: true,
     public: {
-      indexable: true,
       siteUrl: 'https://harlanzw.com',
       siteTitle: 'Nuxt Playground',
       siteDescription: 'A Nuxt 3 playground',
-      trailingSlash: true,
       language: 'en',
     }
   },

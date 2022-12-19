@@ -1,6 +1,7 @@
 import { addTemplate, createResolver, defineNuxtModule, logger } from '@nuxt/kit'
 import chalk from 'chalk'
 import { version } from '../../package.json'
+import {withBase} from "ufo";
 
 export interface ModuleOptions {
   indexable: boolean
@@ -31,7 +32,7 @@ export default defineNuxtModule<ModuleOptions>({
   defaults(nuxt) {
     return {
       splash: true,
-      indexable: nuxt.options.runtimeConfig.indexable || process.env.NODE_ENV === 'production',
+      indexable: (nuxt.options.runtimeConfig.indexable && nuxt.options.runtimeConfig.indexable !== false) || process.env.NODE_ENV === 'production',
       hostname: nuxt.options.runtimeConfig.public.siteUrl || 'localhost:3000',
       trailingSlash: nuxt.options.runtimeConfig.public.trailingSlash,
     }
@@ -51,6 +52,15 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.ogImage = nuxt.options.ogImage || {}
     nuxt.options.ogImage.host = config.hostname
+
+    nuxt.options.linkChecker = nuxt.options.linkChecker || {}
+    nuxt.options.linkChecker.host = config.hostname
+
+    nuxt.options.robots = nuxt.options.robots || {}
+
+    nuxt.options.robots.sitemap = [
+      withBase('/sitemap.xml', config.hostname),
+    ]
 
     nuxt.options.build.transpile.push(...[
       'nuxt-seo-kit',

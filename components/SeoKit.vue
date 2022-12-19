@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 const config = useRuntimeConfig().public
 const router = useRouter()
-const nuxtApp = useNuxtApp()
 
 const route = router.currentRoute
 
@@ -25,7 +24,15 @@ const computeMeta = () => {
 }
 
 useHead({
-  title: () => route.value.meta?.title || null,
+  title: () => {
+    if (route.value.meta?.title) {
+      return route.value.meta?.title
+    }
+    // if no title has been set then we should use the last segment of the URL path and title case it
+    const path = route.value.path
+    const lastSegment = path.split('/').pop()
+    return lastSegment ? titleCase(lastSegment) : ''
+  },
   titleTemplate: title => title ? `${title} - ${config.siteTitle}` : config.siteTitle,
   meta: computeMeta,
 })
@@ -37,24 +44,7 @@ useSeoMeta({
   ogType: 'website',
 })
 
-useServerHead({
-  meta: [
-    {
-      name: 'robots',
-      content: () => {
-        if (config.indexable === false)
-          return 'noindex, nofollow'
-
-        // SSR only
-        const { routeRules } = nuxtApp.ssrContext?.event?.context?._nitro
-        if (routeRules.index === false)
-          return 'noindex, nofollow'
-
-        return 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
-      },
-    },
-  ],
-})
+defineRobotMeta()
 
 useHead({
   htmlAttrs: {

@@ -41,18 +41,34 @@ Combining all of my SEO modules and best practices into one, it's the easiest wa
 ## Modules
 
 - 📖 [nuxt-simple-sitemap](https://github.com/harlan-zw/nuxt-simple-sitemap) - Sitemap.xml Support
+- 🤖 [nuxt-simple-robots](https://github.com/harlan-zw/nuxt-simple-robots) - Manage site crawling
 - 🔎 [nuxt-schema-org](https://unhead-schema-org.harlanzw.com/) - Generate Schema.org JSON-LD for SEO
 - △ [nuxt-unhead](https://github.com/harlan-zw/nuxt-unhead) - Experimental SEO meta features
-- 🖼️ [nuxt-og-image](https://github.com/harlan-zw/nuxt-unhead) - Generate dynamic social share images
+- 🖼️ [nuxt-og-image](https://github.com/harlan-zw/nuxt-og-image) - Generate dynamic social share images
+- ✅ [nuxt-link-checker](https://github.com/harlan-zw/nuxt-link-checker) - Check for broken links
+
 
 ## Features
 
-- 🤖 Automatic robots.txt, sitemap.xml, Schema.org, canonical URLs and SEO meta tags
-- 🔄 Use route rules to manage custom robot and sitemap config
-- 🔥 SEO meta tag enhancing for best practice SEO
-- 🍞 SEO Components
-- ✨ Use `definePageMeta` for title, description and image
-- 🏞️ Universal Trailing Slashes 
+**🤖 SEO Enhancements**
+
+Generates files: `sitemap.xml`, `robots.txt`
+
+Generates meta tags: canonical url, opengraph, twitter, schema.org
+
+**🍞 SEO Components** 
+
+- `<SeoKit />` - Generate SEO meta tags
+- `<Breadcrumbs />` - Generate sitemap.xml
+
+**✨ Powerfully, easy configuration**
+
+- Use route rules to manage custom robot and sitemap config
+- Use `definePageMeta` for title, description and image
+
+**🏞️ Handle Trailing Slashes**
+
+- Universal Trailing Slashes
 
 ## Install
 
@@ -73,6 +89,30 @@ export default defineNuxtConfig({
     'nuxt-seo-kit'
   ]
 })
+```
+
+## Usage
+
+### Define Runtime Config
+
+_nuxt.config.ts_
+
+```ts
+```
+
+### Define App Config
+
+_app.config.ts_
+
+```ts
+```
+
+### Use SeoKit Component
+
+```vue
+<template>
+  <SeoKit />
+</template>
 ```
 
 
