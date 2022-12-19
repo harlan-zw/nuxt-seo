@@ -96,6 +96,7 @@ export default defineNuxtConfig({
 _nuxt.config.ts_
 
 ```ts
+// @todo
 ```
 
 ### Define App Config
@@ -103,6 +104,7 @@ _nuxt.config.ts_
 _app.config.ts_
 
 ```ts
+// @todo
 ```
 
 ### Use SeoKit Component
