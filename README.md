@@ -166,6 +166,24 @@ Next steps:
 
 ## Guide
 
+### Enabling Trailing Slash
+
+Nuxt SEO Kit allows you to enable global trailing slashes using the runtime config.
+
+This will automatically add trailing slashes to your sitemap and add it as canonical URL.
+
+Note: You will need to still manually write your `<NuxtLink>` with trailing slashes.
+
+```ts
+export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      trailingSlash: true,
+    }
+  },
+})
+```
+
 ### Using .env
 
 It can be useful to change the host name based on which environment you have the nuxt App running on.
