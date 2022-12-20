@@ -4,17 +4,15 @@ const appConfig = useAppConfig()
 
 const siteMeta = computed(() => {
   const moduleConfig = {}
-  const map = ['siteName', 'siteUrl', 'titleSeparator', 'trailingSlash', 'language']
+  const map = ['siteName', 'siteDescription', 'siteUrl', 'titleSeparator', 'trailingSlash', 'language']
 
   for (const k of map) {
     if (config[k])
       moduleConfig[k] = config[k]
   }
   return {
-    titleSeparator: ' | ',
-    language: 'en',
-    ...moduleConfig,
     ...appConfig.docus, // fallback to docus app config
+    ...moduleConfig,
     // site has the highest priority
     ...appConfig.site,
   }
