@@ -11,9 +11,8 @@ const siteMeta = computed(() => {
       moduleConfig[k] = config[k]
   }
   return {
-    ...appConfig.docus, // fallback to docus app config
     ...moduleConfig,
-    // site has the highest priority
+    // app config has the highest priority
     ...appConfig.site,
   }
 })
@@ -25,10 +24,10 @@ const resolveUrl = createInternalLinkResolver()
 
 const computeMeta = () => {
   const meta = []
-  if (route.value.meta?.description || siteMeta.value.description) {
+  if (route.value.meta?.description || siteMeta.value.siteDescription) {
     meta.push({
       name: 'description',
-      content: route.value.meta?.description || siteMeta.value.description,
+      content: route.value.meta?.description || siteMeta.value.siteDescription,
     })
   }
   if (route.value.meta?.image || siteMeta.value.image) {
@@ -83,7 +82,7 @@ useSchemaOrg([
   defineWebSite({
     name: () => siteMeta.value.siteName,
     inLanguage: () => siteMeta.value.language,
-    description: () => siteMeta.value.description,
+    description: () => siteMeta.value.siteDescription,
   }),
   defineWebPage(),
 ])

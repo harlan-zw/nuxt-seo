@@ -6,6 +6,7 @@ import { version } from '../../package.json'
 interface SeoKitOptions {
   siteUrl: string
   siteName: string
+  siteDescription: string
   indexable: boolean
   titleSeparator: string
   trailingSlash: boolean
@@ -38,7 +39,7 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(config, nuxt) {
     const { resolve } = createResolver(import.meta.url)
 
-    const map = ['siteName', 'siteUrl', 'titleSeparator', 'trailingSlash', 'language']
+    const map = ['siteName', 'siteDescription', 'siteUrl', 'titleSeparator', 'trailingSlash', 'language']
 
     for (const k of map)
       config[k] = config[k] || nuxt.options.runtimeConfig.public[k]
