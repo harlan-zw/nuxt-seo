@@ -1,4 +1,4 @@
-<h1 align='center'>nuxt-seo-kit</h1>
+<h1 align='center'>🍱 nuxt-seo-kit</h1>
 
 <p align="center">
 <a href='https://github.com/harlan-zw/nuxt-seo-kit/actions/workflows/test.yml'>
@@ -10,7 +10,7 @@
 
 
 <p align="center">
-The all-in-one Nuxt v3 layer to supercharge your SEO. 
+Supercharge your Nuxt app with the all-in-one SEO layer.
 </p>
 
 <p align="center">
@@ -29,12 +29,12 @@ The all-in-one Nuxt v3 layer to supercharge your SEO.
 
 ## Background
 
-Configuring SEO for Nuxt v3 is a lot of work, it requires installing many modules, configuring them all separately
+Configuring SEO for Nuxt is a lot of work, it requires installing many modules, configuring them all separately
 and then figuring out all the meta tags.
 
-What if it was easy and just worked?
+What if there was an easier way?
 
-Introducing Nuxt SEO Kit, the all-in-one SEO module for Nuxt v3. Combining all of my SEO modules and best practices into one, it's the easiest way to get your app SEO ready. 
+Introducing Nuxt SEO Kit, the all-in-one SEO module for Nuxt v3. Combining all of my SEO modules and best practices into one, it's the easiest and quickest way to improve your apps SEO. 
 
 ## Modules
 
@@ -50,23 +50,25 @@ Introducing Nuxt SEO Kit, the all-in-one SEO module for Nuxt v3. Combining all o
 
 **🤖 SEO Enhancements**
 
-Generates files: `sitemap.xml`, `robots.txt`
+Generates files: `sitemap.xml`, `robots.txt`, Og Images
 
-Generates meta tags: canonical url, opengraph, twitter, schema.org
-
-**🍞 SEO Components** 
-
-- `<SeoKit />` - Generate SEO meta tags
-- `<Breadcrumbs />` - Generate sitemap.xml
+Creates head tags: Schema.org, canonical urls, opengraph, twitter, robots 
 
 **✨ Powerfully, easy configuration**
 
-- Use route rules to manage custom robot and sitemap config
+- Use route rules to manage custom config
 - Use `definePageMeta` for title, description and image
 
-**🏞️ Handle Trailing Slashes**
+**😌 Set and forget**
 
-- Universal Trailing Slashes
+- Intuitive and automatic inferences of meta tags
+- Trailing Slashes automatically handled correctly
+- Discover broken links
+
+**🍞 SEO Components**
+
+- `<Breadcrumbs />` - Generate Schema.org compliant breadcrumbs
+- More soon...
 
 ## Install
 
