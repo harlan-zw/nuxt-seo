@@ -226,6 +226,11 @@ definePageMeta({
 </script>
 ```
 
+## Live Examples
+
+- https://github.com/harlan-zw/harlanzw.com
+- https://github.com/unjs/unhead/tree/main/docs
+- https://github.com/harlan-zw/unlighthouse/tree/main/docs
 
 ## Sponsors
 
