@@ -130,6 +130,8 @@ app layout.
 This component will set the default meta tags for your app. It's important to have this run
 before any page specific meta tags are set.
 
+_app.vue_
+
 ```vue
 <template>
   <div>
@@ -141,7 +143,7 @@ before any page specific meta tags are set.
 
 #### OgImage / OgImageScreenshot (optional)
 
-If you want to use the dynamic og image feature, you should add the `OgImage` component to your app layout.
+If you want to use the dynamic og image feature, you should add the `OgImage` or `OgImageScreenshot` component to your app layout.
 
 ```vue
 <template>
@@ -249,6 +251,7 @@ definePageMeta({
 - https://github.com/harlan-zw/harlanzw.com
 - https://github.com/unjs/unhead/tree/main/docs
 - https://github.com/harlan-zw/unlighthouse/tree/main/docs
+- https://github.com/harlan-zw/unhead-schema-org/tree/main/docs
 
 ## Sponsors
 
