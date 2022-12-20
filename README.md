@@ -160,8 +160,9 @@ You're all set up.
 
 Next steps:
 1. Choose a Schema.org [identity](https://unhead-schema-org.harlanzw.com/guide/guides/identity)
-2. Scan your site with [Unlighthouse](https://github.com/harlan-zw/unlighthouse)
-3. Read the guides below
+2. Use `useHead` or `useSeoMeta` to set meta tags as needed
+3. Scan your site with [Unlighthouse](https://github.com/harlan-zw/unlighthouse)
+4. Read the guides below
 
 ## Guide
 
