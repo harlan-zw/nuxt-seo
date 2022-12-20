@@ -27,6 +27,18 @@ export default defineNuxtConfig({
     componentIslands: true,
   },
 
+  runtimeConfig: {
+    indexable: process.env.NUXT_INDEXABLE || process.env.NODE_ENV === 'production',
+    public: {
+      trailingSlash: process.env.NUXT_PUBLIC_TRAILING_SLASH || false,
+      titleSeparator: process.env.NUXT_PUBLIC_TITLE_SEPARATOR || '|',
+      siteName: process.env.NUXT_PUBLIC_SITE_NAME || 'Nuxt Playground',
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000/',
+      siteDescription: process.env.NUXT_PUBLIC_SITE_URL || 'My Nuxt v3 website.',
+      language: process.env.NUXT_PUBLIC_LANGUAGE || 'en',
+    }
+  },
+
   components: [
     {
       prefix: '',
