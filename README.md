@@ -70,8 +70,11 @@ Introducing Nuxt SEO Kit, the all-in-one SEO module for Nuxt v3. Combining all o
 - Use route rules to manage custom config
 - Use `definePageMeta` for title, description and image
 - `<Breadcrumbs />` - Generate Schema.org compliant breadcrumbs with zero config
+- More coming soon!
 
 ## Install
+
+⚠️ This module is in early access, please check generated markup is correct.
 
 ```bash
 npm install --save-dev nuxt-seo-kit
