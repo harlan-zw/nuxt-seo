@@ -32,7 +32,7 @@ export default defineNuxtModule<ModuleOptions>({
     return {
       splash: nuxt.options.dev,
       titleSeparator: false,
-      indexable: (nuxt.options.runtimeConfig.indexable && nuxt.options.runtimeConfig.indexable !== false) || process.env.NODE_ENV === 'production',
+      indexable: Boolean(nuxt.options.runtimeConfig.indexable) || process.env.NODE_ENV === 'production',
     }
   },
   async setup(config, nuxt) {
