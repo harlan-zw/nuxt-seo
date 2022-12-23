@@ -77,5 +77,5 @@ useSchemaOrg([
 </script>
 
 <template>
-<div />
+  <div />
 </template>
