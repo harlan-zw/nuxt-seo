@@ -45,7 +45,7 @@ useHead({
       return route.value.meta?.title
 
     // if no title has been set then we should use the last segment of the URL path and title case it
-    const path = route.value.path
+    const path = route.value?.path || '/'
     const lastSegment = path.split('/').pop()
     return lastSegment ? titleCase(lastSegment) : ''
   },
@@ -54,7 +54,7 @@ useHead({
 })
 
 useSeoMeta({
-  ogUrl: () => resolveUrl(route.value.path),
+  ogUrl: () => resolveUrl(route.value?.path || '/'),
   ogLocale: () => siteMeta.value.language,
   ogSiteName: () => siteMeta.value.siteName,
   ogType: 'website',
@@ -73,7 +73,7 @@ useHead({
     },
     {
       rel: 'canonical',
-      href: () => resolveUrl(`${route.value.path}`),
+      href: () => resolveUrl(route.value?.path || '/'),
     },
   ],
 })
