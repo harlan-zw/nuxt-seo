@@ -86,7 +86,7 @@ export default defineNuxtModule<ModuleOptions>({
       if (latestTag !== `v${version}`)
         logger.log(`${chalk.gray('  ├─ ')}🎉 New version available!${chalk.gray(` Run ${chalk.underline(`npm i nuxt-seo-kit@${latestTag}`)} to update.`)}`)
 
-      logger.log(chalk.dim('  └─ 💖 Like this package? Consider sponsoring me on GitHub: https://github.com/sponsors/harlan-zw'))
+      logger.log(chalk.dim('  └─ 💖  Like this package? Consider sponsoring me on GitHub: https://github.com/sponsors/harlan-zw'))
       logger.log('')
     }
 
