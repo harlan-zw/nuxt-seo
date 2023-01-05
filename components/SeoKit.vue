@@ -7,12 +7,15 @@ const siteMeta = computed(() => {
   const map = ['siteName', 'siteDescription', 'siteUrl', 'titleSeparator', 'trailingSlash', 'language']
 
   for (const k of map) {
+    // @ts-expect-error untyped
     if (config[k])
+      // @ts-expect-error untyped
       moduleConfig[k] = config[k]
   }
   return {
     ...moduleConfig,
     // app config has the highest priority
+    // @ts-expect-error untyped
     ...appConfig.site,
   }
 })
@@ -23,8 +26,8 @@ const route = router.currentRoute
 const resolveUrl = createInternalLinkResolver()
 
 useHead({
-  title: () => {
-    if (route.value?.meta?.title)
+  title: (): string => {
+    if (typeof route.value?.meta?.title === 'string')
       return route.value?.meta?.title
 
     // if no title has been set then we should use the last segment of the URL path and title case it

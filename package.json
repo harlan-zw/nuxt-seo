@@ -31,7 +31,8 @@
     "dev": "nuxi dev .playground",
     "lint": "eslint . --fix",
     "release": "bumpp package.json --commit --push --tag",
-    "test": "pnpm lint && vitest"
+    "test": "pnpm lint && vitest",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@nuxt/kit": "^3.0.0",
@@ -41,7 +42,7 @@
     "nuxt-schema-org": "2.1.0",
     "nuxt-simple-robots": "^0.1.6",
     "nuxt-simple-sitemap": "^0.5.7",
-    "nuxt-unhead": "^1.0.11",
+    "nuxt-unhead": "^1.0.12",
     "ufo": "^1.0.1"
   },
   "devDependencies": {
