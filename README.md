@@ -10,7 +10,7 @@
 
 
 <p align="center">
-Supercharge your Nuxt app with the all-in-one SEO layer.
+The all-in-one SEO layer for Nuxt 3.
 </p>
 
 <p align="center">

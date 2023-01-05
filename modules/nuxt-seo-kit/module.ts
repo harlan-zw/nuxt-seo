@@ -77,16 +77,17 @@ export default defineNuxtModule<ModuleOptions>({
     ])
 
     if (config.splash) {
+      logger.log('')
       let latestTag = `v${version}`
       try {
         latestTag = (await $fetch<any>('https://ungh.unjs.io/repos/harlan-zw/nuxt-seo-kit/releases/latest')).release.tag
       }
       catch (e) {}
-      logger.log(`${chalk.green('Nuxt SEO Kit')} ${chalk.yellow(`v${version}`)} • Super-charging your SEO ${chalk.gray(`by ${chalk.underline('@harlan_zw')}`)}`)
+      logger.log(`${chalk.green('SEO Kit')} ${chalk.yellow(`v${version}`)} • All-in-one SEO ${chalk.gray(`by ${chalk.underline('@harlan_zw')}`)}`)
       if (latestTag !== `v${version}`)
         logger.log(`${chalk.gray('  ├─ ')}🎉 New version available!${chalk.gray(` Run ${chalk.underline(`npm i nuxt-seo-kit@${latestTag}`)} to update.`)}`)
 
-      logger.log(chalk.dim('  └─ 💖 Like this package? Consider sponsoring me on GitHub: https://github.com/sponsors/harlan-zw'))
+      logger.log(chalk.dim('  └─ 💖 Like this package? Consider sponsoring me on GitHub https://github.com/sponsors/harlan-zw'))
       logger.log('')
     }
 
