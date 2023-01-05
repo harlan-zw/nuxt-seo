@@ -26,6 +26,9 @@ const route = router.currentRoute
 const resolveUrl = createInternalLinkResolver()
 
 useHead({
+  htmlAttrs: {
+    lang: () => siteMeta.value.language,
+  },
   title: (): string => {
     if (typeof route.value?.meta?.title === 'string')
       return route.value?.meta?.title
@@ -36,20 +39,19 @@ useHead({
     return lastSegment ? titleCase(lastSegment) : ''
   },
   titleTemplate: title => title ? `${title} ${siteMeta.value.titleSeparator} ${siteMeta.value.siteName}` : siteMeta.value.siteName,
+  link: [
+    {
+      rel: 'canonical',
+      href: () => resolveUrl(route.value?.path || '/'),
+    },
+  ],
 })
 
 useServerHead({
-  htmlAttrs: {
-    lang: () => siteMeta.value.language,
-  },
   link: [
     {
       rel: 'profile',
       href: 'https://gmpg.org/xfn/11',
-    },
-    {
-      rel: 'canonical',
-      href: () => resolveUrl(route.value?.path || '/'),
     },
   ],
 })
