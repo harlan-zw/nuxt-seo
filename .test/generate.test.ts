@@ -21,7 +21,7 @@ describe('generate', () => {
 
     expect(index).toContain('link rel="canonical" href="https://harlanzw.com"')
     expect(index).toContain('<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">')
-    expect(index).toContain('<script type="application/ld+json" id="schema-org-graph">')
+    expect(index).toContain('<script type="application/ld+json" id="schema-org-graph"')
 
     // @todo snapshot testing
   }, 60000)
