@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 definePageMeta({
-  title: 'Home',
   breadcrumbTitle: 'Home'
 })
 </script>

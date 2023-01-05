@@ -22,47 +22,20 @@ const route = router.currentRoute
 
 const resolveUrl = createInternalLinkResolver()
 
-const computeMeta = () => {
-  const meta = []
-  if (route.value.meta?.description || siteMeta.value.siteDescription) {
-    meta.push({
-      name: 'description',
-      content: route.value.meta?.description || siteMeta.value.siteDescription,
-    })
-  }
-  if (route.value.meta?.image || siteMeta.value.image) {
-    meta.push({
-      property: 'og:image',
-      content: () => route.value.meta?.image || siteMeta.value.image || null,
-    })
-  }
-  return meta
-}
-
 useHead({
   title: () => {
-    if (route.value.meta?.title)
-      return route.value.meta?.title
+    if (route.value?.meta?.title)
+      return route.value?.meta?.title
 
     // if no title has been set then we should use the last segment of the URL path and title case it
-    const path = route.value.path
+    const path = route.value?.path || '/'
     const lastSegment = path.split('/').pop()
     return lastSegment ? titleCase(lastSegment) : ''
   },
   titleTemplate: title => title ? `${title} ${siteMeta.value.titleSeparator} ${siteMeta.value.siteName}` : siteMeta.value.siteName,
-  meta: () => computeMeta(),
 })
 
-useSeoMeta({
-  ogUrl: () => resolveUrl(route.value.path),
-  ogLocale: () => siteMeta.value.language,
-  ogSiteName: () => siteMeta.value.siteName,
-  ogType: 'website',
-})
-
-defineRobotMeta()
-
-useHead({
+useServerHead({
   htmlAttrs: {
     lang: () => siteMeta.value.language,
   },
@@ -73,10 +46,25 @@ useHead({
     },
     {
       rel: 'canonical',
-      href: () => resolveUrl(`${route.value.path}`),
+      href: () => resolveUrl(route.value?.path || '/'),
     },
   ],
 })
+
+useSeoMeta({
+  description: () => {
+    return route.value?.meta?.description || siteMeta.value.siteDescription || undefined
+  },
+  ogUrl: () => resolveUrl(route.value?.path || '/'),
+  ogLocale: () => siteMeta.value.language,
+  ogSiteName: () => siteMeta.value.siteName,
+  ogImage: () => {
+    return route.value?.meta?.image || siteMeta.value.image || undefined
+  },
+  ogType: 'website',
+})
+
+defineRobotMeta()
 
 useSchemaOrg([
   defineWebSite({
