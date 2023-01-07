@@ -62,6 +62,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.linkChecker = nuxt.options.linkChecker || {}
     nuxt.options.linkChecker.host = config.siteUrl
+    nuxt.options.linkChecker.trailingSlash = config.trailingSlash
 
     nuxt.options.robots = nuxt.options.robots || {}
 
