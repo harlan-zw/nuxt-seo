@@ -4,7 +4,6 @@ export default defineNuxtConfig(<NuxtConfig> {
   extends: ['nuxt-seo-kit'],
 
   runtimeConfig: {
-    indexable: true,
     public: {
       titleSeparator: '·',
       siteUrl: 'https://harlanzw.com',

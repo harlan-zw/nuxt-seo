@@ -28,7 +28,7 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    indexable: process.env.NUXT_INDEXABLE || process.env.NODE_ENV === 'production',
+    indexable: typeof process.env.NUXT_INDEXABLE !== 'undefined' ? String(process.env.NUXT_INDEXABLE) === 'true' : process.env.NODE_ENV === 'production',
     public: {
       trailingSlash: process.env.NUXT_PUBLIC_TRAILING_SLASH || false,
       titleSeparator: process.env.NUXT_PUBLIC_TITLE_SEPARATOR || '|',

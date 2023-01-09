@@ -20,6 +20,8 @@ export interface ModuleOptions extends SeoKitOptions {
 export interface ModulePublicRuntimeConfig extends SeoKitOptions {
 }
 
+const publicRuntimeConfigKeys = ['siteName', 'siteDescription', 'siteUrl', 'titleSeparator', 'trailingSlash', 'language'] as const
+
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-seo-kit',
@@ -29,20 +31,20 @@ export default defineNuxtModule<ModuleOptions>({
     },
     configKey: 'site',
   },
+  // @ts-expect-error type issue
   defaults(nuxt) {
+    const defaults: Record<any, string> = {}
+    for (const k of publicRuntimeConfigKeys)
+      defaults[k] = nuxt.options.runtimeConfig.public[k]
     return {
       splash: nuxt.options.dev,
-      titleSeparator: false,
-      indexable: Boolean(nuxt.options.runtimeConfig.indexable) || process.env.NODE_ENV === 'production',
+      indexable: nuxt.options.runtimeConfig.indexable,
+      ...defaults,
     }
   },
+  // @ts-expect-error type issue
   async setup(config, nuxt) {
     const { resolve } = createResolver(import.meta.url)
-
-    const map = ['siteName', 'siteDescription', 'siteUrl', 'titleSeparator', 'trailingSlash', 'language']
-
-    for (const k of map)
-      config[k] = config[k] || nuxt.options.runtimeConfig.public[k]
 
     nuxt.options.unhead = nuxt.options.unhead || {}
     nuxt.options.unhead.ogTitleTemplate = `%s ${config.titleSeparator} ${config.siteName}`
@@ -90,6 +92,7 @@ declare module '#nuxt-seo-kit/config' {
       },
     })
 
+    // @ts-expect-error type issue
     nuxt.hooks.hook('prepare:types', ({ references }) => {
       references.push({ path: resolve(nuxt.options.buildDir, 'nuxt-seo-kit.d.ts') })
     })
@@ -125,6 +128,7 @@ declare module '#nuxt-seo-kit/config' {
     })
     nuxt.options.alias['#nuxt-seo-kit/config'] = dst.dst
 
+    // @ts-expect-error type issue
     nuxt.hooks.hook('nitro:config', (nitroConfig) => {
       nitroConfig.virtual!['nuxt-seo-kit/config'] = exports
     })
