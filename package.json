@@ -19,13 +19,7 @@
     "components",
     "composables",
     "modules",
-    "assets",
-    "layouts",
-    "plugins",
-    "server",
-    "app.config.ts",
-    "nuxt.config.ts",
-    "global.d.ts"
+    "nuxt.config.ts"
   ],
   "scripts": {
     "dev": "nuxi dev .playground",
@@ -40,13 +34,13 @@
     "nuxt-link-checker": "^0.2.0",
     "nuxt-og-image": "^0.6.0",
     "nuxt-schema-org": "2.1.0",
-    "nuxt-simple-robots": "^0.1.6",
+    "nuxt-simple-robots": "^0.1.8",
     "nuxt-simple-sitemap": "^0.5.8",
-    "nuxt-unhead": "^1.0.12",
+    "nuxt-unhead": "^1.0.13",
     "ufo": "^1.0.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.34.0",
+    "@antfu/eslint-config": "^0.34.1",
     "@nuxt/schema": "^3.0.0",
     "@nuxt/test-utils": "3.0.0",
     "bumpp": "^8.2.1",
@@ -55,6 +49,6 @@
     "nitropack": "^1.0.0",
     "nuxt": "npm:nuxt3@latest",
     "typescript": "^4.9.4",
-    "vitest": "^0.26.3"
+    "vitest": "^0.27.0"
   }
 }
