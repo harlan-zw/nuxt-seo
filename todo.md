@@ -1,3 +1,0 @@
-- sync with docus config
-- support social media accounts (meta tags and schema.org)
-- sync frontend redirects with routeRules

@@ -33,21 +33,27 @@ export default defineNuxtModule<ModuleOptions>({
   },
   // @ts-expect-error type issue
   defaults(nuxt) {
-    const defaults: Record<any, string> = {}
+    const defaults: Record<any, any> = {}
     for (const k of publicRuntimeConfigKeys)
       defaults[k] = nuxt.options.runtimeConfig.public[k]
+    let indexable = true
+    if (typeof process.env.NUXT_INDEXABLE !== 'undefined')
+      indexable = String(process.env.NUXT_INDEXABLE) !== 'false'
+    else if (typeof nuxt.options.runtimeConfig.indexable !== 'undefined')
+      indexable = String(nuxt.options.runtimeConfig.indexable) !== 'false'
+    else if (process.env.NODE_ENV !== 'production')
+      indexable = false
     return {
       splash: nuxt.options.dev,
-      indexable: nuxt.options.runtimeConfig.indexable,
       ...defaults,
+      indexable,
     }
   },
-  // @ts-expect-error type issue
   async setup(config, nuxt) {
     const { resolve } = createResolver(import.meta.url)
 
     nuxt.options.unhead = nuxt.options.unhead || {}
-    nuxt.options.unhead.ogTitleTemplate = `%s ${config.titleSeparator} ${config.siteName}`
+    nuxt.options.unhead.ogTitleTemplate = nuxt.options.unhead.ogTitleTemplate || `%s ${config.titleSeparator} ${config.siteName}`
 
     // configure nuxt-simple-sitemap
     nuxt.options.sitemap = nuxt.options.sitemap || {}
@@ -67,6 +73,7 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.linkChecker.trailingSlash = config.trailingSlash
 
     nuxt.options.robots = nuxt.options.robots || {}
+    nuxt.options.robots.indexable = config.indexable
 
     nuxt.options.robots.sitemap = [
       withBase('/sitemap.xml', config.siteUrl),
@@ -92,7 +99,6 @@ declare module '#nuxt-seo-kit/config' {
       },
     })
 
-    // @ts-expect-error type issue
     nuxt.hooks.hook('prepare:types', ({ references }) => {
       references.push({ path: resolve(nuxt.options.buildDir, 'nuxt-seo-kit.d.ts') })
     })
@@ -128,7 +134,6 @@ declare module '#nuxt-seo-kit/config' {
     })
     nuxt.options.alias['#nuxt-seo-kit/config'] = dst.dst
 
-    // @ts-expect-error type issue
     nuxt.hooks.hook('nitro:config', (nitroConfig) => {
       nitroConfig.virtual!['nuxt-seo-kit/config'] = exports
     })

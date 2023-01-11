@@ -1,6 +1,6 @@
-import {NuxtConfig} from "@nuxt/schema";
+import { defineNuxtConfig } from 'nuxt/config'
 
-export default defineNuxtConfig(<NuxtConfig> {
+export default defineNuxtConfig({
   extends: ['nuxt-seo-kit'],
 
   runtimeConfig: {
