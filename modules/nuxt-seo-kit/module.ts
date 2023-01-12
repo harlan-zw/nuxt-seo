@@ -52,8 +52,8 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(config, nuxt) {
     const { resolve } = createResolver(import.meta.url)
 
-    nuxt.options.unhead = nuxt.options.unhead || {}
-    nuxt.options.unhead.ogTitleTemplate = nuxt.options.unhead.ogTitleTemplate || `%s ${config.titleSeparator} ${config.siteName}`
+    nuxt.options.head = nuxt.options.head || {}
+    nuxt.options.head.ogTitleTemplate = nuxt.options.head.ogTitleTemplate || `%s ${config.titleSeparator} ${config.siteName}`
 
     // configure nuxt-simple-sitemap
     nuxt.options.sitemap = nuxt.options.sitemap || {}
