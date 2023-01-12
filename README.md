@@ -246,6 +246,59 @@ definePageMeta({
 </script>
 ```
 
+### Setting a og:title template
+
+By default, the package sets a template for the `og:title` that matches the `title`.
+
+That is `%s ${config.titleSeparator} ${config.siteName}`.
+
+You can override this by setting a `ogTitleTemplate` in your config.
+
+```ts
+export default defineNuxtConfig({
+  head: {
+      ogTitleTemplate: '%s | My Website',
+  }
+})
+```
+
+## FAQ
+
+### Why isn't there `twitter:*` meta tags?
+
+The `twitter:` prefixed meta tags are only needed when they differ from the `og:` prefixes, except for the `twitter:card` tag.
+
+You are welcome to modify the `twitter:*` meta tags using `definePageMeta` or `useSeoMeta`.
+
+### Why are pages missing from my sitemap.xml?
+
+This module currently relies on pre-rendering to figure out all of your site routes. If your route isn't being pre-rendered
+then you will either need to manually add it to the sitemap.xml using hooks or pre-render it.
+
+```ts
+export default defineNuxtConfig({
+  // option a. Add routes to pre-render
+  nitro: {
+    prerender: {
+      routes: [
+        '/',
+        '/my-hidden-url'
+      ]
+    }
+  },
+  // option b. use hooks
+  hooks: {
+    'sitemap:generate': (ctx) => {
+      // add custom URLs
+      ctx.urls.push({
+        url: '/my-hidden-url',
+      })
+    }
+  }
+})
+```
+
+
 ## Live Examples
 
 - https://github.com/harlan-zw/harlanzw.com
