@@ -33,7 +33,7 @@ export default defineNuxtConfig({
       titleSeparator: process.env.NUXT_PUBLIC_TITLE_SEPARATOR || '|',
       siteName: process.env.NUXT_PUBLIC_SITE_NAME || 'Nuxt Playground',
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000/',
-      siteDescription: process.env.NUXT_PUBLIC_SITE_URL || 'My Nuxt v3 website.',
+      siteDescription: process.env.NUXT_PUBLIC_SITE_DESCRIPTION || 'My Nuxt v3 website.',
       language: process.env.NUXT_PUBLIC_LANGUAGE || 'en',
     },
   },

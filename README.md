@@ -193,7 +193,7 @@ It can be useful to change the host name based on which environment you have the
 You can do this with an .env file and the following keys.
 
 ```env
-NUXT_PUBLIC_SITE_URL=https://harlanzw.com/
+NUXT_PUBLIC_SITE_URL="https://harlanzw.com/"
 NUXT_PUBLIC_SITE_NAME=Harlan Wilton
 NUXT_INDEXABLE=true
 ```
@@ -212,7 +212,7 @@ export default defineNuxtConfig({
 })
 ```
 
-Alternatively, you can set the `NUXT_INDEXABLE` environment variable.
+Alternatively, you can set the `NUXT_INDEXABLE=false` environment variable.
 
 ### Using the Breadcrumbs component
 
