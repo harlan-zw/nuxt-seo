@@ -257,7 +257,7 @@ You can override this by setting a `ogTitleTemplate` in your config.
 ```ts
 export default defineNuxtConfig({
   head: {
-      ogTitleTemplate: '%s | My Website',
+    ogTitleTemplate: '%s | My Website',
   }
 })
 ```
