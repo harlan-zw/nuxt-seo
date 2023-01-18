@@ -25,6 +25,35 @@ const route = router.currentRoute
 
 const resolveUrl = createInternalLinkResolver()
 
+function computeMeta() {
+  return [
+    {
+      name: 'description',
+      content: route.value?.meta?.description || siteMeta.value.siteDescription || undefined,
+    },
+    {
+      property: 'og:url',
+      content: resolveUrl(route.value?.path || '/'),
+    },
+    {
+      property: 'og:locale',
+      content: siteMeta.value.language,
+    },
+    {
+      property: 'og:site_name',
+      content: siteMeta.value.siteName,
+    },
+    {
+      property: 'og:image',
+      content: route.value?.meta?.image || siteMeta.value.image || null,
+    },
+    {
+      property: 'og:type',
+      content: 'website',
+    },
+  ].filter(meta => !!meta.content)
+}
+
 useHead({
   htmlAttrs: {
     lang: () => siteMeta.value.language,
@@ -45,6 +74,7 @@ useHead({
       href: () => resolveUrl(route.value?.path || '/'),
     },
   ],
+  meta: computeMeta,
 })
 
 useServerHead({
@@ -54,19 +84,6 @@ useServerHead({
       href: 'https://gmpg.org/xfn/11',
     },
   ],
-})
-
-useSeoMeta({
-  description: () => {
-    return route.value?.meta?.description || siteMeta.value.siteDescription || undefined
-  },
-  ogUrl: () => resolveUrl(route.value?.path || '/'),
-  ogLocale: () => siteMeta.value.language,
-  ogSiteName: () => siteMeta.value.siteName,
-  ogImage: () => {
-    return route.value?.meta?.image || siteMeta.value.image || undefined
-  },
-  ogType: 'website',
 })
 
 defineRobotMeta()
