@@ -26,11 +26,7 @@ const route = router.currentRoute
 const resolveUrl = createInternalLinkResolver()
 
 function computeMeta() {
-  return [
-    {
-      name: 'description',
-      content: route.value?.meta?.description || siteMeta.value.siteDescription || undefined,
-    },
+  const meta: MetaObject['meta'] = [
     {
       property: 'og:url',
       content: resolveUrl(route.value?.path || '/'),
@@ -43,15 +39,24 @@ function computeMeta() {
       property: 'og:site_name',
       content: siteMeta.value.siteName,
     },
-    {
+  ]
+  let ogImage = route.value?.meta?.image || siteMeta.value.image
+  if (ogImage) {
+    if (ogImage.startsWith('/'))
+      ogImage = resolveAbsoluteInternalLink(ogImage)
+    meta.push({
       property: 'og:image',
-      content: route.value?.meta?.image || siteMeta.value.image || null,
-    },
-    {
-      property: 'og:type',
-      content: 'website',
-    },
-  ].filter(meta => !!meta.content)
+      content: ogImage,
+    })
+  }
+  const description = route.value?.meta?.description || siteMeta.value.siteDescription
+  if (description) {
+    meta.push({
+      name: 'description',
+      content: description,
+    })
+  }
+  return meta
 }
 
 useHead({
@@ -78,6 +83,12 @@ useHead({
 })
 
 useServerHead({
+  meta: [
+    {
+      property: 'og:type',
+      content: 'website',
+    },
+  ],
   link: [
     {
       rel: 'profile',

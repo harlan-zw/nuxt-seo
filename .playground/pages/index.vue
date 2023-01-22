@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 definePageMeta({
-  breadcrumbTitle: 'Home'
+  breadcrumbTitle: 'Home',
+  image: '/images/og-image.png'
 })
 </script>
 <template>
