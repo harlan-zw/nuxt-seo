@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { MetaObject } from '@nuxt/schema'
+import { resolveAbsoluteInternalLink } from '../composables/internalLinks'
 import config from '#nuxt-seo-kit/config'
 const appConfig = useAppConfig()
 
