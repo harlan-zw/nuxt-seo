@@ -1,4 +1,4 @@
-<h1 align='center'>🍱 nuxt-seo-kit</h1>
+<h1 align='center'>🍱 Nuxt SEO Kit</h1>
 
 <p align="center">
 <a href='https://github.com/harlan-zw/nuxt-seo-kit/actions/workflows/test.yml'>
@@ -10,7 +10,7 @@
 
 
 <p align="center">
-The all-in-one SEO layer for Nuxt 3.
+The All-In-One SEO Layer for Nuxt 3.
 </p>
 
 <p align="center">
