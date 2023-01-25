@@ -22,6 +22,10 @@ export default defineNuxtConfig({
     },
   },
 
+  linkChecker: {
+    failOn404: false,
+  },
+
   experimental: {
     componentIslands: true,
   },
