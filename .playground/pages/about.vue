@@ -6,7 +6,7 @@ definePageMeta({
 })
 
 
-defineOgImage({
+defineOgImageStatic({
   title: 'About',
   description: 'My description',
   customSomething: 'custom',
