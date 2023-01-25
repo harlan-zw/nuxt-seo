@@ -72,6 +72,7 @@ export default defineNuxtModule<ModuleOptions>({
       urls: [],
       include: ['/**'],
       devPreview: true,
+      inferStaticPagesAsRoutes: true
     }
     nuxt.options.sitemap.hostname = config.siteUrl
     nuxt.options.sitemap.trailingSlash = config.trailingSlash
