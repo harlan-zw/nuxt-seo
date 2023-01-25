@@ -52,32 +52,73 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(config, nuxt) {
     const { resolve } = createResolver(import.meta.url)
 
-    nuxt.options.head = nuxt.options.head || {}
-    nuxt.options.head.ogTitleTemplate = nuxt.options.head.ogTitleTemplate || `%s ${config.titleSeparator} ${config.siteName}`
+    // configure nuxt-unhead
+    nuxt.options.unhead = nuxt.options.unhead || {
+      seoOptimise: true,
+      resolveAliases: true,
+      ogTitleTemplate: `%s ${config.titleSeparator} ${config.siteName}`,
+      ogDescriptionTemplate: '%s',
+    }
+    nuxt.options.unhead.ogTitleTemplate
+      = nuxt.options.unhead.ogTitleTemplate
+      || `%s ${config.titleSeparator} ${config.siteName}`
 
     // configure nuxt-simple-sitemap
-    nuxt.options.sitemap = nuxt.options.sitemap || {}
+    nuxt.options.sitemap = nuxt.options.sitemap || {
+      hostname: config.siteUrl,
+      trailingSlash: config.trailingSlash,
+      enabled: true,
+      defaults: {},
+      urls: [],
+      include: ['/**'],
+      devPreview: true,
+    }
     nuxt.options.sitemap.hostname = config.siteUrl
     nuxt.options.sitemap.trailingSlash = config.trailingSlash
 
     // configure nuxt-schema-org
-    nuxt.options.schemaOrg = nuxt.options.schemaOrg || {}
+    nuxt.options.schemaOrg = nuxt.options.schemaOrg || {
+      host: config.siteUrl,
+      inLanguage: config.language,
+    }
     nuxt.options.schemaOrg.host = config.siteUrl
     nuxt.options.schemaOrg.inLanguage = config.language
 
-    nuxt.options.ogImage = nuxt.options.ogImage || {}
+    // configure nuxt-og-image
+    nuxt.options.ogImage = nuxt.options.ogImage || {
+      host: config.siteUrl,
+      defaults: { component: 'OgImageBasic', width: 1200, height: 630 },
+      experimentalNitroBrowser: false,
+      fonts: ['Inter:400', 'Inter:700'],
+      satoriOptions: {},
+      forcePrerender: false,
+    }
     nuxt.options.ogImage.host = config.siteUrl
 
-    nuxt.options.linkChecker = nuxt.options.linkChecker || {}
+    // configure nuxt-link-checker
+    nuxt.options.linkChecker = nuxt.options.linkChecker || {
+      trailingSlash: config.trailingSlash,
+      host: config.siteUrl,
+      failOn404: true,
+      exclude: [],
+    }
     nuxt.options.linkChecker.host = config.siteUrl
     nuxt.options.linkChecker.trailingSlash = config.trailingSlash
 
-    nuxt.options.robots = nuxt.options.robots || {}
+    // configure nuxt-simple-robots
+    nuxt.options.robots = nuxt.options.robots || {
+      indexable:
+        Boolean(process.env.NUXT_INDEXABLE)
+        || config.indexable
+        || process.env.NODE_ENV === 'production',
+      sitemap: [withBase('/sitemap.xml', config.siteUrl)],
+      disallow: [],
+      robotsEnabledValue:
+        'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
+      robotsDisabledValue: 'noindex, nofollow',
+    }
     nuxt.options.robots.indexable = config.indexable
-
-    nuxt.options.robots.sitemap = [
-      withBase('/sitemap.xml', config.siteUrl),
-    ]
+    nuxt.options.robots.sitemap = [withBase('/sitemap.xml', config.siteUrl)]
 
     addTemplate({
       filename: 'nuxt-seo-kit.d.ts',
