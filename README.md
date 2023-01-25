@@ -29,12 +29,14 @@ The All-In-One SEO Layer for Nuxt 3.
 
 ## Background
 
-Configuring SEO for Nuxt is a lot of work, it requires installing many modules, configuring them all separately
+Configuring SEO for Nuxt is a lot of work; it requires installing many modules, configuring them all separately
 and then figuring out all the meta tags.
 
 What if there was an easier way?
 
-Introducing Nuxt SEO Kit, the all-in-one SEO module for Nuxt v3. Combining all of my SEO modules and best practices into one, it's the easiest and quickest way to improve your apps SEO. 
+Introducing Nuxt SEO Kit,
+the all-in-one SEO module for Nuxt 3. Combining all of my SEO modules and the best practices into one,
+it's the easiest and quickest way to improve your apps SEO. 
 
 ## Modules
 
@@ -44,7 +46,6 @@ Introducing Nuxt SEO Kit, the all-in-one SEO module for Nuxt v3. Combining all o
 - △ [nuxt-unhead](https://github.com/harlan-zw/nuxt-unhead) - Experimental SEO meta features
 - 🖼️ [nuxt-og-image](https://github.com/harlan-zw/nuxt-og-image) - Generate dynamic social share images
 - ✅ [nuxt-link-checker](https://github.com/harlan-zw/nuxt-link-checker) - Check for broken links
-
 
 ## Features
 
@@ -69,12 +70,10 @@ Introducing Nuxt SEO Kit, the all-in-one SEO module for Nuxt v3. Combining all o
 
 - Use route rules to manage custom config
 - Use `definePageMeta` for title, description and image
-- `<Breadcrumbs />` - Generate Schema.org compliant breadcrumbs with zero config
+- `<Breadcrumbs />` - Generate Schema.org compliant breadcrumbs with zero-config
 - More coming soon!
 
 ## Install
-
-⚠️ This module is in early access, please check generated markup is correct.
 
 ```bash
 npm install --save-dev nuxt-seo-kit
@@ -82,6 +81,8 @@ npm install --save-dev nuxt-seo-kit
 # Using yarn
 yarn add --dev nuxt-seo-kit
 ```
+
+Requires Nuxt >= 3.1.0.
 
 ## Register Layer
 
@@ -128,7 +129,7 @@ To make the most of Nuxt SEO Kit, you should use the `SeoKit` component somewher
 app layout.
 
 This component will set the default meta tags for your app. It's important to have this run
-before any page specific meta tags are set.
+before any page-specific meta tags are set.
 
 _app.vue_
 
@@ -141,9 +142,11 @@ _app.vue_
 </template>
 ```
 
-#### OgImage / OgImageScreenshot (optional)
+#### OgImageStatic / OgImageScreenshot (optional)
 
-If you want to use the dynamic og image feature, you should add the `OgImage` or `OgImageScreenshot` component to your app layout.
+If you want to use the dynamic og image feature, you should add the `OgImageStatic` or `OgImageScreenshot` component to your app layout.
+
+Please check the [nuxt-og-image](https://github.com/harlan-zw/nuxt-og-image) docs for full usage.
 
 ```vue
 <template>
@@ -162,9 +165,8 @@ You're all set up.
 
 Next steps:
 1. Choose a Schema.org [identity](https://unhead-schema-org.harlanzw.com/guide/guides/identity)
-2. Use `useHead` or `useSeoMeta` to set meta tags as needed
-3. Scan your site with [Unlighthouse](https://github.com/harlan-zw/unlighthouse)
-4. Read the guides below
+2. Scan your site with [Unlighthouse](https://github.com/harlan-zw/unlighthouse)
+3. Read the guides below
 
 ## Guide
 
