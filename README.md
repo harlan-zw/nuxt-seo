@@ -188,6 +188,20 @@ export default defineNuxtConfig({
 })
 ```
 
+### Avoid deploying broken links
+
+By default, Nuxt SEO Kit won't block your builds if 404 links are discovered. 
+
+To enable this, you can provide the `linkChecker.failOn404` option.
+
+```ts
+export default defineNuxtConfig({
+  linkChecker: {
+    failOn404: true,
+  }
+})
+```
+
 ### Using .env
 
 It can be useful to change the host name based on which environment you have the nuxt App running on.
