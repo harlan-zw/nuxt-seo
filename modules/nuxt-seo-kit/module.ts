@@ -1,17 +1,10 @@
-import { addTemplate, createResolver, defineNuxtModule, logger } from '@nuxt/kit'
+import { createResolver, defineNuxtModule, logger } from '@nuxt/kit'
 import chalk from 'chalk'
 import { withBase } from 'ufo'
+import defu from 'defu'
 import { version } from '../../package.json'
-
-interface SeoKitOptions {
-  siteUrl: string
-  siteName: string
-  siteDescription: string
-  indexable: boolean
-  titleSeparator: string
-  trailingSlash: boolean
-  language: string
-}
+import type { SeoKitOptions } from './types'
+import { SeoKitPublicRuntimeConfigKeys } from './const'
 
 export interface ModuleOptions extends SeoKitOptions {
   splash: boolean
@@ -19,8 +12,6 @@ export interface ModuleOptions extends SeoKitOptions {
 
 export interface ModulePublicRuntimeConfig extends SeoKitOptions {
 }
-
-const publicRuntimeConfigKeys = ['siteName', 'siteDescription', 'siteUrl', 'titleSeparator', 'trailingSlash', 'language'] as const
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -34,7 +25,7 @@ export default defineNuxtModule<ModuleOptions>({
   // @ts-expect-error type issue
   defaults(nuxt) {
     const defaults: Record<any, any> = {}
-    for (const k of publicRuntimeConfigKeys)
+    for (const k of SeoKitPublicRuntimeConfigKeys)
       defaults[k] = nuxt.options.runtimeConfig.public[k]
     let indexable = true
     if (typeof process.env.NUXT_INDEXABLE !== 'undefined')
@@ -102,21 +93,8 @@ export default defineNuxtModule<ModuleOptions>({
       if (latestTag !== `v${version}`)
         logger.log(`${chalk.gray('  ├─ ')}🎉 New version available!${chalk.gray(` Run ${chalk.underline(`npm i nuxt-seo-kit@${latestTag}`)} to update.`)}`)
 
-      logger.log(chalk.dim('  └─ 💖  Like this package? Consider sponsoring me on GitHub https://github.com/sponsors/harlan-zw'))
+      logger.log(chalk.dim('  └─ 💖 Like this package? Consider sponsoring me on GitHub https://github.com/sponsors/harlan-zw'))
       logger.log('')
     }
-
-    const exports = `const config = ${JSON.stringify(config, null, 2)};\nexport default config`
-
-    // add alias for nuxt app
-    const dst = addTemplate({
-      filename: 'nuxt-seo-kit-config.mjs',
-      getContents: () => exports,
-    })
-    nuxt.options.alias['#nuxt-seo-kit/config'] = dst.dst
-
-    nuxt.hooks.hook('nitro:config', (nitroConfig) => {
-      nitroConfig.virtual!['nuxt-seo-kit/config'] = exports
-    })
   },
 })
