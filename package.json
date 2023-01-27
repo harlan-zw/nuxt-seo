@@ -1,7 +1,6 @@
 {
-  "name": "nuxt-seo-kit",
-  "type": "module",
-  "version": "1.0.1",
+  "name": "nuxt-seo-kit-mono",
+  "private": true,
   "packageManager": "pnpm@7.18.0",
   "description": "The all-in-one SEO layer for Nuxt 3.",
   "license": "MIT",
@@ -14,41 +13,23 @@
   "bugs": {
     "url": "https://github.com/harlan-zw/nuxt-seo-kit/issues"
   },
-  "main": "./nuxt.config.ts",
-  "files": [
-    "components",
-    "composables",
-    "modules",
-    "nuxt.config.ts"
-  ],
   "scripts": {
     "dev": "nuxi dev .playground",
     "lint": "eslint . --fix",
-    "release": "bumpp package.json --commit --push --tag",
-    "test": "pnpm lint && vitest",
+    "release": "bumpp layer/package.json --commit --push --tag",
+    "test": "npx vue-tsc && pnpm lint && vitest",
     "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@nuxt/kit": "^3.1.0",
-    "defu": "^6.1.2",
-    "nuxt-link-checker": "^1.0.0",
-    "nuxt-og-image": "^1.1.1",
-    "nuxt-schema-org": "2.1.0",
-    "nuxt-simple-robots": "^1.0.0",
-    "nuxt-simple-sitemap": "^1.0.3",
-    "nuxt-unhead": "^1.2.0",
-    "ufo": "^1.0.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.34.1",
-    "@nuxt/schema": "^3.1.0",
-    "@nuxt/test-utils": "3.1.0",
+    "@nuxt/schema": "^3.1.1",
+    "@nuxt/test-utils": "3.1.1",
     "bumpp": "^8.2.1",
     "eslint": "^8.32.0",
     "execa": "^6.1.0",
-    "nitropack": "^2.0.0",
-    "nuxt": "^3.1.0",
+    "nitropack": "^2.1.0",
+    "nuxt": "^3.1.1",
     "typescript": "^4.9.4",
-    "vitest": "^0.28.1"
+    "vitest": "^0.28.2"
   }
 }

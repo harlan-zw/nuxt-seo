@@ -5,6 +5,7 @@ import defu from 'defu'
 import { version } from '../../package.json'
 import type { SeoKitOptions } from './types'
 import { SeoKitPublicRuntimeConfigKeys } from './const'
+import { exposeModuleConfig } from './nuxt-utils'
 
 export interface ModuleOptions extends SeoKitOptions {
   splash: boolean
@@ -41,6 +42,8 @@ export default defineNuxtModule<ModuleOptions>({
     }
   },
   async setup(config, nuxt) {
+    exposeModuleConfig('nuxt-seo-kit', config)
+
     const { resolve } = createResolver(import.meta.url)
 
     // configure nuxt-unhead
@@ -76,7 +79,6 @@ export default defineNuxtModule<ModuleOptions>({
     })
 
     nuxt.options.build.transpile.push(...[
-      'nuxt-seo-kit',
       resolve('../../server'),
       resolve('../../components'),
       resolve('../../composables'),

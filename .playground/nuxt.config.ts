@@ -1,7 +1,10 @@
 import { defineNuxtConfig } from 'nuxt/config'
+import{resolve } from 'pathe'
 
 export default defineNuxtConfig({
-  extends: ['nuxt-seo-kit'],
+  extends: [
+    resolve(__dirname, '../layer'),
+  ],
 
   runtimeConfig: {
     public: {

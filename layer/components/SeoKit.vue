@@ -1,21 +1,45 @@
 <script lang="ts" setup>
 import type { MetaObject } from '@nuxt/schema'
+import { computed } from 'vue'
 import { resolveAbsoluteInternalLink } from '../composables/internalLinks'
-import config from '#nuxt-seo-kit/config'
+import { useAppConfig, useRuntimeConfig } from '#app'
+import * as config from '#nuxt-seo-kit/config'
+
+const runtimeConfig = useRuntimeConfig().public
 const appConfig = useAppConfig()
 
-const siteMeta = computed(() => {
-  const moduleConfig = {}
-  const map = ['siteName', 'siteDescription', 'siteUrl', 'titleSeparator', 'trailingSlash', 'language']
+const SeoKitPublicRuntimeConfigKeys = [
+  'siteName',
+  'siteDescription',
+  'siteImage',
+  'siteUrl',
+  'titleSeparator',
+  'trailingSlash',
+  'language',
+] as const
 
-  for (const k of map) {
-    // @ts-expect-error untyped
-    if (config[k])
+interface SeoKitOptions {
+  siteUrl: string
+  siteName: string
+  siteDescription: string
+  siteImage: string
+  indexable: boolean
+  titleSeparator: string
+  trailingSlash: boolean
+  language: string
+}
+
+const siteMeta = computed<SeoKitOptions>(() => {
+  const runtimeConfigExtract = {}
+
+  for (const k of SeoKitPublicRuntimeConfigKeys) {
+    if (runtimeConfig[k])
       // @ts-expect-error untyped
-      moduleConfig[k] = config[k]
+      runtimeConfigExtract[k] = runtimeConfig[k]
   }
   return {
-    ...moduleConfig,
+    ...config,
+    ...runtimeConfigExtract,
     // app config has the highest priority
     // @ts-expect-error untyped
     ...appConfig.site,
@@ -24,7 +48,6 @@ const siteMeta = computed(() => {
 
 const router = useRouter()
 const route = router.currentRoute
-
 const resolveUrl = createInternalLinkResolver()
 
 function computeMeta() {
@@ -42,20 +65,20 @@ function computeMeta() {
       content: siteMeta.value.siteName,
     },
   ]
-  let ogImage = route.value?.meta?.image || siteMeta.value.image
-  if (ogImage) {
+  let ogImage = route.value?.meta?.image || siteMeta.value.siteImage
+  if (typeof ogImage === 'string') {
     if (ogImage.startsWith('/'))
       ogImage = resolveAbsoluteInternalLink(ogImage)
     meta.push({
       property: 'og:image',
-      content: ogImage,
+      content: ogImage as string,
     })
   }
   const description = route.value?.meta?.description || siteMeta.value.siteDescription
   if (description) {
     meta.push({
       name: 'description',
-      content: description,
+      content: description as string,
     })
   }
   return meta
