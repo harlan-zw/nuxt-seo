@@ -47,36 +47,30 @@ export default defineNuxtModule<ModuleOptions>({
     const { resolve } = createResolver(import.meta.url)
 
     // configure nuxt-unhead
-    // @ts-expect-error untyped
     nuxt.options.unhead = defu(nuxt.options.unhead || {}, {
       ogTitleTemplate: `%s ${config.titleSeparator} ${config.siteName}`,
     })
     // configure nuxt-simple-sitemap
-    // @ts-expect-error untyped
     nuxt.options.sitemap = defu(nuxt.options.sitemap || {}, {
       hostname: config.siteUrl,
       trailingSlash: config.trailingSlash,
     })
     // configure nuxt-schema-org
-    // @ts-expect-error untyped
     nuxt.options.schemaOrg = defu(nuxt.options.schemaOrg || {}, {
       host: config.siteUrl,
       inLanguage: config.language,
       trailingSlash: config.trailingSlash,
     })
     // configure nuxt-og-image
-    // @ts-expect-error untyped
     nuxt.options.ogImage = defu(nuxt.options.ogImage || {}, {
       host: config.siteUrl,
     })
     // configure nuxt-link-checker
-    // @ts-expect-error untyped
     nuxt.options.linkChecker = defu(nuxt.options.linkChecker || {}, {
       host: config.siteUrl,
       trailingSlash: config.trailingSlash,
     })
     // configure nuxt-simple-robots
-    // @ts-expect-error untyped
     nuxt.options.robots = defu(nuxt.options.robots || {}, {
       indexable: config.indexable,
       sitemap: [
