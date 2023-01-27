@@ -2,7 +2,7 @@ import { createResolver } from '@nuxt/kit'
 
 const { resolve } = createResolver(import.meta.url)
 
-export default defineNuxtConfig({
+export default ({
   modules: [
     resolve('./modules/nuxt-seo-kit/module'),
     'nuxt-schema-org',
@@ -33,7 +33,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     indexable: typeof process.env.NUXT_INDEXABLE !== 'undefined' ? String(process.env.NUXT_INDEXABLE) !== 'false' : process.env.NODE_ENV === 'production',
     public: {
-      trailingSlash: process.env.NUXT_PUBLIC_TRAILING_SLASH || false,
+      trailingSlash: String(process.env.NUXT_PUBLIC_TRAILING_SLASH) === 'true',
       titleSeparator: process.env.NUXT_PUBLIC_TITLE_SEPARATOR || '|',
       siteName: process.env.NUXT_PUBLIC_SITE_NAME || 'Nuxt Playground',
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000/',
