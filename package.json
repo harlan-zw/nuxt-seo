@@ -17,7 +17,7 @@
     "dev": "nuxi dev .playground",
     "lint": "eslint . --fix",
     "release": "bumpp layer/package.json --commit --push --tag",
-    "test": "nuxi prepare && npx vue-tsc --noEmit && pnpm lint && vitest",
+    "test": "nuxi prepare .playground && npx vue-tsc --noEmit && pnpm lint && vitest",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
