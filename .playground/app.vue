@@ -4,7 +4,7 @@
 
     </div>
     <div>
-      <SeoKit />
+      <SeoKit :site-description="'test'" />
     </div>
     <div>
       <NuxtPage />

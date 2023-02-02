@@ -5,6 +5,26 @@ import { resolveAbsoluteInternalLink } from '../composables/internalLinks'
 import { useAppConfig, useRuntimeConfig } from '#app'
 import * as config from '#nuxt-seo-kit/config'
 
+interface SeoKitOptions {
+  siteUrl?: string
+  siteName?: string
+  siteDescription?: string
+  siteImage?: string
+  indexable?: boolean
+  titleSeparator?: string
+  trailingSlash?: boolean
+  language?: string
+}
+
+const props = defineProps<{
+  siteUrl?: string
+  siteName?: string
+  siteDescription?: string
+  siteImage?: string
+  titleSeparator?: string
+  language?: string
+}>()
+
 const runtimeConfig = useRuntimeConfig().public
 const appConfig = useAppConfig()
 
@@ -18,24 +38,18 @@ const SeoKitPublicRuntimeConfigKeys = [
   'language',
 ] as const
 
-interface SeoKitOptions {
-  siteUrl: string
-  siteName: string
-  siteDescription: string
-  siteImage: string
-  indexable: boolean
-  titleSeparator: string
-  trailingSlash: boolean
-  language: string
-}
-
 const siteMeta = computed<SeoKitOptions>(() => {
   const runtimeConfigExtract = {}
-
   for (const k of SeoKitPublicRuntimeConfigKeys) {
     if (runtimeConfig[k])
       // @ts-expect-error untyped
       runtimeConfigExtract[k] = runtimeConfig[k]
+  }
+  const propExtract = {}
+  for (const k of SeoKitPublicRuntimeConfigKeys) {
+    if (props[k])
+      // @ts-expect-error untyped
+      propExtract[k] = props[k]
   }
   return {
     ...config,
@@ -43,6 +57,7 @@ const siteMeta = computed<SeoKitOptions>(() => {
     // app config has the highest priority
     // @ts-expect-error untyped
     ...appConfig.site,
+    ...propExtract,
   }
 })
 
