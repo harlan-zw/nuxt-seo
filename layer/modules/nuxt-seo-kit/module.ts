@@ -45,11 +45,6 @@ export default defineNuxtModule<ModuleOptions>({
     exposeModuleConfig('nuxt-seo-kit', config)
 
     const { resolve } = createResolver(import.meta.url)
-
-    // configure nuxt-unhead
-    nuxt.options.unhead = defu(nuxt.options.unhead || {}, {
-      ogTitleTemplate: `%s ${config.titleSeparator} ${config.siteName}`,
-    })
     // configure nuxt-simple-sitemap
     nuxt.options.sitemap = defu(nuxt.options.sitemap || {}, {
       hostname: config.siteUrl,

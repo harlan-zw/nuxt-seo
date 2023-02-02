@@ -97,7 +97,6 @@ useHead({
     const lastSegment = path.split('/').pop()
     return lastSegment ? titleCase(lastSegment) : ''
   },
-  titleTemplate: title => title ? `${title} ${siteMeta.value.titleSeparator} ${siteMeta.value.siteName}` : siteMeta.value.siteName,
   link: [
     {
       rel: 'canonical',
