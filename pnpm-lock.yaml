@@ -30,21 +30,21 @@ importers:
     specifiers:
       '@nuxt/kit': ^3.1.1
       defu: ^6.1.2
-      nuxt-link-checker: ^1.0.2
-      nuxt-og-image: ^1.4.2
-      nuxt-schema-org: 2.1.0
+      nuxt-link-checker: ^1.0.3
+      nuxt-og-image: ^1.4.3
+      nuxt-schema-org: 2.1.1
       nuxt-simple-robots: ^1.0.2
-      nuxt-simple-sitemap: ^1.0.6
+      nuxt-simple-sitemap: ^1.0.7
       nuxt-unhead: ^1.3.4
       ufo: ^1.0.1
     dependencies:
       '@nuxt/kit': 3.1.1
       defu: 6.1.2
-      nuxt-link-checker: 1.0.2
-      nuxt-og-image: 1.4.2
-      nuxt-schema-org: 2.1.0
+      nuxt-link-checker: 1.0.3
+      nuxt-og-image: 1.4.3
+      nuxt-schema-org: 2.1.1
       nuxt-simple-robots: 1.0.2
-      nuxt-simple-sitemap: 1.0.6
+      nuxt-simple-sitemap: 1.0.7
       nuxt-unhead: 1.3.4
       ufo: 1.0.1
 
@@ -992,33 +992,6 @@ packages:
     resolution: {integrity: sha512-YBI/6o2EBz02tdEJRBK8xkt3zvOFOWlLBf7WKYGBsSYSRtjjgrqPe2skp6VLLmKx5WbHHDNcW+6oACaurxGzeA==}
     dev: true
 
-  /@nuxt/kit/3.0.0:
-    resolution: {integrity: sha512-7ZsOLt5s9a0ZleAIzmoD70JwkZf5ti6bDdxl6f8ew7Huxz+ni/oRfTPTX9TrORXsgW5CvDt6Q9M7IJNPkAN/Iw==}
-    engines: {node: ^14.16.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
-    dependencies:
-      '@nuxt/schema': 3.0.0
-      c12: 1.1.0
-      consola: 2.15.3
-      defu: 6.1.2
-      globby: 13.1.3
-      hash-sum: 2.0.0
-      ignore: 5.2.4
-      jiti: 1.16.2
-      knitwork: 1.0.0
-      lodash.template: 4.5.0
-      mlly: 1.1.0
-      pathe: 1.1.0
-      pkg-types: 1.0.1
-      scule: 1.0.0
-      semver: 7.3.8
-      unctx: 2.1.1
-      unimport: 1.3.0
-      untyped: 1.2.2
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-    dev: false
-
   /@nuxt/kit/3.1.1:
     resolution: {integrity: sha512-wmqVCIuD/te6BKf3YiqWyMumKI5JIpkiv0li/1Y3QHnTkoxyIhLkbFgNcQHuBxJ3eMlk2UjAjAqWiqBHTX54vQ==}
     engines: {node: ^14.16.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
@@ -1071,27 +1044,6 @@ packages:
       - rollup
       - supports-color
     dev: true
-
-  /@nuxt/schema/3.0.0:
-    resolution: {integrity: sha512-5fwsidhs5NjFzR8sIzHMXO0WFGkI3tCH3ViANn2W4N5qCwoYZ0n1sZBkQ9Esn1VoEed6RsIlTpWrPZPVtqNkGQ==}
-    engines: {node: ^14.16.0 || ^16.10.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
-    dependencies:
-      c12: 1.1.0
-      create-require: 1.1.1
-      defu: 6.1.2
-      jiti: 1.16.2
-      pathe: 1.1.0
-      pkg-types: 1.0.1
-      postcss-import-resolver: 2.0.0
-      scule: 1.0.0
-      std-env: 3.3.1
-      ufo: 1.0.1
-      unimport: 1.3.0
-      untyped: 1.2.2
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-    dev: false
 
   /@nuxt/schema/3.1.1:
     resolution: {integrity: sha512-/KuoCDVGrLD9W7vwuYhu4HbdT/BpbrhA4Pm9dGn7Jah40kHDGqUnJxugvMjt+4suq53rLQyTA0LRDWfFxfxAOQ==}
@@ -1251,8 +1203,8 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: false
 
-  /@resvg/resvg-js-android-arm-eabi/2.2.0:
-    resolution: {integrity: sha512-w3lAI6R5cfxGM5oxX6XhEFob4mJkkyfKm0veUQJOg65J4dznwcaJ54lGuQPfjAPhcHxSk/w+7BvFLjbbjV09qw==}
+  /@resvg/resvg-js-android-arm-eabi/2.3.1:
+    resolution: {integrity: sha512-N9TEhMW3DC4t5rRhMO31AZY3IBHrPPaYlfhm9g5A+4jHheNeFkWj3WHwTOThFMTDln45t7R7dZ4yVpI81Ucbkw==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [android]
@@ -1260,8 +1212,8 @@ packages:
     dev: false
     optional: true
 
-  /@resvg/resvg-js-android-arm64/2.2.0:
-    resolution: {integrity: sha512-rzo0IqUErz1GzPthmU3wB25Vvdyr6KGI+J2WqALgSqmFxJ/sDygT2/6tirb4Lp1IjbvLhzO3uA6SP/sMwcWNfw==}
+  /@resvg/resvg-js-android-arm64/2.3.1:
+    resolution: {integrity: sha512-NFET2XoeWzskTJPaOcse2/iHizct9c5YhZ2gDjEeh3n1wyhpuQemdWH1qoodjxfeiBNqlIMi+fOoEv43tw+j2Q==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [android]
@@ -1269,8 +1221,8 @@ packages:
     dev: false
     optional: true
 
-  /@resvg/resvg-js-darwin-arm64/2.2.0:
-    resolution: {integrity: sha512-MHJBjUh+xlZeMXcHqGiBO5d5CcgNAd0pXXaOmQtcamfBN5oc9SCJP3z137BEN5RhE6bgz6Wl88Sv1Jh3Wn0nlA==}
+  /@resvg/resvg-js-darwin-arm64/2.3.1:
+    resolution: {integrity: sha512-yZHN6lzvQochS8Qs7JI/xfasStog2EV8KOg4Xd75JhoB2w6ORZ/GlL3T/zA+f9vEkXL9rPymK/IOTSdNFNjbLQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
@@ -1278,8 +1230,8 @@ packages:
     dev: false
     optional: true
 
-  /@resvg/resvg-js-darwin-x64/2.2.0:
-    resolution: {integrity: sha512-y6uaW/lWgvqpoeTA2hrgPlvNS7kbduBpUfYCpmk7KzOEMBzUUssOHT+DgqlQ7SZOi01mL6DHeDpAjvzM7K4Ocw==}
+  /@resvg/resvg-js-darwin-x64/2.3.1:
+    resolution: {integrity: sha512-EGeyTuPZG/JP92PROXQ1CmEnq/C0yOTrbX76XX+BHicjfhAjGx3sii1qD9k608TW0MppPMAVcQbhT1hxaQ4ViA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
@@ -1287,8 +1239,8 @@ packages:
     dev: false
     optional: true
 
-  /@resvg/resvg-js-linux-arm-gnueabihf/2.2.0:
-    resolution: {integrity: sha512-G32NqLnuYilT3z5oD5AKXZvpD/ZPRzP1t2T0dvqQC6kBE6c5ckhdCbyT0gnnarcvMoXP+J/xh7kadEp3V8wFDg==}
+  /@resvg/resvg-js-linux-arm-gnueabihf/2.3.1:
+    resolution: {integrity: sha512-EhlgOj1mxHbYATQch66G5yzCgrT6MvtH6wZua1bxjTK/QrPf3B0kkY6vmHlYOtZ9y807swXk3GlNhT9ztL21aw==}
     engines: {node: '>= 10'}
     cpu: [arm]
     os: [linux]
@@ -1296,8 +1248,8 @@ packages:
     dev: false
     optional: true
 
-  /@resvg/resvg-js-linux-arm64-gnu/2.2.0:
-    resolution: {integrity: sha512-R0KJCCyjFcTDFT+nAVlP/CYUMIEjxSkSJsEED9QesulCxMY/aoO52p91FgQrGjecORkASNXovlqS3HsNYbCTOg==}
+  /@resvg/resvg-js-linux-arm64-gnu/2.3.1:
+    resolution: {integrity: sha512-wcamGmsNTVkq7Je0iMwDI+Te+ZD8YLYJpRBmQK5pnRWWzEp6ft6kHJ/dU8FjCipn0I8zUUNWylMsMVz5d0k5XQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -1305,8 +1257,8 @@ packages:
     dev: false
     optional: true
 
-  /@resvg/resvg-js-linux-arm64-musl/2.2.0:
-    resolution: {integrity: sha512-Ir83lcBsuB6YVkAVPW4AAOzYo/F9kjlx2HA/O3vCjy/Rn5u5Xf2fGANfJxfCHUCtDMcqmM4hjdF2fOzqS9fusw==}
+  /@resvg/resvg-js-linux-arm64-musl/2.3.1:
+    resolution: {integrity: sha512-ebvSKvTopIvZ3Wl3B4Wh7OqIVnRyJu29hSyaO1I+/cWJGSvk6GfFjGB6WYAsr9wjZPmDy8i3ODFKSrFRMgOaXQ==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
@@ -1314,8 +1266,8 @@ packages:
     dev: false
     optional: true
 
-  /@resvg/resvg-js-linux-x64-gnu/2.2.0:
-    resolution: {integrity: sha512-pH1GdShtIDF3fmQZM9NTEEdZPkNKQ+XUJb7r1jaD8gusdXeD2ejWWi/uvlsugaoMoG0tUmMZi78eVm4IjlY+gw==}
+  /@resvg/resvg-js-linux-x64-gnu/2.3.1:
+    resolution: {integrity: sha512-DG2JRHRQPELa/PhZwv2cfOil4EUB0aBLh4SmbuMUke1eAfcFxizyJGsR6E98aG1ZX1gYlpb5hHJou+xvpTl2Jw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -1323,8 +1275,8 @@ packages:
     dev: false
     optional: true
 
-  /@resvg/resvg-js-linux-x64-musl/2.2.0:
-    resolution: {integrity: sha512-7n2d4gfcyLb06RE/7aMGwiiMiqeCf/Ze/fBhKs9F2L60GX6rpgDC2PGJmWBiXIwz48PifvxmBiqD9XCUH5YGoA==}
+  /@resvg/resvg-js-linux-x64-musl/2.3.1:
+    resolution: {integrity: sha512-Qe9qyBk3waRppnIckiCj8Ql0tLY9qQACqcCUooQEbGaFY4iz4DcVyH/bFnNp2k9qGAA+AS1apimU84987L411Q==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -1332,8 +1284,8 @@ packages:
     dev: false
     optional: true
 
-  /@resvg/resvg-js-win32-arm64-msvc/2.2.0:
-    resolution: {integrity: sha512-rJWhnui1+P9lakfx92zhm+HInZUU1NdvkL/G5KrFcRI8HH0rfdNHokfKknvuko4e7iUSia7kTsbuKDNe4fErtQ==}
+  /@resvg/resvg-js-win32-arm64-msvc/2.3.1:
+    resolution: {integrity: sha512-W5JgJELQuKLeAjXJI38B3MMnIm+X5hR+mFWWM7PoQZrKD7p59grORj+FNPknF33eaglIiUoMh3zZJMxWVitBgw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
@@ -1341,8 +1293,8 @@ packages:
     dev: false
     optional: true
 
-  /@resvg/resvg-js-win32-ia32-msvc/2.2.0:
-    resolution: {integrity: sha512-GlckTgsrlF9PQlWcXs1EySeGaT8TAkrSGhVZPRvSv46DUpZlhyVVvKMjsvpbDfqWltFkJTEgkTJ6uravnJrEMA==}
+  /@resvg/resvg-js-win32-ia32-msvc/2.3.1:
+    resolution: {integrity: sha512-/Ied/0EfsLwYhYY9dBOcMUFDo5TM9ddWapBLoV9bDqlpiE3+J1slpaBAzltN3x7SH8jhlZG9N3YoNVh0RhsUPA==}
     engines: {node: '>= 10'}
     cpu: [ia32]
     os: [win32]
@@ -1350,8 +1302,8 @@ packages:
     dev: false
     optional: true
 
-  /@resvg/resvg-js-win32-x64-msvc/2.2.0:
-    resolution: {integrity: sha512-4coA6J+MfrpbMaPynSLmmiq3DutmvNmCcNFyjnhhnytQW7+8zbrkVZGra7fty3364LY3unZGxS878WRa/AU7tw==}
+  /@resvg/resvg-js-win32-x64-msvc/2.3.1:
+    resolution: {integrity: sha512-aj8n5G9QwRnNfeZYSn9TxPO9LMUmleKoRgY1qxMbQg1v2SaspOFVeR7FJBXFWW8nejUKQqnkY+1+6qMMydxFsA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -1359,26 +1311,26 @@ packages:
     dev: false
     optional: true
 
-  /@resvg/resvg-js/2.2.0:
-    resolution: {integrity: sha512-Btc6Bht2Y8jBlS1RqVYsPWQaL1WgeGZd/TasmQpCsh0s5Ax1Kw0zyr6DCpvlNYG6b3mNnmJ5ib44A5MIQZmrEQ==}
+  /@resvg/resvg-js/2.3.1:
+    resolution: {integrity: sha512-khkCB99ZKPXo6XQHHbOu7sLlayryP088chsO+ocp/LbEVm7cFOcsw5Dn9o/DMc4E9rT0jkEOVaVrH+GXkllnSg==}
     engines: {node: '>= 10'}
     optionalDependencies:
-      '@resvg/resvg-js-android-arm-eabi': 2.2.0
-      '@resvg/resvg-js-android-arm64': 2.2.0
-      '@resvg/resvg-js-darwin-arm64': 2.2.0
-      '@resvg/resvg-js-darwin-x64': 2.2.0
-      '@resvg/resvg-js-linux-arm-gnueabihf': 2.2.0
-      '@resvg/resvg-js-linux-arm64-gnu': 2.2.0
-      '@resvg/resvg-js-linux-arm64-musl': 2.2.0
-      '@resvg/resvg-js-linux-x64-gnu': 2.2.0
-      '@resvg/resvg-js-linux-x64-musl': 2.2.0
-      '@resvg/resvg-js-win32-arm64-msvc': 2.2.0
-      '@resvg/resvg-js-win32-ia32-msvc': 2.2.0
-      '@resvg/resvg-js-win32-x64-msvc': 2.2.0
+      '@resvg/resvg-js-android-arm-eabi': 2.3.1
+      '@resvg/resvg-js-android-arm64': 2.3.1
+      '@resvg/resvg-js-darwin-arm64': 2.3.1
+      '@resvg/resvg-js-darwin-x64': 2.3.1
+      '@resvg/resvg-js-linux-arm-gnueabihf': 2.3.1
+      '@resvg/resvg-js-linux-arm64-gnu': 2.3.1
+      '@resvg/resvg-js-linux-arm64-musl': 2.3.1
+      '@resvg/resvg-js-linux-x64-gnu': 2.3.1
+      '@resvg/resvg-js-linux-x64-musl': 2.3.1
+      '@resvg/resvg-js-win32-arm64-msvc': 2.3.1
+      '@resvg/resvg-js-win32-ia32-msvc': 2.3.1
+      '@resvg/resvg-js-win32-x64-msvc': 2.3.1
     dev: false
 
-  /@resvg/resvg-wasm/2.2.0:
-    resolution: {integrity: sha512-/+xnLtnCsO/L0oyL/nZMGUvdH4BWlo11O6qiD84JYPoyobJWJWk9e1gciLu5bNDDy70b4n02DW3MNJtjfZ4FDg==}
+  /@resvg/resvg-wasm/2.3.1:
+    resolution: {integrity: sha512-m5TN7ulzqAkg6c8dla66+hPiMKaJz3aWqpquf2PmbrmcLY20HVIJKHUCd1ibJqx8OEdoc5yeN3FVXb4nYBcrTA==}
     engines: {node: '>= 10'}
     dev: false
 
@@ -1766,8 +1718,8 @@ packages:
     dependencies:
       '@unhead/schema': 1.0.20
 
-  /@unhead/schema-org-vue/0.4.0:
-    resolution: {integrity: sha512-GEO7fYz0gVv72eD1Z8UbY4i2Dh6ymbdKWKekDd4vH5tNamWipq7hfBglYqLRZAjjSEzYr/bHIw+Y3nNvEcQZiw==}
+  /@unhead/schema-org-vue/0.4.1:
+    resolution: {integrity: sha512-+tbDolfNdGYhtJWadAWrDGhNRoG6W4Ezpg5j7jbPvu4tmqHmeBEVmzw2YoyWYRQ6xn5jGBFoJ4d+tFty6A7hhQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       '@unhead/vue': '>=1.0.10'
@@ -5171,8 +5123,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /nuxt-link-checker/1.0.2:
-    resolution: {integrity: sha512-8E7HG1X8iuM1X7UObPOVssCovX3ou47lqJFRZ1hcsFOzsOVBNAzvlDBiTpop/sgmSoDvCUflGUHExbK+wr+8zw==}
+  /nuxt-link-checker/1.0.3:
+    resolution: {integrity: sha512-/Tp8KKs0sr1FtXy4VgI8mYDFgdsma1w71N/G3vzz98EuOHSBEAZbB+Sc+Fl829txai5OTtwPg1NcarwJce2orA==}
     dependencies:
       '@nuxt/kit': 3.1.1
       chalk: 5.2.0
@@ -5184,12 +5136,12 @@ packages:
       - supports-color
     dev: false
 
-  /nuxt-og-image/1.4.2:
-    resolution: {integrity: sha512-ay0v8gDH92/vC45COQsxTafypHaosPkq5ZdwnHJTCyMOsQTnbxwzampUMZ6zFqXbwCeeptsgs+4/nT3l2wLQeQ==}
+  /nuxt-og-image/1.4.3:
+    resolution: {integrity: sha512-v5OUUGZ9NZT8EQxBFhEz/CYh0CSoDtveuAQR8jEG2VxffeTt/IVrGByzzLPOd0kYC1T8lIUBBRyxzWWAdgmmgw==}
     dependencies:
       '@nuxt/kit': 3.1.1
-      '@resvg/resvg-js': 2.2.0
-      '@resvg/resvg-wasm': 2.2.0
+      '@resvg/resvg-js': 2.3.1
+      '@resvg/resvg-wasm': 2.3.1
       '@types/fs-extra': 11.0.1
       birpc: 0.2.3
       chalk: 5.2.0
@@ -5219,11 +5171,11 @@ packages:
       - ws
     dev: false
 
-  /nuxt-schema-org/2.1.0:
-    resolution: {integrity: sha512-6nKcwQYkt26vm3rXKy3c6nvokCdFYwwuprSA8AkBWRG8S03zhv6THJ8HIIHmmyKV6K3wuImlVuiIPH2O/FUPHg==}
+  /nuxt-schema-org/2.1.1:
+    resolution: {integrity: sha512-qvudrf61fOde96eJBAvp0HOoUDTLMLYzg+jZudVGJ0uwGJLDT4v20r8/IorSu0P49Rf9AfkvAvLPchdpcXWfSQ==}
     dependencies:
-      '@nuxt/kit': 3.0.0
-      '@unhead/schema-org-vue': 0.4.0
+      '@nuxt/kit': 3.1.1
+      '@unhead/schema-org-vue': 0.4.1
       pathe: 1.1.0
     transitivePeerDependencies:
       - '@unhead/vue'
@@ -5242,8 +5194,8 @@ packages:
       - supports-color
     dev: false
 
-  /nuxt-simple-sitemap/1.0.6:
-    resolution: {integrity: sha512-CHMrS1Z34+vlb3nW0KJ7zaR5e+J56QTWaVrkKbkwwHVqJpM9hxO60dJ0bNG8RP/Fl9lbMf/OdqN4ypV0PKYPuw==}
+  /nuxt-simple-sitemap/1.0.7:
+    resolution: {integrity: sha512-MUz2OwkTWN2Ej7Z9RU7kOCtmNlJZomthiSiXrAgFp2c/WGVnbzl4+JPsTJAvWs/8SV6AXfA0mpCu7ieEmiLOZA==}
     dependencies:
       '@nuxt/kit': 3.1.1
       chalk: 5.2.0
@@ -6867,24 +6819,6 @@ packages:
       '@unhead/schema': 1.0.20
       hookable: 5.4.2
 
-  /unimport/1.3.0:
-    resolution: {integrity: sha512-fOkrdxglsHd428yegH0wPH/6IfaSdDeMXtdRGn6en/ccyzc2aaoxiUTMrJyc6Bu+xoa18RJRPMfLUHEzjz8atw==}
-    dependencies:
-      '@rollup/pluginutils': 5.0.2
-      escape-string-regexp: 5.0.0
-      fast-glob: 3.2.12
-      local-pkg: 0.4.3
-      magic-string: 0.27.0
-      mlly: 1.1.0
-      pathe: 1.1.0
-      pkg-types: 1.0.1
-      scule: 1.0.0
-      strip-literal: 1.0.0
-      unplugin: 1.0.1
-    transitivePeerDependencies:
-      - rollup
-    dev: false
-
   /unimport/2.0.1:
     resolution: {integrity: sha512-hMeDspGrEcocahicTr0AQYUGes24FvJtOxk9QEjeEOGv+n1EdpsDiT6z8t209PWhemPg0T5w/ooTVhup2GdrFA==}
     dependencies:
@@ -7071,7 +7005,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
-      vite: 4.0.4
+      vite: 4.1.1
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -7094,7 +7028,7 @@ packages:
       picocolors: 1.0.0
       source-map: 0.6.1
       source-map-support: 0.5.21
-      vite: 4.0.4_@types+node@18.11.18
+      vite: 4.1.1_@types+node@18.11.18
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -7190,8 +7124,41 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vite/4.0.4_@types+node@18.11.18:
-    resolution: {integrity: sha512-xevPU7M8FU0i/80DMR+YhgrzR5KS2ORy1B4xcX/cXLsvnUWvfHuqMmVU6N0YiJ4JWGRJJsLCgjEzKjG9/GKoSw==}
+  /vite/4.1.1:
+    resolution: {integrity: sha512-LM9WWea8vsxhr782r9ntg+bhSFS06FJgCvvB0+8hf8UWtvaiDagKYWXndjfX6kGl74keHJUcpzrQliDXZlF5yg==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': '>= 14'
+      less: '*'
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      esbuild: 0.16.17
+      postcss: 8.4.21
+      resolve: 1.22.1
+      rollup: 3.12.1
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: true
+
+  /vite/4.1.1_@types+node@18.11.18:
+    resolution: {integrity: sha512-LM9WWea8vsxhr782r9ntg+bhSFS06FJgCvvB0+8hf8UWtvaiDagKYWXndjfX6kGl74keHJUcpzrQliDXZlF5yg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
@@ -7267,7 +7234,7 @@ packages:
       tinybench: 2.3.1
       tinypool: 0.3.1
       tinyspy: 1.0.2
-      vite: 4.0.4_@types+node@18.11.18
+      vite: 4.1.1_@types+node@18.11.18
       vite-node: 0.28.3_@types+node@18.11.18
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
