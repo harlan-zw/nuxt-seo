@@ -27,7 +27,8 @@ export default defineNuxtModule<ModuleOptions>({
   defaults(nuxt) {
     const defaults: Record<any, any> = {}
     for (const k of SeoKitPublicRuntimeConfigKeys)
-      defaults[k] = nuxt.options.runtimeConfig.public[k]
+      // @ts-expect-error untyped
+      defaults[k.key] = (k.env ? process.env[k.env] : undefined) || nuxt.options.runtimeConfig.public[k.key]
     let indexable = true
     if (typeof process.env.NUXT_INDEXABLE !== 'undefined')
       indexable = String(process.env.NUXT_INDEXABLE) !== 'false'
