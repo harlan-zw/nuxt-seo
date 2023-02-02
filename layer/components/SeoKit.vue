@@ -47,6 +47,7 @@ const siteMeta = computed<SeoKitOptions>(() => {
   }
   const propExtract = {}
   for (const k of SeoKitPublicRuntimeConfigKeys) {
+    // @ts-expect-error untyped
     if (props[k])
       // @ts-expect-error untyped
       propExtract[k] = props[k]
@@ -140,9 +141,9 @@ defineRobotMeta()
 
 useSchemaOrg([
   defineWebSite({
-    name: () => siteMeta.value.siteName,
-    inLanguage: () => siteMeta.value.language,
-    description: () => siteMeta.value.siteDescription,
+    name: () => siteMeta.value?.siteName || '',
+    inLanguage: () => siteMeta.value?.language || '',
+    description: () => siteMeta.value?.siteDescription || '',
   }),
   defineWebPage(),
 ])
