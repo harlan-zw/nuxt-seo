@@ -68,6 +68,7 @@ it's the easiest and quickest way to improve your apps SEO.
 
 **✨ And much more**
 
+- [Runtime Config Template Tokens](https://github.com/harlan-zw/nuxt-unhead#runtime-config-template-tokens)
 - Use route rules to manage custom config
 - Use `definePageMeta` for title, description and image
 - `<Breadcrumbs />` - Generate Schema.org compliant breadcrumbs with zero-config
@@ -111,11 +112,10 @@ _nuxt.config.ts_
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      siteUrl: 'https://harlanzw.com/',
-      siteName: 'Harlan Wilton',
-      siteDescription: 'Open source developer, contributing to the Vue, Nuxt, and Vite ecosystems.',
-      language: 'en-AU',
-      titleSeparator: '·',
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://example.com',
+      siteName: 'Awesome Site',
+      siteDescription: 'Welcome to my awesome site!',
+      language: 'en', // prefer more explicit language codes like `en-AU` over `en`
     }
   },
 })
@@ -142,33 +142,66 @@ _app.vue_
 </template>
 ```
 
-#### OgImageStatic / OgImageScreenshot (optional)
+### Done! 🥳
 
-If you want to use the dynamic og image feature, you should add the `OgImageStatic` or `OgImageScreenshot` component to your app layout.
+You have the essentials all set up! 
 
-Please check the [nuxt-og-image](https://github.com/harlan-zw/nuxt-og-image) docs for full usage.
+Next steps:
+1. Choose a Schema.org [identity](https://unhead-schema-org.harlanzw.com/guide/guides/identity)
+2. Read the guides below
+3. Scan your site with [Unlighthouse](https://github.com/harlan-zw/unlighthouse) to validate any SEO issues
+
+## Guide
+
+### Modify Title Template
+
+The default title template for your site will be `%s %titleSeparator %siteName`, unless you change it.
+
+Please read the [Runtime Config Template Tokens](https://github.com/harlan-zw/nuxt-unhead#runtime-config-template-tokens) guide
+on using the tokens.
+
+If you'd like to change the title separator (the default is `–`), you can provide the runtime config.
+
+```ts
+export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      titleSeparator: '|'
+    }
+  },
+})
+```
+
+Otherwise, you can modify the `titleTemplate` to your liking with nuxt config or using `useHead`.
+
+```ts
+export default defineNuxtConfig({
+  app: {
+    head: {
+      titleTemplate: '%pageTitle %titleSeparator %siteName'
+    }
+  }
+})
+```
+
+#### Generating default OG Images
+
+You can provide all your routes with OG Image generation by simply adding one of the OG Image components or composables to your `app.vue`.
+
+Please check the [Nuxt Og Image](https://github.com/harlan-zw/nuxt-og-image) docs for full usage.
 
 ```vue
 <template>
   <div>
     <SeoKit />
-    <!-- Generates screenshots for every page by default -->
+    <!-- a. Generates browser screenshots for every page -->
     <OgImageScreenshot />
+    <!-- b. Generate saotir images for every page (uses the default template) -->
+    <OgImageStatic />
     <NuxtPage />
   </div>
 </template>
 ```
-
-### Done! 🥳
-
-You're all set up. 
-
-Next steps:
-1. Choose a Schema.org [identity](https://unhead-schema-org.harlanzw.com/guide/guides/identity)
-2. Scan your site with [Unlighthouse](https://github.com/harlan-zw/unlighthouse)
-3. Read the guides below
-
-## Guide
 
 ### Enabling Trailing Slash
 
@@ -209,8 +242,7 @@ It can be useful to change the host name based on which environment you have the
 You can do this with an .env file and the following keys.
 
 ```env
-NUXT_PUBLIC_SITE_URL="https://harlanzw.com/"
-NUXT_PUBLIC_SITE_NAME=Harlan Wilton
+NUXT_PUBLIC_SITE_URL="https://harlanzw.com"
 NUXT_INDEXABLE=true
 ```
 
@@ -248,9 +280,22 @@ It will automatically infer the routes and labels from your Nuxt router.
 </template>
 ```
 
-### Using definePageMeta
+### Providing page meta
 
-Now you can use the `definePageMeta` function to set page specific meta tags.
+To provide page meta, you can make use of the Nuxt 3.1 feature `useSeoMeta`, which allows you provide reactive meta tags.
+
+```vue
+<script lang="ts" setup>
+useSeoMeta({
+  title: 'Home',
+  description: 'Welcome to my website',
+  // reactive example
+  ogImage: () => someData.value?.image
+})
+</script>
+```
+
+Alternatively, you can use the `definePageMeta` function to set page-specific meta tags. Note that this data can not be reactive.
 
 ```vue
 <script lang="ts" setup>
@@ -272,7 +317,7 @@ You can override this by setting a `ogTitleTemplate` in your config.
 
 ```ts
 export default defineNuxtConfig({
-  head: {
+  unhead: {
     ogTitleTemplate: '%s | My Website',
   }
 })
