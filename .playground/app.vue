@@ -4,6 +4,7 @@
 
     </div>
     <div>
+      <OgImageStatic />
       <SeoKit :site-description="'test'" />
     </div>
     <div>
