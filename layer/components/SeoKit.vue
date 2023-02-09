@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { MetaObject } from '@nuxt/schema'
 import { computed } from 'vue'
-import { resolveAbsoluteInternalLink, createInternalLinkResolver } from '../composables/internalLinks'
+import { createInternalLinkResolver, resolveAbsoluteInternalLink } from '../composables/internalLinks'
 import { titleCase } from '../composables/casing'
-import { useAppConfig, useRuntimeConfig } from '#app'
 import * as config from '#nuxt-seo-kit/config'
+import { defineRobotMeta, defineWebPage, defineWebSite, useAppConfig, useHead, useRouter, useRuntimeConfig, useSchemaOrg, useServerHead } from '#imports'
 
 interface SeoKitOptions {
   siteUrl?: string
