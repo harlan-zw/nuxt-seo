@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import type { MetaObject } from '@nuxt/schema'
 import { computed } from 'vue'
-import { resolveAbsoluteInternalLink } from '../composables/internalLinks'
+import { resolveAbsoluteInternalLink, createInternalLinkResolver } from '../composables/internalLinks'
+import { titleCase } from '../composables/casing'
 import { useAppConfig, useRuntimeConfig } from '#app'
 import * as config from '#nuxt-seo-kit/config'
 
