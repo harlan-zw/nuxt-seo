@@ -46,7 +46,6 @@ export default ({
     {
       prefix: '',
       path: resolve('./components'),
-      global: true,
     },
   ],
 })
