@@ -101,12 +101,19 @@ function computeMeta() {
 
 useHead({
   templateParams: {
+    // @ts-expect-error untyped
     siteName: () => siteMeta.value.siteName,
+    // @ts-expect-error untyped
     siteDescription: () => siteMeta.value.siteDescription,
+    // @ts-expect-error untyped
     siteImage: () => siteMeta.value.siteImage,
+    // @ts-expect-error untyped
     siteUrl: () => siteMeta.value.siteUrl,
+    // @ts-expect-error untyped
     titleSeparator: () => siteMeta.value.titleSeparator,
+    // @ts-expect-error untyped
     trailingSlash: () => siteMeta.value.trailingSlash,
+    // @ts-expect-error untyped
     language: () => siteMeta.value.language,
   },
   htmlAttrs: {
