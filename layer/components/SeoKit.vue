@@ -3,7 +3,6 @@ import type { MetaObject } from '@nuxt/schema'
 import { computed } from 'vue'
 import { createInternalLinkResolver, resolveAbsoluteInternalLink } from '../composables/internalLinks'
 import { titleCase } from '../composables/casing'
-import * as config from '#nuxt-seo-kit/config'
 import { defineRobotMeta, defineWebPage, defineWebSite, useAppConfig, useHead, useRouter, useRuntimeConfig, useSchemaOrg, useServerHead } from '#imports'
 
 interface SeoKitOptions {
@@ -54,7 +53,6 @@ const siteMeta = computed<SeoKitOptions>(() => {
       propExtract[k] = props[k]
   }
   return {
-    ...config,
     ...runtimeConfigExtract,
     // app config has the highest priority
     // @ts-expect-error untyped
@@ -102,6 +100,15 @@ function computeMeta() {
 }
 
 useHead({
+  templateParams: {
+    siteName: () => siteMeta.value.siteName,
+    siteDescription: () => siteMeta.value.siteDescription,
+    siteImage: () => siteMeta.value.siteImage,
+    siteUrl: () => siteMeta.value.siteUrl,
+    titleSeparator: () => siteMeta.value.titleSeparator,
+    trailingSlash: () => siteMeta.value.trailingSlash,
+    language: () => siteMeta.value.language,
+  },
   htmlAttrs: {
     lang: () => siteMeta.value.language,
   },
