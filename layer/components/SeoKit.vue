@@ -126,7 +126,7 @@ useHead({
     // if no title has been set then we should use the last segment of the URL path and title case it
     const path = route.value?.path || '/'
     const lastSegment = path.split('/').pop()
-    return lastSegment ? titleCase(lastSegment) : ''
+    return lastSegment ? titleCase(lastSegment) : null
   },
   link: [
     {
