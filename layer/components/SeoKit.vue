@@ -119,7 +119,7 @@ useHead({
   htmlAttrs: {
     lang: () => siteMeta.value.language,
   },
-  title: (): string => {
+  title: () => {
     if (typeof route.value?.meta?.title === 'string')
       return route.value?.meta?.title
 
