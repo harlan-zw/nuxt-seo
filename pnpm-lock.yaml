@@ -41,21 +41,21 @@ importers:
       '@nuxt/kit': ^3.2.3
       defu: ^6.1.2
       nuxt-link-checker: ^1.0.3
-      nuxt-og-image: ^1.4.22
+      nuxt-og-image: ^1.5.1
       nuxt-schema-org: 2.1.2
-      nuxt-simple-robots: ^1.0.3
-      nuxt-simple-sitemap: ^1.0.8
-      nuxt-unhead: ^1.4.13
+      nuxt-simple-robots: ^1.0.4
+      nuxt-simple-sitemap: ^1.0.9
+      nuxt-unhead: ^1.4.14
       ufo: ^1.1.1
     dependencies:
       '@nuxt/kit': 3.2.3
       defu: 6.1.2
       nuxt-link-checker: 1.0.3
-      nuxt-og-image: 1.4.22
+      nuxt-og-image: 1.5.1
       nuxt-schema-org: 2.1.2
-      nuxt-simple-robots: 1.0.3
-      nuxt-simple-sitemap: 1.0.8
-      nuxt-unhead: 1.4.13
+      nuxt-simple-robots: 1.0.4
+      nuxt-simple-sitemap: 1.0.9
+      nuxt-unhead: 1.4.14
       ufo: 1.1.1
 
 packages:
@@ -408,9 +408,9 @@ packages:
       '@azure/core-tracing': 1.0.1
       '@azure/core-util': 1.2.0
       '@azure/logger': 1.0.4
-      '@azure/msal-browser': 2.33.0
+      '@azure/msal-browser': 2.34.0
       '@azure/msal-common': 9.1.1
-      '@azure/msal-node': 1.15.0
+      '@azure/msal-node': 1.16.0
       events: 3.3.0
       jws: 4.0.0
       open: 8.4.2
@@ -451,16 +451,16 @@ packages:
     dev: true
     optional: true
 
-  /@azure/msal-browser/2.33.0:
-    resolution: {integrity: sha512-c7CVh1tfUfxiWkEIhoIb11hL4PGo4hz0M+gMy34ATagAKdLK7qyEu/5AXJWAf5lz5eE+vQhm7+LKiuETrcXXGw==}
+  /@azure/msal-browser/2.34.0:
+    resolution: {integrity: sha512-stoXdlfAtyVIMOp1lS5PorgO5f66MGRi3Q1FBlXhVZFTsTfAWrNdSOx1m/PXWHskWE9aXO+NEzXVOoWmDNnvNA==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      '@azure/msal-common': 10.0.0
+      '@azure/msal-common': 11.0.0
     dev: true
     optional: true
 
-  /@azure/msal-common/10.0.0:
-    resolution: {integrity: sha512-/LghpT93jsZLy55QzTsRZWMx6R1Mjc1Aktwps8sKSGE3WbrGwbSsh2uhDlpl6FMcKChYjJ0ochThWwwOodrQNg==}
+  /@azure/msal-common/11.0.0:
+    resolution: {integrity: sha512-SZH8ObQ3Hq5v3ogVGBYJp1nNW7p+MtM4PH4wfNadBP9wf7K0beQHF9iOtRcjPOkwZf+ZD49oXqw91LndIkdk8g==}
     engines: {node: '>=0.8.0'}
     dev: true
     optional: true
@@ -471,11 +471,11 @@ packages:
     dev: true
     optional: true
 
-  /@azure/msal-node/1.15.0:
-    resolution: {integrity: sha512-fwC5M0c8pxOAzmScPbpx7j28YVTDebUaizlVF7bR0xvlU0r3VWW5OobCcr9ybqKS6wGyO7u4EhXJS9rjRWAuwA==}
+  /@azure/msal-node/1.16.0:
+    resolution: {integrity: sha512-eGXPp65i++mAIvziafbCH970TCeECB6iaQP7aRzZEjtU238cW4zKm40U8YxkiCn9rR1G2VeMHENB5h6WRk7ZCQ==}
     engines: {node: 10 || 12 || 14 || 16 || 18}
     dependencies:
-      '@azure/msal-common': 10.0.0
+      '@azure/msal-common': 11.0.0
       jsonwebtoken: 9.0.0
       uuid: 8.3.2
     dev: true
@@ -1845,7 +1845,7 @@ packages:
     resolution: {integrity: sha512-MxObHvNl4A69ofaTRU8DFqvgzzv8s9yRtaPPm5gud9HDNvpB3GPQFvNuTWAI59B9huVGV5jXYJwbCsmBsOGYWA==}
     dependencies:
       '@types/jsonfile': 6.1.1
-      '@types/node': 18.14.2
+      '@types/node': 18.14.6
     dev: false
 
   /@types/json-schema/7.0.11:
@@ -1859,7 +1859,7 @@ packages:
   /@types/jsonfile/6.1.1:
     resolution: {integrity: sha512-GSgiRCVeapDN+3pqA35IkQwasaCh/0YFH5dEF6S88iDvEn901DjOeH3/QPY+XYP1DFzDZPvIvfeEgk+7br5png==}
     dependencies:
-      '@types/node': 18.14.2
+      '@types/node': 18.14.6
     dev: false
 
   /@types/mdast/3.0.10:
@@ -1880,13 +1880,8 @@ packages:
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
     dev: false
 
-  /@types/node/18.14.2:
-    resolution: {integrity: sha512-1uEQxww3DaghA0RxqHx0O0ppVlo43pJhepY51OxuQIKHpjbnYLA7vcdwioNPzIqmC2u3I/dmylcqjlh0e7AyUA==}
-    dev: false
-
   /@types/node/18.14.6:
     resolution: {integrity: sha512-93+VvleD3mXwlLI/xASjw0FzKcwzl3OdTCzm1LaRfqgS21gfFtK3zDXM5Op9TeeMsJVOaJ2VRDpT9q4Y3d0AvA==}
-    dev: true
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -2847,7 +2842,7 @@ packages:
     engines: {node: '>=12.13.0'}
     hasBin: true
     dependencies:
-      '@types/node': 18.14.2
+      '@types/node': 18.14.6
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.3.0
@@ -5576,7 +5571,7 @@ packages:
       ufo: 1.1.1
       unenv: 1.2.1
       unimport: 2.2.4_rollup@3.18.0
-      unstorage: 1.2.0
+      unstorage: 1.3.0
     transitivePeerDependencies:
       - debug
       - encoding
@@ -5713,8 +5708,8 @@ packages:
       - supports-color
     dev: false
 
-  /nuxt-og-image/1.4.22:
-    resolution: {integrity: sha512-PVdcOD38warEvxatnWDunLYVTfXBs+Vc5V0xlZMe6iwU8Frlg+O8ITEl66MILbrggB9bvJE2C67/4m3S7BZvMA==}
+  /nuxt-og-image/1.5.1:
+    resolution: {integrity: sha512-6M1KAqH15Ytw4439v6RaDfQBGh4xFQCl5rVyEQgO2Dtqs96F3bQTKyspK+vUP6FbuNqhfb10xYczU6auzyOKTg==}
     dependencies:
       '@nuxt/kit': 3.2.3
       '@types/fs-extra': 11.0.1
@@ -5729,9 +5724,9 @@ packages:
       launch-editor: 2.6.0
       ohash: 1.0.0
       pathe: 1.1.0
-      playwright-core: 1.31.1
+      playwright-core: 1.31.2
       radix3: 1.0.0
-      satori: 0.4.0
+      satori: 0.4.1
       satori-html: 0.3.2
       sirv: 2.0.2
       std-env: 3.3.2
@@ -5760,8 +5755,8 @@ packages:
       - supports-color
     dev: false
 
-  /nuxt-simple-robots/1.0.3:
-    resolution: {integrity: sha512-lYkiws+v7SPUjLwHn0p0o+AW8durjE3mvzLibV1yWYXzIujzYYsZBkr0Chl1EbIw6pt1LM22CuDhna/Df17QjQ==}
+  /nuxt-simple-robots/1.0.4:
+    resolution: {integrity: sha512-sZDvra90KwSKi/xZoYuHGHVDwcfepbLce78Cm9b7Umm/f3jdZgT7GhjLpvpJc76n1b7O4f/vcP2UX6Y1pZX3bw==}
     dependencies:
       '@nuxt/kit': 3.2.3
       pathe: 1.1.0
@@ -5771,8 +5766,8 @@ packages:
       - supports-color
     dev: false
 
-  /nuxt-simple-sitemap/1.0.8:
-    resolution: {integrity: sha512-3iRZireWF7uqO/zFhp89mbBk32q7TcaeW6Ree4supcfclIBN9CsqZsqjtedA8RaFO9jzh18QpPVqKRXtXnfJog==}
+  /nuxt-simple-sitemap/1.0.9:
+    resolution: {integrity: sha512-wHlSNkBhCoZZLwbuQi1A+UzTwts2dUp4bqmmIKe3XoBSjwoFzS+SwUxVQ5J6GsrwSAD8xYyVvwlUFMLn2szzww==}
     dependencies:
       '@nuxt/kit': 3.2.3
       chalk: 5.2.0
@@ -5788,8 +5783,8 @@ packages:
       - supports-color
     dev: false
 
-  /nuxt-unhead/1.4.13:
-    resolution: {integrity: sha512-zdmr/kztLqLX4H9I6mbi7Dw5H/BdgMb5A6wlJq9w8bOrUMtsJJjEY80X1UYhwvxmKg4M8QS45TsNgVEUPOYb9Q==}
+  /nuxt-unhead/1.4.14:
+    resolution: {integrity: sha512-+BmDuaBS/L/IX/c3B2xUeQjGHIOTUJbjp/bN+AcMBj+FRa0Dnt+ZRSMi8CZStYUTypmE1v/d9kRTBH8MYZ5wyQ==}
     dependencies:
       '@nuxt/kit': 3.2.3
       '@unhead/addons': 1.1.19
@@ -6158,8 +6153,8 @@ packages:
       mlly: 1.1.1
       pathe: 1.1.0
 
-  /playwright-core/1.31.1:
-    resolution: {integrity: sha512-JTyX4kV3/LXsvpHkLzL2I36aCdml4zeE35x+G5aPc4bkLsiRiQshU5lWeVpHFAuC8xAcbI6FDcw/8z3q2xtJSQ==}
+  /playwright-core/1.31.2:
+    resolution: {integrity: sha512-a1dFgCNQw4vCsG7bnojZjDnPewZcw7tZUNFN0ZkcLYKj+mPmXvg4MpaaKZ5SgqPsOmqIf2YsVRkgqiRDxD+fDQ==}
     engines: {node: '>=14'}
     hasBin: true
     dev: false
@@ -6806,8 +6801,8 @@ packages:
       ultrahtml: 1.2.0
     dev: false
 
-  /satori/0.4.0:
-    resolution: {integrity: sha512-ROtZJkBErgJ2HVMk5jDUrJ8B+FuOTFlHYjcNCfSHjwgEavkaZsDvxPwl/1VCa4XpdkHrPcMuUDF+36w+lUECUg==}
+  /satori/0.4.1:
+    resolution: {integrity: sha512-uQm4+vQj57E9PO/ASAlxsRb+78fHkRUmkNLBBmfuEeGNLGqJ9ufYU7TzYP4XH60PLHYt9Wz1jSsgcAe2cz7+ng==}
     engines: {node: '>=16'}
     dependencies:
       '@shuding/opentype.js': 1.4.0-beta.0
@@ -7602,8 +7597,8 @@ packages:
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.5.0
 
-  /unstorage/1.2.0:
-    resolution: {integrity: sha512-QRCcetx19ug1QiYkWk7M5SyrQkjMy2NKY1LsbzdQhSEhIp7Td+tUkAJc64XeCHhzqiHDZ/69S0xseQs6gByESA==}
+  /unstorage/1.3.0:
+    resolution: {integrity: sha512-2ux0UDXBTR7VzJHZFBiLM1b5sB9XEXMlqoG8cd6lkBIxrD8jhj5tZGkRXTD2RgNXp+ndCgSOs9oUmEV5VpR8WQ==}
     dependencies:
       anymatch: 3.1.3
       chokidar: 3.5.3
