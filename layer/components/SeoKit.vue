@@ -75,11 +75,13 @@ function computeMeta() {
       property: 'og:locale',
       content: siteMeta.value.language,
     },
-    {
+  ]
+  if (siteMeta.value.siteName) {
+    meta.push({
       property: 'og:site_name',
       content: siteMeta.value.siteName,
-    },
-  ]
+    })
+  }
   let ogImage = route.value?.meta?.image || siteMeta.value.siteImage
   if (typeof ogImage === 'string') {
     if (ogImage.startsWith('/'))
