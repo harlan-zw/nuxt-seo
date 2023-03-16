@@ -47,26 +47,36 @@ export default defineNuxtModule<ModuleOptions>({
 
     const { resolve } = createResolver(import.meta.url)
     // configure nuxt-simple-sitemap
+    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+    // @ts-ignore runtime type
     nuxt.options.sitemap = defu(nuxt.options.sitemap || {}, {
       hostname: config.siteUrl,
       trailingSlash: config.trailingSlash,
     })
     // configure nuxt-schema-org
+    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+    // @ts-ignore runtime type
     nuxt.options.schemaOrg = defu(nuxt.options.schemaOrg || {}, {
       host: config.siteUrl,
       inLanguage: config.language,
       trailingSlash: config.trailingSlash,
     })
     // configure nuxt-og-image
+    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+    // @ts-ignore runtime type
     nuxt.options.ogImage = defu(nuxt.options.ogImage || {}, {
       host: config.siteUrl,
     })
     // configure nuxt-link-checker
+    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+    // @ts-ignore runtime type
     nuxt.options.linkChecker = defu(nuxt.options.linkChecker || {}, {
       host: config.siteUrl,
       trailingSlash: config.trailingSlash,
     })
     // configure nuxt-simple-robots
+    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+    // @ts-ignore runtime type
     nuxt.options.robots = defu(nuxt.options.robots || {}, {
       indexable: config.indexable,
       sitemap: [
