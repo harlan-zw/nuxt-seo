@@ -1,7 +1,13 @@
 <template>
   <div>
     <div>
-
+      <Breadcrumbs>
+        <template #breadcrumb="{ to, title }">
+        <NuxtLink :to="to">
+          {{ title }}
+        </NuxtLink>
+        </template>
+      </Breadcrumbs>
     </div>
     <div>
       <OgImageStatic />

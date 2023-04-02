@@ -266,8 +266,6 @@ Alternatively, you can set the `NUXT_INDEXABLE=false` environment variable.
 
 The `Breadcrumbs` component is a Schema.org compliant breadcrumbs component. 
 
-It will automatically infer the routes and labels from your Nuxt router.
-
 ```vue
 <template>
   <Breadcrumbs>
@@ -279,6 +277,20 @@ It will automatically infer the routes and labels from your Nuxt router.
   </Breadcrumbs>
 </template>
 ```
+
+
+It will automatically infer the routes and labels from your Nuxt router.
+
+Firstly, it will check the `breadcrumbTitle` property on the route meta. If that is not present, it will use the `title` property.
+
+```vue
+<script lang="ts" setup>
+definePageMeta({
+  breadcrumbTitle: 'Breadcrumbs are cool',
+})
+</script>
+```
+
 
 ### Providing page meta
 
