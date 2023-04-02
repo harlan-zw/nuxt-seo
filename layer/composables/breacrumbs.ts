@@ -40,12 +40,13 @@ export function useBreadcrumbs() {
       .map(({ path, meta }) => {
         // title case string regex
         let title = meta?.breadcrumbTitle || meta?.title
-        if (!title)
+        if (!title) {
           if (path === '/')
             title = 'Home'
           else
-            // pop last url segment and title case it
+          // pop last url segment and title case it
             title = titleCase(path.split('/').pop() || '')
+        }
         return {
           schema: {
             name: title,
