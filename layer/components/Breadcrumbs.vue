@@ -18,6 +18,8 @@ interface BreadcrumbsProps {
    * when `false`: `'/'`, `'/en/about-us'`
    */
   keepLangPrefix?: boolean
+  /** The translation key prefix for breadcrumbs. defaults to `"pages"`. Example result for `pages/index.vue` is `pages.index` */
+  translationPrefix?: string
 }
 
 const props = defineProps<BreadcrumbsProps>()

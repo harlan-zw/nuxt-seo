@@ -38,13 +38,14 @@ const getBreadcrumbs = (input: string, options?: GetBreadcrumbsOptions) => {
 }
 
 interface UseBreadcrumbsOptions {
-  useI18n: boolean
-  keepLangPrefix: boolean
+  useI18n?: boolean
+  keepLangPrefix?: boolean
+  translationPrefix?: string
 }
 
 export function useBreadcrumbs(options: UseBreadcrumbsOptions) {
   const router = useRouter()
-  const opts = unref(options) || {}
+  const opts = unref(options) || { translationPrefix: 'pages' }
   let getBreadcrumbsOptions: GetBreadcrumbsOptions
   let $t: (...args: unknown[]) => void
   if (opts.useI18n) {
@@ -66,11 +67,11 @@ export function useBreadcrumbs(options: UseBreadcrumbsOptions) {
         let title = meta?.breadcrumbTitle || meta?.title
         if (!title) {
           if (path === '/') {
-            title = $t ? $t('pages.index') : 'Home'
+            title = $t ? $t(`${opts.translationPrefix}.index`) : 'Home'
           }
           else {
             if ($t) {
-              title = $t(`pages${path.replaceAll('/', '.').replace(`.${getBreadcrumbsOptions.localeProperties?.value.code}.`, '.')}`)
+              title = $t(`${opts.translationPrefix}${path.replaceAll('/', '.').replace(`.${getBreadcrumbsOptions.localeProperties?.value.code}.`, '.')}`)
             }
             else {
               // pop last url segment and title case it
