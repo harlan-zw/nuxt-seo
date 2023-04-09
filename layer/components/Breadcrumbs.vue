@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 interface BreadcrumbsProps {
-  showAtRoot: boolean
+  showAtRoot?: boolean
 }
 
 defineProps<BreadcrumbsProps>()
