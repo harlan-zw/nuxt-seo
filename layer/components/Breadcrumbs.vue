@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+interface BreadcrumbsProps {
+  showAtRoot: boolean
+}
+
+defineProps<BreadcrumbsProps>()
 const breadcrumbs = useBreadcrumbs()
 const schemaBreadcrumbs = computed(() => breadcrumbs.value.map(breadcrumb => breadcrumb.schema))
 
@@ -11,7 +16,7 @@ useSchemaOrg([
 
 <template>
   <nav aria-label="Breadcrumb">
-    <ul v-if="breadcrumbs.length > 1">
+    <ul v-if="showAtRoot || breadcrumbs.length > 1">
       <template
         v-for="(item, key) in breadcrumbs"
         :key="key"
