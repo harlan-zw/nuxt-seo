@@ -1,10 +1,27 @@
 <script lang="ts" setup>
 interface BreadcrumbsProps {
+  /** should breadcrumbs render when there's only '/' in the list  */
   showAtRoot?: boolean
+  /** should breadcrumbs use @nuxtjs/i18n module integration for title names?
+   *
+   *  when title is not found in meta, it will use `pages.<path>.<to>.<file>` notion as translation key
+   */
+  useI18n?: boolean
+  /** Can only be used along with `useI18n` prop.
+   *
+   * When set, language root path will be available in breadcrumbs.
+   *
+   * Example:
+   *
+   * when `true`: `'/'`, `'/en/'`, `'/en/about-us'`
+   *
+   * when `false`: `'/'`, `'/en/about-us'`
+   */
+  keepLangPrefix?: boolean
 }
 
-defineProps<BreadcrumbsProps>()
-const breadcrumbs = useBreadcrumbs()
+const props = defineProps<BreadcrumbsProps>()
+const breadcrumbs = useBreadcrumbs(props)
 const schemaBreadcrumbs = computed(() => breadcrumbs.value.map(breadcrumb => breadcrumb.schema))
 
 useSchemaOrg([

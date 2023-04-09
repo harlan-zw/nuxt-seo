@@ -2,16 +2,27 @@ import type { ParsedURL } from 'ufo'
 import { hasTrailingSlash, parseURL, stringifyParsedURL, withTrailingSlash } from 'ufo'
 import { resolveAbsoluteInternalLink, resolveTrailingSlash } from '#imports'
 
-const getBreadcrumbs = (input: string) => {
+interface GetBreadcrumbsOptions {
+  localeProperties?: Ref<{ code: string }>
+  keepLangPrefix?: boolean
+}
+
+const getBreadcrumbs = (input: string, options?: GetBreadcrumbsOptions) => {
   const startNode = parseURL(input)
   const appendsTrailingSlash = hasTrailingSlash(startNode.pathname)
+  const langCode = options?.localeProperties?.value.code
+  const removeLangCode = langCode && !(options?.keepLangPrefix)
 
   const stepNode = (node: ParsedURL, nodes: string[] = []) => {
     const fullPath = stringifyParsedURL(node)
     // the pathname will always be without the trailing slash
     const currentPathName = node.pathname
-    // when we hit the root the path will be an empty string; we swap it out for a slash
-    nodes.push(fullPath || '/')
+    // this is to remove language from breadcrumbs if required
+    if (!(removeLangCode && currentPathName.endsWith(langCode))) {
+      // when we hit the root the path will be an empty string; we swap it out for a slash
+      nodes.push(fullPath || '/')
+    }
+
     // strip the last path segment (/my/cool/path -> /my/cool)
     node.pathname = currentPathName.substring(0, currentPathName.lastIndexOf('/'))
     // if the input was provided with a trailing slash we need to honour that
@@ -26,12 +37,25 @@ const getBreadcrumbs = (input: string) => {
   return stepNode(startNode)
 }
 
-export function useBreadcrumbs() {
+interface UseBreadcrumbsOptions {
+  useI18n: boolean
+  keepLangPrefix: boolean
+}
+
+export function useBreadcrumbs(options: UseBreadcrumbsOptions) {
   const router = useRouter()
+  const opts = unref(options) || {}
+  let getBreadcrumbsOptions: GetBreadcrumbsOptions
+  let $t: (...args: unknown[]) => void
+  if (opts.useI18n) {
+    const { t, localeProperties } = useI18n()
+    $t = t
+    getBreadcrumbsOptions = { localeProperties, keepLangPrefix: opts.keepLangPrefix }
+  }
   return computed(() => {
     const routes = router.getRoutes()
     const route = router.currentRoute.value
-    return getBreadcrumbs(route.path)
+    return getBreadcrumbs(route.path, getBreadcrumbsOptions)
       .reverse()
       .map(path => ({
         path,
@@ -41,11 +65,18 @@ export function useBreadcrumbs() {
         // title case string regex
         let title = meta?.breadcrumbTitle || meta?.title
         if (!title) {
-          if (path === '/')
-            title = 'Home'
-          else
-          // pop last url segment and title case it
-            title = titleCase(path.split('/').pop() || '')
+          if (path === '/') {
+            title = $t ? $t('pages.index') : 'Home'
+          }
+          else {
+            if ($t) {
+              title = $t(`pages${path.replaceAll('/', '.').replace(`.${getBreadcrumbsOptions.localeProperties?.value.code}.`, '.')}`)
+            }
+            else {
+              // pop last url segment and title case it
+              title = titleCase(path.split('/').pop() || '')
+            }
+          }
         }
         return {
           schema: {
