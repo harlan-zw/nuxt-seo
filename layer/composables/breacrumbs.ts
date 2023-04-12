@@ -1,6 +1,6 @@
 import type { ParsedURL } from 'ufo'
 import { hasTrailingSlash, parseURL, stringifyParsedURL, withTrailingSlash } from 'ufo'
-import { resolveAbsoluteInternalLink, resolveTrailingSlash } from '#imports'
+import { resolveAbsoluteInternalLink, resolveTrailingSlash, useI18n } from '#imports'
 
 interface GetBreadcrumbsOptions {
   localeProperties?: Ref<{ code: string }>
