@@ -1,5 +1,8 @@
+import { ref } from '#imports'
+
 export const useI18n = () => {
   return {
-    t() {}, localeProperties() {},
+    t(key: string) { return key },
+    localeProperties: ref({ code: 'en' }),
   }
 }

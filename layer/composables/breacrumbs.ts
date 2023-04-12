@@ -47,7 +47,7 @@ export function useBreadcrumbs(options: UseBreadcrumbsOptions) {
   const router = useRouter()
   const opts = unref(options) || { translationPrefix: 'pages' }
   let getBreadcrumbsOptions: GetBreadcrumbsOptions
-  let $t: (...args: unknown[]) => void
+  let $t: (args: string) => void
   if (opts.useI18n) {
     const { t, localeProperties } = useI18n()
     $t = t
