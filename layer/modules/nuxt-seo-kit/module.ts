@@ -44,8 +44,20 @@ export default defineNuxtModule<ModuleOptions>({
   },
   async setup(config, nuxt) {
     exposeModuleConfig('nuxt-seo-kit', config)
-
     const { resolve } = createResolver(import.meta.url)
+
+    nuxt.hook('imports:extend', (imports) => {
+      if (!imports.find(i => i.name === 'useI18n')) {
+        console.warn('[nuxt-seo-kit]: `useI18n` composable not found, adding a mock composable to continue functioning normally. Ignore this if you don\'t need i18n.')
+        imports.push({
+          name: 'useI18n',
+          as: 'useI18n',
+          from: resolve('../../mocks/i18n.ts'),
+          priority: -1,
+        })
+      }
+    })
+
     // configure nuxt-simple-sitemap
     // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
     // @ts-ignore runtime type
