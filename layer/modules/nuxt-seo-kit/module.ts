@@ -48,7 +48,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.hook('imports:extend', (imports) => {
       if (!imports.find(i => i.name === 'useI18n')) {
-        console.warn('[nuxt-seo-kit]: `useI18n` composable not found, adding a mock composable to continue functioning normally. Ignore this if you don\'t need i18n.')
         imports.push({
           name: 'useI18n',
           as: 'useI18n',
