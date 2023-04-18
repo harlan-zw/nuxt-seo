@@ -2,7 +2,7 @@ import type { ParsedURL } from 'ufo'
 import { hasTrailingSlash, parseURL, stringifyParsedURL, withTrailingSlash } from 'ufo'
 import { resolveAbsoluteInternalLink, resolveTrailingSlash } from '#imports'
 
-const getBreadcrumbs = (input: string) => {
+function getBreadcrumbs(input: string) {
   const startNode = parseURL(input)
   const appendsTrailingSlash = hasTrailingSlash(startNode.pathname)
 
