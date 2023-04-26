@@ -71,7 +71,7 @@ export function useBreadcrumbs(options: UseBreadcrumbsOptions) {
         if (!title) {
           if (
             path === '/'
-            || path === `/${getBreadcrumbsOptions.localeProperties?.value.code}`
+            || path === `/${getBreadcrumbsOptions?.localeProperties?.value.code}`
           ) {
             title = $t ? $t(`${opts.translationPrefix}.index`) : 'Home'
           }
