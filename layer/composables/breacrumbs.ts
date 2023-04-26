@@ -20,7 +20,10 @@ const getBreadcrumbs = (input: string, options?: GetBreadcrumbsOptions) => {
     // this is to remove language from breadcrumbs if required
     if (!(removeLangCode && currentPathName.endsWith(langCode))) {
       // when we hit the root the path will be an empty string; we swap it out for a slash
-      nodes.push(fullPath || '/')
+      if (fullPath === '')
+        nodes.push(`/${langCode}`)
+      else
+        nodes.push(fullPath)
     }
 
     // strip the last path segment (/my/cool/path -> /my/cool)
@@ -47,7 +50,7 @@ export function useBreadcrumbs(options: UseBreadcrumbsOptions) {
   const router = useRouter()
   const opts = unref(options) || { translationPrefix: 'pages' }
   let getBreadcrumbsOptions: GetBreadcrumbsOptions
-  let $t: (args: string) => void
+  let $t: ((args: string) => void) | undefined
   if (opts.useI18n) {
     const { t, localeProperties } = useI18n()
     $t = t
@@ -66,7 +69,10 @@ export function useBreadcrumbs(options: UseBreadcrumbsOptions) {
         // title case string regex
         let title = meta?.breadcrumbTitle || meta?.title
         if (!title) {
-          if (path === '/') {
+          if (
+            path === '/'
+            || path === `/${getBreadcrumbsOptions.localeProperties?.value.code}`
+          ) {
             title = $t ? $t(`${opts.translationPrefix}.index`) : 'Home'
           }
           else {
