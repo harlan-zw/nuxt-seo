@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useHead } from '#imports'
+
 definePageMeta({
   breadcrumbTitle: 'Home',
   image: '/images/og-image.png'

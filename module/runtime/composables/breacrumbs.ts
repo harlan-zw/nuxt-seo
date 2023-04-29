@@ -1,6 +1,7 @@
 import type { ParsedURL } from 'ufo'
 import { hasTrailingSlash, parseURL, stringifyParsedURL, withTrailingSlash } from 'ufo'
-import { resolveAbsoluteInternalLink, resolveTrailingSlash } from '#imports'
+import { computed } from 'vue'
+import { resolveAbsoluteInternalLink, resolveTrailingSlash, titleCase, useRouter } from '#imports'
 
 function getBreadcrumbs(input: string) {
   const startNode = parseURL(input)

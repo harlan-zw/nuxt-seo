@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { computed, defineBreadcrumb, useBreadcrumbs, useSchemaOrg } from '#imports'
+
 interface BreadcrumbsProps {
   showAtRoot?: boolean
 }

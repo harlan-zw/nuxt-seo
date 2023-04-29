@@ -1,9 +1,13 @@
 import { defineNuxtConfig } from 'nuxt/config'
-import{resolve } from 'pathe'
+import NuxtSeoKit from '../module/module'
 
 export default defineNuxtConfig({
-  extends: [
-    resolve(__dirname, '../layer'),
+  alias: {
+    'windicss': 'nuxt-windicss',
+  },
+  modules: [
+    NuxtSeoKit,
+    'windicss',
   ],
 
   runtimeConfig: {

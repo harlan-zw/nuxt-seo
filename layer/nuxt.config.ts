@@ -1,51 +1,50 @@
-import { createResolver } from '@nuxt/kit'
-
-const { resolve } = createResolver(import.meta.url)
+import { useLogger } from '@nuxt/kit'
 
 export default ({
   modules: [
-    resolve('./modules/nuxt-seo-kit/module'),
-    'nuxt-schema-org',
-    'nuxt-unhead',
-    'nuxt-simple-robots',
-    'nuxt-simple-sitemap',
-    'nuxt-link-checker',
-    'nuxt-og-image',
+    'nuxt-seo-kit-module',
   ],
 
-  nitro: {
-    prerender: {
-      crawlLinks: true,
-      routes: [
-        '/',
-      ],
+  hooks: {
+    'modules:done': function () {
+      const logger = useLogger()
+      logger.warn('Using Nuxt SEO Kit as a layer has been deprecated. Please use `nuxt-seo-kit-module` as module instead.')
     },
   },
-
-  linkChecker: {
-    failOn404: false,
-  },
-
-  experimental: {
-    componentIslands: true,
-  },
-
-  runtimeConfig: {
-    indexable: typeof process.env.NUXT_INDEXABLE !== 'undefined' ? String(process.env.NUXT_INDEXABLE) !== 'false' : process.env.NODE_ENV === 'production',
-    public: {
-      trailingSlash: String(process.env.NUXT_PUBLIC_TRAILING_SLASH) === 'true',
-      titleSeparator: process.env.NUXT_PUBLIC_TITLE_SEPARATOR || '|',
-      siteName: process.env.NUXT_PUBLIC_SITE_NAME,
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000/',
-      siteDescription: process.env.NUXT_PUBLIC_SITE_DESCRIPTION,
-      language: process.env.NUXT_PUBLIC_LANGUAGE || 'en',
-    },
-  },
-
-  components: [
-    {
-      prefix: '',
-      path: resolve('./components'),
-    },
-  ],
+  //
+  // nitro: {
+  //   prerender: {
+  //     crawlLinks: true,
+  //     routes: [
+  //       '/',
+  //     ],
+  //   },
+  // },
+  //
+  // linkChecker: {
+  //   failOn404: false,
+  // },
+  //
+  // experimental: {
+  //   componentIslands: true,
+  // },
+  //
+  // runtimeConfig: {
+  //   indexable: typeof process.env.NUXT_INDEXABLE !== 'undefined' ? String(process.env.NUXT_INDEXABLE) !== 'false' : process.env.NODE_ENV === 'production',
+  //   public: {
+  //     trailingSlash: String(process.env.NUXT_PUBLIC_TRAILING_SLASH) === 'true',
+  //     titleSeparator: process.env.NUXT_PUBLIC_TITLE_SEPARATOR || '|',
+  //     siteName: process.env.NUXT_PUBLIC_SITE_NAME,
+  //     siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000/',
+  //     siteDescription: process.env.NUXT_PUBLIC_SITE_DESCRIPTION,
+  //     language: process.env.NUXT_PUBLIC_LANGUAGE || 'en',
+  //   },
+  // },
+  //
+  // components: [
+  //   {
+  //     prefix: '',
+  //     path: resolve('./components'),
+  //   },
+  // ],
 })

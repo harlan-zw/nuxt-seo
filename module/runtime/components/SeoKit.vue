@@ -1,9 +1,5 @@
 <script lang="ts" setup>
-import type { MetaObject } from '@nuxt/schema'
-import { computed } from 'vue'
-import { createInternalLinkResolver, resolveAbsoluteInternalLink } from '../composables/internalLinks'
-import { titleCase } from '../composables/casing'
-import { defineRobotMeta, defineWebPage, defineWebSite, useAppConfig, useHead, useRouter, useRuntimeConfig, useSchemaOrg, useServerHead } from '#imports'
+import { computed, createInternalLinkResolver, resolveAbsoluteInternalLink, titleCase, defineRobotMeta, defineWebPage, defineWebSite, useAppConfig, useHead, useRouter, useRuntimeConfig, useSchemaOrg, useServerHead } from '#imports'
 
 interface SeoKitOptions {
   siteUrl?: string

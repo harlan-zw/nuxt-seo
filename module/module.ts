@@ -1,11 +1,11 @@
-import { createResolver, defineNuxtModule, logger } from '@nuxt/kit'
+import { addComponentsDir, addImportsDir, createResolver, defineNuxtModule, installModule, logger } from '@nuxt/kit'
 import chalk from 'chalk'
 import { withBase } from 'ufo'
 import defu from 'defu'
-import { version } from '../../package.json'
+import { version } from './package.json'
 import type { SeoKitOptions } from './types'
 import { SeoKitPublicRuntimeConfigKeys } from './const'
-import { exposeModuleConfig } from './nuxt-utils'
+import {dirname} from "pathe";
 
 export interface ModuleOptions extends SeoKitOptions {
   splash: boolean
@@ -18,10 +18,10 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-seo-kit',
     compatibility: {
-      nuxt: '^3.0.0',
+      nuxt: '^3.4.1',
       bridge: false,
     },
-    configKey: 'site',
+    configKey: 'seoKit',
   },
   // @ts-expect-error type issue
   defaults(nuxt) {
@@ -43,52 +43,74 @@ export default defineNuxtModule<ModuleOptions>({
     }
   },
   async setup(config, nuxt) {
-    exposeModuleConfig('nuxt-seo-kit', config)
+    nuxt.options.runtimeConfig.public['nuxt-seo-kit'] = config
 
-    const { resolve } = createResolver(import.meta.url)
+    const { resolve, resolvePath } = createResolver(import.meta.url)
+
+    const sitemapPath = await resolvePath('nuxt-simple-sitemap')
     // configure nuxt-simple-sitemap
     // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
     // @ts-ignore runtime type
-    nuxt.options.sitemap = defu(nuxt.options.sitemap || {}, {
-      hostname: config.siteUrl,
-      trailingSlash: config.trailingSlash,
-    })
+    if (nuxt.options.sitemap !== false) {
+      // @ts-expect-error runtime type
+      nuxt.options.sitemap = defu(nuxt.options.sitemap || {}, {
+        hostname: config.siteUrl,
+        trailingSlash: config.trailingSlash,
+      })
+      await installModule(sitemapPath)
+    }
     // configure nuxt-schema-org
     // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
     // @ts-ignore runtime type
-    nuxt.options.schemaOrg = defu(nuxt.options.schemaOrg || {}, {
-      host: config.siteUrl,
-      inLanguage: config.language,
-      trailingSlash: config.trailingSlash,
-    })
+    if (nuxt.options.schemaOrg !== false) {
+      // @ts-expect-error runtime type
+      nuxt.options.schemaOrg = defu(nuxt.options.schemaOrg || {}, {
+        host: config.siteUrl,
+        inLanguage: config.language,
+        trailingSlash: config.trailingSlash,
+      })
+      await installModule(await resolvePath('nuxt-schema-org'))
+    }
     // configure nuxt-og-image
     // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
     // @ts-ignore runtime type
-    nuxt.options.ogImage = defu(nuxt.options.ogImage || {}, {
-      host: config.siteUrl,
-    })
+    if (nuxt.options.ogImage !== false) {
+      nuxt.options.ogImage = defu(nuxt.options.ogImage || {}, {
+        host: config.siteUrl,
+      })
+      await installModule(await resolvePath('nuxt-og-image'))
+    }
     // configure nuxt-link-checker
     // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
     // @ts-ignore runtime type
-    nuxt.options.linkChecker = defu(nuxt.options.linkChecker || {}, {
-      host: config.siteUrl,
-      trailingSlash: config.trailingSlash,
-    })
+    if (nuxt.options.linkChecker !== false) {
+      nuxt.options.linkChecker = defu(nuxt.options.linkChecker || {}, {
+        host: config.siteUrl,
+        trailingSlash: config.trailingSlash,
+      })
+      await installModule(await resolvePath('nuxt-link-checker'))
+    }
     // configure nuxt-simple-robots
     // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
     // @ts-ignore runtime type
-    nuxt.options.robots = defu(nuxt.options.robots || {}, {
-      indexable: config.indexable,
-      sitemap: [
-        withBase('/sitemap.xml', config.siteUrl),
-      ],
-    })
+    if (nuxt.options.robots !== false) {
+      nuxt.options.robots = defu(nuxt.options.robots || {}, {
+        indexable: config.indexable,
+      })
+      await installModule(await resolvePath('nuxt-simple-robots'))
+    }
 
+    const componentsDir = resolve('./runtime/components')
+
+    console.log(sitemapPath)
     nuxt.options.build.transpile.push(...[
-      resolve('../../server'),
-      resolve('../../components'),
-      resolve('../../composables'),
+      componentsDir,
+      resolve('./runtime/composables'),
+      // dirname(sitemapPath),
     ])
+
+    addComponentsDir({ path: componentsDir })
+    addImportsDir(resolve('./runtime/composables'))
 
     if (config.splash) {
       logger.log('')
