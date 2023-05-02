@@ -23,7 +23,7 @@ const getBreadcrumbs = (input: string, options?: GetBreadcrumbsOptions) => {
       if (fullPath === '')
         nodes.push(`/${langCode}`)
       else
-        nodes.push(fullPath)
+        nodes.push(fullPath || '/')
     }
 
     // strip the last path segment (/my/cool/path -> /my/cool)
