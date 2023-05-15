@@ -1,8 +1,8 @@
 {
   "name": "nuxt-seo-kit-mono",
   "private": true,
-  "packageManager": "pnpm@8.1.0",
-  "description": "The all-in-one SEO layer for Nuxt 3.",
+  "packageManager": "pnpm@8.5.0",
+  "description": "The all-in-one SEO module for Nuxt 3.",
   "license": "MIT",
   "funding": "https://github.com/sponsors/harlan-zw",
   "homepage": "https://github.com/harlan-zw/nuxt-seo-kit#readme",
@@ -16,7 +16,7 @@
   "scripts": {
     "dev": "nuxi dev .playground",
     "lint": "eslint . --fix",
-    "release": "bumpp layer/package.json --commit --push --tag",
+    "release": "bumpp packages/*/package.json --commit --push --tag",
     "test": "nuxi prepare .playground && npx vue-tsc --noEmit && pnpm lint && vitest",
     "typecheck": "tsc --noEmit --strict --typeCheck"
   },
