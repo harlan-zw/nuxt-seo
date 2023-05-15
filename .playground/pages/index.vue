@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useHead } from '#imports'
+import { definePageMeta, useHead } from '#imports'
 
 definePageMeta({
   breadcrumbTitle: 'Home',
@@ -11,8 +11,10 @@ useHead({
 })
 </script>
 <template>
+<div>
   <h1>Hello world</h1>
   <p>Welcome to my website</p>
   <NuxtLink to="/about">about</NuxtLink>
   <NuxtLink to="/no-set-title">/no-set-title</NuxtLink>
+</div>
 </template>

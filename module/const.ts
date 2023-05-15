@@ -1,3 +1,5 @@
+import { UseHeadInput } from '@unhead/vue'
+
 export const SeoKitPublicRuntimeConfigKeys = [
   { key: 'siteName' },
   { key: 'siteDescription' },
@@ -7,3 +9,4 @@ export const SeoKitPublicRuntimeConfigKeys = [
   { key: 'trailingSlash', env: 'NUXT_PUBLIC_TRAILING_SLASH' },
   { key: 'language' },
 ] as const
+

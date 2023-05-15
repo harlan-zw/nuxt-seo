@@ -1,10 +1,6 @@
 <template>
-  <div>
-    <div>
-      <SeoKit :site-description="'test'" />
-    </div>
-    <div>
-      <NuxtPage />
-    </div>
-  </div>
+<div>
+  <SeoKit />
+  <NuxtPage />
+</div>
 </template>

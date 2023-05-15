@@ -10,9 +10,9 @@ export function resolveAbsoluteInternalLink(path: string) {
   return withBase(resolveTrailingSlash(path), config.siteUrl)
 }
 
-export function createInternalLinkResolver() {
+export function createInternalLinkResolver(siteUrl: string) {
   const config = useRuntimeConfig().public['nuxt-seo-kit']
   return (path: string) => {
-    return withBase(config.trailingSlash ? withTrailingSlash(path) : withoutTrailingSlash(path), config.siteUrl)
+    return withBase(config.trailingSlash ? withTrailingSlash(path) : withoutTrailingSlash(path), siteUrl)
   }
 }
