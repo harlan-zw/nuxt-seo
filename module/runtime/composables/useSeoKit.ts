@@ -1,76 +1,23 @@
 import type { MetaObject } from '@nuxt/schema'
 import {
-  getRequestHost,
-  getRequestProtocol,
-} from 'h3'
-import {
-  computed,
   createInternalLinkResolver, defineRobotMeta, defineWebPage, defineWebSite,
-  titleCase,
-  useAppConfig,
   useHead,
-  useRequestEvent,
-  useRouter, useRuntimeConfig,
-  useSchemaOrg,
+  useRouter, useSchemaOrg,
+  useSiteConfig,
 } from '#imports'
 
-interface SeoKitOptions {
-  siteUrl?: string
-  siteName?: string
-  siteDescription?: string
-  siteImage?: string
-  indexable?: boolean
-  titleSeparator?: string
-  trailingSlash?: boolean
-  language?: string
+function titleCase(s: string) {
+  return s
+    .replaceAll('-', ' ')
+    .replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.substr(1).toLowerCase())
 }
 
-export function useSeoKit(props: SeoKitOptions) {
-  const runtimeConfig = useRuntimeConfig().public
-  const appConfig = useAppConfig()
-
-  const SeoKitPublicRuntimeConfigKeys = [
-    'siteName',
-    'siteDescription',
-    'siteImage',
-    'siteUrl',
-    'titleSeparator',
-    'trailingSlash',
-    'language',
-  ] as const
-
-  const siteMeta = computed<SeoKitOptions>(() => {
-    const runtimeConfigExtract = {}
-    for (const k of SeoKitPublicRuntimeConfigKeys) {
-      if (runtimeConfig[k])
-        // @ts-expect-error untyped
-        runtimeConfigExtract[k] = runtimeConfig[k]
-    }
-    const propExtract = {}
-    for (const k of SeoKitPublicRuntimeConfigKeys) {
-      if (props[k])
-        // @ts-expect-error untyped
-        propExtract[k] = props[k]
-    }
-    return {
-      ...runtimeConfigExtract,
-      // app config has the highest priority
-      // @ts-expect-error untyped
-      ...appConfig.site,
-      ...propExtract,
-    }
-  })
+export function useSeoKit() {
+  const siteConfig = useSiteConfig()
 
   const router = useRouter()
   const route = router.currentRoute
-  let siteUrl = siteMeta.value.siteUrl
-  if (process.server) {
-    const event = useRequestEvent()
-    const hostname = getRequestHost(event)
-    const protocol = getRequestProtocol(event)
-    siteUrl = `${protocol}://${hostname}`
-  }
-  const resolveUrl = createInternalLinkResolver(siteUrl as string)
+  const resolveUrl = createInternalLinkResolver()
 
   function computeMeta() {
     const meta: MetaObject['meta'] = [
@@ -80,16 +27,16 @@ export function useSeoKit(props: SeoKitOptions) {
       },
       {
         property: 'og:locale',
-        content: siteMeta.value.language,
+        content: siteConfig.language,
       },
     ]
-    if (siteMeta.value.siteName) {
+    if (siteConfig.name) {
       meta.push({
         property: 'og:site_name',
-        content: siteMeta.value.siteName,
+        content: siteConfig.name,
       })
     }
-    let ogImage = route.value?.meta?.image || siteMeta.value.siteImage
+    let ogImage = route.value?.meta?.image || siteConfig.image
     if (typeof ogImage === 'string') {
       if (ogImage.startsWith('/'))
         ogImage = resolveUrl(ogImage)
@@ -98,7 +45,7 @@ export function useSeoKit(props: SeoKitOptions) {
         content: ogImage as string,
       })
     }
-    const description = route.value?.meta?.description || siteMeta.value.siteDescription
+    const description = route.value?.meta?.description || siteConfig.description
     if (description) {
       meta.push({
         name: 'description',
@@ -110,23 +57,10 @@ export function useSeoKit(props: SeoKitOptions) {
 
   useHead({
     templateParams: {
-      // @ts-expect-error untyped
-      siteName: () => siteMeta.value.siteName,
-      // @ts-expect-error untyped
-      siteDescription: () => siteMeta.value.siteDescription,
-      // @ts-expect-error untyped
-      siteImage: () => siteMeta.value.siteImage,
-      // @ts-expect-error untyped
-      siteUrl: () => siteMeta.value.siteUrl,
-      // @ts-expect-error untyped
-      titleSeparator: () => siteMeta.value.titleSeparator,
-      // @ts-expect-error untyped
-      trailingSlash: () => siteMeta.value.trailingSlash,
-      // @ts-expect-error untyped
-      language: () => siteMeta.value.language,
+      site: siteConfig,
     },
     htmlAttrs: {
-      lang: () => siteMeta.value.language,
+      lang: () => siteConfig.language,
     },
     title: () => {
       if (typeof route.value?.meta?.title === 'string')
@@ -150,9 +84,9 @@ export function useSeoKit(props: SeoKitOptions) {
 
   useSchemaOrg([
     defineWebSite({
-      name: () => siteMeta.value?.siteName || '',
-      inLanguage: () => siteMeta.value?.language || '',
-      description: () => siteMeta.value?.siteDescription || '',
+      name: () => siteConfig?.name || '',
+      inLanguage: () => siteConfig?.language || '',
+      description: () => siteConfig?.description || '',
     }),
     defineWebPage(),
   ])

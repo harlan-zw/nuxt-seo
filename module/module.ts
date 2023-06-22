@@ -1,11 +1,15 @@
-import { addComponentsDir, addImportsDir, createResolver, defineNuxtModule, installModule, logger } from '@nuxt/kit'
+import {
+  addComponentsDir,
+  addImportsDir,
+  createResolver,
+  defineNuxtModule,
+  installModule,
+  logger,
+} from '@nuxt/kit'
 import chalk from 'chalk'
-import { withBase } from 'ufo'
 import defu from 'defu'
 import { version } from './package.json'
 import type { SeoKitOptions } from './types'
-import { SeoKitPublicRuntimeConfigKeys } from './const'
-import {dirname} from "pathe";
 
 export interface ModuleOptions extends SeoKitOptions {
   splash: boolean
@@ -18,34 +22,26 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-seo-kit',
     compatibility: {
-      nuxt: '^3.4.1',
+      nuxt: '^3.5.0',
       bridge: false,
     },
     configKey: 'seoKit',
   },
   // @ts-expect-error type issue
   defaults(nuxt) {
-    const defaults: Record<any, any> = {}
-    for (const k of SeoKitPublicRuntimeConfigKeys)
-      // @ts-expect-error untyped
-      defaults[k.key] = (k.env ? process.env[k.env] : undefined) || nuxt.options.runtimeConfig.public[k.key]
-    let indexable = true
-    if (typeof process.env.NUXT_INDEXABLE !== 'undefined')
-      indexable = String(process.env.NUXT_INDEXABLE) !== 'false'
-    else if (typeof nuxt.options.runtimeConfig.indexable !== 'undefined')
-      indexable = String(nuxt.options.runtimeConfig.indexable) !== 'false'
-    else if (process.env.NODE_ENV !== 'production')
-      indexable = false
     return {
       splash: nuxt.options.dev,
-      ...defaults,
-      indexable,
     }
   },
   async setup(config, nuxt) {
-    nuxt.options.runtimeConfig.public['nuxt-seo-kit'] = config
+    // nuxt.options.runtimeConfig.public['nuxt-seo-kit'] = config
 
     const { resolve, resolvePath } = createResolver(import.meta.url)
+
+    // all modules require this
+    await installModule(await resolvePath('nuxt-site-config'))
+
+    await installModule(await resolvePath('nuxt-seo-ui'))
 
     const sitemapPath = await resolvePath('nuxt-simple-sitemap')
     // configure nuxt-simple-sitemap
@@ -102,7 +98,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     const componentsDir = resolve('./runtime/components')
 
-    console.log(sitemapPath)
     nuxt.options.build.transpile.push(...[
       componentsDir,
       resolve('./runtime/composables'),

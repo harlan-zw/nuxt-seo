@@ -12,6 +12,7 @@ const props = defineProps<{
 
 useSeoKit(props)
 </script>
+
 <template>
-<div />
+  <div />
 </template>

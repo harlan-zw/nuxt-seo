@@ -4,15 +4,18 @@ import NuxtSeoKit from '../module/module'
 export default defineNuxtConfig({
   modules: [
     NuxtSeoKit,
-    'nuxt-windicss',
+    '@nuxthq/ui',
+    'nuxt-icon'
   ],
 
   runtimeConfig: {
     public: {
-      titleSeparator: '·',
-      siteName: 'Nuxt Playground',
-      siteDescription: 'A Nuxt 3 playground',
-      language: 'en',
+      site: {
+        titleSeparator: '·',
+        name: 'Nuxt Playground',
+        description: 'A Nuxt 3 playground',
+        language: 'en',
+      }
     }
   },
 
