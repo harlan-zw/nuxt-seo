@@ -196,7 +196,7 @@ Please check the [Nuxt Og Image](https://github.com/harlan-zw/nuxt-og-image) doc
     <SeoKit />
     <!-- a. Generates browser screenshots for every page -->
     <OgImageScreenshot />
-    <!-- b. Generate saotir images for every page (uses the default template) -->
+    <!-- b. Generate satori images for every page (uses the default template) -->
     <OgImageStatic />
     <NuxtPage />
   </div>
