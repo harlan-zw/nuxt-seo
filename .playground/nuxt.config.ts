@@ -1,5 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config'
-import NuxtSeoKit from '../module/module'
+import NuxtSeoKit from '../module/src/module'
 
 export default defineNuxtConfig({
   modules: [

@@ -8,26 +8,30 @@ import {
 } from '@nuxt/kit'
 import chalk from 'chalk'
 import defu from 'defu'
-import { version } from './package.json'
-import type { SeoKitOptions } from './types'
+import { version } from '../package.json'
 
-export interface ModuleOptions extends SeoKitOptions {
+export interface ModuleOptions {
   splash: boolean
 }
 
-export interface ModulePublicRuntimeConfig extends SeoKitOptions {
-}
+const Modules = [
+  'nuxt-site-config',
+  'nuxt-seo-ui',
+  'nuxt-simple-sitemap',
+  'nuxt-simple-robots',
+  'nuxt-schema-org',
+
+]
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-seo-kit',
     compatibility: {
-      nuxt: '^3.5.0',
+      nuxt: '^3.6.1',
       bridge: false,
     },
     configKey: 'seoKit',
   },
-  // @ts-expect-error type issue
   defaults(nuxt) {
     return {
       splash: nuxt.options.dev,
@@ -38,10 +42,8 @@ export default defineNuxtModule<ModuleOptions>({
 
     const { resolve, resolvePath } = createResolver(import.meta.url)
 
-    // all modules require this
-    await installModule(await resolvePath('nuxt-site-config'))
-
-    await installModule(await resolvePath('nuxt-seo-ui'))
+    for (const module of Modules)
+      await installModule(await resolvePath(module))
 
     const sitemapPath = await resolvePath('nuxt-simple-sitemap')
     // configure nuxt-simple-sitemap
@@ -86,25 +88,16 @@ export default defineNuxtModule<ModuleOptions>({
       })
       await installModule(await resolvePath('nuxt-link-checker'))
     }
-    // configure nuxt-simple-robots
-    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
-    // @ts-ignore runtime type
-    if (nuxt.options.robots !== false) {
-      nuxt.options.robots = defu(nuxt.options.robots || {}, {
-        indexable: config.indexable,
-      })
-      await installModule(await resolvePath('nuxt-simple-robots'))
-    }
+    await installModule(await resolvePath('nuxt-simple-robots'))
 
     const componentsDir = resolve('./runtime/components')
 
     nuxt.options.build.transpile.push(...[
       componentsDir,
       resolve('./runtime/composables'),
-      // dirname(sitemapPath),
     ])
 
-    addComponentsDir({ path: componentsDir })
+    await addComponentsDir({ path: componentsDir })
     addImportsDir(resolve('./runtime/composables'))
 
     if (config.splash) {
@@ -114,11 +107,12 @@ export default defineNuxtModule<ModuleOptions>({
         latestTag = (await $fetch<any>('https://ungh.unjs.io/repos/harlan-zw/nuxt-seo-kit/releases/latest')).release.tag
       }
       catch (e) {}
-      logger.log(`${chalk.green('SEO Kit')} ${chalk.yellow(`v${version}`)} • All-in-one SEO ${chalk.gray(`by ${chalk.underline('@harlan_zw')}`)}`)
-      if (latestTag !== `v${version}`)
+      const upToDate = latestTag === `v${version}`
+      logger.log(`${chalk.green('Nuxt SEO')} ${chalk.yellow(`v${version}`)} ${chalk.gray(`by ${chalk.underline('@harlan_zw')}`)}`)
+      if (!upToDate)
         logger.log(`${chalk.gray('  ├─ ')}🎉 New version available!${chalk.gray(` Run ${chalk.underline(`npm i nuxt-seo-kit@${latestTag}`)} to update.`)}`)
 
-      logger.log(chalk.dim('  └─ 💖 Care about SEO? Support the development https://github.com/sponsors/harlan-zw'))
+      logger.log(chalk.dim('  └─ 💖 Care about Nuxt SEO? Support the development https://nuxt-seo.com/sponsor'))
       logger.log('')
     }
   },

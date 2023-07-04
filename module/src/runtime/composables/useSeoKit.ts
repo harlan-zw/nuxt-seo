@@ -1,6 +1,6 @@
 import type { MetaObject } from '@nuxt/schema'
 import {
-  createInternalLinkResolver, defineRobotMeta, defineWebPage, defineWebSite,
+  createSitePathResolver, defineRobotMeta, defineWebPage, defineWebSite,
   useHead,
   useRouter, useSchemaOrg,
   useSiteConfig,
@@ -17,7 +17,7 @@ export function useSeoKit() {
 
   const router = useRouter()
   const route = router.currentRoute
-  const resolveUrl = createInternalLinkResolver()
+  const resolveUrl = createSitePathResolver({ withBase: true, absolute: true })
 
   function computeMeta() {
     const meta: MetaObject['meta'] = [
@@ -60,7 +60,7 @@ export function useSeoKit() {
       site: siteConfig,
     },
     htmlAttrs: {
-      lang: () => siteConfig.language,
+      lang: () => siteConfig.locale,
     },
     title: () => {
       if (typeof route.value?.meta?.title === 'string')
@@ -85,7 +85,7 @@ export function useSeoKit() {
   useSchemaOrg([
     defineWebSite({
       name: () => siteConfig?.name || '',
-      inLanguage: () => siteConfig?.language || '',
+      inLanguage: () => siteConfig?.locale || '',
       description: () => siteConfig?.description || '',
     }),
     defineWebPage(),
