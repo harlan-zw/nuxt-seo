@@ -5,7 +5,8 @@
   "dependencies": {
     "@nuxt/content": "^2.7.0",
     "nuxt-icon": "^0.4.2",
-    "nuxt-lego": "^0.0.13"
+    "nuxt-lego": "^0.0.13",
+    "nuxt-og-image": "^2.0.3"
   },
   "scripts": {
     "deploy": "NITRO_PRESET=netlify nuxt build && npx netlify deploy"
