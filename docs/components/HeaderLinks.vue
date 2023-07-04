@@ -8,8 +8,10 @@ const items = [useModuleList()]
 
 const route = useRoute()
 const isOgImage = computed(() => {
-  console.log('route path', route.path)
   return route.path.startsWith('/og-image')
+})
+const isExperiments = computed(() => {
+  return route.path.startsWith('/experiments')
 })
 </script>
 
@@ -38,6 +40,10 @@ const isOgImage = computed(() => {
 
     <UButton to="/og-image/getting-started/installation" :variant="!isOgImage ? 'ghost' : 'outline'" class="md:block hidden">
       <span class="text-gray-700 dark:text-gray-200">OG Image</span>
+    </UButton>
+
+    <UButton to="/experiments/getting-started/installation" :variant="!isExperiments ? 'ghost' : 'outline'" class="md:block hidden">
+      <span class="text-gray-700 dark:text-gray-200">Experiments</span>
     </UButton>
 
     <div class="flex items-center justify-end -mr-1.5 gap-3">

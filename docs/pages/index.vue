@@ -46,6 +46,11 @@ const modules = useModuleList()
           <img src="https://nuxtseo.com/og-image/getting-started/installation/__og_image__/og.png" height="150" width="300" class="group-hover:scale-110 transition transform h-[150px] w-[300px] rounded-lg shadow-xl" alt="">
         </div>
         </template>
+        <template v-else-if="module.label === 'Experiments'">
+        <div class="w-full h-full">
+          <img src="https://nuxtseo.com/experiments/getting-started/installation/__og_image__/og.png" height="150" width="300" class="group-hover:scale-110 transition transform h-[150px] w-[300px] rounded-lg shadow-xl" alt="">
+        </div>
+        </template>
         <template v-else>
         Coming soon
         </template>

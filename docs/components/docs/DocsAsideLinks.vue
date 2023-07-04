@@ -6,11 +6,23 @@ const navigation: Ref<NavItem[]> = inject('navigation')
 function mapContentLinks(links: NavItem[]) {
   return links?.map(link => ({ label: link.title, icon: link.icon, to: link._path, badge: link.badge })) || []
 }
+
+const route = useRoute()
+const children = computed(() => {
+  // first segment
+  const segment = route.path.split('/')[1]
+  switch(segment) {
+    case 'og-image':
+      return navigation.value[0].children
+    case 'experiments':
+      return navigation.value[1].children
+  }
+})
 </script>
 
 <template>
-  <div class="space-y-8">
-    <div v-for="(group, index) in navigation[0].children" :key="index" class="space-y-3">
+  <div v-if="children" class="space-y-8">
+    <div v-for="(group, index) in children" :key="index" class="space-y-3">
       <p class="text-sm font-semibold text-gray-900 dark:text-gray-200 truncate leading-6">
         {{ group.title }}
       </p>

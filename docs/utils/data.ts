@@ -9,6 +9,14 @@ export function useModuleList() {
       repo: 'harlan-zw/nuxt-og-image',
     },
     {
+      label: 'Experiments',
+      icon: 'i-heroicons-trash-20-solid',
+      tag: '🎉 v3 Released',
+      description: 'Powerful SEO DX improvements that may or may not land in the Nuxt core.',
+      to: '/experiments/getting-started/installation',
+      repo: 'harlan-zw/nuxt-seo-experiments',
+    },
+    {
       label: 'Robots',
       icon: 'i-heroicons-cog-20-solid',
       description: 'The simplest way to control the robots crawling and indexing your Nuxt site.',
@@ -36,12 +44,6 @@ export function useModuleList() {
       label: 'SEO UI',
       icon: 'i-heroicons-trash-20-solid',
       description: 'Fully styled and customizable components for improving your Nuxt SEO.',
-      tag: 'coming soon',
-    },
-    {
-      label: 'Experiments',
-      icon: 'i-heroicons-trash-20-solid',
-      description: 'Experimental SEO DX.',
       tag: 'coming soon',
     },
     {
