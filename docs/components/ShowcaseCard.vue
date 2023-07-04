@@ -1,0 +1,63 @@
+<script lang="ts" setup>
+const props = defineProps<{
+  to?: string
+  icon: string
+  label: string
+  description: string
+  repo?: string
+  tag?: string
+}>()
+
+const NuxtLink = resolveComponent('NuxtLink')
+const linkAttrs = computed(() => {
+  const attrs: Record<string, string> = {}
+  if (props.to)
+    attrs.to = props.to
+  return attrs
+})
+</script>
+
+<template>
+<div>
+  <component :is="to ? NuxtLink : 'div'" v-bind="linkAttrs">
+    <div class="group relative border hover:border-blue-400 transition rounded-xl overflow-hidden h-full">
+      <div
+        class="h-48 relative flex items-center justify-center bg-no-repeat bg-cover"
+        style="background-image: url('/grid.png')"
+      >
+        <div
+          class="blur-overlay w-full h-full absolute pointer-events-none"
+        />
+        <div>
+          <slot></slot>
+        </div>
+      </div>
+
+      <div class="p-4">
+        <h3 class="font-semibold">
+          {{ label }}
+        </h3>
+        <p class="text-sm mt-1 text-gray-400">
+          {{ description }}
+        </p>
+
+        <div v-if="repo" class="flex text-gray-500 items-center justify-between mt-5">
+          <NuxtLink :to="`https://github.com/${repo}`" class="hover:opacity-70 transition text-sm">
+            {{ repo }}
+          </NuxtLink>
+          <LegoGithubStar v-slot="{ stars }" :repo="repo" class="items-center inline-flex justify-center px-1 ">
+            <Icon name="uil:star" class="text-sm text-blue-300 group-hover:op75" />
+            <div class="px-1 text-sm">
+              {{ stars }}
+            </div>
+          </LegoGithubStar>
+        </div>
+
+        <UBadge v-if="tag && !tag.includes('coming soon')" size="xs" class="absolute top-4 right-4">
+          {{ tag }}
+        </UBadge>
+      </div>
+    </div>
+  </component>
+</div>
+</template>
