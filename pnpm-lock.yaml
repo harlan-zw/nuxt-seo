@@ -45,11 +45,11 @@ importers:
   .playground:
     dependencies:
       '@nuxthq/ui':
-        specifier: ^2.2.0
-        version: 2.2.0(rollup@3.25.1)(vue@3.3.4)(webpack@5.88.1)
+        specifier: ^2.5.0
+        version: 2.5.0(rollup@3.25.1)(vue@3.3.4)(webpack@5.88.1)
       nuxt-icon:
-        specifier: ^0.4.1
-        version: 0.4.1(rollup@3.25.1)(vue@3.3.4)
+        specifier: ^0.4.2
+        version: 0.4.2(rollup@3.25.1)(vue@3.3.4)
 
   docs:
     dependencies:
@@ -592,17 +592,6 @@ packages:
     dependencies:
       postcss-selector-parser: 6.0.13
 
-  /@egoist/tailwindcss-icons@1.0.7(tailwindcss@3.3.2):
-    resolution: {integrity: sha512-GeoEZC53+zHJyBEcBc0B4hf9MGdDjy0iatW6GT4Ss+c+t8IgjsJVjz3Gg3RpCdg+rnsyRLeg5S+ubkJpaz85Rw==}
-    peerDependencies:
-      tailwindcss: '*'
-    dependencies:
-      '@iconify/utils': 2.1.5
-      tailwindcss: 3.3.2
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@egoist/tailwindcss-icons@1.1.0(tailwindcss@3.3.2):
     resolution: {integrity: sha512-3zIBtwMH4viBDtDF7nDgGOFS/mxu4qtfhimeyyGlK+RHJu26YaLhHrJf6NaEK5Gwxt8chNntJwslklR+66AErg==}
     peerDependencies:
@@ -612,7 +601,6 @@ packages:
       tailwindcss: 3.3.2
     transitivePeerDependencies:
       - supports-color
-    dev: true
 
   /@esbuild-kit/cjs-loader@2.4.2:
     resolution: {integrity: sha512-BDXFbYOJzT/NBEtp71cvsrGPwGAMGRB/349rwKuoxNSiKjPraNNnlK6MIIabViCjqZugu6j+xeMDlEkWdHHJSg==}
@@ -1030,15 +1018,6 @@ packages:
       '@hapi/hoek': 9.3.0
     dev: true
 
-  /@headlessui/vue@1.7.10(vue@3.3.4):
-    resolution: {integrity: sha512-qAov7JULOBBes5CU+MiGpwMKoXxLHXS703WEZkOPxYjPD2p7f286ozlFxw7JjA2MmVgbnis2Wvgg/4hT7nRFIg==}
-    engines: {node: '>=10'}
-    peerDependencies:
-      vue: ^3.2.0
-    dependencies:
-      vue: 3.3.4
-    dev: false
-
   /@headlessui/vue@1.7.14(vue@3.3.4):
     resolution: {integrity: sha512-aL9U9Sa7wdOzlrfjx6EjMIYNRCma5mngWcWzQBcHFwznpRZ8g/QZ/AYFtRDrZZUw22Ttttja4D7ZRXFwhONewA==}
     engines: {node: '>=10'}
@@ -1046,7 +1025,6 @@ packages:
       vue: ^3.2.0
     dependencies:
       vue: 3.3.4
-    dev: true
 
   /@humanwhocodes/config-array@0.11.10:
     resolution: {integrity: sha512-KVVjQmNUepDVGXNuoRRdmmEjruj0KfiGSbS8LVc12LMsWDQzRXJ0qdhN8L8uUigKpfEHRhlaQFY0ib1tnUbNeQ==}
@@ -1464,7 +1442,7 @@ packages:
       knitwork: 1.0.0
       lodash.template: 4.5.0
       mlly: 1.4.0
-      pathe: 1.1.1
+      pathe: 1.1.0
       pkg-types: 1.0.3
       scule: 1.0.0
       semver: 7.5.3
@@ -1758,48 +1736,6 @@ packages:
       - vti
       - vue-tsc
 
-  /@nuxthq/ui@2.2.0(rollup@3.25.1)(vue@3.3.4)(webpack@5.88.1):
-    resolution: {integrity: sha512-qNIUIbmnOvlKuuOgjumPXN+Uc99l9ct7/fHo7906S6MxXbIofQtUkLtAiFTJ2kwUhFXLtBeDgftaRT3jwSYw3Q==}
-    engines: {node: '>=16.14.0'}
-    requiresBuild: true
-    dependencies:
-      '@egoist/tailwindcss-icons': 1.0.7(tailwindcss@3.3.2)
-      '@headlessui/vue': 1.7.10(vue@3.3.4)
-      '@iconify-json/heroicons': 1.1.11
-      '@nuxt/kit': 3.6.1(rollup@3.25.1)
-      '@nuxtjs/color-mode': 3.2.0(rollup@3.25.1)
-      '@nuxtjs/tailwindcss': 6.7.0(rollup@3.25.1)(webpack@5.88.1)
-      '@popperjs/core': 2.11.8
-      '@tailwindcss/aspect-ratio': 0.4.2(tailwindcss@3.3.2)
-      '@tailwindcss/forms': 0.5.3(tailwindcss@3.3.2)
-      '@tailwindcss/typography': 0.5.9(tailwindcss@3.3.2)
-      '@vueuse/core': 10.1.2(vue@3.3.4)
-      '@vueuse/integrations': 10.1.2(fuse.js@6.6.2)(vue@3.3.4)
-      '@vueuse/math': 10.1.2(vue@3.3.4)
-      defu: 6.1.2
-      fuse.js: 6.6.2
-      lodash-es: 4.17.21
-      tailwindcss: 3.3.2
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - async-validator
-      - axios
-      - change-case
-      - drauu
-      - focus-trap
-      - idb-keyval
-      - jwt-decode
-      - nprogress
-      - qrcode
-      - rollup
-      - sortablejs
-      - supports-color
-      - ts-node
-      - universal-cookie
-      - vue
-      - webpack
-    dev: false
-
   /@nuxthq/ui@2.5.0(rollup@3.25.1)(vue@3.3.4)(webpack@5.88.1):
     resolution: {integrity: sha512-KQ+bf8HyyIH1gvuja8NwNRZetyqrRT3fFDipohWlvCrOpds2kLUUhF6SMOaVTWWzugKLUhIDCsDFsAMX/4I9Nw==}
     engines: {node: '>=v16.14.0'}
@@ -1840,18 +1776,6 @@ packages:
       - universal-cookie
       - vue
       - webpack
-    dev: true
-
-  /@nuxtjs/color-mode@3.2.0(rollup@3.25.1):
-    resolution: {integrity: sha512-isDR01yfadopiHQ/VEVUpyNSPrk5PCjUHS4t1qYRZwuRGefU4s9Iaxf6H9nmr1QFzoMgTm+3T0r/54jLwtpZbA==}
-    dependencies:
-      '@nuxt/kit': 3.6.1(rollup@3.25.1)
-      lodash.template: 4.5.0
-      pathe: 1.1.1
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-    dev: false
 
   /@nuxtjs/color-mode@3.3.0(rollup@3.25.1):
     resolution: {integrity: sha512-YVFNmTISke1eL7uk5p9I1suOsM222FxrqKoF13HS4x94OKCWwPLLeTCEzHZ8orzKnaFUbCXpuL4pRv8gvW+0Kw==}
@@ -1862,7 +1786,6 @@ packages:
     transitivePeerDependencies:
       - rollup
       - supports-color
-    dev: true
 
   /@nuxtjs/fontaine@0.4.0(rollup@3.25.1):
     resolution: {integrity: sha512-ZGFnp73RCg8weB65Qp0A3d+cWfUyea8OXXgoc61DkDP8+mQ+/mp73wwoy8RMsU5+F60vvx6FkPwiWTJLRMdbAw==}
@@ -1877,37 +1800,6 @@ packages:
       - rollup
       - supports-color
     dev: true
-
-  /@nuxtjs/tailwindcss@6.7.0(rollup@3.25.1)(webpack@5.88.1):
-    resolution: {integrity: sha512-Ixm4hWFKoM2bbtixJZ6/+bm1y/aZPefOkfED5zV4P3X/18HVJQfGD3icTHxDEc9hqRxMV0DVPwpBM13eo1yTlg==}
-    dependencies:
-      '@nuxt/kit': 3.6.1(rollup@3.25.1)
-      '@nuxt/postcss8': 1.1.3(webpack@5.88.1)
-      autoprefixer: 10.4.14(postcss@8.4.24)
-      chokidar: 3.5.3
-      clear-module: 4.1.2
-      colorette: 2.0.20
-      cookie-es: 1.0.0
-      defu: 6.1.2
-      destr: 1.2.2
-      h3: 1.7.1
-      iron-webcrypto: 0.7.0
-      micromatch: 4.0.5
-      pathe: 1.1.1
-      postcss: 8.4.24
-      postcss-custom-properties: 13.1.5(postcss@8.4.24)
-      postcss-nesting: 11.2.2(postcss@8.4.24)
-      radix3: 1.0.1
-      tailwind-config-viewer: 1.7.2(tailwindcss@3.3.2)
-      tailwindcss: 3.3.2
-      ufo: 1.1.2
-      uncrypto: 0.1.3
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-      - ts-node
-      - webpack
-    dev: false
 
   /@nuxtjs/tailwindcss@6.8.0(rollup@3.25.1)(webpack@5.88.1):
     resolution: {integrity: sha512-jzuvD1nfA2BPnSbHtKK0aiI51ndMa7lNGL1iDEFuEPsltzilZ9ED7zOP6niGTrImg0n5Yt4GEJpixi6yWwp9Hw==}
@@ -1938,7 +1830,6 @@ packages:
       - supports-color
       - ts-node
       - webpack
-    dev: true
 
   /@nuxtlabs/github-module@1.6.3(rollup@3.25.1):
     resolution: {integrity: sha512-oeZKBToETzJJGK9tB3vy6+pTdN6e9p8KIUHBK3kObO9VJZOeOuB4t9kK9jC6ld3LIB2CwWUT5WVkEB+TATdIMw==}
@@ -2510,7 +2401,6 @@ packages:
       tailwindcss: '>=3.2.0'
     dependencies:
       tailwindcss: 3.3.2
-    dev: true
 
   /@tailwindcss/forms@0.5.3(tailwindcss@3.3.2):
     resolution: {integrity: sha512-y5mb86JUoiUgBjY/o6FJSFZSEttfb3Q5gllE4xoKjAAD+vBrnIhE4dViwUuow3va8mpH4s9jyUbUbrRGoRdc2Q==}
@@ -3137,18 +3027,6 @@ packages:
   /@vue/shared@3.3.4:
     resolution: {integrity: sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==}
 
-  /@vueuse/core@10.1.2(vue@3.3.4):
-    resolution: {integrity: sha512-roNn8WuerI56A5uiTyF/TEYX0Y+VKlhZAF94unUfdhbDUI+NfwQMn4FUnUscIRUhv3344qvAghopU4bzLPNFlA==}
-    dependencies:
-      '@types/web-bluetooth': 0.0.17
-      '@vueuse/metadata': 10.1.2
-      '@vueuse/shared': 10.1.2(vue@3.3.4)
-      vue-demi: 0.14.5(vue@3.3.4)
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
-    dev: false
-
   /@vueuse/core@10.2.1(vue@3.3.4):
     resolution: {integrity: sha512-c441bfMbkAwTNwVRHQ0zdYZNETK//P84rC01aP2Uy/aRFCiie9NE/k9KdIXbno0eDYP5NPUuWv0aA/I4Unr/7w==}
     dependencies:
@@ -3170,56 +3048,6 @@ packages:
       '@unhead/ssr': 1.1.28
       '@unhead/vue': 1.1.28(vue@3.3.4)
       vue: 3.3.4
-    dev: false
-
-  /@vueuse/integrations@10.1.2(fuse.js@6.6.2)(vue@3.3.4):
-    resolution: {integrity: sha512-wUpG3Wv6LiWerOwCzOAM0iGhNQ4vfFUTkhj/xQy7TLXduh2M3D8N08aS0KqlxsejY6R8NLxydDIM+68QfHZZ8Q==}
-    peerDependencies:
-      async-validator: '*'
-      axios: '*'
-      change-case: '*'
-      drauu: '*'
-      focus-trap: '*'
-      fuse.js: '*'
-      idb-keyval: '*'
-      jwt-decode: '*'
-      nprogress: '*'
-      qrcode: '*'
-      sortablejs: '*'
-      universal-cookie: '*'
-    peerDependenciesMeta:
-      async-validator:
-        optional: true
-      axios:
-        optional: true
-      change-case:
-        optional: true
-      drauu:
-        optional: true
-      focus-trap:
-        optional: true
-      fuse.js:
-        optional: true
-      idb-keyval:
-        optional: true
-      jwt-decode:
-        optional: true
-      nprogress:
-        optional: true
-      qrcode:
-        optional: true
-      sortablejs:
-        optional: true
-      universal-cookie:
-        optional: true
-    dependencies:
-      '@vueuse/core': 10.1.2(vue@3.3.4)
-      '@vueuse/shared': 10.1.2(vue@3.3.4)
-      fuse.js: 6.6.2
-      vue-demi: 0.14.5(vue@3.3.4)
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
     dev: false
 
   /@vueuse/integrations@10.2.1(fuse.js@6.6.2)(vue@3.3.4):
@@ -3270,17 +3098,6 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    dev: true
-
-  /@vueuse/math@10.1.2(vue@3.3.4):
-    resolution: {integrity: sha512-cFrCEggVFoMPM6//vbE9yTBDzhzsmmUujUrXuJQoF6mntmYckBLOL1gPzWyX0tXmYUIo2bk2duDO6vuD0b9hPg==}
-    dependencies:
-      '@vueuse/shared': 10.1.2(vue@3.3.4)
-      vue-demi: 0.14.5(vue@3.3.4)
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
-    dev: false
 
   /@vueuse/math@10.2.1(vue@3.3.4):
     resolution: {integrity: sha512-5mOoPhezfgcRhBT0E2FXPEjCbrLWG9hjhGlg574yWYmwhcLKLtN993CsL3AucD8ULCmWZJJ/J03K4fLyPyaEzw==}
@@ -3290,11 +3107,6 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    dev: true
-
-  /@vueuse/metadata@10.1.2:
-    resolution: {integrity: sha512-3mc5BqN9aU2SqBeBuWE7ne4OtXHoHKggNgxZR2K+zIW4YLsy6xoZ4/9vErQs6tvoKDX6QAqm3lvsrv0mczAwIQ==}
-    dev: false
 
   /@vueuse/metadata@10.2.1:
     resolution: {integrity: sha512-3Gt68mY/i6bQvFqx7cuGBzrCCQu17OBaGWS5JdwISpMsHnMKKjC2FeB5OAfMcCQ0oINfADP3i9A4PPRo0peHdQ==}
@@ -3315,15 +3127,6 @@ packages:
       - rollup
       - supports-color
       - vue
-
-  /@vueuse/shared@10.1.2(vue@3.3.4):
-    resolution: {integrity: sha512-1uoUTPBlgyscK9v6ScGeVYDDzlPSFXBlxuK7SfrDGyUTBiznb3mNceqhwvZHjtDRELZEN79V5uWPTF1VDV8svA==}
-    dependencies:
-      vue-demi: 0.14.5(vue@3.3.4)
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
-    dev: false
 
   /@vueuse/shared@10.2.1(vue@3.3.4):
     resolution: {integrity: sha512-QWHq2bSuGptkcxx4f4M/fBYC3Y8d3M2UYyLsyzoPgEoVzJURQ0oJeWXu79OiLlBb8gTKkqe4mO85T/sf39mmiw==}
@@ -4055,12 +3858,15 @@ packages:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
       browserslist: 4.21.9
-      caniuse-lite: 1.0.30001509
+      caniuse-lite: 1.0.30001512
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
 
   /caniuse-lite@1.0.30001509:
     resolution: {integrity: sha512-2uDDk+TRiTX5hMcUYT/7CSyzMZxjfGu0vAUjS2g0LSD8UoXOv0LtpH4LxGMemsiPq6LCVIUjNwVM0erkOkGCDA==}
+
+  /caniuse-lite@1.0.30001512:
+    resolution: {integrity: sha512-2S9nK0G/mE+jasCUsMPlARhRCts1ebcp2Ji8Y8PWi4NDE1iRdLCnEPHkEfeBrGC45L4isBx5ur3IQ6yTE2mRZw==}
 
   /ccount@2.0.1:
     resolution: {integrity: sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==}
@@ -5179,7 +4985,7 @@ packages:
     dependencies:
       debug: 3.2.7
       is-core-module: 2.12.1
-      resolve: 1.22.2
+      resolve: 1.22.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -8426,17 +8232,6 @@ packages:
       - supports-color
     dev: true
 
-  /nuxt-icon@0.4.1(rollup@3.25.1)(vue@3.3.4):
-    resolution: {integrity: sha512-QTpxewOgLfdPx2uwHhoU5XQ4AtQ9N31ifbwnbn4Sx5NM+W2slNfGq1eEKmUl0CpSUAhGEdKbzd5CjA3c7dVa1Q==}
-    dependencies:
-      '@iconify/vue': 4.1.1(vue@3.3.4)
-      '@nuxt/kit': 3.6.1(rollup@3.25.1)
-    transitivePeerDependencies:
-      - rollup
-      - supports-color
-      - vue
-    dev: false
-
   /nuxt-icon@0.4.2(rollup@3.25.1)(vue@3.3.4):
     resolution: {integrity: sha512-yFpvDA+FuUz+ixtt1eRzctTfR4sl7egZoXu7LL+CUc42qFlzCMaTZJ9eqFR2FTW8zu9tfLIZ83RJmUa1jNEWgg==}
     dependencies:
@@ -9289,19 +9084,6 @@ packages:
       postcss: 8.4.24
       postcss-value-parser: 4.2.0
 
-  /postcss-custom-properties@13.1.5(postcss@8.4.24):
-    resolution: {integrity: sha512-98DXk81zTGqMVkGANysMHbGIg3voH383DYo3/+c+Abzay3nao+vM/f4Jgzsakk9S7BDsEw5DiW7sFy5G4W2wLA==}
-    engines: {node: ^14 || ^16 || >=18}
-    peerDependencies:
-      postcss: ^8.4
-    dependencies:
-      '@csstools/cascade-layer-name-parser': 1.0.2(@csstools/css-parser-algorithms@2.2.0)(@csstools/css-tokenizer@2.1.1)
-      '@csstools/css-parser-algorithms': 2.2.0(@csstools/css-tokenizer@2.1.1)
-      '@csstools/css-tokenizer': 2.1.1
-      postcss: 8.4.24
-      postcss-value-parser: 4.2.0
-    dev: false
-
   /postcss-custom-properties@13.2.0(postcss@8.4.24):
     resolution: {integrity: sha512-UYiPqbqmVayyv56y0mtGhvUKZClflwE9cTTmPaqEX8fOVjVwsotqKGYtJXSLxrJLwf9tt7ka+Luyh1ZAOhGHWA==}
     engines: {node: ^14 || ^16 || >=18}
@@ -9313,7 +9095,6 @@ packages:
       '@csstools/css-tokenizer': 2.1.1
       postcss: 8.4.24
       postcss-value-parser: 4.2.0
-    dev: true
 
   /postcss-discard-comments@6.0.0(postcss@8.4.24):
     resolution: {integrity: sha512-p2skSGqzPMZkEQvJsgnkBhCn8gI7NzRH2683EEjrIkoMiwRELx68yoUJ3q3DGSGuQ8Ug9Gsn+OuDr46yfO+eFw==}
@@ -9522,17 +9303,6 @@ packages:
       postcss: 8.4.24
       postcss-selector-parser: 6.0.13
 
-  /postcss-nesting@11.2.2(postcss@8.4.24):
-    resolution: {integrity: sha512-aOTiUniAB1bcPE6GGiynWRa6PZFPhOTAm5q3q5cem6QeSijIHHkWr6gs65ukCZMXeak8yXeZVbBJET3VM+HlhA==}
-    engines: {node: ^14 || ^16 || >=18}
-    peerDependencies:
-      postcss: ^8.4
-    dependencies:
-      '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.0.13)
-      postcss: 8.4.24
-      postcss-selector-parser: 6.0.13
-    dev: false
-
   /postcss-nesting@11.3.0(postcss@8.4.24):
     resolution: {integrity: sha512-JlS10AQm/RzyrUGgl5irVkAlZYTJ99mNueUl+Qab+TcHhVedLiylWVkKBhRale+rS9yWIJK48JVzQlq3LcSdeA==}
     engines: {node: ^14 || ^16 || >=18}
@@ -9542,7 +9312,6 @@ packages:
       '@csstools/selector-specificity': 2.2.0(postcss-selector-parser@6.0.13)
       postcss: 8.4.24
       postcss-selector-parser: 6.0.13
-    dev: true
 
   /postcss-normalize-charset@6.0.0(postcss@8.4.24):
     resolution: {integrity: sha512-cqundwChbu8yO/gSWkuFDmKrCZ2vJzDAocheT2JTd0sFNA4HMGoKMfbk2B+J0OmO0t5GUkiAkSM5yF2rSLUjgQ==}
