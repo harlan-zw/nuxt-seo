@@ -43,7 +43,7 @@ export function useModuleList() {
       label: 'Schema.org',
       icon: 'carbon:chart-relationship',
       description: 'The quickest and easiest way to build Schema.org graphs.',
-      repo: 'vueuse/schema-org',
+      repo: 'harlan-zw/unhead-schema-org',
     },
     {
       label: 'Link Checker',

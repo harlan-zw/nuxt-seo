@@ -130,8 +130,8 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2(rollup@3.26.0)
       nuxt-simple-robots:
-        specifier: 3.0.0-beta.1
-        version: 3.0.0-beta.1(rollup@3.26.0)
+        specifier: 3.0.0
+        version: 3.0.0(rollup@3.26.0)
       nuxt-simple-sitemap:
         specifier: ^2.7.0
         version: 2.7.0(rollup@3.26.0)
@@ -3091,12 +3091,12 @@ packages:
       mime-types: 2.1.35
       negotiator: 0.6.3
 
-  /acorn-import-assertions@1.9.0(acorn@8.9.0):
+  /acorn-import-assertions@1.9.0(acorn@8.10.0):
     resolution: {integrity: sha512-cmMwop9x+8KFhxvKrKfPYmN6/pKTYYHBqLa0DfvVZcKMJWNyWLnaqND7dx/qn66R7ewM1UX5XMaDVP5wlVTaVA==}
     peerDependencies:
       acorn: ^8
     dependencies:
-      acorn: 8.9.0
+      acorn: 8.10.0
 
   /acorn-jsx@5.3.2(acorn@8.9.0):
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -3108,6 +3108,11 @@ packages:
   /acorn-walk@8.2.0:
     resolution: {integrity: sha512-k+iyHEuPgSw6SbuDpGQM+06HQUa04DZ3o+F6CSzXMvvI5KMvnaEqXe+YVe555R9nn6GPt404fos4wcgpw12SDA==}
     engines: {node: '>=0.4.0'}
+
+  /acorn@8.10.0:
+    resolution: {integrity: sha512-F0SAmZ8iUtS//m8DmCTA0jlh6TDKkHQyK6xc6V4KDTyZKA9dnvX9/3sRTVQrWm79glUAZbnmmNcdYwUIHWVybw==}
+    engines: {node: '>=0.4.0'}
+    hasBin: true
 
   /acorn@8.9.0:
     resolution: {integrity: sha512-jaVNAFBHNLXspO543WnNNPZFRtavh3skAkITqD0/2aeMkKZTN+254PyhwxFYrk3vQ1xfY+2wbesJMs/JC8/PwQ==}
@@ -8183,13 +8188,13 @@ packages:
       - supports-color
     dev: false
 
-  /nuxt-simple-robots@3.0.0-beta.1(rollup@3.26.0):
-    resolution: {integrity: sha512-GFmfAOSoZgBJWjX8KTEE0m6AOycTQILXLHigtbxzF1vGwvuT3OE5EAkJJoZNfEg00NDu8mh1yUXNxFnTT0Nsgw==}
+  /nuxt-simple-robots@3.0.0(rollup@3.26.0):
+    resolution: {integrity: sha512-sVy7RKiyHJY1hbSKk7Oe57SX6LMAqp5VWoPZtVCPEEszhPjvgE/pBgGTn6HvwladQ1BVIYbNieisy4GTLXhe7w==}
     dependencies:
       '@nuxt/kit': 3.6.1(rollup@3.26.0)
       defu: 6.1.2
-      nuxt-site-config: 0.7.5(rollup@3.26.0)
-      nuxt-site-config-kit: 0.7.5(rollup@3.26.0)
+      nuxt-site-config: 0.8.5(rollup@3.26.0)
+      nuxt-site-config-kit: 0.8.5(rollup@3.26.0)
       pathe: 1.1.1
       ufo: 1.1.2
     transitivePeerDependencies:
@@ -11570,8 +11575,8 @@ packages:
       '@webassemblyjs/ast': 1.11.6
       '@webassemblyjs/wasm-edit': 1.11.6
       '@webassemblyjs/wasm-parser': 1.11.6
-      acorn: 8.9.0
-      acorn-import-assertions: 1.9.0(acorn@8.9.0)
+      acorn: 8.10.0
+      acorn-import-assertions: 1.9.0(acorn@8.10.0)
       browserslist: 4.21.9
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.15.0
