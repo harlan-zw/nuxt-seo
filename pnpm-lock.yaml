@@ -118,8 +118,8 @@ importers:
         specifier: ^1.0.5
         version: 1.0.5(rollup@3.26.0)
       nuxt-og-image:
-        specifier: ^2.0.3
-        version: 2.0.3(rollup@3.26.0)
+        specifier: ^2.0.4
+        version: 2.0.4(rollup@3.26.0)
       nuxt-schema-org:
         specifier: ^2.2.0
         version: 2.2.0(@unhead/vue@1.1.30)(rollup@3.26.0)
@@ -8053,6 +8053,50 @@ packages:
 
   /nuxt-og-image@2.0.3(rollup@3.26.0):
     resolution: {integrity: sha512-Dxoev6yzckV2y9lO+dPnc7RCYDhujKPtSEaDCnnvEeHIf796USTXYtQ3KRFuGlsbfU+n8mNwSRurJotrPq7WnA==}
+    dependencies:
+      '@nuxt/kit': 3.6.1(rollup@3.26.0)
+      '@resvg/resvg-js': 2.4.1
+      '@resvg/resvg-wasm': 2.4.1
+      '@types/fs-extra': 11.0.1
+      birpc: 0.2.12
+      chalk: 5.3.0
+      chrome-launcher: 0.15.2
+      defu: 6.1.2
+      execa: 7.1.1
+      fast-glob: 3.3.0
+      flatted: 3.2.7
+      fs-extra: 11.1.1
+      globby: 13.2.1
+      image-size: 1.0.2
+      inline-css: 4.0.2
+      launch-editor: 2.6.0
+      nuxt-site-config: 0.8.5(rollup@3.26.0)
+      nuxt-site-config-kit: 0.8.5(rollup@3.26.0)
+      nypm: 0.2.2
+      ofetch: 1.1.1
+      ohash: 1.1.2
+      pathe: 1.1.1
+      playwright-core: 1.35.1
+      radix3: 1.0.1
+      satori: 0.10.1
+      satori-html: 0.3.2
+      sirv: 2.0.3
+      std-env: 3.3.3
+      svg2png-wasm: 1.4.0
+      tinyws: 0.1.0(ws@8.13.0)
+      twemoji: 14.0.2
+      ufo: 1.1.2
+      ws: 8.13.0
+      yoga-wasm-web: 0.3.3
+    transitivePeerDependencies:
+      - bufferutil
+      - rollup
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  /nuxt-og-image@2.0.4(rollup@3.26.0):
+    resolution: {integrity: sha512-vOl5M5xilIRdiPVBIhh6JiiEAwXPjwuEAGM4a1ryQfWiFAexl8DboMNznauaXcimc+x3guXUYUpM+r+IS1EA/g==}
     dependencies:
       '@nuxt/kit': 3.6.1(rollup@3.26.0)
       '@resvg/resvg-js': 2.4.1
