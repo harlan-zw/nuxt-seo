@@ -10,7 +10,10 @@ const { data: surround } = await useAsyncData(`docs-${route.path}-surround`, () 
 
 const [prev, next] = surround.value
 
-useContentHead(page)
+useSeoMeta({
+  title: () => page.value?.title,
+  description: () => page.value?.description,
+})
 </script>
 
 <template>

@@ -1,26 +1,27 @@
 import {
-  addComponentsDir,
-  addImportsDir,
+  addComponent, addImports,
   createResolver,
   defineNuxtModule,
-  installModule,
-  logger,
+  installModule, useLogger,
 } from '@nuxt/kit'
 import chalk from 'chalk'
-import defu from 'defu'
+import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
 import { version } from '../package.json'
 
 export interface ModuleOptions {
+  enabled: boolean
+  debug: boolean
   splash: boolean
 }
 
 const Modules = [
-  'nuxt-site-config',
-  'nuxt-seo-ui',
-  'nuxt-simple-sitemap',
   'nuxt-simple-robots',
+  'nuxt-simple-sitemap',
+  'nuxt-og-image',
+  'nuxt-seo-ui',
   'nuxt-schema-org',
-
+  'nuxt-seo-experiments',
+  'nuxt-link-checker',
 ]
 
 export default defineNuxtModule<ModuleOptions>({
@@ -34,71 +35,35 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults(nuxt) {
     return {
+      enabled: true,
+      debug: false,
       splash: nuxt.options.dev,
     }
   },
   async setup(config, nuxt) {
-    // nuxt.options.runtimeConfig.public['nuxt-seo-kit'] = config
+    const logger = useLogger('nuxt-seo')
+    logger.level = (config.debug || nuxt.options.debug) ? 4 : 3
+    if (config.enabled === false) {
+      logger.debug('The module is disabled, skipping setup.')
+      return
+    }
 
     const { resolve, resolvePath } = createResolver(import.meta.url)
+
+    await installNuxtSiteConfig()
 
     for (const module of Modules)
       await installModule(await resolvePath(module))
 
-    const sitemapPath = await resolvePath('nuxt-simple-sitemap')
-    // configure nuxt-simple-sitemap
-    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
-    // @ts-ignore runtime type
-    if (nuxt.options.sitemap !== false) {
-      // @ts-expect-error runtime type
-      nuxt.options.sitemap = defu(nuxt.options.sitemap || {}, {
-        hostname: config.siteUrl,
-        trailingSlash: config.trailingSlash,
-      })
-      await installModule(sitemapPath)
-    }
-    // configure nuxt-schema-org
-    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
-    // @ts-ignore runtime type
-    if (nuxt.options.schemaOrg !== false) {
-      // @ts-expect-error runtime type
-      nuxt.options.schemaOrg = defu(nuxt.options.schemaOrg || {}, {
-        host: config.siteUrl,
-        inLanguage: config.language,
-        trailingSlash: config.trailingSlash,
-      })
-      await installModule(await resolvePath('nuxt-schema-org'))
-    }
-    // configure nuxt-og-image
-    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
-    // @ts-ignore runtime type
-    if (nuxt.options.ogImage !== false) {
-      nuxt.options.ogImage = defu(nuxt.options.ogImage || {}, {
-        host: config.siteUrl,
-      })
-      await installModule(await resolvePath('nuxt-og-image'))
-    }
-    // configure nuxt-link-checker
-    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
-    // @ts-ignore runtime type
-    if (nuxt.options.linkChecker !== false) {
-      nuxt.options.linkChecker = defu(nuxt.options.linkChecker || {}, {
-        host: config.siteUrl,
-        trailingSlash: config.trailingSlash,
-      })
-      await installModule(await resolvePath('nuxt-link-checker'))
-    }
-    await installModule(await resolvePath('nuxt-simple-robots'))
+    await addComponent({
+      filePath: resolve('./runtime/components/SeoMeta.vue'),
+      name: 'SeoMeta',
+    })
 
-    const componentsDir = resolve('./runtime/components')
-
-    nuxt.options.build.transpile.push(...[
-      componentsDir,
-      resolve('./runtime/composables'),
-    ])
-
-    await addComponentsDir({ path: componentsDir })
-    addImportsDir(resolve('./runtime/composables'))
+    addImports({
+      from: resolve('./runtime/composables/useSeoKit.ts'),
+      as: 'useSeoKit',
+    })
 
     if (config.splash) {
       logger.log('')

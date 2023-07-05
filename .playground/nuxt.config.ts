@@ -8,15 +8,10 @@ export default defineNuxtConfig({
     'nuxt-icon'
   ],
 
-  runtimeConfig: {
-    public: {
-      site: {
-        titleSeparator: '·',
-        name: 'Nuxt Playground',
-        description: 'A Nuxt 3 playground',
-        language: 'en',
-      }
-    }
+  site: {
+    titleSeparator: '·',
+    name: 'Nuxt SEO',
+    locale: 'en',
   },
 
   routeRules: {

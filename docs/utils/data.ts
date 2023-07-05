@@ -21,24 +21,28 @@ export function useModuleList() {
       icon: 'i-heroicons-cog-20-solid',
       description: 'The simplest way to control the robots crawling and indexing your Nuxt site.',
       tag: 'coming soon',
+      repo: 'harlan-zw/nuxt-simple-robots',
     },
     {
       label: 'Sitemap',
       icon: 'i-heroicons-pencil-square-20-solid',
       description: 'The simplest way to add XML Sitemaps to your Nuxt site.',
       tag: 'coming soon',
+      repo: 'harlan-zw/nuxt-simple-sitemap',
     },
     {
       label: 'Schema.org',
       icon: 'i-heroicons-archive-box-20-solid',
       description: 'The quickest and easiest way to build Schema.org graphs for Nuxt.',
       tag: 'coming soon',
+      repo: 'vueuse/schema-org',
     },
     {
       label: 'Link Checker',
       icon: 'i-heroicons-arrow-right-circle-20-solid',
       description: 'Identify and fix link issues for Nuxt apps.',
       tag: 'coming soon',
+      repo: 'harlan-zw/nuxt-link-checker',
     },
     {
       label: 'SEO UI',
