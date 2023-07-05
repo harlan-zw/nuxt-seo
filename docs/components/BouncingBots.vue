@@ -56,7 +56,7 @@ onMounted(() => {
   direction.x = Math.random() > 0.5 ? -1 : -1
   direction.y = Math.random() > 0.5 ? 1 : -1
   const { pause, resume } = useIntervalFn(() => {
-    speed = Math.min(speed + 0.005 + Math.random() * 0.005, 2.5)
+    speed = Math.min(speed + 0.01 + Math.random() * 0.01, 2.5)
     // do the movement
     pos.x += (direction.x * speed)
     pos.y += (direction.y * speed)
@@ -104,12 +104,6 @@ onMounted(() => {
       robotsInject.value.hover = false
       pause()
       rotation = 0
-      // start in a random spot
-      // pos.x = Math.random() * width - size.width
-      // pos.y = Math.random() * height - size.height
-      // start by assigning a reandom diagonal direction to head towards
-      // direction.x = Math.random() > 0.5 ? -1 : -1
-      // direction.y = Math.random() > 0.5 ? 1 : -1
       speed = 0
       styles.value = {
         opacity: 0,
