@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useMouseInElement } from '@vueuse/core'
 import { onMounted, ref, useElementHover, useIntervalFn, watch } from '#imports'
 
 const props = defineProps<{
@@ -45,6 +46,8 @@ onMounted(() => {
     isHovered.value = parentHover.value
   })
   const { width, height } = parentNode.getBoundingClientRect()
+  const { elementX: mouseX, elementY: mouseY } = useMouseInElement(parentNode)
+
   // set facing rotation, should be 0, 90, 180, 270
   rotation = 0
   // start in a random spot
@@ -56,10 +59,11 @@ onMounted(() => {
   direction.x = Math.random() > 0.5 ? -1 : -1
   direction.y = Math.random() > 0.5 ? 1 : -1
   const { pause, resume } = useIntervalFn(() => {
-    speed = Math.min(speed + 0.01 + Math.random() * 0.01, 2.5)
+    // between 3 and 5
+    speed = Math.random() * 2 + 3
     // do the movement
-    pos.x += (direction.x * speed)
-    pos.y += (direction.y * speed)
+    pos.x += Math.round(direction.x * speed)
+    pos.y += Math.round(direction.y * speed)
     // we want to create a DVD screensaver effect, we move diagonally until we hit a wall then we bounce off of it
     // travel diagonally, each time we hit the corner, add a carriage
     // if we hit the top or bottom, reverse the y direction
@@ -80,6 +84,26 @@ onMounted(() => {
       rotation = 180
       direction.y *= -1
     }
+    console.log({ mouseX: mouseX.value, mouseY: mouseY.value })
+    // also collide with the mouse
+    if (pos.x < mouseX.value && pos.x + size.width > mouseX.value && pos.y < mouseY.value && pos.y + size.height > mouseY.value) {
+      // we're colliding with the mouse, so we need to bounce off of it
+      // we need to figure out which side we're colliding with
+      // we can do this by figuring out which side is closer
+      const xDist = Math.min(Math.abs(pos.x - mouseX.value), Math.abs(pos.x + size.width - mouseX.value))
+      const yDist = Math.min(Math.abs(pos.y - mouseY.value), Math.abs(pos.y + size.height - mouseY.value))
+      if (xDist < yDist) {
+        // we're colliding with the left or right side
+        direction.x *= -1
+        rotation = 90
+      }
+      else {
+        // we're colliding with the top or bottom side
+        direction.y *= -1
+        rotation = 0
+      }
+    }
+
     const stylesTmp: Record<string, any> = {}
     // apply transform style to container
     if (rotation === 180) {
@@ -91,7 +115,7 @@ onMounted(() => {
     }
     stylesTmp.opacity = Math.min(styles.value.opacity + 0.01 + Math.random() * 0.01, 1)
     styles.value = stylesTmp
-  }, props.interval, {
+  }, 1000 / 30 /* 30 fps */, {
     immediate: isHovered.value,
   })
 

@@ -13,8 +13,10 @@ provide('robots', robotState)
 
 const { pause, resume } = useIntervalFn(() => {
   // cap it at 30 bots
-  if (robotState.value.robots.length >= 30)
+  if (robotState.value.robots.length >= 5) {
+    pause()
     return
+  }
 
   robotState.value.robots.push('')
 }, 750, {
@@ -33,8 +35,7 @@ watch(() => robotState.value.hover, () => {
 })
 
 // avoid dropping frames
-const fps = useFps()
-const interval = computed(() => 1000 / fps.value)
+const interval = computed(() => 1000 / 60)
 </script>
 
 <template>
