@@ -43,12 +43,12 @@ const modules = useModuleList()
       <div class="text-blue-300 group-hover:text-[1.25rem] group-hover:text-blue-500 transition-all relative">
         <template v-if="module.label === 'OG Image'">
         <div class="w-full h-full">
-          <img src="/og-image/getting-started/installation/__og_image__/og.png" height="150" width="300" class="group-hover:scale-110 transition transform h-[150px] w-[300px] rounded-lg shadow-xl" alt="">
+          <img :src="`${module.to}/__og_image__/og.png`" height="150" width="300" class="group-hover:scale-110 transition transform h-[150px] w-[300px] rounded-lg shadow-xl" alt="">
         </div>
         </template>
         <template v-else-if="module.label === 'Experiments'">
         <div class="w-full h-full">
-          <img src="/experiments/getting-started/installation/__og_image__/og.png" height="150" width="300" class="group-hover:scale-110 transition transform h-[150px] w-[300px] rounded-lg shadow-xl" alt="">
+          <img :src="`${module.to}/__og_image__/og.png`" height="150" width="300" class="group-hover:scale-110 transition transform h-[150px] w-[300px] rounded-lg shadow-xl" alt="">
         </div>
         </template>
         <template v-else>
