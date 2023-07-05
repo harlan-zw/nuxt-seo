@@ -11,7 +11,7 @@ const route = useRoute()
 const children = computed(() => {
   // first segment
   const segment = route.path.split('/')[1]
-  switch(segment) {
+  switch (segment) {
     case 'og-image':
       return navigation.value[0].children
     case 'experiments':

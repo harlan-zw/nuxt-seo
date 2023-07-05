@@ -25,7 +25,6 @@ defineProps({
           icon="i-simple-icons-headlessui"
           color="white"
         />
-
       </div>
     </div>
     <p v-if="page.description" class="mt-4 text-lg text-gray-500 dark:text-gray-400">

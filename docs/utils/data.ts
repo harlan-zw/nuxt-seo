@@ -18,9 +18,9 @@ export function useModuleList() {
     },
     {
       label: 'Robots',
-      icon: 'i-heroicons-cog-20-solid',
-      description: 'The simplest way to control the robots crawling and indexing your Nuxt site.',
-      tag: 'coming soon',
+      description: 'The simplest way to control the robots crawling and indexing your site.',
+      tag: '🎉 v3 Released',
+      to: '/robots/getting-started/installation',
       repo: 'harlan-zw/nuxt-simple-robots',
     },
     {

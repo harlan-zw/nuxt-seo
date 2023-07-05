@@ -15,6 +15,5 @@ provide('navigation', navigation)
     <ClientOnly>
       <DocsSearch />
     </ClientOnly>
-
   </div>
 </template>
