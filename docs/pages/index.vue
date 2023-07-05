@@ -56,7 +56,6 @@ const interval = computed(() => 1000 / fps.value)
           <UButton size="lg" to="/">
             Get started
           </UButton>
-
         </div>
       </div>
 
@@ -73,10 +72,10 @@ const interval = computed(() => 1000 / fps.value)
           <Icon :name="module.icon" size="150" :class="module.label === 'Robots' ? ['transition group-hover:opacity-0'] : []" />
         </template>
         <template #teleport>
-<!--        todo -->
-<!--          <template v-if="module.label === 'OG Image'">-->
-<!--          <img :src="`${module.to}/__og_image__/og.png`" height="150" width="300" class="hidden group-hover:block fixed z-100 group-hover:scale-150 transition transform h-[150px] w-[300px] rounded-lg shadow-xl" alt="">-->
-<!--          </template>-->
+          <!--        todo -->
+          <!--          <template v-if="module.label === 'OG Image'"> -->
+          <!--          <img :src="`${module.to}/__og_image__/og.png`" height="150" width="300" class="hidden group-hover:block fixed z-100 group-hover:scale-150 transition transform h-[150px] w-[300px] rounded-lg shadow-xl" alt=""> -->
+          <!--          </template> -->
           <template v-if="module.label === 'Robots'">
             <BouncingBots v-for="(_, k) in robotState.robots" :key="k" icon="noto:robot" :interval="interval" />
           </template>

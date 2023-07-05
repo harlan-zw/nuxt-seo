@@ -56,8 +56,7 @@ onMounted(() => {
   direction.x = Math.random() > 0.5 ? -1 : -1
   direction.y = Math.random() > 0.5 ? 1 : -1
   const { pause, resume } = useIntervalFn(() => {
-    speed = Math.min(speed + 0.005 + Math.random() * 0.005, 2)
-    speed = Math.min(speed, 2)
+    speed = Math.min(speed + 0.005 + Math.random() * 0.005, 2.5)
     // do the movement
     pos.x += (direction.x * speed)
     pos.y += (direction.y * speed)
@@ -92,8 +91,7 @@ onMounted(() => {
     }
     stylesTmp.opacity = Math.min(styles.value.opacity + 0.01 + Math.random() * 0.01, 1)
     styles.value = stylesTmp
-    console.log(styles.value)
-  }, Math.min(props.interval, 60), {
+  }, props.interval, {
     immediate: isHovered.value,
   })
 
