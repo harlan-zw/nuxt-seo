@@ -12,8 +12,8 @@ const container = ref()
 
 // we're not moving anywhere
 const direction = {
-  x: 0,
-  y: 0,
+  x: Math.random() > 0.5 ? 1 : -1,
+  y: Math.random() > 0.5 ? 1 : -1,
 }
 
 const pos = {
@@ -27,7 +27,10 @@ const size = {
   height: 33,
 }
 
-const opacity = ref(0)
+const styles = ref({
+  opacity: 0,
+  transform: '',
+})
 let rotation = 0
 let speed = 0
 
@@ -37,9 +40,7 @@ onMounted(() => {
   // parent node for bounding box
   const parentNode = container.value.parentNode
   // hover requires a class
-  const parentHover = useElementHover(container.value.closest('.showcase-card'), {
-    delayLeave: 500,
-  })
+  const parentHover = useElementHover(container.value.closest('.showcase-card'))
   watch(parentHover, () => {
     isHovered.value = parentHover.value
   })
@@ -47,14 +48,16 @@ onMounted(() => {
   // set facing rotation, should be 0, 90, 180, 270
   rotation = 0
   // start in a random spot
-  pos.x = Math.random() * width - size.width
-  pos.y = Math.random() * height - size.height
+  pos.x = Math.min(Math.random() * width, width - size.width)
+  pos.y = Math.min(Math.random() * height, height - size.height)
   // start at a speed between 1-3
   speed = 0
   // start by assigning a reandom diagonal direction to head towards
   direction.x = Math.random() > 0.5 ? -1 : -1
   direction.y = Math.random() > 0.5 ? 1 : -1
   const { pause, resume } = useIntervalFn(() => {
+    speed = Math.min(speed + 0.005 + Math.random() * 0.005, 2)
+    speed = Math.min(speed, 2)
     // do the movement
     pos.x += (direction.x * speed)
     pos.y += (direction.y * speed)
@@ -64,32 +67,33 @@ onMounted(() => {
     // if we hit the left or right, reverse the x direction
     if (pos.x + size.width > width) {
       rotation = 90
-      direction.x = -speed
+      direction.x *= -1
     }
     if (pos.x < 0) {
       rotation = 270
-      direction.x = speed
+      direction.x *= -1
     }
     if (pos.y + size.height > height) {
       rotation = 0
-      direction.y = -speed
+      direction.y *= -1
     }
     if (pos.y < 0) {
       rotation = 180
-      direction.y = speed
+      direction.y *= -1
     }
+    const stylesTmp: Record<string, any> = {}
     // apply transform style to container
     if (rotation === 180) {
       // we need to flip instread
-      container.value.style.transform = `translate(${pos.x}px, ${pos.y}px) rotateX(${rotation}deg)`
+      stylesTmp.transform = `translate(${pos.x}px, ${pos.y}px) rotateX(${rotation}deg)`
     }
     else {
-      container.value.style.transform = `translate(${pos.x}px, ${pos.y}px) rotate(${rotation}deg)`
+      stylesTmp.transform = `translate(${pos.x}px, ${pos.y}px) rotate(${rotation}deg)`
     }
-    // fade in exponentially, start slow and then get quicker with some randomness
-    opacity.value = Math.min(opacity.value + 0.01 + Math.random() * 0.01, 1)
-    speed = Math.min(speed + 0.005 + Math.random() * 0.005, 2)
-  }, props.interval, {
+    stylesTmp.opacity = Math.min(styles.value.opacity + 0.01 + Math.random() * 0.01, 1)
+    styles.value = stylesTmp
+    console.log(styles.value)
+  }, Math.min(props.interval, 60), {
     immediate: isHovered.value,
   })
 
@@ -103,10 +107,16 @@ onMounted(() => {
       pause()
       rotation = 0
       // start in a random spot
-      pos.x = Math.random() * width - size.width
-      pos.y = Math.random() * height - size.height
+      // pos.x = Math.random() * width - size.width
+      // pos.y = Math.random() * height - size.height
+      // start by assigning a reandom diagonal direction to head towards
+      // direction.x = Math.random() > 0.5 ? -1 : -1
+      // direction.y = Math.random() > 0.5 ? 1 : -1
       speed = 0
-      opacity.value = 0
+      styles.value = {
+        opacity: 0,
+        transform: styles.value.transform,
+      }
     }
   })
 })
@@ -114,6 +124,6 @@ onMounted(() => {
 
 <template>
   <div ref="container" class="absolute top-0 left-0">
-    <Icon :name="icon" size="30" class="transition-opacity" :style="{ opacity }" />
+    <Icon :name="icon" size="30" class="transition-opacity" :style="styles" />
   </div>
 </template>

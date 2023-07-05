@@ -17,8 +17,8 @@ const linkAttrs = computed(() => {
 </script>
 
 <template>
-  <div class="showcase-card relative">
-    <component :is="to ? NuxtLink : 'div'" v-bind="linkAttrs">
+  <div class="showcase-card relative h-full">
+    <component :is="to ? NuxtLink : 'div'" v-bind="linkAttrs" class="h-full">
       <div class="group relative border hover:border-blue-400 transition rounded-xl overflow-hidden h-full">
         <div
           class="h-48 relative flex items-center justify-center bg-no-repeat bg-cover border-b-2 border-gray-100/30 dark:border-gray-900/10"
@@ -27,7 +27,7 @@ const linkAttrs = computed(() => {
           <div
             class="blur-overlay w-full h-full absolute pointer-events-none"
           />
-          <div class="z-10 text-blue-300 group-hover:text-[1.25rem] w-full h-full flex items-center justify-center group-hover:text-blue-500 transition-all relative">
+          <div class="z-10 text-blue-200 group-hover:text-[1.25rem] w-full h-full flex items-center justify-center group-hover:text-blue-500 transition-all relative">
             <slot />
           </div>
           <slot name="teleport" />
@@ -52,9 +52,17 @@ const linkAttrs = computed(() => {
               </div>
             </LegoGithubStar>
           </div>
+          <div v-else class="text-sm flex text-gray-500 items-center justify-between mt-5">
+            Not Published
+          </div>
 
-          <UBadge v-if="tag && !tag.includes('coming soon')" size="xs" class="z-20 absolute top-4 right-4">
-            {{ tag }}
+          <UButton v-if="tag" :to="tag.to" :padded="false" size="xs" class="group z-20 absolute top-4 right-4">
+            <UBadge size="xs" class="hover:shadow transition">
+              {{ tag.label }}
+            </UBadge>
+          </UButton>
+          <UBadge v-else color="gray" size="xs" class="z-20 absolute top-4 right-4">
+            Coming soon
           </UBadge>
         </div>
       </div>

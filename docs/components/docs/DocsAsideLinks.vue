@@ -4,7 +4,8 @@ import type { NavItem } from '@nuxt/content/dist/runtime/types'
 const navigation: Ref<NavItem[]> = inject('navigation')
 
 function mapContentLinks(links: NavItem[]) {
-  return links?.map(link => ({ label: link.title, icon: link.icon, to: link._path, badge: link.badge })) || []
+  console.log(links)
+  return links?.map(link => ({ label: link.asideTitle || link.title, icon: link.icon, to: link._path, badge: link.badge })) || []
 }
 
 const route = useRoute()
@@ -16,6 +17,8 @@ const children = computed(() => {
       return navigation.value[0].children
     case 'experiments':
       return navigation.value[1].children
+    case 'robots':
+      return navigation.value[2].children
   }
 })
 </script>

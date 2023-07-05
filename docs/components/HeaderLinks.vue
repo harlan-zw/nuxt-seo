@@ -13,6 +13,9 @@ const isOgImage = computed(() => {
 const isExperiments = computed(() => {
   return route.path.startsWith('/experiments')
 })
+const isRobots = computed(() => {
+  return route.path.startsWith('/robots')
+})
 </script>
 
 <template>
@@ -44,6 +47,10 @@ const isExperiments = computed(() => {
 
     <UButton to="/experiments/getting-started/installation" :variant="!isExperiments ? 'ghost' : 'outline'" class="md:block hidden">
       <span class="text-gray-700 dark:text-gray-200">Experiments</span>
+    </UButton>
+
+    <UButton to="/robots/getting-started/installation" :variant="!isRobots ? 'ghost' : 'outline'" class="md:block hidden">
+      <span class="text-gray-700 dark:text-gray-200">Robots</span>
     </UButton>
 
     <div class="flex items-center justify-end -mr-1.5 gap-3">

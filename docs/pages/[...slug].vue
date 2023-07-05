@@ -14,6 +14,8 @@ useSeoMeta({
   title: () => page.value?.title,
   description: () => page.value?.description,
 })
+
+defineOgImage()
 </script>
 
 <template>
