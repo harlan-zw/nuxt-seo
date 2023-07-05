@@ -53,7 +53,7 @@ export default defineNuxtConfig({
   routeRules: {
     // for doc linking purposes
     '/og-image': { redirect: { to: '/og-image/getting-started/installation', statusCode: 301 } },
-    '/experiments': { redirect: { to: '/seo-experiments/getting-started/installation', statusCode: 301 } },
+    '/experiments': { redirect: { to: '/experiments/getting-started/installation', statusCode: 301 } },
   },
   app: {
     head: {
