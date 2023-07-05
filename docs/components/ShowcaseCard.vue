@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 const props = defineProps<{
   to?: string
-  icon: string
   label: string
   description: string
   repo?: string
@@ -18,7 +17,7 @@ const linkAttrs = computed(() => {
 </script>
 
 <template>
-  <div class="relative">
+  <div class="showcase-card relative">
     <component :is="to ? NuxtLink : 'div'" v-bind="linkAttrs">
       <div class="group relative border hover:border-blue-400 transition rounded-xl overflow-hidden h-full">
         <div

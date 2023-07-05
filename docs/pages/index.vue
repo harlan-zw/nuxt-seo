@@ -1,10 +1,40 @@
 <script setup lang="ts">
 import { useModuleList } from '~/utils/data'
+import { useFps } from '#imports'
 
 const modules = useModuleList()
 
+const robotState = ref({
+  hover: false,
+  robots: [''], // start with 1
+})
 // empty array of 10 entries
-const extraRobots = Array.from({ length: 10 }, (_, k) => k + 1)
+provide('robots', robotState)
+
+const { pause, resume } = useIntervalFn(() => {
+  // cap it at 30 bots
+  if (robotState.value.robots.length >= 30)
+    return
+
+  robotState.value.robots.push('')
+}, 1000, {
+  immediate: false,
+})
+watch(() => robotState.value.hover, () => {
+  if (robotState.value.hover) {
+    resume()
+  }
+  else {
+    pause()
+    robotState.value.robots = ['']
+  }
+}, {
+  deep: true,
+})
+
+// avoid dropping frames
+const fps = useFps()
+const interval = computed(() => 1000 / fps.value)
 </script>
 
 <template>
@@ -57,7 +87,7 @@ const extraRobots = Array.from({ length: 10 }, (_, k) => k + 1)
         </template>
         <template #teleport>
           <template v-if="module.label === 'Robots'">
-            <BouncingIcon v-for="(robot, key) in extraRobots" :key="key" icon="noto:robot" class="text-primary-500" @grow="growRobots" />
+            <BouncingBots v-for="(_, k) in robotState.robots" :key="k" icon="noto:robot" :interval="interval" />
           </template>
         </template>
       </ShowcaseCard>
