@@ -58,6 +58,7 @@ onMounted(() => {
   // start by assigning a reandom diagonal direction to head towards
   direction.x = Math.random() > 0.5 ? -1 : -1
   direction.y = Math.random() > 0.5 ? 1 : -1
+  let isEvadingMouse = false
   const { pause, resume } = useIntervalFn(() => {
     // between 3 and 5
     speed = Math.random() * 2 + 3
@@ -68,25 +69,28 @@ onMounted(() => {
     // travel diagonally, each time we hit the corner, add a carriage
     // if we hit the top or bottom, reverse the y direction
     // if we hit the left or right, reverse the x direction
-    if (pos.x + size.width > width) {
+    // only if the direction is still heading out of bounds
+    if (pos.x + size.width > width && direction.x === 1) {
       rotation = 90
       direction.x *= -1
     }
-    if (pos.x < 0) {
+    if (pos.x < 0 && direction.x === -1) {
       rotation = 270
       direction.x *= -1
     }
-    if (pos.y + size.height > height) {
+    if (pos.y + size.height > height && direction.y === 1) {
       rotation = 0
       direction.y *= -1
     }
-    if (pos.y < 0) {
+    if (pos.y < 0 && direction.y === -1) {
       rotation = 180
       direction.y *= -1
     }
-    console.log({ mouseX: mouseX.value, mouseY: mouseY.value })
     // also collide with the mouse
     if (pos.x < mouseX.value && pos.x + size.width > mouseX.value && pos.y < mouseY.value && pos.y + size.height > mouseY.value) {
+      if (isEvadingMouse)
+        return
+
       // we're colliding with the mouse, so we need to bounce off of it
       // we need to figure out which side we're colliding with
       // we can do this by figuring out which side is closer
@@ -102,6 +106,10 @@ onMounted(() => {
         direction.y *= -1
         rotation = 0
       }
+      isEvadingMouse = true
+    }
+    else {
+      isEvadingMouse = false
     }
 
     const stylesTmp: Record<string, any> = {}
