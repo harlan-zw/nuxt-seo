@@ -56,7 +56,7 @@ const isSitemap = computed(() => {
       <span class="text-gray-700 dark:text-gray-200">Robots</span>
     </UButton>
 
-    <UButton to="/robots/getting-started/installation" :variant="!isSitemap ? 'ghost' : 'outline'" class="md:block hidden">
+    <UButton to="/sitemap/getting-started/installation" :variant="!isSitemap ? 'ghost' : 'outline'" class="md:block hidden">
       <span class="text-gray-700 dark:text-gray-200">Sitemap</span>
     </UButton>
 
