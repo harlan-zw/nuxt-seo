@@ -12,7 +12,6 @@ const robotState = ref({
 provide('robots', robotState)
 
 const appendRobot = useDebounceFn(() => {
-  console.log('append')
   if (robotState.value.robots.length >= 10)
     return
 
