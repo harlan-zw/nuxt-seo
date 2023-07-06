@@ -55,7 +55,7 @@ onMounted(() => {
   pos.y = Math.min(Math.random() * height, height - size.height)
   // start at a speed between 1-3
   speed = 0
-  const maxSpeed = Math.random() * 4 + 3
+  const maxSpeed = Math.random() * 2 + 3
   // start by assigning a reandom diagonal direction to head towards
   direction.x = Math.random() > 0.5 ? -1 : -1
   direction.y = Math.random() > 0.5 ? 1 : -1
