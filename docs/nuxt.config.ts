@@ -56,6 +56,7 @@ export default defineNuxtConfig({
     '/og-image': { redirect: { to: '/og-image/getting-started/installation', statusCode: 301 } },
     '/experiments': { redirect: { to: '/experiments/getting-started/installation', statusCode: 301 } },
     '/robots': { redirect: { to: '/robots/getting-started/installation', statusCode: 301 } },
+    '/sitemap': { redirect: { to: '/sitemap/getting-started/installation', statusCode: 301 } },
   },
   app: {
     seoMeta: {
