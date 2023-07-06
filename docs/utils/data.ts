@@ -35,6 +35,10 @@ export function useModuleList() {
     },
     {
       label: 'Sitemap',
+      tag: {
+        label: 'v3 Released',
+        to: '/sitemap/releases/v3',
+      },
       icon: 'carbon:load-balancer-application',
       description: 'Powerfully flexible XML Sitemaps that integrate seamlessly.',
       repo: 'harlan-zw/nuxt-simple-sitemap',
