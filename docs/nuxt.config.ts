@@ -51,6 +51,9 @@ export default defineNuxtConfig({
     icons: ['heroicons', 'simple-icons'],
     safelistColors: excludeColors(colors),
   },
+  sitemap: {
+    strictNuxtContentPaths: true,
+  },
   routeRules: {
     // for doc linking purposes
     '/og-image': { redirect: { to: '/og-image/getting-started/installation', statusCode: 301 } },
