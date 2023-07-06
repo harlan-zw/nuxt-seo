@@ -55,13 +55,19 @@ onMounted(() => {
   pos.y = Math.min(Math.random() * height, height - size.height)
   // start at a speed between 1-3
   speed = 0
+  const maxSpeed = Math.random() * 4 + 3
   // start by assigning a reandom diagonal direction to head towards
   direction.x = Math.random() > 0.5 ? -1 : -1
   direction.y = Math.random() > 0.5 ? 1 : -1
   let isEvadingMouse = false
   const { pause, resume } = useIntervalFn(() => {
-    // between 3 and 5
-    speed = Math.random() * 2 + 3
+    // increase speed if it's not at max
+    if (speed < maxSpeed)
+      speed += 0.1
+
+    // if it's too fast, slow it down
+    if (speed > maxSpeed)
+      speed -= 0.1
     // do the movement
     pos.x += Math.round(direction.x * speed)
     pos.y += Math.round(direction.y * speed)
@@ -73,18 +79,23 @@ onMounted(() => {
     if (pos.x + size.width > width && direction.x === 1) {
       rotation = 90
       direction.x *= -1
+      // only if we're not going 1.5x the max speed, increase the speed for a bounce effect
+      speed = Math.min(speed + maxSpeed * 1.5, maxSpeed * 1.5)
     }
     if (pos.x < 0 && direction.x === -1) {
       rotation = 270
       direction.x *= -1
+      speed = Math.min(speed + maxSpeed * 1.5, maxSpeed * 1.5)
     }
     if (pos.y + size.height > height && direction.y === 1) {
       rotation = 0
       direction.y *= -1
+      speed = Math.min(speed + maxSpeed * 1.5, maxSpeed * 1.5)
     }
     if (pos.y < 0 && direction.y === -1) {
       rotation = 180
       direction.y *= -1
+      speed = Math.min(speed + maxSpeed * 1.5, maxSpeed * 1.5)
     }
     // also collide with the mouse
     if (pos.x < mouseX.value && pos.x + size.width > mouseX.value && pos.y < mouseY.value && pos.y + size.height > mouseY.value) {
@@ -107,6 +118,8 @@ onMounted(() => {
         rotation = 0
       }
       isEvadingMouse = true
+      robotsInject.value.collisions += 1
+      speed = Math.min(speed + maxSpeed * 1.5, maxSpeed * 1.5)
     }
     else {
       isEvadingMouse = false
