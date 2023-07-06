@@ -19,6 +19,8 @@ const children = computed(() => {
       return navigation.value[1].children
     case 'robots':
       return navigation.value[2].children
+    case 'sitemap':
+      return navigation.value[3].children
   }
 })
 </script>

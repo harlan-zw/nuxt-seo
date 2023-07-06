@@ -42,7 +42,7 @@ const interval = computed(() => 1000 / 60)
       </p>
 
       <h1 class="font-title text-gray-900 dark:text-gray-100 text-center text-4xl leading-25 font-extrabold tracking-tight sm:text-5xl lg:text-left lg:text-6xl" style="line-height: 1.3;">
-        <span class="max-w-2xl">All the boring SEO stuff for Nuxt done.</span>
+        <span class="max-w-2xl">All the boring SEO work for Nuxt done.</span>
       </h1>
       <p class="text-gray-700 dark:text-gray-300 mt-4 max-w-3xl text-center text-xl lg:text-left">
         Nuxt SEO is a collection of hand-crafted  <Icon name="logos:nuxt-icon" /> Nuxt Modules to help you rank higher in search engines.

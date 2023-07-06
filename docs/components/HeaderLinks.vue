@@ -16,6 +16,9 @@ const isExperiments = computed(() => {
 const isRobots = computed(() => {
   return route.path.startsWith('/robots')
 })
+const isSitemap = computed(() => {
+  return route.path.startsWith('/sitemap')
+})
 </script>
 
 <template>
@@ -51,6 +54,10 @@ const isRobots = computed(() => {
 
     <UButton to="/robots/getting-started/installation" :variant="!isRobots ? 'ghost' : 'outline'" class="md:block hidden">
       <span class="text-gray-700 dark:text-gray-200">Robots</span>
+    </UButton>
+
+    <UButton to="/robots/getting-started/installation" :variant="!isSitemap ? 'ghost' : 'outline'" class="md:block hidden">
+      <span class="text-gray-700 dark:text-gray-200">Sitemap</span>
     </UButton>
 
     <div class="flex items-center justify-end -mr-1.5 gap-3">
