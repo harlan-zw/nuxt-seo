@@ -4,6 +4,7 @@ const props = defineProps<{
   label: string
   description: string
   repo?: string
+  icon?: string
   tag?: { to: string; label: string }
 }>()
 
@@ -56,7 +57,7 @@ const linkAttrs = computed(() => {
             Not Published
           </div>
 
-          <UButton v-if="tag" :to="tag.to" :padded="false" size="xs" class="group z-20 absolute top-4 right-4">
+          <UButton v-if="tag" :to="tag.to" :padded="false" variant="ghost" size="xs" class="group z-20 absolute top-4 right-4">
             <UBadge size="xs" class="hover:shadow transition">
               {{ tag.label }}
             </UBadge>
