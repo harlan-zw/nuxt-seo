@@ -4,7 +4,7 @@ const props = defineProps<{
   label: string
   description: string
   repo?: string
-  tag?: string
+  tag?: { to: string; label: string }
 }>()
 
 const NuxtLink = resolveComponent('NuxtLink')
