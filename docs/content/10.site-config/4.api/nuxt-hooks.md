@@ -1,13 +1,13 @@
 ---
 title: Nuxt Hooks
-description: Learn how to use Nuxt Hooks to customize your sitemap entries.
+description: Learn how to use Nuxt Hooks to customize your site config.
 ---
 
 ## `site-config:resolve`
 
-**Type:** `async (ctx: { urls: SitemapConfig; sitemapName: string }) => void | Promise<void>`
+**Type:** `async (ctx: SiteConfig) => void | Promise<void>`
 
-Last chance to modify the build time site config.
+Modify the build time site config after it has been resolved.
 
 ```ts
 export default defineNuxtConfig({
