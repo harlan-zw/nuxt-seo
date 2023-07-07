@@ -1,3 +1,19 @@
+export const SiteConfigModule = {
+  tag: {
+    label: 'Released',
+    to: '/site-config/getting-started/installation',
+  },
+  label: 'Site Config',
+  icon: 'carbon:settings-check',
+  description: 'Shared site configuration for Nuxt modules.',
+  to: '/site-config/getting-started/installation',
+  // repo: 'harlan-zw/nuxt-site-config',
+  routeRules: {
+    site: { name: 'Nuxt Site Config', description: 'Shared site configuration for Nuxt modules.' },
+    ogImage: { icon: 'carbon:settings-check' },
+  },
+}
+
 export function useModuleList() {
   return [
     {
@@ -61,10 +77,6 @@ export function useModuleList() {
       icon: 'carbon:brush-freehand',
       description: 'Fully styled and customizable components for improving your SEO.',
     },
-    {
-      label: 'Site Config',
-      icon: 'carbon:settings-check',
-      description: 'A simple, extendable way to configure your site config.',
-    },
+    SiteConfigModule,
   ]
 }

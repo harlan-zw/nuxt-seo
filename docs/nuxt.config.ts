@@ -2,6 +2,7 @@ import colors from 'tailwindcss/colors'
 import NuxtSeo from '../module/src/module'
 import { excludeColors } from './colors'
 import { version } from './package.json'
+import { SiteConfigModule } from './utils/data'
 
 delete colors.lightBlue
 delete colors.warmGray
@@ -67,6 +68,12 @@ export default defineNuxtConfig({
     '/experiments': { redirect: { to: '/experiments/getting-started/installation', statusCode: 301 } },
     '/robots': { redirect: { to: '/robots/getting-started/installation', statusCode: 301 } },
     '/sitemap': { redirect: { to: '/sitemap/getting-started/installation', statusCode: 301 } },
+    '/site-config': { redirect: { to: '/site-config/getting-started/installation', statusCode: 301 } },
+
+    // defaults
+    '/site-config': {
+      site: SiteConfigModule.site,
+    },
   },
   app: {
     seoMeta: {

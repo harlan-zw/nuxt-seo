@@ -20,6 +20,8 @@ const children = computed(() => {
       return navigation.value[2].children
     case 'sitemap':
       return navigation.value[3].children
+    case 'site-config':
+      return navigation.value[4].children
   }
 })
 </script>

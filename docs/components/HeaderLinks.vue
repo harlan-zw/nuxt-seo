@@ -19,6 +19,8 @@ const isRobots = computed(() => {
 const isSitemap = computed(() => {
   return route.path.startsWith('/sitemap')
 })
+
+const siteConfig = useSiteConfig()
 </script>
 
 <template>
