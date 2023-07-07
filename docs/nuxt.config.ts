@@ -71,7 +71,7 @@ export default defineNuxtConfig({
     '/site-config': { redirect: { to: '/site-config/getting-started/installation', statusCode: 301 } },
 
     // defaults
-    '/site-config': {
+    '/site-config/**': {
       site: SiteConfigModule.site,
     },
   },
