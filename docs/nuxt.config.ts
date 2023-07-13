@@ -77,11 +77,6 @@ export default defineNuxtConfig({
   },
   app: {
     seoMeta: {
-      viewport: {
-        width: 'device-width',
-        initialScale: '1',
-        maximumScale: '1',
-      },
       themeColor: [
         { content: '#18181b', media: '(prefers-color-scheme: dark)' },
         { content: 'white', media: '(prefers-color-scheme: light)' },

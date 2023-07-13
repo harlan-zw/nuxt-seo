@@ -66,8 +66,8 @@ importers:
         specifier: ^0.0.14
         version: 0.0.14(nuxt@3.6.2)(rollup@3.26.0)(vue@3.3.4)
       nuxt-og-image:
-        specifier: ^2.0.9
-        version: 2.0.9(rollup@3.26.0)
+        specifier: ^2.0.10
+        version: 2.0.10(rollup@3.26.0)
     devDependencies:
       '@iconify-json/heroicons':
         specifier: ^1.1.11
@@ -121,8 +121,8 @@ importers:
         specifier: ^1.0.5
         version: 1.0.5(rollup@3.26.0)
       nuxt-og-image:
-        specifier: ^2.0.9
-        version: 2.0.9(rollup@3.26.0)
+        specifier: ^2.0.10
+        version: 2.0.10(rollup@3.26.0)
       nuxt-schema-org:
         specifier: ^2.2.0
         version: 2.2.0(@unhead/vue@1.1.30)(rollup@3.26.0)
@@ -7960,8 +7960,8 @@ packages:
       - supports-color
     dev: true
 
-  /nuxt-og-image@2.0.9(rollup@3.26.0):
-    resolution: {integrity: sha512-20GeQ2+ZGGDMchQdyQSdZ29Xf+W+MRS0W8mq+nuxle/bFZrpzRBDy6ZPyX+PvYNJgURMeRAJJo2WpTiXz3eMHw==}
+  /nuxt-og-image@2.0.10(rollup@3.26.0):
+    resolution: {integrity: sha512-1oLJJmSetuM8GoVPlO2TqLqmXf2zBXQVMaFjwmIHqCSguDYp1FppvBKBQ0EzlXel4bDvty8aib2lGsLfxKuNvg==}
     dependencies:
       '@nuxt/kit': 3.6.2(rollup@3.26.0)
       '@resvg/resvg-js': 2.4.1
@@ -7985,7 +7985,7 @@ packages:
       ofetch: 1.1.1
       ohash: 1.1.2
       pathe: 1.1.1
-      playwright-core: 1.35.1
+      playwright-core: 1.36.0
       radix3: 1.0.1
       satori: 0.10.1
       satori-html: 0.3.2
@@ -8678,8 +8678,8 @@ packages:
       mlly: 1.4.0
       pathe: 1.1.1
 
-  /playwright-core@1.35.1:
-    resolution: {integrity: sha512-pNXb6CQ7OqmGDRspEjlxE49w+4YtR6a3X6mT1hZXeJHWmsEz7SunmvZeiG/+y1yyMZdHnnn73WKYdtV1er0Xyg==}
+  /playwright-core@1.36.0:
+    resolution: {integrity: sha512-7RTr8P6YJPAqB+8j5ATGHqD6LvLLM39sYVNsslh78g8QeLcBs5750c6+msjrHUwwGt+kEbczBj1XB22WMwn+WA==}
     engines: {node: '>=16'}
     hasBin: true
     dev: false
