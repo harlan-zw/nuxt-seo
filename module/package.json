@@ -13,21 +13,34 @@
   "bugs": {
     "url": "https://github.com/harlan-zw/nuxt-seo-kit/issues"
   },
-  "main": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "require": "./dist/module.cjs",
+      "import": "./dist/module.mjs"
+    }
+  },
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
   "files": [
     "dist"
   ],
+  "scripts": {
+    "build": "nuxt-module-build --stub && nuxt-module-build prepare && nuxt-module-build"
+  },
   "dependencies": {
     "@nuxt/kit": "^3.6.5",
+    "chalk": "^5.3.0",
     "defu": "^6.1.2",
     "nuxt-link-checker": "^1.0.5",
     "nuxt-og-image": "^2.0.10",
     "nuxt-schema-org": "^2.2.0",
     "nuxt-seo-experiments": "^3.0.6",
     "nuxt-seo-ui": "^0.3.1",
-    "nuxt-simple-robots": "3.0.3",
-    "nuxt-simple-sitemap": "3.0.12",
-    "nuxt-site-config": "1.0.7",
+    "nuxt-simple-robots": "^3.0.3",
+    "nuxt-simple-sitemap": "^3.0.12",
+    "nuxt-site-config": "^1.0.7",
+    "nuxt-site-config-kit": "^1.0.7",
     "ufo": "^1.1.2"
   }
 }

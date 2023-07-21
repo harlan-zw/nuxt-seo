@@ -62,7 +62,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     addImports({
       from: resolve('./runtime/composables/useSeoKit.ts'),
-      as: 'useSeoKit',
+      name: 'useSeoKit',
     })
 
     if (config.splash) {
