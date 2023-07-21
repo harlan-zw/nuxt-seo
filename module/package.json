@@ -14,17 +14,20 @@
     "url": "https://github.com/harlan-zw/nuxt-seo-kit/issues"
   },
   "main": "module",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
-    "@nuxt/kit": "^3.6.2",
+    "@nuxt/kit": "^3.6.5",
     "defu": "^6.1.2",
     "nuxt-link-checker": "^1.0.5",
     "nuxt-og-image": "^2.0.10",
     "nuxt-schema-org": "^2.2.0",
-    "nuxt-seo-experiments": "^3.0.5",
+    "nuxt-seo-experiments": "^3.0.6",
     "nuxt-seo-ui": "^0.3.1",
-    "nuxt-simple-robots": "3.0.2",
-    "nuxt-simple-sitemap": "3.0.9",
-    "nuxt-site-config": "^1.0.5",
+    "nuxt-simple-robots": "3.0.3",
+    "nuxt-simple-sitemap": "3.0.12",
+    "nuxt-site-config": "1.0.7",
     "ufo": "^1.1.2"
   }
 }
