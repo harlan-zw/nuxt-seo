@@ -56,12 +56,12 @@ export default defineNuxtModule<ModuleOptions>({
       await installModule(await resolvePath(module))
 
     await addComponent({
-      filePath: resolve('./runtime/components/SeoMeta.vue'),
+      filePath: resolve('./runtime/components/SeoMeta'),
       name: 'SeoMeta',
     })
 
     addImports({
-      from: resolve('./runtime/composables/useSeoKit.ts'),
+      from: resolve('./runtime/composables/useSeoKit'),
       name: 'useSeoKit',
     })
 
