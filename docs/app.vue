@@ -22,5 +22,7 @@ provide('navigation', navigation)
         <UAvatar src="https://avatars.githubusercontent.com/u/5326365?v=4" size="xs" class="w-5 h-5" /> Harlan Wilton
       </UButton>
     </footer>
+
+    <NuxtLoadingIndicator />
   </div>
 </template>
