@@ -50,16 +50,16 @@ const siteConfig = useSiteConfig()
       <span class="text-gray-700 dark:text-gray-200">OG Image</span>
     </UButton>
 
-    <UButton to="/experiments/getting-started/installation" :variant="!isExperiments ? 'ghost' : 'outline'" class="md:block hidden">
-      <span class="text-gray-700 dark:text-gray-200">Experiments</span>
-    </UButton>
-
     <UButton to="/robots/getting-started/installation" :variant="!isRobots ? 'ghost' : 'outline'" class="md:block hidden">
       <span class="text-gray-700 dark:text-gray-200">Robots</span>
     </UButton>
 
     <UButton to="/sitemap/getting-started/installation" :variant="!isSitemap ? 'ghost' : 'outline'" class="md:block hidden">
       <span class="text-gray-700 dark:text-gray-200">Sitemap</span>
+    </UButton>
+
+    <UButton to="/experiments/getting-started/installation" :variant="!isExperiments ? 'ghost' : 'outline'" class="md:block hidden">
+      <span class="text-gray-700 dark:text-gray-200">Experiments</span>
     </UButton>
 
     <div class="flex items-center justify-end -mr-1.5 gap-3">
