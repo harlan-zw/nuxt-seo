@@ -28,17 +28,6 @@ export function useModuleList() {
       repo: 'harlan-zw/nuxt-og-image',
     },
     {
-      label: 'Experiments',
-      icon: 'carbon:chemistry',
-      tag: {
-        label: 'v3 Released',
-        to: '/experiments/releases/v3',
-      },
-      description: 'Powerful SEO DX improvements that may or may not land in the Nuxt core.',
-      to: '/experiments/getting-started/installation',
-      repo: 'harlan-zw/nuxt-seo-experiments',
-    },
-    {
       label: 'Robots',
       icon: 'carbon:bot',
       description: 'Tame the robots crawling and indexing your site with ease.',
@@ -59,6 +48,17 @@ export function useModuleList() {
       icon: 'carbon:load-balancer-application',
       description: 'Powerfully flexible XML Sitemaps that integrate seamlessly.',
       repo: 'harlan-zw/nuxt-simple-sitemap',
+    },
+    {
+      label: 'Experiments',
+      icon: 'carbon:chemistry',
+      tag: {
+        label: 'v3 Released',
+        to: '/experiments/releases/v3',
+      },
+      description: 'Powerful SEO DX improvements that may or may not land in the Nuxt core.',
+      to: '/experiments/getting-started/installation',
+      repo: 'harlan-zw/nuxt-seo-experiments',
     },
     {
       label: 'Schema.org',
