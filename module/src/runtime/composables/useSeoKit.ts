@@ -1,8 +1,9 @@
 import type { MetaObject } from '@nuxt/schema'
+import { defu } from 'defu'
+import type { SiteConfigInput } from 'nuxt-site-config-kit'
 import {
   createSitePathResolver, defineRobotMeta, defineWebPage, defineWebSite,
-  useHead,
-  useRouter, useSchemaOrg,
+  useHead, useSchemaOrg,
   useSiteConfig,
 } from '#imports'
 
@@ -12,22 +13,22 @@ function titleCase(s: string) {
     .replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.substr(1).toLowerCase())
 }
 
-export function useSeoKit() {
-  const siteConfig = useSiteConfig()
+export function useSeoKit(_siteConfig: SiteConfigInput) {
+  const siteConfig = defu(_siteConfig, useSiteConfig())
+  delete siteConfig._context
 
-  const router = useRouter()
-  const route = router.currentRoute
+  const route = useRoute()
   const resolveUrl = createSitePathResolver({ withBase: true, absolute: true })
 
   function computeMeta() {
     const meta: MetaObject['meta'] = [
       {
         property: 'og:url',
-        content: resolveUrl(route.value?.path || '/'),
+        content: resolveUrl(route.path || '/'),
       },
       {
         property: 'og:locale',
-        content: siteConfig.language,
+        content: siteConfig.defaultLocale,
       },
     ]
     if (siteConfig.name) {
@@ -36,7 +37,7 @@ export function useSeoKit() {
         content: siteConfig.name,
       })
     }
-    let ogImage = route.value?.meta?.image || siteConfig.image
+    let ogImage = route.meta?.image || siteConfig.image
     if (typeof ogImage === 'string') {
       if (ogImage.startsWith('/'))
         ogImage = resolveUrl(ogImage)
@@ -45,7 +46,7 @@ export function useSeoKit() {
         content: ogImage as string,
       })
     }
-    const description = route.value?.meta?.description || siteConfig.description
+    const description = route.meta?.description || siteConfig.description
     if (description) {
       meta.push({
         name: 'description',
@@ -55,26 +56,28 @@ export function useSeoKit() {
     return meta
   }
 
+  const canonicalUrl = computed(() => resolveUrl(route.path || '/').value)
+
   useHead({
     templateParams: {
-      site: siteConfig,
+      site: { ...siteConfig },
     },
     htmlAttrs: {
       lang: () => siteConfig.locale,
     },
     title: () => {
-      if (typeof route.value?.meta?.title === 'string')
-        return route.value?.meta?.title
+      if (typeof route.meta?.title === 'string')
+        return route.meta?.title
 
       // if no title has been set then we should use the last segment of the URL path and title case it
-      const path = route.value?.path || '/'
+      const path = route.path || '/'
       const lastSegment = path.split('/').pop()
       return lastSegment ? titleCase(lastSegment) : null
     },
     link: [
       {
         rel: 'canonical',
-        href: () => resolveUrl(route.value?.path || '/'),
+        href: canonicalUrl,
       },
     ],
     meta: computeMeta,
