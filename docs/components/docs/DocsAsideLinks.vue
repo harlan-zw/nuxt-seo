@@ -14,14 +14,15 @@ const children = computed(() => {
   switch (segment) {
     case 'og-image':
       return navigation.value[0].children
-    case 'experiments':
-      return navigation.value[1].children
     case 'robots':
-      return navigation.value[2].children
+      return navigation.value[1].children
     case 'sitemap':
+      return navigation.value[2].children
+    case 'experiments':
       return navigation.value[3].children
     case 'site-config':
       return navigation.value[4].children
+
   }
 })
 </script>
