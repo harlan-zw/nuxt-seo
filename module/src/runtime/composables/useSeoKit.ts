@@ -2,8 +2,10 @@ import type { MetaObject } from '@nuxt/schema'
 import { defu } from 'defu'
 import type { SiteConfigInput } from 'nuxt-site-config-kit'
 import {
-  createSitePathResolver, defineRobotMeta, defineWebPage, defineWebSite,
-  useHead, useSchemaOrg,
+  computed, createSitePathResolver, defineRobotMeta, defineWebPage,
+  defineWebSite, useHead,
+  useRoute,
+  useSchemaOrg,
   useSiteConfig,
 } from '#imports'
 
