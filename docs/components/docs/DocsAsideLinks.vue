@@ -18,11 +18,12 @@ const children = computed(() => {
       return navigation.value[1].children
     case 'sitemap':
       return navigation.value[2].children
-    case 'experiments':
+    case 'link-checker':
       return navigation.value[3].children
-    case 'site-config':
+    case 'experiments':
       return navigation.value[4].children
-
+    case 'site-config':
+      return navigation.value[5].children
   }
 })
 </script>

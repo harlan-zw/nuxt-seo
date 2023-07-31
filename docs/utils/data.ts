@@ -12,7 +12,7 @@ export const SiteConfigModule = {
     site: { name: 'Nuxt Site Config', description: 'Shared site configuration for Nuxt modules.' },
     ogImage: { icon: 'carbon:settings-check' },
   },
-}
+} as const
 
 export function useModuleList() {
   return [
@@ -50,6 +50,16 @@ export function useModuleList() {
       repo: 'harlan-zw/nuxt-simple-sitemap',
     },
     {
+      label: 'Link Checker',
+      tag: {
+        label: 'v3 Released',
+        to: '/sitemap/releases/v3',
+      },
+      icon: 'carbon:cloud-satellite-link',
+      description: 'Find and magically fix links that may be negatively effecting your SEO.',
+      repo: 'harlan-zw/nuxt-link-checker',
+    },
+    {
       label: 'Experiments',
       icon: 'carbon:chemistry',
       tag: {
@@ -65,12 +75,6 @@ export function useModuleList() {
       icon: 'carbon:chart-relationship',
       description: 'The quickest and easiest way to build Schema.org graphs.',
       repo: 'harlan-zw/unhead-schema-org',
-    },
-    {
-      label: 'Link Checker',
-      icon: 'carbon:cloud-satellite-link',
-      description: 'Fix broken links and avoid unnecessary redirects.',
-      repo: 'harlan-zw/nuxt-link-checker',
     },
     {
       label: 'SEO UI',

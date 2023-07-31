@@ -69,10 +69,11 @@ export default defineNuxtConfig({
     '/robots': { redirect: { to: '/robots/getting-started/installation', statusCode: 301 } },
     '/sitemap': { redirect: { to: '/sitemap/getting-started/installation', statusCode: 301 } },
     '/site-config': { redirect: { to: '/site-config/getting-started/installation', statusCode: 301 } },
+    '/link-checker': { redirect: { to: '/link-checker/getting-started/installation', statusCode: 301 } },
 
     // defaults
     '/site-config/**': {
-      site: SiteConfigModule.site,
+      ...SiteConfigModule.routeRules,
     },
   },
   app: {

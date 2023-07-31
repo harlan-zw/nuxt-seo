@@ -20,7 +20,9 @@ const isSitemap = computed(() => {
   return route.path.startsWith('/sitemap')
 })
 
-const siteConfig = useSiteConfig()
+const isLinkChecker = computed(() => {
+  return route.path.startsWith('/link-checker')
+})
 </script>
 
 <template>
@@ -43,19 +45,22 @@ const siteConfig = useSiteConfig()
     <!--    </div> -->
 
     <UBadge color="yellow" class="hidden sm:inline">
-      Under construction
+      WIP
     </UBadge>
-
-    <UButton to="/og-image/getting-started/installation" :variant="!isOgImage ? 'ghost' : 'outline'" class="md:block hidden">
-      <span class="text-gray-700 dark:text-gray-200">OG Image</span>
-    </UButton>
-
     <UButton to="/robots/getting-started/installation" :variant="!isRobots ? 'ghost' : 'outline'" class="md:block hidden">
       <span class="text-gray-700 dark:text-gray-200">Robots</span>
     </UButton>
 
     <UButton to="/sitemap/getting-started/installation" :variant="!isSitemap ? 'ghost' : 'outline'" class="md:block hidden">
       <span class="text-gray-700 dark:text-gray-200">Sitemap</span>
+    </UButton>
+
+    <UButton to="/og-image/getting-started/installation" :variant="!isOgImage ? 'ghost' : 'outline'" class="md:block hidden">
+      <span class="text-gray-700 dark:text-gray-200">OG Image</span>
+    </UButton>
+
+    <UButton to="/link-checker/getting-started/installation" :variant="!isLinkChecker ? 'ghost' : 'outline'" class="md:block hidden">
+      <span class="text-gray-700 dark:text-gray-200">Link Checker</span>
     </UButton>
 
     <UButton to="/experiments/getting-started/installation" :variant="!isExperiments ? 'ghost' : 'outline'" class="md:block hidden">
