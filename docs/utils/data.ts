@@ -17,17 +17,6 @@ export const SiteConfigModule = {
 export function useModuleList() {
   return [
     {
-      label: 'OG Image',
-      icon: 'carbon:image-search',
-      description: 'Dynamic and build-time OG Image generation with Satori and Browser Screenshot support.',
-      tag: {
-        label: 'v2 Released',
-        to: '/experiments/releases/v2',
-      },
-      to: '/og-image/getting-started/installation',
-      repo: 'harlan-zw/nuxt-og-image',
-    },
-    {
       label: 'Robots',
       icon: 'carbon:bot',
       description: 'Tame the robots crawling and indexing your site with ease.',
@@ -50,11 +39,23 @@ export function useModuleList() {
       repo: 'harlan-zw/nuxt-simple-sitemap',
     },
     {
+      label: 'OG Image',
+      icon: 'carbon:image-search',
+      description: 'Dynamic and build-time OG Image generation with Satori and Browser Screenshot support.',
+      tag: {
+        label: 'v2 Released',
+        to: '/experiments/releases/v2',
+      },
+      to: '/og-image/getting-started/installation',
+      repo: 'harlan-zw/nuxt-og-image',
+    },
+    {
       label: 'Link Checker',
       tag: {
         label: 'v2 Released',
         to: '/link-checker/releases/v2',
       },
+      to: '/link-checker/getting-started/installation',
       icon: 'carbon:cloud-satellite-link',
       description: 'Find and magically fix links that may be negatively effecting your SEO.',
       repo: 'harlan-zw/nuxt-link-checker',
