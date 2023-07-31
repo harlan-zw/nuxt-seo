@@ -118,8 +118,8 @@ importers:
         specifier: ^6.1.2
         version: 6.1.2
       nuxt-link-checker:
-        specifier: ^2.0.0-beta.8
-        version: 2.0.0-beta.8(@nuxt/devtools@0.7.1)(nuxt@3.6.5)(postcss@8.4.27)(rollup@3.26.0)(vite@4.4.7)(vue@3.3.4)(webpack@5.88.2)
+        specifier: ^2.0.0
+        version: 2.0.0(@nuxt/devtools@0.7.1)(nuxt@3.6.5)(postcss@8.4.27)(rollup@3.26.0)(vite@4.4.7)(vue@3.3.4)(webpack@5.88.2)
       nuxt-og-image:
         specifier: ^2.0.12
         version: 2.0.12(rollup@3.26.0)
@@ -4688,16 +4688,6 @@ packages:
     resolution: {integrity: sha512-BrgHpW9NURQgzoNyjfq0Wu6VFO6D7IZEmJNdtgNqpzGG8RuNFHt2jQxWlAs4HMe119chBnv+34syEZtc6IhLtA==}
     dev: true
 
-  /cheerio-select@1.6.0:
-    resolution: {integrity: sha512-eq0GdBvxVFbqWgmCm7M3XGs1I8oLy/nExUnh6oLqmBditPO9AqQJrkslDpMun/hZ0yyTs8L0m85OHp4ho6Qm9g==}
-    dependencies:
-      css-select: 4.3.0
-      css-what: 6.1.0
-      domelementtype: 2.3.0
-      domhandler: 4.3.1
-      domutils: 2.8.0
-    dev: false
-
   /cheerio-select@2.1.0:
     resolution: {integrity: sha512-9v9kG0LvzrlcungtnJtpGNxY+fzECQKhK4EGJX2vByejiMX84MFNQw4UxPJl3bFbTMw+Dfs37XaIkCwTZfLh4g==}
     dependencies:
@@ -4707,19 +4697,6 @@ packages:
       domelementtype: 2.3.0
       domhandler: 5.0.3
       domutils: 3.1.0
-
-  /cheerio@1.0.0-rc.10:
-    resolution: {integrity: sha512-g0J0q/O6mW8z5zxQ3A8E8J1hUgp4SMOvEoW/x84OwyHKe/Zccz83PVT4y5Crcr530FV6NgmKI1qvGTKVl9XXVw==}
-    engines: {node: '>= 6'}
-    dependencies:
-      cheerio-select: 1.6.0
-      dom-serializer: 1.4.1
-      domhandler: 4.3.1
-      htmlparser2: 6.1.0
-      parse5: 6.0.1
-      parse5-htmlparser2-tree-adapter: 6.0.1
-      tslib: 2.6.0
-    dev: false
 
   /cheerio@1.0.0-rc.12:
     resolution: {integrity: sha512-VqR8m68vM46BNnuZ5NtnGBKIE/DfN0cRIzg9n40EIq9NOv90ayxLBXA8fXC5gquFRGJSTRqBq25Jt2ECLR431Q==}
@@ -5046,16 +5023,6 @@ packages:
     resolution: {integrity: sha512-7L6krLIRwAEVCaVKyCEL6PQjQXUmf8DM9bWYKutlZd0DqOe0SiKIGQOkFb59AjDBb+3If7SDp3X8UlzDAgYSow==}
     dependencies:
       cssom: 0.5.0
-    dev: false
-
-  /css-select@4.3.0:
-    resolution: {integrity: sha512-wPpOYtnsVontu2mODhA19JrqWxNsfdatRKd64kmpRbQgh1KtItko5sTnEpPdpSaJszTOhEMlF/RPz28qj4HqhQ==}
-    dependencies:
-      boolbase: 1.0.0
-      css-what: 6.1.0
-      domhandler: 4.3.1
-      domutils: 2.8.0
-      nth-check: 2.1.1
     dev: false
 
   /css-select@5.1.0:
@@ -5426,14 +5393,6 @@ packages:
     dependencies:
       esutils: 2.0.3
 
-  /dom-serializer@1.4.1:
-    resolution: {integrity: sha512-VHwB3KfrcOOkelEG2ZOfxqLZdfkil8PtJi4P8N2MMXucZq2yLp75ClViUlOVwyoHEDjYU433Aq+5zWP61+RGag==}
-    dependencies:
-      domelementtype: 2.3.0
-      domhandler: 4.3.1
-      entities: 2.2.0
-    dev: false
-
   /dom-serializer@2.0.0:
     resolution: {integrity: sha512-wIkAryiqt/nV5EQKqQpo3SToSOV9J0DnbJqwK7Wv/Trc92zIAYZ4FlMu+JPFW1DfGFt81ZTCGgDEabffXeLyJg==}
     dependencies:
@@ -5444,26 +5403,11 @@ packages:
   /domelementtype@2.3.0:
     resolution: {integrity: sha512-OLETBj6w0OsagBwdXnPdN0cnMfF9opN69co+7ZrbfPGrdpPVNBUj02spi6B1N7wChLQiPn4CSH/zJvXw56gmHw==}
 
-  /domhandler@4.3.1:
-    resolution: {integrity: sha512-GrwoxYN+uWlzO8uhUXRl0P+kHE4GtVPfYzVLcUxPL7KNdHKj66vvlhiweIHqYYXWlw+T8iLMp42Lm67ghw4WMQ==}
-    engines: {node: '>= 4'}
-    dependencies:
-      domelementtype: 2.3.0
-    dev: false
-
   /domhandler@5.0.3:
     resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
     engines: {node: '>= 4'}
     dependencies:
       domelementtype: 2.3.0
-
-  /domutils@2.8.0:
-    resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
-    dependencies:
-      dom-serializer: 1.4.1
-      domelementtype: 2.3.0
-      domhandler: 4.3.1
-    dev: false
 
   /domutils@3.1.0:
     resolution: {integrity: sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==}
@@ -5561,10 +5505,6 @@ packages:
     dependencies:
       graceful-fs: 4.2.11
       tapable: 2.2.1
-
-  /entities@2.2.0:
-    resolution: {integrity: sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==}
-    dev: false
 
   /entities@4.5.0:
     resolution: {integrity: sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==}
@@ -6908,15 +6848,6 @@ packages:
 
   /html-void-elements@2.0.1:
     resolution: {integrity: sha512-0quDb7s97CfemeJAnW9wC0hw78MtW7NU3hqtCD75g2vFlDLt36llsYD7uB7SUzojLMP24N5IatXf7ylGXiGG9A==}
-    dev: false
-
-  /htmlparser2@6.1.0:
-    resolution: {integrity: sha512-gyyPk6rgonLFEDGoeRgQNaEUvdJ4ktTmmUh/h2t7s+M8oPpIPxgNACWa+6ESR57kXstwqPiCut0V8NRpcwgU7A==}
-    dependencies:
-      domelementtype: 2.3.0
-      domhandler: 4.3.1
-      domutils: 2.8.0
-      entities: 2.2.0
     dev: false
 
   /htmlparser2@8.0.2:
@@ -8808,15 +8739,15 @@ packages:
       - vue
     dev: false
 
-  /nuxt-link-checker@2.0.0-beta.8(@nuxt/devtools@0.7.1)(nuxt@3.6.5)(postcss@8.4.27)(rollup@3.26.0)(vite@4.4.7)(vue@3.3.4)(webpack@5.88.2):
-    resolution: {integrity: sha512-ifLToB1HzMDfCH0JMYabF+0wwCKvhoAJugqNkDRKh46ZFy6wRocG05yzOUsEEBSnzGPBXvgURZK0SyDQexjPmA==}
+  /nuxt-link-checker@2.0.0(@nuxt/devtools@0.7.1)(nuxt@3.6.5)(postcss@8.4.27)(rollup@3.26.0)(vite@4.4.7)(vue@3.3.4)(webpack@5.88.2):
+    resolution: {integrity: sha512-GziOOqRpb6Ram7Rdc/Tqcc0HhYVQlNgB+Sl4GHZX61EB2SLJYFJbGUowKuAnWABpV3EkXiHL24O6O5QaAnBvOQ==}
     dependencies:
       '@nuxt/devtools-kit': 0.7.1(nuxt@3.6.5)(rollup@3.26.0)(vite@4.4.7)
       '@nuxt/devtools-ui-kit': 0.7.1(@nuxt/devtools@0.7.1)(fuse.js@6.6.2)(nuxt@3.6.5)(postcss@8.4.27)(rollup@3.26.0)(vite@4.4.7)(vue@3.3.4)(webpack@5.88.2)
       '@nuxt/kit': 3.6.5(rollup@3.26.0)
       '@vueuse/core': 10.3.0(vue@3.3.4)
       chalk: 5.3.0
-      cheerio: 1.0.0-rc.10
+      cheerio: 1.0.0-rc.12
       diff: 5.1.0
       fuse.js: 6.6.2
       magic-string: 0.30.2
@@ -9432,12 +9363,6 @@ packages:
     resolution: {integrity: sha512-xDvOoLU5XRrcOZvnI6b8zA6n9O9ejNk/GExuz1yBuWUGn9KA97GI6HTs6u02wKara1CeVmZhH+0TZFdWScR89w==}
     dependencies:
       parse-path: 7.0.0
-
-  /parse5-htmlparser2-tree-adapter@6.0.1:
-    resolution: {integrity: sha512-qPuWvbLgvDGilKc5BoicRovlT4MtYT6JfJyBOMDsKoiT+GiuP5qyrPCnR9HcPECIJJmZh5jRndyNThnhhb/vlA==}
-    dependencies:
-      parse5: 6.0.1
-    dev: false
 
   /parse5-htmlparser2-tree-adapter@7.0.0:
     resolution: {integrity: sha512-B77tOZrqqfUfnVcOrUvfdLbz4pu4RopLD/4vmu3HUPswwTA8OH0EMW9BlWR2B0RCoiZRAHEUu7IxeP1Pd1UU+g==}
