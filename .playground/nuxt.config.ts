@@ -8,6 +8,10 @@ export default defineNuxtConfig({
     'nuxt-icon'
   ],
 
+  devtools: {
+    enabled: true,
+  },
+
   site: {
     titleSeparator: '·',
     name: 'Nuxt SEO',

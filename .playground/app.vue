@@ -5,14 +5,13 @@
       <div class="flex items-end gap-1.5 font-bold text-xl text-gray-900 dark:text-white">
         <Icon name="logos:nuxt-icon" class="w-8 h-8" />
         Nuxt
-        <div class="text-primary-500 dark:text-primary-400">SEO Kit</div>
+        <div class="text-primary-500 dark:text-primary-400">SEO</div>
       </div>
     </UContainer>
   </header>
   <main class="min-h-full h-full flex-grow">
     <UContainer class="mt-4">
       <NuxtPage />
-      <pre class="mt-5"><code>{{ siteConfig }}</code></pre>
     </UContainer>
   </main>
   <footer class="text-sm text-gray-700 flex justify-center items-center py-5">
@@ -24,6 +23,4 @@
 import { useSeoKit, useSiteConfig } from "#imports";
 
 useSeoKit()
-
-const siteConfig = useSiteConfig()
 </script>

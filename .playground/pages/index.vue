@@ -14,7 +14,11 @@ useHead({
 <div>
   <h1>Hello world</h1>
   <p>Welcome to my website</p>
-  <NuxtLink to="/about">about</NuxtLink>
-  <NuxtLink to="/no-set-title">/no-set-title</NuxtLink>
+  <div>
+    <NuxtLink to="/abott">new title</NuxtLink>
+  </div>
+  <div>
+    <NuxtLink to="/no-set-title">/no-set-title</NuxtLink>
+  </div>
 </div>
 </template>
