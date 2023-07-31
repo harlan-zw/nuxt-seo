@@ -52,8 +52,8 @@ export function useModuleList() {
     {
       label: 'Link Checker',
       tag: {
-        label: 'v3 Released',
-        to: '/sitemap/releases/v3',
+        label: 'v2 Released',
+        to: '/link-checker/releases/v2',
       },
       icon: 'carbon:cloud-satellite-link',
       description: 'Find and magically fix links that may be negatively effecting your SEO.',
