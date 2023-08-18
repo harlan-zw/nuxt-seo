@@ -3,9 +3,9 @@ import { defineNuxtPlugin } from 'nuxt/app'
 import {
   computed,
   createSitePathResolver,
+  defineOgImage,
   defineRobotMeta,
   defineWebPage,
-  defineOgImage,
   defineWebSite, useHead,
   useRoute,
   useSchemaOrg,

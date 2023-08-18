@@ -74,6 +74,11 @@ export function useModuleList() {
     {
       label: 'Schema.org',
       icon: 'carbon:chart-relationship',
+      // tag: {
+      //   label: 'v3 Released',
+      //   to: '/schema-org/releases/v3',
+      // },
+      to: '/schema-org/getting-started/installation',
       description: 'The quickest and easiest way to build Schema.org graphs.',
       repo: 'harlan-zw/unhead-schema-org',
     },

@@ -65,6 +65,7 @@ export default defineNuxtModule<ModuleOptions>({
       schemaOrg: ['useSchemaOrg', 'defineWebSite', 'defineWebPage'],
     }
     for (const [module, composables] of Object.entries(polyfills)) {
+      // @ts-expect-error untyped
       if (nuxt.options[module]?.enable === false) {
         composables.forEach((name) => {
           // add pollyfill
@@ -75,6 +76,7 @@ export default defineNuxtModule<ModuleOptions>({
         })
       }
     }
+    // @ts-expect-error untyped
     nuxt.options.experimental.headNext = true
 
     if (config.splash) {
