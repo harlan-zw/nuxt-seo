@@ -19,14 +19,16 @@ const isRobots = computed(() => {
 const isSitemap = computed(() => {
   return route.path.startsWith('/sitemap')
 })
-
+const isSchemaOrg = computed(() => {
+  return route.path.startsWith('/schema-org')
+})
 const isLinkChecker = computed(() => {
   return route.path.startsWith('/link-checker')
 })
 </script>
 
 <template>
-  <div class="flex items-center justify-between gap-3 h-16">
+  <div class="flex items-center justify-between gap-2 h-16">
     <div class="flex items-center gap-6">
       <div class="flex items-center gap-3">
         <NuxtLink to="/" class="flex items-end gap-1.5 font-bold text-xl text-gray-900 dark:text-white font-title">
@@ -57,6 +59,10 @@ const isLinkChecker = computed(() => {
 
     <UButton to="/og-image/getting-started/installation" :variant="!isOgImage ? 'ghost' : 'outline'" class="md:block hidden">
       <span class="text-gray-700 dark:text-gray-200">OG Image</span>
+    </UButton>
+
+    <UButton to="/schema-org/getting-started/installation" :variant="!isSchemaOrg ? 'ghost' : 'outline'" class="md:block hidden">
+      <span class="text-gray-700 dark:text-gray-200">Schema.org</span>
     </UButton>
 
     <UButton to="/link-checker/getting-started/installation" :variant="!isLinkChecker ? 'ghost' : 'outline'" class="md:block hidden">

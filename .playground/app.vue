@@ -19,8 +19,3 @@
   </footer>
 </div>
 </template>
-<script setup>
-import { useSeoKit, useSiteConfig } from "#imports";
-
-useSeoKit()
-</script>

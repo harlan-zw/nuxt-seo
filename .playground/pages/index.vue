@@ -7,7 +7,8 @@ definePageMeta({
 })
 
 useHead({
-  title: null,
+  title: 'hello',
+  titleTemplate: '%s - %site.name'
 })
 </script>
 <template>
@@ -15,10 +16,7 @@ useHead({
   <h1>Hello world</h1>
   <p>Welcome to my website</p>
   <div>
-    <NuxtLink to="/abott">new title</NuxtLink>
-  </div>
-  <div>
-    <NuxtLink to="/no-set-title">/no-set-title</NuxtLink>
+    <NuxtLink to="/about">new title</NuxtLink>
   </div>
 </div>
 </template>

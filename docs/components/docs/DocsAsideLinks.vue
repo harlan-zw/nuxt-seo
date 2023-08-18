@@ -12,18 +12,20 @@ const children = computed(() => {
   // first segment
   const segment = route.path.split('/')[1]
   switch (segment) {
-    case 'og-image':
-      return navigation.value[0].children
     case 'robots':
-      return navigation.value[1].children
+      return navigation.value[0].children
     case 'sitemap':
+      return navigation.value[1].children
+    case 'og-image':
       return navigation.value[2].children
-    case 'link-checker':
+    case 'schema-org':
       return navigation.value[3].children
-    case 'experiments':
+    case 'link-checker':
       return navigation.value[4].children
-    case 'site-config':
+    case 'experiments':
       return navigation.value[5].children
+    case 'site-config':
+      return navigation.value[6].children
   }
 })
 </script>

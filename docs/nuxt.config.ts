@@ -64,10 +64,11 @@ export default defineNuxtConfig({
   },
   routeRules: {
     // for doc linking purposes
-    '/og-image': { redirect: { to: '/og-image/getting-started/installation', statusCode: 301 } },
-    '/experiments': { redirect: { to: '/experiments/getting-started/installation', statusCode: 301 } },
     '/robots': { redirect: { to: '/robots/getting-started/installation', statusCode: 301 } },
     '/sitemap': { redirect: { to: '/sitemap/getting-started/installation', statusCode: 301 } },
+    '/og-image': { redirect: { to: '/og-image/getting-started/installation', statusCode: 301 } },
+    '/schema-org': { redirect: { to: '/schema-org/getting-started/installation', statusCode: 301 } },
+    '/experiments': { redirect: { to: '/experiments/getting-started/installation', statusCode: 301 } },
     '/site-config': { redirect: { to: '/site-config/getting-started/installation', statusCode: 301 } },
     '/link-checker': { redirect: { to: '/link-checker/getting-started/installation', statusCode: 301 } },
 

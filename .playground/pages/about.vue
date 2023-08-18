@@ -1,14 +1,11 @@
 <script lang="ts" setup>
-import { defineOgImageStatic } from '#imports'
-
 definePageMeta({
   title: 'About',
   description: 'My description',
   image: 'https://example.com/image.jpg',
 })
 
-
-defineOgImageStatic({
+defineOgImage({
   title: 'About',
   description: 'My description',
   customSomething: 'custom',

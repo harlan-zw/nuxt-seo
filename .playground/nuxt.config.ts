@@ -12,10 +12,26 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
+  i18n: {
+    locales: ['en', 'it']
+  },
+
   site: {
     titleSeparator: '·',
-    name: 'Nuxt SEO',
-    locale: 'en',
+    defaultLocale: 'en',
+    // TODO play with i18n support
+    locales: {
+      en: {
+        url: 'nuxtseo.dev',
+        name: 'Nuxt SEO',
+        description: 'Nuxt SEO Playground description.',
+      },
+      it: {
+        url: 'it.nuxtseo.dev',
+        name: 'Nuxt SEO It',
+        description: 'Nuxt SEO Playground itality description.',
+      }
+    },
   },
 
   routeRules: {
