@@ -1,5 +1,5 @@
 import {
-  addComponent, addImports,
+  addImports, addPlugin,
   createResolver,
   defineNuxtModule,
   installModule, useLogger,
@@ -28,7 +28,7 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-seo-kit',
     compatibility: {
-      nuxt: '^3.6.1',
+      nuxt: '^3.6.5',
       bridge: false,
     },
     configKey: 'seoKit',
@@ -41,7 +41,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
   },
   async setup(config, nuxt) {
-    const logger = useLogger('nuxt-seo')
+    const logger = useLogger('nuxtseo')
     logger.level = (config.debug || nuxt.options.debug) ? 4 : 3
     if (config.enabled === false) {
       logger.debug('The module is disabled, skipping setup.')
@@ -55,15 +55,27 @@ export default defineNuxtModule<ModuleOptions>({
     for (const module of Modules)
       await installModule(await resolvePath(module))
 
-    await addComponent({
-      filePath: resolve('./runtime/components/SeoKit.vue'),
-      name: 'SeoKit',
+    addPlugin({
+      src: resolve('./runtime/plugin/defaults'),
     })
 
-    addImports({
-      from: resolve('./runtime/composables/useSeoKit'),
-      name: 'useSeoKit',
-    })
+    // if user disables certain modules we need to pollyfill the imports
+    const polyfills: Record<string, string[]> = {
+      robots: ['defineRobotMeta'],
+      schemaOrg: ['useSchemaOrg', 'defineWebSite', 'defineWebPage'],
+    }
+    for (const [module, composables] of Object.entries(polyfills)) {
+      if (nuxt.options[module]?.enable === false) {
+        composables.forEach((name) => {
+          // add pollyfill
+          addImports({
+            from: resolve('./runtime/composables/polyfills'),
+            name,
+          })
+        })
+      }
+    }
+    nuxt.options.experimental.headNext = true
 
     if (config.splash) {
       logger.log('')
@@ -77,7 +89,7 @@ export default defineNuxtModule<ModuleOptions>({
       if (!upToDate)
         logger.log(`${chalk.gray('  ├─ ')}🎉 New version available!${chalk.gray(` Run ${chalk.underline(`npm i nuxt-seo-kit@${latestTag}`)} to update.`)}`)
 
-      logger.log(chalk.dim('  └─ 💖 Care about Nuxt SEO? Support the development https://nuxt-seo.com/sponsor'))
+      logger.log(chalk.dim('  └─ 💖 Care about Nuxt SEO? Support the development https://nuxtseo.com/sponsor'))
       logger.log('')
     }
   },
