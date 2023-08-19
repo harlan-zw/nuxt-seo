@@ -41,10 +41,10 @@ export default defineNuxtPlugin({
     })
 
     useHead({
-      templateParams: { site: () => siteConfig },
+      templateParams: { site: () => siteConfig, separator: siteConfig.titleSeparator },
       // TODO fetch locale using i18n
       htmlAttrs: { lang: () => siteConfig.locale },
-      titleTemplate: '%s %separator %site.name test',
+      titleTemplate: '%s %separator %site.name',
       title,
       link: [{ rel: 'canonical', href: canonicalUrl }],
     })
