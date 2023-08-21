@@ -1,5 +1,5 @@
 import {
-  addImports, addPlugin,
+  addImports, addPlugin, addServerHandler,
   createResolver,
   defineNuxtModule,
   installModule, useLogger,
@@ -12,6 +12,17 @@ export interface ModuleOptions {
   enabled: boolean
   debug: boolean
   splash: boolean
+  /**
+   * When enabled, it will redirect any request to the canonical domain (site url) using a 301 redirect on non-dev environments.
+   *
+   * E.g if the site url is 'www.example.com' and the user visits 'example.com',
+   * they will be redirected to 'www.example.com'.
+   *
+   * This is useful for SEO as it prevents duplicate content and consolidates page rank.
+   *
+   * @default false
+   */
+  canonicalDomain: boolean
 }
 
 const Modules = [
@@ -26,17 +37,18 @@ const Modules = [
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: 'nuxt-seo-kit',
+    name: 'nuxtseo',
     compatibility: {
       nuxt: '^3.6.5',
       bridge: false,
     },
-    configKey: 'seoKit',
+    configKey: 'seo',
   },
   defaults(nuxt) {
     return {
       enabled: true,
       debug: false,
+      canonicalDomain: false,
       splash: nuxt.options.dev,
     }
   },
@@ -78,6 +90,14 @@ export default defineNuxtModule<ModuleOptions>({
     }
     // @ts-expect-error untyped
     nuxt.options.experimental.headNext = true
+
+    // add redirect middleware
+    if (config.canonicalDomain && nuxt.options.dev === false) {
+      addServerHandler({
+        handler: resolve('./runtime/middleware/redirect'),
+        middleware: true,
+      })
+    }
 
     if (config.splash) {
       logger.log('')
