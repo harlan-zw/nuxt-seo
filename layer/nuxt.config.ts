@@ -2,13 +2,13 @@ import { useLogger } from '@nuxt/kit'
 
 export default ({
   modules: [
-    'nuxt-seo-kit-module',
+    '@nuxtseo/module',
   ],
 
   hooks: {
     'modules:done': function () {
       const logger = useLogger()
-      logger.warn('Using Nuxt SEO Kit as a layer has been deprecated. Please use `nuxt-seo-kit-module` as module instead.')
+      logger.warn('Using Nuxt SEO Kit as a layer has been deprecated. Please use `@nuxtseo/module` as module instead.')
     },
   },
   //
