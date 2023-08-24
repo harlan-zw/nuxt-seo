@@ -22,7 +22,7 @@ export interface ModuleOptions {
    *
    * @default false
    */
-  canonicalDomain: boolean
+  redirectToCanonicalSiteUrl?: boolean
 }
 
 const Modules = [
@@ -48,7 +48,7 @@ export default defineNuxtModule<ModuleOptions>({
     return {
       enabled: true,
       debug: false,
-      canonicalDomain: false,
+      canonicalDomain: process.env.NODE_ENV === 'production',
       splash: nuxt.options.dev,
     }
   },
@@ -92,9 +92,9 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.experimental.headNext = true
 
     // add redirect middleware
-    if (config.canonicalDomain && nuxt.options.dev === false) {
+    if (config.redirectToCanonicalSiteUrl) {
       addServerHandler({
-        handler: resolve('./runtime/middleware/redirect'),
+        handler: resolve('./runtime/server/middleware/redirect'),
         middleware: true,
       })
     }
