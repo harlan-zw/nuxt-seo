@@ -337,12 +337,6 @@ export default defineNuxtConfig({
 
 ## FAQ
 
-### Why isn't there `twitter:*` meta tags?
-
-The `twitter:` prefixed meta tags are only needed when they differ from the `og:` prefixes, except for the `twitter:card` tag.
-
-You are welcome to modify the `twitter:*` meta tags using `definePageMeta` or `useSeoMeta`.
-
 ### Why are pages missing from my sitemap.xml?
 
 This module currently relies on pre-rendering to figure out all of your site routes. If your route isn't being pre-rendered
