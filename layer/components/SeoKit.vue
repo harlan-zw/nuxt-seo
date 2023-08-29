@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MetaObject } from '@nuxt/schema'
 import { computed } from 'vue'
-import { createInternalLinkResolver, resolveAbsoluteInternalLink } from '../composables/internalLinks'
+import { createInternalLinkResolver } from '../composables/internalLinks'
 import { titleCase } from '../composables/casing'
 import { defineRobotMeta, defineWebPage, defineWebSite, useAppConfig, useHead, useRouter, useRuntimeConfig, useSchemaOrg, useServerHead } from '#imports'
 
@@ -85,7 +85,7 @@ function computeMeta() {
   let ogImage = route.value?.meta?.image || siteMeta.value.siteImage
   if (typeof ogImage === 'string') {
     if (ogImage.startsWith('/'))
-      ogImage = resolveAbsoluteInternalLink(ogImage)
+      ogImage = resolveUrl(ogImage)
     meta.push({
       property: 'og:image',
       content: ogImage as string,

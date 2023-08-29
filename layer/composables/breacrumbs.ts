@@ -1,7 +1,7 @@
 import type { ParsedURL } from 'ufo'
 import { hasTrailingSlash, parseURL, stringifyParsedURL, withTrailingSlash } from 'ufo'
-import { resolveAbsoluteInternalLink, resolveTrailingSlash } from '#imports'
 import type { RouteRecord } from 'vue-router'
+import { createInternalLinkResolver } from './internalLinks'
 
 function getBreadcrumbs(input: string) {
   const startNode = parseURL(input)
@@ -29,6 +29,9 @@ function getBreadcrumbs(input: string) {
 
 export function useBreadcrumbs() {
   const router = useRouter()
+  const resolveUrlAbs = createInternalLinkResolver(true)
+  const resolveUrl = createInternalLinkResolver()
+
   return computed(() => {
     const routes = router.getRoutes()
     const route = router.currentRoute.value
@@ -51,9 +54,9 @@ export function useBreadcrumbs() {
         return {
           schema: {
             name: title,
-            item: resolveAbsoluteInternalLink(path),
+            item: resolveUrlAbs(path),
           },
-          to: resolveTrailingSlash(path),
+          to: resolveUrl(path),
           title,
         }
       })
