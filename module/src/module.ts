@@ -39,7 +39,7 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxtseo',
     compatibility: {
-      nuxt: '^3.6.5',
+      nuxt: '^3.7.0',
       bridge: false,
     },
     configKey: 'seo',
@@ -88,7 +88,6 @@ export default defineNuxtModule<ModuleOptions>({
         })
       }
     }
-    // @ts-expect-error untyped
     nuxt.options.experimental.headNext = true
 
     // add redirect middleware
