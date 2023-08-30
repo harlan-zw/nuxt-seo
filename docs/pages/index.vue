@@ -31,6 +31,11 @@ watch(() => robotState.value.hover, () => {
 
 // avoid dropping frames
 const interval = computed(() => 1000 / 60)
+
+defineOgImage({
+  title: 'Nuxt SEO',
+  description: 'All the boring SEO work for Nuxt done.',
+})
 </script>
 
 <template>
