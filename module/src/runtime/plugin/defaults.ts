@@ -10,6 +10,7 @@ import {
   useRoute,
   useSchemaOrg,
   useSeoMeta,
+  useServerHead,
   useSiteConfig,
 } from '#imports'
 
@@ -42,12 +43,15 @@ export default defineNuxtPlugin({
       })
 
       useHead({
-        templateParams: { site: () => siteConfig, separator: siteConfig.titleSeparator },
-        // TODO fetch locale using i18n
-        htmlAttrs: { lang: () => siteConfig.locale },
-        titleTemplate: '%s %separator %site.name',
         title,
         link: [{ rel: 'canonical', href: canonicalUrl }],
+      })
+
+      useServerHead({
+        templateParams: { site: () => siteConfig, separator: siteConfig.titleSeparator },
+        // TODO integrate with nuxt/i18n
+        htmlAttrs: { lang: () => siteConfig.deaultLocale },
+        titleTemplate: '%s %separator %site.name',
       })
 
       useSeoMeta({
@@ -65,7 +69,8 @@ export default defineNuxtPlugin({
       useSchemaOrg([
         defineWebSite({
           name: () => siteConfig?.name || '',
-          inLanguage: () => siteConfig?.locale || '',
+          // TODO integrate with nuxt/i18n
+          inLanguage: () => siteConfig?.defaultLocale || '',
           description: () => siteConfig?.description || '',
         }),
         defineWebPage(),
