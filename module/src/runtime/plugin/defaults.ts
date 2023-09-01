@@ -6,7 +6,8 @@ import {
   defineOgImage,
   defineRobotMeta,
   defineWebPage,
-  defineWebSite, useHead,
+  defineWebSite,
+  useHead,
   useRoute,
   useSchemaOrg,
   useSeoMeta,
@@ -22,59 +23,57 @@ function titleCase(s: string) {
 
 export default defineNuxtPlugin({
   name: 'nuxtseo:defaults',
-  setup(nuxtApp) {
+  setup() {
     // get the head instance
-    const siteConfig = useSiteConfig() as SiteConfig
+    const siteConfig = { ...useSiteConfig() } as Omit<SiteConfig, '_context'>
     delete siteConfig._context
+    const route = useRoute()
+    const resolveUrl = createSitePathResolver({ withBase: true, absolute: true })
+    const canonicalUrl = computed(() => resolveUrl(route.path || '/').value)
 
-    nuxtApp.vueApp.runWithContext(() => {
-      const route = useRoute()
-      const resolveUrl = createSitePathResolver({ withBase: true, absolute: true })
-      const canonicalUrl = computed(() => resolveUrl(route.path || '/').value)
+    const title = computed(() => {
+      if (typeof route.meta?.title === 'string')
+        return route.meta?.title
 
-      const title = computed(() => {
-        if (typeof route.meta?.title === 'string')
-          return route.meta?.title
-
-        // if no title has been set then we should use the last segment of the URL path and title case it
-        const path = route.path || '/'
-        const lastSegment = path.split('/').pop()
-        return lastSegment ? titleCase(lastSegment) : null
-      })
-
-      useHead({
-        title,
-        link: [{ rel: 'canonical', href: canonicalUrl }],
-      })
-
-      useServerHead({
-        templateParams: { site: () => siteConfig, separator: siteConfig.titleSeparator },
-        // TODO integrate with nuxt/i18n
-        htmlAttrs: { lang: () => siteConfig.deaultLocale },
-        titleTemplate: '%s %separator %site.name',
-      })
-
-      useSeoMeta({
-        ogUrl: canonicalUrl,
-        // TODO integrate with nuxt/i18n
-        ogLocale: siteConfig.defaultLocale,
-        ogSiteName: siteConfig.name,
-        description: siteConfig.description,
-        // extra og are set by InferSeoMeta plugin
-      })
-
-      // init vendors
-      defineOgImage()
-      defineRobotMeta()
-      useSchemaOrg([
-        defineWebSite({
-          name: () => siteConfig?.name || '',
-          // TODO integrate with nuxt/i18n
-          inLanguage: () => siteConfig?.defaultLocale || '',
-          description: () => siteConfig?.description || '',
-        }),
-        defineWebPage(),
-      ])
+      // if no title has been set then we should use the last segment of the URL path and title case it
+      const path = route.path || '/'
+      const lastSegment = path.split('/').pop()
+      return lastSegment ? titleCase(lastSegment) : null
     })
+
+    useHead({
+      // fallback title
+      title,
+      link: [{ rel: 'canonical', href: canonicalUrl }],
+    })
+
+    useServerHead({
+      templateParams: { site: siteConfig, separator: siteConfig.titleSeparator },
+      // TODO integrate with nuxt/i18n
+      htmlAttrs: { lang: siteConfig.deaultLocale },
+      titleTemplate: '%s %separator %site.name',
+    })
+
+    useSeoMeta({
+      ogUrl: canonicalUrl,
+      // TODO integrate with nuxt/i18n
+      ogLocale: siteConfig.defaultLocale,
+      ogSiteName: siteConfig.name,
+      description: siteConfig.description,
+      // extra og are set by InferSeoMeta plugin
+    })
+
+    // init vendors
+    defineOgImage()
+    defineRobotMeta()
+    useSchemaOrg([
+      defineWebSite({
+        name: () => siteConfig?.name || '',
+        // TODO integrate with nuxt/i18n
+        inLanguage: () => siteConfig?.defaultLocale || '',
+        description: () => siteConfig?.description || '',
+      }),
+      defineWebPage(),
+    ])
   },
 })

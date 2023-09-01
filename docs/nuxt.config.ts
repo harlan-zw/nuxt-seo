@@ -1,18 +1,11 @@
-import colors from 'tailwindcss/colors'
 import NuxtSeo from '../module/src/module'
-import { excludeColors } from './colors'
 import { version } from './package.json'
 import { SiteConfigModule } from './utils/data'
-
-delete colors.lightBlue
-delete colors.warmGray
-delete colors.trueGray
-delete colors.coolGray
-delete colors.blueGray
 
 export default defineNuxtConfig({
   extends: [
     'nuxt-lego',
+    '@nuxthq/elements',
   ],
   modules: [
     '@nuxthq/ui',
@@ -20,7 +13,6 @@ export default defineNuxtConfig({
     '@nuxt/content',
     'nuxt-lodash',
     'nuxt-icon',
-    process.dev ? '' : 'nuxt-component-meta',
     NuxtSeo,
   ],
   site: {
@@ -45,15 +37,13 @@ export default defineNuxtConfig({
     },
   },
   devtools: {
-    enabled: false,
+    enabled: true,
   },
   ui: {
     global: true,
     icons: ['heroicons', 'simple-icons'],
-    safelistColors: excludeColors(colors),
   },
   sitemap: {
-    debug: true,
     strictNuxtContentPaths: true,
     xslColumns: [
       { label: 'URL', width: '50%' },
@@ -85,7 +75,6 @@ export default defineNuxtConfig({
       ],
     },
     head: {
-      titleTemplate: '%s %separator %site.name',
       link: [
         { rel: 'preconnect', href: 'https://fonts.googleapis.com', crossorigin: 'anonymous' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
@@ -107,24 +96,21 @@ export default defineNuxtConfig({
       ],
     },
   },
-  devtools: {
-    enabled: true,
-  },
-  typescript: {
-    strict: false,
-    includeWorkspace: true,
-  },
   generate: {
     routes: ['/'],
   },
-  componentMeta: {
-    globalsOnly: true,
-    debug: true,
-    metaFields: {
-      props: false,
-      slots: false,
-      events: false,
-      exposed: false,
+  hooks: {
+    // Related to https://github.com/nuxt/nuxt/pull/22558
+    // Adding all global components to the main entry
+    // To avoid lagging during page navigation on client-side
+    // Downside: bigger JS bundle
+    // With sync: 465KB, gzip: 204KB
+    // Without: 418KB, gzip: 184KB
+    'components:extend': function (components) {
+      for (const comp of components) {
+        if (comp.global)
+          comp.global = 'sync'
+      }
     },
   },
 })

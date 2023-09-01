@@ -6,7 +6,9 @@
     "deploy": "NITRO_PRESET=netlify nuxt build && npx netlify deploy"
   },
   "dependencies": {
-    "@nuxt/content": "^2.8.1",
+    "@nuxt/content": "^2.8.2",
+    "@nuxthq/elements": "npm:@nuxthq/elements-edge@0.0.1-28223632.89f04cc",
+    "@nuxthq/ui": "npm:@nuxthq/ui-edge@2.7.0-28223581.ead87a9",
     "nuxt-icon": "^0.5.0",
     "nuxt-lego": "^0.0.14"
   },
@@ -14,13 +16,9 @@
     "@iconify-json/heroicons": "^1.1.12",
     "@iconify-json/simple-icons": "^1.1.68",
     "@nuxt/devtools": "^0.8.2",
-    "@nuxthq/ui": "^2.7.0",
     "@nuxtjs/fontaine": "^0.4.1",
-    "@nuxtlabs/github-module": "^1.6.3",
     "@vueuse/nuxt": "^10.4.1",
     "nuxt": "3.7.0",
-    "nuxt-component-meta": "^0.5.3",
-    "nuxt-lodash": "^2.5.0",
-    "nuxt-windicss": "latest"
+    "nuxt-lodash": "^2.5.0"
   }
 }

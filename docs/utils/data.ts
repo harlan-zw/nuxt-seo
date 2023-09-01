@@ -74,13 +74,13 @@ export function useModuleList() {
     {
       label: 'Schema.org',
       icon: 'carbon:chart-relationship',
-      // tag: {
-      //   label: 'v3 Released',
-      //   to: '/schema-org/releases/v3',
-      // },
+      tag: {
+        label: 'Released',
+        to: '/schema-org/getting-started/installation',
+      },
       to: '/schema-org/getting-started/installation',
       description: 'The quickest and easiest way to build Schema.org graphs.',
-      repo: 'harlan-zw/unhead-schema-org',
+      repo: 'harlan-zw/nuxt-schema-org',
     },
     {
       label: 'SEO UI',
@@ -88,5 +88,5 @@ export function useModuleList() {
       description: 'Fully styled and customizable components for improving your SEO.',
     },
     SiteConfigModule,
-  ]
+  ] as const
 }
