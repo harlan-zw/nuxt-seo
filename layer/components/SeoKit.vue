@@ -63,7 +63,7 @@ const siteMeta = computed<SeoKitOptions>(() => {
 
 const router = useRouter()
 const route = router.currentRoute
-const resolveUrl = createInternalLinkResolver()
+const resolveUrl = createInternalLinkResolver(true)
 
 function computeMeta() {
   const meta: MetaObject['meta'] = [
