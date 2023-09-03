@@ -9,9 +9,12 @@ import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
 import { version } from '../package.json'
 
 export interface ModuleOptions {
-  enabled: boolean
-  debug: boolean
-  splash: boolean
+  /**
+   * Will set up a number of defaults for meta tags and Schema.org, if the modules and config are available.
+   *
+   * @default true
+   */
+  automaticDefaults?: boolean
   /**
    * When enabled, it will redirect any request to the canonical domain (site url) using a 301 redirect on non-dev environments.
    *
@@ -23,6 +26,22 @@ export interface ModuleOptions {
    * @default false
    */
   redirectToCanonicalSiteUrl?: boolean
+  /**
+   * Whether the module should be loaded.
+   */
+  enabled: boolean
+  /**
+   * Whether the debugging mode should be enabled.
+   *
+   * @default `nuxt.options.debug`
+   */
+  debug: boolean
+  /**
+   * Whether the Nuxt SEO splash should be shown when Nuxt is started.
+   *
+   * @default `nuxt.options.dev`
+   */
+  splash: boolean
 }
 
 const Modules = [
@@ -47,14 +66,15 @@ export default defineNuxtModule<ModuleOptions>({
   defaults(nuxt) {
     return {
       enabled: true,
-      debug: false,
-      canonicalDomain: process.env.NODE_ENV === 'production',
+      debug: nuxt.options.debug,
+      redirectToCanonicalSiteUrl: process.env.NODE_ENV === 'production',
       splash: nuxt.options.dev,
+      automaticDefaults: true,
     }
   },
   async setup(config, nuxt) {
     const logger = useLogger('nuxtseo')
-    logger.level = (config.debug || nuxt.options.debug) ? 4 : 3
+    logger.level = config.debug ? 4 : 3
     if (config.enabled === false) {
       logger.debug('The module is disabled, skipping setup.')
       return
@@ -67,9 +87,11 @@ export default defineNuxtModule<ModuleOptions>({
     for (const module of Modules)
       await installModule(await resolvePath(module))
 
-    addPlugin({
-      src: resolve('./runtime/plugin/defaults'),
-    })
+    if (config.automaticDefaults) {
+      addPlugin({
+        src: resolve('./runtime/plugin/defaults'),
+      })
+    }
 
     // if user disables certain modules we need to pollyfill the imports
     const polyfills: Record<string, string[]> = {

@@ -5,9 +5,9 @@ export const SiteConfigModule = {
   },
   label: 'Site Config',
   icon: 'carbon:settings-check',
-  description: 'Shared site configuration for Nuxt modules.',
+  description: 'Powerful build and runtime shared site configuration for Nuxt modules.',
   to: '/site-config/getting-started/installation',
-  // repo: 'harlan-zw/nuxt-site-config',
+  repo: 'harlan-zw/nuxt-site-config',
   routeRules: {
     site: { name: 'Nuxt Site Config', description: 'Shared site configuration for Nuxt modules.' },
     ogImage: { icon: 'carbon:settings-check' },
