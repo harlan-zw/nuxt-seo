@@ -75,7 +75,7 @@ export function useModuleList() {
       label: 'Schema.org',
       icon: 'carbon:chart-relationship',
       tag: {
-        label: 'Released',
+        label: 'v3 Released',
         to: '/schema-org/getting-started/installation',
       },
       to: '/schema-org/getting-started/installation',
