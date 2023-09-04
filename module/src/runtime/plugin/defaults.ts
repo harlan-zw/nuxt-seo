@@ -15,12 +15,6 @@ import {
   useSiteConfig,
 } from '#imports'
 
-function titleCase(s: string) {
-  return s
-    .replaceAll('-', ' ')
-    .replace(/\w\S*/g, w => w.charAt(0).toUpperCase() + w.substr(1).toLowerCase())
-}
-
 export default defineNuxtPlugin({
   name: 'nuxtseo:defaults',
   setup() {
@@ -31,19 +25,7 @@ export default defineNuxtPlugin({
     const resolveUrl = createSitePathResolver({ withBase: true, absolute: true })
     const canonicalUrl = computed(() => resolveUrl(route.path || '/').value)
 
-    const title = computed(() => {
-      if (typeof route.meta?.title === 'string')
-        return route.meta?.title
-
-      // if no title has been set then we should use the last segment of the URL path and title case it
-      const path = route.path || '/'
-      const lastSegment = path.split('/').pop()
-      return lastSegment ? titleCase(lastSegment) : null
-    })
-
     useHead({
-      // fallback title
-      title,
       link: [{ rel: 'canonical', href: canonicalUrl }],
     })
 
