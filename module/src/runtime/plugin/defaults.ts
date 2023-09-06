@@ -30,7 +30,7 @@ export default defineNuxtPlugin({
     })
 
     useServerHead({
-      templateParams: { site: siteConfig, separator: siteConfig.titleSeparator },
+      templateParams: { site: { name: siteConfig.name, url: siteConfig.url }, separator: siteConfig.titleSeparator },
       // TODO integrate with nuxt/i18n
       htmlAttrs: { lang: siteConfig.deaultLocale },
       titleTemplate: '%s %separator %site.name',
