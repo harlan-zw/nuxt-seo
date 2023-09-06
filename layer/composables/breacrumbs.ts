@@ -49,7 +49,7 @@ export function useBreadcrumbs() {
             title = 'Home'
           else
           // pop last url segment and title case it
-            title = titleCase(path.split('/').pop() || '')
+            title = titleCase(withoutTrailingSlash(path).split('/').pop() || '')
         }
         return {
           schema: {
