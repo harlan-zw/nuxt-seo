@@ -42,6 +42,8 @@ export default defineNuxtModule<ModuleOptions>({
     }
   },
   async setup(config, nuxt) {
+    // eslint-disable-next-line @typescript-eslint/prefer-ts-expect-error
+    // @ts-ignore runtime type
     nuxt.options.runtimeConfig.public['nuxt-seo-kit'] = config
 
     const { resolve } = createResolver(import.meta.url)
@@ -95,7 +97,8 @@ export default defineNuxtModule<ModuleOptions>({
       try {
         latestTag = (await $fetch<any>('https://ungh.unjs.io/repos/harlan-zw/nuxt-seo-kit/releases/latest')).release.tag
       }
-      catch (e) {}
+      catch (e) {
+      }
       logger.log(`${chalk.green('SEO Kit')} ${chalk.yellow(`v${version}`)} • All-in-one SEO ${chalk.gray(`by ${chalk.underline('@harlan_zw')}`)}`)
       if (latestTag !== `v${version}`)
         logger.log(`${chalk.gray('  ├─ ')}🎉 New version available!${chalk.gray(` Run ${chalk.underline(`npm i nuxt-seo-kit@${latestTag}`)} to update.`)}`)

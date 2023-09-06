@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useBreadcrumbs } from '../composables/breacrumbs'
+
 interface BreadcrumbsProps {
   showAtRoot?: boolean
 }
