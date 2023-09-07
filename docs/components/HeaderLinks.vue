@@ -68,10 +68,6 @@ const isUiElements = computed(() => {
         <UButton label="Modules" variant="ghost" trailing-icon="i-heroicons-chevron-down-20-solid" />
       </UDropdown>
 
-      <UButton to="/ui-elements" :variant="!isUiElements ? 'ghost' : 'outline'" class="md:block hidden">
-        <span class="text-gray-700 dark:text-gray-200">UI Elements</span>
-      </UButton>
-
       <UButton to="https://unlighthouse.dev" target="_blank" variant="ghost" class="md:block hidden flex space-x-2 items-center">
         <span class="text-gray-700 dark:text-gray-200">Validate SEO</span>
         <Icon name="heroicons-outline:external-link" class="w-4 h-4 mb-1 text-gray-600" />
@@ -83,6 +79,15 @@ const isUiElements = computed(() => {
     </div>
 
     <div class="flex items-center justify-end -mr-1.5 gap-3">
+      <LegoGithubStar v-slot="{ stars }" repo="harlan-zw/nuxt-seo-kit" class="hidden md:flex mr-5 group border dark:bg-gray-900 dark:hover:bg-gray-700 hover:bg-gray-200 dark:bg-gray-900 bg-gray-100 transition rounded-lg text-sm justify-center">
+        <div class="flex items-center transition rounded-l px-2 py-1 space-x-1">
+          <Icon name="uil:star" class="group-hover:op75 " />
+          <div>Star</div>
+        </div>
+        <div class="px-2 py-1 dark:bg-black bg-white rounded-r-lg">
+          {{ stars }}
+        </div>
+      </LegoGithubStar>
       <DocsSearchButton class="ml-1.5 flex-1 lg:flex-none lg:w-48" />
 
       <div class="flex items-center lg:gap-1.5">

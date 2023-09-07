@@ -36,6 +36,8 @@ defineOgImage({
   title: 'Nuxt SEO',
   description: 'All the boring SEO work for Nuxt done.',
 })
+
+const icons = useModuleList().map(m => m.icon)
 </script>
 
 <template>
@@ -52,7 +54,7 @@ defineOgImage({
             <span class="max-w-2xl">All the boring SEO work for Nuxt done.</span>
           </h1>
           <p class="text-gray-700 dark:text-gray-300 mt-4 max-w-3xl text-center text-xl lg:text-left">
-            Nuxt SEO is a collection of hand-crafted  <Icon name="logos:nuxt-icon" /> Nuxt Modules to help you rank higher in search engines.
+            Nuxt SEO is a collection of hand-crafted <Icon name="logos:nuxt-icon" /> <NuxtLink to="https://nuxt.com/modules" class="underline"> Nuxt Modules</NuxtLink> that will make Google (and your marketing team) love you.
           </p>
 
           <div class="mt-6 flex flex-col items-center justify-center gap-4 sm:mt-10 sm:flex-row sm:gap-6 lg:justify-start">
@@ -62,9 +64,14 @@ defineOgImage({
           </div>
         </div>
 
-        <div class="block-hero__right xl:col-span-6 max-w-full items-center relative flex">
-          <Logo width="200" height="200" />
-          <span class="font-title text-white text-5xl absolute font-extrabold left-[60px]">100</span>
+        <div class="block-hero__right xl:col-span-6 max-w-full flex items-center justify-center">
+          <div class="relative">
+            <Logo width="200" height="200" />
+            <span class="font-title text-white text-5xl absolute font-extrabold top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">100</span>
+          </div>
+          <div class="max-w-[200px] grid grid-cols-4 gap-4">
+            <Icon v-for="icon in icons" :name="icon" class="w-10 h-10 text-blue-300" />
+          </div>
         </div>
       </div>
     </section>
