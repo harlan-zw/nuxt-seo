@@ -8,7 +8,7 @@ description: Migrate from the nuxt-seo-kit package v1 to the new v2 @nuxtseo/mod
 If you get stuck with the migration or have post-migration bugs, please get in touch!
 
 - [Jump in the Discord](https://discord.com/invite/5jDAMswWwX)
-- [Make a GitHub issue](https://github.com/harlan-zw/nuxt-seo/issues) 
+- [Make a GitHub issue](https://github.com/harlan-zw/nuxt-seo-kit/issues) 
 
 ## Module Rename
 
@@ -118,7 +118,7 @@ more advanced configuration.
 ### Nuxt Simple Robots
 
 Upgraded from v1 to v3:
-- [v2 release notes](https://github.com/harlan-zw/nuxt-simple-robots)
+- [v2 release notes](https://github.com/harlan-zw/nuxt-simple-robots/releases/tag/v2.0.0)
 - [v3 release notes](/robots/releases/v3)
 
 No breaking changes.
@@ -126,7 +126,7 @@ No breaking changes.
 ### Nuxt Simple Sitemap
 
 Upgraded from v1 to v3:
-- [v2 release notes](https://github.com/harlan-zw/nuxt-simple-sitemap)
+- [v2 release notes](https://github.com/harlan-zw/nuxt-simple-sitemap/releases/tag/v2.0.0)
 - [v3 release notes](/sitemap/releases/v3)
 
 No breaking changes.
