@@ -61,7 +61,16 @@ export default defineNuxtPlugin({
       ogSiteName: siteConfig.name,
       description: siteConfig.description,
       // extra og are set by InferSeoMeta plugin
-    })
+    }
+    if (siteConfig.twitter) {
+      // id must have the @ in it
+      const id = siteConfig.twitter.startsWith('@')
+        ? siteConfig.twitter
+        : `@${siteConfig.twitter}`
+      seoMeta.twitterCreator = id
+      seoMeta.twitterSite = id
+    }
+    useSeoMeta(seoMeta, minimalPriority)
 
     // init vendors
     defineOgImage()
