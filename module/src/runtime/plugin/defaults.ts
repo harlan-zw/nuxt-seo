@@ -75,5 +75,25 @@ export default defineNuxtPlugin({
       }),
       defineWebPage(),
     ])
+    if (siteConfig.identity) {
+      const identityPayload: Person | Organization = {
+        name: siteConfig.identity.name || siteConfig.name,
+        url: siteConfig.url,
+      }
+      if (siteConfig.twitter) {
+        // without the @
+        const id = siteConfig.twitter.startsWith('@')
+          ? siteConfig.twitter.slice(1)
+          : siteConfig.twitter
+        identityPayload.sameAs = [
+          `https://twitter.com/${id}`,
+        ]
+      }
+      useSchemaOrg([
+        siteConfig.identity.type === 'Person'
+          ? definePerson(identityPayload)
+          : defineOrganization(identityPayload),
+      ])
+    }
   },
 })
