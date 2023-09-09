@@ -1,9 +1,13 @@
 import type { SiteConfig } from 'nuxt-site-config-kit'
 import { defineNuxtPlugin } from 'nuxt/app'
+import type { UseHeadOptions, UseSeoMetaInput } from '@unhead/vue'
+import type { Organization, Person } from '@unhead/schema-org'
 import {
   computed,
   createSitePathResolver,
   defineOgImage,
+  defineOrganization,
+  definePerson,
   defineRobotMeta,
   defineWebPage,
   defineWebSite,
@@ -41,20 +45,26 @@ export default defineNuxtPlugin({
       return lastSegment ? titleCase(lastSegment) : null
     })
 
+    const minimalPriority: UseHeadOptions = {
+      // give nuxt.config values higher priority
+      tagPriority: 15,
+    }
+
     useHead({
       // fallback title
       title,
       link: [{ rel: 'canonical', href: canonicalUrl }],
-    })
+    }, minimalPriority)
 
+    // TODO support SPA
     useServerHead({
-      templateParams: { site: { name: siteConfig.name, url: siteConfig.url }, separator: siteConfig.titleSeparator },
+      templateParams: { site: { name: siteConfig.name, url: siteConfig.url } },
       // TODO integrate with nuxt/i18n
       htmlAttrs: { lang: () => siteConfig?.currentLocale },
       titleTemplate: '%s %separator %site.name',
-    })
+    }, minimalPriority)
 
-    useSeoMeta({
+    const seoMeta: UseSeoMetaInput = {
       ogUrl: canonicalUrl,
       // TODO integrate with nuxt/i18n
       ogLocale: siteConfig.defaultLocale,
