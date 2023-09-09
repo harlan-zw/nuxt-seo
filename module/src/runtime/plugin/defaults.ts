@@ -69,8 +69,9 @@ export default defineNuxtPlugin({
       // TODO integrate with nuxt/i18n
       ogLocale: siteConfig.defaultLocale,
       ogSiteName: siteConfig.name,
-      description: siteConfig.description,
-      // extra og are set by InferSeoMeta plugin
+    }
+    if (siteConfig.description) {
+      seoMeta.description = siteConfig.description
     }
     if (siteConfig.twitter) {
       // id must have the @ in it
