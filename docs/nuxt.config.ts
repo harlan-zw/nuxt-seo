@@ -8,7 +8,7 @@ export default defineNuxtConfig({
     '@nuxthq/elements',
   ],
   modules: [
-    '@nuxthq/ui',
+    '@nuxt/ui',
     '@vueuse/nuxt',
     '@nuxt/content',
     'nuxt-lodash',

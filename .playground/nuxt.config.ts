@@ -4,7 +4,7 @@ import NuxtSeoKit from '../module/src/module'
 export default defineNuxtConfig({
   modules: [
     NuxtSeoKit,
-    '@nuxthq/ui',
+    '@nuxt/ui',
     'nuxt-icon'
   ],
 
