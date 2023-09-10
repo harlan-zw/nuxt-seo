@@ -1,5 +1,8 @@
 <template>
 <div>temp</div>
 </template>
-<script setup lang="ts">
+<script lang="ts" setup>
+definePageMeta({
+  breadcrumbTitle: 'My super title',
+})
 </script>

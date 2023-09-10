@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 definePageMeta({
-  breadcrumbTitle: 'My super title',
+  breadcrumbTitle: 'My blog title',
 })
 </script>
 <template>
-<div>temp</div>
+<div>blog</div>
 </template>

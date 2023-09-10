@@ -1,8 +1,7 @@
 import type { ParsedURL } from 'ufo'
 import { hasTrailingSlash, parseURL, stringifyParsedURL, withTrailingSlash, withoutTrailingSlash } from 'ufo'
 import type { RouteRecord } from 'vue-router'
-import { createInternalLinkResolver } from './internalLinks'
-import { titleCase } from './casing'
+import { computed, useRouter, createInternalLinkResolver, titleCase } from '#imports'
 
 function getBreadcrumbs(input: string) {
   const startNode = parseURL(input)
@@ -40,7 +39,7 @@ export function useBreadcrumbs() {
       .reverse()
       .map(path => ({
         path,
-        meta: routes.find((route: RouteRecord) => route.path === path)?.meta,
+        meta: routes.find((route: RouteRecord) => withoutTrailingSlash(route.path) === withoutTrailingSlash(path))?.meta,
       }))
       .map(({ path, meta }) => {
         // title case string regex
