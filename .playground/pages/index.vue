@@ -8,7 +8,6 @@ definePageMeta({
 
 useHead({
   title: 'hello',
-  titleTemplate: '%s %separator %site.name'
 })
 </script>
 <template>

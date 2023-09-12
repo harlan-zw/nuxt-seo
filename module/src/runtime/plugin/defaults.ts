@@ -47,14 +47,17 @@ export default defineNuxtPlugin({
 
     const minimalPriority: UseHeadOptions = {
       // give nuxt.config values higher priority
-      tagPriority: 150,
+      tagPriority: 101,
     }
 
     useHead({
       // fallback title
       title,
-      link: [{ rel: 'canonical', href: canonicalUrl }],
     }, minimalPriority)
+
+    useHead({
+      link: [{ rel: 'canonical', href: canonicalUrl }],
+    })
 
     // TODO support SPA
     useServerHead({
