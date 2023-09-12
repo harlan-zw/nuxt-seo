@@ -30,12 +30,11 @@ describe('generate', () => {
         "<meta name=\\"twitter:image:src\\" content=\\"http://localhost/__og_image__/og.png\\">",
         "<meta name=\\"twitter:image:width\\" content=\\"1200\\">",
         "<meta name=\\"twitter:image:height\\" content=\\"630\\">",
-        "<meta name=\\"twitter:card\\" content=\\"summary_large_image\\">",
         "<meta name=\\"robots\\" content=\\"noindex, nofollow\\">",
+        "<meta property=\\"og:title\\" content=\\"hello · .playground\\">",
         "<meta property=\\"og:url\\" content=\\"http://localhost/\\">",
         "<meta property=\\"og:locale\\" content=\\"en\\">",
         "<meta property=\\"og:site_name\\" content=\\".playground\\">",
-        "<meta property=\\"og:title\\" content=\\"hello · .playground\\">",
       ]
     `)
   }, 60000)
