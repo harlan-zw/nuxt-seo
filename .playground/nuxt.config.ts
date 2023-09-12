@@ -12,6 +12,12 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
+  app: {
+    head: {
+      titleTemplate: '%s - Nuxt SEO Kit',
+    }
+  },
+
   i18n: {
     locales: ['en', 'it']
   },

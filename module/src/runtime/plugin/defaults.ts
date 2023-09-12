@@ -47,7 +47,7 @@ export default defineNuxtPlugin({
 
     const minimalPriority: UseHeadOptions = {
       // give nuxt.config values higher priority
-      tagPriority: 15,
+      tagPriority: 150,
     }
 
     useHead({
