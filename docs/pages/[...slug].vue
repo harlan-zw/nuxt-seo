@@ -2,6 +2,9 @@
 const route = useRoute()
 
 const { data: page } = await useAsyncData(`docs-${route.path}`, () => queryContent(route.path).findOne())
+if (!page.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Page not found' })
+}
 const { data: surround } = await useAsyncData(`docs-${route.path}-surround`, () => queryContent()
   .only(['_path', 'title', 'navigation', 'description'])
   .where({ _extension: 'md', navigation: { $ne: false } })
@@ -38,10 +41,10 @@ defineOgImage()
           <DocsFooter class="mt-16" />
         </div>
 
-        <DocsToc v-if="page.body?.toc" :toc="page.body.toc" class="lg:col-span-2 order-first lg:order-last" />
+        <DocsToc v-if="page.body?.toc?.links?.length" :toc="page.body.toc" class="lg:col-span-2 order-first lg:order-last" />
       </div>
       <div v-else class="flex-1 flex flex-col items-center justify-center">
-        <div class="text-center">
+        <div class="text-cepage.body?.tocnter">
           <p class="text-base font-semibold text-primary-500 dark:text-primary-400">
             404
           </p>
