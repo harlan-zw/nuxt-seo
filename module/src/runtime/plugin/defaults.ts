@@ -61,21 +61,18 @@ export default defineNuxtPlugin({
 
     // TODO support SPA
     useServerHead({
-      templateParams: { site: { name: siteConfig.name, url: siteConfig.url } },
-      // TODO integrate with nuxt/i18n
+      templateParams: { site: { name: siteConfig.name, url: siteConfig.url }, siteName: siteConfig.name },
       htmlAttrs: { lang: () => siteConfig?.currentLocale },
       titleTemplate: '%s %separator %site.name',
     }, minimalPriority)
 
     const seoMeta: UseSeoMetaInput = {
       ogUrl: canonicalUrl,
-      // TODO integrate with nuxt/i18n
       ogLocale: siteConfig.defaultLocale,
       ogSiteName: siteConfig.name,
     }
-    if (siteConfig.description) {
+    if (siteConfig.description)
       seoMeta.description = siteConfig.description
-    }
     if (siteConfig.twitter) {
       // id must have the @ in it
       const id = siteConfig.twitter.startsWith('@')
