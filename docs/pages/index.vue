@@ -54,7 +54,9 @@ const icons = useModuleList().map(m => m.icon)
             <span class="max-w-2xl">All the boring SEO work for Nuxt done.</span>
           </h1>
           <p class="text-gray-700 dark:text-gray-300 mt-4 max-w-3xl text-center text-xl lg:text-left">
-            Nuxt SEO is a collection of hand-crafted <Icon name="logos:nuxt-icon" /> <NuxtLink to="https://nuxt.com/modules" class="underline"> Nuxt Modules</NuxtLink> that will make Google (and your marketing team) love you.
+            Nuxt SEO is a collection of hand-crafted <Icon name="logos:nuxt-icon" /> <NuxtLink to="https://nuxt.com/modules" class="underline">
+              Nuxt Modules
+            </NuxtLink> that will make Google (and your marketing team) love you.
           </p>
 
           <div class="mt-6 flex flex-col items-center justify-center gap-4 sm:mt-10 sm:flex-row sm:gap-6 lg:justify-start">

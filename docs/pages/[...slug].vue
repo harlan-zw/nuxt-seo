@@ -2,9 +2,9 @@
 const route = useRoute()
 
 const { data: page } = await useAsyncData(`docs-${route.path}`, () => queryContent(route.path).findOne())
-if (!page.value) {
+if (!page.value)
   throw createError({ statusCode: 404, statusMessage: 'Page not found' })
-}
+
 const { data: surround } = await useAsyncData(`docs-${route.path}-surround`, () => queryContent()
   .only(['_path', 'title', 'navigation', 'description'])
   .where({ _extension: 'md', navigation: { $ne: false } })

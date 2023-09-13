@@ -17,7 +17,7 @@ const uiElements = [
   },
   {
     label: 'Video',
-  }
+  },
 ]
 </script>
 
