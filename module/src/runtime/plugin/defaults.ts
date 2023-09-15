@@ -55,6 +55,7 @@ export default defineNuxtPlugin({
       title,
     }, minimalPriority)
 
+    // needs higher priority
     useHead({
       link: [{ rel: 'canonical', href: canonicalUrl }],
     })
@@ -65,9 +66,8 @@ export default defineNuxtPlugin({
     }
 
     // TODO support SPA
-    useServerHead({
-      templateParams: { site: { name: siteConfig.name, url: siteConfig.url }, siteName: siteConfig.name },
-      htmlAttrs: { lang: () => siteConfig?.currentLocale },
+    useHead({
+      templateParams: { site: siteConfig, siteName: siteConfig.name },
       titleTemplate: '%s %separator %site.name',
     }, minimalPriority)
 
