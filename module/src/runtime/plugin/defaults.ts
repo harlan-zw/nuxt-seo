@@ -58,6 +58,11 @@ export default defineNuxtPlugin({
     useHead({
       link: [{ rel: 'canonical', href: canonicalUrl }],
     })
+    if (siteConfig?.currentLocale) {
+      useServerHead({
+        htmlAttrs: {lang: () => siteConfig.currentLocale},
+      })
+    }
 
     // TODO support SPA
     useServerHead({
