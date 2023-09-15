@@ -27,11 +27,17 @@ The All-In-One SEO Layer for Nuxt 3.
 </table>
 </p>
 
-## Nuxt SEO Beta
+## Nuxt SEO Kit v2
 
-Nuxt SEO Kit v2 (Nuxt SEO) is in beta, it's recommended you use this version for new installs.
+Nuxt SEO Kit v2 (renamed to Nuxt SEO) is in beta, it's **highly recommended** you use this version for new installations.
 
-If you'd like to be the first to try it out, join my <a href="https://discord.gg/275MBUBvgP">Discord</a> for support and feedback.
+- Hundreds of bug fixes that can't be ported to v1
+- Runtime support (no prerendering required)
+- Heaps of new features
+
+See the [Installation guide](https://nuxtseo.com/nuxt-seo/getting-started/installation), [Migration guide](https://nuxtseo.com/nuxt-seo/getting-started/migration-guide) or jump in the <a href="https://discord.gg/275MBUBvgP">Discord</a> for support.
+
+Help me shape the future of SEO for Nuxt by providing [feedback](https://github.com/harlan-zw/nuxt-seo-kit/discussions/108) on the migration and v2.
 
 ## Background
 
@@ -81,6 +87,8 @@ it's the easiest and quickest way to improve your apps SEO.
 - More coming soon!
 
 ## Install
+
+⚠️ v1 of the module is locked to using old versions of the modules that have known bugs. If you want to use the latest versions, please use the [v2 beta](https://nuxtseo.com/nuxt-seo/getting-started/installation).
 
 ```bash
 npm install --save-dev nuxt-seo-kit
