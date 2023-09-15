@@ -89,7 +89,6 @@ export default defineNuxtPlugin({
     useSeoMeta(seoMeta, minimalPriority)
 
     // init vendors
-    defineOgImage()
     defineRobotMeta()
     useSchemaOrg([
       defineWebSite({
