@@ -29,9 +29,9 @@ The All-In-One SEO Layer for Nuxt 3.
 
 ## Nuxt SEO Beta
 
-Nuxt SEO Kit v2 (Nuxt SEO) is in active development and close to the beta.
+Nuxt SEO Kit v2 (Nuxt SEO) is in beta, it's recommended you use this version for new installs.
 
-If you'd like to be the first to try it out, join my <a href="https://discord.gg/275MBUBvgP">Discord</a> server and mention it.
+If you'd like to be the first to try it out, join my <a href="https://discord.gg/275MBUBvgP">Discord</a> for support and feedback.
 
 ## Background
 
