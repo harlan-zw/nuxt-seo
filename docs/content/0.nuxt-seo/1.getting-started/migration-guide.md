@@ -9,6 +9,7 @@ If you get stuck with the migration or have post-migration bugs, please get in t
 
 - [Jump in the Discord](https://discord.com/invite/5jDAMswWwX)
 - [Make a GitHub issue](https://github.com/harlan-zw/nuxt-seo-kit/issues) 
+- [Provide feedback](https://github.com/harlan-zw/nuxt-seo-kit/discussions/108)
 
 ## Module Rename
 
@@ -112,6 +113,28 @@ When updating your config:
 
 The behavior for environment variables hasn't changed, it's recommended to read [how site config works](/site-config/getting-started/how-it-works) for
 more advanced configuration.
+
+## Prerendering Changes
+
+In v1, it was required to prerender all pages, to ensure this happened your `nuxt.config` was modified.
+
+In v2, everything can be generated at runtime and the prerendering changes are no longer provided. 
+
+If you'd like to keep the prerendering changes, you can add this to your nuxt.config.
+
+```ts
+export default defineNuxtConfig({
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: [
+        '/',
+      ],
+    },
+  },
+})
+```
+
 
 ## Module Upgrades
 
@@ -223,4 +246,17 @@ export default defineNuxtConfig({
 +  seoExperiments: {
   }
 })
+```
+
+### Nuxt SEO UI
+
+This module replaces the functionality of the `Breadcrumb` component.
+
+If you'd like to keep using the `Breadcrumb` component, you'll need to rename it to `SBreadcrumb`.
+
+```diff
+<template>
+-  <Breadcrumb />
++  <SBreadcrumb />
+</template>
 ```
