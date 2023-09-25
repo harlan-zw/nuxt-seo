@@ -121,8 +121,8 @@ importers:
         specifier: ^2.1.8
         version: 2.1.8(@nuxt/devtools@0.8.4)(nuxt@3.7.3)(postcss@8.4.30)(rollup@3.29.3)(vite@4.4.9)(vue@3.3.4)(webpack@5.88.2)
       nuxt-og-image:
-        specifier: ^2.0.28
-        version: 2.0.28(rollup@3.29.3)
+        specifier: ^2.1.0-beta.0
+        version: 2.1.0-beta.0(rollup@3.29.3)
       nuxt-schema-org:
         specifier: ^3.0.0
         version: 3.0.0(@unhead/shared@1.7.4)(rollup@3.29.3)(unhead@1.7.4)
@@ -8510,8 +8510,8 @@ packages:
       - supports-color
     dev: true
 
-  /nuxt-og-image@2.0.28(rollup@3.29.3):
-    resolution: {integrity: sha512-gUXOx5OhqGY8buHofOCOSebNTEfwNuSDmsRQ1fnNZw0yNmmBG9FBBMhovH5V9w/EJxLqfSO+MfOi3Rh37omFAA==}
+  /nuxt-og-image@2.1.0-beta.0(rollup@3.29.3):
+    resolution: {integrity: sha512-YuWymBdO/mLlL76Ks89R9CVY/lO0qGscgRW7Jgkq9OPxa/tBR98kcsHg9yDppdJuH6AJal7Wh1Tyb8YEcq56fw==}
     dependencies:
       '@nuxt/kit': 3.7.3(rollup@3.29.3)
       '@resvg/resvg-js': 2.4.1
@@ -8537,7 +8537,7 @@ packages:
       pathe: 1.1.1
       playwright-core: 1.38.1
       radix3: 1.1.0
-      satori: 0.10.4
+      satori: 0.10.7
       satori-html: 0.3.2
       sirv: 2.0.3
       std-env: 3.4.3
@@ -10039,8 +10039,8 @@ packages:
       ultrahtml: 1.5.2
     dev: false
 
-  /satori@0.10.4:
-    resolution: {integrity: sha512-GJNIsuiXhiC9kWGLvz04Op5DZy2UFYZAWsuUtkTlQt3r15o0K96PeD+FMfGN4luMPUHc4uV9gXqAoPxOK0omSw==}
+  /satori@0.10.7:
+    resolution: {integrity: sha512-PizTQJuWSo1B2NTKUBAOYY7Cy9CDeRrW2aK0d+OTNaNz/1WcjfdZjl5Y6uapwrPB1DxG48XfaFaL2M5C0CL5Vw==}
     engines: {node: '>=16'}
     dependencies:
       '@shuding/opentype.js': 1.4.0-beta.0
