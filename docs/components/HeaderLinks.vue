@@ -68,11 +68,6 @@ const isUiElements = computed(() => {
         <UButton label="Modules" variant="ghost" trailing-icon="i-heroicons-chevron-down-20-solid" />
       </UDropdown>
 
-      <UButton to="https://unlighthouse.dev" target="_blank" variant="ghost" class="md:block hidden flex space-x-2 items-center">
-        <span class="text-gray-700 dark:text-gray-200">Validate SEO</span>
-        <Icon name="heroicons-outline:external-link" class="w-4 h-4 mb-1 text-gray-600" />
-      </UButton>
-
     <!--    <UButton to="/experiments/getting-started/installation" :variant="!isExperiments ? 'outline' : 'outline'" color="purple" class="md:block relative hidden"> -->
     <!--      Become a Nuxt SEO Pro -->
     <!--    </UButton> -->
