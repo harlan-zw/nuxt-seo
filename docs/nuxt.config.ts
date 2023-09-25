@@ -5,7 +5,7 @@ import { SiteConfigModule } from './utils/data'
 export default defineNuxtConfig({
   extends: [
     'nuxt-lego',
-    '@nuxthq/elements',
+    '@nuxt/ui-pro',
   ],
   modules: [
     '@nuxt/ui',
@@ -34,7 +34,6 @@ export default defineNuxtConfig({
         default: 'material-theme-lighter',
         dark: 'material-theme-palenight',
       },
-      preload: ['json', 'js', 'ts', 'html', 'css', 'vue', 'diff', 'shell', 'markdown', 'yaml', 'bash', 'ini'],
     },
   },
   devtools: {
@@ -42,7 +41,7 @@ export default defineNuxtConfig({
   },
   ui: {
     global: true,
-    icons: ['heroicons', 'simple-icons'],
+    icons: ['heroicons', 'simple-icons', 'ph', 'noto'],
   },
   sitemap: {
     strictNuxtContentPaths: true,

@@ -79,12 +79,12 @@ const isUiElements = computed(() => {
     </div>
 
     <div class="flex items-center justify-end -mr-1.5 gap-3">
-      <LegoGithubStar v-slot="{ stars }" repo="harlan-zw/nuxt-seo-kit" class="hidden md:flex mr-5 group border dark:bg-gray-900 dark:hover:bg-gray-700 hover:bg-gray-200 dark:bg-gray-900 bg-gray-100 transition rounded-lg text-sm justify-center">
+      <LegoGithubStar v-slot="{ stars }" repo="harlan-zw/nuxt-seo-kit" class="hidden md:flex mr-5 group border dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-700 hover:bg-gray-200 dark:bg-gray-900 bg-gray-100 transition rounded-lg text-sm justify-center">
         <div class="flex items-center transition rounded-l px-2 py-1 space-x-1">
           <Icon name="uil:star" class="group-hover:op75 " />
           <div>Star</div>
         </div>
-        <div class="px-2 py-1 dark:bg-black bg-white rounded-r-lg">
+        <div class="px-2 py-1 dark:bg-black/20 bg-white rounded-r-lg">
           {{ stars }}
         </div>
       </LegoGithubStar>
