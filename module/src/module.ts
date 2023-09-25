@@ -132,7 +132,7 @@ export default defineNuxtModule<ModuleOptions>({
       if (!upToDate)
         logger.log(`${chalk.gray('  ├─ ')}🎉 New version available!${chalk.gray(` Run ${chalk.underline(`npm i nuxt-seo-kit@${latestTag}`)} to update.`)}`)
 
-      logger.log(chalk.dim('  └─ 💖 Care about Nuxt SEO? Support the development https://nuxtseo.com/sponsor'))
+      logger.log(chalk.dim('  └─ 🧪 Nuxt SEO is in beta. Shape the future of it: https://github.com/harlan-zw/nuxt-seo-kit/discussions/108'))
       logger.log('')
     }
   },
