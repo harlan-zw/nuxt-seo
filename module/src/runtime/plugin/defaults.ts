@@ -5,7 +5,6 @@ import type { Organization, Person } from '@unhead/schema-org'
 import {
   computed,
   createSitePathResolver,
-  defineOgImage,
   defineOrganization,
   definePerson,
   defineRobotMeta,
@@ -59,9 +58,10 @@ export default defineNuxtPlugin({
     useHead({
       link: [{ rel: 'canonical', href: canonicalUrl }],
     })
-    if (siteConfig?.currentLocale) {
+    const locale = siteConfig.currentLocale || siteConfig.defaultLocale
+    if (locale) {
       useServerHead({
-        htmlAttrs: {lang: () => siteConfig.currentLocale},
+        htmlAttrs: { lang: locale },
       })
     }
 
