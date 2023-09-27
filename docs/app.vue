@@ -31,7 +31,7 @@ const modules = useModuleList()
               </NuxtLink>
             </div>
             <div class="mb-2">
-              Hey <i class="i-noto-waving-hand"></i> I built Nuxt SEO to solve SEO for Nuxt once and for all.
+              Hey <i class="i-noto-waving-hand" /> I built Nuxt SEO to solve SEO for Nuxt once and for all.
             </div>
             <div>
               It's been on-going work for the last year and I'd love to have your <a href="https://github.com/sponsors/harlan-zw">support</a>!

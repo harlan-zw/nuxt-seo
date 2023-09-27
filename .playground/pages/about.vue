@@ -11,10 +11,13 @@ defineOgImage({
   customSomething: 'custom',
 })
 </script>
+
 <template>
   <div>
     <div>
-      <NuxtLink to="/">home</NuxtLink>
+      <NuxtLink to="/">
+        home
+      </NuxtLink>
       About page
     </div>
   </div>

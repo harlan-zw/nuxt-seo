@@ -1,8 +1,11 @@
 import {
-  addImports, addPlugin, addServerHandler,
+  addImports,
+  addPlugin,
+  addServerHandler,
   createResolver,
   defineNuxtModule,
-  installModule, useLogger,
+  installModule,
+  useLogger,
 } from '@nuxt/kit'
 import chalk from 'chalk'
 import { installNuxtSiteConfig } from 'nuxt-site-config-kit'

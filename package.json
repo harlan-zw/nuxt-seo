@@ -1,7 +1,8 @@
 {
   "name": "nuxt-seo-kit-mono",
+  "type": "module",
   "private": true,
-  "packageManager": "pnpm@8.7.6",
+  "packageManager": "pnpm@8.8.0",
   "description": "The all-in-one SEO module for Nuxt 3.",
   "license": "MIT",
   "funding": "https://github.com/sponsors/harlan-zw",
@@ -22,16 +23,16 @@
     "typecheck": "tsc --noEmit --strict --typeCheck"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.43.1",
+    "@antfu/eslint-config": "^1.0.0-beta.11",
     "@nuxt/module-builder": "^0.5.1",
-    "@nuxt/schema": "^3.7.3",
-    "@nuxt/test-utils": "3.7.3",
+    "@nuxt/schema": "^3.7.4",
+    "@nuxt/test-utils": "3.7.4",
     "@nuxtjs/i18n": "8.0.0-rc.4",
     "bumpp": "^9.2.0",
     "eslint": "^8.50.0",
     "execa": "^8.0.1",
     "nitropack": "^2.6.3",
-    "nuxt": "^3.7.3",
+    "nuxt": "^3.7.4",
     "typescript": "^5.2.2",
     "vitest": "^0.34.5"
   }

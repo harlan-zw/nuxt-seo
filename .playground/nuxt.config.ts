@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   modules: [
     NuxtSeoKit,
     '@nuxt/ui',
-    'nuxt-icon'
+    'nuxt-icon',
   ],
 
   devtools: {
@@ -15,11 +15,11 @@ export default defineNuxtConfig({
   app: {
     head: {
       titleTemplate: '%s - Nuxt SEO Kit',
-    }
+    },
   },
 
   i18n: {
-    locales: ['en', 'it']
+    locales: ['en', 'it'],
   },
 
   site: {
@@ -36,12 +36,12 @@ export default defineNuxtConfig({
         url: 'it.nuxtseo.dev',
         name: 'Nuxt SEO It',
         description: 'Nuxt SEO Playground itality description.',
-      }
+      },
     },
   },
 
   routeRules: {
     '/about': { sitemap: { changefreq: 'daily', priority: 0.3 } },
     '/secret': { index: false },
-  }
+  },
 })

@@ -3,19 +3,22 @@ import { definePageMeta, useHead } from '#imports'
 
 definePageMeta({
   breadcrumbTitle: 'Home',
-  image: '/images/og-image.png'
+  image: '/images/og-image.png',
 })
 
 useHead({
   title: 'hello',
 })
 </script>
+
 <template>
-<div>
-  <h1>Hello world</h1>
-  <p>Welcome to my website</p>
   <div>
-    <NuxtLink to="/about">new title</NuxtLink>
+    <h1>Hello world</h1>
+    <p>Welcome to my website</p>
+    <div>
+      <NuxtLink to="/about">
+        new title
+      </NuxtLink>
+    </div>
   </div>
-</div>
 </template>

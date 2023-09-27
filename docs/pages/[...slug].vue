@@ -10,8 +10,7 @@ if (!page.value)
 const { data: surround } = await useAsyncData(`docs-${route.path}-surround`, () => queryContent()
   .only(['_path', 'title', 'navigation', 'description'])
   .where({ _extension: 'md', navigation: { $ne: false } })
-  .findSurround(route.path.endsWith('/') ? route.path.slice(0, -1) : route.path),
-)
+  .findSurround(route.path.endsWith('/') ? route.path.slice(0, -1) : route.path))
 
 const [prev, next] = surround.value
 
@@ -83,39 +82,39 @@ const ecosystemLinks = [
 </script>
 
 <template>
-<div>
-  <UMain>
-    <UPage :ui="{ wrapper: 'xl:gap-10' }">
-      <template #left>
-      <UAside>
-        <UNavigationTree :links="mapContentNavigation(children)" />
-      </UAside>
-      </template>
-      <div>
-        <UPage :ui="{ wrapper: 'xl:gap-18' }">
-          <UPageHeader :title="page.title" :description="page.description" :links="page.links" :headline="headline" />
+  <div>
+    <UMain>
+      <UPage :ui="{ wrapper: 'xl:gap-10' }">
+        <template #left>
+          <UAside>
+            <UNavigationTree :links="mapContentNavigation(children)" />
+          </UAside>
+        </template>
+        <div>
+          <UPage :ui="{ wrapper: 'xl:gap-18' }">
+            <UPageHeader :title="page.title" :description="page.description" :links="page.links" :headline="headline" />
 
-          <UPageBody prose class="pb-0">
-            <ContentRenderer v-if="page.body" :value="page" />
-            <hr v-if="surround?.length" class="my-8">
-            <UDocsSurround :surround="surround" />
-          </UPageBody>
+            <UPageBody prose class="pb-0">
+              <ContentRenderer v-if="page.body" :value="page" />
+              <hr v-if="surround?.length" class="my-8">
+              <UDocsSurround :surround="surround" />
+            </UPageBody>
 
-          <template #right>
-          <UDocsToc :links="page.body?.toc?.links || []">
-            <template #bottom>
-            <div class="hidden !mt-6 lg:block space-y-6">
-              <UDivider v-if="page.body?.toc?.links?.length" dashed />
-              <UPageLinks title="Community" :links="communityLinks" />
-              <UDivider dashed />
-              <UPageLinks title="Ecosystem" :links="ecosystemLinks" />
-            </div>
+            <template #right>
+              <UDocsToc :links="page.body?.toc?.links || []">
+                <template #bottom>
+                  <div class="hidden !mt-6 lg:block space-y-6">
+                    <UDivider v-if="page.body?.toc?.links?.length" dashed />
+                    <UPageLinks title="Community" :links="communityLinks" />
+                    <UDivider dashed />
+                    <UPageLinks title="Ecosystem" :links="ecosystemLinks" />
+                  </div>
+                </template>
+              </UDocsToc>
             </template>
-          </UDocsToc>
-          </template>
-        </UPage>
-      </div>
-    </UPage>
-  </UMain>
-</div>
+          </UPage>
+        </div>
+      </UPage>
+    </UMain>
+  </div>
 </template>

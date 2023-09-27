@@ -194,7 +194,7 @@ Composables & Components:
 If you were using the runtime browser previously, you will need to manually opt-in for it to work in production.
 
 ```ts
-export default defineNuxtConfig(() => {
+export default defineNuxtConfig({
   ogImage: {
     runtimeBrowser: true
   }
@@ -208,7 +208,6 @@ export default defineNuxtConfig(() => {
 <script setup>
 defineOgImageStatic({ /* */ })
 </script>
-<template>
 ```
 
 
