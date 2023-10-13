@@ -70,7 +70,7 @@ export default defineNuxtModule<ModuleOptions>({
     return {
       enabled: true,
       debug: nuxt.options.debug,
-      redirectToCanonicalSiteUrl: process.env.NODE_ENV === 'production',
+      redirectToCanonicalSiteUrl: false,
       splash: nuxt.options.dev,
       automaticDefaults: true,
     }
