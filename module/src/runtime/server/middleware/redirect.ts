@@ -6,7 +6,7 @@ export default defineEventHandler((e) => {
   const siteConfig = useSiteConfig(e)
   if (siteConfig.site) {
     const origin = useNitroOrigin(e)
-    // if origin doesnt match site, do a redirect
+    // if origin doesn't match site, do a redirect
     if (!siteConfig.site.startsWith(origin)) {
       const url = new URL(e.path, origin)
       url.hostname = siteConfig.site

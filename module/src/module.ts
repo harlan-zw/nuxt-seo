@@ -102,8 +102,7 @@ export default defineNuxtModule<ModuleOptions>({
       schemaOrg: ['useSchemaOrg', 'defineWebSite', 'defineWebPage'],
     }
     for (const [module, composables] of Object.entries(polyfills)) {
-      // @ts-expect-error untyped
-      if (nuxt.options[module]?.enable === false) {
+      if (nuxt.options[module as keyof typeof nuxt.options]?.enable === false) {
         composables.forEach((name) => {
           // add pollyfill
           addImports({
