@@ -23,7 +23,7 @@ describe('generate', () => {
         "<meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1\\">",
         "<meta property=\\"og:type\\" content=\\"website\\">",
         "<meta name=\\"robots\\" content=\\"noindex, nofollow\\">",
-        "<meta property=\\"og:title\\" content=\\"hello · .playground\\">",
+        "<meta property=\\"og:title\\" content=\\".playground\\">",
         "<meta property=\\"og:url\\" content=\\"http://localhost/\\">",
         "<meta property=\\"og:locale\\" content=\\"en\\">",
         "<meta property=\\"og:site_name\\" content=\\".playground\\">",
