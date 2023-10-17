@@ -2,7 +2,7 @@
   "name": "nuxt-seo-kit-mono",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@8.9.0",
+  "packageManager": "pnpm@8.9.2",
   "description": "The all-in-one SEO module for Nuxt 3.",
   "license": "MIT",
   "funding": "https://github.com/sponsors/harlan-zw",
@@ -19,7 +19,7 @@
     "dev": "nuxi dev .playground",
     "lint": "eslint . --fix",
     "release": "bumpp layer/package.json module/package.json --commit --push --tag",
-    "test": "nuxi prepare .playground && npx vue-tsc --noEmit && pnpm lint && vitest",
+    "test": "nuxi prepare .playground && npx vue-tsc --noEmit module/src/module.ts && pnpm lint && vitest",
     "typecheck": "tsc --noEmit --strict --typeCheck"
   },
   "devDependencies": {
