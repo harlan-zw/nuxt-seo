@@ -28,7 +28,7 @@ const linkAttrs = computed(() => {
           <div
             class="blur-overlay w-full h-full absolute pointer-events-none"
           />
-          <div class="z-10 text-blue-200 group-hover:text-[1.25rem] w-full h-full flex items-center justify-center group-hover:text-blue-500 transition-all relative">
+          <div class="z-10 text-blue-200 group-hover:scale-110 w-full h-full flex items-center justify-center group-hover:text-blue-500 transition-all relative">
             <slot />
           </div>
           <slot name="teleport" />

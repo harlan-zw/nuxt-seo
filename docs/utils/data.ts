@@ -86,6 +86,8 @@ export function useModuleList() {
       label: 'SEO UI',
       icon: 'carbon:brush-freehand',
       description: 'Fully styled and customizable components for improving your SEO.',
+      to: '/ui',
+      repo: 'harlan-zw/nuxt-seo-ui',
     },
     SiteConfigModule,
   ] as const

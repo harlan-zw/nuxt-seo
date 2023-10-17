@@ -42,6 +42,8 @@ const children = computed(() => {
       return navigation.value[6].children
     case 'site-config':
       return navigation.value[7].children
+    case 'ui':
+      return navigation.value[8].children
   }
 })
 
@@ -87,7 +89,7 @@ const ecosystemLinks = [
       <UPage :ui="{ wrapper: 'xl:gap-10' }">
         <template #left>
           <UAside>
-            <UNavigationTree :links="mapContentNavigation(children)" />
+            <UNavigationTree v-if="children" :links="mapContentNavigation(children)" />
           </UAside>
         </template>
         <div>

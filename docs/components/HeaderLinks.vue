@@ -57,7 +57,7 @@ const isUiElements = computed(() => {
 
     <div class="space-x-5 flex">
       <UButton to="/nuxt-seo/getting-started/installation" :variant="!isSetup ? 'ghost' : 'outline'" class="md:block hidden">
-        <span class="text-gray-700 dark:text-gray-200">Setup</span>
+        <span class="text-gray-700 dark:text-gray-200">Nuxt SEO Module</span>
       </UButton>
 
       <UDropdown mode="hover" :items="[items]" :popper="{ placement: 'bottom-start' }">

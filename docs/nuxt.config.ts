@@ -1,6 +1,9 @@
+import { createResolver } from '@nuxt/kit'
 import NuxtSeo from '../module/src/module'
 import { version } from './package.json'
 import { SiteConfigModule } from './utils/data'
+
+const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   extends: [
@@ -8,6 +11,7 @@ export default defineNuxtConfig({
     '@nuxt/ui-pro',
   ],
   modules: [
+    'nuxt-component-meta',
     '@nuxt/ui',
     '@vueuse/nuxt',
     '@nuxt/content',
@@ -43,6 +47,9 @@ export default defineNuxtConfig({
     global: true,
     icons: ['heroicons', 'simple-icons', 'ph', 'noto'],
   },
+  seoUi: {
+    global: true,
+  },
   sitemap: {
     strictNuxtContentPaths: true,
     xslColumns: [
@@ -51,6 +58,20 @@ export default defineNuxtConfig({
       { label: 'Priority', select: 'sitemap:priority', width: '12.5%' },
       { label: 'Change Frequency', select: 'sitemap:changefreq', width: '12.5%' },
     ],
+  },
+  componentMeta: {
+    globalsOnly: true,
+    debug: 2,
+    exclude: ['@nuxtjs/mdc', '@nuxt/ui-pro-edge', '@nuxt/content', resolve('./components'), resolve('@nuxt/ui/components'), resolve('@nuxt/ui-pro/components')],
+    checkerOptions: {
+      forceUseTs: true,
+    },
+    metaFields: {
+      props: true,
+      slots: true,
+      events: true,
+      exposed: true,
+    },
   },
   routeRules: {
     // for doc linking purposes

@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { useModuleList } from '~/utils/data'
 
+definePageMeta({
+  breadcrumb: {
+    icon: 'heroicons-solid:home',
+    ariaLabel: 'Home',
+  },
+})
+
 const modules = useModuleList()
 
 const robotState = ref({

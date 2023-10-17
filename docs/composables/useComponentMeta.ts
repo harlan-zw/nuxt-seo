@@ -1,5 +1,6 @@
 const useComponentsMetaState = () => useState('components-meta', () => ({}))
 
+// credits https://github.com/nuxt/ui/blob/dev/docs/composables/useComponentMeta.ts
 export async function fetchComponentMeta(name: string) {
   const state = useComponentsMetaState()
 
