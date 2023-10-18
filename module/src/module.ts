@@ -5,6 +5,7 @@ import {
   createResolver,
   defineNuxtModule,
   installModule,
+  tryResolveModule,
   useLogger,
 } from '@nuxt/kit'
 import chalk from 'chalk'
@@ -112,7 +113,12 @@ export default defineNuxtModule<ModuleOptions>({
         })
       }
     }
+
+    // `headNext` enables `@unhead/vue` usage, which must be aliased
     nuxt.options.experimental.headNext = true
+    const unheadVue = await tryResolveModule('@unhead/vue', nuxt.options.modulesDir)
+    if (!unheadVue) throw new Error(`Could not resolve module "@unhead/vue"`)
+    nuxt.options.alias['@unhead/vue'] = unheadVue
 
     // add redirect middleware
     if (config.redirectToCanonicalSiteUrl) {
