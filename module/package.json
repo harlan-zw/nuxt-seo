@@ -26,7 +26,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "nuxt-module-build --stub && nuxt-module-build prepare && nuxt-module-build"
+    "build": "nuxt-module-build build",
+    "prepack": "pnpm run build"
   },
   "dependencies": {
     "@nuxt/kit": "^3.7.4",
