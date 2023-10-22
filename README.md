@@ -158,10 +158,10 @@ _app.vue_
 
 ### Done! 🥳
 
-You have the essentials all set up! 
+You have the essentials all setup! 
 
 Next steps:
-1. Choose a Schema.org [identity](https://unhead-schema-org.harlanzw.com/guide/guides/identity)
+1. Choose a Schema.org [identity](https://unhead.unjs.io/schema-org/recipes/identity)
 2. Read the guides below
 3. Scan your site with [Unlighthouse](https://github.com/harlan-zw/unlighthouse) to validate any SEO issues
 
