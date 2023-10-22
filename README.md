@@ -54,7 +54,7 @@ it's the easiest and quickest way to improve your apps SEO.
 
 - 📖 [nuxt-simple-sitemap](https://github.com/harlan-zw/nuxt-simple-sitemap) - Sitemap.xml Support
 - 🤖 [nuxt-simple-robots](https://github.com/harlan-zw/nuxt-simple-robots) - Manage site crawling
-- 🔎 [nuxt-schema-org](https://unhead-schema-org.harlanzw.com/) - Generate Schema.org JSON-LD for SEO
+- 🔎 [nuxt-schema-org](https://nuxtseo.com/schema-org) - Generate Schema.org JSON-LD for SEO
 - △ [nuxt-seo-experiments](https://github.com/harlan-zw/nuxt-seo-experiments) - Experimental SEO meta features
 - 🖼️ [nuxt-og-image](https://github.com/harlan-zw/nuxt-og-image) - Generate dynamic social share images
 - ✅ [nuxt-link-checker](https://github.com/harlan-zw/nuxt-link-checker) - Check for broken links
@@ -391,7 +391,6 @@ export default defineNuxtConfig({
 - https://github.com/harlan-zw/harlanzw.com
 - https://github.com/unjs/unhead/tree/main/docs
 - https://github.com/harlan-zw/unlighthouse/tree/main/docs
-- https://github.com/harlan-zw/unhead-schema-org/tree/main/docs
 
 ## Sponsors
 
