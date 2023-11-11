@@ -131,10 +131,10 @@ const ecosystemLinks = [
                     <template #title>
                       <div>
                         <div class="mb-3">
-                          <Icon v-if="module" :name="module.icon" class="w-6 h-6 dark:text-blue-900 text-blue-300 group-hover:text-blue-500 transition-all" />
+                          <Icon v-if="module" :name="module.icon" class="w-6 h-6 dark:text-blue-500/75 text-blue-300 group-hover:text-blue-500 transition-all" />
                           {{ module.label }}
                         </div>
-                        <div class="hidden lg:block text-gray-600 mb-2">
+                        <div class="hidden lg:block dark:text-gray-400 text-gray-600 mb-2">
                           <div v-if="module?.downloads && module?.stars">
                             <div class="text-xs flex space-x-5">
                               <div>
