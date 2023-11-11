@@ -8,7 +8,6 @@ description: A Breadcrumb component used to display a breadcrumb list that helps
 - Localisation for 5 languages (English, French, Spanish, German, Italian)
 - Headless with optional UI (`useBreadcrumbUI` composable)
 
-
 ## Example
 
 :component-example{component="breadcrumb-default-example"}
@@ -113,4 +112,9 @@ Whether the last breadcrumb item should be displayed on a new line.
 
 :component-example{component="breadcrumb-multiline-example"}
 
+### `responsiveDisplay`
 
+- Type: `Boolean`
+- Default: `true`
+
+Should breadcrumbs automatically try and fit the device width. For mobile this may hide items and cause a layout shift.
