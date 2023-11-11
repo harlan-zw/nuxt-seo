@@ -66,10 +66,20 @@ const icons = useModuleList().map(m => m.icon)
             </NuxtLink> that will make Google (and your marketing team) love you.
           </p>
 
-          <div class="mt-6 flex flex-col items-center justify-center gap-4 sm:mt-10 sm:flex-row sm:gap-6 lg:justify-start">
+          <div class="mt-3 flex flex-col items-center justify-center gap-4 sm:mt-10 sm:flex-row sm:gap-6 lg:justify-start">
             <UButton size="lg" to="/nuxt-seo/getting-started/installation">
               Get started
             </UButton>
+          </div>
+
+          <div class="mt-7">
+            <div class="inline rounded-xl text-sm px-3 dark:bg-purple-900/20 bg-purple-50 border-2 border-solid border-purple-500/50 py-2">
+              🎉 Nuxt Simple Sitemap v4 released! Read the
+              <NuxtLink to="/sitemap/releases/v4" class="underline">
+                release notes
+              </NuxtLink>
+              .
+            </div>
           </div>
         </div>
 
@@ -79,7 +89,7 @@ const icons = useModuleList().map(m => m.icon)
             <span class="font-title text-white text-5xl absolute font-extrabold top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2">100</span>
           </div>
           <div class="max-w-[200px] grid grid-cols-4 gap-4">
-            <Icon v-for="icon in icons" :name="icon" class="w-10 h-10 text-blue-300" />
+            <Icon v-for="(icon, key) in icons" :key="key" :name="icon" class="w-10 h-10 text-blue-300" />
           </div>
         </div>
       </div>
@@ -94,10 +104,6 @@ const icons = useModuleList().map(m => m.icon)
             <Icon :name="module.icon" size="150" :class="module.label === 'Robots' ? ['transition group-hover:opacity-0'] : []" />
           </template>
           <template #teleport>
-            <!--        todo -->
-            <!--          <template v-if="module.label === 'OG Image'"> -->
-            <!--          <img :src="`${module.to}/__og_image__/og.png`" height="150" width="300" class="hidden group-hover:block fixed z-100 group-hover:scale-150 transition transform h-[150px] w-[300px] rounded-lg shadow-xl" alt=""> -->
-            <!--          </template> -->
             <template v-if="module.label === 'Robots'">
               <BouncingBots v-for="(_, k) in robotState.robots" :key="k" icon="noto:robot" :interval="interval" />
             </template>

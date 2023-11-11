@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// @ts-expect-error
 import { transformContent } from '@nuxt/content/transformers'
 import { camelCase, upperFirst } from 'scule'
 import * as config from '#ui/ui.config'

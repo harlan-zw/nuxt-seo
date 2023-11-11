@@ -1,7 +1,7 @@
 import { appendHeader, createError, defineEventHandler } from 'h3'
 import { pascalCase } from 'scule'
 
-// @ts-expect-error
+// @ts-expect-error untyped
 import components from '#content-examples-code/nitro'
 
 export default defineEventHandler((event) => {

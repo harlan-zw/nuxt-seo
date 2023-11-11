@@ -2,7 +2,7 @@
 import { useMouseInElement } from '@vueuse/core'
 import { onMounted, ref, useElementHover, useIntervalFn, watch } from '#imports'
 
-const props = defineProps<{
+defineProps<{
   icon: string
   interval: number
 }>()

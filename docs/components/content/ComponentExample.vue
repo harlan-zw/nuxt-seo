@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { camelCase } from 'scule'
-
-// @ts-expect-error
 import { transformContent } from '@nuxt/content/transformers'
-
-// @ts-expect-error
 import { useShikiHighlighter } from '@nuxtjs/mdc/runtime'
 import { fetchContentExampleCode } from '#imports'
 

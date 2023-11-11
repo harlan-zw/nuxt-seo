@@ -79,8 +79,8 @@ const module = computed(() => {
 const repoLinks = computed(() => [
   {
     icon: 'i-ph-github-logo',
-    label: 'Open in GitHub',
-    to: `https://github.com/harlan-zw/${module.value?.repo}`,
+    label: 'Open an issue',
+    to: `https://github.com/${module.value?.repo}/issues/new/choose`,
     target: '_blank',
   },
   {
@@ -103,7 +103,6 @@ const ecosystemLinks = [
     target: '_blank',
   },
 ]
-
 </script>
 
 <template>
@@ -128,43 +127,39 @@ const ecosystemLinks = [
             <template #right>
               <UDocsToc :links="page.body?.toc?.links || []">
                 <template #top>
-                  <div class="hidden lg:block">
-                    <a v-if="module" target="_blank" :href="`https://github.com/${module.repo}`" class="block group mb-2 pb-1 text-sm">
+                  <UPageLinks v-if="module" :title="module.fullLabel ? module.fullLabel : `Nuxt ${module.label}`" :links="repoLinks">
+                    <template #title>
                       <div>
-                        <div class="flex items-center space-x-1">
+                        <div class="mb-3">
                           <Icon v-if="module" :name="module.icon" class="w-6 h-6 dark:text-blue-900 text-blue-300 group-hover:text-blue-500 transition-all" />
-                          <div class="">
-                            <div>{{ module.label }}</div>
+                          {{ module.label }}
+                        </div>
+                        <div class="hidden lg:block text-gray-600 mb-2">
+                          <div v-if="module?.downloads && module?.stars">
+                            <div class="text-xs flex space-x-5">
+                              <div>
+                                <div class="opacity-70 mb-1">
+                                  Downloads
+                                </div>
+                                <div class="flex items-center">
+                                  <Icon name="carbon:chart-line-smooth" class="h-4 w-4 mr-1 opacity-50" />{{ module.downloads }}
+                                </div>
+                              </div>
+                              <div>
+                                <div class="text-xs opacity-70 mb-1">
+                                  Stars
+                                </div>
+                                <div class="flex items-center">
+                                  <Icon name="carbon:star" class="h-4 w-4 mr-1 opacity-50" />
+                                  {{ module.stars }}
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </a>
-                    <div v-if="module?.downloads && module?.stars">
-                      <div class="mb-7">
-                        <div class="text-xs flex space-x-5">
-                          <div>
-                            <div class="opacity-70 mb-1">
-                              Downloads
-                            </div>
-                            <div class="flex items-center">
-                              <Icon name="carbon:chart-line-smooth" class="h-4 w-4 mr-1 opacity-50" />{{ module.downloads }}
-                            </div>
-                          </div>
-                          <div>
-                            <div class="text-xs opacity-70 mb-1">
-                              Stars
-                            </div>
-                            <div class="flex items-center">
-                              <Icon name="carbon:star" class="h-4 w-4 mr-1 opacity-50" />
-                              {{ module.stars }}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <UDivider dashed />
-                  <UPageLinks v-if="module" :title="module.fullLabel ? module.fullLabel : `Nuxt ${module.label}`" :links="repoLinks" />
+                    </template>
+                  </UPageLinks>
                   <UDivider dashed />
                 </template>
                 <template #bottom>

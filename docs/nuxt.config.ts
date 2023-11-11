@@ -1,8 +1,8 @@
-import { createResolver } from '@nuxt/kit'
 import { $fetch } from 'ofetch'
+import { readPackageJSON } from 'pkg-types'
 import NuxtSeo from '../module/src/module'
 import { version } from './package.json'
-import { SiteConfigModule, useModuleList } from './utils/data'
+import { SeoModules, SiteConfigModule } from './utils/data'
 
 export default defineNuxtConfig({
   extends: [
@@ -17,13 +17,17 @@ export default defineNuxtConfig({
     'nuxt-icon',
     NuxtSeo,
     async (_, nuxt) => {
-      const moduleStats = (await Promise.all(
-        useModuleList()
+      nuxt.options.runtimeConfig.public.moduleStats = (await Promise.all(
+        [...SeoModules, { id: 'seo-kit' }]
           .filter(m => !m.unlisted)
           .map(m => m.id)
-          .map(m => $fetch(`https://api.nuxt.com/modules/${m}`).then(d => ({ id: m, stats: d.stats || false }))),
+          .map(m =>
+            $fetch(`https://api.nuxt.com/modules/${m}`)
+              .then(d => ({ id: m, stats: d.stats || false })),
+          ),
       )).filter(d => d.stats)
-      nuxt.options.runtimeConfig.public.moduleStats = moduleStats
+      const pkgJson = await readPackageJSON('../module/package.json')
+      nuxt.options.runtimeConfig.public.moduleDeps = pkgJson.dependencies
     },
   ],
   site: {
@@ -41,8 +45,8 @@ export default defineNuxtConfig({
   content: {
     highlight: {
       theme: {
-        light: 'material-theme-lighter',
-        default: 'material-theme-lighter',
+        light: 'github-light',
+        default: 'github-light',
         dark: 'material-theme-palenight',
       },
     },
@@ -80,8 +84,19 @@ export default defineNuxtConfig({
     '/site-config/**': {
       ...SiteConfigModule.routeRules,
     },
+    // extra redirects
+    '/sitemap/guides/i18n': { redirect: { to: '/sitemap/integrations/i18n', statusCode: 301 } },
+    '/sitemap/guides/integrations': { redirect: { to: '/sitemap/integrations/content', statusCode: 301 } },
+
   },
+  css: [
+    '~/css/scrollbars.css',
+  ],
   app: {
+    pageTransition: {
+      name: 'page',
+      mode: 'out-in',
+    },
     seoMeta: {
       themeColor: [
         { content: '#18181b', media: '(prefers-color-scheme: dark)' },

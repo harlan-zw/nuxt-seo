@@ -18,9 +18,9 @@ const route = useRoute()
 const isSetup = computed(() => {
   return route.path.startsWith('/nuxt-seo')
 })
-const isUiElements = computed(() => {
-  return route.path.startsWith('/ui-elements')
-})
+// const isUiElements = computed(() => {
+//   return route.path.startsWith('/ui-elements')
+// })
 // const isOgImage = computed(() => {
 //   return route.path.startsWith('/og-image')
 // })
@@ -39,6 +39,8 @@ const isUiElements = computed(() => {
 // const isLinkChecker = computed(() => {
 //   return route.path.startsWith('/link-checker')
 // })
+
+const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'seo-kit')?.stats?.stars
 </script>
 
 <template>
@@ -80,7 +82,7 @@ const isUiElements = computed(() => {
           <div>Star</div>
         </div>
         <div class="px-2 py-1 dark:bg-black/20 bg-white rounded-r-lg">
-          {{ stars }}
+          {{ githubStars || stars }}
         </div>
       </LegoGithubStar>
       <DocsSearchButton class="ml-1.5 flex-1 lg:flex-none lg:w-48" />
