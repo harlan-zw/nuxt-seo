@@ -17,7 +17,7 @@ Triggered once the final structure of the XML is generated, provides the URLs as
 import { defineNitroPlugin } from 'nitropack/runtime/plugin'
 
 export default defineNitroPlugin((nitroApp) => {
-  nitroApp.hooks.hook('sitemap:sitemap-xml', async (ctx) => {
+  nitroApp.hooks.hook('sitemap:resolved', async (ctx) => {
     // single sitemap example - just add the url directly
     ctx.urls.push({
       loc: '/my-secret-url',
