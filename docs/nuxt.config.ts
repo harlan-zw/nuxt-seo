@@ -1,9 +1,8 @@
 import { createResolver } from '@nuxt/kit'
+import { $fetch } from 'ofetch'
 import NuxtSeo from '../module/src/module'
 import { version } from './package.json'
-import { SiteConfigModule } from './utils/data'
-
-const { resolve } = createResolver(import.meta.url)
+import { SiteConfigModule, useModuleList } from './utils/data'
 
 export default defineNuxtConfig({
   extends: [
@@ -11,13 +10,21 @@ export default defineNuxtConfig({
     '@nuxt/ui-pro',
   ],
   modules: [
-    'nuxt-component-meta',
     '@nuxt/ui',
     '@vueuse/nuxt',
     '@nuxt/content',
     'nuxt-lodash',
     'nuxt-icon',
     NuxtSeo,
+    async (_, nuxt) => {
+      const moduleStats = (await Promise.all(
+        useModuleList()
+          .filter(m => !m.unlisted)
+          .map(m => m.id)
+          .map(m => $fetch(`https://api.nuxt.com/modules/${m}`).then(d => ({ id: m, stats: d.stats || false }))),
+      )).filter(d => d.stats)
+      nuxt.options.runtimeConfig.public.moduleStats = moduleStats
+    },
   ],
   site: {
     url: 'https://nuxtseo.com',
@@ -58,20 +65,6 @@ export default defineNuxtConfig({
       { label: 'Priority', select: 'sitemap:priority', width: '12.5%' },
       { label: 'Change Frequency', select: 'sitemap:changefreq', width: '12.5%' },
     ],
-  },
-  componentMeta: {
-    globalsOnly: true,
-    debug: 2,
-    exclude: ['@nuxtjs/mdc', '@nuxt/ui-pro-edge', '@nuxt/content', resolve('./components'), resolve('@nuxt/ui/components'), resolve('@nuxt/ui-pro/components')],
-    checkerOptions: {
-      forceUseTs: true,
-    },
-    metaFields: {
-      props: true,
-      slots: true,
-      events: true,
-      exposed: true,
-    },
   },
   routeRules: {
     // for doc linking purposes
