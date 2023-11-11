@@ -65,12 +65,12 @@ const publicRuntimeConfig = useRuntimeConfig().public
 const module = computed(() => {
   const m = useModuleList().find(l => l.slug === segment.value)
   const stats = (publicRuntimeConfig.moduleStats || []).find(m2 => m2.id === m?.id)?.stats || {}
-  if (stats.downloads) {
+  if (stats?.downloads) {
     // will look like 395493, we need to make it human readible using native APIs
     // we want to display it like 395k
     m.downloads = Number(stats.downloads).toLocaleString('en-US', { notation: 'compact', compactDisplay: 'short' })
   }
-  if (stats.stars)
+  if (stats?.stars)
     m.stars = stats.stars
 
   return m
@@ -139,7 +139,7 @@ const ecosystemLinks = [
                         </div>
                       </div>
                     </a>
-                    <div v-if="module.downloads && module.stars">
+                    <div v-if="module?.downloads && module?.stars">
                       <div class="mb-7">
                         <div class="text-xs flex space-x-5">
                           <div>
@@ -164,7 +164,7 @@ const ecosystemLinks = [
                     </div>
                   </div>
                   <UDivider dashed />
-                  <UPageLinks :title="module.fullLabel ? module.fullLabel : `Nuxt ${module.label}`" :links="repoLinks" />
+                  <UPageLinks v-if="module" :title="module.fullLabel ? module.fullLabel : `Nuxt ${module.label}`" :links="repoLinks" />
                   <UDivider dashed />
                 </template>
                 <template #bottom>
