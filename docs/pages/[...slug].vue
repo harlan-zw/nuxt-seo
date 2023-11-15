@@ -130,12 +130,12 @@ const ecosystemLinks = [
                   <UPageLinks v-if="module" :title="module.fullLabel ? module.fullLabel : `Nuxt ${module.label}`" :links="repoLinks">
                     <template #title>
                       <div>
-                        <div class="mb-3">
-                          <Icon v-if="module" :name="module.icon" class="w-6 h-6 dark:text-blue-500/75 text-blue-300 group-hover:text-blue-500 transition-all" />
-                          {{ module.label }}
+                        <div class="mb-3 text-sm font-semibold items-center flex space-x-2">
+                          <Icon :name="module.icon" class="w-6 h-6 dark:text-blue-500/75 text-blue-300 group-hover:text-blue-500 transition-all" />
+                          <div>{{ module.label }}</div>
                         </div>
                         <div class="hidden lg:block dark:text-gray-400 text-gray-600 mb-2">
-                          <div v-if="module?.downloads && module?.stars">
+                          <div v-if="module.downloads && module.stars">
                             <div class="text-xs flex space-x-5">
                               <div>
                                 <div class="opacity-70 mb-1">
@@ -151,7 +151,7 @@ const ecosystemLinks = [
                                 </div>
                                 <div class="flex items-center">
                                   <Icon name="carbon:star" class="h-4 w-4 mr-1 opacity-50" />
-                                  {{ module.stars }}
+                                  <div>{{ module.stars }}</div>
                                 </div>
                               </div>
                             </div>

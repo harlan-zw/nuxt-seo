@@ -134,6 +134,7 @@ export const SeoModules: NuxtSeoModule[] = [
   SiteConfigModule,
 ]
 
+export function useModuleList(): NuxtSeoModule[]
 export function useModuleList(module?: Ref<string>) {
   const publicRuntimeConfig = useRuntimeConfig().public
   const modules = SeoModules.map((m) => {
