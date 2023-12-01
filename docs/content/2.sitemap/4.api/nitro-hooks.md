@@ -5,8 +5,6 @@ description: Learn how to use Nitro Hooks to customize your sitemap entries.
 
 Nitro hooks can be added to modify the output of your sitemaps at runtime. 
 
-If you need to modify the behavior at build time, use [Nuxt Hooks](/sitemap/api/nuxt-hooks) instead.
-
 ## `sitemap:resolved`
 
 **Type:** `async (ctx: { urls: SitemapConfig; sitemapName: string }) => void | Promise<void>`
