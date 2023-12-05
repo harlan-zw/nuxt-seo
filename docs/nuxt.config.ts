@@ -1,8 +1,18 @@
 import { $fetch } from 'ofetch'
 import { readPackageJSON } from 'pkg-types'
 import NuxtSeo from '../module/src/module'
-import { version } from './package.json'
-import { SeoModules, SiteConfigModule } from './utils/data'
+import { version } from '../module/package.json'
+import {
+  LinkCheckerModule,
+  OgImageModule,
+  RobotsModule,
+  SchemaOrgModule,
+  SeoExperimentsModule,
+  SeoModules,
+  SeoUiModule,
+  SiteConfigModule,
+  SitemapModule,
+} from './utils/data'
 
 export default defineNuxtConfig({
   extends: [
@@ -15,6 +25,7 @@ export default defineNuxtConfig({
     '@nuxt/content',
     'nuxt-lodash',
     'nuxt-icon',
+    'nuxt-og-image',
     NuxtSeo,
     async (_, nuxt) => {
       nuxt.options.runtimeConfig.public.moduleStats = (await Promise.all(
@@ -37,6 +48,7 @@ export default defineNuxtConfig({
     tagline: 'All the boring SEO stuff for Nuxt done.',
     titleSeparator: '·',
   },
+  linkChecker: { enabled: false },
   runtimeConfig: {
     public: {
       version,
@@ -81,9 +93,14 @@ export default defineNuxtConfig({
     '/link-checker': { redirect: { to: '/link-checker/getting-started/installation', statusCode: 301 } },
 
     // defaults
-    '/site-config/**': {
-      ...SiteConfigModule.routeRules,
-    },
+    '/site-config/**': SiteConfigModule.routeRules,
+    '/robots/**': RobotsModule.routeRules,
+    '/sitemap/**': SitemapModule.routeRules,
+    '/og-image/**': OgImageModule.routeRules,
+    '/schema-org/**': SchemaOrgModule.routeRules,
+    '/experiments/**': SeoExperimentsModule.routeRules,
+    '/link-checker/**': LinkCheckerModule.routeRules,
+    '/ui/**': SeoUiModule.routeRules,
     // extra redirects
     '/sitemap/guides/i18n': { redirect: { to: '/sitemap/integrations/i18n', statusCode: 301 } },
     '/sitemap/guides/integrations': { redirect: { to: '/sitemap/integrations/content', statusCode: 301 } },

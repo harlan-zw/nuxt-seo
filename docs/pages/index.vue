@@ -39,9 +39,9 @@ watch(() => robotState.value.hover, () => {
 // avoid dropping frames
 const interval = computed(() => 1000 / 60)
 
-defineOgImage({
+defineOgImageComponent('Home', {
   title: 'Nuxt SEO',
-  description: 'All the boring SEO work for Nuxt done.',
+  version: useRuntimeConfig().public.version,
 })
 
 const icons = useModuleList().map(m => m.icon)
@@ -49,6 +49,7 @@ const icons = useModuleList().map(m => m.icon)
 
 <template>
   <div>
+    <CodeGroup />
     <Gradient class="absolute w-full left-0 top-0 z-[-1]" />
     <section class="pt-5 sm:pt-10 xl:pt-20">
       <div class="xl:grid gap-8 lg:grid-cols-12 mx-auto w-full sm:px-6 lg:px-0 px-0">
@@ -74,11 +75,10 @@ const icons = useModuleList().map(m => m.icon)
 
           <div class="mt-7">
             <div class="inline rounded-xl text-sm px-3 dark:bg-purple-900/20 bg-purple-50 border-2 border-solid border-purple-500/50 py-2">
-              🎉 Nuxt Simple Sitemap v4 released! Read the
-              <NuxtLink to="/sitemap/releases/v4" class="underline">
+              🎉 Nuxt OG Image v3 released! Read the
+              <NuxtLink to="/og-image/releases/v3" class="underline">
                 release notes
-              </NuxtLink>
-              .
+              </NuxtLink>.
             </div>
           </div>
         </div>

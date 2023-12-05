@@ -17,8 +17,6 @@ useSeoMeta({
   description: () => page.value?.description,
 })
 
-defineOgImage()
-
 const navigation = inject('navigation')
 const segment = computed(() => route.path.split('/')[1])
 const children = computed(() => {
@@ -76,6 +74,27 @@ const module = computed(() => {
   return m
 })
 
+const version = computed(() => {
+  const m = useModuleList().find(l => l.slug === segment.value)
+  const { moduleDeps } = useRuntimeConfig().public
+  const key = m?.repo.replace('harlan-zw/', '')
+  if (key) {
+    const v = moduleDeps[key]?.replace('^', '')
+    // we want only the major and minor versions, drop patch
+    return v.split('.').slice(0, 2).join('.')
+  }
+  return ''
+})
+
+defineOgImageComponent('Module', {
+  title: page.value?.title || '',
+  moduleName: module.value?.repo.replace('harlan-zw/', ''),
+  description: page.value?.description,
+  stars: module.value?.stars,
+  downloads: module.value?.downloads,
+  version: version.value,
+})
+
 const repoLinks = computed(() => [
   {
     icon: 'i-ph-github-logo',
@@ -129,34 +148,49 @@ const ecosystemLinks = [
                 <template #top>
                   <UPageLinks v-if="module" :title="module.fullLabel ? module.fullLabel : `Nuxt ${module.label}`" :links="repoLinks">
                     <template #title>
-                      <div>
-                        <div class="mb-3 text-sm font-semibold items-center flex space-x-2">
-                          <Icon :name="module.icon" class="w-6 h-6 dark:text-blue-500/75 text-blue-300 group-hover:text-blue-500 transition-all" />
-                          <div>{{ module.label }}</div>
+                      <div class="w-full">
+                        <div class="flex justify-center mb-2">
+                          <Icon :name="module.icon" class="w-8 h-8 dark:text-blue-500/75 text-blue-500 group-hover:text-blue-500 transition-all" />
                         </div>
-                        <div class="hidden lg:block dark:text-gray-400 text-gray-600 mb-2">
-                          <div v-if="module.downloads && module.stars">
-                            <div class="text-xs flex space-x-5">
-                              <div>
-                                <div class="opacity-70 mb-1">
-                                  Downloads
-                                </div>
-                                <div class="flex items-center">
-                                  <Icon name="carbon:chart-line-smooth" class="h-4 w-4 mr-1 opacity-50" />{{ module.downloads }}
-                                </div>
-                              </div>
-                              <div>
-                                <div class="text-xs opacity-70 mb-1">
-                                  Stars
-                                </div>
-                                <div class="flex items-center">
-                                  <Icon name="carbon:star" class="h-4 w-4 mr-1 opacity-50" />
-                                  <div>{{ module.stars }}</div>
-                                </div>
-                              </div>
+                        <div class="flex items-center mb-3 space-x-3">
+                          <div class="text-sm font-normal font-mono items-center flex space-x-2 bg-blue-50/50 w-full px-3 py-2 rounded">
+                            <div class="text-xs text-center text-gray-600 w-full">
+                              {{ module.repo.replace('harlan-zw/', '') }}
                             </div>
                           </div>
                         </div>
+                        <div class="hidden lg:block dark:text-gray-400 text-gray-600 mb-2">
+                          <div v-if="module.downloads && module.stars">
+                            <div class="text-xs space-y-3">
+                              <a :href="`http://npmjs.com/${module.repo.replace('harlan-zw/', '')}`" target="_blank" title="View on NPM" class="flex justify-between text-right">
+                                <div class="mb-1 text-xl font-light items-center flex">
+                                  <Icon name="carbon:version-minor" class="h-5 w-5 mr-1 opacity-90" />
+                                  <div>v{{ version }}</div>
+                                </div>
+                                <div class="flex items-center font-normal opacity-70 text-[11px] leading-[12px]">Latest<br> minor version</div>
+                              </a>
+                              <a :href="`http://npmjs.com/${module.repo.replace('harlan-zw/', '')}`" target="_blank" title="View on NPM" class="flex justify-between text-right">
+                                <div class="mb-1 text-xl font-light items-center flex">
+                                  <Icon name="carbon:chart-line-smooth" class="h-5 w-5 mr-1 opacity-90" />
+                                  <div>{{ module.downloads }}</div>
+                                </div>
+                                <div class="flex items-center font-normal opacity-70 text-[11px] leading-[12px]">Downloads<br>/ month</div>
+                              </a>
+                              <a :href="`http://github.com/${module.repo}`" target="_blank" title="Star on GitHub" class="flex justify-between">
+                                <div class="mb-1 text-xl font-light items-center flex">
+                                  <Icon name="carbon:star" class="h-5 w-5 mr-1 opacity-90" />
+                                  {{ module.stars }}
+                                </div>
+                                <div class="flex items-center font-normal text-right opacity-70  text-[11px] leading-[12px]">Stars</div>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <UDivider dashed class="my-3" />
+                        <button class="flex items-center gap-1.5 lg:cursor-text lg:select-text w-full" tabindex="-1">
+                          <span class="font-semibold text-sm/6 truncate">Useful Links</span>
+                          <span class="i-heroicons-chevron-down-20-solid lg:!hidden w-5 h-5 ms-auto transform transition-transform duration-200 flex-shrink-0 mr-1.5 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200 -rotate-90" />
+                        </button>
                       </div>
                     </template>
                   </UPageLinks>

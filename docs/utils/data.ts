@@ -12,6 +12,7 @@ export interface NuxtSeoModule {
   downloads?: string
   stars?: string | number
   tag?: {
+    new?: boolean
     label: string
     to: string
   }
@@ -38,99 +39,135 @@ export const SiteConfigModule: NuxtSeoModule = {
   },
 } as const
 
-export const SeoModules: NuxtSeoModule[] = [
-  {
-    id: 'simple-robots',
-    slug: 'robots',
-    label: 'Robots',
-    fullLabel: 'Nuxt Simple Robots',
-    icon: 'carbon:bot',
-    description: 'Tame the robots crawling and indexing your site with ease.',
-    tag: {
-      label: 'v3',
-      to: '/robots/releases/v3',
-    },
-    to: '/robots/getting-started/installation',
-    repo: 'harlan-zw/nuxt-simple-robots',
+export const RobotsModule = {
+  id: 'simple-robots',
+  slug: 'robots',
+  label: 'Robots',
+  fullLabel: 'Nuxt Simple Robots',
+  icon: 'carbon:bot',
+  description: 'Tame the robots crawling and indexing your site with ease.',
+  tag: {
+    label: 'v3',
+    to: '/robots/releases/v3',
   },
-  {
-    id: 'simple-sitemap',
-    slug: 'sitemap',
-    label: 'Sitemap',
-    tag: {
-      new: true,
-      label: 'v4',
-      to: '/sitemap/releases/v4',
-    },
-    fullLabel: 'Nuxt Simple Sitemap',
-    to: '/sitemap/getting-started/installation',
-    icon: 'carbon:load-balancer-application',
-    description: 'Powerfully flexible XML Sitemaps that integrate seamlessly.',
-    repo: 'harlan-zw/nuxt-simple-sitemap',
+  to: '/robots/getting-started/installation',
+  repo: 'harlan-zw/nuxt-simple-robots',
+  routeRules: {
+    site: { name: 'Nuxt Site Config', description: 'Shared site configuration for Nuxt modules.' },
+    ogImage: { icon: 'carbon:bot' },
   },
-  {
-    id: 'og-image',
-    slug: 'og-image',
-    label: 'OG Image',
-    icon: 'carbon:image-search',
-    description: 'Dynamic and build-time OG Image generation with Satori and Browser Screenshot support.',
-    tag: {
-      label: 'v2',
-      to: '/experiments/releases/v2',
-    },
-    to: '/og-image/getting-started/installation',
-    repo: 'harlan-zw/nuxt-og-image',
+} as const
+
+export const SitemapModule = {
+  id: 'simple-sitemap',
+  slug: 'sitemap',
+  label: 'Sitemap',
+  tag: {
+    label: 'v4',
+    to: '/sitemap/releases/v4',
   },
-  {
-    id: 'link-checker',
-    slug: 'link-checker',
-    label: 'Link Checker',
-    tag: {
-      label: 'v2',
-      to: '/link-checker/releases/v2',
-    },
-    to: '/link-checker/getting-started/installation',
-    icon: 'carbon:cloud-satellite-link',
-    description: 'Find and magically fix links that may be negatively effecting your SEO.',
-    repo: 'harlan-zw/nuxt-link-checker',
+  fullLabel: 'Nuxt Simple Sitemap',
+  to: '/sitemap/getting-started/installation',
+  icon: 'carbon:load-balancer-application',
+  description: 'Powerfully flexible XML Sitemaps that integrate seamlessly.',
+  repo: 'harlan-zw/nuxt-simple-sitemap',
+  routeRules: {
+    ogImage: { icon: 'carbon:load-balancer-application' },
   },
-  {
-    id: 'seo-experiments',
-    label: 'Experiments',
-    fullLabel: 'Nuxt SEO Experiments',
-    slug: 'experiments',
-    icon: 'carbon:chemistry',
-    tag: {
-      label: 'v3',
-      to: '/experiments/releases/v3',
-    },
-    description: 'Powerful SEO DX improvements that may or may not land in the Nuxt core.',
-    to: '/experiments/getting-started/installation',
-    repo: 'harlan-zw/nuxt-seo-experiments',
+} as const
+
+export const OgImageModule = {
+  id: 'og-image',
+  slug: 'og-image',
+  label: 'OG Image',
+  icon: 'carbon:image-search',
+  description: 'Generate OG Images with Vue templates in Nuxt.',
+  tag: {
+    new: true,
+    label: 'v3',
+    to: '/experiments/releases/v3',
   },
-  {
-    id: 'schema-org',
-    slug: 'schema-org',
-    label: 'Schema.org',
-    icon: 'carbon:chart-relationship',
-    tag: {
-      label: 'v3',
-      to: '/schema-org/getting-started/installation',
-    },
+  to: '/og-image/getting-started/installation',
+  repo: 'harlan-zw/nuxt-og-image',
+  routeRules: {
+    ogImage: { icon: 'carbon:image-search' },
+  },
+} as const
+
+export const LinkCheckerModule = {
+  id: 'link-checker',
+  slug: 'link-checker',
+  label: 'Link Checker',
+  tag: {
+    label: 'v2',
+    to: '/link-checker/releases/v2',
+  },
+  to: '/link-checker/getting-started/installation',
+  icon: 'carbon:cloud-satellite-link',
+  description: 'Find and magically fix links that may be negatively effecting your SEO.',
+  repo: 'harlan-zw/nuxt-link-checker',
+  routeRules: {
+    ogImage: { icon: 'carbon:cloud-satellite-link' },
+  },
+} as const
+
+export const SeoExperimentsModule = {
+  id: 'seo-experiments',
+  label: 'Experiments',
+  fullLabel: 'Nuxt SEO Experiments',
+  slug: 'experiments',
+  icon: 'carbon:chemistry',
+  tag: {
+    label: 'v3',
+    to: '/experiments/releases/v3',
+  },
+  description: 'Powerful SEO DX improvements that may or may not land in the Nuxt core.',
+  to: '/experiments/getting-started/installation',
+  repo: 'harlan-zw/nuxt-seo-experiments',
+  routeRules: {
+    ogImage: { icon: 'carbon:chemistry' },
+  },
+} as const
+
+export const SchemaOrgModule = {
+  id: 'schema-org',
+  slug: 'schema-org',
+  label: 'Schema.org',
+  icon: 'carbon:chart-relationship',
+  tag: {
+    label: 'v3',
     to: '/schema-org/getting-started/installation',
-    description: 'The quickest and easiest way to build Schema.org graphs.',
-    repo: 'harlan-zw/nuxt-schema-org',
   },
-  {
-    unlisted: true,
-    id: 'seo-ui',
-    slug: 'ui',
-    label: 'SEO UI',
-    icon: 'carbon:brush-freehand',
-    description: 'Fully styled and customizable components for improving your SEO.',
-    to: '/ui',
-    repo: 'harlan-zw/nuxt-seo-ui',
+  to: '/schema-org/getting-started/installation',
+  description: 'The quickest and easiest way to build Schema.org graphs.',
+  repo: 'harlan-zw/nuxt-schema-org',
+  routeRules: {
+    ogImage: { icon: 'carbon:chart-relationship' },
   },
+} as const
+
+export const SeoUiModule = {
+  unlisted: true,
+  id: 'seo-ui',
+  slug: 'ui',
+  label: 'SEO UI',
+  icon: 'carbon:brush-freehand',
+  description: 'Fully styled and customizable components for improving your SEO.',
+  to: '/ui',
+  repo: 'harlan-zw/nuxt-seo-ui',
+  routeRules: {
+    ogImage: { icon: 'carbon:brush-freehand' },
+  },
+} as const
+
+export const SeoModules: NuxtSeoModule[] = [
+  RobotsModule,
+  SitemapModule,
+  OgImageModule,
+  LinkCheckerModule,
+  SeoExperimentsModule,
+  SchemaOrgModule,
+  SeoUiModule,
   SiteConfigModule,
 ]
 
