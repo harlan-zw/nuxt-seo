@@ -49,7 +49,6 @@ const icons = useModuleList().map(m => m.icon)
 
 <template>
   <div>
-    <CodeGroup />
     <Gradient class="absolute w-full left-0 top-0 z-[-1]" />
     <section class="pt-5 sm:pt-10 xl:pt-20">
       <div class="xl:grid gap-8 lg:grid-cols-12 mx-auto w-full sm:px-6 lg:px-0 px-0">

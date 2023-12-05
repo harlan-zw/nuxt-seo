@@ -64,11 +64,11 @@ importers:
         specifier: ^2.9.0
         version: 2.9.0(nuxt@3.8.2)(rollup@3.29.4)(vue@3.3.10)
       '@nuxt/ui':
-        specifier: npm:@nuxt/ui-edge@2.10.0-28345574.06d4510
-        version: /@nuxt/ui-edge@2.10.0-28345574.06d4510(nuxt@3.8.2)(rollup@3.29.4)(vite@4.5.1)(vue@3.3.10)(webpack@5.89.0)
+        specifier: ^2.11.0
+        version: 2.11.0(nuxt@3.8.2)(rollup@3.29.4)(vite@4.5.1)(vue@3.3.10)(webpack@5.89.0)
       '@nuxt/ui-pro':
-        specifier: npm:@nuxt/ui-pro-edge@0.4.2-28345649.4c593fa
-        version: /@nuxt/ui-pro-edge@0.4.2-28345649.4c593fa(nuxt@3.8.2)(rollup@3.29.4)(vite@4.5.1)(vue@3.3.10)(webpack@5.89.0)
+        specifier: ^0.5.0
+        version: 0.5.0(nuxt@3.8.2)(rollup@3.29.4)(vite@4.5.1)(vue@3.3.10)(webpack@5.89.0)
       nitropack:
         specifier: npm:nitropack-nightly@2.8.1-28352923.b53e001
         version: /nitropack-nightly@2.8.1-28352923.b53e001
@@ -275,6 +275,7 @@ packages:
   /@babel/code-frame@7.23.5:
     resolution: {integrity: sha512-CgH3s1a96LipHCmSUmYFPwY7MNx8C3avkq7i4Wl3cfa662ldtUe4VM1TPXX70pfmrlWTb6jLqTYrZyT2ZTJBgA==}
     engines: {node: '>=6.9.0'}
+    requiresBuild: true
     dependencies:
       '@babel/highlight': 7.23.4
       chalk: 2.4.2
@@ -3045,60 +3046,11 @@ packages:
       - supports-color
     dev: true
 
-  /@nuxt/ui-edge@2.10.0-28345574.06d4510(nuxt@3.8.2)(rollup@3.29.4)(vite@4.5.1)(vue@3.3.10)(webpack@5.89.0):
-    resolution: {integrity: sha512-wO5xvv+yRtsFJdOUkRA4sOXhF7CTFXqX8ppPvurT8fKedJ/JNKgjY0cLwHu4SkyWSBoWG8scEZBdRIHLQz3iQg==}
-    engines: {node: '>=v16.20.2'}
-    dependencies:
-      '@egoist/tailwindcss-icons': 1.4.0(tailwindcss@3.3.5)
-      '@headlessui/tailwindcss': 0.2.0(tailwindcss@3.3.5)
-      '@headlessui/vue': 1.7.16(vue@3.3.10)
-      '@iconify-json/heroicons': 1.1.15
-      '@nuxt/kit': 3.8.2(rollup@3.29.4)
-      '@nuxtjs/color-mode': 3.3.2(rollup@3.29.4)
-      '@nuxtjs/tailwindcss': 6.10.0(rollup@3.29.4)(webpack@5.89.0)
-      '@popperjs/core': 2.11.8
-      '@tailwindcss/aspect-ratio': 0.4.2(tailwindcss@3.3.5)
-      '@tailwindcss/container-queries': 0.1.1(tailwindcss@3.3.5)
-      '@tailwindcss/forms': 0.5.7(tailwindcss@3.3.5)
-      '@tailwindcss/typography': 0.5.10(tailwindcss@3.3.5)
-      '@vueuse/core': 10.6.1(vue@3.3.10)
-      '@vueuse/integrations': 10.6.1(fuse.js@6.6.2)(vue@3.3.10)
-      '@vueuse/math': 10.6.1(vue@3.3.10)
-      defu: 6.1.3
-      fuse.js: 6.6.2
-      nuxt-icon: 0.6.6(nuxt@3.8.2)(rollup@3.29.4)(vite@4.5.1)(vue@3.3.10)
-      ohash: 1.1.3
-      pathe: 1.1.1
-      scule: 1.1.0
-      tailwind-merge: 1.14.0
-      tailwindcss: 3.3.5
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - async-validator
-      - axios
-      - change-case
-      - drauu
-      - focus-trap
-      - idb-keyval
-      - jwt-decode
-      - nprogress
-      - nuxt
-      - qrcode
-      - rollup
-      - sortablejs
-      - supports-color
-      - ts-node
-      - universal-cookie
-      - vite
-      - vue
-      - webpack
-    dev: false
-
-  /@nuxt/ui-pro-edge@0.4.2-28345649.4c593fa(nuxt@3.8.2)(rollup@3.29.4)(vite@4.5.1)(vue@3.3.10)(webpack@5.89.0):
-    resolution: {integrity: sha512-fVPMq7tro0UUzrJr+uEDT6oCmDJqT19twrWH7M4qpsBjlMnpbApGCZxKGNZlDerjXYq1ZNgJRguRXFUJWYrzaA==}
+  /@nuxt/ui-pro@0.5.0(nuxt@3.8.2)(rollup@3.29.4)(vite@4.5.1)(vue@3.3.10)(webpack@5.89.0):
+    resolution: {integrity: sha512-fyb8boKfyEekJ+yTap099LwTh2IrZhJqY+Eq08EedwbnhNzNG2GBKBS5ZzEnzTzP5gl3fRGXqYgecDsimKrz0g==}
     dependencies:
       '@nuxt/ui': 2.11.0(nuxt@3.8.2)(rollup@3.29.4)(vite@4.5.1)(vue@3.3.10)(webpack@5.89.0)
-      '@vueuse/core': 10.6.1(vue@3.3.10)
+      '@vueuse/core': 10.7.0(vue@3.3.10)
       defu: 6.1.3
       ofetch: 1.3.3
       pathe: 1.1.1
@@ -3144,7 +3096,7 @@ packages:
       '@tailwindcss/container-queries': 0.1.1(tailwindcss@3.3.5)
       '@tailwindcss/forms': 0.5.7(tailwindcss@3.3.5)
       '@tailwindcss/typography': 0.5.10(tailwindcss@3.3.5)
-      '@vueuse/core': 10.6.1(vue@3.3.10)
+      '@vueuse/core': 10.7.0(vue@3.3.10)
       '@vueuse/integrations': 10.6.1(fuse.js@6.6.2)(vue@3.3.10)
       '@vueuse/math': 10.6.1(vue@3.3.10)
       defu: 6.1.3
@@ -3332,7 +3284,7 @@ packages:
     dependencies:
       '@nuxt/kit': 3.8.2(rollup@3.29.4)
       '@nuxt/postcss8': 1.1.3(webpack@5.89.0)
-      autoprefixer: 10.4.16(postcss@8.4.31)
+      autoprefixer: 10.4.16(postcss@8.4.32)
       chokidar: 3.5.3
       clear-module: 4.1.2
       colorette: 2.0.20
@@ -3343,9 +3295,9 @@ packages:
       iron-webcrypto: 1.0.0
       micromatch: 4.0.5
       pathe: 1.1.1
-      postcss: 8.4.31
-      postcss-custom-properties: 13.3.2(postcss@8.4.31)
-      postcss-nesting: 12.0.1(postcss@8.4.31)
+      postcss: 8.4.32
+      postcss-custom-properties: 13.3.2(postcss@8.4.32)
+      postcss-nesting: 12.0.1(postcss@8.4.32)
       radix3: 1.1.0
       tailwind-config-viewer: 1.7.3(tailwindcss@3.3.5)
       tailwindcss: 3.3.5
@@ -6352,6 +6304,21 @@ packages:
       normalize-range: 0.1.2
       picocolors: 1.0.0
       postcss: 8.4.31
+      postcss-value-parser: 4.2.0
+
+  /autoprefixer@10.4.16(postcss@8.4.32):
+    resolution: {integrity: sha512-7vd3UC6xKp0HLfua5IjZlcXvGAGy7cBAXTg2lyQ/8WpNhd6SiZ8Be+xm3FyBSYJx5GKcpRCzBh7RH4/0dnY+uQ==}
+    engines: {node: ^10 || ^12 || >=14}
+    hasBin: true
+    peerDependencies:
+      postcss: ^8.1.0
+    dependencies:
+      browserslist: 4.22.1
+      caniuse-lite: 1.0.30001549
+      fraction.js: 4.3.6
+      normalize-range: 0.1.2
+      picocolors: 1.0.0
+      postcss: 8.4.32
       postcss-value-parser: 4.2.0
 
   /b4a@1.6.4:
@@ -12012,7 +11979,7 @@ packages:
       postcss: 8.4.31
       postcss-value-parser: 4.2.0
 
-  /postcss-custom-properties@13.3.2(postcss@8.4.31):
+  /postcss-custom-properties@13.3.2(postcss@8.4.32):
     resolution: {integrity: sha512-2Coszybpo8lpLY24vy2CYv9AasiZ39/bs8Imv0pWMq55Gl8NWzfc24OAo3zIX7rc6uUJAqESnVOMZ6V6lpMjJA==}
     engines: {node: ^14 || ^16 || >=18}
     peerDependencies:
@@ -12021,7 +11988,7 @@ packages:
       '@csstools/cascade-layer-name-parser': 1.0.5(@csstools/css-parser-algorithms@2.3.2)(@csstools/css-tokenizer@2.2.1)
       '@csstools/css-parser-algorithms': 2.3.2(@csstools/css-tokenizer@2.2.1)
       '@csstools/css-tokenizer': 2.2.1
-      postcss: 8.4.31
+      postcss: 8.4.32
       postcss-value-parser: 4.2.0
 
   /postcss-discard-comments@6.0.0(postcss@8.4.31):
@@ -12231,14 +12198,14 @@ packages:
       postcss: 8.4.31
       postcss-selector-parser: 6.0.13
 
-  /postcss-nesting@12.0.1(postcss@8.4.31):
+  /postcss-nesting@12.0.1(postcss@8.4.32):
     resolution: {integrity: sha512-6LCqCWP9pqwXw/njMvNK0hGY44Fxc4B2EsGbn6xDcxbNRzP8GYoxT7yabVVMLrX3quqOJ9hg2jYMsnkedOf8pA==}
     engines: {node: ^14 || ^16 || >=18}
     peerDependencies:
       postcss: ^8.4
     dependencies:
       '@csstools/selector-specificity': 3.0.0(postcss-selector-parser@6.0.13)
-      postcss: 8.4.31
+      postcss: 8.4.32
       postcss-selector-parser: 6.0.13
 
   /postcss-normalize-charset@6.0.0(postcss@8.4.31):
