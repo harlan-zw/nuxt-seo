@@ -71,21 +71,23 @@ const themeRgb = computed(() => {
       }"
     />
     <div class="h-full w-full relative">
-      <div class="flex flex-row justify-between">
+      <div class="flex flex-row justify-between items-center">
         <div class="text-[40px] flex items-center gap-3 flex-row">
-          <Icon class="text-blue-500" :name="icon" />
-          <div class="text-[40px] font-mono">
-            {{ moduleName }}
-          </div>
-          <div class="text-[30px] opacity-70">
-            v{{ version }}
+          <Icon class="text-blue-500 w-20 h-20" :name="icon" />
+          <div>
+            <div class="text-[40px] font-mono">
+              {{ moduleName }}
+            </div>
+            <div class="text-[30px] opacity-70">
+              v{{ version }}
+            </div>
           </div>
         </div>
         <div class="flex flex-row items-center">
           <svg height="30" width="30" class="mr-3" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
             <path :fill="theme.includes('#') ? theme : `#${theme}`" d="M62.3,-53.9C74.4,-34.5,73.5,-9,67.1,13.8C60.6,36.5,48.7,56.5,30.7,66.1C12.7,75.7,-11.4,74.8,-31.6,65.2C-51.8,55.7,-67.9,37.4,-73.8,15.7C-79.6,-6,-75.1,-31.2,-61.1,-51C-47.1,-70.9,-23.6,-85.4,0.8,-86C25.1,-86.7,50.2,-73.4,62.3,-53.9Z" transform="translate(100 100)" />
           </svg>
-          <div class="text-[40px] flex flex-row gap-2 font-semibold">
+          <div class="text-[50px] flex flex-row gap-2 font-semibold">
             <span>Nuxt</span>
             <span class="text-green-500">SEO</span>
           </div>

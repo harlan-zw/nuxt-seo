@@ -75,16 +75,16 @@ const modules = useModuleList()
     />
     <div class="h-full w-full justify-between relative">
       <div class="flex flex-row justify-center items-center text-left w-full">
-        <svg height="30" width="30" class="mr-3" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <svg height="70" width="70" class="mr-3" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
           <path :fill="theme.includes('#') ? theme : `#${theme}`" d="M62.3,-53.9C74.4,-34.5,73.5,-9,67.1,13.8C60.6,36.5,48.7,56.5,30.7,66.1C12.7,75.7,-11.4,74.8,-31.6,65.2C-51.8,55.7,-67.9,37.4,-73.8,15.7C-79.6,-6,-75.1,-31.2,-61.1,-51C-47.1,-70.9,-23.6,-85.4,0.8,-86C25.1,-86.7,50.2,-73.4,62.3,-53.9Z" transform="translate(100 100)" />
         </svg>
-        <p class="text-[60px] font-semibold">
-          <span class="mr-5">Nuxt</span>
+        <p class="text-[80px] font-semibold">
+          <span class="mr-3">Nuxt</span>
           <span class="text-green-500">SEO</span>
         </p>
       </div>
       <div class="flex justify-center gap-7">
-        <Icon v-for="(module, key) in modules" :key="key" class="text-blue-300 w-[90px] h-[90px]" :name="module.icon" />
+        <Icon v-for="(module, key) in modules" :key="key" class="text-blue-300 w-[100px] h-[100px]" :name="module.icon" />
       </div>
       <div class="flex flex-row justify-center">
         <div class="flex justify-center items-center gap-3 flex-row text-[30px] text-purple-600 ">

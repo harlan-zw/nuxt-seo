@@ -60,6 +60,9 @@ importers:
       '@iconify-json/ph':
         specifier: ^1.1.8
         version: 1.1.8
+      '@img/sharp-linux-x64':
+        specifier: ^0.33.0
+        version: 0.33.0
       '@nuxt/content':
         specifier: ^2.9.0
         version: 2.9.0(nuxt@3.8.2)(rollup@3.29.4)(vue@3.3.10)
@@ -1884,7 +1887,6 @@ packages:
     optionalDependencies:
       '@img/sharp-libvips-linux-x64': 1.0.0
     dev: false
-    optional: true
 
   /@img/sharp-linuxmusl-arm64@0.33.0:
     resolution: {integrity: sha512-1QLbbN0zt+32eVrg7bb1lwtvEaZwlhEsY1OrijroMkwAqlHqFj6R33Y47s2XUv7P6Ie1PwCxK/uFnNqMnkd5kg==}
