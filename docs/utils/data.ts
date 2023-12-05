@@ -85,7 +85,7 @@ export const OgImageModule = {
   tag: {
     new: true,
     label: 'v3',
-    to: '/experiments/releases/v3',
+    to: '/og-image/releases/v3',
   },
   to: '/og-image/getting-started/installation',
   repo: 'harlan-zw/nuxt-og-image',
