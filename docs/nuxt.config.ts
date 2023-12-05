@@ -107,6 +107,11 @@ export default defineNuxtConfig({
     '/sitemap/guides/auto-lastmod': { redirect: { to: '/sitemap/guides/best-practices', statusCode: 301 } },
 
   },
+  ogImage: {
+    defaults: {
+      extension: 'png',
+    },
+  },
   css: [
     '~/css/scrollbars.css',
   ],
