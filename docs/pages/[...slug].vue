@@ -146,7 +146,7 @@ const ecosystemLinks = [
             <template #right>
               <UDocsToc :links="page.body?.toc?.links || []">
                 <template #top>
-                  <UPageLinks v-if="module" :title="module.fullLabel ? module.fullLabel : `Nuxt ${module.label}`" :links="repoLinks">
+                  <UPageLinks v-if="module" :ui="{ container: 'gap-7' }" :title="module.fullLabel ? module.fullLabel : `Nuxt ${module.label}`" :links="repoLinks">
                     <template #title>
                       <div class="w-full">
                         <div class="flex justify-center mb-2">
