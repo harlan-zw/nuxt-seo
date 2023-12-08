@@ -30,7 +30,7 @@ const loadingType = computed(() => {
       :width="width"
       :src="src"
       :loading="loadingType"
-    />
+    >
     <figcaption v-if="alt" class="text-center">
       {{ alt }}
     </figcaption>

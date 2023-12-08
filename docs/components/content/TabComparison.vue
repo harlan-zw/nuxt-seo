@@ -52,6 +52,6 @@ const selectedTab = computed(() => tabs.value.find((_, index) => index === selec
       </button>
     </div>
 
-    <component v-if="selectedTab" :is="selectedTab?.component" hide-header />
+    <component :is="selectedTab?.component" v-if="selectedTab" hide-header />
   </div>
 </template>

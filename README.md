@@ -8,7 +8,6 @@
 <a href="https://github.com/harlan-zw/nuxt-seo-kit" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/harlan-zw/nuxt-seo-kit?flat&colorA=002438&colorB=28CF8D"></a>
 </p>
 
-
 <p align="center">
 The complete SEO solution for Nuxt.
 </p>
@@ -75,7 +74,6 @@ All features are enabled by default. Learn more by exploring the [documentation]
     <img src='https://raw.githubusercontent.com/harlan-zw/static/main/sponsors.svg'/>
   </a>
 </p>
-
 
 ## License
 

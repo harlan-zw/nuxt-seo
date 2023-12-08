@@ -3,7 +3,7 @@ title: Nitro Hooks
 description: Learn how to use Nitro Hooks to customize your sitemap entries.
 ---
 
-Nitro hooks can be added to modify the output of your sitemaps at runtime. 
+Nitro hooks can be added to modify the output of your sitemaps at runtime.
 
 ## `sitemap:resolved`
 
@@ -52,6 +52,3 @@ export default defineNitroPlugin((nitroApp) => {
   })
 })
 ```
-
-
-
