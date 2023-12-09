@@ -18,28 +18,6 @@ const route = useRoute()
 const isSetup = computed(() => {
   return route.path.startsWith('/nuxt-seo')
 })
-// const isUiElements = computed(() => {
-//   return route.path.startsWith('/ui-elements')
-// })
-// const isOgImage = computed(() => {
-//   return route.path.startsWith('/og-image')
-// })
-// const isExperiments = computed(() => {
-//   return route.path.startsWith('/experiments')
-// })
-// const isRobots = computed(() => {
-//   return route.path.startsWith('/robots')
-// })
-// const isSitemap = computed(() => {
-//   return route.path.startsWith('/sitemap')
-// })
-// const isSchemaOrg = computed(() => {
-//   return route.path.startsWith('/schema-org')
-// })
-// const isLinkChecker = computed(() => {
-//   return route.path.startsWith('/link-checker')
-// })
-
 const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'seo-kit')?.stats?.stars
 </script>
 
