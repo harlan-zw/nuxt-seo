@@ -19,16 +19,16 @@ describe('generate', () => {
     })
     expect(metaTags).toMatchInlineSnapshot(`
       [
-        "<meta charset=\\"utf-8\\">",
-        "<meta name=\\"viewport\\" content=\\"width=device-width, initial-scale=1\\">",
-        "<meta property=\\"og:type\\" content=\\"website\\">",
-        "<meta name=\\"robots\\" content=\\"noindex, nofollow\\">",
-        "<meta property=\\"og:title\\" content=\\"nuxt-seo-kit-mono\\">",
-        "<meta property=\\"og:url\\" content=\\"http://localhost/\\">",
-        "<meta property=\\"og:locale\\" content=\\"en\\">",
-        "<meta property=\\"og:site_name\\" content=\\"nuxt-seo-kit-mono\\">",
-        "<meta name=\\"description\\" content=\\"The all-in-one SEO module for Nuxt 3.\\">",
-        "<meta property=\\"og:description\\" content=\\"The all-in-one SEO module for Nuxt 3.\\">",
+        "<meta charset="utf-8">",
+        "<meta name="viewport" content="width=device-width, initial-scale=1">",
+        "<meta property="og:type" content="website">",
+        "<meta name="robots" content="noindex, nofollow">",
+        "<meta property="og:title" content="nuxt-seo-kit-mono">",
+        "<meta property="og:url" content="http://localhost/">",
+        "<meta property="og:locale" content="en">",
+        "<meta property="og:site_name" content="nuxt-seo-kit-mono">",
+        "<meta name="description" content="The all-in-one SEO module for Nuxt 3.">",
+        "<meta property="og:description" content="The all-in-one SEO module for Nuxt 3.">",
       ]
     `)
   }, 60000)
