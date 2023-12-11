@@ -10,7 +10,29 @@ description: A Breadcrumb component used to display a breadcrumb list that helps
 
 ## Example
 
-:component-example{component="breadcrumb-default-example"}
+::tab-comparison
+
+:breadcrumb-default-example{label="Example"}
+
+```vue [Code]
+<script lang="ts" setup>
+import { defineBreadcrumbItems, useBreadcrumbsUi } from '#imports'
+
+const items = defineBreadcrumbItems([
+  { to: '/', ariaLabel: 'Home', icon: 'material-symbols:home-outline-rounded' },
+  { to: '/blog', label: 'Blog', ariaLabel: 'Blog', icon: 'material-symbols:book-outline' },
+  { to: '/blog/my-awesome-article', label: 'My Awesome Article', current: true },
+])
+
+const ui = useBreadcrumbsUi()
+</script>
+
+<template>
+  <SBreadcrumb :items="items" :ui="ui" />
+</template>
+```
+
+::
 
 ## Usage
 
@@ -32,7 +54,7 @@ const items = useBreadcrumbItems()
 
 This will generate the items for the breadcrumb based on the current route, alternatively you can pass in a `path`.
 
-:component-example{component="breadcrumb-auto-example"}
+:breadcrumb-auto-example
 
 To determine the label of the item, it will use the `breadcrumb` property of the route meta.
 
@@ -89,7 +111,7 @@ You can use the [useBreadcrumbUI](https://github.com/harlan-zw/nuxt-seo-ui/blob/
 
 If you need to customize the UI, you can provide your own implementation.
 
-:component-example{component="breadcrumb-custom-example"}
+:breadcrumb-custom-example
 
 ## Slots
 
@@ -99,7 +121,7 @@ You can use slots to customize links display.
 
 Use the `#default` slot to customize the link label. You will have access to the `link` and `isActive` properties in the slot scope.
 
-:component-example{component="breadcrumb-item-slot"}
+:breadcrumb-item-slot
 
 ## Props
 
@@ -110,7 +132,7 @@ Use the `#default` slot to customize the link label. You will have access to the
 
 Whether the last breadcrumb item should be displayed on a new line.
 
-:component-example{component="breadcrumb-multiline-example"}
+:breadcrumb-multiline-example
 
 ### `responsiveDisplay`
 
