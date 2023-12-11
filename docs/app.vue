@@ -31,15 +31,15 @@ const modules = useModuleList()
               </NuxtLink>
             </div>
             <div class="mb-2">
-              Hey <i class="i-noto-waving-hand" /> I built Nuxt SEO to solve SEO for Nuxt once and for all.
+              Hey <Icon name="noto:waving-hand" /> I built Nuxt SEO to solve SEO for Nuxt once and for all.
             </div>
             <div>
               It's been on-going work for the last year and I'd love to have your <a href="https://github.com/sponsors/harlan-zw">support</a>!
             </div>
-            <div class="mt-3 flex items-center opacity-80">
-              - <a href="https://twitter.com/harlan_zw">Harlan Wilton</a>
+            <div class="mt-3 flex items-center">
+              <a href="https://twitter.com/harlan_zw">Harlan Wilton</a>
               <UButton to="https://harlanzw.com" variant="ghost" :padded="false" class="ml-2">
-                <UAvatar src="https://avatars.githubusercontent.com/u/5326365?v=4" size="xs" class="w-5 h-5" />
+                <UAvatar loading="lazy" src="https://avatars.githubusercontent.com/u/5326365?v=4" size="xs" class="w-5 h-5" />
               </UButton>
             </div>
           </div>

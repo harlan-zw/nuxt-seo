@@ -61,6 +61,13 @@ export default defineNuxtConfig({
         default: 'github-light',
         dark: 'material-theme-palenight',
       },
+      preload: [
+        'ts',
+        'vue',
+        'json',
+        'html',
+        'bash',
+      ],
     },
   },
   devtools: {
@@ -128,10 +135,9 @@ export default defineNuxtConfig({
     },
     head: {
       link: [
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com', crossorigin: 'anonymous' },
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600&display=swap' },
-        { rel: 'stylesheet', href: 'https://rsms.me/inter/inter.css' },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Plus+Jakarta+Sans:wght@600&display=swap' },
       ],
 
       bodyAttrs: {
