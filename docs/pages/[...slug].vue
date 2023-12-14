@@ -153,8 +153,8 @@ const ecosystemLinks = [
                           <Icon :name="module.icon" class="w-8 h-8 dark:text-blue-500/75 text-blue-500 group-hover:text-blue-500 transition-all" />
                         </div>
                         <div class="flex items-center mb-3 space-x-3">
-                          <div class="text-sm font-normal font-mono items-center flex space-x-2 bg-blue-50/50 w-full px-3 py-2 rounded">
-                            <div class="text-xs text-center text-gray-600 w-full">
+                          <div class="text-sm font-normal font-mono items-center flex space-x-2 dark:bg-blue-900/50 bg-blue-50/50 w-full px-3 py-2 rounded">
+                            <div class="text-xs text-center text-gray-600 dark:text-gray-300 w-full">
                               {{ module.repo.replace('harlan-zw/', '') }}
                             </div>
                           </div>
