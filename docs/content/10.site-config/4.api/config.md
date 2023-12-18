@@ -1,7 +1,47 @@
 ---
-title: Config
+title: Nuxt Config
 description: The config options available for Nuxt Site Config.
 ---
+
+## `enabled`
+
+- Type: `boolean`
+- Default: `true`
+
+Whether the site config is enabled.
+
+## `debug`
+
+- Type: `boolean`
+- Default: `false`
+
+Whether the debug mode of the site config is enabled.
+
+## `componentOptions`
+
+- Type: `object`
+- Default: `{}`
+
+Modify the behavior of how the [&lt;SiteLink&gt;](/site-config/api/site-link) is registered.
+
+```ts
+export default defineNuxtConfig({
+  site: {
+    componentOptions: {
+      prefix: 'I',
+      global: true,
+    },
+  },
+})
+```
+
+```vue
+<template>
+  <ISiteConfig to="/foo">
+    Foo
+  </ISiteConfig>
+</template>
+```
 
 ## `url`
 
@@ -37,13 +77,6 @@ Can the site be indexed by search engines.
 - Default: `false`
 
 Whether to add trailing slashes to the URLs.
-
-## `titleSeparator`
-
-- Type: `string`
-- Default: `|`
-
-The title separator to be used in the `<title>` tag.
 
 ## `description`
 
