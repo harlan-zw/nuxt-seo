@@ -41,7 +41,7 @@ npm remove nuxt-seo-kit && npm install -D @nuxtseo/module
 
 ::
 
-```diff [nuxt.config]
+```diff [nuxt.config.ts]
 export default defineNuxtConfig({
 -  extends: ['nuxt-seo-kit'],
   modules: [
