@@ -28,17 +28,24 @@ export default defineNuxtConfig({
     'nuxt-og-image',
     NuxtSeo,
     async (_, nuxt) => {
+      const uniqueContributors = new Set()
       nuxt.options.runtimeConfig.public.moduleStats = (await Promise.all(
-        [...SeoModules, { id: 'seo-kit' }]
-          .filter(m => !m.unlisted)
+        [...SeoModules]
+          .filter(m => !m.unlisted || m.id === 'seo-kit')
           .map(m => m.id)
           .map(m =>
             $fetch(`https://api.nuxt.com/modules/${m}`)
-              .then(d => ({ id: m, stats: d.stats || false })),
+              .then((d) => {
+                if (d.contributors)
+                  d.contributors.forEach(c => uniqueContributors.add(c.id))
+                return { id: m, stats: d.stats || false }
+              }),
           ),
       )).filter(d => d.stats)
       const pkgJson = await readPackageJSON('../module/package.json')
       nuxt.options.runtimeConfig.public.moduleDeps = pkgJson.dependencies
+      nuxt.options.runtimeConfig.public.totalContributors = uniqueContributors.size
+      nuxt.options.runtimeConfig.public.uniqueContributors = [...uniqueContributors]
     },
   ],
   site: {

@@ -15,7 +15,7 @@ const rows = [
       return {
         key,
         value,
-        context: siteConfig._context[key],
+        context: siteConfig._context?.[key],
       }
     }),
   {

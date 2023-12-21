@@ -42,7 +42,21 @@ const children = computed(() => {
       return navigation.value[8].children
   }
 })
+const publicRuntimeConfig = useRuntimeConfig().public
 
+const module = computed(() => {
+  const m = useModuleList().find(l => l.slug === segment.value)
+  const stats = (publicRuntimeConfig.moduleStats || []).find(m2 => m2.id === m?.id)?.stats || {}
+  if (stats?.downloads) {
+    // will look like 395493, we need to make it human readible using native APIs
+    // we want to display it like 395k
+    m.downloads = Number(stats.downloads).toLocaleString('en-US', { notation: 'compact', compactDisplay: 'short' })
+  }
+  if (stats?.stars)
+    m.stars = stats.stars
+
+  return m
+})
 const headline = computed(() => findPageHeadline(page.value))
 const communityLinks = computed(() => [
   {
@@ -59,23 +73,10 @@ const communityLinks = computed(() => [
   },
 ])
 
-const publicRuntimeConfig = useRuntimeConfig().public
-const module = computed(() => {
-  const m = useModuleList().find(l => l.slug === segment.value)
-  const stats = (publicRuntimeConfig.moduleStats || []).find(m2 => m2.id === m?.id)?.stats || {}
-  if (stats?.downloads) {
-    // will look like 395493, we need to make it human readible using native APIs
-    // we want to display it like 395k
-    m.downloads = Number(stats.downloads).toLocaleString('en-US', { notation: 'compact', compactDisplay: 'short' })
-  }
-  if (stats?.stars)
-    m.stars = stats.stars
-
-  return m
-})
-
 const version = computed(() => {
   const m = useModuleList().find(l => l.slug === segment.value)
+  if (m.slug === 'nuxt-seo')
+    return '2'
   const { moduleDeps } = useRuntimeConfig().public
   const key = m?.repo.replace('harlan-zw/', '')
   if (key) {
@@ -135,7 +136,19 @@ const ecosystemLinks = [
         </template>
         <div>
           <UPage :ui="{ wrapper: 'xl:gap-18' }">
-            <UPageHeader :title="page.title" :description="page.description" :links="page.links" :headline="headline" />
+            <UPageHeader :title="page.title" :description="page.description" :links="page.links" :headline="headline">
+              <template #headline>
+                <div class="flex items-center">
+                  <div class="text-gray-400">
+                    <Icon v-if="module.slug !== 'nuxt-seo'" :name="module.icon" class="w-5 h-5 transition-all" />
+                    <Logo v-else />
+                    {{ module.label }}
+                  </div>
+                  <Icon name="heroicons-solid:chevron-right" class="w-4 h-4 text-gray-400 mx-2" />
+                  <div>{{ headline }}</div>
+                </div>
+              </template>
+            </UPageHeader>
 
             <UPageBody prose class="pb-0">
               <ContentRenderer v-if="page.body" :value="page" />
@@ -149,13 +162,23 @@ const ecosystemLinks = [
                   <UPageLinks v-if="module" :ui="{ container: 'gap-7' }" :title="module.fullLabel ? module.fullLabel : `Nuxt ${module.label}`" :links="repoLinks">
                     <template #title>
                       <div class="w-full">
-                        <div class="flex justify-center mb-2">
-                          <Icon :name="module.icon" class="w-8 h-8 dark:text-blue-500/75 text-blue-500 group-hover:text-blue-500 transition-all" />
+                        <div class="flex justify-center items-center mb-2 gap-3">
+                          <Icon v-if="module.slug !== 'nuxt-seo'" :name="module.icon" class="w-8 h-8 dark:text-blue-500/75 text-blue-500 group-hover:text-blue-500 transition-all" />
+                          <Logo v-else />
+                          <div class="flex gap-2">
+                            <a :href="`https://github.com/${module.repo}`" target="_blank" title="GitHub Repo"><Icon class="w-5 h-5" name="logos:github-icon" /></a>
+                            <a :href="`https://www.npmjs.com/package/nuxt-${module.id}`" target="_blank" title="NPM"><Icon class="w-5 h-5" name="logos:npm-icon" /></a>
+                          </div>
                         </div>
                         <div class="flex items-center mb-3 space-x-3">
                           <div class="text-sm font-normal font-mono items-center flex space-x-2 dark:bg-blue-900/50 bg-blue-50/50 w-full px-3 py-2 rounded">
                             <div class="text-xs text-center text-gray-600 dark:text-gray-300 w-full">
-                              {{ module.repo.replace('harlan-zw/', '') }}
+                              <template v-if="module.slug !== 'nuxt-seo'">
+                                {{ module.repo.replace('harlan-zw/', '') }}
+                              </template>
+                              <template v-else>
+                                @nuxtseo/module
+                              </template>
                             </div>
                           </div>
                         </div>

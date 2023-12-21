@@ -15,11 +15,22 @@ export interface NuxtSeoModule {
     new?: boolean
     label: string
     to: string
+    date?: Date
   }
   unlisted?: boolean
   routeRules?: Record<string, any>
 }
 
+export const NuxtSeo: NuxtSeoModule = {
+  unlisted: true,
+  id: 'seo-kit',
+  slug: 'nuxt-seo',
+  label: 'Nuxt SEO',
+  icon: 'carbon:settings-check',
+  description: 'All the boring SEO work for Nuxt done.',
+  to: '/nuxt-seo/getting-started/installation',
+  repo: 'harlan-zw/nuxt-seo-kit',
+}
 export const SiteConfigModule: NuxtSeoModule = {
   unlisted: true,
   id: 'site-config',
@@ -47,13 +58,15 @@ export const RobotsModule = {
   icon: 'carbon:bot',
   description: 'Tame the robots crawling and indexing your site with ease.',
   tag: {
-    label: 'v3',
-    to: '/robots/releases/v3',
+    new: true,
+    label: 'RC v4.0',
+    to: '/robots/releases/v4.0',
+    date: new Date('2023-12-14'),
   },
   to: '/robots/getting-started/installation',
   repo: 'harlan-zw/nuxt-simple-robots',
   routeRules: {
-    site: { name: 'Nuxt Site Config', description: 'Shared site configuration for Nuxt modules.' },
+    site: { name: 'Nuxt Simple Robots', description: 'Tame the robots crawling and indexing your site with ease.' },
     ogImage: { icon: 'carbon:bot' },
   },
 } as const
@@ -84,8 +97,9 @@ export const OgImageModule = {
   description: 'Generate OG Images with Vue templates in Nuxt.',
   tag: {
     new: true,
-    label: 'v3',
+    label: 'RC v3',
     to: '/og-image/releases/v3',
+    date: new Date('2023-12-10'),
   },
   to: '/og-image/getting-started/installation',
   repo: 'harlan-zw/nuxt-og-image',
@@ -161,13 +175,14 @@ export const SeoUiModule = {
 } as const
 
 export const SeoModules: NuxtSeoModule[] = [
+  NuxtSeo,
   RobotsModule,
   SitemapModule,
   OgImageModule,
+  SchemaOrgModule,
   LinkCheckerModule,
   SeoExperimentsModule,
-  SchemaOrgModule,
-  SeoUiModule,
+  // SeoUiModule,
   SiteConfigModule,
 ]
 
@@ -183,10 +198,13 @@ export function useModuleList(module?: Ref<string>) {
     }
     if (stats?.stars)
       m.stars = Number(stats.stars)
-    const version = publicRuntimeConfig.moduleDeps[m.repo.replace('harlan-zw/', '')].replace('^', '')
-    m.tag = m.tag || {}
-    // version is like 3.10.30, we want to just get the first two, like 3.10
-    m.tag.label = `v${version.split('.').slice(0, 2).join('.')}`
+    const key = m.repo.replace('harlan-zw/', '')
+    if (key in publicRuntimeConfig.moduleDeps) {
+      const version = publicRuntimeConfig.moduleDeps[m.repo.replace('harlan-zw/', '')].replace('^', '')
+      m.tag = m.tag || {}
+      // version is like 3.10.30, we want to just get the first two, like 3.10
+      m.tag.label = `v${version.split('.').slice(0, 2).join('.')}`
+    }
     return m
   })
   if (module?.value)

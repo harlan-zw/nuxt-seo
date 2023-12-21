@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useHead } from '#imports'
+
 // defineI18nRoute({
 //   locales: ['ko'],
 // })

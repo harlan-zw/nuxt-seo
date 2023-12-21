@@ -43,9 +43,6 @@ defineProps<NuxtSeoModule>()
               </div>
             </div>
           </div>
-          <div v-else class="text-sm flex text-gray-500 items-center justify-between mt-5">
-            Not Published
-          </div>
 
           <NuxtLink v-if="tag" :to="tag.to" class="flex items-center space-x-2 group z-20 absolute top-4 right-4">
             <div class="text-gray-600 dark:text-gray-400 text-xs font-light font-mono">

@@ -5,14 +5,7 @@ const emit = defineEmits(['update:modelValue'])
 const isDialogOpen = useVModel(props, 'modelValue', emit)
 
 const items = useModuleList()
-  .filter(m => !!m.to)
-  .map((m) => {
-    return {
-      label: m.label,
-      to: m.to,
-      icon: m.icon,
-    }
-  })
+  .filter(m => !['seo-kit', 'site-config'].includes(m.id))
 
 const route = useRoute()
 const isSetup = computed(() => {
@@ -30,23 +23,51 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
           <span class="hidden sm:block">Nuxt</span><span class="sm:text-primary-500 dark:sm:text-primary-400">SEO</span>
         </NuxtLink>
       </div>
-      <UBadge color="yellow" class="hidden sm:inline">
-        WIP
-      </UBadge>
     </div>
 
     <div class="space-x-5 flex">
-      <UButton to="/nuxt-seo/getting-started/installation" :variant="!isSetup ? 'ghost' : 'outline'" class="md:block hidden">
-        <span class="text-gray-700 dark:text-gray-200">Nuxt SEO Module</span>
+      <UButton to="/nuxt-seo/getting-started/what-is-nuxt-seo" :variant="!isSetup ? 'ghost' : 'outline'" class="md:block hover:bg-green-100 transition hidden space-x-2">
+        <span class="text-gray-700 dark:text-gray-200">What is Nuxt SEO?</span>
       </UButton>
 
-      <UDropdown mode="hover" :items="[items]" :popper="{ placement: 'bottom-start' }">
-        <template #item="{ item }">
-          <span class="truncate">{{ item.label }}</span>
-          <Icon :name="item.icon" class="flex-shrink-0 group-hover:text-blue-500 h-4 w-4 text-gray-400 dark:text-gray-500 ms-auto" />
+      <UPopover mode="hover" :items="[items]" :popper="{ placement: 'bottom-start' }">
+        <template #panel>
+          <div class="p-4">
+            <div class="flex space-x-7">
+              <div class="flex flex-col gap-2">
+                <NuxtLink to="/nuxt-seo/getting-started/installation" class="px-3 py-2 hover:bg-gray-100">
+                  <div class="flex font-semibold gap-1 items-center">
+                    <Logo />
+                    <span class="truncate">Nuxt SEO Module</span>
+                  </div>
+                  <div class="text-xs opacity-60 ">
+                    All the SEO modules combined into one.
+                  </div>
+                </NuxtLink>
+                <NuxtLink to="/nuxt-seo/getting-started/installation" class="px-3 py-2 hover:bg-gray-100">
+                  <div class="flex font-semibold gap-1 items-center">
+                    <Icon name="carbon:settings-check" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
+                    <span class="truncate">Nuxt Site Config</span>
+                  </div>
+                  <div class="text-xs opacity-60 ">
+                    Shared site configuration for Nuxt modules.
+                  </div>
+                </NuxtLink>
+              </div>
+              <div>
+                <div class="grid grid-cols-2 gap-5">
+                  <NuxtLink v-for="(item, index) in items" :key="index" :to="item.to" class="space-x-2 px-3 py-2 hover:bg-gray-100">
+                    <Icon :name="item.icon" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
+                    <span class="truncate">{{ item.label }}</span>
+                  </NuxtLink>
+                </div>
+              </div>
+            </div>
+          </div>
         </template>
-        <UButton label="Modules" variant="ghost" trailing-icon="i-heroicons-chevron-down-20-solid" />
-      </UDropdown>
+
+        <UButton label="Nuxt Modules" variant="ghost" color="none" class="hover:bg-green-100 transition" trailing-icon="i-heroicons-chevron-down-20-solid" />
+      </UPopover>
 
     <!--    <UButton to="/experiments/getting-started/installation" :variant="!isExperiments ? 'outline' : 'outline'" color="purple" class="md:block relative hidden"> -->
     <!--      Become a Nuxt SEO Pro -->
