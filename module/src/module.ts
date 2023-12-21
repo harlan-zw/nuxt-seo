@@ -13,6 +13,12 @@ import { version } from '../package.json'
 
 export interface ModuleOptions {
   /**
+   * Will ensure a title is always set by providing a fallback title based on the casing the last slug segment.
+   *
+   * @default true
+   */
+  fallbackTitle?: boolean
+  /**
    * Will set up a number of defaults for meta tags and Schema.org, if the modules and config are available.
    *
    * @default true
@@ -93,6 +99,11 @@ export default defineNuxtModule<ModuleOptions>({
     if (config.automaticDefaults) {
       addPlugin({
         src: resolve('./runtime/plugin/defaults'),
+      })
+    }
+    if (config.fallbackTitle) {
+      addPlugin({
+        src: resolve('./runtime/plugin/titles'),
       })
     }
 
