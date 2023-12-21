@@ -1,7 +1,6 @@
-import type { SiteConfig } from 'nuxt-site-config-kit'
-import { defineNuxtPlugin } from 'nuxt/app'
 import type { UseHeadOptions, UseSeoMetaInput } from '@unhead/vue'
 import {
+  defineNuxtPlugin,
   computed,
   createSitePathResolver,
   useHead,
@@ -15,8 +14,7 @@ export default defineNuxtPlugin({
   name: 'nuxt-seo:defaults',
   setup() {
     // get the head instance
-    const siteConfig = { ...useSiteConfig() } as Omit<SiteConfig, '_context'>
-    delete siteConfig._context
+    const siteConfig = useSiteConfig() || {}
     const route = useRoute()
     const resolveUrl = createSitePathResolver({ withBase: true, absolute: true })
     const canonicalUrl = computed<string>(() => resolveUrl(route.path || '/').value || route.path)
@@ -28,7 +26,7 @@ export default defineNuxtPlugin({
 
     // needs higher priority
     useHead({
-      link: [{ rel: 'canonical', href: canonicalUrl }],
+      link: [{ rel: 'canonical', href: () => canonicalUrl.value }],
     })
     const locale = siteConfig.currentLocale || siteConfig.defaultLocale
     if (locale) {
@@ -44,8 +42,8 @@ export default defineNuxtPlugin({
     }, minimalPriority)
 
     const seoMeta: UseSeoMetaInput = {
-      ogUrl: canonicalUrl,
-      ogLocale: siteConfig.defaultLocale,
+      ogUrl: () => canonicalUrl.value,
+      ogLocale: locale,
       ogSiteName: siteConfig.name,
     }
     if (siteConfig.description)
