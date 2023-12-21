@@ -3,7 +3,7 @@ import { useModuleList } from '~/utils/data'
 
 definePageMeta({
   breadcrumb: {
-    icon: 'heroicons-solid:home',
+    icon: 'i-heroicons-home',
     ariaLabel: 'Home',
   },
 })

@@ -93,6 +93,13 @@ export default defineNuxtModule<ModuleOptions>({
 
     await installNuxtSiteConfig()
 
+    // TODO disable modules if SSR is disabled
+    // if (!nuxt.options.ssr) {
+    //   nuxt.options.schemaOrg = defu({ enabled: false}, nuxt.options.schemaOrg)
+    //   nuxt.options.ogImage = defu({ enabled: false}, nuxt.options.ogImage)
+    //   logger.warn('SSR is required for Nuxt OG Image and Nuxt Schema.org, disabling them.')
+    // }
+
     for (const module of Modules)
       await installModule(await resolvePath(module))
 
@@ -121,7 +128,6 @@ export default defineNuxtModule<ModuleOptions>({
 
     // if user disables certain modules we need to pollyfill the imports
     const polyfills: Record<string, string[]> = {
-      robots: ['defineRobotMeta'],
       schemaOrg: ['useSchemaOrg', 'defineWebSite', 'defineWebPage'],
     }
     for (const [module, composables] of Object.entries(polyfills)) {
@@ -157,7 +163,7 @@ export default defineNuxtModule<ModuleOptions>({
       if (!upToDate)
         logger.log(`${chalk.gray('  ├─ ')}🎉 New version available!${chalk.gray(` Run ${chalk.underline(`npm i nuxt-seo-kit@${latestTag}`)} to update.`)}`)
 
-      logger.log(chalk.dim('  └─ 🧪 Nuxt SEO is in beta. Shape the future of it: https://github.com/harlan-zw/nuxt-seo-kit/discussions/108'))
+      logger.log(chalk.dim('  └─ 🧪 Help get Nuxt SEO stable by providing feedback https://github.com/harlan-zw/nuxt-seo-kit/discussions/108'))
       logger.log('')
     }
   },
