@@ -58,7 +58,6 @@ const Modules = [
   'nuxt-simple-robots',
   'nuxt-simple-sitemap',
   'nuxt-og-image',
-  'nuxt-seo-ui',
   'nuxt-schema-org',
   'nuxt-seo-experiments',
   'nuxt-link-checker',
