@@ -4,6 +4,7 @@ import {
   addServerHandler,
   createResolver,
   defineNuxtModule,
+  hasNuxtModule,
   installModule,
   useLogger,
 } from '@nuxt/kit'
@@ -106,6 +107,18 @@ export default defineNuxtModule<ModuleOptions>({
         src: resolve('./runtime/plugin/titles'),
       })
     }
+
+    if (!hasNuxtModule('@nuxtjs/i18n')) {
+      addImports({
+        from: resolve(`./runtime/composables/polyfills`),
+        name: 'useI18n',
+      })
+    }
+
+    addImports({
+      from: resolve(`./runtime/composables/useBreadcrumbItems`),
+      name: 'useBreadcrumbItems',
+    })
 
     // if user disables certain modules we need to pollyfill the imports
     const polyfills: Record<string, string[]> = {
