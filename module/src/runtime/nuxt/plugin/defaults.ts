@@ -1,8 +1,8 @@
 import type { UseHeadOptions, UseSeoMetaInput } from '@unhead/vue'
 import {
-  defineNuxtPlugin,
   computed,
   createSitePathResolver,
+  defineNuxtPlugin,
   useHead,
   useRoute,
   useSeoMeta,

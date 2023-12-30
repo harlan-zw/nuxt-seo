@@ -1,10 +1,10 @@
 import type { UseHeadOptions } from '@unhead/vue'
 import { withoutTrailingSlash } from 'ufo'
 import {
+  computed,
   defineNuxtPlugin,
   useHead,
   useRoute,
-  computed,
 } from '#imports'
 
 function titleCase(s: string) {

@@ -105,24 +105,24 @@ export default defineNuxtModule<ModuleOptions>({
 
     if (config.automaticDefaults) {
       addPlugin({
-        src: resolve('./runtime/plugin/defaults'),
+        src: resolve('./runtime/nuxt/plugin/defaults'),
       })
     }
     if (config.fallbackTitle) {
       addPlugin({
-        src: resolve('./runtime/plugin/titles'),
+        src: resolve('./runtime/nuxt/plugin/titles'),
       })
     }
 
     if (!hasNuxtModule('@nuxtjs/i18n')) {
       addImports({
-        from: resolve(`./runtime/composables/polyfills`),
+        from: resolve(`./runtime/nuxt/composables/polyfills`),
         name: 'useI18n',
       })
     }
 
     addImports({
-      from: resolve(`./runtime/composables/useBreadcrumbItems`),
+      from: resolve(`./runtime/nuxt/composables/useBreadcrumbItems`),
       name: 'useBreadcrumbItems',
     })
 
@@ -135,7 +135,7 @@ export default defineNuxtModule<ModuleOptions>({
         composables.forEach((name) => {
           // add pollyfill
           addImports({
-            from: resolve('./runtime/composables/polyfills'),
+            from: resolve('./runtime/nuxt/composables/polyfills'),
             name,
           })
         })
@@ -146,7 +146,7 @@ export default defineNuxtModule<ModuleOptions>({
     // add redirect middleware
     if (config.redirectToCanonicalSiteUrl) {
       addServerHandler({
-        handler: resolve('./runtime/server/middleware/redirect'),
+        handler: resolve('./runtime/nitro/middleware/redirect'),
         middleware: true,
       })
     }
