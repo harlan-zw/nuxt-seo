@@ -1,7 +1,8 @@
-import { hasTrailingSlash, parseURL, stringifyParsedURL, withTrailingSlash, withoutTrailingSlash } from 'ufo'
+import { withoutTrailingSlash } from 'ufo'
 import type { RouteMeta } from 'vue-router'
 import type { MaybeRefOrGetter } from 'vue'
 import type { BreadcrumbLink } from '@nuxt/ui/dist/runtime/types'
+import { pathBreadcrumbSegments } from '../../pure/breadcrumbs'
 import {
   computed,
   defineBreadcrumb,
@@ -83,7 +84,6 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
     }
     const current = withoutQuery(withoutTrailingSlash(toValue(options.path || useRoute().path) || rootNode))
     return pathBreadcrumbSegments(current, rootNode)
-      .reverse()
       .map(path => ({
         to: path,
       }) as BreadcrumbItemProps)
@@ -142,27 +142,4 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
     ])
   }
   return items
-}
-
-export function pathBreadcrumbSegments(path: string, rootNode: string = '/') {
-  const startNode = parseURL(path)
-  const appendsTrailingSlash = hasTrailingSlash(startNode.pathname)
-
-  const stepNode = (node: ReturnType<typeof parseURL>, nodes: string[] = []) => {
-    const fullPath = stringifyParsedURL(node)
-    // the pathname will always be without the trailing slash
-    const currentPathName = node.pathname || '/'
-    // when we hit the root the path will be an empty string; we swap it out for a slash
-    nodes.push(fullPath || '/')
-    if (currentPathName !== rootNode) {
-      // strip the last path segment (/my/cool/path -> /my/cool)
-      node.pathname = currentPathName.substring(0, currentPathName.lastIndexOf('/'))
-      // if the input was provided with a trailing slash we need to honour that
-      if (appendsTrailingSlash)
-        node.pathname = withTrailingSlash(node.pathname.substring(0, node.pathname.lastIndexOf('/')))
-      stepNode(node, nodes)
-    }
-    return nodes
-  }
-  return stepNode(startNode)
 }
