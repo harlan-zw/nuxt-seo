@@ -3,6 +3,7 @@ definePageMeta({
   breadcrumbTitle: 'My blog title',
 })
 </script>
+
 <template>
-<div>blog</div>
+  <div>blog</div>
 </template>

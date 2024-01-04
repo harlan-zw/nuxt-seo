@@ -47,7 +47,7 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
                 <NuxtLink to="/site-config/getting-started/installation" class="flex justify-start flex-col items-start px-3 py-2 hover:bg-gray-100 text-left">
                   <div class="flex font-semibold gap-1 items-center">
                     <Icon name="carbon:settings-check" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
-                    <span class="truncate">Nuxt Site Config</span>
+                    <span class="truncate">Site Config</span>
                   </div>
                   <div class="text-xs opacity-60 ">
                     Shared site configuration for Nuxt modules.
@@ -55,7 +55,7 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
                 </NuxtLink>
               </div>
               <div>
-                <div class="grid grid-cols-2 gap-5">
+                <div class="md:grid grid-cols-2 gap-2">
                   <NuxtLink v-for="(item, index) in items" :key="index" :to="item.to" class="space-x-2 px-3 py-2 hover:bg-gray-100">
                     <Icon :name="item.icon" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
                     <span class="truncate">{{ item.label }}</span>

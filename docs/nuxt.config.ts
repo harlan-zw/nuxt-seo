@@ -1,7 +1,7 @@
 import { $fetch } from 'ofetch'
 import { readPackageJSON } from 'pkg-types'
-import NuxtSeo from '../module/src/module'
-import { version } from '../module/package.json'
+import NuxtSeo from '../src/module'
+import { version } from '../package.json'
 import {
   LinkCheckerModule,
   OgImageModule,
@@ -42,7 +42,7 @@ export default defineNuxtConfig({
               }),
           ),
       )).filter(d => d.stats)
-      const pkgJson = await readPackageJSON('../module/package.json')
+      const pkgJson = await readPackageJSON('../package.json')
       nuxt.options.runtimeConfig.public.moduleDeps = pkgJson.dependencies
       nuxt.options.runtimeConfig.public.totalContributors = uniqueContributors.size
       nuxt.options.runtimeConfig.public.uniqueContributors = [...uniqueContributors]

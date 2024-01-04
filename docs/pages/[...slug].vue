@@ -139,10 +139,10 @@ const ecosystemLinks = [
             <UPageHeader :title="page.title" :description="page.description" :links="page.links" :headline="headline">
               <template #headline>
                 <div class="flex items-center">
-                  <div class="text-gray-400">
+                  <div class="text-gray-400 flex items-center gap-1">
                     <Icon v-if="module.slug !== 'nuxt-seo'" :name="module.icon" class="w-5 h-5 transition-all" />
                     <Logo v-else />
-                    {{ module.label }}
+                    <div>{{ module.label }}</div>
                   </div>
                   <Icon name="heroicons-solid:chevron-right" class="w-4 h-4 text-gray-400 mx-2" />
                   <div>{{ headline }}</div>
@@ -159,65 +159,67 @@ const ecosystemLinks = [
             <template #right>
               <UDocsToc :links="page.body?.toc?.links || []">
                 <template #top>
-                  <UPageLinks v-if="module" :ui="{ container: 'gap-7' }" :title="module.fullLabel ? module.fullLabel : `Nuxt ${module.label}`" :links="repoLinks">
-                    <template #title>
-                      <div class="w-full">
-                        <div class="flex justify-center items-center mb-2 gap-3">
-                          <Icon v-if="module.slug !== 'nuxt-seo'" :name="module.icon" class="w-8 h-8 dark:text-blue-500/75 text-blue-500 group-hover:text-blue-500 transition-all" />
-                          <Logo v-else />
-                          <div class="flex gap-2">
-                            <a :href="`https://github.com/${module.repo}`" target="_blank" title="GitHub Repo"><Icon class="w-5 h-5" name="logos:github-icon" /></a>
-                            <a :href="`https://www.npmjs.com/package/nuxt-${module.id}`" target="_blank" title="NPM"><Icon class="w-5 h-5" name="logos:npm-icon" /></a>
-                          </div>
-                        </div>
-                        <div class="flex items-center mb-3 space-x-3">
-                          <div class="text-sm font-normal font-mono items-center flex space-x-2 dark:bg-blue-900/50 bg-blue-50/50 w-full px-3 py-2 rounded">
-                            <div class="text-xs text-center text-gray-600 dark:text-gray-300 w-full">
-                              <template v-if="module.slug !== 'nuxt-seo'">
-                                {{ module.repo.replace('harlan-zw/', '') }}
-                              </template>
-                              <template v-else>
-                                @nuxtseo/module
-                              </template>
+                  <div class="hidden lg:block">
+                    <UPageLinks v-if="module" :ui="{ container: 'gap-7' }" :title="module.fullLabel ? module.fullLabel : `Nuxt ${module.label}`" :links="repoLinks">
+                      <template #title>
+                        <div class="w-full hidden lg:block">
+                          <div class="flex justify-center items-center mb-2 gap-3">
+                            <Icon v-if="module.slug !== 'nuxt-seo'" :name="module.icon" class="w-8 h-8 dark:text-blue-500/75 text-blue-500 group-hover:text-blue-500 transition-all" />
+                            <Logo v-else />
+                            <div class="flex gap-2">
+                              <a :href="`https://github.com/${module.repo}`" target="_blank" title="GitHub Repo"><Icon class="w-5 h-5" name="logos:github-icon" /></a>
+                              <a :href="`https://www.npmjs.com/package/nuxt-${module.id}`" target="_blank" title="NPM"><Icon class="w-5 h-5" name="logos:npm-icon" /></a>
                             </div>
                           </div>
-                        </div>
-                        <div class="hidden lg:block dark:text-gray-400 text-gray-600 mb-2">
-                          <div v-if="module.downloads && module.stars">
-                            <div class="text-xs space-y-3">
-                              <a :href="`http://npmjs.com/${module.repo.replace('harlan-zw/', '')}`" target="_blank" title="View on NPM" class="flex justify-between text-right">
-                                <div class="mb-1 text-xl font-light items-center flex">
-                                  <Icon name="carbon:version-minor" class="h-5 w-5 mr-1 opacity-90" />
-                                  <div>v{{ version }}</div>
-                                </div>
-                                <div class="flex items-center font-normal opacity-70 text-[11px] leading-[12px]">Latest<br> minor version</div>
-                              </a>
-                              <a :href="`http://npmjs.com/${module.repo.replace('harlan-zw/', '')}`" target="_blank" title="View on NPM" class="flex justify-between text-right">
-                                <div class="mb-1 text-xl font-light items-center flex">
-                                  <Icon name="carbon:chart-line-smooth" class="h-5 w-5 mr-1 opacity-90" />
-                                  <div>{{ module.downloads }}</div>
-                                </div>
-                                <div class="flex items-center font-normal opacity-70 text-[11px] leading-[12px]">Downloads<br>/ month</div>
-                              </a>
-                              <a :href="`http://github.com/${module.repo}`" target="_blank" title="Star on GitHub" class="flex justify-between">
-                                <div class="mb-1 text-xl font-light items-center flex">
-                                  <Icon name="carbon:star" class="h-5 w-5 mr-1 opacity-90" />
-                                  {{ module.stars }}
-                                </div>
-                                <div class="flex items-center font-normal text-right opacity-70  text-[11px] leading-[12px]">Stars</div>
-                              </a>
+                          <div class="flex items-center mb-3 space-x-3">
+                            <div class="text-sm font-normal font-mono items-center flex space-x-2 dark:bg-blue-900/50 bg-blue-50/50 w-full px-3 py-2 rounded">
+                              <div class="text-xs text-center text-gray-600 dark:text-gray-300 w-full">
+                                <template v-if="module.slug !== 'nuxt-seo'">
+                                  {{ module.repo.replace('harlan-zw/', '') }}
+                                </template>
+                                <template v-else>
+                                  @nuxtseo/module
+                                </template>
+                              </div>
                             </div>
                           </div>
+                          <div class="hidden lg:block dark:text-gray-400 text-gray-600 mb-2">
+                            <div v-if="module.downloads && module.stars">
+                              <div class="text-xs space-y-3">
+                                <a :href="`http://npmjs.com/${module.repo.replace('harlan-zw/', '')}`" target="_blank" title="View on NPM" class="flex justify-between text-right">
+                                  <div class="mb-1 text-xl font-light items-center flex">
+                                    <Icon name="carbon:version-minor" class="h-5 w-5 mr-1 opacity-90" />
+                                    <div>v{{ version }}</div>
+                                  </div>
+                                  <div class="flex items-center font-normal opacity-70 text-[11px] leading-[12px]">Latest<br> minor version</div>
+                                </a>
+                                <a :href="`http://npmjs.com/${module.repo.replace('harlan-zw/', '')}`" target="_blank" title="View on NPM" class="flex justify-between text-right">
+                                  <div class="mb-1 text-xl font-light items-center flex">
+                                    <Icon name="carbon:chart-line-smooth" class="h-5 w-5 mr-1 opacity-90" />
+                                    <div>{{ module.downloads }}</div>
+                                  </div>
+                                  <div class="flex items-center font-normal opacity-70 text-[11px] leading-[12px]">Downloads<br>/ month</div>
+                                </a>
+                                <a :href="`http://github.com/${module.repo}`" target="_blank" title="Star on GitHub" class="flex justify-between">
+                                  <div class="mb-1 text-xl font-light items-center flex">
+                                    <Icon name="carbon:star" class="h-5 w-5 mr-1 opacity-90" />
+                                    {{ module.stars }}
+                                  </div>
+                                  <div class="flex items-center font-normal text-right opacity-70  text-[11px] leading-[12px]">Stars</div>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                          <UDivider dashed class="my-3" />
+                          <button class="flex items-center gap-1.5 lg:cursor-text lg:select-text w-full" tabindex="-1">
+                            <span class="font-semibold text-sm/6 truncate">Useful Links</span>
+                            <span class="i-heroicons-chevron-down-20-solid lg:!hidden w-5 h-5 ms-auto transform transition-transform duration-200 flex-shrink-0 mr-1.5 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200 -rotate-90" />
+                          </button>
                         </div>
-                        <UDivider dashed class="my-3" />
-                        <button class="flex items-center gap-1.5 lg:cursor-text lg:select-text w-full" tabindex="-1">
-                          <span class="font-semibold text-sm/6 truncate">Useful Links</span>
-                          <span class="i-heroicons-chevron-down-20-solid lg:!hidden w-5 h-5 ms-auto transform transition-transform duration-200 flex-shrink-0 mr-1.5 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200 -rotate-90" />
-                        </button>
-                      </div>
-                    </template>
-                  </UPageLinks>
-                  <UDivider dashed />
+                      </template>
+                    </UPageLinks>
+                    <UDivider dashed />
+                  </div>
                 </template>
                 <template #bottom>
                   <div class="hidden !mt-6 lg:block space-y-6">
