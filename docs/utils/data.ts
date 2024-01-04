@@ -29,7 +29,7 @@ export const NuxtSeo: NuxtSeoModule = {
   icon: 'carbon:settings-check',
   description: 'All the boring SEO work for Nuxt done.',
   to: '/nuxt-seo/getting-started/installation',
-  repo: 'harlan-zw/nuxt-seo-kit',
+  repo: 'harlan-zw/nuxt-seo',
 }
 export const SiteConfigModule: NuxtSeoModule = {
   unlisted: true,

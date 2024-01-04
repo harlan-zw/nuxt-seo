@@ -106,7 +106,7 @@ const repoLinks = computed(() => [
   {
     icon: 'i-ph-pen-duotone',
     label: 'Edit this page',
-    to: `https://github.com/harlan-zw/nuxt-seo-kit/edit/v2/docs/content/${page?.value?._file}`,
+    to: `https://github.com/harlan-zw/nuxt-seo/edit/v2/docs/content/${page?.value?._file}`,
     target: '_blank',
   },
 ])

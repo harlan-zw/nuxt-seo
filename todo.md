@@ -1,5 +1,0 @@
-- rename Nuxt SEO
-- tests
-- documentation overhaul
-- document nuxt-site-config utils
-- examples for multi-tenant or i18n
