@@ -107,7 +107,9 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
         if (typeof item.label === 'undefined') {
           // try use i18n
           // fetch from i18n
+          // @ts-expect-error untyped
           item.label = item.label || i18n.t(`breadcrumb.items.${name}.label`, name === 'index' ? 'Home' : titleCase(name), { missingWarn: false })
+          // @ts-expect-error untyped
           item.ariaLabel = item.ariaLabel || i18n.t(`breadcrumb.items.${name}.ariaLabel`, item.label, { missingWarn: false })
         }
         item.ariaLabel = item.ariaLabel || item.label

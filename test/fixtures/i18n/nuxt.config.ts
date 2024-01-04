@@ -1,4 +1,4 @@
-import NuxtSeo from '../../../module/src/module'
+import NuxtSeo from '../../../src/module'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
