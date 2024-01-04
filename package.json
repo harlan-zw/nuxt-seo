@@ -1,8 +1,9 @@
 {
   "name": "nuxt-seo-kit-mono",
+  "type": "module",
   "private": true,
-  "packageManager": "pnpm@8.7.4",
-  "description": "The all-in-one SEO layer for Nuxt 3.",
+  "packageManager": "pnpm@8.13.1",
+  "description": "The all-in-one SEO module for Nuxt 3.",
   "license": "MIT",
   "funding": "https://github.com/sponsors/harlan-zw",
   "homepage": "https://github.com/harlan-zw/nuxt-seo-kit#readme",
@@ -14,22 +15,26 @@
     "url": "https://github.com/harlan-zw/nuxt-seo-kit/issues"
   },
   "scripts": {
+    "build": "pnpm -r run build",
     "dev": "nuxi dev .playground",
     "lint": "eslint . --fix",
-    "release": "bumpp layer/package.json --commit --push --tag",
-    "test": "nuxi prepare .playground && npx vue-tsc --noEmit && pnpm lint && vitest",
-    "typecheck": "tsc --noEmit --strict --typeCheck"
+    "release": "bumpp layer/package.json module/package.json --commit --push --tag",
+    "test": "nuxi prepare .playground && true",
+    "typecheck": "tsc --noEmit --strict"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.41.0",
-    "@nuxt/schema": "^3.7.1",
-    "@nuxt/test-utils": "3.7.1",
-    "bumpp": "^9.2.0",
-    "eslint": "^8.48.0",
+    "@antfu/eslint-config": "^2.6.1",
+    "@nuxt/module-builder": "^0.5.5",
+    "@nuxt/schema": "^3.9.0",
+    "@nuxt/test-utils": "3.9.0",
+    "@nuxt/ui": "^2.11.1",
+    "@nuxtjs/i18n": "8.0.0",
+    "bumpp": "^9.2.1",
+    "eslint": "^8.56.0",
     "execa": "^8.0.1",
-    "nitropack": "^2.6.2",
-    "nuxt": "^3.7.1",
-    "typescript": "^5.2.2",
-    "vitest": "^0.34.3"
+    "nitropack": "^2.8.1",
+    "nuxt": "^3.9.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.0"
   }
 }

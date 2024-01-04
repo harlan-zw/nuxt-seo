@@ -5,17 +5,19 @@ definePageMeta({
   image: 'https://example.com/image.jpg',
 })
 
-
-defineOgImageStatic({
+defineOgImage({
   title: 'About',
   description: 'My description',
   customSomething: 'custom',
 })
 </script>
+
 <template>
   <div>
     <div>
-      <NuxtLink to="/">home</NuxtLink>
+      <NuxtLink to="/">
+        home
+      </NuxtLink>
       About page
     </div>
   </div>

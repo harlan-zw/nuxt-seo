@@ -1,23 +1,47 @@
 import { defineNuxtConfig } from 'nuxt/config'
-import{resolve } from 'pathe'
+import NuxtSeoKit from '../module/src/module'
 
 export default defineNuxtConfig({
-  extends: [
-    resolve(__dirname, '../layer'),
+  modules: [
+    NuxtSeoKit,
+    '@nuxt/ui',
+    'nuxt-icon',
   ],
 
-  runtimeConfig: {
-    public: {
-      titleSeparator: '·',
-      siteUrl: 'https://harlanzw.com',
-      siteName: 'Nuxt Playground',
-      siteDescription: 'A Nuxt 3 playground',
-      language: 'en',
-    }
+  devtools: {
+    enabled: true,
+  },
+
+  // app: {
+  //   head: {
+  //     titleTemplate: '%s - Nuxt SEO Kit',
+  //   },
+  // },
+
+  i18n: {
+    locales: ['en', 'it'],
+  },
+
+  site: {
+    titleSeparator: '·',
+    defaultLocale: 'en',
+    // TODO play with i18n support
+    locales: {
+      en: {
+        url: 'nuxtseo.dev',
+        name: 'Nuxt SEO',
+        description: 'Nuxt SEO Playground description.',
+      },
+      it: {
+        url: 'it.nuxtseo.dev',
+        name: 'Nuxt SEO It',
+        description: 'Nuxt SEO Playground itality description.',
+      },
+    },
   },
 
   routeRules: {
     '/about': { sitemap: { changefreq: 'daily', priority: 0.3 } },
     '/secret': { index: false },
-  }
+  },
 })
