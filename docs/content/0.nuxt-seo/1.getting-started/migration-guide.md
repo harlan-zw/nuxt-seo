@@ -1,6 +1,6 @@
 ---
 title: Migration Guide
-description: Migrate from the nuxt-seo-kit package v1 to the new v2 @nuxtseo/module.
+description: Migrate from the nuxt-seo-kit package v1 to the new v2 @nuxt/seo.
 ---
 
 ## Support
@@ -16,7 +16,7 @@ If you get stuck with the migration or have post-migration bugs, please get in t
 With v2 the module name and scope is clarified with the rename to Nuxt SEO.
 
 - 1.* - Nuxt SEO Kit `nuxt-seo-kit` (Nuxt Layer)
-- 2.x - Nuxt SEO `@nuxtseo/module` (Nuxt Module)
+- 2.x - Nuxt SEO `@nuxt/seo` (Nuxt Module)
 
 The v2 at its core allows you to use all SEO modules at runtime, prerendering is no longer required. It also
 comes with improved i18n compatibility.
@@ -28,15 +28,15 @@ change more obvious.
 
 ```sh [pnpm]
 # remove nuxt-seo-kit
-pnpm remove nuxt-seo-kit && pnpm i -D @nuxtseo/module
+pnpm remove nuxt-seo-kit && pnpm i -D @nuxt/seo
 ```
 
 ```bash [yarn]
-yarn remove nuxt-seo-kit && yarn add -D @nuxtseo/module
+yarn remove nuxt-seo-kit && yarn add -D @nuxt/seo
 ```
 
 ```bash [npm]
-npm remove nuxt-seo-kit && npm install -D @nuxtseo/module
+npm remove nuxt-seo-kit && npm install -D @nuxt/seo
 ```
 
 ::
@@ -45,7 +45,7 @@ npm remove nuxt-seo-kit && npm install -D @nuxtseo/module
 export default defineNuxtConfig({
 -  extends: ['nuxt-seo-kit'],
   modules: [
-+  '@nuxtseo/module',
++  '@nuxt/seo',
   ]
 })
 ```

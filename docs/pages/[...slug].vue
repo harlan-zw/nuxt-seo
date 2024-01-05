@@ -178,7 +178,7 @@ const ecosystemLinks = [
                                   {{ module.repo.replace('harlan-zw/', '') }}
                                 </template>
                                 <template v-else>
-                                  @nuxtseo/module
+                                  @nuxt/seo
                                 </template>
                               </div>
                             </div>

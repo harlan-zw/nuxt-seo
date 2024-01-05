@@ -1,10 +1,10 @@
 <h1 align='center'>Nuxt SEO</h1>
 
 <p align="center">
-<a href='https://github.com/harlan-zw/@nuxtseo/module/actions/workflows/test.yml'>
+<a href='https://github.com/harlan-zw/@nuxt/seo/actions/workflows/test.yml'>
 </a>
-<a href="https://www.npmjs.com/package/@nuxtseo/module" target="__blank"><img src="https://img.shields.io/npm/v/@nuxtseo/module?style=flat&colorA=002438&colorB=28CF8D" alt="NPM version"></a>
-<a href="https://www.npmjs.com/package/@nuxtseo/module" target="__blank"><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/@nuxtseo/module?flat&colorA=002438&colorB=28CF8D"></a>
+<a href="https://www.npmjs.com/package/@nuxt/seo" target="__blank"><img src="https://img.shields.io/npm/v/@nuxt/seo?style=flat&colorA=002438&colorB=28CF8D" alt="NPM version"></a>
+<a href="https://www.npmjs.com/package/@nuxt/seo" target="__blank"><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/@nuxt/seo?flat&colorA=002438&colorB=28CF8D"></a>
 <a href="https://github.com/harlan-zw/nuxt-seo" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/harlan-zw/nuxt-seo?flat&colorA=002438&colorB=28CF8D"></a>
 </p>
 
@@ -47,19 +47,19 @@ With powerful APIs built for fully dynamic sites and zero-config defaults for st
 
 ## Install
 
-1. Install `@nuxtseo/module` dependency to your project:
+1. Install `@nuxt/seo` dependency to your project:
 
 ```sh
-pnpm i -D @nuxtseo/module
-yarn add -D @nuxtseo/module
-npm install -D @nuxtseo/module
+pnpm i -D @nuxt/seo
+yarn add -D @nuxt/seo
+npm install -D @nuxt/seo
 ```
 
 2. Add it to your `modules` section in your `nuxt.config`:
 
 ```ts [nuxt.config]
 export default defineNuxtConfig({
-  modules: ['@nuxtseo/module']
+  modules: ['@nuxt/seo']
 })
 ```
 
