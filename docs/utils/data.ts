@@ -192,7 +192,8 @@ export function useModuleList(module?: Ref<string>) {
       const version = publicRuntimeConfig.moduleDeps[m.repo.replace('harlan-zw/', '')].replace('^', '')
       m.tag = m.tag || {}
       // version is like 3.10.30, we want to just get the first two, like 3.10
-      m.tag.label = `v${version.split('.').slice(0, 2).join('.')}`
+      if (!m.tag.label && version)
+        m.tag.label = `v${version.split('.').slice(0, 2).join('.')}`
     }
     return m
   })

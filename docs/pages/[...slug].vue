@@ -6,7 +6,6 @@ const route = useRoute()
 const { data: page } = await useAsyncData(`docs-${route.path}`, () => queryContent(route.path).findOne())
 if (!page.value)
   throw createError({ statusCode: 404, statusMessage: 'Page not found' })
-
 const { data: surround } = await useAsyncData(`docs-${route.path}-surround`, () => queryContent()
   .only(['_path', 'title', 'navigation', 'description'])
   .where({ _extension: 'md', navigation: { $ne: false } })
@@ -77,10 +76,8 @@ const version = computed(() => {
   const m = useModuleList().find(l => l.slug === segment.value)
   if (m.slug === 'nuxt-seo')
     return '2'
-  const { moduleDeps } = useRuntimeConfig().public
-  const key = m?.repo.replace('harlan-zw/', '')
-  if (key) {
-    const v = moduleDeps[key]?.replace('^', '')
+  if (m.tag?.label) {
+    const v = m.tag.label.replace('^', '')
     // we want only the major and minor versions, drop patch
     return v.split('.').slice(0, 2).join('.')
   }
@@ -106,7 +103,7 @@ const repoLinks = computed(() => [
   {
     icon: 'i-ph-pen-duotone',
     label: 'Edit this page',
-    to: `https://github.com/harlan-zw/nuxt-seo/edit/v2/docs/content/${page?.value?._file}`,
+    to: `https://github.com/nuxt/seo/edit/v2/docs/content/${page?.value?._file}`,
     target: '_blank',
   },
 ])

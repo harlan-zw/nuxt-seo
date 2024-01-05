@@ -8,8 +8,8 @@ description: Migrate from the nuxt-seo-kit package v1 to the new v2 @nuxt/seo.
 If you get stuck with the migration or have post-migration bugs, please get in touch!
 
 - [Jump in the Discord](https://discord.com/invite/5jDAMswWwX)
-- [Make a GitHub issue](https://github.com/harlan-zw/nuxt-seo-kit/issues)
-- [Provide feedback](https://github.com/harlan-zw/nuxt-seo-kit/discussions/108)
+- [Make a GitHub issue](https://github.com/nuxt/seo/issues)
+- [Provide feedback](https://github.com/nuxt/seo/discussions/108)
 
 ## Module Rename
 

@@ -83,7 +83,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
   },
   async setup(config, nuxt) {
-    const logger = useLogger('nuxtseo')
+    const logger = useLogger('@nuxt/seo')
     logger.level = config.debug ? 4 : 3
     if (config.enabled === false) {
       logger.debug('The module is disabled, skipping setup.')
@@ -156,15 +156,15 @@ export default defineNuxtModule<ModuleOptions>({
       logger.log('')
       let latestTag = `v${version}`
       try {
-        latestTag = (await $fetch<any>('https://ungh.unjs.io/repos/harlan-zw/nuxt-seo/releases/latest')).release.tag
+        latestTag = (await $fetch<any>('https://ungh.unjs.io/repos/nuxt/seo/releases/latest')).release.tag
       }
       catch (e) {}
       const upToDate = latestTag === `v${version}`
       logger.log(`${chalk.green('Nuxt SEO')} ${chalk.yellow(`v${version}`)} ${chalk.gray(`by ${chalk.underline('@harlan_zw')}`)}`)
       if (!upToDate)
-        logger.log(`${chalk.gray('  ├─ ')}🎉 New version available!${chalk.gray(` Run ${chalk.underline(`npm i nuxt-seo@${latestTag}`)} to update.`)}`)
+        logger.log(`${chalk.gray('  ├─ ')}🎉 New version available!${chalk.gray(` Run ${chalk.underline(`npm i @nuxt/seo@${latestTag}`)} to update.`)}`)
 
-      logger.log(chalk.dim('  └─ 🧪 Help get Nuxt SEO stable by providing feedback https://github.com/harlan-zw/nuxt-seo/discussions/108'))
+      logger.log(chalk.dim('  └─ 🧪 Help get Nuxt SEO stable by providing feedback https://github.com/nuxt/seo/discussions/108'))
       logger.log('')
     }
   },

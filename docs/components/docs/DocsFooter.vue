@@ -29,7 +29,7 @@ const config = useRuntimeConfig().public
         />
       </div>
 
-      <NuxtLink :to="`https://github.com/harlan-zw/nuxt-seo/releases/tag/v${config.version}`" target="_blank">
+      <NuxtLink :to="`https://github.com/nuxt/seo/releases/tag/v${config.version}`" target="_blank">
         <UBadge :label="`v${config.version}`" />
       </NuxtLink>
     </div>
