@@ -9,7 +9,6 @@ import {
   SchemaOrgModule,
   SeoExperimentsModule,
   SeoModules,
-  SeoUiModule,
   SiteConfigModule,
   SitemapModule,
 } from './utils/data'

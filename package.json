@@ -9,9 +9,6 @@
     "email": "harlan@harlanzw.com",
     "url": "https://harlanzw.com/"
   },
-  "files": [
-    "dist"
-  ],
   "license": "MIT",
   "funding": "https://github.com/sponsors/harlan-zw",
   "homepage": "https://nuxtseo.com/",
@@ -22,6 +19,9 @@
   "bugs": {
     "url": "https://github.com/nuxt/seo/issues"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build",
     "dev": "nuxi dev .playground",

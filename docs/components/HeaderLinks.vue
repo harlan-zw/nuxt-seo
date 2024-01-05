@@ -25,15 +25,15 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
       </div>
     </div>
 
-    <div class="space-x-5 flex">
+    <div class="lg:space-x-5 space-x-2 lg:mr-5 pr-2 flex">
       <UButton to="/nuxt-seo/getting-started/what-is-nuxt-seo" :variant="!isSetup ? 'ghost' : 'outline'" class="md:block hover:bg-green-100 transition hidden space-x-2">
         <span class="text-gray-700 dark:text-gray-200">What is Nuxt SEO?</span>
       </UButton>
 
-      <UPopover mode="hover" :items="[items]" :popper="{ placement: 'bottom-start' }">
+      <UPopover class="hidden md:block" mode="hover" :items="[items]" :popper="{ placement: 'bottom-start' }">
         <template #panel>
           <div class="p-4">
-            <div class="flex space-x-7">
+            <div class="lg:flex lg:space-x-7">
               <div class="flex flex-col gap-2">
                 <NuxtLink to="/nuxt-seo/getting-started/installation" class="px-3 py-2 hover:bg-gray-100">
                   <div class="flex font-semibold gap-1 items-center">
@@ -55,8 +55,8 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
                 </NuxtLink>
               </div>
               <div>
-                <div class="md:grid grid-cols-2 gap-2">
-                  <NuxtLink v-for="(item, index) in items" :key="index" :to="item.to" class="space-x-2 px-3 py-2 hover:bg-gray-100">
+                <div class="lg:grid grid-cols-2 md:gap-2">
+                  <NuxtLink v-for="(item, index) in items" :key="index" :to="item.to" class="block space-x-2 px-3 py-2 hover:bg-gray-100">
                     <Icon :name="item.icon" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
                     <span class="truncate">{{ item.label }}</span>
                   </NuxtLink>
@@ -66,16 +66,12 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
           </div>
         </template>
 
-        <UButton label="Nuxt Modules" variant="ghost" color="none" class="hover:bg-green-100 transition" trailing-icon="i-heroicons-chevron-down-20-solid" />
+        <UButton label="Modules" variant="ghost" color="none" class="hover:bg-green-100 transition" trailing-icon="i-heroicons-chevron-down-20-solid" />
       </UPopover>
-
-    <!--    <UButton to="/experiments/getting-started/installation" :variant="!isExperiments ? 'outline' : 'outline'" color="purple" class="md:block relative hidden"> -->
-    <!--      Become a Nuxt SEO Pro -->
-    <!--    </UButton> -->
     </div>
 
-    <div class="flex items-center justify-end -mr-1.5 gap-3">
-      <LegoGithubStar v-slot="{ stars }" repo="harlan-zw/nuxt-seo" class="hidden md:flex mr-5 group border dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-700 hover:bg-gray-200 dark:bg-gray-900 bg-gray-100 transition rounded-lg text-sm justify-center">
+    <div class="flex items-center justify-end lg:-mr-1.5 ml-3 gap-3">
+      <LegoGithubStar v-slot="{ stars }" repo="nuxt/seo" class="hidden lg:flex mr-5 group border dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-700 hover:bg-gray-200 dark:bg-gray-900 bg-gray-100 transition rounded-lg text-sm justify-center">
         <div class="flex items-center transition rounded-l px-2 py-1 space-x-1">
           <Icon name="uil:star" class="group-hover:op75 " />
           <div>Star</div>
@@ -99,7 +95,7 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
         />
 
         <UButton
-          to="https://github.com/harlan-zw"
+          to="https://github.com/nuxt/seo"
           target="_blank"
           color="gray"
           variant="ghost"

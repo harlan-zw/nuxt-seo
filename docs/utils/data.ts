@@ -31,7 +31,7 @@ export const NuxtSeo: NuxtSeoModule = {
   description: 'All the boring SEO work for Nuxt done.',
   to: '/nuxt-seo/getting-started/installation',
   repo: 'nuxt/seo',
-  npm: '@nuxt/seo'
+  npm: '@nuxt/seo',
 }
 export const SiteConfigModule: NuxtSeoModule = {
   unlisted: true,
@@ -115,8 +115,10 @@ export const LinkCheckerModule = {
   slug: 'link-checker',
   label: 'Link Checker',
   tag: {
-    label: 'v2',
+    new: true,
+    label: 'RC v3',
     to: '/link-checker/releases/v2',
+    date: new Date('2024-01-05'),
   },
   to: '/link-checker/getting-started/installation',
   icon: 'carbon:cloud-satellite-link',
@@ -161,7 +163,6 @@ export const SchemaOrgModule = {
     ogImage: { icon: 'carbon:chart-relationship' },
   },
 } as const
-
 
 export const SeoModules: NuxtSeoModule[] = [
   NuxtSeo,
