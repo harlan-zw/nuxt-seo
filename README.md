@@ -1,11 +1,11 @@
 <h1 align='center'>Nuxt SEO</h1>
 
 <p align="center">
-<a href='https://github.com/harlan-zw/@nuxt/seo/actions/workflows/test.yml'>
+<a href='https://github.com/nuxt/seo/actions/workflows/test.yml'>
 </a>
 <a href="https://www.npmjs.com/package/@nuxt/seo" target="__blank"><img src="https://img.shields.io/npm/v/@nuxt/seo?style=flat&colorA=002438&colorB=28CF8D" alt="NPM version"></a>
 <a href="https://www.npmjs.com/package/@nuxt/seo" target="__blank"><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/@nuxt/seo?flat&colorA=002438&colorB=28CF8D"></a>
-<a href="https://github.com/harlan-zw/nuxt-seo" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/harlan-zw/nuxt-seo?flat&colorA=002438&colorB=28CF8D"></a>
+<a href="https://github.com/nuxt/seo" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/nuxt/seo?flat&colorA=002438&colorB=28CF8D"></a>
 </p>
 
 <p align="center">
@@ -17,7 +17,7 @@ The complete SEO solution for Nuxt.
 <tbody>
 <td align="center">
 <img width="800" height="0" /><br>
-<i>Status:</i> <a href="https://github.com/harlan-zw/nuxt-seo/releases/tag/v2.0.0">v2 Released</a></b> <br>
+<i>Status:</i> <a href="https://github.com/nuxt/seo/releases/tag/v2.0.0">v2 Released</a></b> <br>
 <sup> Please report any issues 🐛</sup><br>
 <sub>Made possible by my <a href="https://github.com/sponsors/harlan-zw">Sponsor Program 💖</a><br> Follow me <a href="https://twitter.com/harlan_zw">@harlan_zw</a> 🐦 • Join <a href="https://discord.gg/275MBUBvgP">Discord</a> for help</sub><br>
 <img width="800" height="0" />
@@ -38,11 +38,11 @@ With powerful APIs built for fully dynamic sites and zero-config defaults for st
 
 ## Modules
 
-- 📖 [nuxt-simple-sitemap](https://github.com/harlan-zw/nuxt-simple-sitemap) - Sitemap.xml Support
+- 📖 [nuxt-simple-sitemap](https://github.com/nuxt/sitemap) - Sitemap.xml Support
 - 🤖 [nuxt-simple-robots](https://github.com/harlan-zw/nuxt-simple-robots) - Manage site crawling
 - 🔎 [nuxt-schema-org](https://unhead-schema-org.harlanzw.com/) - Generate Schema.org JSON-LD for SEO
 - △ [nuxt-seo-experiments](https://github.com/harlan-zw/nuxt-seo-experiments) - Experimental SEO meta features
-- 🖼️ [nuxt-og-image](https://github.com/harlan-zw/nuxt-og-image) - Generate dynamic social share images
+- 🖼️ [nuxt-og-image](https://github.com/nuxt/og-image) - Generate dynamic social share images
 - ✅ [nuxt-link-checker](https://github.com/harlan-zw/nuxt-link-checker) - Check for broken links
 
 ## Install

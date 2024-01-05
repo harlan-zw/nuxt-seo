@@ -168,14 +168,14 @@ const ecosystemLinks = [
                             <Logo v-else />
                             <div class="flex gap-2">
                               <a :href="`https://github.com/${module.repo}`" target="_blank" title="GitHub Repo"><Icon class="w-5 h-5" name="logos:github-icon" /></a>
-                              <a :href="`https://www.npmjs.com/package/nuxt-${module.id}`" target="_blank" title="NPM"><Icon class="w-5 h-5" name="logos:npm-icon" /></a>
+                              <a :href="module.npm || `https://www.npmjs.com/package/nuxt-${module.id}`" target="_blank" title="NPM"><Icon class="w-5 h-5" name="logos:npm-icon" /></a>
                             </div>
                           </div>
                           <div class="flex items-center mb-3 space-x-3">
                             <div class="text-sm font-normal font-mono items-center flex space-x-2 dark:bg-blue-900/50 bg-blue-50/50 w-full px-3 py-2 rounded">
                               <div class="text-xs text-center text-gray-600 dark:text-gray-300 w-full">
                                 <template v-if="module.slug !== 'nuxt-seo'">
-                                  {{ module.repo.replace('harlan-zw/', '') }}
+                                  {{ module.npm || module.repo.replace('harlan-zw/', '') }}
                                 </template>
                                 <template v-else>
                                   @nuxt/seo

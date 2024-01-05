@@ -9,6 +9,7 @@ export interface NuxtSeoModule {
   description: string
   to: string
   repo: string
+  npm: string
   downloads?: string
   stars?: string | number
   tag?: {
@@ -29,7 +30,8 @@ export const NuxtSeo: NuxtSeoModule = {
   icon: 'carbon:settings-check',
   description: 'All the boring SEO work for Nuxt done.',
   to: '/nuxt-seo/getting-started/installation',
-  repo: 'harlan-zw/nuxt-seo',
+  repo: 'nuxt/seo',
+  npm: '@nuxt/seo'
 }
 export const SiteConfigModule: NuxtSeoModule = {
   unlisted: true,
@@ -83,7 +85,7 @@ export const SitemapModule = {
   to: '/sitemap/getting-started/installation',
   icon: 'carbon:load-balancer-application',
   description: 'Powerfully flexible XML Sitemaps that integrate seamlessly.',
-  repo: 'harlan-zw/nuxt-simple-sitemap',
+  repo: 'nuxt/sitemap',
   routeRules: {
     ogImage: { icon: 'carbon:load-balancer-application' },
   },
@@ -102,7 +104,7 @@ export const OgImageModule = {
     date: new Date('2023-12-10'),
   },
   to: '/og-image/getting-started/installation',
-  repo: 'harlan-zw/nuxt-og-image',
+  repo: 'nuxt/og-image',
   routeRules: {
     ogImage: { icon: 'carbon:image-search' },
   },
@@ -160,19 +162,6 @@ export const SchemaOrgModule = {
   },
 } as const
 
-export const SeoUiModule = {
-  unlisted: true,
-  id: 'seo-ui',
-  slug: 'ui',
-  label: 'SEO UI',
-  icon: 'carbon:brush-freehand',
-  description: 'Fully styled and customizable components for improving your SEO.',
-  to: '/ui',
-  repo: 'harlan-zw/nuxt-seo-ui',
-  routeRules: {
-    ogImage: { icon: 'carbon:brush-freehand' },
-  },
-} as const
 
 export const SeoModules: NuxtSeoModule[] = [
   NuxtSeo,
@@ -182,7 +171,6 @@ export const SeoModules: NuxtSeoModule[] = [
   SchemaOrgModule,
   LinkCheckerModule,
   SeoExperimentsModule,
-  // SeoUiModule,
   SiteConfigModule,
 ]
 

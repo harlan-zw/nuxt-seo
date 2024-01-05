@@ -114,7 +114,6 @@ export default defineNuxtConfig({
     '/schema-org/**': SchemaOrgModule.routeRules,
     '/experiments/**': SeoExperimentsModule.routeRules,
     '/link-checker/**': LinkCheckerModule.routeRules,
-    '/ui/**': SeoUiModule.routeRules,
     // extra redirects
     '/sitemap/guides/i18n': { redirect: { to: '/sitemap/integrations/i18n', statusCode: 301 } },
     '/sitemap/guides/integrations': { redirect: { to: '/sitemap/integrations/content', statusCode: 301 } },
