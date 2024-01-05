@@ -19,6 +19,15 @@
   "bugs": {
     "url": "https://github.com/harlan-zw/nuxt-seo/issues"
   },
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    }
+  },
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
   "files": [
     "dist"
   ],
@@ -26,7 +35,7 @@
     "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build",
     "dev": "nuxi dev .playground",
     "lint": "eslint . --fix",
-    "release": "bumpp && pnpm -r publish",
+    "release": "bumpp && pnpm -r publish --access public",
     "test": "nuxi prepare .playground && true",
     "typecheck": "tsc --noEmit --strict"
   },
