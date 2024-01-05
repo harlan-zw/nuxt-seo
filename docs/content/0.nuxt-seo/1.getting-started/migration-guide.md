@@ -1,6 +1,6 @@
 ---
 title: Migration Guide
-description: Migrate from the nuxt-seo-kit package v1 to the new v2 @nuxt/seo.
+description: Migrate from the nuxt-seo-kit package v1 to the new v2 @nuxtjs/seo.
 ---
 
 ## Support
@@ -8,15 +8,15 @@ description: Migrate from the nuxt-seo-kit package v1 to the new v2 @nuxt/seo.
 If you get stuck with the migration or have post-migration bugs, please get in touch!
 
 - [Jump in the Discord](https://discord.com/invite/5jDAMswWwX)
-- [Make a GitHub issue](https://github.com/nuxt/seo/issues)
-- [Provide feedback](https://github.com/nuxt/seo/discussions/108)
+- [Make a GitHub issue](https://github.com/harlan-zw/nuxt-seo/issues)
+- [Provide feedback](https://github.com/harlan-zw/nuxt-seo/discussions/108)
 
 ## Module Rename
 
 With v2 the module name and scope is clarified with the rename to Nuxt SEO.
 
 - 1.* - Nuxt SEO Kit `nuxt-seo-kit` (Nuxt Layer)
-- 2.x - Nuxt SEO `@nuxt/seo` (Nuxt Module)
+- 2.x - Nuxt SEO `@nuxtjs/seo` (Nuxt Module)
 
 The v2 at its core allows you to use all SEO modules at runtime, prerendering is no longer required. It also
 comes with improved i18n compatibility.
@@ -28,15 +28,15 @@ change more obvious.
 
 ```sh [pnpm]
 # remove nuxt-seo-kit
-pnpm remove nuxt-seo-kit && pnpm i -D @nuxt/seo
+pnpm remove nuxt-seo-kit && pnpm i -D @nuxtjs/seo
 ```
 
 ```bash [yarn]
-yarn remove nuxt-seo-kit && yarn add -D @nuxt/seo
+yarn remove nuxt-seo-kit && yarn add -D @nuxtjs/seo
 ```
 
 ```bash [npm]
-npm remove nuxt-seo-kit && npm install -D @nuxt/seo
+npm remove nuxt-seo-kit && npm install -D @nuxtjs/seo
 ```
 
 ::
@@ -45,7 +45,7 @@ npm remove nuxt-seo-kit && npm install -D @nuxt/seo
 export default defineNuxtConfig({
 -  extends: ['nuxt-seo-kit'],
   modules: [
-+  '@nuxt/seo',
++  '@nuxtjs/seo',
   ]
 })
 ```
@@ -146,7 +146,7 @@ No breaking changes.
 ### Nuxt Simple Sitemap
 
 Upgraded from v1 to v3:
-- [v2 release notes](https://github.com/nuxt/sitemap/releases/tag/v2.0.0)
+- [v2 release notes](https://github.com/nuxt-modules/sitemap/releases/tag/v2.0.0)
 - [v3 release notes](/sitemap/releases/v3)
 
 No breaking changes.

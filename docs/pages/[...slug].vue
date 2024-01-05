@@ -103,7 +103,7 @@ const repoLinks = computed(() => [
   {
     icon: 'i-ph-pen-duotone',
     label: 'Edit this page',
-    to: `https://github.com/nuxt/seo/edit/v2/docs/content/${page?.value?._file}`,
+    to: `https://github.com/harlan-zw/nuxt-seo/edit/v2/docs/content/${page?.value?._file}`,
     target: '_blank',
   },
 ])
@@ -175,7 +175,7 @@ const ecosystemLinks = [
                                   {{ module.npm || module.repo.replace('harlan-zw/', '') }}
                                 </template>
                                 <template v-else>
-                                  @nuxt/seo
+                                  @nuxtjs/seo
                                 </template>
                               </div>
                             </div>

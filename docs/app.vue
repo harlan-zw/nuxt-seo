@@ -90,7 +90,7 @@ const modules = useModuleList()
       <div class="border-t border-gray-200 dark:border-gray-800">
         <UContainer>
           <div class="py-10">
-            Copyright © 2023-{{ new Date().getFullYear() }} Harlan Wilton - <a href="https://github.com/nuxt/seo/blob/main/LICENSE">MIT License</a>
+            Copyright © 2023-{{ new Date().getFullYear() }} Harlan Wilton - <a href="https://github.com/harlan-zw/nuxt-seo/blob/main/LICENSE">MIT License</a>
           </div>
         </UContainer>
       </div>

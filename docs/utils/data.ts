@@ -30,8 +30,8 @@ export const NuxtSeo: NuxtSeoModule = {
   icon: 'carbon:settings-check',
   description: 'All the boring SEO work for Nuxt done.',
   to: '/nuxt-seo/getting-started/installation',
-  repo: 'nuxt/seo',
-  npm: '@nuxt/seo',
+  repo: 'harlan-zw/nuxt-seo',
+  npm: '@nuxtjs/seo',
 }
 export const SiteConfigModule: NuxtSeoModule = {
   unlisted: true,
@@ -85,7 +85,7 @@ export const SitemapModule = {
   to: '/sitemap/getting-started/installation',
   icon: 'carbon:load-balancer-application',
   description: 'Powerfully flexible XML Sitemaps that integrate seamlessly.',
-  repo: 'nuxt/sitemap',
+  repo: 'nuxt-modules/sitemap',
   routeRules: {
     ogImage: { icon: 'carbon:load-balancer-application' },
   },
@@ -104,7 +104,7 @@ export const OgImageModule = {
     date: new Date('2023-12-10'),
   },
   to: '/og-image/getting-started/installation',
-  repo: 'nuxt/og-image',
+  repo: 'nuxt-modules/og-image',
   routeRules: {
     ogImage: { icon: 'carbon:image-search' },
   },

@@ -71,7 +71,7 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
     </div>
 
     <div class="flex items-center justify-end lg:-mr-1.5 ml-3 gap-3">
-      <LegoGithubStar v-slot="{ stars }" repo="nuxt/seo" class="hidden lg:flex mr-5 group border dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-700 hover:bg-gray-200 dark:bg-gray-900 bg-gray-100 transition rounded-lg text-sm justify-center">
+      <LegoGithubStar v-slot="{ stars }" repo="harlan-zw/nuxt-seo" class="hidden lg:flex mr-5 group border dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-700 hover:bg-gray-200 dark:bg-gray-900 bg-gray-100 transition rounded-lg text-sm justify-center">
         <div class="flex items-center transition rounded-l px-2 py-1 space-x-1">
           <Icon name="uil:star" class="group-hover:op75 " />
           <div>Star</div>
@@ -95,7 +95,7 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
         />
 
         <UButton
-          to="https://github.com/nuxt/seo"
+          to="https://github.com/harlan-zw/nuxt-seo"
           target="_blank"
           color="gray"
           variant="ghost"
