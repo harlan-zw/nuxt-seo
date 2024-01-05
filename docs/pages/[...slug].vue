@@ -186,7 +186,7 @@ const ecosystemLinks = [
                                 <a :href="`http://npmjs.com/${module.repo.replace('harlan-zw/', '')}`" target="_blank" title="View on NPM" class="flex justify-between text-right">
                                   <div class="mb-1 text-xl font-light items-center flex">
                                     <Icon name="carbon:version-minor" class="h-5 w-5 mr-1 opacity-90" />
-                                    <div>v{{ version }}</div>
+                                    <div>{{ version }}</div>
                                   </div>
                                   <div class="flex items-center font-normal opacity-70 text-[11px] leading-[12px]">Latest<br> minor version</div>
                                 </a>
