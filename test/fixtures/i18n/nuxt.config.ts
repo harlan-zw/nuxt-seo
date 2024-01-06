@@ -5,6 +5,8 @@ export default defineNuxtConfig({
   modules: [
     NuxtSeo,
     '@nuxtjs/i18n',
+    '@nuxt/ui',
+    'nuxt-icon',
   ],
   site: {
     url: 'https://nuxtseo.com',
