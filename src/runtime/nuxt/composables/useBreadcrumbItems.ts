@@ -130,7 +130,8 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
       .filter(Boolean) as BreadcrumbItemProps[]
   })
 
-  if (process.server && options.schemaOrg) {
+  const schemaOrgEnabled = typeof options.schemaOrg === 'undefined' ? true : options.schemaOrg
+  if (process.server && schemaOrgEnabled) {
     useSchemaOrg([
       defineBreadcrumb(computed(() => {
         return {
