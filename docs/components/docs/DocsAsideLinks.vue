@@ -82,7 +82,6 @@ const module = computed(() => {
         <NuxtLink to="/nuxt-seo/getting-started/installation" class="px-3 py-2 hover:bg-gray-100">
           <div class="flex font-semibold gap-1 items-center">
             <Logo />
-            <span class="truncate">Nuxt SEO Module</span>
           </div>
           <div class="text-xs opacity-60 ">
             All the SEO modules combined into one.

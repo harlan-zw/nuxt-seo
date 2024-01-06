@@ -138,7 +138,6 @@ const ecosystemLinks = [
                 <div class="flex items-center">
                   <div class="text-gray-400 flex items-center gap-1">
                     <Icon v-if="module.slug !== 'nuxt-seo'" :name="module.icon" class="w-5 h-5 transition-all" />
-                    <Logo v-else />
                     <div>{{ module.label }}</div>
                   </div>
                   <Icon name="heroicons-solid:chevron-right" class="w-4 h-4 text-gray-400 mx-2" />
@@ -156,13 +155,12 @@ const ecosystemLinks = [
             <template #right>
               <UDocsToc :links="page.body?.toc?.links || []">
                 <template #top>
-                  <div class="hidden lg:block">
+                  <div class="hidden lg:block mb-10">
                     <UPageLinks v-if="module" :ui="{ container: 'gap-7' }" :title="module.fullLabel ? module.fullLabel : `Nuxt ${module.label}`" :links="repoLinks">
                       <template #title>
                         <div class="w-full hidden lg:block">
                           <div class="flex justify-center items-center mb-2 gap-3">
                             <Icon v-if="module.slug !== 'nuxt-seo'" :name="module.icon" class="w-8 h-8 dark:text-blue-500/75 text-blue-500 group-hover:text-blue-500 transition-all" />
-                            <Logo v-else />
                             <div class="flex gap-2">
                               <a :href="`https://github.com/${module.repo}`" target="_blank" title="GitHub Repo"><Icon class="w-5 h-5" name="logos:github-icon" /></a>
                               <a :href="module.npm || `https://www.npmjs.com/package/nuxt-${module.id}`" target="_blank" title="NPM"><Icon class="w-5 h-5" name="logos:npm-icon" /></a>
@@ -215,7 +213,6 @@ const ecosystemLinks = [
                         </div>
                       </template>
                     </UPageLinks>
-                    <UDivider dashed />
                   </div>
                 </template>
                 <template #bottom>

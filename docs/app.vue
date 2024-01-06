@@ -28,7 +28,6 @@ const modules = useModuleList()
               <div class="mb-5">
                 <NuxtLink to="/" class="flex items-end gap-1.5 font-bold text-xl text-gray-900 dark:text-white font-title">
                   <Logo />
-                  <span class="hidden sm:block">Nuxt</span><span class="sm:text-primary-500 dark:sm:text-primary-400">SEO</span>
                 </NuxtLink>
               </div>
               <nav>

@@ -20,7 +20,6 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
       <div class="flex items-center gap-3">
         <NuxtLink to="/" class="flex items-end gap-1.5 font-bold text-xl text-gray-900 dark:text-white font-title">
           <Logo />
-          <span class="hidden sm:block">Nuxt</span><span class="sm:text-primary-500 dark:sm:text-primary-400">SEO</span>
         </NuxtLink>
       </div>
     </div>
@@ -36,9 +35,8 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
             <div class="lg:flex lg:space-x-7">
               <div class="flex flex-col gap-2">
                 <NuxtLink to="/nuxt-seo/getting-started/installation" class="px-3 py-2 hover:bg-gray-100">
-                  <div class="flex font-semibold gap-1 items-center">
+                  <div class="flex font-semibold gap-1 mb-2 items-center">
                     <Logo />
-                    <span class="truncate">Nuxt SEO Module</span>
                   </div>
                   <div class="text-xs opacity-60 ">
                     All the SEO modules combined into one.
