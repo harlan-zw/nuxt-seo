@@ -14,7 +14,7 @@ export default defineNuxtPlugin({
   name: 'nuxt-seo:defaults',
   setup() {
     // get the head instance
-    const siteConfig = useSiteConfig() || {}
+    const siteConfig = useSiteConfig()
     const route = useRoute()
     const resolveUrl = createSitePathResolver({ withBase: true, absolute: true })
     const canonicalUrl = computed<string>(() => resolveUrl(route.path || '/').value || route.path)
