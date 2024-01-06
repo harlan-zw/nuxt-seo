@@ -2,6 +2,7 @@ import { withoutTrailingSlash } from 'ufo'
 import type { RouteMeta } from 'vue-router'
 import type { MaybeRefOrGetter } from 'vue'
 import type { BreadcrumbLink } from '@nuxt/ui/dist/runtime/types'
+import { defu } from 'defu'
 import { pathBreadcrumbSegments } from '../../pure/breadcrumbs'
 import {
   computed,
@@ -15,8 +16,33 @@ import {
 } from '#imports'
 
 export interface BreadcrumbProps {
+  /**
+   * Generate the breadcrumbs based on a different path than the current route.
+   */
   path?: MaybeRefOrGetter<string>
+  /**
+   * The id of the breadcrumb list. It's recommended to provide a unique
+   * id when adding multiple breadcrumb lists to the same page.
+   */
   id?: string
+  /**
+   * Append additional breadcrumb items to the end of the list. This is applied
+   * after the `overrides` option.
+   */
+  append?: BreadcrumbItemProps[]
+  /**
+   * Prepend additional breadcrumb items to the start of the list. This is applied
+   * after the `overrides` option.
+   */
+  prepend?: BreadcrumbItemProps[]
+  /**
+   * Override any of the breadcrumb items based on the index.
+   */
+  overrides?: (BreadcrumbItemProps | false | undefined)[]
+  /**
+   * Should the schema.org breadcrumb be generated.
+   * @default true
+   */
   schemaOrg?: boolean
   /**
    * The Aria Label for the breadcrumbs.
@@ -83,10 +109,26 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
         rootNode = `/${i18n.defaultLocale.value}`
     }
     const current = withoutQuery(withoutTrailingSlash(toValue(options.path || useRoute().path) || rootNode))
-    return pathBreadcrumbSegments(current, rootNode)
-      .map(path => ({
-        to: path,
-      }) as BreadcrumbItemProps)
+    // apply overrides
+    const overrides = options.overrides || []
+    const segments = pathBreadcrumbSegments(current, rootNode)
+      .map((path, index) => {
+        let item = <BreadcrumbItemProps> {
+          to: path,
+        }
+        if (typeof overrides[index] !== 'undefined') {
+          if (overrides[index] === false)
+            return false
+          item = defu(overrides[index] as any as BreadcrumbItemProps, item)
+        }
+        return item
+      })
+    // apply prepends and appends
+    if (options.prepend)
+      segments.unshift(...options.prepend)
+    if (options.append)
+      segments.push(...options.append)
+    return (segments.filter(Boolean) as BreadcrumbItemProps[])
       .map((item) => {
         const route = routes.find(r => withoutTrailingSlash(r.path) === withoutTrailingSlash(item.to))
         const routeMeta = (route?.meta || {}) as RouteMeta & { title?: string, breadcrumbLabel: string }
