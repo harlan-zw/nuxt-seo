@@ -105,8 +105,8 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
   const items = computed(() => {
     let rootNode = '/'
     if (i18n) {
-      if (i18n.strategy === 'prefix' || (i18n.strategy !== 'no_prefix' && i18n.defaultLocale.value !== i18n.locale.value))
-        rootNode = `/${i18n.defaultLocale.value}`
+      if (i18n.strategy === 'prefix' || (i18n.strategy !== 'no_prefix' && toValue(i18n.defaultLocale) !== toValue(i18n.locale)))
+        rootNode = `/${toValue(i18n.locale)}`
     }
     const current = withoutQuery(withoutTrailingSlash(toValue(options.path || useRoute().path) || rootNode))
     // apply overrides
