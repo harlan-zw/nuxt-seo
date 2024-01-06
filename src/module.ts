@@ -56,7 +56,7 @@ export interface ModuleOptions {
 
 const Modules = [
   'nuxt-simple-robots',
-  'nuxt-simple-sitemap',
+  '@nuxtjs/sitemap',
   'nuxt-og-image',
   'nuxt-schema-org',
   'nuxt-seo-experiments',
