@@ -36,7 +36,7 @@
     "dev": "nuxi dev .playground",
     "lint": "eslint . --fix",
     "release": "bumpp && pnpm -r publish --access public",
-    "test": "nuxi prepare .playground && true",
+    "test": "nuxi prepare .playground && vitest",
     "typecheck": "tsc --noEmit --strict"
   },
   "dependencies": {
