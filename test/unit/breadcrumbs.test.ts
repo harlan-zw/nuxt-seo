@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { pathBreadcrumbSegments } from '../../module/src/runtime/pure/breadcrumbs'
+import { pathBreadcrumbSegments } from '../../src/runtime/pure/breadcrumbs'
 
 describe('breadcrumbs', () => {
   it('basic', async () => {
