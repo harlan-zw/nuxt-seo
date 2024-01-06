@@ -143,7 +143,7 @@ Upgraded from v1 to v3:
 
 No breaking changes.
 
-### Nuxt Simple Sitemap
+### Nuxt Sitemap
 
 Upgraded from v1 to v3:
 - [v2 release notes](https://github.com/nuxt-modules/sitemap/releases/tag/v2.0.0)
