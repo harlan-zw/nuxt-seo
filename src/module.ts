@@ -10,7 +10,7 @@ import {
 } from '@nuxt/kit'
 import chalk from 'chalk'
 import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
-import { version } from '../package.json'
+import { readPackageJSON } from 'pkg-types'
 
 export interface ModuleOptions {
   /**
@@ -83,14 +83,14 @@ export default defineNuxtModule<ModuleOptions>({
     }
   },
   async setup(config, nuxt) {
-    const logger = useLogger('@nuxtjs/seo')
+    const { resolve, resolvePath } = createResolver(import.meta.url)
+    const { name, version } = await readPackageJSON(resolve('../package.json'))
+    const logger = useLogger(name)
     logger.level = config.debug ? 4 : 3
     if (config.enabled === false) {
       logger.debug('The module is disabled, skipping setup.')
       return
     }
-
-    const { resolve, resolvePath } = createResolver(import.meta.url)
 
     await installNuxtSiteConfig()
 
