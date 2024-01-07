@@ -5,12 +5,11 @@ import { useNitroOrigin, useSiteConfig } from '#imports'
 export default defineEventHandler((e) => {
   const siteConfig = useSiteConfig(e)
   if (siteConfig.site) {
+    const siteConfigHostName = new URL(e.path, siteConfig.site).hostname
     const origin = useNitroOrigin(e)
+    const originHostname = new URL(e.path, origin).hostname
     // if origin doesn't match site, do a redirect
-    if (!siteConfig.site.startsWith(origin)) {
-      const url = new URL(e.path, origin)
-      url.hostname = siteConfig.site
-      return sendRedirect(e, joinURL(siteConfig.site, url.pathname), 301)
-    }
+    if (originHostname !== siteConfigHostName)
+      return sendRedirect(e, joinURL(siteConfig.site, e.path), 301)
   }
 })
