@@ -117,7 +117,7 @@ export default defineNuxtConfig({
     '/sitemap/guides/i18n': { redirect: { to: '/sitemap/integrations/i18n', statusCode: 301 } },
     '/sitemap/guides/integrations': { redirect: { to: '/sitemap/integrations/content', statusCode: 301 } },
     '/sitemap/guides/auto-lastmod': { redirect: { to: '/sitemap/guides/best-practices', statusCode: 301 } },
-
+    '/nuxt-seo/getting-started/migration-guide': { redirect: { to: '/nuxt-seo/migration-guide/nuxt-seo-kit', statusCode: 301 } },
   },
   ogImage: {
     defaults: {

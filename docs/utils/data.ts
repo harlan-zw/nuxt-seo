@@ -32,6 +32,11 @@ export const NuxtSeo: NuxtSeoModule = {
   to: '/nuxt-seo/getting-started/installation',
   repo: 'harlan-zw/nuxt-seo',
   npm: '@nuxtjs/seo',
+  tag: {
+    new: true,
+    label: 'RC v2.0',
+    to: '/nuxt-seo/releases/2.0',
+  },
 }
 export const SiteConfigModule: NuxtSeoModule = {
   unlisted: true,
