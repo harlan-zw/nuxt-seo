@@ -42,6 +42,7 @@ export default defineNuxtPlugin({
     }, minimalPriority)
 
     const seoMeta: UseSeoMetaInput = {
+      ogType: 'website',
       ogUrl: () => canonicalUrl.value,
       ogLocale: locale,
       ogSiteName: siteConfig.name,
@@ -56,6 +57,7 @@ export default defineNuxtPlugin({
       seoMeta.twitterCreator = id
       seoMeta.twitterSite = id
     }
+    // TODO server only for some tags
     useSeoMeta(seoMeta, minimalPriority)
   },
 })
