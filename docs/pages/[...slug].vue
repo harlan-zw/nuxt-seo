@@ -163,7 +163,7 @@ const ecosystemLinks = [
                             <Icon v-if="module.slug !== 'nuxt-seo'" :name="module.icon" class="w-8 h-8 dark:text-blue-500/75 text-blue-500 group-hover:text-blue-500 transition-all" />
                             <div class="flex gap-2">
                               <a :href="`https://github.com/${module.repo}`" target="_blank" title="GitHub Repo"><Icon class="w-5 h-5" name="logos:github-icon" /></a>
-                              <a :href="module.npm || `https://www.npmjs.com/package/nuxt-${module.id}`" target="_blank" title="NPM"><Icon class="w-5 h-5" name="logos:npm-icon" /></a>
+                              <a :href="`https://www.npmjs.com/package/${module.npm ? module.npm : `nuxt-${module.id}`}`" target="_blank" title="NPM"><Icon class="w-5 h-5" name="logos:npm-icon" /></a>
                             </div>
                           </div>
                           <div class="flex items-center mb-3 space-x-3">
@@ -188,7 +188,7 @@ const ecosystemLinks = [
                                   </div>
                                   <div class="flex items-center font-normal opacity-70 text-[11px] leading-[12px]">Latest<br> minor version</div>
                                 </a>
-                                <a :href="`http://npmjs.com/${module.repo.replace('harlan-zw/', '')}`" target="_blank" title="View on NPM" class="flex justify-between text-right">
+                                <a :href="`https://www.npmjs.com/package/${module.npm ? module.npm : `nuxt-${module.id}`}`" target="_blank" title="View on NPM" class="flex justify-between text-right">
                                   <div class="mb-1 text-xl font-light items-center flex">
                                     <Icon name="carbon:chart-line-smooth" class="h-5 w-5 mr-1 opacity-90" />
                                     <div>{{ module.downloads }}</div>
