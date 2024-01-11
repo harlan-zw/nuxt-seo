@@ -79,7 +79,7 @@ const themeRgb = computed(() => {
               {{ moduleName }}
             </div>
             <div class="text-[30px] opacity-70">
-              v{{ version }}
+              {{ version }}
             </div>
           </div>
         </div>

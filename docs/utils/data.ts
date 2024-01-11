@@ -93,6 +93,7 @@ export const SitemapModule = {
   icon: 'carbon:load-balancer-application',
   description: 'Powerfully flexible XML Sitemaps that integrate seamlessly.',
   repo: 'nuxt-modules/sitemap',
+  npm: '@nuxtjs/seo',
   routeRules: {
     ogImage: { icon: 'carbon:load-balancer-application' },
   },
