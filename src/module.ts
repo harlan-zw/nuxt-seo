@@ -9,7 +9,7 @@ import {
   useLogger,
 } from '@nuxt/kit'
 import chalk from 'chalk'
-import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
+import { installNuxtSiteConfig, useSiteConfig } from 'nuxt-site-config-kit'
 import { readPackageJSON } from 'pkg-types'
 
 export interface ModuleOptions {
@@ -126,6 +126,10 @@ export default defineNuxtModule<ModuleOptions>({
       from: resolve(`./runtime/nuxt/composables/useBreadcrumbItems`),
       name: 'useBreadcrumbItems',
     })
+
+    const siteConfig = useSiteConfig()
+    if (nuxt.options.experimental?.defaults?.nuxtLink && typeof nuxt.options.experimental?.defaults?.nuxtLink?.trailingSlash == 'undefined')
+      nuxt.options.experimental.defaults.nuxtLink.trailingSlash = siteConfig.trailingSlash ? 'append' : 'remove'
 
     // if user disables certain modules we need to pollyfill the imports
     const polyfills: Record<string, string[]> = {
