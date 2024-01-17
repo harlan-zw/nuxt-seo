@@ -73,10 +73,10 @@ const modules = useModuleList()
                 <div class="gap-3">
                   <img loading="lazy" src="https://avatars.githubusercontent.com/u/5326365?v=4" class="mx-auto rounded-full w-10 h-10 mb-3">
                   <div class="flex justify-center items-center opacity-70">
-                    <UButton color="white" variant="ghost" href="https://twitter.com/harlan_zw" target="_blank">
+                    <UButton color="white" variant="ghost" to="https://twitter.com/harlan_zw" target="_blank">
                       <Icon name="i-logos-twitter" class="text-xl" />
                     </UButton>
-                    <UButton color="white" variant="ghost" href="https://github.com/harlan-zw" target="_blank">
+                    <UButton color="white" variant="ghost" to="https://github.com/harlan-zw" target="_blank">
                       <Icon name="i-logos-github-icon" class="text-xl" />
                     </UButton>
                   </div>
