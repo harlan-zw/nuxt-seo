@@ -7,6 +7,7 @@ function normaliseToPath(s: string) {
   return s.replace('define', '')
     // we need to replace camel case to kebab case
     .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .toLowerCase()
 }
 </script>
 
