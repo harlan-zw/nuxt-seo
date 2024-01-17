@@ -18,7 +18,7 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
   <div class="flex items-center justify-between gap-2 h-16">
     <div class="flex items-center gap-6">
       <div class="flex items-center gap-3">
-        <NuxtLink to="/" class="flex items-end gap-1.5 font-bold text-xl text-gray-900 dark:text-white font-title">
+        <NuxtLink to="/" title="Home" aria-label="Title" class="flex items-end gap-1.5 font-bold text-xl text-gray-900 dark:text-white font-title">
           <Logo />
         </NuxtLink>
       </div>
@@ -84,6 +84,8 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
         <UColorModeButton />
 
         <UButton
+          title="Twitter"
+          aria-label="Twitter"
           to="https://twitter.com/harlan_zw"
           target="_blank"
           color="gray"
@@ -93,6 +95,8 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
         />
 
         <UButton
+          title="GitHub"
+          aria-label="GitHub"
           to="https://github.com/harlan-zw/nuxt-seo"
           target="_blank"
           color="gray"

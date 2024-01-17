@@ -67,7 +67,7 @@ export const RobotsModule = {
   tag: {
     new: true,
     label: 'RC v4.0',
-    to: '/robots/releases/v4.0',
+    to: '/robots/releases/v4',
     date: new Date('2023-12-14'),
   },
   to: '/robots/getting-started/installation',

@@ -108,7 +108,12 @@ onMounted(() => {
   })
 })
 
-const newestModules = listedModules.filter(m => m.tag?.new)
+const newestModules = listedModules.filter(m => m.tag?.new && m.tag?.date)
+  .sort((a, b) => {
+    const aDate = a.tag!.date!
+    const bDate = b.tag!.date!
+    return aDate.getTime() < bDate.getTime() ? 1 : -1
+  })
 
 const publicRuntimeConfig = useRuntimeConfig().public
 const totalContributors = useRuntimeConfig().public.totalContributors
@@ -148,7 +153,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
         <div class="lg:col-span-4 xl:col-span-6 max-w-full flex items-center justify-center">
           <div>
             <div class="grid grid-cols-3 gap-10 mx-auto">
-              <NuxtLink v-for="(module, key) in listedModules" :key="key" :to="module.slug" :title="module.label" class="text-center">
+              <NuxtLink v-for="(module, key) in listedModules" :key="key" :to="module.slug" :aria-label="module.label" :title="module.label" class="text-center">
                 <Icon :name="module.icon" :class="[module.tag?.new ? ' text-purple-300' : 'text-blue-300']" class="w-[80px] h-[80px] transition-all hover:text-blue-500 hover:scale-125" />
                 <div class="text-sm mt-1 text-center">
                   {{ module.label }}
@@ -169,8 +174,8 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
         </ShowcaseCard>
         <ShowcaseCard label="Integrates with core modules" description="Modules integrate with themselves as well as Nuxt Content and Nuxt I18n where appropriate.">
           <div class="gap-5 flex">
-            <div><img class="h-20" src="https://ipx.nuxt.com/s_80,f_auto/gh/nuxt/modules/main/icons/i18n.png"></div>
-            <div><img class="h-20" src="https://raw.githubusercontent.com/nuxt/modules/main/icons/nuxt.svg"></div>
+            <div><img class="h-20" height="80" width="80" src="https://ipx.nuxt.com/s_80,f_auto/gh/nuxt/modules/main/icons/i18n.png"></div>
+            <div><img class="h-20" height="80" width="80" src="https://raw.githubusercontent.com/nuxt/modules/main/icons/nuxt.svg"></div>
           </div>
         </ShowcaseCard>
       </div>
@@ -190,7 +195,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
           <div v-if="newestModules.length" class="flex items-center justify-center">
             <div>
               <ul class="rounded-xl text-sm max-w-xs px-5 py-3 dark:bg-purple-900/20 bg-purple-50 border-2 border-solid border-purple-500/50 space-y-3">
-                <li v-for="(module, key) in newestModules.reverse()" :key="key" class="gap-2 justify-between w-full flex">
+                <li v-for="(module, key) in newestModules" :key="key" class="gap-2 justify-between w-full flex">
                   <NuxtLink :to="module.tag!.to" class="underline">
                     Nuxt {{ module.label }} {{ module.tag!.label }}
                   </NuxtLink>
@@ -225,7 +230,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
           </div>
           <div>
             <div class="mb-7 max-w-[330px] gap-2 mx-auto text-center grid grid-cols-7">
-              <UAvatar v-for="(c, index) in uniqueContributors" :key="index" loading="lazy" :src="`https://avatars.githubusercontent.com/u/${c}?s=80&v=4`" />
+              <UAvatar v-for="(c, index) in uniqueContributors" :key="index" height="32" width="32" loading="lazy" :src="`https://avatars.githubusercontent.com/u/${c}?s=80&v=4`" />
             </div>
             <div>
               <div class="font-light text-6xl mb-2">
@@ -242,7 +247,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
     </section>
     <section ref="scoreEl" class="pb-10 xl:pb-20">
       <div class="md:flex items-center justify-around gap-10 py-5 px-3 lg:bg-gradient-to-br from-sky-500/20 dark:from-sky-900/20 rounded-full cursor-pointer lg:shadow-sm hover:shadow transition-shadow" @click="clickScore">
-        <Icon name="logos:lighthouse" class="!hidden lg:!block w-[175px] h-[175px]" style="mask: url(/icon.svg); mask-type: luminance;" />
+        <Icon name="logos:lighthouse" class="!hidden lg:!block w-[175px] h-[175px]" />
         <div class="lg:flex-grow">
           <h2 class="text-3xl font-bold dark:opacity-90 leading-normal mb-3">
             <Icon name="carbon:checkmark-filled" class="opacity-60 text-green-500" /> Pass Technical SEO Audits

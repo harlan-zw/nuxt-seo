@@ -54,7 +54,6 @@ export default defineNuxtConfig({
     tagline: 'All the boring SEO stuff for Nuxt done.',
     titleSeparator: '·',
   },
-  linkChecker: { enabled: false },
   runtimeConfig: {
     public: {
       version,

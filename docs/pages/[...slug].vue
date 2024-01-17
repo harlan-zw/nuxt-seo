@@ -162,8 +162,8 @@ const ecosystemLinks = [
                           <div class="flex justify-center items-center mb-2 gap-3">
                             <Icon v-if="module.slug !== 'nuxt-seo'" :name="module.icon" class="w-8 h-8 dark:text-blue-500/75 text-blue-500 group-hover:text-blue-500 transition-all" />
                             <div class="flex gap-2">
-                              <a :href="`https://github.com/${module.repo}`" target="_blank" title="GitHub Repo" class="dark:bg-white p-1"><Icon class="w-5 h-5" name="logos:github-icon" /></a>
-                              <a :href="`https://www.npmjs.com/package/${module.npm ? module.npm : `nuxt-${module.id}`}`" target="_blank" title="NPM" class="p-1"><Icon class="w-5 h-5" name="logos:npm-icon" /></a>
+                              <a :href="`https://github.com/${module.repo}`" target="_blank" title="GitHub Repo" aria-label="GitHub Repo" class="dark:bg-white p-1"><Icon class="w-5 h-5" name="logos:github-icon" /></a>
+                              <a :href="`https://www.npmjs.com/package/${module.npm ? module.npm : `nuxt-${module.id}`}`" target="_blank" aria-label="NPM" title="NPM" class="p-1"><Icon class="w-5 h-5" name="logos:npm-icon" /></a>
                             </div>
                           </div>
                           <div class="flex items-center mb-3 space-x-3">
