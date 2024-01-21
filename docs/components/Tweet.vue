@@ -12,9 +12,23 @@ defineProps<{ id: string }>()
     <div class="flex justify-between">
       <LegoTweetUser v-slot="{ user }">
         <div class="flex items-center">
-          <LegoTweetUserAvatar style="margin: 0 !important;">
-            <span />
-          </LegoTweetUserAvatar>
+          <div>
+            <img
+              loading="lazy"
+              width="48"
+              height="48"
+              :style="{
+                'border-radius':
+                  user.profile_image_shape === 'Square' ? '5px' : '99999px',
+              }"
+              :src="user.profile_image_url_https"
+              :alt="user.name"
+            />
+            <Icon
+              v-if="user.verified || user.is_blue_verified"
+              name="material-symbols:verified-rounded"
+            />
+          </div>
           <div class="ml-3">
             <div class="font-semibold leading-5">
               {{ user.name }}
