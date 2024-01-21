@@ -109,6 +109,7 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
           color="gray"
           variant="ghost"
           class="lg:hidden"
+          :aria-label="isDialogOpen ? 'Close Menu' : 'Open Menu'"
           :icon="isDialogOpen ? 'i-heroicons-x-mark-20-solid' : 'i-heroicons-bars-3-20-solid'"
           @click="isDialogOpen = !isDialogOpen"
         />

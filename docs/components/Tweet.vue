@@ -55,7 +55,6 @@ defineProps<{ id: string }>()
 
     <div class="mt-2 text-gray-400 flex justify-between">
       <LegoTweetCreatedAt class="unstyled" />
-      <LegoTweetTerms class="unstyled" />
     </div>
 
     <div class="my-2 h-[1px] w-full bg-gray-200 dark:bg-gray-700" />

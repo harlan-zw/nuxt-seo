@@ -26,7 +26,7 @@ const modules = useModuleList()
           <div class="py-10 grid xl:grid-cols-3 lg:gap-20 gap-10">
             <div>
               <div class="mb-5">
-                <NuxtLink to="/" class="flex items-end gap-1.5 font-bold text-xl text-gray-900 dark:text-white font-title">
+                <NuxtLink to="/" title="Home" class="flex items-end gap-1.5 font-bold text-xl text-gray-900 dark:text-white font-title">
                   <Logo />
                 </NuxtLink>
               </div>
@@ -71,7 +71,7 @@ const modules = useModuleList()
                   </div>
                 </div>
                 <div class="gap-3">
-                  <img loading="lazy" src="https://avatars.githubusercontent.com/u/5326365?v=4" class="mx-auto rounded-full w-10 h-10 mb-3">
+                  <img alt="Harlan Wilton" loading="lazy" src="https://avatars.githubusercontent.com/u/5326365?v=4" class="mx-auto rounded-full w-10 h-10 mb-3">
                   <div class="flex justify-center items-center opacity-70">
                     <UButton color="white" title="Twitter" variant="ghost" to="https://twitter.com/harlan_zw" target="_blank">
                       <Icon name="i-logos-twitter" class="text-xl" />

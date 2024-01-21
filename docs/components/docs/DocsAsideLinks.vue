@@ -80,7 +80,7 @@ const module = computed(() => {
     <div class="lg:flex lg:space-x-7">
       <div class="flex flex-col gap-2">
         <NuxtLink to="/nuxt-seo/getting-started/installation" class="px-3 py-2 hover:bg-gray-100">
-          <div class="flex font-semibold gap-1 items-center">
+          <div class="flex font-semibold gap-1 items-center mb-2">
             <Logo />
           </div>
           <div class="text-xs opacity-60 ">
@@ -88,7 +88,7 @@ const module = computed(() => {
           </div>
         </NuxtLink>
         <NuxtLink to="/site-config/getting-started/installation" class="flex justify-start flex-col items-start px-3 py-2 hover:bg-gray-100 text-left">
-          <div class="flex font-semibold gap-1 items-center">
+          <div class="flex font-semibold gap-1 items-center mb-2">
             <Icon name="carbon:settings-check" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
             <span class="truncate">Site Config</span>
           </div>

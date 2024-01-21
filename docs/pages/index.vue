@@ -146,7 +146,11 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
 
           <div class="mt-3 flex flex-col items-center justify-center gap-4 sm:mt-10 sm:flex-row sm:gap-6 lg:justify-start">
             <UButton size="lg" to="/nuxt-seo/getting-started/what-is-nuxt-seo">
-              Learn more
+              Learn about Nuxt SEO
+            </UButton>
+            <UButton size="lg" variant="ghost" to="/nuxt-seo/getting-started/installation">
+              <Icon name="carbon:download" class="mr-0.5" />
+              Install Nuxt SEO
             </UButton>
           </div>
         </div>
@@ -165,6 +169,9 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
       </div>
     </section>
     <section class="pb-10 xl:pb-20">
+      <h2 class="font-bold mb-5 text-3xl">
+        Features
+      </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <ShowcaseCard label="Delightful Developer Experience" description="Full featured modules that do everything you expect and more.">
           <Icon name="noto:sparkles" class="w-1/2 h-1/2" />
@@ -172,10 +179,10 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
         <ShowcaseCard label="Minimal Config, Maximum Extensibility" description="Provide a site URL and all modules are good to go. Fully extensible with config and hooks.">
           <Icon name="noto:rocket" class="w-1/2 h-1/2" />
         </ShowcaseCard>
-        <ShowcaseCard label="Integrates with core modules" description="Modules integrate with themselves as well as Nuxt Content and Nuxt I18n where appropriate.">
+        <ShowcaseCard label="Integration over boilerplate" description="Modules integrate with themselves as well as Nuxt Content and Nuxt I18n where appropriate.">
           <div class="gap-5 flex">
-            <div><img class="h-20" height="80" width="80" src="https://ipx.nuxt.com/s_80,f_auto/gh/nuxt/modules/main/icons/i18n.png"></div>
-            <div><img class="h-20" height="80" width="80" src="https://raw.githubusercontent.com/nuxt/modules/main/icons/nuxt.svg"></div>
+            <div><img alt="Nuxt I18n Icon" class="h-20" height="80" width="80" src="https://ipx.nuxt.com/s_80,f_auto/gh/nuxt/modules/main/icons/i18n.png"></div>
+            <div><img alt="Nuxt Icon" class="h-20" height="80" width="80" src="https://raw.githubusercontent.com/nuxt/modules/main/icons/nuxt.svg"></div>
           </div>
         </ShowcaseCard>
       </div>
@@ -230,7 +237,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
           </div>
           <div>
             <div class="mb-7 max-w-[330px] gap-2 mx-auto text-center grid grid-cols-7">
-              <UAvatar v-for="(c, index) in uniqueContributors" :key="index" height="32" width="32" loading="lazy" :src="`https://avatars.githubusercontent.com/u/${c}?s=80&v=4`" />
+              <UAvatar v-for="(c, index) in uniqueContributors" :key="index" :alt="`GitHub User ${c}`" height="32" width="32" loading="lazy" :src="`https://avatars.githubusercontent.com/u/${c}?s=80&v=4`" />
             </div>
             <div>
               <div class="font-light text-6xl mb-2">
@@ -280,11 +287,11 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
             </Discord>
             <Tweet id="1723082721210036411" />
           </div>
-          <div class="hidden lg:block">
+          <div class="hidden lg:block space-y-5">
             <Tweet id="1741040465770844213" />
             <Tweet id="1738686701634023696" />
           </div>
-          <div class="hidden lg:block">
+          <div class="hidden lg:block space-y-5">
             <Tweet id="1736008855736213732" />
             <Discord username="creazy.eth" image="https://cdn.discordapp.com/avatars/132034760208941056/5787ddd2a47e0ee0b076d5e678ca8e41.webp?size=64">
               <p>Amazing work you did there with all that kind of SEO stuff you're building for the Nuxt community <Icon name="noto:red-heart" /></p>
@@ -293,7 +300,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
           </div>
         </div>
       </div>
-      <div class="xl:flex items-center justify-around">
+      <div class="xl:flex items-center justify-around mt-12">
         <div class="xl:max-w-sm xl:mb-0 mb-10">
           <div class="font-bold mb-5 text-5xl">
             {{ Number(totalDownloads / 30).toLocaleString('en-US', { notation: 'compact', compactDisplay: 'short' }) }} downloads<br>
@@ -330,7 +337,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
         Core Modules
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <ShowcaseCard v-for="(module, key) in listedModules" v-bind="module" :key="key" class="group">
+        <ShowcaseCardLink v-for="(module, key) in listedModules" v-bind="module" :key="key" class="group">
           <template v-if="module.icon">
             <Icon :name="module.icon" size="150" :class="[module.tag?.new ? ' text-purple-300' : 'text-blue-300', module.label === 'Robots' ? 'transition group-hover:opacity-0' : '']" />
           </template>
@@ -339,7 +346,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
               <BouncingBots v-for="(_, k) in robotState.robots" :key="k" icon="noto:robot" :interval="interval" />
             </template>
           </template>
-        </ShowcaseCard>
+        </ShowcaseCardLink>
       </div>
     </section>
     <section>
@@ -360,7 +367,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
         </div>
 
         <a href="https://raw.githubusercontent.com/harlan-zw/static/main/sponsors.svg">
-          <img loading="lazy" src="https://raw.githubusercontent.com/harlan-zw/static/main/sponsors.svg" width="800" height="545" style="margin: 0 auto;">
+          <img alt="Nuxt SEO Sponsors" loading="lazy" src="https://raw.githubusercontent.com/harlan-zw/static/main/sponsors.svg" width="800" height="545" style="margin: 0 auto;">
         </a>
       </div>
     </section>
