@@ -13,7 +13,7 @@ const modules = useModuleList()
   <div>
     <Header />
 
-      <NuxtPage />
+    <NuxtPage />
 
     <ClientOnly>
       <DocsSearch />

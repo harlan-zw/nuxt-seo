@@ -124,7 +124,8 @@ const ecosystemLinks = [
 
 <template>
   <div>
-    <UMain class="relative">
+    <UContainer>
+      <UMain class="relative">
       <UPage :ui="{ wrapper: 'xl:gap-10' }">
         <template #left>
           <UAside>
@@ -229,5 +230,6 @@ const ecosystemLinks = [
         </div>
       </UPage>
     </UMain>
+    </UContainer>
   </div>
 </template>
