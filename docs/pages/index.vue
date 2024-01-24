@@ -130,8 +130,8 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
 </script>
 
 <template>
-  <div>
-    <Gradient class="absolute w-full left-0 top-0 z-[-1]" />
+  <div class="gradient" />
+  <UContainer>
     <section class="py-5 sm:py-12 xl:py-20">
       <div class="lg:flex xl:grid gap-8 xl:grid-cols-12 mx-auto w-full sm:px-6 lg:px-0 px-0">
         <div class="mx-auto max-w-[35rem] xl:col-span-6 lg:mr-10 lg:ml-0 mb-10 lg:mb-0 flex flex-col justify-center">
@@ -371,5 +371,18 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
         </a>
       </div>
     </section>
-  </div>
+  </UContainer>
 </template>
+
+<style scoped lang="postcss">
+.gradient {
+  position: fixed;
+  top: 25vh;
+  width: 100%;
+  height: 30vh;
+  background: radial-gradient(50% 50% at 50% 50%, #00DC82 0%, rgba(0, 220, 130, 0) 100%);
+  filter: blur(180px);
+  opacity: 0.6;
+  z-index: -1;
+}
+</style>
