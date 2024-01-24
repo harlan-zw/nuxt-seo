@@ -1,3 +1,4 @@
+
 <script setup lang="ts">
 import { useModuleList } from '~/utils/data'
 
@@ -12,9 +13,7 @@ const modules = useModuleList()
   <div>
     <Header />
 
-    <UContainer>
       <NuxtPage />
-    </UContainer>
 
     <ClientOnly>
       <DocsSearch />
