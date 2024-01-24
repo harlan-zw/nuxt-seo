@@ -52,7 +52,6 @@ export default defineNuxtConfig({
     name: 'Nuxt SEO',
     description: 'Nuxt SEO is a collection of hand-crafted Nuxt Modules to help you rank higher in search engines.',
     tagline: 'All the boring SEO stuff for Nuxt done.',
-    titleSeparator: '·',
   },
   runtimeConfig: {
     public: {
@@ -81,9 +80,6 @@ export default defineNuxtConfig({
   ui: {
     global: true,
     icons: ['heroicons', 'simple-icons', 'ph', 'noto'],
-  },
-  seoUi: {
-    global: true,
   },
   sitemap: {
     strictNuxtContentPaths: true,
@@ -117,11 +113,6 @@ export default defineNuxtConfig({
     '/sitemap/guides/integrations': { redirect: { to: '/sitemap/integrations/content', statusCode: 301 } },
     '/sitemap/guides/auto-lastmod': { redirect: { to: '/sitemap/guides/best-practices', statusCode: 301 } },
     '/nuxt-seo/getting-started/migration-guide': { redirect: { to: '/nuxt-seo/migration-guide/nuxt-seo-kit', statusCode: 301 } },
-  },
-  ogImage: {
-    defaults: {
-      extension: 'png',
-    },
   },
   css: [
     '~/css/scrollbars.css',
