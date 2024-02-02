@@ -9,7 +9,7 @@ import {
   useLogger,
 } from '@nuxt/kit'
 import chalk from 'chalk'
-import { installNuxtSiteConfig, useSiteConfig } from 'nuxt-site-config-kit'
+import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
 import { readPackageJSON } from 'pkg-types'
 
 export interface ModuleOptions {
@@ -159,10 +159,12 @@ export default defineNuxtModule<ModuleOptions>({
     if (config.splash) {
       logger.log('')
       let latestTag = `v${version}`
-      try {
-        latestTag = (await $fetch<any>('https://ungh.unjs.io/repos/harlan-zw/nuxt-seo/releases/latest')).release.tag
-      }
-      catch (e) {}
+      latestTag = (await $fetch<any>('https://ungh.unjs.io/repos/harlan-zw/nuxt-seo/releases/latest', {
+        timeout: 2000,
+      })
+        .catch(() => {
+          return { release: { tag: `v${version}` } }
+        })).release.tag
       const upToDate = latestTag === `v${version}`
       logger.log(`${chalk.green('Nuxt SEO')} ${chalk.yellow(`v${version}`)} ${chalk.gray(`by ${chalk.underline('@harlan_zw')}`)}`)
       if (!upToDate)
