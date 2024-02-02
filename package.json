@@ -69,5 +69,10 @@
     "nuxt-icon": "^0.6.8",
     "typescript": "^5.3.3",
     "vitest": "^1.2.2"
+  },
+  "build": {
+    "externals": [
+      "ofetch"
+    ]
   }
 }

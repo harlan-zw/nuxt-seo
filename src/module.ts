@@ -11,6 +11,7 @@ import {
 import chalk from 'chalk'
 import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
 import { readPackageJSON } from 'pkg-types'
+import { $fetch } from 'ofetch'
 
 export interface ModuleOptions {
   /**
