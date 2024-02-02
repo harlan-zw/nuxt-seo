@@ -23,7 +23,7 @@ defineProps<{ id: string }>()
               }"
               :src="user.profile_image_url_https"
               :alt="user.name"
-            />
+            >
             <Icon
               v-if="user.verified || user.is_blue_verified"
               name="material-symbols:verified-rounded"

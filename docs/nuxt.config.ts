@@ -33,11 +33,22 @@ export default defineNuxtConfig({
           .filter(m => !m.unlisted || m.id === 'seo-kit')
           .map(m => m.id)
           .map(m =>
-            $fetch(`https://api.nuxt.com/modules/${m}`)
+            $fetch(`https://api.nuxt.com/modules/${m}`, {
+              timeout: 3000,
+            })
               .then((d) => {
                 if (d.contributors)
                   d.contributors.forEach(c => uniqueContributors.add(c.id))
                 return { id: m, stats: d.stats || false }
+              }).catch(() => {
+                return {
+                  id: m,
+                  stats: {
+                    downloads: 0,
+                    stars: 0,
+                    contributors: [],
+                  },
+                }
               }),
           ),
       )).filter(d => d.stats)

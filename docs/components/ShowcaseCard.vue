@@ -22,7 +22,9 @@ defineProps<NuxtSeoModule>()
         </div>
 
         <div class="p-4">
-          <h3 class="font-semibold">{{ label }}</h3>
+          <h3 class="font-semibold">
+            {{ label }}
+          </h3>
           <p class="text-sm mt-1 text-gray-400">
             {{ description }}
           </p>

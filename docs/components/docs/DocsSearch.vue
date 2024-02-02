@@ -40,7 +40,7 @@ const queryGroups = computed(() => navigation.value.map(item => ({
       description: file.description,
       icon: file.icon,
     },
-    // @ts-expect-error
+    // @ts-expect-error broken
     ...Object.entries(groupByHeading(file.body.children)).map(([hash, { title, children }]) => ({
       id: `${file._path}${hash}`,
       title,
