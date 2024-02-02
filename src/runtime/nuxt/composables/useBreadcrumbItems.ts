@@ -1,8 +1,8 @@
 import { withoutTrailingSlash } from 'ufo'
 import type { RouteMeta } from 'vue-router'
 import type { MaybeRefOrGetter } from 'vue'
-import type { BreadcrumbLink } from '@nuxt/ui/dist/runtime/types'
 import { defu } from 'defu'
+import type { NuxtLinkProps } from 'nuxt/app'
 import { pathBreadcrumbSegments } from '../../pure/breadcrumbs'
 import {
   computed,
@@ -14,6 +14,22 @@ import {
   useSchemaOrg,
   withSiteTrailingSlash,
 } from '#imports'
+
+interface NuxtUIBreadcrumbItem extends NuxtLinkProps {
+  label: string
+  labelClass?: string
+  icon?: string
+  iconClass?: string
+  as?: string
+  type?: string
+  disabled?: boolean
+  active?: boolean
+  exact?: boolean
+  exactQuery?: boolean
+  exactMatch?: boolean
+  inactiveClass?: string
+  [key: string]: any
+}
 
 export interface BreadcrumbProps {
   /**
@@ -63,7 +79,7 @@ export interface BreadcrumbProps {
   hideRoot?: MaybeRefOrGetter<boolean>
 }
 
-export interface BreadcrumbItemProps extends BreadcrumbLink {
+export interface BreadcrumbItemProps extends NuxtUIBreadcrumbItem {
   /** Whether the breadcrumb item represents the aria-current. */
   current?: boolean
   /**
@@ -71,12 +87,9 @@ export interface BreadcrumbItemProps extends BreadcrumbLink {
    * @default 'page'
    */
   ariaCurrent?: 'page' | 'step' | 'location' | 'date' | 'time' | boolean | 'true' | 'false'
-  /** Whether the breadcrumb item is disabled. */
-  disabled?: boolean
   to: string
   ariaLabel?: string
   separator?: boolean | string
-  icon?: string
   class?: (string | string[] | undefined)[] | string
   /**
    * @internal
