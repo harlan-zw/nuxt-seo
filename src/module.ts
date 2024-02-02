@@ -127,9 +127,9 @@ export default defineNuxtModule<ModuleOptions>({
       name: 'useBreadcrumbItems',
     })
 
-    const siteConfig = useSiteConfig()
-    if (nuxt.options.experimental?.defaults?.nuxtLink && typeof nuxt.options.experimental?.defaults?.nuxtLink?.trailingSlash == 'undefined')
-      nuxt.options.experimental.defaults.nuxtLink.trailingSlash = siteConfig.trailingSlash ? 'append' : 'remove'
+    // TODO blocked by https://github.com/nuxt/nuxt/issues/25532
+    // if (nuxt.options.experimental?.defaults?.nuxtLink && typeof nuxt.options.experimental?.defaults?.nuxtLink?.trailingSlash == 'undefined')
+    //   nuxt.options.experimental.defaults.nuxtLink.trailingSlash = siteConfig.trailingSlash ? 'append' : 'remove'
 
     // if user disables certain modules we need to pollyfill the imports
     const polyfills: Record<string, string[]> = {
