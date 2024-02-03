@@ -157,7 +157,7 @@ export default defineNuxtModule<ModuleOptions>({
       })
     }
 
-    if (config.splash) {
+    if (config.splash && !version!.includes('rc') && nuxt.options.dev) {
       logger.log('')
       let latestTag = `v${version}`
       latestTag = (await $fetch<any>('https://ungh.unjs.io/repos/harlan-zw/nuxt-seo/releases/latest', {
