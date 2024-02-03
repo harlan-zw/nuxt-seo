@@ -75,7 +75,7 @@ const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'se
           <div>Star</div>
         </div>
         <div class="px-2 py-1 dark:bg-black/20 bg-white rounded-r-lg">
-          {{ githubStars || stars }}
+          {{ stars }}
         </div>
       </LegoGithubStar>
       <DocsSearchButton class="ml-1.5 flex-1 lg:flex-none lg:w-48" />
