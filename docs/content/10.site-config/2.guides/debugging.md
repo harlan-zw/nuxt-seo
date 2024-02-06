@@ -22,6 +22,6 @@ Visit the endpoint `/__site-config__/debug.json` to see the current site config 
 
 ## Debugging Build Time
 
-A static fiel `/__site-config__/debug.json` is generated at build time.
+A static file `/__site-config__/debug.json` is generated at build time.
 
 You can view this file to see the build time site config debug output.
