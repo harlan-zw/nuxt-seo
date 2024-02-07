@@ -11,7 +11,6 @@ const route = useRoute()
 const isSetup = computed(() => {
   return route.path.startsWith('/nuxt-seo')
 })
-const githubStars = useRuntimeConfig().public.moduleStats.find(m => m.id === 'seo-kit')?.stats?.stars
 </script>
 
 <template>
