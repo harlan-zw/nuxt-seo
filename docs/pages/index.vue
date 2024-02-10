@@ -157,7 +157,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
         <div class="lg:col-span-4 xl:col-span-6 max-w-full flex items-center justify-center">
           <div>
             <div class="grid grid-cols-3 gap-10 mx-auto">
-              <NuxtLink v-for="(module, key) in listedModules" :key="key" :to="module.slug" :aria-label="module.label" :title="module.label" class="text-center">
+              <NuxtLink v-for="(module, key) in listedModules" :key="key" :to="module.to" :aria-label="module.label" :title="module.label" class="text-center">
                 <Icon :name="module.icon" :class="[module.tag?.new ? ' text-purple-300' : 'text-blue-300']" class="w-[80px] h-[80px] transition-all hover:text-blue-500 hover:scale-125" />
                 <div class="text-sm mt-1 text-center">
                   {{ module.label }}

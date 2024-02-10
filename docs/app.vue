@@ -17,7 +17,9 @@ useSeoMeta({
   <div>
     <Header />
 
-    <NuxtPage />
+    <div>
+      <NuxtPage />
+    </div>
 
     <ClientOnly>
       <DocsSearch />

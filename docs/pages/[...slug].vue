@@ -2,22 +2,8 @@
 import { findPageHeadline, mapContentNavigation, useModuleList } from '#imports'
 
 const route = useRoute()
-
-const { data: page } = await useAsyncData(`docs-${route.path}`, () => queryContent(route.path).findOne())
-if (!page.value)
-  throw createError({ statusCode: 404, statusMessage: 'Page not found' })
-const { data: surround } = await useAsyncData(`docs-${route.path}-surround`, () => queryContent()
-  .only(['_path', 'title', 'navigation', 'description'])
-  .where({ _extension: 'md', navigation: { $ne: false } })
-  .findSurround(route.path.endsWith('/') ? route.path.slice(0, -1) : route.path))
-
-useSeoMeta({
-  title: () => page.value?.title || '',
-  description: () => page.value?.description,
-})
-
-const navigation = inject('navigation')
 const segment = computed(() => route.path.split('/')[1])
+const navigation = inject('navigation')
 const children = computed(() => {
   // first segment
   switch (segment.value) {
@@ -56,6 +42,33 @@ const module = computed(() => {
 
   return m
 })
+
+const version = computed(() => {
+  const m = useModuleList().find(l => l.slug === segment.value)
+  if (m.slug === 'nuxt-seo')
+    return '2'
+  if (m.tag?.label) {
+    const v = m.tag.label.replace('^', '')
+    // we want only the major and minor versions, drop patch
+    return v.split('.').slice(0, 2).join('.')
+  }
+  return ''
+})
+const [{ data: page }, { data: surround }] = await Promise.all([
+  useAsyncData(`docs-${route.path}`, () => queryContent(route.path).findOne()),
+  useAsyncData(`docs-${route.path}-surround`, () => queryContent()
+    .only(['_path', 'title', 'navigation', 'description'])
+    .where({ _extension: 'md', navigation: { $ne: false } })
+    .findSurround(route.path.endsWith('/') ? route.path.slice(0, -1) : route.path)),
+])
+if (!page.value)
+  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
+
+useSeoMeta({
+  title: () => page.value?.title || '',
+  description: () => page.value?.description,
+})
+
 const headline = computed(() => findPageHeadline(page.value))
 const communityLinks = computed(() => [
   {
@@ -71,18 +84,6 @@ const communityLinks = computed(() => [
     target: '_blank',
   },
 ])
-
-const version = computed(() => {
-  const m = useModuleList().find(l => l.slug === segment.value)
-  if (m.slug === 'nuxt-seo')
-    return '2'
-  if (m.tag?.label) {
-    const v = m.tag.label.replace('^', '')
-    // we want only the major and minor versions, drop patch
-    return v.split('.').slice(0, 2).join('.')
-  }
-  return ''
-})
 
 defineOgImageComponent('Module', {
   title: page.value?.title || '',
