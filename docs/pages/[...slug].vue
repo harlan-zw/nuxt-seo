@@ -193,7 +193,7 @@ const ecosystemLinks = [
                             <div class="hidden lg:block dark:text-gray-400 text-gray-600 mb-2">
                               <div v-if="module.downloads && module.stars">
                                 <div class="text-xs space-y-3">
-                                  <a :href="`http://npmjs.com/${module.repo.replace('harlan-zw/', '')}`" target="_blank" title="View on NPM" class="flex justify-between text-right">
+                                  <a :href="`https://www.npmjs.com/package/${module.npm ? module.npm : `nuxt-${module.id}`}`" target="_blank" title="View on NPM" class="flex justify-between text-right">
                                     <div class="mb-1 text-xl font-light items-center flex">
                                       <Icon name="carbon:version-minor" class="h-5 w-5 mr-1 opacity-90" />
                                       <div>{{ version }}</div>
