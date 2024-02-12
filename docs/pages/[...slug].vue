@@ -30,7 +30,7 @@ const children = computed(() => {
 const publicRuntimeConfig = useRuntimeConfig().public
 
 const module = computed(() => {
-  const m = useModuleList().find(l => l.slug === segment.value)
+  const m = useModuleList().find(l => l?.slug === segment.value)
   const stats = (publicRuntimeConfig.moduleStats || []).find(m2 => m2.id === m?.id)?.stats || {}
   if (stats?.downloads) {
     // will look like 395493, we need to make it human readible using native APIs
@@ -44,8 +44,10 @@ const module = computed(() => {
 })
 
 const version = computed(() => {
-  const m = useModuleList().find(l => l.slug === segment.value)
-  if (m.slug === 'nuxt-seo')
+  const m = useModuleList().find(l => l?.slug === segment.value)
+  if (!m)
+    return ''
+  if (m?.slug === 'nuxt-seo')
     return '2'
   if (m.tag?.label) {
     const v = m.tag.label.replace('^', '')
@@ -54,6 +56,7 @@ const version = computed(() => {
   }
   return ''
 })
+
 const [{ data: page }, { data: surround }] = await Promise.all([
   useAsyncData(`docs-${route.path}`, () => queryContent(route.path).findOne()),
   useAsyncData(`docs-${route.path}-surround`, () => queryContent()
@@ -125,7 +128,8 @@ const ecosystemLinks = [
 
 <template>
   <div>
-    <UContainer>
+    <HomePage v-if="page?.home" />
+    <UContainer v-else>
       <UMain class="relative">
         <UPage :ui="{ wrapper: 'xl:gap-10' }">
           <template #left>
