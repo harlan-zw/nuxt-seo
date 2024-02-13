@@ -1,7 +1,7 @@
 import {
   addImports,
   addPlugin,
-  addServerHandler,
+  addRouteMiddleware,
   createResolver,
   defineNuxtModule,
   hasNuxtModule,
@@ -151,10 +151,16 @@ export default defineNuxtModule<ModuleOptions>({
 
     // add redirect middleware
     if (config.redirectToCanonicalSiteUrl) {
-      addServerHandler({
-        handler: resolve('./runtime/nitro/middleware/redirect'),
-        middleware: true,
+      addRouteMiddleware({
+        name: 'seo-redirect',
+        path: resolve('./runtime/nuxt/middleware/redirect.ts'),
+        global: true,
       })
+
+      // addServerHandler({
+      //   handler: resolve('./runtime/nitro/middleware/redirect'),
+      //   middleware: true,
+      // })
     }
 
     if (config.splash && !version!.includes('rc') && nuxt.options.dev) {
