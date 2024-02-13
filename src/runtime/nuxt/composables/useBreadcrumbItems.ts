@@ -188,16 +188,14 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
   const schemaOrgEnabled = typeof options.schemaOrg === 'undefined' ? true : options.schemaOrg
   if (process.server && schemaOrgEnabled) {
     useSchemaOrg([
-      defineBreadcrumb(computed(() => {
-        return {
-          id: `#${options.id || 'breadcrumb'}`,
-          itemListElement: items.value.map(item => ({
-            name: item.label || item.ariaLabel,
-            item: item.to,
-          })),
-        }
-      })),
-    ])
+      defineBreadcrumb({
+        id: `#${options.id || "breadcrumb"}`,
+        itemListElement: items.value.map((item) => ({
+          name: item.label || item.ariaLabel,
+          item: item.to
+        }))
+      })
+    ]);
   }
   return items
 }
