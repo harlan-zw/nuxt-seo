@@ -189,13 +189,13 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
   if (process.server && schemaOrgEnabled) {
     useSchemaOrg([
       defineBreadcrumb({
-        id: `#${options.id || "breadcrumb"}`,
-        itemListElement: items.value.map((item) => ({
+        id: `#${options.id || 'breadcrumb'}`,
+        itemListElement: items.value.map(item => ({
           name: item.label || item.ariaLabel,
-          item: item.to
-        }))
-      })
-    ]);
+          item: item.to,
+        })),
+      }),
+    ])
   }
   return items
 }
