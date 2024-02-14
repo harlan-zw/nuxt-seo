@@ -1,6 +1,5 @@
 import { resolveURL, withTrailingSlash, withoutTrailingSlash } from 'ufo'
-import { getRequestURL } from 'h3'
-import { defineNuxtRouteMiddleware, navigateTo, useError, useRequestEvent, useRequestURL, useSiteConfig } from '#imports'
+import { defineNuxtRouteMiddleware, navigateTo, useError, useRequestURL, useSiteConfig } from '#imports'
 
 export default defineNuxtRouteMiddleware(() => {
   if (import.meta.prerender)
@@ -8,9 +7,7 @@ export default defineNuxtRouteMiddleware(() => {
 
   const siteConfig = useSiteConfig()
   const error = useError()
-  const event = useRequestEvent()
-
-  const url = event ? getRequestURL(event) : useRequestURL()
+  const url = useRequestURL()
 
   const originalUrl = url.href
 
