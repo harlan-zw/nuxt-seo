@@ -25,6 +25,6 @@ export default defineNuxtRouteMiddleware(() => {
       : withoutTrailingSlash(canonicalUrl, true)
   }
 
-  if (canonicalUrl !== originalUrl && !error)
+  if (canonicalUrl !== originalUrl && !error.value)
     return navigateTo(canonicalUrl, { redirectCode: 301, external: true })
 })
