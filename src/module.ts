@@ -152,8 +152,14 @@ export default defineNuxtModule<ModuleOptions>({
     // add redirect middleware
     if (config.redirectToCanonicalSiteUrl) {
       addRouteMiddleware({
-        name: 'seo-redirect',
+        name: 'redirect',
         path: resolve('./runtime/nuxt/middleware/redirect.ts'),
+        global: true,
+      })
+
+      addRouteMiddleware({
+        name: 'trailing-slash',
+        path: resolve('./runtime/nuxt/middleware/trailing-slash.ts'),
         global: true,
       })
 
