@@ -107,20 +107,28 @@ onMounted(() => {
       score.value = _score
   })
 })
-
-const newestModules = listedModules.filter(m => m.tag?.new && m.tag?.date)
+const publicRuntimeConfig = useRuntimeConfig().public
+const moduleStats = publicRuntimeConfig.moduleStats as { stats: { downloads: number, stars: number } }[]
+const newestModules = Object.values(moduleStats).map((ms) => {
+  const module = listedModules.find(r => r.id === ms.id)
+  return {
+    module,
+    stats: {
+      ...ms.stats,
+      publishedAt: new Date(ms.stats.publishedAt),
+    },
+  }
+})
+  .filter(m => m.module && m.stats?.publishedAt)
   .sort((a, b) => {
-    const aDate = a.tag!.date!
-    const bDate = b.tag!.date!
-    return aDate.getTime() < bDate.getTime() ? 1 : -1
+    return b.stats.publishedAt.getTime() - a.stats.publishedAt.getTime()
   })
 
-const publicRuntimeConfig = useRuntimeConfig().public
 const totalContributors = useRuntimeConfig().public.totalContributors
 const uniqueContributors = useRuntimeConfig().public.uniqueContributors
 let totalDownloads = 0
 let totalStars = 0
-;(publicRuntimeConfig.moduleStats as { stats: { downloads: number, stars: number } }[])
+moduleStats
   .forEach(({ stats }) => {
     totalDownloads += Number(stats.downloads || 0)
     totalStars += Number(stats.stars || 0)
@@ -202,11 +210,14 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
           <div v-if="newestModules.length" class="flex items-center justify-center">
             <div>
               <ul class="rounded-xl text-sm max-w-xs px-5 py-3 dark:bg-purple-900/20 bg-purple-50 border-2 border-solid border-purple-500/50 space-y-3">
-                <li v-for="(module, key) in newestModules" :key="key" class="gap-2 justify-between w-full flex">
-                  <NuxtLink :to="module.tag!.to" class="underline">
-                    Nuxt {{ module.label }} {{ module.tag!.label }}
-                  </NuxtLink>
-                  <span class="opacity-80">{{ makeDateXAgo(module.tag!.date) }}</span>
+                <li v-for="(module, key) in newestModules" :key="key" class="text-sm gap-2 justify-between w-full flex">
+                  <div>
+                    <NuxtLink :to="module.module?.tag!.to" class="underline">
+                      {{ module.module?.label }}
+                    </NuxtLink>
+                    <span class="text-xs ml-2">{{ module.stats?.version }}</span>
+                  </div>
+                  <span class="opacity-80">{{ makeDateXAgo(module.stats?.publishedAt) }}</span>
                 </li>
               </ul>
             </div>

@@ -8,8 +8,8 @@ provide('navigation', navigation)
 const modules = useModuleList()
 
 useSeoMeta({
-  ogTitle: 'Nuxt SEO - All the boring SEO work for Nuxt done.',
-  twitterTitle: 'Nuxt SEO - All the boring SEO work for Nuxt done.',
+  ogTitle: 'Nuxt SEO · All the boring SEO work for Nuxt done.',
+  // twitterTitle: 'Nuxt SEO - All the boring SEO work for Nuxt done.',
 })
 </script>
 
