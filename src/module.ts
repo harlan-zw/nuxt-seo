@@ -153,13 +153,13 @@ export default defineNuxtModule<ModuleOptions>({
     if (config.redirectToCanonicalSiteUrl) {
       addRouteMiddleware({
         name: 'redirect',
-        path: resolve('./runtime/nuxt/middleware/redirect.ts'),
+        path: resolve('./runtime/nuxt/middleware/redirect'),
         global: true,
       })
 
       addRouteMiddleware({
         name: 'trailing-slash',
-        path: resolve('./runtime/nuxt/middleware/trailing-slash.ts'),
+        path: resolve('./runtime/nuxt/middleware/trailing-slash'),
         global: true,
       })
 
