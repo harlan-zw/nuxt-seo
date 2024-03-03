@@ -33,7 +33,7 @@ const isSetup = computed(() => {
           <div class="p-4">
             <div class="lg:flex lg:space-x-7">
               <div class="flex flex-col gap-2">
-                <NuxtLink to="/nuxt-seo/getting-started/installation" class="px-3 py-2 hover:bg-gray-100">
+                <NuxtLink to="/nuxt-seo/getting-started/installation" class="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-950 rounded-lg">
                   <div class="flex font-semibold gap-1 mb-2 items-center">
                     <Logo />
                   </div>
@@ -41,7 +41,7 @@ const isSetup = computed(() => {
                     All the SEO modules combined into one.
                   </div>
                 </NuxtLink>
-                <NuxtLink to="/site-config/getting-started/installation" class="flex justify-start flex-col items-start px-3 py-2 hover:bg-gray-100 text-left">
+                <NuxtLink to="/site-config/getting-started/installation" class="flex justify-start flex-col items-start px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-950 rounded-lg text-left">
                   <div class="flex font-semibold gap-1 items-center">
                     <Icon name="carbon:settings-check" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
                     <span class="truncate">Site Config</span>
@@ -53,7 +53,7 @@ const isSetup = computed(() => {
               </div>
               <div>
                 <div class="lg:grid grid-cols-2 md:gap-2">
-                  <NuxtLink v-for="(item, index) in items" :key="index" :to="item.to" class="block space-x-2 px-3 py-2 hover:bg-gray-100">
+                  <NuxtLink v-for="(item, index) in items" :key="index" :to="item.to" class="block space-x-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-950 rounded-lg">
                     <Icon :name="item.icon" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
                     <span class="truncate">{{ item.label }}</span>
                   </NuxtLink>
@@ -63,7 +63,7 @@ const isSetup = computed(() => {
           </div>
         </template>
 
-        <UButton label="Modules" variant="ghost" color="none" class="hover:bg-green-100 transition" trailing-icon="i-heroicons-chevron-down-20-solid" />
+        <UButton label="Modules" variant="ghost" color="none" class="hover:bg-green-100 dark:hover:bg-green-950 transition" trailing-icon="i-heroicons-chevron-down-20-solid" />
       </UPopover>
     </div>
 
