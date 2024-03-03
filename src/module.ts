@@ -8,7 +8,7 @@ import {
   installModule,
   useLogger,
 } from '@nuxt/kit'
-import chalk from 'chalk'
+import { colors } from 'consola/utils'
 import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
 import { readPackageJSON } from 'pkg-types'
 import { $fetch } from 'ofetch'
@@ -167,11 +167,11 @@ export default defineNuxtModule<ModuleOptions>({
           return { release: { tag: `v${version}` } }
         })).release.tag
       const upToDate = latestTag === `v${version}`
-      logger.log(`${chalk.green('Nuxt SEO')} ${chalk.yellow(`v${version}`)} ${chalk.gray(`by ${chalk.underline('@harlan_zw')}`)}`)
+      logger.log(`${colors.green('Nuxt SEO')} ${colors.yellow(`v${version}`)} ${colors.gray(`by ${colors.underline('@harlan_zw')}`)}`)
       if (!upToDate)
-        logger.log(`${chalk.gray('  ├─ ')}🎉 New version available!${chalk.gray(` Run ${chalk.underline(`npm i @nuxtjs/seo@${latestTag}`)} to update.`)}`)
+        logger.log(`${colors.gray('  ├─ ')}🎉 New version available!${colors.gray(` Run ${colors.underline(`npm i @nuxtjs/seo@${latestTag}`)} to update.`)}`)
 
-      logger.log(chalk.dim('  └─ 🧪 Help get Nuxt SEO stable by providing feedback https://github.com/harlan-zw/nuxt-seo/discussions/108'))
+      logger.log(colors.dim('  └─ 🧪 Help get Nuxt SEO stable by providing feedback https://github.com/harlan-zw/nuxt-seo/discussions/108'))
       logger.log('')
     }
   },
