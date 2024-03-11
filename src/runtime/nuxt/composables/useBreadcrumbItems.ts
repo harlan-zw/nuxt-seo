@@ -148,7 +148,7 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
         const routeName = route ? String(route.name || route.path) : (item.to === '/' ? 'index' : 'unknown')
         let [name] = routeName.split('___')
         if (name === 'unknown')
-          name = item.to.split('/').pop() || '' // fallback to last path segment
+          name = (item.to || '').split('/').pop() || '' // fallback to last path segment
         // merge with the route meta
         if (routeMeta.breadcrumb) {
           item = {
