@@ -87,7 +87,7 @@ export interface BreadcrumbItemProps extends NuxtUIBreadcrumbItem {
    * @default 'page'
    */
   ariaCurrent?: 'page' | 'step' | 'location' | 'date' | 'time' | boolean | 'true' | 'false'
-  to: string
+  to?: string
   ariaLabel?: string
   separator?: boolean | string
   class?: (string | string[] | undefined)[] | string
