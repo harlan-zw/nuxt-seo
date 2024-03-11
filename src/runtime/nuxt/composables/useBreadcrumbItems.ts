@@ -6,6 +6,7 @@ import type { NuxtLinkProps } from 'nuxt/app'
 import { pathBreadcrumbSegments } from '../../pure/breadcrumbs'
 import {
   computed,
+  createSitePathResolver,
   defineBreadcrumb,
   toValue,
   useI18n,
@@ -115,6 +116,10 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
   const routes = router.getRoutes()
 
   const i18n = useI18n()
+  const siteResolver = createSitePathResolver({
+    canonical: true,
+    absolute: true,
+  })
   const items = computed(() => {
     let rootNode = '/'
     if (i18n) {
@@ -193,7 +198,7 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
           id: `#${options.id || 'breadcrumb'}`,
           itemListElement: items.value.map(item => ({
             name: item.label || item.ariaLabel,
-            item: item.to,
+            item: item.to ? siteResolver(item.to) : undefined,
           })),
         }
       })),
