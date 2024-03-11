@@ -10,6 +10,7 @@ export default defineNuxtConfig({
   ],
   site: {
     url: 'https://nuxtseo.com',
+    debug: true,
   },
   nitro: {
     prerender: {
@@ -21,18 +22,22 @@ export default defineNuxtConfig({
     baseUrl: 'https://nuxtseo.com',
     defaultLocale: 'en',
     strategy: 'prefix_except_default',
+    langDir: 'locales/',
     locales: [
       {
         code: 'en',
         iso: 'en-US',
+        file: 'en.ts',
       },
       {
         code: 'es',
         iso: 'es-ES',
+        file: 'es.ts',
       },
       {
         code: 'fr',
         iso: 'fr-FR',
+        file: 'fr.ts',
       },
     ],
   },
