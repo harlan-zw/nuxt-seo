@@ -15,6 +15,9 @@ function titleCase(s: string) {
 
 export default defineNuxtPlugin({
   name: 'nuxt-seo:fallback-titles',
+  env: {
+    islands: false,
+  },
   setup() {
     const route = useRoute()
     const title = computed(() => {

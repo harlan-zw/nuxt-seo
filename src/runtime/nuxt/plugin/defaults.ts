@@ -12,6 +12,9 @@ import {
 
 export default defineNuxtPlugin({
   name: 'nuxt-seo:defaults',
+  env: {
+    islands: false,
+  },
   setup() {
     // get the head instance
     const siteConfig = useSiteConfig()
