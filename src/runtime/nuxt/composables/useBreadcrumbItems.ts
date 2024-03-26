@@ -191,7 +191,7 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
   })
 
   const schemaOrgEnabled = typeof options.schemaOrg === 'undefined' ? true : options.schemaOrg
-  if (process.server && schemaOrgEnabled) {
+  if (import.meta.server && schemaOrgEnabled) {
     useSchemaOrg([
       defineBreadcrumb(computed(() => {
         return {
