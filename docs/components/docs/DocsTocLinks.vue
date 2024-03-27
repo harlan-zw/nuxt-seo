@@ -16,7 +16,7 @@ const { activeHeadings, updateHeadings } = useScrollspy()
 
 watch(() => route.path, () => {
   setTimeout(() => {
-    if (process.client) {
+    if (import.meta.client) {
       updateHeadings([
         ...document.querySelectorAll('h2'),
         ...document.querySelectorAll('h3'),
