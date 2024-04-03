@@ -50,9 +50,7 @@ With powerful APIs built for fully dynamic sites and zero-config defaults for st
 1. Install `@nuxtjs/seo` dependency to your project:
 
 ```sh
-pnpm i -D @nuxtjs/seo
-yarn add -D @nuxtjs/seo
-npm install -D @nuxtjs/seo
+npx nuxi@latest module add seo
 ```
 
 2. Add it to your `modules` section in your `nuxt.config`:
