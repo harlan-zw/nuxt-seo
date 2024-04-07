@@ -2,6 +2,7 @@
   "name": "nuxt-seo-docs",
   "private": true,
   "scripts": {
+    "dev": "nuxi dev",
     "build": "npm -C ../ run build && nuxi build",
     "deploy": "NITRO_PRESET=netlify nuxt build && npx netlify deploy"
   },
