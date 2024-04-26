@@ -1,7 +1,6 @@
 import { $fetch } from 'ofetch'
 import { readPackageJSON } from 'pkg-types'
 import NuxtSeo from '../src/module'
-import { version } from '../package.json'
 import {
   LinkCheckerModule,
   OgImageModule,
@@ -56,6 +55,7 @@ export default defineNuxtConfig({
       nuxt.options.runtimeConfig.public.moduleDeps = pkgJson.dependencies
       nuxt.options.runtimeConfig.public.totalContributors = uniqueContributors.size
       nuxt.options.runtimeConfig.public.uniqueContributors = [...uniqueContributors]
+      nuxt.options.runtimeConfig.public.version = pkgJson.version
     },
   ],
   site: {
@@ -63,11 +63,6 @@ export default defineNuxtConfig({
     name: 'Nuxt SEO',
     description: 'Nuxt SEO is a collection of hand-crafted Nuxt Modules to help you rank higher in search engines.',
     tagline: 'All the boring SEO stuff for Nuxt done.',
-  },
-  runtimeConfig: {
-    public: {
-      version,
-    },
   },
   content: {
     highlight: {
