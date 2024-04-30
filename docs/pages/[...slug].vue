@@ -144,6 +144,42 @@ const ecosystemLinks = [
         <UPage :ui="{ wrapper: 'xl:gap-10' }">
           <template #left>
             <UAside>
+              <div v-if="module.slug !== 'nuxt-seo'">
+                <div class="flex mb-2 gap-2">
+                  <Icon :name="module.icon" class="w-9 h-9 dark:text-blue-400 text-blue-500 group-hover:text-blue-500 transition-all" />
+                  <div class="gap-2">
+                    <div class="text-sm text-center text-gray-600 dark:text-gray-300 w-full">
+                      <template v-if="module.slug !== 'nuxt-seo'">
+                        {{ module.label }}
+                      </template>
+                      <template v-else>
+                        Nuxt SEO
+                      </template>
+                    </div>
+                    <a :href="`https://www.npmjs.com/package/${module.npm ? module.npm : `nuxt-${module.id}`}`" target="_blank" title="View on NPM" class="flex justify-between text-right">
+                      <div class="mb-1 text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap font-light items-center flex">
+                        <div>{{ version }}</div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                <div v-if="module.downloads && module.stars" class="dark:text-gray-400 text-gray-500 mb-3">
+                  <div class="text-xs flex gap-2">
+                    <a :href="`https://www.npmjs.com/package/${module.npm ? module.npm : `nuxt-${module.id}`}`" target="_blank" title="View on NPM" class="">
+                      <div class=" text-sm font-light items-center flex">
+                        <Icon name="carbon:chart-line-smooth" class="h-4 w-4 mr-1 opacity-50" />
+                        <div>{{ module.downloads }}</div>
+                      </div>
+                    </a>
+                    <a v-if="module.repo !== 'harlan-zw/nuxt-seo'" :href="`http://github.com/${module.repo}`" target="_blank" title="Star on GitHub" class="">
+                      <div class="text-sm font-light items-center flex">
+                        <Icon name="carbon:star" class="h-4 w-4 mr-1 opacity-50" />
+                        {{ module.stars }}
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
               <UNavigationTree v-if="children" :links="mapContentNavigation(children)" />
             </UAside>
           </template>
@@ -170,74 +206,11 @@ const ecosystemLinks = [
 
               <template #right>
                 <UDocsToc :links="page.body?.toc?.links || []">
-                  <template #top>
-                    <div class="hidden lg:block mb-10">
-                      <UPageLinks v-if="module" :ui="{ container: 'gap-7' }" :title="module.fullLabel ? module.fullLabel : `Nuxt ${module.label}`" :links="repoLinks">
-                        <template #title>
-                          <div class="w-full hidden lg:block">
-                            <div class="flex justify-center items-center mb-2 gap-3">
-                              <Icon v-if="module.slug !== 'nuxt-seo'" :name="module.icon" class="w-8 h-8 dark:text-blue-500/75 text-blue-500 group-hover:text-blue-500 transition-all" />
-                              <div class="flex gap-2">
-                                <div class="text-sm font-normal font-mono items-center flex space-x-2 dark:bg-blue-900/50 bg-blue-50/50 w-full px-3 py-2 rounded">
-                                  <div class="text-xs text-center text-gray-600 dark:text-gray-300 w-full">
-                                    <template v-if="module.slug !== 'nuxt-seo'">
-                                      {{ module.npm || module.repo.replace('harlan-zw/', '') }}
-                                    </template>
-                                    <template v-else>
-                                      @nuxtjs/seo
-                                    </template>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="text-xs dark:text-gray-300 px-2 font-normal flex justify-between items-center mb-3 gap-2 py-1">
-                              <a :href="`https://github.com/${module.repo}`" target="_blank" title="GitHub Repo" aria-label="GitHub Repo" class="rounded px-1 py-[2px] align-middle">
-                                GitHub
-                                <Icon class="w-5 h-5 ml-1 dark:text-white text-black" name="carbon:logo-github" />
-                              </a>
-                              <a :href="`https://www.npmjs.com/package/${module.npm ? module.npm : `nuxt-${module.id}`}`" target="_blank" aria-label="NPM" title="NPM" class="rounded px-1 py-[2px] align-middle">
-                                NPM
-                                <Icon class="w-5 h-5 ml-1" name="logos:npm-icon" />
-                              </a>
-                            </div>
-                            <div class="hidden lg:block dark:text-gray-400 text-gray-600 mb-2">
-                              <div v-if="module.downloads && module.stars">
-                                <div class="text-xs space-y-3">
-                                  <a :href="`https://www.npmjs.com/package/${module.npm ? module.npm : `nuxt-${module.id}`}`" target="_blank" title="View on NPM" class="flex justify-between text-right">
-                                    <div class="mb-1 text-xl font-light items-center flex">
-                                      <Icon name="carbon:version-minor" class="h-5 w-5 mr-1 opacity-90" />
-                                      <div>{{ version }}</div>
-                                    </div>
-                                    <div class="flex items-center font-normal opacity-70 text-[11px] leading-[12px]">Latest<br> minor version</div>
-                                  </a>
-                                  <a :href="`https://www.npmjs.com/package/${module.npm ? module.npm : `nuxt-${module.id}`}`" target="_blank" title="View on NPM" class="flex justify-between text-right">
-                                    <div class="mb-1 text-xl font-light items-center flex">
-                                      <Icon name="carbon:chart-line-smooth" class="h-5 w-5 mr-1 opacity-90" />
-                                      <div>{{ module.downloads }}</div>
-                                    </div>
-                                    <div class="flex items-center font-normal opacity-70 text-[11px] leading-[12px]">Downloads<br>/ month</div>
-                                  </a>
-                                  <a :href="`http://github.com/${module.repo}`" target="_blank" title="Star on GitHub" class="flex justify-between">
-                                    <div class="mb-1 text-xl font-light items-center flex">
-                                      <Icon name="carbon:star" class="h-5 w-5 mr-1 opacity-90" />
-                                      {{ module.stars }}
-                                    </div>
-                                    <div class="flex items-center font-normal text-right opacity-70  text-[11px] leading-[12px]">Stars</div>
-                                  </a>
-                                </div>
-                              </div>
-                            </div>
-                            <UDivider dashed class="my-3" />
-                            <button class="flex items-center gap-1.5 lg:cursor-text lg:select-text w-full" tabindex="-1">
-                              <span class="font-semibold text-sm/6 truncate">Useful Links</span>
-                              <span class="i-heroicons-chevron-down-20-solid lg:!hidden w-5 h-5 ms-auto transform transition-transform duration-200 flex-shrink-0 mr-1.5 text-gray-500 dark:text-gray-400 group-hover:text-gray-700 dark:group-hover:text-gray-200 -rotate-90" />
-                            </button>
-                          </div>
-                        </template>
-                      </UPageLinks>
-                    </div>
-                  </template>
                   <template #bottom>
+                    <div class="hidden lg:block mb-10 mt-10">
+                      <Ads class="mb-5" />
+                      <UPageLinks v-if="module" :ui="{ container: 'gap-7' }" :links="repoLinks" />
+                    </div>
                     <div class="hidden !mt-6 lg:block space-y-6">
                       <UDivider v-if="page.body?.toc?.links?.length" dashed />
                       <UPageLinks title="Community" :links="communityLinks" />
