@@ -53,14 +53,6 @@ With powerful APIs built for fully dynamic sites and zero-config defaults for st
 npx nuxi@latest module add seo
 ```
 
-2. Add it to your `modules` section in your `nuxt.config`:
-
-```ts [nuxt.config]
-export default defineNuxtConfig({
-  modules: ['@nuxtjs/seo']
-})
-```
-
 That's it!
 
 All features are enabled by default. Learn more by exploring the [documentation](https://nuxtseo.com)
