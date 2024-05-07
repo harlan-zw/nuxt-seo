@@ -30,7 +30,7 @@ const items = useBreadcrumbItems({ path, hideRoot, hideCurrent })
           <label>Hide Root
             <UToggle v-model="hideRoot" />
           </label>
-          <label>Hiden Current
+          <label>Hide Current
             <UToggle v-model="hideCurrent" label="Hide Current" />
           </label>
         </div>
