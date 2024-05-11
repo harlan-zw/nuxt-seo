@@ -1,11 +1,6 @@
 export default defineNuxtPlugin(() => {
   const adBlocked = ref(false)
 
-  onNuxtReady(async () => {
-    if (await adsBlocked())
-      adBlocked.value = true
-  })
-
   const adsBlocked = async () => {
     return await $fetch('https://cdn.carbonads.com/carbon.js?serve=CWYD553E&placement=nuxtcom', {
       method: 'HEAD',
@@ -14,6 +9,11 @@ export default defineNuxtPlugin(() => {
       .then(() => false)
       .catch(() => true)
   }
+
+  onNuxtReady(async () => {
+    if (await adsBlocked())
+      adBlocked.value = true
+  })
 
   return {
     provide: {

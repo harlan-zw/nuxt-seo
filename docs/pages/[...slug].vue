@@ -26,6 +26,7 @@ const children = computed(() => {
     case 'ui':
       return navigation.value[8].children
   }
+  return []
 })
 const publicRuntimeConfig = useRuntimeConfig().public
 

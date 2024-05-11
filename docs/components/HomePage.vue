@@ -297,6 +297,9 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
               <p>I have to say that your SEO modules are one of the things that make me stay on Nuxt for every one of my websites.</p>
             </Discord>
             <Tweet id="1723082721210036411" />
+            <Discord username="marcustoy" image="https://cdn.discordapp.com/avatars/716064643809804288/4895f3e4b7551e9ee03a98f7cd2675fb.webp?size=80">
+              <p>Hey man, appreciate all your great work on those Nuxt modules. I'm using Nuxt SEO and it's awesome! 💪🏻</p>
+            </Discord>
           </div>
           <div class="hidden lg:block space-y-5">
             <Tweet id="1741040465770844213" />
@@ -304,9 +307,6 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
           </div>
           <div class="hidden lg:block space-y-5">
             <Tweet id="1736008855736213732" />
-            <Discord username="creazy.eth" image="https://cdn.discordapp.com/avatars/132034760208941056/5787ddd2a47e0ee0b076d5e678ca8e41.webp?size=64">
-              <p>Amazing work you did there with all that kind of SEO stuff you're building for the Nuxt community <Icon name="noto:red-heart" /></p>
-            </Discord>
             <Tweet id="1738672086644654346" />
           </div>
         </div>

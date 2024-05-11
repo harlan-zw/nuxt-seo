@@ -30,6 +30,7 @@ const children = computed(() => {
     case 'site-config':
       return navigation.value[7].children
   }
+  return []
 })
 
 const items = useModuleList()
