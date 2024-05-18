@@ -6,9 +6,9 @@ const links = useBreadcrumbItems() // uses the current route
 <template>
   <nav aria-label="Breadcrumbs">
     <ul>
-      <li v-for="(item, key) in items" :key="key">
-        <NuxtLink v-bind="item">
-          {{ item.label }}
+      <li v-for="(link, key) in links" :key="key">
+        <NuxtLink v-bind="link">
+          {{ link.label }}
         </NuxtLink>
       </li>
     </ul>
