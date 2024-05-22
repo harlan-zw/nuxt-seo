@@ -34,10 +34,29 @@ export default defineNitroPlugin((nitroApp) => {
 })
 ```
 
+## `sitemap:index-resolved`
+
+**Type:** `async (ctx: { sitemaps: { sitemap: string, lastmod?: string }[] }) => void | Promise<void>`
+
+Triggered once the final structure of the sitemap index is generated, provides the sitemaps as objects.
+
+```ts [server/plugins/sitemap.ts]
+import { defineNitroPlugin } from 'nitropack/runtime/plugin'
+
+export default defineNitroPlugin((nitroApp) => {
+  nitroApp.hooks.hook('sitemap:index-resolved', async (ctx) => {
+    // add a new sitemap to the index
+    ctx.sitemaps.push({
+      sitemap: 'https://mysite.com/my-sitemap.xml',
+      lastmod: new Date().toISOString(),
+    })
+  })
+})
+```
+
 ## `sitemap:output`
 
 **Type:** `async (ctx: { sitemap: string; sitemapName: string }) => void | Promise<void>`
-**Default:** `undefined`
 
 Triggered before the sitemap is sent to the client.
 It provides the sitemap as a XML string.
