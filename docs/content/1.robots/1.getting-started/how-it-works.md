@@ -3,15 +3,12 @@ title: How It Works
 description: Learn more about how Nuxt Simple Robots works.
 ---
 
-The module main job is to tell robots (crawlers) how to behave.
+Nuxt Robots tells robots (crawlers) how to behave by creating a `robots.txt` file for you, adding a `X-Robots-Tag` header and `<meta name="robots">` tag to your site
+where appropriate.
 
-Specifically, a main feature is to block Google from indexing pages that you don't want indexed.
-
-Blocking Google from indexing pages is important for a number of reasons:
-- Prevents [duplicate content issues](https://moz.com/learn/seo/duplicate-content)
-- Prevents wasting [crawling budget](https://developers.google.com/search/docs/crawling-indexing/large-site-managing-crawl-budget)
-
-While it does also attempt to control other robots, it is not always honored.
+One important behavior to control is blocking Google from indexing pages to:
+- Prevent [duplicate content issues](https://moz.com/learn/seo/duplicate-content)
+- Prevent wasting [crawl budget](https://developers.google.com/search/docs/crawling-indexing/large-site-managing-crawl-budget)
 
 ## Robots.txt
 
@@ -22,7 +19,7 @@ public
  └── robots.txt
 ```
 
-This file is accessed differently depending on your environment:
+This file is generated differently depending on the environment:
 - When deploying using `nuxi generate` or the `nitro.prerender.routes` rule, this is a static file.
 - Otherwise, it's handled by the server and generated at runtime when requested.
 
