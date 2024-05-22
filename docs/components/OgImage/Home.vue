@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<{
   title: 'title',
 })
 
-const HexRegex = /^#([0-9a-f]{3}){1,2}$/i
+const HexRegex = /^#(?:[0-9a-f]{3}){1,2}$/i
 
 const themeHex = computed(() => {
   // regex test if valid hex
