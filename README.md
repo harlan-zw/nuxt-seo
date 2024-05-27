@@ -57,6 +57,11 @@ That's it!
 
 All features are enabled by default. Learn more by exploring the [documentation](https://nuxtseo.com)
 
+## Stackblitz
+
+For reproductions and demo environments, you can use the [Nuxt SEO Basic Reproduction](https://stackblitz.com/edit/nuxt-starter-gfrej6?file=nuxt.config.ts)
+template.
+
 ## Sponsors
 
 <p align="center">
