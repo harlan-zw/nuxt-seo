@@ -1,19 +1,39 @@
 <script lang="ts" setup>
-import { schemaAutoImports } from '@unhead/schema-org/vue'
-
-const nodes = schemaAutoImports.filter(s => s !== 'useSchemaOrg')
+const paths = [
+  'Nodes',
+  'Article',
+  'Book',
+  'Breadcrumb',
+  'Comment',
+  'Course',
+  'Event',
+  'Food Establishment',
+  'How To',
+  'Image',
+  'Item List',
+  'Job Posting',
+  'Local Business',
+  'Movie',
+  'Organization',
+  'Person',
+  'Product',
+  'Question',
+  'Recipe',
+  'Software App',
+  'Video',
+  'Webpage',
+  'Website',
+]
 
 function normaliseToPath(s: string) {
-  return s.replace('define', '')
-    // we need to replace camel case to kebab case
-    .replace(/([a-z])([A-Z])/g, '$1-$2')
+  return s.replace(/([a-z])([A-Z])/g, '$1-$2')
     .toLowerCase()
 }
 </script>
 
 <template>
   <ul>
-    <li v-for="(node, key) in nodes" :key="key">
+    <li v-for="(node, key) in paths" :key="key">
       <a :href="`https://unhead.unjs.io/schema-org/schema/${normaliseToPath(node)}`">
         {{ node }}
       </a>
