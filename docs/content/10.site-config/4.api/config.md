@@ -22,7 +22,7 @@ Whether the debug mode of the site config is enabled.
 - Type: `object`
 - Default: `{}`
 
-Modify the behavior of how the [&lt;SiteLink&gt;](/site-config/api/site-link) is registered.
+Modify the behaviour of how the [&lt;SiteLink&gt;](/site-config/api/site-link) is registered.
 
 ```ts
 export default defineNuxtConfig({

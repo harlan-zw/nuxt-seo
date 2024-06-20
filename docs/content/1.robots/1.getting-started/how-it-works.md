@@ -6,7 +6,7 @@ description: Learn more about how Nuxt Simple Robots works.
 Nuxt Robots tells robots (crawlers) how to behave by creating a `robots.txt` file for you, adding a `X-Robots-Tag` header and `<meta name="robots">` tag to your site
 where appropriate.
 
-One important behavior to control is blocking Google from indexing pages to:
+One important behaviour to control is blocking Google from indexing pages to:
 - Prevent [duplicate content issues](https://moz.com/learn/seo/duplicate-content)
 - Prevent wasting [crawl budget](https://developers.google.com/search/docs/crawling-indexing/large-site-managing-crawl-budget)
 
