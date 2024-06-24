@@ -78,7 +78,7 @@ export default defineNuxtModule<ModuleOptions>({
       enabled: true,
       debug: nuxt.options.debug,
       redirectToCanonicalSiteUrl: false,
-      splash: nuxt.options.dev,
+      splash: false, // nuxt.options.dev, - figure out a solution for this in the future
       automaticDefaults: true,
       fallbackTitle: true,
     }
