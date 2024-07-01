@@ -13,7 +13,7 @@ export function applyDefaults() {
   // get the head instance
   const siteConfig = useSiteConfig()
   const route = useRoute()
-  const resolveUrl = createSitePathResolver({ withBase: true, absolute: true })
+  const resolveUrl = createSitePathResolver({ absolute: true })
   const canonicalUrl = computed<string>(() => resolveUrl(route.path || '/').value || route.path)
 
   const minimalPriority: UseHeadOptions = {
@@ -55,5 +55,5 @@ export function applyDefaults() {
     seoMeta.twitterSite = id
   }
   // TODO server only for some tags
-  useSeoMeta(seoMeta, minimalPriority)
+  useServerSeoMeta(seoMeta, minimalPriority)
 }
