@@ -22,7 +22,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/content',
     'nuxt-lodash',
-    'nuxt-icon',
+    '@nuxt/icon',
     'nuxt-og-image',
     NuxtSeo,
     async (_, nuxt) => {
