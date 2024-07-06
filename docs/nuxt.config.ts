@@ -64,6 +64,9 @@ export default defineNuxtConfig({
     description: 'Nuxt SEO is a collection of hand-crafted Nuxt Modules to help you rank higher in search engines.',
     tagline: 'All the boring SEO stuff for Nuxt done.',
   },
+  icon: {
+    mode: 'svg',
+  },
   content: {
     highlight: {
       theme: {
