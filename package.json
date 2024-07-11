@@ -2,7 +2,7 @@
   "name": "@nuxtjs/seo",
   "type": "module",
   "version": "2.0.0-rc.11",
-  "packageManager": "pnpm@9.4.0",
+  "packageManager": "pnpm@9.5.0",
   "description": "The all-in-one SEO layer for Nuxt 3.",
   "author": {
     "name": "Harlan Wilton",
@@ -45,18 +45,18 @@
     "@nuxt/kit": "^3.12.3",
     "@nuxtjs/sitemap": "^5.3.2",
     "defu": "^6.1.4",
-    "nuxt-link-checker": "3.0.0-rc.12",
-    "nuxt-og-image": "^3.0.0-rc.56",
+    "nuxt-link-checker": "^3.0.0-rc.12",
+    "nuxt-og-image": "^3.0.0-rc.59",
     "nuxt-schema-org": "^3.3.8",
-    "nuxt-seo-experiments": "4.0.0-rc.10",
-    "nuxt-simple-robots": "4.0.0-rc.20",
+    "nuxt-seo-experiments": "^4.0.0-rc.10",
+    "nuxt-simple-robots": "^4.0.0-rc.20",
     "nuxt-site-config": "^2.2.14",
     "nuxt-site-config-kit": "^2.2.14",
     "pkg-types": "^1.1.3",
     "ufo": "^1.5.3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.21.3",
+    "@antfu/eslint-config": "^2.22.0",
     "@nuxt/icon": "^1.0.0",
     "@nuxt/module-builder": "^0.8.1",
     "@nuxt/schema": "^3.12.3",
@@ -69,7 +69,7 @@
     "nitropack": "^2.9.7",
     "nuxt": "^3.12.3",
     "typescript": "5.4.5",
-    "vitest": "^1.6.0"
+    "vitest": "^2.0.2"
   },
   "build": {
     "externals": [
