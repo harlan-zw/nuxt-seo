@@ -44,4 +44,6 @@ export default defineNuxtConfig({
     '/about': { sitemap: { changefreq: 'daily', priority: 0.3 } },
     '/secret': { index: false },
   },
+
+  compatibilityDate: '2024-07-11',
 })
