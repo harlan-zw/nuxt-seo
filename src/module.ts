@@ -163,7 +163,7 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.experimental.headNext = true
 
     // add redirect middleware
-    if (config.redirectToCanonicalSiteUrl) {
+    if (!nuxt.options.dev && config.redirectToCanonicalSiteUrl) {
       addServerHandler({
         handler: resolve('./runtime/nitro/middleware/redirect'),
         middleware: true,
