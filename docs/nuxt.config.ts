@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     'nuxt-lego',
     '@nuxt/ui-pro',
   ],
+
   modules: [
     '@nuxt/ui',
     '@vueuse/nuxt',
@@ -58,15 +59,18 @@ export default defineNuxtConfig({
       nuxt.options.runtimeConfig.public.version = pkgJson.version
     },
   ],
+
   site: {
     url: 'https://nuxtseo.com',
     name: 'Nuxt SEO',
     description: 'Nuxt SEO is a collection of hand-crafted Nuxt Modules to help you rank higher in search engines.',
     tagline: 'All the boring SEO stuff for Nuxt done.',
   },
+
   icon: {
     mode: 'svg',
   },
+
   content: {
     highlight: {
       theme: {
@@ -83,13 +87,16 @@ export default defineNuxtConfig({
       ],
     },
   },
+
   devtools: {
     enabled: true,
   },
+
   ui: {
     global: true,
     icons: ['heroicons', 'simple-icons', 'ph', 'noto'],
   },
+
   sitemap: {
     strictNuxtContentPaths: true,
     xslColumns: [
@@ -99,6 +106,7 @@ export default defineNuxtConfig({
       { label: 'Change Frequency', select: 'sitemap:changefreq', width: '12.5%' },
     ],
   },
+
   routeRules: {
     // for doc linking purposes
     '/robots': { redirect: { to: '/robots/getting-started/installation', statusCode: 301 } },
@@ -128,9 +136,11 @@ export default defineNuxtConfig({
     '/sitemap/guides/auto-lastmod': { redirect: { to: '/sitemap/guides/best-practices', statusCode: 301 } },
     '/nuxt-seo/getting-started/migration-guide': { redirect: { to: '/nuxt-seo/migration-guide/nuxt-seo-kit', statusCode: 301 } },
   },
+
   css: [
     '~/css/scrollbars.css',
   ],
+
   app: {
     pageTransition: {
       name: 'page',
@@ -166,7 +176,10 @@ export default defineNuxtConfig({
       ],
     },
   },
+
   generate: {
     routes: ['/'],
   },
+
+  compatibilityDate: '2024-07-12',
 })

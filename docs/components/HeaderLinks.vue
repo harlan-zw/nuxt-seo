@@ -53,7 +53,7 @@ const isSetup = computed(() => {
               </div>
               <div>
                 <div class="lg:grid grid-cols-2 md:gap-2">
-                  <NuxtLink v-for="(item, index) in items" :key="index" :to="item.to" class="block space-x-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-950 rounded-lg">
+                  <NuxtLink v-for="(item, index) in items" :key="index" :to="item.to" class="flex items-start justify-start space-x-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-950 rounded-lg">
                     <Icon :name="item.icon" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
                     <span class="truncate">{{ item.label }}</span>
                   </NuxtLink>
