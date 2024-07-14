@@ -161,6 +161,6 @@ onMounted(() => {
 
 <template>
   <div ref="container" class="absolute top-0 left-0">
-    <Icon :name="icon" size="30" class="transition-opacity" :style="styles" />
+    <UIcon dynamic :name="icon" size="30" class="transition-opacity" :style="styles" />
   </div>
 </template>

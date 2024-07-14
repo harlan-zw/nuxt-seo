@@ -148,7 +148,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
             <span class="max-w-2xl">All the boring SEO work for Nuxt done.</span>
           </h1>
           <p class="text-gray-700 dark:text-gray-300 mt-4 max-w-3xl text-center text-xl lg:text-left">
-            Nuxt SEO is a collection of hand-crafted <Icon name="logos:nuxt-icon" /> <NuxtLink to="https://nuxt.com/modules" class="underline">
+            Nuxt SEO is a collection of hand-crafted <UIcon name="i-logos-nuxt-icon" /> <NuxtLink to="https://nuxt.com/modules" class="underline">
               Nuxt Modules
             </NuxtLink> that will make Google (and your marketing team) love you.
           </p>
@@ -158,7 +158,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
               Learn about Nuxt SEO
             </UButton>
             <UButton size="lg" variant="ghost" to="/nuxt-seo/getting-started/installation">
-              <Icon name="carbon:download" class="mr-0.5" />
+              <UIcon name="i-carbon-download" class="mr-0.5" />
               Install Nuxt SEO
             </UButton>
           </div>
@@ -167,7 +167,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
           <div>
             <div class="grid grid-cols-3 gap-10 mx-auto">
               <NuxtLink v-for="(module, key) in listedModules" :key="key" :to="module.to" :aria-label="module.label" :title="module.label" class="text-center">
-                <Icon :name="module.icon" :class="[module.tag?.new ? ' text-purple-300' : 'text-blue-300']" class="w-[80px] h-[80px] transition-all hover:text-blue-500 hover:scale-125" />
+                <UIcon dynamic :name="module.icon" class="text-blue-300 w-[80px] h-[80px] transition-all hover:text-blue-500 hover:scale-125" />
                 <div class="text-sm mt-1 text-center">
                   {{ module.label }}
                 </div>
@@ -183,10 +183,10 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <ShowcaseCard label="Delightful Developer Experience" description="Full featured modules that do everything you expect and more.">
-          <Icon name="noto:sparkles" class="w-1/2 h-1/2" />
+          <UIcon name="i-noto-sparkles" class="w-1/2 h-1/2" />
         </ShowcaseCard>
         <ShowcaseCard label="Minimal Config, Maximum Extensibility" description="Provide a site URL and all modules are good to go. Fully extensible with config and hooks.">
-          <Icon name="noto:rocket" class="w-1/2 h-1/2" />
+          <UIcon name="i-noto-rocket" class="w-1/2 h-1/2" />
         </ShowcaseCard>
         <ShowcaseCard label="Integration over boilerplate" description="Modules integrate with themselves as well as Nuxt Content and Nuxt I18n where appropriate.">
           <div class="gap-5 flex">
@@ -229,7 +229,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
             <div class="flex justify-center gap-10">
               <div>
                 <div class="font-light text-6xl mb-2">
-                  <Icon name="carbon:commit" />
+                  <UIcon name="i-carbon-commit" />
                   2,569
                 </div>
                 <div class="text-sm opacity-80">
@@ -238,7 +238,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
               </div>
               <div>
                 <div class="font-light text-6xl mb-2">
-                  <Icon name="carbon:checkmark" />
+                  <UIcon name="i-carbon-checkmark" />
                   414
                 </div>
                 <div class="text-sm opacity-80">
@@ -253,7 +253,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
             </div>
             <div>
               <div class="font-light text-6xl mb-2">
-                <Icon name="carbon:user-favorite-alt" />
+                <UIcon name="i-carbon-user-favorite-alt" />
                 {{ totalContributors }}
               </div>
               <div class="text-sm opacity-80">
@@ -266,10 +266,10 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
     </section>
     <section ref="scoreEl" class="pb-10 xl:pb-20">
       <div class="md:flex items-center justify-around gap-10 py-5 px-3 lg:bg-gradient-to-br from-sky-500/20 dark:from-sky-900/20 rounded-full cursor-pointer lg:shadow-sm hover:shadow transition-shadow" @click="clickScore">
-        <Icon name="logos:lighthouse" class="!hidden lg:!block w-[175px] h-[175px]" />
+        <UIcon name="i-logos-lighthouse" class="!hidden lg:!block w-[175px] h-[175px]" />
         <div class="lg:flex-grow">
           <h2 class="text-3xl font-bold dark:opacity-90 leading-normal mb-3">
-            <Icon name="carbon:checkmark-filled" class="opacity-60 text-green-500" /> Pass Technical SEO Audits
+            <UIcon name="i-carbon-checkmark-filled" class="opacity-60 text-green-500" /> Pass Technical SEO Audits
           </h2>
           <p class="max-w-[30rem] text-lg">
             Nuxt SEO provides you with with all the tools needed to help you pass technical SEO audits on Google Lighthouse.
@@ -325,7 +325,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
         <div class="text-6xl space-y-6 px-5 lg:px-0">
           <div class="flex justify-between text-right gap-5">
             <div class="mb-1  font-light items-center flex gap-5">
-              <Icon name="carbon:chart-line-smooth" class="h-15 w-15 mr-1 opacity-80" />
+              <UIcon name="i-carbon-chart-line-smooth" class="h-15 w-15 mr-1 opacity-80" />
               <div>{{ totalDownloadsHuman }}</div>
             </div>
             <div class="flex items-center font-normal opacity-70 text-sm">
@@ -334,7 +334,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
           </div>
           <div class="flex justify-between gap-5">
             <div class="mb-1 font-light items-center flex gap-5">
-              <Icon name="carbon:star" class="h-15 w-15 mr-1 opacity-90" />
+              <UIcon name="i-carbon-star" class="h-15 w-15 mr-1 opacity-90" />
               {{ totalStarsHuman }}
             </div>
             <div class="flex items-center font-normal text-right opacity-70 text-sm">
@@ -351,7 +351,7 @@ const totalStarsHuman = Number(totalStars).toLocaleString('en-US', { notation: '
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <ShowcaseCardLink v-for="(module, key) in listedModules" v-bind="module" :key="key" class="group">
           <template v-if="module.icon">
-            <Icon :name="module.icon" size="150" :class="[module.tag?.new ? ' text-purple-300' : 'text-blue-300', module.label === 'Robots' ? 'transition group-hover:opacity-0' : '']" />
+            <UIcon dynamic :name="module.icon" size="150" :class="[module.label === 'Robots' ? 'transition group-hover:opacity-0' : '']" class="text-blue-300" />
           </template>
           <template #teleport>
             <template v-if="module.label === 'Robots'">

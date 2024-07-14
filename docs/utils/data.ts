@@ -27,7 +27,7 @@ export const NuxtSeo: NuxtSeoModule = {
   id: 'seo-kit',
   slug: 'nuxt-seo',
   label: 'Nuxt SEO',
-  icon: 'carbon:settings-check',
+  icon: 'i-carbon-settings-check',
   description: 'All the boring SEO work for Nuxt done.',
   to: '/nuxt-seo/getting-started/installation',
   repo: 'harlan-zw/nuxt-seo',
@@ -47,13 +47,13 @@ export const SiteConfigModule: NuxtSeoModule = {
     to: '/site-config/getting-started/installation',
   },
   label: 'Site Config',
-  icon: 'carbon:settings-check',
+  icon: 'i-carbon-settings-check',
   description: 'Powerful build and runtime shared site configuration for Nuxt modules.',
   to: '/site-config/getting-started/installation',
   repo: 'harlan-zw/nuxt-site-config',
   routeRules: {
     site: { name: 'Nuxt Site Config', description: 'Shared site configuration for Nuxt modules.' },
-    ogImage: { icon: 'carbon:settings-check' },
+    ogImage: { icon: 'i-carbon-settings-check' },
   },
 } as const
 
@@ -62,7 +62,7 @@ export const RobotsModule = {
   slug: 'robots',
   label: 'Robots',
   fullLabel: 'Nuxt Simple Robots',
-  icon: 'carbon:bot',
+  icon: 'i-carbon-bot',
   description: 'Tame the robots crawling and indexing your site with ease.',
   tag: {
     new: true,
@@ -74,12 +74,12 @@ export const RobotsModule = {
   repo: 'harlan-zw/nuxt-simple-robots',
   routeRules: {
     site: { name: 'Nuxt Simple Robots', description: 'Tame the robots crawling and indexing your site with ease.' },
-    ogImage: { icon: 'carbon:bot' },
+    ogImage: { icon: 'i-carbon-bot' },
   },
 } as const
 
 export const SitemapModule = {
-  id: 'simple-sitemap',
+  id: 'sitemap',
   slug: 'sitemap',
   label: 'Sitemap',
   tag: {
@@ -90,12 +90,12 @@ export const SitemapModule = {
   },
   fullLabel: 'Nuxt Sitemap',
   to: '/sitemap/getting-started/installation',
-  icon: 'carbon:load-balancer-application',
+  icon: 'i-carbon-load-balancer-application',
   description: 'Powerfully flexible XML Sitemaps that integrate seamlessly.',
   repo: 'nuxt-modules/sitemap',
   npm: '@nuxtjs/seo',
   routeRules: {
-    ogImage: { icon: 'carbon:load-balancer-application' },
+    ogImage: { icon: 'i-carbon-load-balancer-application' },
   },
 } as const
 
@@ -103,7 +103,7 @@ export const OgImageModule = {
   id: 'og-image',
   slug: 'og-image',
   label: 'OG Image',
-  icon: 'carbon:image-search',
+  icon: 'i-carbon-image-search',
   description: 'Generate OG Images with Vue templates in Nuxt.',
   tag: {
     new: true,
@@ -114,7 +114,7 @@ export const OgImageModule = {
   to: '/og-image/getting-started/installation',
   repo: 'nuxt-modules/og-image',
   routeRules: {
-    ogImage: { icon: 'carbon:image-search' },
+    ogImage: { icon: 'i-carbon-image-search' },
   },
 } as const
 
@@ -129,11 +129,11 @@ export const LinkCheckerModule = {
     date: new Date('2024-01-05'),
   },
   to: '/link-checker/getting-started/installation',
-  icon: 'carbon:cloud-satellite-link',
+  icon: 'i-carbon-cloud-satellite-link',
   description: 'Find and magically fix links that may be negatively effecting your SEO.',
   repo: 'harlan-zw/nuxt-link-checker',
   routeRules: {
-    ogImage: { icon: 'carbon:cloud-satellite-link' },
+    ogImage: { icon: 'i-carbon-cloud-satellite-link' },
   },
 } as const
 
@@ -142,7 +142,7 @@ export const SeoExperimentsModule = {
   label: 'Experiments',
   fullLabel: 'Nuxt SEO Experiments',
   slug: 'experiments',
-  icon: 'carbon:chemistry',
+  icon: 'i-carbon-chemistry',
   tag: {
     label: 'v3',
     to: '/experiments/releases/v3',
@@ -151,7 +151,7 @@ export const SeoExperimentsModule = {
   to: '/experiments/getting-started/installation',
   repo: 'harlan-zw/nuxt-seo-experiments',
   routeRules: {
-    ogImage: { icon: 'carbon:chemistry' },
+    ogImage: { icon: 'i-carbon-chemistry' },
   },
 } as const
 
@@ -159,7 +159,7 @@ export const SchemaOrgModule = {
   id: 'schema-org',
   slug: 'schema-org',
   label: 'Schema.org',
-  icon: 'carbon:chart-relationship',
+  icon: 'i-carbon-chart-relationship',
   tag: {
     label: 'v3',
     to: '/schema-org/getting-started/installation',
@@ -168,7 +168,7 @@ export const SchemaOrgModule = {
   description: 'The quickest and easiest way to build Schema.org graphs.',
   repo: 'harlan-zw/nuxt-schema-org',
   routeRules: {
-    ogImage: { icon: 'carbon:chart-relationship' },
+    ogImage: { icon: 'i-carbon-chart-relationship' },
   },
 } as const
 

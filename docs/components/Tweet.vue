@@ -24,9 +24,9 @@ defineProps<{ id: string }>()
               :src="user.profile_image_url_https"
               :alt="user.name"
             >
-            <Icon
+            <UIcon
               v-if="user.verified || user.is_blue_verified"
-              name="material-symbols:verified-rounded"
+              name="i-material-symbols-verified-rounded"
             />
           </div>
           <div class="ml-3">
@@ -41,7 +41,7 @@ defineProps<{ id: string }>()
       </LegoTweetUser>
 
       <LegoTweetLink :href="url" class="unstyled">
-        <Icon name="uil:twitter" class="text-4xl text-blue-300" />
+        <UIcon name="i-uil-twitter" class="text-4xl text-blue-300" />
       </LegoTweetLink>
     </div>
     <LegoTweetText

@@ -40,7 +40,7 @@ defineProps<NuxtSeoModule>()
               {{ repo }}
             </NuxtLink>
             <div v-if="stars" class="items-center inline-flex justify-center px-1 ">
-              <Icon name="uil:star" class="text-sm text-blue-300 group-hover:op75" />
+              <UIcon name="i-uil-star" class="text-sm text-blue-300 group-hover:op75" />
               <div class="px-1 text-sm">
                 {{ stars }}
               </div>

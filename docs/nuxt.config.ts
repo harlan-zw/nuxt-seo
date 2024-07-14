@@ -23,8 +23,7 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/content',
     'nuxt-lodash',
-    '@nuxt/icon',
-    'nuxt-og-image',
+    '@nuxt/scripts',
     NuxtSeo,
     async (_, nuxt) => {
       const uniqueContributors = new Set()
@@ -67,10 +66,6 @@ export default defineNuxtConfig({
     tagline: 'All the boring SEO stuff for Nuxt done.',
   },
 
-  icon: {
-    mode: 'svg',
-  },
-
   content: {
     highlight: {
       theme: {
@@ -94,7 +89,7 @@ export default defineNuxtConfig({
 
   ui: {
     global: true,
-    icons: ['heroicons', 'simple-icons', 'ph', 'noto'],
+    icons: ['heroicons', 'simple-icons', 'ph', 'noto', 'carbon', 'logos', 'uil'],
   },
 
   sitemap: {
@@ -141,6 +136,16 @@ export default defineNuxtConfig({
     '~/css/scrollbars.css',
   ],
 
+  $production: {
+    scripts: {
+      registry: {
+        fathomAnalytics: {
+          site: 'KGILBQDV',
+        },
+      },
+    },
+  },
+
   app: {
     pageTransition: {
       name: 'page',
@@ -166,14 +171,6 @@ export default defineNuxtConfig({
         class: 'antialiased font-sans text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900',
       },
 
-      script: [
-        {
-          'src': 'https://cdn.usefathom.com/script.js',
-          'data-spa': 'auto',
-          'data-site': 'KGILBQDV',
-          'defer': true,
-        },
-      ],
     },
   },
 

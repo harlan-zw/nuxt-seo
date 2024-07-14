@@ -58,7 +58,7 @@ useSeoMeta({
                 <ul class="grid grid-cols-2 gap-6">
                   <li v-for="(module, key) in modules" :key="key">
                     <NuxtLink :to="module.to">
-                      <Icon :name="module.icon" />
+                      <UIcon dynamic :name="module.icon" />
                       {{ module.label }}
                     </NuxtLink>
                   </li>
@@ -69,7 +69,7 @@ useSeoMeta({
               <div class="bg-gray-50 dark:bg-gray-800 flex rounded-xl shadow p-5">
                 <div>
                   <div class="mb-2">
-                    Hey <Icon name="noto:waving-hand" /> My name is <a href="https://harlanzw.com" target="_blank" class="underline">Harlan</a> and I'm the author and maintainer of Nuxt SEO.
+                    Hey <UIcon name="i-noto-waving-hand" /> My name is <a href="https://harlanzw.com" target="_blank" class="underline">Harlan</a> and I'm the author and maintainer of Nuxt SEO.
                   </div>
                   <div>
                     I'd love to have your <a href="https://github.com/sponsors/harlan-zw" class="underline">support</a>!
@@ -79,10 +79,10 @@ useSeoMeta({
                   <img alt="Harlan Wilton" loading="lazy" src="https://avatars.githubusercontent.com/u/5326365?v=4" class="mx-auto rounded-full w-10 h-10 mb-3">
                   <div class="flex justify-center items-center opacity-70">
                     <UButton color="white" title="Twitter" variant="ghost" to="https://twitter.com/harlan_zw" target="_blank">
-                      <Icon name="i-logos-twitter" class="text-xl" />
+                      <UIcon name="i-logos-twitter" class="text-xl" />
                     </UButton>
                     <UButton color="white" title="GitHub" aria-label="GitHub" variant="ghost" to="https://github.com/harlan-zw" target="_blank">
-                      <Icon name="i-logos-github-icon" class="text-xl" />
+                      <UIcon name="i-logos-github-icon" class="text-xl" />
                     </UButton>
                   </div>
                 </div>

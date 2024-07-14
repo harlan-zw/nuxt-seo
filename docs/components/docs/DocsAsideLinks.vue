@@ -46,7 +46,7 @@ const module = computed(() => {
     <div v-if="children" class="space-y-8 mb-8">
       <div>
         <div class="text-gray-400 flex items-center gap-1">
-          <Icon v-if="module.slug !== 'nuxt-seo'" :name="module.icon" class="w-5 h-5 transition-all" />
+          <UIcon v-if="module.slug !== 'nuxt-seo'" dynamic :name="module.icon" class="w-5 h-5 transition-all" />
           <Logo v-else />
           <div>{{ module.label }}</div>
         </div>
@@ -90,7 +90,7 @@ const module = computed(() => {
         </NuxtLink>
         <NuxtLink to="/site-config/getting-started/installation" class="flex justify-start flex-col items-start px-3 py-2 hover:bg-gray-100 text-left">
           <div class="flex font-semibold gap-1 items-center mb-2">
-            <Icon name="carbon:settings-check" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
+            <UIcon name="i-carbon-settings-check" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
             <span class="truncate">Site Config</span>
           </div>
           <div class="text-xs opacity-60 ">
@@ -101,7 +101,7 @@ const module = computed(() => {
       <div>
         <div class="lg:grid grid-cols-2 md:gap-2">
           <NuxtLink v-for="(item, index) in items" :key="index" :to="item.to" class="block space-x-2 px-3 py-2 hover:bg-gray-100">
-            <Icon :name="item.icon" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
+            <UIcon :name="item.icon" dynamic class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
             <span class="truncate">{{ item.label }}</span>
           </NuxtLink>
         </div>

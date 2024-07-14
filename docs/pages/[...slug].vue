@@ -147,7 +147,7 @@ const ecosystemLinks = [
             <UAside>
               <div v-if="module.slug !== 'nuxt-seo'">
                 <div class="flex mb-2 gap-2">
-                  <Icon :name="module.icon" class="w-9 h-9 dark:text-blue-400 text-blue-500 group-hover:text-blue-500 transition-all" />
+                  <UIcon dynamic :name="module.icon" class="w-9 h-9 dark:text-blue-400 text-blue-500 group-hover:text-blue-500 transition-all" />
                   <div class="gap-2">
                     <div class="text-sm text-center text-gray-600 dark:text-gray-300 w-full">
                       <template v-if="module.slug !== 'nuxt-seo'">
@@ -168,13 +168,13 @@ const ecosystemLinks = [
                   <div class="text-xs flex gap-2">
                     <a :href="`https://www.npmjs.com/package/${module.npm ? module.npm : `nuxt-${module.id}`}`" target="_blank" title="View on NPM" class="">
                       <div class=" text-sm font-light items-center flex">
-                        <Icon name="carbon:chart-line-smooth" class="h-4 w-4 mr-1 opacity-50" />
+                        <UIcon name="i-carbon-chart-line-smooth" class="h-4 w-4 mr-1 opacity-50" />
                         <div>{{ module.downloads }}</div>
                       </div>
                     </a>
                     <a v-if="module.repo !== 'harlan-zw/nuxt-seo'" :href="`http://github.com/${module.repo}`" target="_blank" title="Star on GitHub" class="">
                       <div class="text-sm font-light items-center flex">
-                        <Icon name="carbon:star" class="h-4 w-4 mr-1 opacity-50" />
+                        <UIcon name="i-carbon-star" class="h-4 w-4 mr-1 opacity-50" />
                         {{ module.stars }}
                       </div>
                     </a>
@@ -190,10 +190,10 @@ const ecosystemLinks = [
                 <template #headline>
                   <div class="flex items-center">
                     <div class="text-gray-400 flex items-center gap-1">
-                      <Icon v-if="module.slug !== 'nuxt-seo'" :name="module.icon" class="w-5 h-5 transition-all" />
+                      <UIcon v-if="module.slug !== 'nuxt-seo'" dynamic :name="module.icon" class="w-5 h-5 transition-all" />
                       <div>{{ module.label }}</div>
                     </div>
-                    <Icon name="heroicons-solid:chevron-right" class="w-4 h-4 text-gray-400 mx-2" />
+                    <UIcon name="i-heroicons-solid-chevron-right" class="w-4 h-4 text-gray-400 mx-2" />
                     <div>{{ headline }}</div>
                   </div>
                 </template>

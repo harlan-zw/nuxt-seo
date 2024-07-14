@@ -87,12 +87,12 @@ const modules = useModuleList()
         </svg>
       </div>
       <div class="flex justify-center gap-7">
-        <Icon v-for="(module, key) in modules" :key="key" class="text-blue-300 w-[100px] h-[100px]" :name="module.icon" />
+        <UIcon v-for="(module, key) in modules" :key="key" dynamic class="text-blue-300 w-[100px] h-[100px]" :name="module.icon" />
       </div>
       <div class="flex flex-row justify-center">
         <div class="flex justify-center items-center gap-3 flex-row text-[30px] text-purple-600 ">
           <p class="bg-purple-50 gap-3 items-center border-1 border-purple-400 px-4 py-1.5 rounded-full flex justify-center">
-            <Icon name="carbon:version-minor" class="w-8 h-8 text-purple-500" />
+            <UIcon name="i-carbon-version-minor" class="w-8 h-8 text-purple-500" />
             <span>v{{ version }}</span>
           </p>
         </div>

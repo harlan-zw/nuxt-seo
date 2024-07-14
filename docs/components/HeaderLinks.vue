@@ -43,7 +43,7 @@ const isSetup = computed(() => {
                 </NuxtLink>
                 <NuxtLink to="/site-config/getting-started/installation" class="flex justify-start flex-col items-start px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-950 rounded-lg text-left">
                   <div class="flex font-semibold gap-1 items-center">
-                    <Icon name="carbon:settings-check" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
+                    <UIcon name="i-carbon-settings-check" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
                     <span class="truncate">Site Config</span>
                   </div>
                   <div class="text-xs opacity-60 ">
@@ -54,7 +54,7 @@ const isSetup = computed(() => {
               <div>
                 <div class="lg:grid grid-cols-2 md:gap-2">
                   <NuxtLink v-for="(item, index) in items" :key="index" :to="item.to" class="flex items-start justify-start space-x-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-950 rounded-lg">
-                    <Icon :name="item.icon" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
+                    <UIcon dynamic :name="item.icon" class="text-blue-300 flex-shrink-0 group-hover:text-blue-500 h-6 w-6 dark:text-gray-500 ms-auto" />
                     <span class="truncate">{{ item.label }}</span>
                   </NuxtLink>
                 </div>
@@ -70,7 +70,7 @@ const isSetup = computed(() => {
     <div class="flex items-center justify-end lg:-mr-1.5 ml-3 gap-3">
       <LegoGithubStar v-slot="{ stars }" repo="harlan-zw/nuxt-seo" class="hidden lg:flex mr-5 group border dark:border-gray-700 dark:bg-gray-900 dark:hover:bg-gray-700 hover:bg-gray-200 dark:bg-gray-900 bg-gray-100 transition rounded-lg text-sm justify-center">
         <div class="flex items-center transition rounded-l px-2 py-1 space-x-1">
-          <Icon name="uil:star" class="group-hover:op75 " />
+          <UIcon name="i-uil-star" class="group-hover:op75 " />
           <div>Star</div>
         </div>
         <div class="px-2 py-1 dark:bg-black/20 bg-white rounded-r-lg">
