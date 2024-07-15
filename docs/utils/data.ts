@@ -58,10 +58,10 @@ export const SiteConfigModule: NuxtSeoModule = {
 } as const
 
 export const RobotsModule = {
-  id: 'simple-robots',
+  id: 'robots',
   slug: 'robots',
   label: 'Robots',
-  fullLabel: 'Nuxt Simple Robots',
+  fullLabel: 'Nuxt Robots',
   icon: 'i-carbon-bot',
   description: 'Tame the robots crawling and indexing your site with ease.',
   tag: {
@@ -71,9 +71,9 @@ export const RobotsModule = {
     date: new Date('2023-12-14'),
   },
   to: '/robots/getting-started/installation',
-  repo: 'harlan-zw/nuxt-simple-robots',
+  repo: 'nuxt-modules/robots',
   routeRules: {
-    site: { name: 'Nuxt Simple Robots', description: 'Tame the robots crawling and indexing your site with ease.' },
+    site: { name: 'Nuxt Robots', description: 'Tame the robots crawling and indexing your site with ease.' },
     ogImage: { icon: 'i-carbon-bot' },
   },
 } as const

@@ -39,7 +39,7 @@ With powerful APIs built for fully dynamic sites and zero-config defaults for st
 ## Modules
 
 - 📖 [@nuxtjs/sitemap](https://github.com/nuxt-modules/sitemap) - Sitemap.xml Support
-- 🤖 [nuxt-simple-robots](https://github.com/harlan-zw/nuxt-simple-robots) - Manage site crawling
+- 🤖 [@nuxtjs/robots](https://github.com/nuxt-modules/robots) - Manage site crawling
 - 🔎 [nuxt-schema-org](https://github.com/harlan-zw/nuxt-schema-org) - Generate Schema.org JSON-LD for SEO
 - △ [nuxt-seo-experiments](https://github.com/harlan-zw/nuxt-seo-experiments) - Experimental SEO meta features
 - 🖼️ [nuxt-og-image](https://github.com/nuxt-modules/og-image) - Generate dynamic social share images
