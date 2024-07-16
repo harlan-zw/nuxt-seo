@@ -43,20 +43,20 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.12.3",
-    "@nuxtjs/robots": "^4.0.0",
-    "@nuxtjs/sitemap": "^5.3.4",
+    "@nuxtjs/robots": "^4.0.1",
+    "@nuxtjs/sitemap": "^5.3.5",
     "defu": "^6.1.4",
-    "nuxt-link-checker": "3.0.0",
-    "nuxt-og-image": "^3.0.0-rc.61",
-    "nuxt-schema-org": "^3.3.8",
-    "nuxt-seo-experiments": "^4.0.0-rc.13",
-    "nuxt-site-config": "^2.2.14",
-    "nuxt-site-config-kit": "^2.2.14",
+    "nuxt-link-checker": "^3.0.2",
+    "nuxt-og-image": "^3.0.0-rc.63",
+    "nuxt-schema-org": "^3.3.9",
+    "nuxt-seo-experiments": "^4.0.0",
+    "nuxt-site-config": "^2.2.15",
+    "nuxt-site-config-kit": "^2.2.15",
     "pkg-types": "^1.1.3",
     "ufo": "^1.5.3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.22.3",
+    "@antfu/eslint-config": "^2.22.4",
     "@nuxt/module-builder": "^0.8.1",
     "@nuxt/schema": "^3.12.3",
     "@nuxt/test-utils": "3.13.1",
@@ -69,9 +69,6 @@
     "nuxt": "^3.12.3",
     "typescript": "5.4.5",
     "vitest": "^2.0.3"
-  },
-  "resolutions": {
-    "shiki": "1.10.1"
   },
   "build": {
     "externals": [
