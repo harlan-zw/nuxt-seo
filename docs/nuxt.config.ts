@@ -59,6 +59,11 @@ export default defineNuxtConfig({
     },
   ],
 
+
+  build: {
+    transpile: ['shiki'],
+  },
+
   site: {
     url: 'https://nuxtseo.com',
     name: 'Nuxt SEO',
