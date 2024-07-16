@@ -1,6 +1,6 @@
 ---
 title: How It Works
-description: Learn more about how Nuxt Simple Robots works.
+description: Learn more about how Nuxt Robots works.
 ---
 
 Nuxt Robots tells robots (crawlers) how to behave by creating a `robots.txt` file for you, adding a `X-Robots-Tag` header and `<meta name="robots">` tag to your site
