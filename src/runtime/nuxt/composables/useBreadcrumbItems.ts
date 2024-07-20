@@ -191,17 +191,16 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
   })
 
   const schemaOrgEnabled = typeof options.schemaOrg === 'undefined' ? true : options.schemaOrg
-  if (import.meta.server && schemaOrgEnabled) {
+  // TODO can probably drop this schemaOrgEnabled flag as we mock the function
+  if ((import.meta.dev || import.meta.server) && schemaOrgEnabled) {
     useSchemaOrg([
-      defineBreadcrumb(computed(() => {
-        return {
-          id: `#${options.id || 'breadcrumb'}`,
-          itemListElement: items.value.map(item => ({
-            name: item.label || item.ariaLabel,
-            item: item.to ? siteResolver(item.to) : undefined,
-          })),
-        }
-      })),
+      defineBreadcrumb({
+        id: `#${options.id || 'breadcrumb'}`,
+        itemListElement: computed(() => items.value.map(item => ({
+          name: item.label || item.ariaLabel,
+          item: item.to ? siteResolver(item.to) : undefined,
+        }))),
+      }),
     ])
   }
   return items
