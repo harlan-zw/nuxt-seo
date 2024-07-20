@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { definePageMeta, defineOgImage } from '#imports'
+
 definePageMeta({
   title: 'About',
   description: 'My description',
