@@ -71,3 +71,20 @@ export default defineNitroPlugin((nitroApp) => {
   })
 })
 ```
+
+## Recipes
+
+### Modify Sitemap `xmlns` attribute
+
+For some search engines, you may need to add a custom `xmlns` attribute to the sitemap. You can do this with a simple 
+search and replace in the `sitemap:output` hook.
+
+```ts [server/plugins/sitemap.ts]
+import { defineNitroPlugin } from 'nitropack/runtime/plugin'
+
+export default defineNitroPlugin((nitroApp) => {
+  nitroApp.hooks.hook('sitemap:output', async (ctx) => {
+    ctx.sitemap = ctx.sitemap.replace('<urlset ', '<urlset xmlns:mobile="http://www.baidu.com/schemas/sitemap-mobile/1/" ')
+  })
+})
+```
