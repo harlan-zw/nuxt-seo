@@ -76,7 +76,7 @@ export default defineNitroPlugin((nitroApp) => {
 
 ### Modify Sitemap `xmlns` attribute
 
-For some search engines, you may need to add a custom `xmlns` attribute to the sitemap. You can do this with a simple 
+For some search engines, you may need to add a custom `xmlns` attribute to the sitemap. You can do this with a simple
 search and replace in the `sitemap:output` hook.
 
 ```ts [server/plugins/sitemap.ts]
