@@ -1,9 +1,12 @@
 import type { UseHeadOptions, UseSeoMetaInput } from '@unhead/vue'
+import type { QueryObject } from 'ufo'
+import { stringifyQuery } from 'ufo'
 import {
   computed,
   createSitePathResolver,
   useHead,
   useRoute,
+  useRuntimeConfig,
   useSeoMeta,
   useServerHead,
   useSiteConfig,
@@ -11,10 +14,21 @@ import {
 
 export function applyDefaults() {
   // get the head instance
+  const { canonicalQueryWhitelist } = useRuntimeConfig().public['nuxt-seo']
   const siteConfig = useSiteConfig()
   const route = useRoute()
   const resolveUrl = createSitePathResolver({ withBase: true, absolute: true })
-  const canonicalUrl = computed<string>(() => resolveUrl(route.path || '/').value || route.path)
+  const canonicalUrl = computed<string>(() => {
+    const { query } = route
+    const url = resolveUrl(route.path || '/').value || route.path
+    // apply canonicalQueryWhitelist to query
+    const filteredQuery = Object.fromEntries(
+      Object.entries(query).filter(([key]) => canonicalQueryWhitelist.includes(key)),
+    ) as QueryObject
+    return Object.keys(filteredQuery).length
+      ? `${url}?${stringifyQuery(filteredQuery)}`
+      : url
+  })
 
   const minimalPriority: UseHeadOptions = {
     // give nuxt.config values higher priority
@@ -24,7 +38,7 @@ export function applyDefaults() {
   // needs higher priority
   useHead({
     link: [{ rel: 'canonical', href: () => canonicalUrl.value }],
-  })
+  }, minimalPriority)
   const locale = siteConfig.currentLocale || siteConfig.defaultLocale
   if (locale) {
     useServerHead({
