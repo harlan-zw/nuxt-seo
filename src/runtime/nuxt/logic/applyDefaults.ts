@@ -1,6 +1,7 @@
 import type { UseHeadOptions, UseSeoMetaInput } from '@unhead/vue'
 import type { QueryObject } from 'ufo'
 import { stringifyQuery } from 'ufo'
+import type { Ref } from 'vue'
 import {
   computed,
   createSitePathResolver,
@@ -8,11 +9,10 @@ import {
   useRoute,
   useRuntimeConfig,
   useSeoMeta,
-  useServerHead,
   useSiteConfig,
 } from '#imports'
 
-export function applyDefaults() {
+export function applyDefaults(i18n: { locale: Ref<string> }) {
   // get the head instance
   const { canonicalQueryWhitelist } = useRuntimeConfig().public['nuxt-seo']
   const siteConfig = useSiteConfig()
@@ -37,25 +37,16 @@ export function applyDefaults() {
 
   // needs higher priority
   useHead({
-    link: [{ rel: 'canonical', href: () => canonicalUrl.value }],
-  }, minimalPriority)
-  const locale = siteConfig.currentLocale || siteConfig.defaultLocale
-  if (locale) {
-    useServerHead({
-      htmlAttrs: { lang: locale },
-    })
-  }
-
-  // TODO support SPA
-  useHead({
+    htmlAttrs: { lang: i18n.locale },
     templateParams: { site: siteConfig, siteName: siteConfig.name || '' },
     titleTemplate: '%s %separator %siteName',
+    link: [{ rel: 'canonical', href: () => canonicalUrl.value }],
   }, minimalPriority)
 
   const seoMeta: UseSeoMetaInput = {
     ogType: 'website',
     ogUrl: () => canonicalUrl.value,
-    ogLocale: locale,
+    ogLocale: () => i18n.locale.value,
     ogSiteName: siteConfig.name,
   }
   if (siteConfig.description)

@@ -125,12 +125,7 @@ export default defineNuxtModule<ModuleOptions>({
       // i18n complicates things, we need to run the server plugin at the right time, client is fine
       if (hasNuxtModule('@nuxtjs/i18n')) {
         addPlugin({
-          src: resolve(`./runtime/nuxt/plugin/defaultsWaitI18n.server`),
-          mode: 'server',
-        })
-        addPlugin({
-          src: resolve(`./runtime/nuxt/plugin/defaults`),
-          mode: 'client',
+          src: resolve(`./runtime/nuxt/plugin/defaultsWaitI18n`),
         })
       }
       else {

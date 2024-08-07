@@ -7,16 +7,19 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxt/ui',
   ],
+
   site: {
     url: 'https://nuxtseo.com',
     debug: true,
   },
+
   nitro: {
     prerender: {
       failOnError: false,
       ignore: ['/'],
     },
   },
+
   i18n: {
     baseUrl: 'https://nuxtseo.com',
     defaultLocale: 'en',
@@ -40,4 +43,6 @@ export default defineNuxtConfig({
       },
     ],
   },
+
+  compatibilityDate: '2024-08-07',
 })
