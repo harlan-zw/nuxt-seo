@@ -27,6 +27,10 @@ export interface ModuleOptions {
    */
   automaticDefaults?: boolean
   /**
+   * When enabled, it will whitelist the query parameters that are allowed in the canonical URL.
+   */
+  canonicalQueryWhitelist?: string[]
+  /**
    * When enabled, it will redirect any request to the canonical domain (site url) using a 301 redirect on non-dev environments.
    *
    * E.g if the site url is 'www.example.com' and the user visits 'example.com',
@@ -104,6 +108,18 @@ export default defineNuxtModule<ModuleOptions>({
 
     for (const module of Modules)
       await installModule(await resolvePath(module))
+
+    nuxt.options.runtimeConfig.public['nuxt-seo'] = {
+      canonicalQueryWhitelist: config.canonicalQueryWhitelist || [
+        'page',
+        'sort',
+        'filter',
+        'search',
+        'q',
+        'category',
+        'tag',
+      ],
+    }
 
     if (config.automaticDefaults) {
       // i18n complicates things, we need to run the server plugin at the right time, client is fine
