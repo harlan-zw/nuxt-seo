@@ -1,5 +1,5 @@
 import { applyDefaults } from '../logic/applyDefaults'
-import { defineNuxtPlugin, ref } from '#imports'
+import { defineNuxtPlugin, ref, useSiteConfig } from '#imports'
 
 export default defineNuxtPlugin({
   name: 'nuxt-seo:defaults',
@@ -12,9 +12,12 @@ export default defineNuxtPlugin({
     ? [
         'nuxt-site-config:i18n',
       ]
-    : [],
+    : [
+        'i18n:plugin',
+      ],
   setup(nuxtApp) {
-    const locale = ref(nuxtApp.$i18n!.locale.value)
+    const siteConfig = useSiteConfig()
+    const locale = ref(nuxtApp.$i18n?.locale?.value || siteConfig.currentLocale || siteConfig.defaultLocale)
     // @ts-expect-error untyped
     nuxtApp.hook('i18n:localeSwitched', ({ newLocale }) => {
       locale.value = newLocale
