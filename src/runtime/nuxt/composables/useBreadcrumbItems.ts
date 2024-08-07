@@ -3,6 +3,7 @@ import type { RouteMeta } from 'vue-router'
 import type { MaybeRefOrGetter } from 'vue'
 import { defu } from 'defu'
 import type { NuxtLinkProps } from 'nuxt/app'
+import { fixSlashes } from 'site-config-stack/urls'
 import { pathBreadcrumbSegments } from '../../pure/breadcrumbs'
 import {
   computed,
@@ -13,7 +14,7 @@ import {
   useRoute,
   useRouter,
   useSchemaOrg,
-  withSiteTrailingSlash,
+  useSiteConfig,
 } from '#imports'
 
 interface NuxtUIBreadcrumbItem extends NuxtLinkProps {
@@ -120,6 +121,7 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
     canonical: true,
     absolute: true,
   })
+  const siteConfig = useSiteConfig()
   const items = computed(() => {
     let rootNode = '/'
     if (i18n) {
@@ -181,7 +183,7 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
       })
       .map((m) => {
         if (m && m.to) {
-          m.to = withSiteTrailingSlash(m.to).value
+          m.to = fixSlashes(siteConfig.trailingSlash, m.to)
           if (m.to === rootNode && toValue(options.hideRoot))
             return false
         }
