@@ -2,7 +2,7 @@
   "name": "@nuxtjs/seo",
   "type": "module",
   "version": "2.0.0-rc.19",
-  "packageManager": "pnpm@9.5.0",
+  "packageManager": "pnpm@9.9.0",
   "description": "The all-in-one SEO layer for Nuxt 3.",
   "author": {
     "name": "Harlan Wilton",
@@ -42,33 +42,33 @@
     "typecheck": "npx vue-tsc --noEmit --strict"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.12.3",
-    "@nuxtjs/robots": "^4.1.3",
-    "@nuxtjs/sitemap": "6.0.0-beta.2",
+    "@nuxt/kit": "^3.13.0",
+    "@nuxtjs/robots": "^4.1.6",
+    "@nuxtjs/sitemap": "6.0.0",
     "defu": "^6.1.4",
-    "nuxt-link-checker": "^3.0.2",
-    "nuxt-og-image": "3.0.0-rc.65",
+    "nuxt-link-checker": "^3.1.1",
+    "nuxt-og-image": "3.0.0-rc.66",
     "nuxt-schema-org": "^3.3.9",
-    "nuxt-seo-experiments": "^4.0.0",
-    "nuxt-site-config": "^2.2.15",
-    "nuxt-site-config-kit": "^2.2.15",
-    "pkg-types": "^1.1.3",
+    "nuxt-seo-experiments": "^4.0.1",
+    "nuxt-site-config": "^2.2.16",
+    "nuxt-site-config-kit": "^2.2.16",
+    "pkg-types": "^1.2.0",
     "ufo": "^1.5.4"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.27.0",
-    "@nuxt/module-builder": "^0.8.1",
-    "@nuxt/schema": "^3.12.4",
-    "@nuxt/test-utils": "^3.14.0",
-    "@nuxt/ui": "^2.17.0",
-    "@nuxtjs/i18n": "^8.3.3",
-    "bumpp": "^9.4.1",
-    "eslint": "^9.7.0",
-    "execa": "^9.3.0",
+    "@antfu/eslint-config": "^3.0.0",
+    "@nuxt/module-builder": "^0.8.3",
+    "@nuxt/schema": "3.13.0",
+    "@nuxt/test-utils": "^3.14.1",
+    "@nuxt/ui": "^2.18.4",
+    "@nuxtjs/i18n": "^8.5.1",
+    "bumpp": "^9.5.2",
+    "eslint": "^9.9.1",
+    "execa": "^9.3.1",
     "nitropack": "^2.9.7",
-    "nuxt": "^3.12.4",
-    "typescript": "5.4.5",
-    "vitest": "^2.0.3"
+    "nuxt": "3.13.0",
+    "typescript": "5.5.4",
+    "vitest": "^2.0.5"
   },
   "build": {
     "externals": [
@@ -77,8 +77,8 @@
     ]
   },
   "resolutions": {
-    "@nuxt/schema": "3.12.3",
-    "nuxt": "3.12.3",
+    "@nuxt/schema": "3.13.0",
+    "nuxt": "3.13.0",
     "shiki": "1.10.1",
     "typescript": "5.4.5"
   }
