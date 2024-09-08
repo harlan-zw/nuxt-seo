@@ -11,7 +11,6 @@ import {
   defineBreadcrumb,
   toValue,
   useI18n,
-  useRoute,
   useRouter,
   useSchemaOrg,
   useSiteConfig,
@@ -154,7 +153,7 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
         const routeMeta = (route?.meta || {}) as RouteMeta & { title?: string, breadcrumbLabel: string }
         const routeName = route ? String(route.name || route.path) : (item.to === '/' ? 'index' : 'unknown')
         let [name] = routeName.split('___')
-        if (name === 'unknown')
+        if (name === 'unknown' || name.includes('/'))
           name = (item.to || '').split('/').pop() || '' // fallback to last path segment
         // merge with the route meta
         if (routeMeta.breadcrumb) {
@@ -167,14 +166,11 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
         // @ts-expect-error untyped
         item.label = item.label || routeMeta.breadcrumbTitle || routeMeta.title
         if (typeof item.label === 'undefined') {
-          // try use i18n
-          // fetch from i18n
-          // @ts-expect-error untyped
-          item.label = item.label || i18n.t(`breadcrumb.items.${name}.label`, name === 'index' ? 'Home' : titleCase(name), { missingWarn: false })
-          // @ts-expect-error untyped
-          item.ariaLabel = item.ariaLabel || i18n.t(`breadcrumb.items.${name}.ariaLabel`, item.label, { missingWarn: false })
+          item.label = i18n.t(`breadcrumb.items.${name}.label`, name === 'index' ? 'Home' : titleCase(name), { missingWarn: false })
         }
-        item.ariaLabel = item.ariaLabel || item.label
+        if (typeof item.ariaLabel === 'undefined') {
+          item.ariaLabel = i18n.t(`breadcrumb.items.${name}.ariaLabel`, item.label, { missingWarn: false }) || item.label
+        }
         // mark the current based on the options
         item.current = item.current || item.to === current
         if (toValue(options.hideCurrent) && item.current)

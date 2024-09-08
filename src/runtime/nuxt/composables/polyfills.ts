@@ -8,7 +8,8 @@ export function defineWebPage() {}
 export function useI18n() {
   const siteConfig = useSiteConfig()
   return {
-    t: (_: string, fallback: string) => fallback,
+    // eslint-disable-next-line unused-imports/no-unused-vars
+    t: (_: string, fallback: string, options: any) => fallback,
     te: (_: string) => false,
     strategy: 'no_prefix',
     defaultLocale: ref(siteConfig.defaultLocale || 'en'),
