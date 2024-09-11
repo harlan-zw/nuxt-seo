@@ -59,6 +59,13 @@ export default defineNuxtConfig({
     },
   ],
 
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: ['/'],
+    },
+  },
+
   build: {
     transpile: ['shiki'],
   },
@@ -150,7 +157,6 @@ export default defineNuxtConfig({
   },
 
   ogImage: {
-    zeroRuntime: true,
     strictNuxtContentPaths: true,
   },
 
@@ -180,10 +186,6 @@ export default defineNuxtConfig({
       },
 
     },
-  },
-
-  generate: {
-    routes: ['/'],
   },
 
   compatibilityDate: '2024-07-12',
