@@ -90,7 +90,11 @@ const themeRgb = computed(() => {
           <h1 class="text-[60px] max-w-[700px] font-bold m-0">
             {{ title }}
           </h1>
-          <p class="text-[32px] leading-[45px] max-w-[800px] opacity-90 font-normal m-0">
+          <p
+            class="text-[32px] leading-[45px] max-w-[800px] font-normal m-0" :class="[
+              colorMode === 'light' ? ['text-gray-700'] : ['text-gray-200'],
+            ]"
+          >
             {{ description }}
           </p>
         </div>
