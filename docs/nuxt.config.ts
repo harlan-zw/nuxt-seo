@@ -149,6 +149,11 @@ export default defineNuxtConfig({
     },
   },
 
+  ogImage: {
+    zeroRuntime: true,
+    strictNuxtContentPaths: true,
+  },
+
   app: {
     pageTransition: {
       name: 'page',

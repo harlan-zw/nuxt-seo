@@ -68,6 +68,7 @@ const [{ data: page }, { data: surround }] = await Promise.all([
 if (!page.value)
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 
+useHead(page.value.head)
 useSeoMeta({
   title: () => page.value?.title || '',
   description: () => page.value?.description,
