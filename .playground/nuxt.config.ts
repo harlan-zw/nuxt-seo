@@ -5,7 +5,6 @@ export default defineNuxtConfig({
   modules: [
     NuxtSeoKit,
     '@nuxt/ui',
-    'nuxt-icon',
   ],
 
   devtools: {
@@ -43,6 +42,7 @@ export default defineNuxtConfig({
   routeRules: {
     '/about': { sitemap: { changefreq: 'daily', priority: 0.3 } },
     '/secret': { index: false },
+    '/blog/tag': { redirect: { to: '/blog/tags', statusCode: 301 } },
   },
 
   compatibilityDate: '2024-07-11',
