@@ -136,6 +136,7 @@ export default defineNuxtConfig({
         component: 'NuxtSeo',
       },
     },
+    '/og-image-v3': { redirect: { to: '/og-image/releases/v3', statusCode: 301 } },
     // extra redirects
     '/sitemap/guides/i18n': { redirect: { to: '/sitemap/integrations/i18n', statusCode: 301 } },
     '/sitemap/guides/integrations': { redirect: { to: '/sitemap/integrations/content', statusCode: 301 } },

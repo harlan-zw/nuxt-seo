@@ -73,7 +73,7 @@ const themeRgb = computed(() => {
     <div class="h-full w-full relative">
       <div class="flex flex-row justify-between items-center">
         <div class="text-[40px] flex items-center gap-3 flex-row">
-          <UIcon v-if="icon" class="text-blue-500 w-20 h-20" dynamic :name="icon" />
+          <UIcon v-if="icon" class="text-blue-500 w-20 h-20"  mode="svg" dynamic :name="icon" />
           <div>
             <div class="text-[40px] font-mono">
               {{ moduleName }}
