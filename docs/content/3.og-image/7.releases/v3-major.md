@@ -257,9 +257,9 @@ Change the hex color of the flare and the Nuxt SEO logo.
 
 ::tab-comparison
 
-:Image{src="/__og-image__/image/og-image/releases/v3/og.png?component=Release&theme=%23d946ef&siteName=Purple&icon=carbon%3Afire" label="Theming" alt="v3 dark mode"}
-:Image{src="/__og-image__/image/og-image/releases/v3/og.png?component=Release&colorMode=light" label="Light mode" alt="v3 light mode"}
-:Image{src="/__og-image__/image/og-image/releases/v3/og.png?component=Release&colorMode=dark" label="Dark mode" alt="v3 dark mode"}
+:Image{src="/__og-image__/image/og-image/releases/v3-major/og.png?component=Release&theme=%23d946ef&siteName=Purple&icon=carbon%3Afire" label="Theming" alt="v3 dark mode"}
+:Image{src="/__og-image__/image/og-image/releases/v3-major/og.png?component=Release&colorMode=light" label="Light mode" alt="v3 light mode"}
+:Image{src="/__og-image__/image/og-image/releases/v3-major/og.png?component=Release&colorMode=dark" label="Dark mode" alt="v3 dark mode"}
 
 ::
 
