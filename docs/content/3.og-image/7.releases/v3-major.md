@@ -1,7 +1,7 @@
 ---
 title: v3.0.0
 description: Release notes for Nuxt OG Image v3.
-path: /og-image/releases/v3
+path: /og-image/releases/v3-major
 publishedOn: 2024-09-13
 ogImage:
   component: Release
