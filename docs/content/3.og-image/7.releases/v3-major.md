@@ -12,14 +12,7 @@ ogImage:
     publishedOn:  2024-09-13
 ---
 
-## Background
-
-I'm excited to share the v3 of Nuxt OG Image is here!
-
-This releases features:
-- A complete rewrite of the module to improve stability and developer experience.
-- Many new performance improvements, including a Zero Runtime mode.
-- A new Playground with more features and community templates.
+Just want to dive in? Check out the [👾 &nbsp;Playground](https://stackblitz.com/edit/nuxt-starter-pxs3wk?file=nuxt.config.ts).
 
 ## 🚀 Features
 
