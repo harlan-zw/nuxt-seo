@@ -61,6 +61,14 @@ export default defineNuxtConfig({
     },
   ],
 
+  nitro: {
+    prerender: {
+      failOnError: false,
+      crawlLinks: true,
+      routes: ['/'],
+    },
+  },
+
   build: {
     transpile: ['shiki'],
   },
@@ -149,6 +157,7 @@ export default defineNuxtConfig({
         component: 'NuxtSeo',
       },
     },
+    '/og-image/releases/v3': { redirect: { to: '/og-image/releases/v3-major', statusCode: 301 } },
     // extra redirects
     '/sitemap/guides/i18n': { redirect: { to: '/sitemap/integrations/i18n', statusCode: 301 } },
     '/sitemap/guides/integrations': { redirect: { to: '/sitemap/integrations/content', statusCode: 301 } },
@@ -168,6 +177,10 @@ export default defineNuxtConfig({
         },
       },
     },
+  },
+
+  ogImage: {
+    strictNuxtContentPaths: true,
   },
 
   app: {
@@ -196,10 +209,6 @@ export default defineNuxtConfig({
       },
 
     },
-  },
-
-  generate: {
-    routes: ['/'],
   },
 
   compatibilityDate: '2024-07-12',

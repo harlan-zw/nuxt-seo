@@ -10,6 +10,7 @@ const props = withDefaults(defineProps<{
   version?: string
   moduleName?: string
   theme?: string
+  publishedOn?: string
 }>(), {
   colorMode: 'light',
   theme: '#00dc82',
@@ -51,7 +52,7 @@ const themeRgb = computed(() => {
   <div
     class="w-full h-full flex justify-between relative p-[60px]"
     :class="[
-      colorMode === 'light' ? ['bg-white', 'text-gray-900'] : ['bg-gray-900', 'text-gray-50'],
+      colorMode === 'light' ? ['bg-white', 'text-gray-900'] : ['bg-gray-900', 'text-gray-100'],
     ]"
   >
     <div
@@ -64,9 +65,9 @@ const themeRgb = computed(() => {
     <div class="h-full w-full relative">
       <div class="flex flex-row justify-between items-center">
         <div class="text-[40px] flex items-center gap-3 flex-row">
-          <UIcon class="text-blue-500 w-20 h-20" dynamic :name="icon" />
+          <UIcon mode="svg" class="text-blue-500 w-20 h-20" dynamic :name="icon" />
           <div>
-            <div class="text-[40px] font-mono">
+            <div class="text-[36px] font-mono text-gray-300">
               {{ moduleName }}
             </div>
           </div>
@@ -86,12 +87,15 @@ const themeRgb = computed(() => {
       </div>
       <div class="flex-grow flex items-center justify-start">
         <div class="max-w-[800px] flex justify-center gap-7 flex-col">
-          <h1 class="text-[60px] max-w-[700px] font-bold m-0">
+          <div class="text-[60px] max-w-[700px] font-bold m-0 flex flex-row flex-wrap gap-4">
             {{ title }}
-          </h1>
-          <p class="text-[32px] leading-[45px] max-w-[800px] opacity-90 font-normal m-0">
+          </div>
+          <div class="text-[32px] leading-[45px] max-w-[800px] opacity-90 font-normal m-0">
             {{ description }}
-          </p>
+          </div>
+          <div v-if="publishedOn" class="text-[25px] font-bold leading-[45px] max-w-[800px] opacity-70 m-0">
+            {{ new Date(publishedOn).toLocaleDateString() }}
+          </div>
         </div>
       </div>
     </div>

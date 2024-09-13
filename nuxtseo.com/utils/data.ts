@@ -107,9 +107,9 @@ export const OgImageModule = {
   description: 'Generate OG Images with Vue templates in Nuxt.',
   tag: {
     new: true,
-    label: 'RC v3',
+    label: 'v3',
     to: '/og-image/releases/v3',
-    date: new Date('2023-12-10'),
+    date: new Date('2024-09-11'),
   },
   to: '/og-image/getting-started/installation',
   repo: 'nuxt-modules/og-image',
