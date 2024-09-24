@@ -149,7 +149,7 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
       segments.push(...options.append)
     return (segments.filter(Boolean) as BreadcrumbItemProps[])
       .map((item) => {
-        const route = routes.find(r => withoutTrailingSlash(r.path) === withoutTrailingSlash(item.to))
+        const route = router.resolve(item.to)?.matched
         const routeMeta = (route?.meta || {}) as RouteMeta & { title?: string, breadcrumbLabel: string }
         const routeName = route ? String(route.name || route.path) : (item.to === '/' ? 'index' : 'unknown')
         let [name] = routeName.split('___')
