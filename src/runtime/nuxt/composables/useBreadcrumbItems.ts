@@ -113,8 +113,6 @@ function titleCase(s: string) {
 
 export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
   const router = useRouter()
-  const routes = router.getRoutes()
-
   const i18n = useI18n()
   const siteResolver = createSitePathResolver({
     canonical: true,
@@ -149,7 +147,7 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
       segments.push(...options.append)
     return (segments.filter(Boolean) as BreadcrumbItemProps[])
       .map((item) => {
-        const route = router.resolve(item.to)?.matched
+        const route = router.resolve(item.to)?.matched?.[0] || router.currentRoute.value // fallback to current route
         const routeMeta = (route?.meta || {}) as RouteMeta & { title?: string, breadcrumbLabel: string }
         const routeName = route ? String(route.name || route.path) : (item.to === '/' ? 'index' : 'unknown')
         let [name] = routeName.split('___')
