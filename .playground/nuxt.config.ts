@@ -5,7 +5,6 @@ export default defineNuxtConfig({
   modules: [
     NuxtSeoKit,
     '@nuxt/ui',
-    'nuxt-icon',
   ],
 
   devtools: {
