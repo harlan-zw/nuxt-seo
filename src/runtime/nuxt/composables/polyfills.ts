@@ -1,5 +1,5 @@
-import { ref } from 'vue'
 import { useSiteConfig } from '#imports'
+import { ref } from 'vue'
 
 export function useSchemaOrg() {}
 export function defineWebSite() {}

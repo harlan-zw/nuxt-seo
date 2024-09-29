@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { useMouseInElement } from '@vueuse/core'
 import { onMounted, ref, useElementHover, useIntervalFn, watch } from '#imports'
+import { useMouseInElement } from '@vueuse/core'
 
 defineProps<{
   icon: string

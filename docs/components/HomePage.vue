@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { useScript } from '@unhead/vue'
 import { useElementHover, useTransition, useWindowScroll } from '@vueuse/core'
 import { ref } from 'vue'
-import { useScript } from '@unhead/vue'
 import { useModuleList } from '~/utils/data'
 
 definePageMeta({
@@ -119,11 +119,9 @@ const newestModules = Object.values(moduleStats).map((ms) => {
       publishedAt: new Date(ms.stats.publishedAt),
     },
   }
+}).filter(m => m.module && m.stats?.publishedAt).sort((a, b) => {
+  return b.stats.publishedAt.getTime() - a.stats.publishedAt.getTime()
 })
-  .filter(m => m.module && m.stats?.publishedAt)
-  .sort((a, b) => {
-    return b.stats.publishedAt.getTime() - a.stats.publishedAt.getTime()
-  })
 
 const totalContributors = useRuntimeConfig().public.totalContributors
 const uniqueContributors = useRuntimeConfig().public.uniqueContributors

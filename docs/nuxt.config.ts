@@ -39,7 +39,8 @@ export default defineNuxtConfig({
                 if (d.contributors)
                   d.contributors.forEach(c => uniqueContributors.add(c.id))
                 return { id: m, stats: d.stats || false }
-              }).catch(() => {
+              })
+              .catch(() => {
                 return {
                   id: m,
                   stats: {

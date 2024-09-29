@@ -1,5 +1,5 @@
-import { applyDefaults } from '../logic/applyDefaults'
 import { defineNuxtPlugin, ref, useSiteConfig } from '#imports'
+import { applyDefaults } from '../logic/applyDefaults'
 
 export default defineNuxtPlugin({
   name: 'nuxt-seo:defaults',
