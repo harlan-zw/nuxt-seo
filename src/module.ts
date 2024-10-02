@@ -10,8 +10,8 @@ import {
 } from '@nuxt/kit'
 import { colors } from 'consola/utils'
 import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
-import { readPackageJSON } from 'pkg-types'
 import { $fetch } from 'ofetch'
+import { readPackageJSON } from 'pkg-types'
 
 export interface ModuleOptions {
   /**

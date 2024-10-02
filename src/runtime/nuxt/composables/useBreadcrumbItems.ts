@@ -1,10 +1,6 @@
-import { withoutTrailingSlash } from 'ufo'
-import type { RouteMeta } from 'vue-router'
-import type { MaybeRefOrGetter } from 'vue'
-import { defu } from 'defu'
 import type { NuxtLinkProps } from 'nuxt/app'
-import { fixSlashes } from 'site-config-stack/urls'
-import { pathBreadcrumbSegments } from '../../pure/breadcrumbs'
+import type { MaybeRefOrGetter } from 'vue'
+import type { RouteMeta } from 'vue-router'
 import {
   computed,
   createSitePathResolver,
@@ -15,6 +11,10 @@ import {
   useSchemaOrg,
   useSiteConfig,
 } from '#imports'
+import { defu } from 'defu'
+import { fixSlashes } from 'site-config-stack/urls'
+import { withoutTrailingSlash } from 'ufo'
+import { pathBreadcrumbSegments } from '../../pure/breadcrumbs'
 
 interface NuxtUIBreadcrumbItem extends NuxtLinkProps {
   label: string
@@ -113,8 +113,6 @@ function titleCase(s: string) {
 
 export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
   const router = useRouter()
-  const routes = router.getRoutes()
-
   const i18n = useI18n()
   const siteResolver = createSitePathResolver({
     canonical: true,
@@ -149,7 +147,7 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
       segments.push(...options.append)
     return (segments.filter(Boolean) as BreadcrumbItemProps[])
       .map((item) => {
-        const route = routes.find(r => withoutTrailingSlash(r.path) === withoutTrailingSlash(item.to))
+        const route = router.resolve(item.to)?.matched?.[0] || router.currentRoute.value // fallback to current route
         const routeMeta = (route?.meta || {}) as RouteMeta & { title?: string, breadcrumbLabel: string }
         const routeName = route ? String(route.name || route.path) : (item.to === '/' ? 'index' : 'unknown')
         let [name] = routeName.split('___')

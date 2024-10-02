@@ -1,6 +1,5 @@
 import type { UseHeadOptions, UseSeoMetaInput } from '@unhead/vue'
 import type { QueryObject } from 'ufo'
-import { stringifyQuery } from 'ufo'
 import type { Ref } from 'vue'
 import {
   computed,
@@ -11,6 +10,7 @@ import {
   useSeoMeta,
   useSiteConfig,
 } from '#imports'
+import { stringifyQuery } from 'ufo'
 
 export function applyDefaults(i18n: { locale: Ref<string> }) {
   // get the head instance

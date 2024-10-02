@@ -1,6 +1,6 @@
+import { useNitroOrigin, useSiteConfig } from '#imports'
 import { defineEventHandler, sendRedirect, setHeader } from 'h3'
 import { joinURL } from 'ufo'
-import { useNitroOrigin, useSiteConfig } from '#imports'
 
 export default defineEventHandler((e) => {
   const siteConfig = useSiteConfig(e)

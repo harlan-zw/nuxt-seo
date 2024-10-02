@@ -78,7 +78,7 @@ const modules = useModuleList()
         </svg>
       </div>
       <div class="flex justify-center gap-7">
-        <UIcon v-for="(module, key) in modules" mode="svg" :key="key" dynamic class="text-blue-300 w-[100px] h-[100px]" :name="module.icon" />
+        <UIcon v-for="(module, key) in modules" :key="key" mode="svg" dynamic class="text-blue-300 w-[100px] h-[100px]" :name="module.icon" />
       </div>
       <div class="flex flex-row justify-center">
         <div class="flex justify-center items-center gap-3 flex-row text-[30px] text-purple-600 ">

@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { useScript } from '@unhead/vue'
 import { useElementHover, useTransition, useWindowScroll } from '@vueuse/core'
 import { ref } from 'vue'
-import { useScript } from '@unhead/vue'
 import { useModuleList } from '~/utils/data'
 
 definePageMeta({
