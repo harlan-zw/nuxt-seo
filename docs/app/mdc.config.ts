@@ -13,6 +13,7 @@ export default defineConfig({
       {
         name: 'highlight-apis',
         span(node, line, col) {
+          // TODO do all Nuxt SEO composables & config
           if (node.children[0]?.type === 'text' && node.children[0]?.value === 'useRobotsRule') {
             console.log(node)
             node.properties.className = ['!underline']

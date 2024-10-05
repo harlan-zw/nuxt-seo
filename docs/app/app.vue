@@ -120,8 +120,6 @@ useSeoMeta({
 @import "tailwindcss";
 @import "@nuxt/ui-pro";
 
-@source "../content/**/*.md";
-
 @theme {
   --font-family-sans: 'Public Sans', sans-serif;
   --font-family-mono: 'Fira Code', monospace;

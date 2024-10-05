@@ -13,7 +13,8 @@ const { data: robotsTxt } = await useAsyncData('robotsTxt', () => $fetch('/api/r
 const { data: sitemapXml } = await useAsyncData('sitemapXml', () => $fetch('/api/sitemap-xml'))
 
 const modules = inject('modules')
-const listedModules = modules.filter(m => !m.unlisted)
+const stats = inject('stats')
+const listedModules = modules.filter(m => !['nuxt-seo', 'site-config'].includes(m.slug))
 
 const robotState = ref({
   hover: false,
@@ -125,8 +126,6 @@ const newestModules = Object.values(moduleStats).map((ms) => {
   return b.stats.publishedAt.getTime() - a.stats.publishedAt.getTime()
 })
 
-const totalContributors = useRuntimeConfig().public.totalContributors
-const uniqueContributors = useRuntimeConfig().public.uniqueContributors
 let totalDownloads = 0
 let totalStars = 0
 moduleStats
@@ -153,6 +152,75 @@ const sitemapXmlMarkdown = [
   sitemapXml.value,
   '```',
 ].join('\n')
+
+const schemaOrgMarkdown = [
+  '```json [schema-org.json]',
+  `{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@id": "https://nuxtseo.com/#website",
+      "@type": "WebSite",
+      "description": "Nuxt SEO is a collection of hand-crafted Nuxt Modules to help you rank higher in search engines.",
+      "name": "Nuxt SEO",
+      "url": "https://nuxtseo.com"
+    },
+    {
+      "@id": "https://nuxtseo.com/#webpage",
+      "@type": "WebPage",
+      "description": "content",
+      "url": "https://nuxtseo.com",
+      "isPartOf": {
+        "@id": "https://nuxtseo.com/#website"
+      },
+      "potentialAction": [
+        {
+          "@type": "ReadAction",
+          "target": [
+            "https://nuxtseo.com"
+          ]
+        }
+      ]
+    }
+  ]
+}`,
+  '```',
+].join('\n')
+
+const enhanceMarkdown = [
+  '```ts',
+  'export default defineNuxtConfig({',
+  `  site: {
+    name: 'Nuxt SEO',
+    description: 'All the boring SEO work for Nuxt done',
+    url: 'https://nuxtseo.com/'
+  }`,
+  '})',
+  '```',
+  '```html',
+  `<meta property="og:title" content="Nuxt SEO · All the boring SEO work for Nuxt done.">
+<meta name="description" content="content">
+<meta property="og:description" content="content">
+<link rel="canonical" href="https://nuxtseo.com/">
+<meta property="og:url" content="https://nuxtseo.com/">
+<meta property="og:site_name" content="Nuxt SEO">`,
+  '```',
+].join('\n')
+
+const useSeoMetaMarkdown = [
+  '```ts',
+  'useSeoMeta({',
+  ` title: 'Learn More',
+    description: 'All the boring SEO work for Nuxt done'
+  })`,
+  '```',
+  '```html',
+  `<title>Title</title>
+<meta property="og:title" content="Nuxt SEO · All the boring SEO work for Nuxt done.">
+<meta name="description" content="content">
+<meta property="og:description" content="content">`,
+  '```',
+].join('\n')
 </script>
 
 <template>
@@ -168,7 +236,7 @@ const sitemapXmlMarkdown = [
               </div>
             </div>
             <h1 class="max-w-xl text-gray-900/90 dark:text-gray-100 text-6xl leading-tight font-bold tracking-tight" style="line-height: 1.3;">
-              Deploy your Nuxt <span class="font-cursive text-yellow-200">Technical SEO</span> in <span class="bg-green-500/10 px-2">minutes</span>.
+              Ship your Nuxt <span class="font-cursive dark:text-yellow-200 text-purple-600">Technical SEO</span> in <span class="bg-green-500/10 px-2">minutes</span>.
             </h1>
 
             <div class="flex mb-5 flex-col items-center justify-center gap-4 sm:mt-10 sm:flex-row sm:gap-6 lg:justify-start">
@@ -187,8 +255,8 @@ const sitemapXmlMarkdown = [
               </NuxtLink> that will make Google (and your marketing team) love you.
             </p>
           </div>
-          <div class="max-w-3xl">
-            <div class="sticky top-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-5">
+          <div class="max-w-2xl">
+            <div class="sticky top-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
               <ShowcaseCardLink v-for="(module, key) in listedModules" v-bind="module" :key="key" class="group">
                 <template v-if="module.icon">
                   <UIcon dynamic :name="module.icon" size="100" :class="[module.label === 'Robots' ? 'transition group-hover:opacity-0' : '']" class="text-blue-300" />
@@ -205,68 +273,109 @@ const sitemapXmlMarkdown = [
       </section>
       <section class="pb-10 xl:pb-20">
         <h2 class="text-3xl font-bold mb-5">
-          1. Nail the basics.
+          1. Pass the basics.
         </h2>
         <div class="grid grid-cols-2 gap-10">
           <div>
-            <div class="flex items-center gap-1 font-bold">
-              <UIcon name="i-carbon-bot" class="text-blue-300" />
-              Robots
-            </div>
+            <ModuleLabel slug="robots" />
             <MDC :value="robotsTxtMarkdown" />
           </div>
           <div>
-            <div class="flex items-center gap-1 font-bold mb-3">
-              <UIcon name="i-carbon-load-balancer-application" class="text-blue-300" />
-              Sitemap
-            </div>
+            <ModuleLabel slug="sitemap" />
             <div class="mb-3">
               Tell crawlers where to find your content.
             </div>
             <UCard>
-            <iframe src="/sitemap.xml" class="w-full bg-black h-[400px] rounded overflow-hidden" />
+              <iframe src="/sitemap.xml" class="w-full bg-black h-[400px] rounded overflow-hidden" />
             </UCard>
+          </div>
+        </div>
+      </section>
+      <section ref="scoreEl" class="pb-10 xl:pb-20 max-w-4xl mx-auto">
+        <div class="md:flex items-center justify-around gap-10 py-5 px-3 lg:bg-gradient-to-br from-sky-500/20 dark:from-sky-900/20 rounded-full cursor-pointer lg:shadow-sm hover:shadow transition-shadow" @click="clickScore">
+          <UIcon name="i-logos-lighthouse" class="!hidden lg:!block w-[175px] h-[175px]" />
+          <div class="lg:flex-grow">
+            <h2 class="text-3xl flex items-center gap-2 font-bold dark:opacity-90 leading-normal mb-3">
+              <UIcon name="i-carbon-checkmark-filled" class="opacity-60 text-green-500" /> Technical SEO Audits
+            </h2>
+            <p class="max-w-[30rem] text-lg">
+              Nuxt SEO provides you with with all the tools needed to help you pass technical SEO audits on Google Lighthouse.
+            </p>
+          </div>
+          <div class="lg:w-1/3 flex items-center justify-center">
+            <MetricGuage :score="output" label="SEO" class="text-2xl" />
+          </div>
+        </div>
+      </section>
+      <section class="pb-10 xl:pb-20">
+        <h2 class="text-3xl font-bold mb-5">
+          2. Enhance and enrich
+        </h2>
+        <div class="grid grid-cols-2 gap-10">
+          <div>
+            <ModuleLabel slug="seo-utils" />
+            <div>
+              Best practice defaults.
+            </div>
+            <MDC :value="enhanceMarkdown" />
+          </div>
+          <div>
+            <ModuleLabel slug="schema-org" />
+            <div>
+              Rich results from Google
+            </div>
+            <MDC :value="schemaOrgMarkdown" />
           </div>
         </div>
       </section>
 
       <section class="pb-10 xl:pb-20">
         <h2 class="text-3xl font-bold mb-5">
-          2.
+          3. Share it with the world
         </h2>
         <div class="grid grid-cols-2 gap-10">
           <div>
-            <div class="flex items-center gap-1 font-bold">
-              <UIcon name="i-carbon-bot" class="text-blue-300" />
-              Robots
+            <ModuleLabel slug="og-image" />
+            <div class="flex items-center">
+              <UButton variant="ghost" size="sm" icon="logos:twitter" />
+              <UButton variant="ghost" size="sm" icon="logos:facebook" />
+              <UButton variant="ghost" size="sm" icon="logos:slack-icon" />
+              <UButton variant="ghost" size="sm" icon="logos:whatsapp-icon" />
             </div>
-            <MDC :value="robotsTxtMarkdown" />
+            <TwitterCardRenderer title="Nuxt SEO">
+              <img src="https://nuxtseo.com/__og-image__/image/og.png">
+              <template #domain>
+                <a target="_blank" href="https://nuxtseo.com">From nuxtseo.com</a>
+              </template>
+            </TwitterCardRenderer>
           </div>
           <div>
-            <div>
-              Tell crawlers where to find your content.
-            </div>
-            <MDC :value="sitemapXmlMarkdown" />
+            <ModuleLabel slug="seo-utils" />
+            <MDC :value="useSeoMetaMarkdown" />
           </div>
         </div>
       </section>
 
-      <div class="lg:col-span-4 xl:col-span-6 max-w-full flex items-center justify-center">
-        <div>
-          <div class="grid grid-cols-3 gap-10 mx-auto">
-            <NuxtLink v-for="(module, key) in listedModules" :key="key" :to="module.to" :aria-label="module.label" :title="module.label" class="text-center">
-              <UIcon dynamic :name="module.icon" class="text-blue-300 w-[80px] h-[80px] transition-all hover:text-blue-500 hover:scale-125" />
-              <div class="text-sm mt-1 text-center">
-                {{ module.label }}
-              </div>
-            </NuxtLink>
+      <section class="pb-10 xl:pb-20">
+        <h2 class="text-3xl font-bold mb-5">
+          4. Maintain and grow
+        </h2>
+        <div class="grid grid-cols-2 gap-10">
+          <div>
+            <ModuleLabel slug="link-checker" />
+            <div>
+              some ui
+            </div>
+          </div>
+          <div>
+            <div>coming soon?</div>
           </div>
         </div>
-      </div>
+      </section>
 
       <section class="pb-10 xl:pb-20">
         <h2 class="font-bold mb-5 text-3xl">
-          Features
+          Principals
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           <ShowcaseCard label="Delightful Developer Experience" description="Full featured modules that do everything you expect and more.">
@@ -292,7 +401,7 @@ const sitemapXmlMarkdown = [
                 <span class="text-blue-300 text-3xl" />
               </h2>
               <p class="text-gray-700 dark:text-gray-300 mt-4 max-w-3xl text-center text-xl lg:text-left">
-                Nuxt SEO was started at the end of 2022 and has received continuous bug fixes and feature improvements since then.
+                Nuxt SEO was started at the end of 2022 and has received continuous bug fixes and feature improvements from the community.
               </p>
             </div>
             <div v-if="newestModules.length" class="flex items-center justify-center">
@@ -317,7 +426,7 @@ const sitemapXmlMarkdown = [
                 <div>
                   <div class="font-light text-6xl mb-2">
                     <UIcon name="i-carbon-commit" />
-                    2,569
+                    {{ stats.totalCommits }}
                   </div>
                   <div class="text-sm opacity-80">
                     Commits
@@ -326,7 +435,7 @@ const sitemapXmlMarkdown = [
                 <div>
                   <div class="font-light text-6xl mb-2">
                     <UIcon name="i-carbon-checkmark" />
-                    414
+                    {{ stats.totalIssuesClosed }}
                   </div>
                   <div class="text-sm opacity-80">
                     Issues Closed
@@ -336,12 +445,12 @@ const sitemapXmlMarkdown = [
             </div>
             <div>
               <div class="mb-7 max-w-[330px] gap-2 mx-auto text-center grid grid-cols-7">
-                <UAvatar v-for="(c, index) in uniqueContributors || []" :key="index" :alt="`GitHub User ${c}`" height="32" width="32" loading="lazy" :src="`https://avatars.githubusercontent.com/u/${c}?s=80&v=4`" />
+                <UAvatar v-for="(c, index) in stats.uniqueContributors || []" :key="index" :alt="`GitHub User ${c}`" height="32" width="32" loading="lazy" :src="`https://avatars.githubusercontent.com/u/${c}?s=80&v=4`" />
               </div>
               <div>
                 <div class="font-light text-6xl mb-2">
                   <UIcon name="i-carbon-user-favorite-alt" />
-                  {{ totalContributors || 0 }}
+                  {{ stats.uniqueContributors.length || 0 }}
                 </div>
                 <div class="text-sm opacity-80">
                   Contributors
@@ -351,22 +460,7 @@ const sitemapXmlMarkdown = [
           </div>
         </div>
       </section>
-      <section ref="scoreEl" class="pb-10 xl:pb-20">
-        <div class="md:flex items-center justify-around gap-10 py-5 px-3 lg:bg-gradient-to-br from-sky-500/20 dark:from-sky-900/20 rounded-full cursor-pointer lg:shadow-sm hover:shadow transition-shadow" @click="clickScore">
-          <UIcon name="i-logos-lighthouse" class="!hidden lg:!block w-[175px] h-[175px]" />
-          <div class="lg:flex-grow">
-            <h2 class="text-3xl font-bold dark:opacity-90 leading-normal mb-3">
-              <UIcon name="i-carbon-checkmark-filled" class="opacity-60 text-green-500" /> Pass Technical SEO Audits
-            </h2>
-            <p class="max-w-[30rem] text-lg">
-              Nuxt SEO provides you with with all the tools needed to help you pass technical SEO audits on Google Lighthouse.
-            </p>
-          </div>
-          <div class="lg:w-1/3 flex items-center justify-center">
-            <MetricGuage :score="output" label="SEO" class="text-2xl" />
-          </div>
-        </div>
-      </section>
+
       <section class="pb-10 xl:pb-20">
         <div class="mb-10">
           <div class="text-center mb-10 mx-auto max-w-[35rem] flex flex-col justify-center">

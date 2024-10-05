@@ -7,7 +7,7 @@ defineProps<Partial<NuxtSEOModule>>()
 <template>
   <div class="relative h-full">
     <div class="h-full">
-      <div class="group relative border dark:border-gray-500/30 hover:border-blue-400 transition rounded-xl overflow-hidden h-full">
+      <div class="group relative border-transparent dark:border-gray-500/30 hover:border-blue-400 transition h-full">
         <div
           class="h-32 relative flex items-center justify-center bg-no-repeat bg-cover border-b-2 border-gray-100/30 dark:border-gray-900/10"
           style="background-image: url('/grid.png')"
@@ -21,16 +21,16 @@ defineProps<Partial<NuxtSEOModule>>()
           <slot name="teleport" />
         </div>
 
-        <div class="p-4">
+        <div class="">
           <NuxtLink
             class="group"
-            :to="to"
+            :to="`/docs/${slug}/getting-started/installation`"
             :title="label"
           >
-            <h3 class="font-semibold group-hover:underline">
-              <div>{{ label }}</div>
-            </h3>
-            <p class="text-sm mt-1 text-gray-400">
+            <p class="font-semibold group-hover:underline">
+              {{ label }}
+            </p>
+            <p class="text-xs text-gray-400">
               {{ description }}
             </p>
           </NuxtLink>

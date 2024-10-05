@@ -1,5 +1,5 @@
 export interface NuxtSEOModule {
-  slug: string
+  slug: 'nuxt-seo' | 'site-config' | 'robots' | 'sitemap' | 'og-image' | 'link-checker' | 'seo-utils' | 'schema-org'
   label: string
   icon: string
   description: string
@@ -66,7 +66,7 @@ export const SeoExperimentsModule: NuxtSEOModule = {
   label: 'SEO Utils',
   icon: 'i-carbon-tools',
   description: 'SEO utilities to improve your Nuxt sites discoverability and shareability.',
-  repo: 'harlan-zw/seo-utils',
+  repo: 'harlan-zw/nuxt-seo-utils',
   npm: 'nuxt-seo-utils',
 }
 
