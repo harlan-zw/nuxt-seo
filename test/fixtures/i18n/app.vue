@@ -65,7 +65,7 @@ const siteConfig = useSiteConfig()
             </div>
           </NuxtLink>
           <UDropdown :items="languageOptions" :popper="{ placement: 'bottom-start' }">
-            <UButton color="white" :label="defaultLocale" trailing-icon="i-heroicons-chevron-down-20-solid" />
+            <UButton color="white" :label="defaultLocale" trailing-icon="i-heroicons-chevron-down" />
           </UDropdown>
         </div>
       </UContainer>

@@ -1,8 +1,8 @@
-import NuxtSeo from '../../../src/module'
+import NuxtSEO from '../../../src/module'
 
 export default defineNuxtConfig({
   modules: [
-    NuxtSeo,
+    NuxtSEO,
     '@nuxt/test-utils/module',
   ],
 

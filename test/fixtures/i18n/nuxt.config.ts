@@ -1,9 +1,9 @@
-import NuxtSeo from '../../../src/module'
+import NuxtSEO from '../../../src/module'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   modules: [
-    NuxtSeo,
+    NuxtSEO,
     '@nuxtjs/i18n',
     '@nuxt/ui',
   ],

@@ -1,10 +1,11 @@
 import { defineNuxtConfig } from 'nuxt/config'
-import NuxtSeoKit from '../src/module'
+import NuxtSEO from '../src/module'
 
 export default defineNuxtConfig({
   modules: [
-    NuxtSeoKit,
+    NuxtSEO,
     '@nuxt/ui',
+    '@nuxt/content',
   ],
 
   devtools: {
@@ -39,6 +40,9 @@ export default defineNuxtConfig({
     },
   },
 
+  typescript: {
+    includeWorkspace: true,
+  },
   routeRules: {
     '/about': { sitemap: { changefreq: 'daily', priority: 0.3 } },
     '/secret': { index: false },
