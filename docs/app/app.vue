@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import fetchStats from '~/composables/stats'
+import { fetchStats } from '~/composables/stats'
 import { modules } from '../../src/const'
 
 const { data: navigation } = await useAsyncData('navigation', () => fetchContentNavigation())
@@ -16,11 +16,11 @@ provide('stats', stats)
 provide('navigation', navigation)
 provide('docsAsideLinks', children)
 provide('modules', modules)
-provide('module', computed(() => {
-  const m = SeoModules.find(l => l?.slug === segment.value)
-  const stats = (publicRuntimeConfig.moduleStats || []).find(m2 => m2.id === m?.id)?.stats || {}
-  return m
-}))
+// provide('module', computed(() => {
+//   const m = modules.find(l => l?.slug === segment.value)
+//   const stats = (publicRuntimeConfig.moduleStats || []).find(m2 => m2.id === m?.id)?.stats || {}
+//   return m
+// }))
 
 useSeoMeta({
   ogTitle: 'Nuxt SEO · All the boring SEO work for Nuxt done.',
@@ -91,10 +91,10 @@ useSeoMeta({
                 <div class="gap-3">
                   <img alt="Harlan Wilton" loading="lazy" src="https://avatars.githubusercontent.com/u/5326365?v=4" class="mx-auto rounded-full w-10 h-10 mb-3">
                   <div class="flex justify-center items-center opacity-70">
-                    <UButton color="white" title="Twitter" variant="ghost" to="https://twitter.com/harlan_zw" target="_blank">
+                    <UButton title="Twitter" variant="ghost" to="https://twitter.com/harlan_zw" target="_blank">
                       <UIcon name="i-logos-twitter" class="text-xl" />
                     </UButton>
-                    <UButton color="white" title="GitHub" aria-label="GitHub" variant="ghost" to="https://github.com/harlan-zw" target="_blank">
+                    <UButton title="GitHub" aria-label="GitHub" variant="ghost" to="https://github.com/harlan-zw" target="_blank">
                       <UIcon name="i-logos-github-icon" class="text-xl" />
                     </UButton>
                   </div>

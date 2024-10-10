@@ -228,16 +228,17 @@ const useSeoMetaMarkdown = [
     <div class="gradient" />
     <UContainer>
       <section class=" py-5 sm:py-12 xl:py-20">
-        <div class="flex justify-between">
+        <div class="flex justify-around">
           <div class="flex flex-col justify-center">
-            <div>
-              <div class="max-w-xl mb-2 inline-flex text-gray-900/90 dark:text-gray-100 leading-tight font-bold tracking-tight text-2xl dark:text-gray-300 font-normal  rounded-2xl" style="line-height: 1.3;">
-                Growing organic traffic can take months.
-              </div>
-            </div>
             <h1 class="max-w-xl text-gray-900/90 dark:text-gray-100 text-6xl leading-tight font-bold tracking-tight" style="line-height: 1.3;">
-              Ship your Nuxt <span class="font-cursive dark:text-yellow-200 text-purple-600">Technical SEO</span> in <span class="bg-green-500/10 px-2">minutes</span>.
+              Your boring Nuxt <span class="font-cursive dark:text-yellow-200 text-purple-600">Technical SEO</span> shipped in <span class="bg-green-500/10 px-2">minutes</span>.
             </h1>
+
+            <p class="max-w-xl text-gray-700 dark:text-gray-300 mt-4 max-w-3xl text-center text-xl lg:text-left">
+              Nuxt SEO is a collection of  <NuxtLink to="https://nuxt.com/modules" class="font-semibold">
+                modules
+              </NuxtLink> that handle the technical aspects of growing your site's organic traffic.
+            </p>
 
             <div class="flex mb-5 flex-col items-center justify-center gap-4 sm:mt-10 sm:flex-row sm:gap-6 lg:justify-start">
               <UButton size="lg" to="/docs/nuxt-seo/getting-started/what-is-nuxt-seo">
@@ -248,26 +249,50 @@ const useSeoMetaMarkdown = [
                 Install Nuxt SEO
               </UButton>
             </div>
-
-            <p class="max-w-xl text-gray-700 dark:text-gray-300 mt-4 max-w-3xl text-center text-xl lg:text-left">
-              Nuxt SEO is a collection of <UIcon name="i-logos-nuxt-icon" /> <NuxtLink to="https://nuxt.com/modules" class="font-semibold">
-                Nuxt Modules
-              </NuxtLink> that will make Google (and your marketing team) love you.
-            </p>
           </div>
           <div class="max-w-2xl">
-            <div class="sticky top-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
-              <ShowcaseCardLink v-for="(module, key) in listedModules" v-bind="module" :key="key" class="group">
-                <template v-if="module.icon">
-                  <UIcon dynamic :name="module.icon" size="100" :class="[module.label === 'Robots' ? 'transition group-hover:opacity-0' : '']" class="text-blue-300" />
-                </template>
-                <template #teleport>
-                  <template v-if="module.label === 'Robots'">
-                    <BouncingBots v-for="(_, k) in robotState.robots" :key="k" icon="noto:robot" :interval="interval" />
-                  </template>
-                </template>
-              </ShowcaseCardLink>
+            <div class="relative h-full">
+              <div class="h-full">
+                <div class="group relative border-transparent dark:border-gray-500/30 hover:border-blue-400 transition h-full">
+                  <div
+                    class="relative flex items-center justify-center bg-no-repeat bg-cover border-b-2 border-gray-100/30 dark:border-gray-900/10"
+                    style="background-image: url('/grid.png')"
+                  >
+                    <div
+                      class="blur-overlay w-full h-full absolute pointer-events-none"
+                    />
+                    <div class="z-10 text-blue-200 group-hover:scale-110 w-full h-full flex items-center justify-center group-hover:text-blue-500 transition-all relative">
+                      <div class="sticky top-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-[50px]">
+                        <div v-for="(module, key) in listedModules" v-bind="module" :key="key" class="">
+                          <UIcon dynamic :name="module.icon" size="100" :class="[module.label === 'Robots' ? 'transition group-hover:opacity-0' : '']" class="text-blue-300" />
+                          <NuxtLink
+                            class="group"
+                            :to="`/docs/${module.slug}/getting-started/installation`"
+                            :title="module.label"
+                          >
+                            <p class="font-semibold group-hover:underline">
+                              {{ module.label }}
+                            </p>
+                          </NuxtLink>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+<!--            <div class="sticky top-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-[50px]">-->
+<!--              <ShowcaseCardLink v-for="(module, key) in listedModules" v-bind="module" :key="key" class="group">-->
+<!--                <template v-if="module.icon">-->
+<!--                  <UIcon dynamic :name="module.icon" size="100" :class="[module.label === 'Robots' ? 'transition group-hover:opacity-0' : '']" class="text-blue-300" />-->
+<!--                </template>-->
+<!--                <template #teleport>-->
+<!--                  <template v-if="module.label === 'Robots'">-->
+<!--                    <BouncingBots v-for="(_, k) in robotState.robots" :key="k" icon="noto:robot" :interval="interval" />-->
+<!--                  </template>-->
+<!--                </template>-->
+<!--              </ShowcaseCardLink>-->
+<!--            </div>-->
           </div>
         </div>
       </section>

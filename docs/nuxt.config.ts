@@ -21,9 +21,6 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxt/image',
     NuxtSEO,
-    async (_, nuxt) => {
-      nuxt.options.alias['#app'] = await resolvePath('nuxt/app')
-    },
   ],
 
   ui: {

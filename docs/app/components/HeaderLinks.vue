@@ -116,7 +116,7 @@ const ecosystemLinks = [
                       SEO Modules
                     </div>
                     <div class="lg:grid grid-cols-2 gap-1">
-                      <NuxtLink v-for="(item, index) in items" :key="index" :to="`/docs${item.to}`" class="flex gap-3 ring-1 ring-transparent px-3 py-1.5 hover:bg-blue-500/10 hover:ring-blue-500 rounded text-left">
+                      <NuxtLink v-for="(item, index) in items" :key="index" :to="`/docs/${item.slug}/getting-started/installation`" class="flex gap-3 ring-1 ring-transparent px-3 py-1.5 hover:bg-blue-500/10 hover:ring-blue-500 rounded text-left">
                         <UIcon :name="item.icon" dynamic class="mt-1 text-blue-300 flex-shrink-0 h-6 w-6" />
                         <div>
                           <div class="font-semibold truncate mb-0.5">
@@ -126,9 +126,9 @@ const ecosystemLinks = [
                             {{ item.description }}
                           </div>
                         </div>
-                        <div>
-                          {{ item.tag.version }}
-                        </div>
+<!--                        <div>-->
+<!--                          {{ item.tag.version }}-->
+<!--                        </div>-->
                       </NuxtLink>
                     </div>
                   </div>

@@ -30,9 +30,6 @@ defineProps<Partial<NuxtSEOModule>>()
             <p class="font-semibold group-hover:underline">
               {{ label }}
             </p>
-            <p class="text-xs text-gray-400">
-              {{ description }}
-            </p>
           </NuxtLink>
         </div>
       </div>
