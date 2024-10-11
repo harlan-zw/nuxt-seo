@@ -55,7 +55,7 @@ export interface BreadcrumbProps {
   /**
    * Override any of the breadcrumb items based on the index.
    */
-  overrides?: (BreadcrumbItemProps | false | undefined)[]
+  overrides?: MaybeRefOrGetter<(BreadcrumbItemProps | false | undefined)[]>
   /**
    * Should the schema.org breadcrumb be generated.
    * @default true
@@ -127,7 +127,7 @@ export function useBreadcrumbItems(options: BreadcrumbProps = {}) {
     }
     const current = withoutQuery(withoutTrailingSlash(toValue(options.path || router.currentRoute.value?.path) || rootNode))
     // apply overrides
-    const overrides = options.overrides || []
+    const overrides = toValue(options.overrides || []);
     const segments = pathBreadcrumbSegments(current, rootNode)
       .map((path, index) => {
         let item = <BreadcrumbItemProps> {
