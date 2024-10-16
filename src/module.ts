@@ -19,7 +19,6 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt: '>=3.7.0',
       bridge: false,
     },
-    configKey: 'seo',
   },
   defaults: {
     enabled: true,
@@ -28,8 +27,8 @@ export default defineNuxtModule<ModuleOptions>({
     if (!config.enabled) {
       return
     }
-    console.log(nuxt.options.routeRules)
-    for (const module of modules)
+    for (const module of modules) {
       await installModule(await resolvePath(module.npm), {}, nuxt)
+    }
   },
 })

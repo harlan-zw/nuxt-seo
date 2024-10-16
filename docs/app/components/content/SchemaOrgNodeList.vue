@@ -26,7 +26,7 @@ const paths = [
 ]
 
 function normaliseToPath(s: string) {
-  return s.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+  return s.toLowerCase().replace(/ /g, '-')
 }
 </script>
 

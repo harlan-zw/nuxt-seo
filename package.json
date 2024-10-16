@@ -43,17 +43,16 @@
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "lint": "eslint . --fix",
     "release": "pnpm build && bumpp && pnpm -r publish --access public",
-    "test": "pnpm dev:prepare && vitest --run --exclude **/__runtime__ && pnpm test:runtime",
-    "test:runtime": "cd test/fixtures/basic && vitest --run",
+    "test": "pnpm dev:prepare && vitest",
     "typecheck": "pnpm dev:prepare && tsc --noEmit && npx vue-tsc --noEmit --strict"
   },
   "dependencies": {
     "@nuxt/kit": "^3.13.2",
-    "@nuxtjs/robots": "^4.1.7",
-    "@nuxtjs/sitemap": "^6.1.1",
+    "@nuxtjs/robots": "^4.1.8",
+    "@nuxtjs/sitemap": "^6.1.2",
     "nuxt-link-checker": "^3.1.2",
     "nuxt-og-image": "^3.0.4",
-    "nuxt-schema-org": "^3.4.0",
+    "nuxt-schema-org": "^3.4.1",
     "nuxt-seo-utils": "^5.0.0",
     "nuxt-site-config": "^2.2.18",
     "nuxt-site-config-kit": "^2.2.18"
