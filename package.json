@@ -38,8 +38,7 @@
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare .playground",
     "lint": "eslint . --fix",
     "release": "pnpm build && bumpp && pnpm -r publish --access public",
-    "test": "pnpm dev:prepare && vitest --run --exclude **/__runtime__ && pnpm test:runtime",
-    "test:runtime": "cd test/fixtures/basic && vitest --run",
+    "test": "pnpm dev:prepare && vitest",
     "typecheck": "npx vue-tsc --noEmit --strict"
   },
   "dependencies": {
