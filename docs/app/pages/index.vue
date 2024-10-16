@@ -261,38 +261,42 @@ const useSeoMetaMarkdown = [
                     <div
                       class="blur-overlay w-full h-full absolute pointer-events-none"
                     />
-                    <div class="z-10 text-blue-200 group-hover:scale-110 w-full h-full flex items-center justify-center group-hover:text-blue-500 transition-all relative">
-                      <div class="sticky top-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-[50px]">
-                        <div v-for="(module, key) in listedModules" v-bind="module" :key="key" class="">
-                          <UIcon dynamic :name="module.icon" size="100" :class="[module.label === 'Robots' ? 'transition group-hover:opacity-0' : '']" class="text-blue-300" />
-                          <NuxtLink
-                            class="group"
-                            :to="`/docs/${module.slug}/getting-started/installation`"
-                            :title="module.label"
-                          >
+                    <div class="z-10 text-blue-200 w-full h-full flex items-center justify-center group-hover:text-blue-500 transition-all relative">
+                      <div class="sticky top-10">
+                        <Dock class="mb-6 absolute -left-[150px] top-10">
+                          <DockIcon v-for="(module, key) in listedModules" v-bind="module" :key="key" class="" :icon="module.icon">
                             <p class="font-semibold group-hover:underline">
                               {{ module.label }}
                             </p>
-                          </NuxtLink>
-                        </div>
+                            <!--                            <NuxtLink -->
+                            <!--                              class="group" -->
+                            <!--                              :to="`/docs/${module.slug}/getting-started/installation`" -->
+                            <!--                              :title="module.label" -->
+                            <!--                            > -->
+                            <!--                              <p class="font-semibold group-hover:underline"> -->
+                            <!--                                {{ module.label }} -->
+                            <!--                              </p> -->
+                            <!--                            </NuxtLink> -->
+                          </DockIcon>
+                        </Dock>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-<!--            <div class="sticky top-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-[50px]">-->
-<!--              <ShowcaseCardLink v-for="(module, key) in listedModules" v-bind="module" :key="key" class="group">-->
-<!--                <template v-if="module.icon">-->
-<!--                  <UIcon dynamic :name="module.icon" size="100" :class="[module.label === 'Robots' ? 'transition group-hover:opacity-0' : '']" class="text-blue-300" />-->
-<!--                </template>-->
-<!--                <template #teleport>-->
-<!--                  <template v-if="module.label === 'Robots'">-->
-<!--                    <BouncingBots v-for="(_, k) in robotState.robots" :key="k" icon="noto:robot" :interval="interval" />-->
-<!--                  </template>-->
-<!--                </template>-->
-<!--              </ShowcaseCardLink>-->
-<!--            </div>-->
+            <!--            <div class="sticky top-10 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-[50px]"> -->
+            <!--              <ShowcaseCardLink v-for="(module, key) in listedModules" v-bind="module" :key="key" class="group"> -->
+            <!--                <template v-if="module.icon"> -->
+            <!--                  <UIcon dynamic :name="module.icon" size="100" :class="[module.label === 'Robots' ? 'transition group-hover:opacity-0' : '']" class="text-blue-300" /> -->
+            <!--                </template> -->
+            <!--                <template #teleport> -->
+            <!--                  <template v-if="module.label === 'Robots'"> -->
+            <!--                    <BouncingBots v-for="(_, k) in robotState.robots" :key="k" icon="noto:robot" :interval="interval" /> -->
+            <!--                  </template> -->
+            <!--                </template> -->
+            <!--              </ShowcaseCardLink> -->
+            <!--            </div> -->
           </div>
         </div>
       </section>

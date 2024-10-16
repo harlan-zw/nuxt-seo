@@ -1,4 +1,3 @@
-
 export default defineCachedEventHandler(async () => {
   return await $fetch('https://nuxtseo.com/robots.txt')
 }, {

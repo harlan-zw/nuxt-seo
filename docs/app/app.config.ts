@@ -4,6 +4,9 @@ export default defineAppConfig({
     expand: true,
     duration: 5000,
   },
+  theme: {
+    radius: 0.1,
+  },
   ui: {
     colors: {
       primary: 'green',

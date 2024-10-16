@@ -6,6 +6,9 @@ const { data: navigation } = await useAsyncData('navigation', () => fetchContent
 const { data: stats } = await useAsyncData('stats', () => fetchStats())
 
 const route = useRoute()
+const appConfig = useAppConfig()
+const colorMode = useColorMode()
+const runtimeConfig = useRuntimeConfig()
 const publicRuntimeConfig = useRuntimeConfig().public
 const segment = computed(() => route.path.split('/')[1])
 const children = computed(() => {
@@ -26,10 +29,21 @@ useSeoMeta({
   ogTitle: 'Nuxt SEO · All the boring SEO work for Nuxt done.',
   // twitterTitle: 'Nuxt SEO - All the boring SEO work for Nuxt done.',
 })
+
+const color = computed(() => colorMode.value === 'dark' ? (colors as any)[appConfig.ui.colors.neutral][900] : 'white')
+const radius = computed(() => `:root { --ui-radius: ${appConfig.theme.radius}rem; }`)
+
+useHead({
+  style: [
+    { innerHTML: radius, id: 'nuxt-ui-radius', tagPriority: -2 },
+  ],
+})
 </script>
 
 <template>
-  <div>
+  <UApp :toaster="appConfig.toaster">
+    <NuxtLoadingIndicator color="#FFF" />
+    <Banner />
     <Header />
 
     <NuxtLayout>
@@ -113,7 +127,7 @@ useSeoMeta({
       </div>
     </footer>
     <NuxtLoadingIndicator />
-  </div>
+  </UApp>
 </template>
 
 <style>

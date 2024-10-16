@@ -13,9 +13,9 @@ const navigation = computed(() => navDirFromPath(route.path.split('/').slice(0, 
     <UContainer>
       <UPage :ui="{ left: 'lg:col-span-3', center: 'lg:col-span-6' }">
         <template #left>
-            <UPageAside class="max-w-[300px]">
-              <UContentNavigation :navigation="navigation" highlight :collapsible="false" />
-            </UPageAside>
+          <UPageAside class="max-w-[300px]">
+            <UContentNavigation :navigation="navigation" highlight :collapsible="false" />
+          </UPageAside>
         </template>
 
         <slot />

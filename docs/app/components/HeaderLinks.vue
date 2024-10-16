@@ -15,9 +15,9 @@ import NavigationMenuListItem from './NavigationMenuListItem.vue'
 
 const props = defineProps<{ modelValue: boolean }>()
 
-const modules = inject('modules')
-
 const emit = defineEmits(['update:modelValue'])
+
+const modules = inject('modules')
 
 const currentTrigger = ref(null)
 
@@ -126,9 +126,9 @@ const ecosystemLinks = [
                             {{ item.description }}
                           </div>
                         </div>
-<!--                        <div>-->
-<!--                          {{ item.tag.version }}-->
-<!--                        </div>-->
+                        <!--                        <div> -->
+                        <!--                          {{ item.tag.version }} -->
+                        <!--                        </div> -->
                       </NuxtLink>
                     </div>
                   </div>

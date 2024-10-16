@@ -1,15 +1,11 @@
-import { existsSync } from 'node:fs'
 import { defineNuxtConfig } from 'nuxt/config'
-import { relative, resolve } from 'pathe'
-import { isDevelopment } from 'std-env'
+import { resolve } from 'pathe'
 import NuxtSEO from '../src/module'
-import { logger } from './logger'
-import { modules } from '../src/const'
-import {resolveModule, resolvePath} from "@nuxt/kit";
 
 export default defineNuxtConfig({
   // const pkgJson = await readPackageJSON('../package.json')
   modules: [
+    '@vueuse/motion/nuxt',
     '@nuxt/ui',
     '@nuxt/ui-pro',
     'nuxt-content-twoslash',

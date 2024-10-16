@@ -23,7 +23,8 @@ function onIntersectionObserver([{ isIntersecting }]) {
 }
 // Fetch on client-side
 onMounted(async () => {
-  if (contributors.value.length) return
+  if (contributors.value.length)
+    return
   _contributors = await $fetch('https://api.nuxt.com/contributors').then(data => data.slice(0, total * 10).map(c => c.username))
   await loadImages(_contributors.slice(0, total))
   if (!contributors.value.length && intersecting.value) {
@@ -32,7 +33,7 @@ onMounted(async () => {
 })
 onBeforeUnmount(stopTimer)
 
-const $contributors = computed(() => contributors.value.length ? contributors.value.slice(start.value, start.value + total) : new Array(total).fill(null))
+const $contributors = computed(() => contributors.value.length ? contributors.value.slice(start.value, start.value + total) : Array.from({ length: total }).fill(null))
 function startTimer(ms = 5000) {
   currentTimeout = setTimeout(nextContributors, ms)
 }
@@ -61,50 +62,50 @@ async function nextContributors() {
 </script>
 
 <template>
-<div
-  v-intersection-observer="onIntersectionObserver"
-  class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-10 lg:grid-cols-5 gap-4 sm:gap-5 lg:gap-8"
-  @mouseenter="stopTimer()"
-  @mouseleave="startTimer(2500)"
->
   <div
-    v-for="(username, index) in $contributors"
-    :key="index"
-    class="pt-[100%] relative"
+    v-intersection-observer="onIntersectionObserver"
+    class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-10 lg:grid-cols-5 gap-4 sm:gap-5 lg:gap-8"
+    @mouseenter="stopTimer()"
+    @mouseleave="startTimer(2500)"
   >
-    <Transition
-      name="avatar"
-      mode="out-in"
-      appear
+    <div
+      v-for="(username, index) in $contributors"
+      :key="index"
+      class="pt-[100%] relative"
     >
-      <a
-        v-if="username"
-        :key="username"
-        :href="`https://nuxters.nuxt.com/${username}`"
-        target="_blank"
-        class="absolute inset-0 flex transition-all"
-        :style="{
-            'transition-delay': `${(index % 8 + Math.floor(index / 8)) * 20}ms`
-          }"
+      <Transition
+        name="avatar"
+        mode="out-in"
+        appear
       >
-        <UTooltip :text="username" class="w-full">
-          <NuxtImg
-            :src="`/gh_avatar/${username}`"
-            provider="ipx"
-            densities="x1 x2"
-            height="80px"
-            format="auto"
-            width="80px"
-            :alt="username"
-            loading="lazy"
-            :title="username"
-            class="rounded-xl w-full h-full transition lg:hover:scale-125"
-          />
-        </UTooltip>
-      </a>
-    </Transition>
+        <a
+          v-if="username"
+          :key="username"
+          :href="`https://nuxters.nuxt.com/${username}`"
+          target="_blank"
+          class="absolute inset-0 flex transition-all"
+          :style="{
+            'transition-delay': `${(index % 8 + Math.floor(index / 8)) * 20}ms`,
+          }"
+        >
+          <UTooltip :text="username" class="w-full">
+            <NuxtImg
+              :src="`/gh_avatar/${username}`"
+              provider="ipx"
+              densities="x1 x2"
+              height="80px"
+              format="auto"
+              width="80px"
+              :alt="username"
+              loading="lazy"
+              :title="username"
+              class="rounded-xl w-full h-full transition lg:hover:scale-125"
+            />
+          </UTooltip>
+        </a>
+      </Transition>
+    </div>
   </div>
-</div>
 </template>
 
 <style scoped>
