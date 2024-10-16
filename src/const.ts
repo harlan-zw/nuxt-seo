@@ -40,7 +40,7 @@ export const SitemapModule: NuxtSEOModule = {
   icon: 'i-carbon-load-balancer-application',
   description: 'Powerfully flexible XML Sitemaps that integrate seamlessly.',
   repo: 'nuxt-modules/sitemap',
-  npm: '@nuxtjs/seo',
+  npm: '@nuxtjs/sitemap',
 }
 
 export const OgImageModule: NuxtSEOModule = {

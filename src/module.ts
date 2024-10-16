@@ -27,7 +27,8 @@ export default defineNuxtModule<ModuleOptions>({
     if (!config.enabled) {
       return
     }
-    for (const module of modules)
+    for (const module of modules) {
       await installModule(await resolvePath(module.npm), {}, nuxt)
+    }
   },
 })
