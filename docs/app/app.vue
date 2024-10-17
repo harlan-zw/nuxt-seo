@@ -1,15 +1,34 @@
 <script setup lang="ts">
 import { fetchStats } from '~/composables/stats'
 import { modules } from '../../src/const'
+import { queryCollectionNavigation } from '#imports'
+import { titleCase } from 'scule'
 
-const { data: navigation } = await useAsyncData('navigation', () => fetchContentNavigation())
+function mapPath(data, node = 0) {
+  console.log(node, data)
+  return data.map((item) => {
+    if (item.page && item.children?.length) {
+      console.log('??', item)
+    }
+    if (item.children?.length && !item.page) {
+      item.title = titleCase(item.title)
+      item.children = mapPath(item.children, node + 1)
+    }
+    return {
+      ...item,
+      _path: item.path,
+    }
+  })
+}
+const { data: navigation } = await useAsyncData('navigation', () => queryCollectionNavigation('docs'), {
+  default: () => [],
+  transform: mapPath,
+})
 const { data: stats } = await useAsyncData('stats', () => fetchStats())
 
 const route = useRoute()
 const appConfig = useAppConfig()
 const colorMode = useColorMode()
-const runtimeConfig = useRuntimeConfig()
-const publicRuntimeConfig = useRuntimeConfig().public
 const segment = computed(() => route.path.split('/')[1])
 const children = computed(() => {
   return navigation!.value!.find(i => i._path === `/${segment.value}`)?.children || []

@@ -1,30 +1,17 @@
 <script setup lang="ts">
-import {
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuRoot,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-} from 'radix-vue'
 import { ref } from 'vue'
 import { fetchStats } from '~/composables/stats'
-import NavigationMenuListItem from './NavigationMenuListItem.vue'
+import { modules } from '../../../src/const'
 
 const props = defineProps<{ modelValue: boolean }>()
 
 const emit = defineEmits(['update:modelValue'])
 
-const modules = inject('modules')
-
 const currentTrigger = ref(null)
 
 const isDialogOpen = useVModel(props, 'modelValue', emit)
 
-const items = modules
-  .filter(m => !['seo-kit', 'site-config'].includes(m.id))
+const items = modules.filter(m => !['seo-kit', 'site-config'].includes(m.id))
 
 const route = useRoute()
 const isSetup = computed(() => {
@@ -55,26 +42,63 @@ const communityLinks = computed(() => [
 
 const ecosystemLinks = [
   {
+    label: 'Unhead',
+    to: 'https://unhead.unjs.io',
+    target: '_blank',
+    description: 'The universal head tag manager.',
+  },
+  {
     label: 'Zhead',
     to: 'https://zhead.dev',
+    description: 'Find the best head tags for your site.',
     target: '_blank',
   },
   {
     label: 'Request Indexing',
     to: 'https://requestindexing.com',
+    description: 'Get your site indexed.',
     target: '_blank',
   },
   {
     label: 'Unlighthouse',
     to: 'https://unlighthouse.dev',
-    target: '_blank',
-  },
-  {
-    label: 'Unhead',
-    to: 'https://unhead.unjs.io',
+    description: 'Scan your entire site using Lighthouse.',
     target: '_blank',
   },
 ]
+
+const menu = computed(() => {
+  return [
+    {
+      label: 'Docs',
+      icon: 'i-ph-book-duotone',
+      children: modules.map(m => ({
+        label: m.label,
+        icon: m.icon,
+        description: m.description,
+        to: `/docs/${m.slug}/getting-started/installation`,
+      })),
+    },
+    {
+      label: 'Learn',
+      icon: 'i-ph-video-duotone',
+      badge: {
+        label: 'New',
+        color: 'success',
+      },
+      children: [{
+        label: 'Community Videos',
+        description: 'Watch viodeos from the community',
+        to: `/watch`,
+      }],
+    },
+    {
+      label: 'Ecosystem',
+      icon: 'i-ph-heart-straight-duotone',
+      children: ecosystemLinks,
+    },
+  ]
+})
 </script>
 
 <template>
@@ -85,163 +109,169 @@ const ecosystemLinks = [
           <Logo />
         </UButton>
       </div>
-      <NavigationMenuRoot
-        v-model="currentTrigger"
-        class="relative z-[1] flex w-full justify-center"
-      >
-        <NavigationMenuList class="center shadow-green-700/10 m-0 flex list-none rounded-[6px] p-1 shadow-[0_2px_5px]">
-          <NavigationMenuItem>
-            <NavigationMenuTrigger
-              class="hover:bg-green-500/25 group-data-[state=open]:bg-green-500/10 transition overflow-hidden focus:shadow-green-500 group flex select-none items-center justify-between gap-2 rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]"
-            >
-              <span class="transition">Docs</span>
-              <div class="relative w-4">
-                <UIcon
-                  name="i-ph-caret-down-light"
-                  class="right-0 -top-[7px] absolute transition-transform duration-[250ms] ease-in group-data-[state=open]:translate-y-10"
-                />
-                <UIcon
-                  name="i-ph-caret-up-light"
-                  class="right-0 -top-[7px] absolute transition-transform duration-[250ms] ease-in -translate-y-10 group-data-[state=open]:translate-y-0 "
-                />
-              </div>
-            </NavigationMenuTrigger>
-            <NavigationMenuContent
-              class="data-[motion=from-start]:animate-enterFromLeft data-[motion=from-end]:animate-enterFromRight data-[motion=to-start]:animate-exitToLeft data-[motion=to-end]:animate-exitToRight absolute top-0 left-0 w-full sm:w-auto"
-            >
-              <div class="p-4 space-y-4 dark:bg-[#1b2335]">
-                <div class="">
-                  <div>
-                    <div class="font-semibold text-sm ml-3 text-gray-600 dark:text-gray-400 mb-3">
-                      SEO Modules
-                    </div>
-                    <div class="lg:grid grid-cols-2 gap-1">
-                      <NuxtLink v-for="(item, index) in items" :key="index" :to="`/docs/${item.slug}/getting-started/installation`" class="flex gap-3 ring-1 ring-transparent px-3 py-1.5 hover:bg-blue-500/10 hover:ring-blue-500 rounded text-left">
-                        <UIcon :name="item.icon" dynamic class="mt-1 text-blue-300 flex-shrink-0 h-6 w-6" />
-                        <div>
-                          <div class="font-semibold truncate mb-0.5">
-                            {{ item.label }}
-                          </div>
-                          <div class="text-xs opacity-60 max-w-xs">
-                            {{ item.description }}
-                          </div>
-                        </div>
-                        <!--                        <div> -->
-                        <!--                          {{ item.tag.version }} -->
-                        <!--                        </div> -->
-                      </NuxtLink>
-                    </div>
-                  </div>
-                </div>
-                <div>
-                  <div class="font-semibold text-sm ml-3 text-gray-600 dark:text-gray-400 mb-3">
-                    Other Modules
-                  </div>
-                  <div class="flex flex-col gap-2">
-                    <NuxtLink to="/docs/nuxt-seo/getting-started/installation" class="flex gap-3 ring-1 ring-transparent group items-center mb-2 px-3 py-2 hover:bg-blue-500/10 hover:ring-blue-500 rounded text-left">
-                      <UIcon name="i-logos-nuxt-icon" class="text-blue-300 flex-shrink-0 group-hover:text-blue-700 h-6 w-6 dark:text-gray-500" />
-                      <div>
-                        <div class="font-semibold truncate">
-                          Nuxt SEO - All In One
-                        </div>
-                        <div class="text-xs opacity-60">
-                          All the above SEO modules combined into one.
-                        </div>
-                      </div>
-                    </NuxtLink>
-                    <div>
-                      <NuxtLink to="/docs/site-config/getting-started/installation" class="flex gap-3 ring-1 ring-transparent group items-center mb-2 px-3 py-2 hover:bg-blue-500/10 hover:ring-blue-500 rounded text-left">
-                        <UIcon name="i-carbon-settings-check" class="text-blue-300 flex-shrink-0 group-hover:text-blue-700 h-6 w-6 dark:text-gray-500" />
-                        <div>
-                          <div class="font-semibold truncate">
-                            Site Config
-                          </div>
-                          <div class="text-xs opacity-60">
-                            Shared site configuration for Nuxt modules.
-                          </div>
-                        </div>
-                      </NuxtLink>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
+      <div class="w-[500px]">
+        <UNavigationMenu :ui="{ content: 'w-[500px]' }" :items="menu" class="justify-center" />
+      </div>
 
-          <NavigationMenuItem>
-            <NavigationMenuTrigger
-              class="text-grass11 hover:bg-green3 focus:shadow-green7 group flex select-none items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]"
-            >
-              Overview
-              <UIcon
-                name="radix-icons:caret-down"
-                class="text-green10 relative top-[1px] transition-transform duration-[250ms] ease-in group-data-[state=open]:-rotate-180"
-              />
-            </NavigationMenuTrigger>
-            <NavigationMenuContent class="data-[motion=from-start]:animate-enterFromLeft data-[motion=from-end]:animate-enterFromRight data-[motion=to-start]:animate-exitToLeft data-[motion=to-end]:animate-exitToRight absolute top-0 left-0 w-full sm:w-auto">
-              <ul class="m-0 grid list-none gap-x-[10px] p-[22px] sm:w-[600px] sm:grid-flow-col sm:grid-rows-3">
-                <NavigationMenuListItem
-                  title="Introduction"
-                  href="/docs/primitives/overview/introduction"
-                >
-                  Build high-quality, accessible design systems and web apps.
-                </NavigationMenuListItem>
-                <NavigationMenuListItem
-                  title="Getting started"
-                  href="/docs/primitives/overview/getting-started"
-                >
-                  A quick tutorial to get you up and running with Radix Primitives.
-                </NavigationMenuListItem>
-                <NavigationMenuListItem
-                  title="Styling"
-                  href="/docs/primitives/guides/styling"
-                >
-                  Unstyled and compatible with any styling solution.
-                </NavigationMenuListItem>
-                <NavigationMenuListItem
-                  title="Animation"
-                  href="/docs/primitives/guides/animation"
-                >
-                  Use CSS keyframes or any animation library of your choice.
-                </NavigationMenuListItem>
-                <NavigationMenuListItem
-                  title="Accessibility"
-                  href="/docs/primitives/overview/accessibility"
-                >
-                  Tested in a range of browsers and assistive technologies.
-                </NavigationMenuListItem>
-                <NavigationMenuListItem
-                  title="Releases"
-                  href="/docs/primitives/overview/releases"
-                >
-                  Radix Primitives releases and their changelogs.
-                </NavigationMenuListItem>
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
+    <!--      <NavigationMenuRoot -->
+    <!--        v-model="currentTrigger" -->
+    <!--        class="z-[1] relative overflow-visible flex w-full justify-center" -->
+    <!--      > -->
+    <!--        <NavigationMenuList class="center shadow-green-700/10 m-0 flex list-none rounded-[6px] p-1 shadow-[0_2px_5px]"> -->
+    <!--          <NavigationMenuItem> -->
+    <!--            <NavigationMenuTrigger -->
+    <!--              class="hover:bg-green-500/25 group-data-[state=open]:bg-green-500/10 transition overflow-hidden focus:shadow-green-500 group flex select-none items-center justify-between gap-2 rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]" -->
+    <!--            > -->
+    <!--              <span class="transition">Docs</span> -->
+    <!--              <div class="relative w-4"> -->
+    <!--                <UIcon -->
+    <!--                  name="i-ph-caret-down-light" -->
+    <!--                  class="right-0 -top-[7px] absolute transition-transform duration-[250ms] ease-in group-data-[state=open]:translate-y-10" -->
+    <!--                /> -->
+    <!--                <UIcon -->
+    <!--                  name="i-ph-caret-up-light" -->
+    <!--                  class="right-0 -top-[7px] absolute transition-transform duration-[250ms] ease-in -translate-y-10 group-data-[state=open]:translate-y-0 " -->
+    <!--                /> -->
+    <!--              </div> -->
+    <!--            </NavigationMenuTrigger> -->
+    <!--            <NavigationMenuContent -->
+    <!--              class="data-[motion=from-start]:animate-enterFromLeft data-[motion=from-end]:animate-enterFromRight data-[motion=to-start]:animate-exitToLeft data-[motion=to-end]:animate-exitToRight absolute top-0 left-0 w-[700px]" -->
+    <!--            > -->
+    <!--              <div class="p-4 space-y-4 dark:bg-[#1b2335]"> -->
+    <!--                <div class=""> -->
+    <!--                  <div> -->
+    <!--                    <div class="font-semibold text-sm ml-3 text-gray-600 dark:text-gray-400 mb-3"> -->
+    <!--                      SEO Modules -->
+    <!--                    </div> -->
+    <!--                    <div class="lg:grid grid-cols-2 gap-1"> -->
+    <!--                      <NavigationMenuLink v-for="(item, index) in items" :key="index" as-child> -->
+    <!--                      <NuxtLink :to="`/docs/${item.slug}/getting-started/installation`" class="flex gap-3 ring-1 ring-transparent px-3 py-1.5 hover:bg-blue-500/10 hover:ring-blue-500 rounded text-left"> -->
+    <!--                        <UIcon :name="item.icon" dynamic class="mt-1 text-blue-300 flex-shrink-0 h-6 w-6" /> -->
+    <!--                        <div> -->
+    <!--                          <div class="font-semibold truncate mb-0.5"> -->
+    <!--                            {{ item.label }} -->
+    <!--                          </div> -->
+    <!--                          <div class="text-xs opacity-60 max-w-xs"> -->
+    <!--                            {{ item.description }} -->
+    <!--                          </div> -->
+    <!--                        </div> -->
+    <!--                        &lt;!&ndash;                        <div> &ndash;&gt; -->
+    <!--                        &lt;!&ndash;                          {{ item.tag.version }} &ndash;&gt; -->
+    <!--                        &lt;!&ndash;                        </div> &ndash;&gt; -->
+    <!--                      </NuxtLink> -->
+    <!--                      </NavigationMenuLink> -->
+    <!--                    </div> -->
+    <!--                  </div> -->
+    <!--                </div> -->
+    <!--                <div> -->
+    <!--                  <div class="font-semibold text-sm ml-3 text-gray-600 dark:text-gray-400 mb-3"> -->
+    <!--                    Other Modules -->
+    <!--                  </div> -->
+    <!--                  <div class="flex flex-col gap-2"> -->
+    <!--                    <NuxtLink to="/docs/nuxt-seo/getting-started/installation" class="flex gap-3 ring-1 ring-transparent group items-center mb-2 px-3 py-2 hover:bg-blue-500/10 hover:ring-blue-500 rounded text-left"> -->
+    <!--                      <UIcon name="i-logos-nuxt-icon" class="text-blue-300 flex-shrink-0 group-hover:text-blue-700 h-6 w-6 dark:text-gray-500" /> -->
+    <!--                      <div> -->
+    <!--                        <div class="font-semibold truncate"> -->
+    <!--                          Nuxt SEO - All In One -->
+    <!--                        </div> -->
+    <!--                        <div class="text-xs opacity-60"> -->
+    <!--                          All the above SEO modules combined into one. -->
+    <!--                        </div> -->
+    <!--                      </div> -->
+    <!--                    </NuxtLink> -->
+    <!--                    <div> -->
+    <!--                      <NuxtLink to="/docs/site-config/getting-started/installation" class="flex gap-3 ring-1 ring-transparent group items-center mb-2 px-3 py-2 hover:bg-blue-500/10 hover:ring-blue-500 rounded text-left"> -->
+    <!--                        <UIcon name="i-carbon-settings-check" class="text-blue-300 flex-shrink-0 group-hover:text-blue-700 h-6 w-6 dark:text-gray-500" /> -->
+    <!--                        <div> -->
+    <!--                          <div class="font-semibold truncate"> -->
+    <!--                            Site Config -->
+    <!--                          </div> -->
+    <!--                          <div class="text-xs opacity-60"> -->
+    <!--                            Shared site configuration for Nuxt modules. -->
+    <!--                          </div> -->
+    <!--                        </div> -->
+    <!--                      </NuxtLink> -->
+    <!--                    </div> -->
+    <!--                  </div> -->
+    <!--                </div> -->
+    <!--              </div> -->
+    <!--            </NavigationMenuContent> -->
+    <!--          </NavigationMenuItem> -->
 
-          <NavigationMenuItem>
-            <NavigationMenuLink
-              class="text-grass11 hover:bg-green3 focus:shadow-green7 block select-none rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none no-underline outline-none focus:shadow-[0_0_0_2px]"
-              href="https://github.com/radix-vue"
-            >
-              Github
-            </NavigationMenuLink>
-          </NavigationMenuItem>
+    <!--          <NavigationMenuItem> -->
+    <!--            <NavigationMenuTrigger -->
+    <!--              class="text-grass11 hover:bg-green3 focus:shadow-green7 group flex select-none items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none outline-none focus:shadow-[0_0_0_2px]" -->
+    <!--            > -->
+    <!--              Overview -->
+    <!--              <UIcon -->
+    <!--                name="radix-icons:caret-down" -->
+    <!--                class="text-green10 relative top-[1px] transition-transform duration-[250ms] ease-in group-data-[state=open]:-rotate-180" -->
+    <!--              /> -->
+    <!--            </NavigationMenuTrigger> -->
+    <!--            <NavigationMenuContent class="data-[motion=from-start]:animate-enterFromLeft data-[motion=from-end]:animate-enterFromRight data-[motion=to-start]:animate-exitToLeft data-[motion=to-end]:animate-exitToRight absolute top-0 left-0 w-full sm:w-auto"> -->
+    <!--              <ul class="m-0 grid list-none gap-x-[10px] p-[22px] sm:w-[600px] sm:grid-flow-col sm:grid-rows-3"> -->
+    <!--                <NavigationMenuListItem -->
+    <!--                  title="Introduction" -->
+    <!--                  href="/docs/primitives/overview/introduction" -->
+    <!--                > -->
+    <!--                  Build high-quality, accessible design systems and web apps. -->
+    <!--                </NavigationMenuListItem> -->
+    <!--                <NavigationMenuListItem -->
+    <!--                  title="Getting started" -->
+    <!--                  href="/docs/primitives/overview/getting-started" -->
+    <!--                > -->
+    <!--                  A quick tutorial to get you up and running with Radix Primitives. -->
+    <!--                </NavigationMenuListItem> -->
+    <!--                <NavigationMenuListItem -->
+    <!--                  title="Styling" -->
+    <!--                  href="/docs/primitives/guides/styling" -->
+    <!--                > -->
+    <!--                  Unstyled and compatible with any styling solution. -->
+    <!--                </NavigationMenuListItem> -->
+    <!--                <NavigationMenuListItem -->
+    <!--                  title="Animation" -->
+    <!--                  href="/docs/primitives/guides/animation" -->
+    <!--                > -->
+    <!--                  Use CSS keyframes or any animation library of your choice. -->
+    <!--                </NavigationMenuListItem> -->
+    <!--                <NavigationMenuListItem -->
+    <!--                  title="Accessibility" -->
+    <!--                  href="/docs/primitives/overview/accessibility" -->
+    <!--                > -->
+    <!--                  Tested in a range of browsers and assistive technologies. -->
+    <!--                </NavigationMenuListItem> -->
+    <!--                <NavigationMenuListItem -->
+    <!--                  title="Releases" -->
+    <!--                  href="/docs/primitives/overview/releases" -->
+    <!--                > -->
+    <!--                  Radix Primitives releases and their changelogs. -->
+    <!--                </NavigationMenuListItem> -->
+    <!--              </ul> -->
+    <!--            </NavigationMenuContent> -->
+    <!--          </NavigationMenuItem> -->
 
-          <NavigationMenuIndicator
-            class="data-[state=hidden]:opacity-0 duration-200 data-[state=visible]:animate-fadeIn data-[state=hidden]:animate-fadeOut top-full z-[1] flex h-[10px] items-end justify-center overflow-hidden transition-[all,transform_250ms_ease]"
-          >
-            <div class="relative top-[70%] h-[10px] w-[10px] rotate-[45deg] rounded-tl-[2px] bg-white dark:bg-[#1b2335]" />
-          </NavigationMenuIndicator>
-        </NavigationMenuList>
+    <!--          <NavigationMenuItem> -->
+    <!--            <NavigationMenuLink -->
+    <!--              class="text-grass11 hover:bg-green3 focus:shadow-green7 block select-none rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none no-underline outline-none focus:shadow-[0_0_0_2px]" -->
+    <!--              href="https://github.com/radix-vue" -->
+    <!--            > -->
+    <!--              Github -->
+    <!--            </NavigationMenuLink> -->
+    <!--          </NavigationMenuItem> -->
 
-        <div class="perspective-[2000px] absolute top-full left-0 flex w-full justify-center">
-          <NavigationMenuViewport
-            class="data-[state=open]:animate-scaleIn data-[state=closed]:animate-scaleOut relative mt-[10px] h-[var(--radix-navigation-menu-viewport-height)] w-full dark:bg-[#1b2335] origin-[top_center] overflow-hidden rounded-[10px] bg-white transition-[width,_height] duration-300 sm:w-[var(--radix-navigation-menu-viewport-width)]"
-          />
-        </div>
-      </NavigationMenuRoot>
+    <!--          <NavigationMenuIndicator -->
+    <!--            class="data-[state=hidden]:opacity-0 duration-200 data-[state=visible]:animate-fadeIn data-[state=hidden]:animate-fadeOut top-full z-[1] flex h-[10px] items-end justify-center overflow-hidden transition-[all,transform_250ms_ease]" -->
+    <!--          > -->
+    <!--            <div class="relative top-[70%] h-[10px] w-[10px] rotate-[45deg] rounded-tl-[2px] bg-white dark:bg-[#1b2335]" /> -->
+    <!--          </NavigationMenuIndicator> -->
+    <!--        </NavigationMenuList> -->
+
+    <!--        <div class="perspective-[2000px] absolute top-full left-0 flex w-full justify-center"> -->
+    <!--          <NavigationMenuViewport -->
+    <!--            class="data-[state=open]:animate-scaleIn data-[state=closed]:animate-scaleOut relative mt-[10px] h-[var(&#45;&#45;radix-navigation-menu-viewport-height)] w-full dark:bg-[#1b2335] origin-[top_center] overflow-hidden rounded-[10px] bg-white transition-[width,_height] duration-300 sm:w-[var(&#45;&#45;radix-navigation-menu-viewport-width)]" -->
+    <!--          /> -->
+    <!--        </div> -->
+    <!--      </NavigationMenuRoot> -->
     </div>
 
     <div class="flex items-center justify-end lg:-mr-1.5 ml-3 gap-3">

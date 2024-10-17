@@ -6,8 +6,6 @@ definePageMeta({
 const route = useRoute()
 const segment = computed(() => route.path.split('/')[1])
 
-const children = inject<Ref<NavItem[]>>('docsAsideLinks')
-const module = inject('module')
 const modules = inject('modules')
 
 const version = computed(() => {
@@ -24,12 +22,13 @@ const version = computed(() => {
   return ''
 })
 
+// collection is the path segment after /docs/<collection>/<page>
+// const collection = computed(() => camelCase(route.path.split('/')[2]))
 const [{ data: page }, { data: surround }] = await Promise.all([
-  useAsyncData(`docs-${route.path}`, () => queryContent(route.path).findOne()),
-  useAsyncData(`docs-${route.path}-surround`, () => queryContent()
-    .only(['_path', 'title', 'navigation', 'description'])
-    .where({ _extension: 'md', navigation: { $ne: false } })
-    .findSurround(route.path.endsWith('/') ? route.path.slice(0, -1) : route.path)),
+  useAsyncData(`docs-${route.path}`, () => queryCollection('docs').path(route.path).first()),
+  useAsyncData(`docs-${route.path}-surround`, () => queryCollectionItemSurroundings('docs', route.path, {
+    fields: ['title', 'description'],
+  })),
 ])
 if (!page.value)
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
@@ -75,7 +74,9 @@ const repoLinks = computed(() => [
           <UPageLinks v-if="module" :ui="{ container: 'gap-7' }" :links="repoLinks" />
         </div>
       </template>
-      <TableOfContents v-if="page.body?.toc?.links?.length" :links="page.body?.toc?.links" :class="[open ? 'lg:block' : 'hidden lg:block']" />
+      <div class="mt-5">
+        <TableOfContents v-if="page.body?.toc?.links?.length" :links="page.body?.toc?.links" class="mt-7" />
+      </div>
     </UPageHeader>
 
     <UPageBody prose class="pb-0">

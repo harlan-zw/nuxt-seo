@@ -1,5 +1,13 @@
+import { existsSync } from 'node:fs'
+import * as fs from 'node:fs'
+import { logger } from './logger'
+import { globby } from 'globby'
 import { defineNuxtConfig } from 'nuxt/config'
-import { resolve } from 'pathe'
+import { relative, resolve } from 'pathe'
+import { isDevelopment } from 'std-env'
+import { createStorage } from 'unstorage'
+import fsDriver from 'unstorage/drivers/fs'
+import { modules } from '../src/const'
 import NuxtSEO from '../src/module'
 
 export default defineNuxtConfig({
@@ -17,6 +25,60 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxt/image',
     NuxtSEO,
+    async (_, nuxt) => {
+      nuxt.hooks.hook('nitro:init', (nitro) => {
+        nitro.options.alias['#content/server'] = resolve('./server/content-v2')
+      })
+      if (existsSync(resolve(__dirname, '.content'))) {
+        return
+      }
+      const lnContentStorage = createStorage({
+        driver: fsDriver({
+          base: resolve(__dirname, '.content'),
+        }),
+      })
+      let key = 0
+      for (const m of modules) {
+        const localDirPaths = [
+          resolve(__dirname, '..', '..', m.npm, 'docs', 'content'),
+          resolve(__dirname, '..', '..', m.repo.replace('harlan-zw/', '').replace('nuxt-modules/', ''), 'docs', 'content'),
+        ]
+        for (const localDirPath of localDirPaths) {
+          if (existsSync(localDirPath)) {
+            logger.info(`🔗 Docs source \`${m.slug}\` using local fs: ${relative(process.cwd(), localDirPath)}`)
+            // copy all files within localDirPath to .content/${key}.${m.slug}
+            // read all files
+            const files = await globby('**/*.md', { cwd: localDirPath })
+            for (const f of files) {
+              const content = await fs.promises.readFile(resolve(localDirPath, f), { encoding: 'utf-8' })
+              await lnContentStorage.set(`${key}.${m.slug}/${f}`, content)
+            }
+            // return [camelCase(m.slug), defineCollection({
+            //   type: 'page',
+            //   source: {
+            //     cwd: localDirPath,
+            //     path: '**/*.md',
+            //     prefix: `docs/${key}.${m.slug}`,
+            //   },
+            // })]
+          } else {
+            logger.info(`🔗 Docs source \`${m.slug}\` using GitHub: ${m.repo}`)
+          }
+        }
+        key++
+        // return [camelCase(m.slug), defineCollection({
+        //   type: 'page',
+        //   source: {
+        //     path: '',
+        //     prefix: `/docs/${key}.${m.slug}`,
+        //     repository: `https://github.com/nuxt-modules/sitemap/tree/main/docs/content`,
+        //   },
+        //   // token: process.env.NUXT_GITHUB_TOKEN || '',
+        //   // driver: 'github',
+        //   // dir: 'docs/content',
+        // })]
+      }
+    },
   ],
 
   ui: {
@@ -77,61 +139,65 @@ export default defineNuxtConfig({
     includeWorkspace: true,
   },
 
+  alias: {
+    '#content/server': resolve('./app/utils/content-v2'),
+  },
+
   content: {
-    highlight: {
-      theme: {
-        light: 'github-light',
-        default: 'github-light',
-        dark: 'material-theme-palenight',
-      },
-      preload: [
-        'ts',
-        'vue',
-        'json',
-        'html',
-        'bash',
-      ],
-    },
-    sources: {
-      // ...Object.fromEntries(
-      //   modules
-      //     .filter(m => m.slug !== 'nuxt-seo')
-      //     .map((m, key) => {
-      //       const localDirPaths = [
-      //         resolve(__dirname, '..', '..', m.npm, 'docs', 'content'),
-      //         resolve(__dirname, '..', '..', m.repo.replace('harlan-zw/', '').replace('nuxt-modules/', ''), 'docs', 'content'),
-      //       ]
-      //       if (isDevelopment) {
-      //         for (const localDirPath of localDirPaths) {
-      //           if (existsSync(localDirPath)) {
-      //             logger.info(`🔗 Docs source \`${m.slug}\` using local fs: ${relative(process.cwd(), localDirPath)}`)
-      //             return [m.slug, {
-      //               watch: true,
-      //               prefix: `/docs/${key}.${m.slug}`,
-      //               driver: 'fs',
-      //               base: localDirPath,
-      //             }]
-      //           }
-      //         }
-      //       }
-      //       logger.info(`🔗 Docs source \`${m.slug}\` using GitHub: ${m.repo}`)
-      //       return [m.slug, {
-      //         token: process.env.NUXT_GITHUB_TOKEN || '',
-      //         prefix: `/docs/${key}.${m.slug}`,
-      //         driver: 'github',
-      //         repo: m.repo,
-      //         branch: 'main',
-      //         dir: 'docs/content',
-      //       }]
-      //     }),
-      // ),
-      nuxtSeo: {
-        watch: true,
-        driver: 'fs',
-        prefix: '/docs/nuxt-seo',
-        base: resolve(__dirname, 'content', 'nuxt-seo'),
-      },
-    },
+    // highlight: {
+    //   theme: {
+    //     light: 'github-light',
+    //     default: 'github-light',
+    //     dark: 'material-theme-palenight',
+    //   },
+    //   preload: [
+    //     'ts',
+    //     'vue',
+    //     'json',
+    //     'html',
+    //     'bash',
+    //   ],
+    // },
+    // sources: {
+    //   // ...Object.fromEntries(
+    //   //   modules
+    //   //     .filter(m => m.slug !== 'nuxt-seo')
+    //   //     .map((m, key) => {
+    //   //       const localDirPaths = [
+    //   //         resolve(__dirname, '..', '..', m.npm, 'docs', 'content'),
+    //   //         resolve(__dirname, '..', '..', m.repo.replace('harlan-zw/', '').replace('nuxt-modules/', ''), 'docs', 'content'),
+    //   //       ]
+    //   //       if (isDevelopment) {
+    //   //         for (const localDirPath of localDirPaths) {
+    //   //           if (existsSync(localDirPath)) {
+    //   //             logger.info(`🔗 Docs source \`${m.slug}\` using local fs: ${relative(process.cwd(), localDirPath)}`)
+    //   //             return [m.slug, {
+    //   //               watch: true,
+    //   //               prefix: `/docs/${key}.${m.slug}`,
+    //   //               driver: 'fs',
+    //   //               base: localDirPath,
+    //   //             }]
+    //   //           }
+    //   //         }
+    //   //       }
+    //   //       logger.info(`🔗 Docs source \`${m.slug}\` using GitHub: ${m.repo}`)
+    //   //       return [m.slug, {
+    //   //         token: process.env.NUXT_GITHUB_TOKEN || '',
+    //   //         prefix: `/docs/${key}.${m.slug}`,
+    //   //         driver: 'github',
+    //   //         repo: m.repo,
+    //   //         branch: 'main',
+    //   //         dir: 'docs/content',
+    //   //       }]
+    //   //     }),
+    //   // ),
+    //   nuxtSeo: {
+    //     watch: true,
+    //     driver: 'fs',
+    //     prefix: '/docs/nuxt-seo',
+    //     base: resolve(__dirname, 'content', 'nuxt-seo'),
+    //   },
+    // },
   },
 
   devtools: {

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// import { Dialog, DialogPanel, TransitionRoot } from '@headlessui/vue'
-//
 const isDialogOpen = ref(false)
 </script>
 
