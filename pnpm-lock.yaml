@@ -8,7 +8,7 @@ overrides:
   '@nuxt/schema': 3.13.1
   nuxt: 3.13.1
   typescript: 5.4.5
-  nuxt-icon: latest
+  nuxt-icon: 0.6.10
   shiki: 1.22.0
 
 importers:
@@ -5050,8 +5050,8 @@ packages:
     engines: {node: ^16.10.0 || >=18.0.0}
     hasBin: true
 
-  nuxt-icon@1.0.0-beta.7:
-    resolution: {integrity: sha512-HdEn1sZGmkIX44L5rZ8YUMdIdVCpeBXycO2DdrqZmFilixcHax0XYdehc1VD6Kl9Sxg8B7sKPMelmDXVTbDwIw==}
+  nuxt-icon@0.6.10:
+    resolution: {integrity: sha512-S9zHVA66ox4ZSpMWvCjqKZC4ZogC0s2z3vZs+M4D95YXGPEXwxDZu+insMKvkbe8+k7gvEmtTk0eq3KusKlxiw==}
 
   nuxt-lego@0.0.14:
     resolution: {integrity: sha512-78HdXDfXHkMRcTKq6IEIoXyajul/c88zCU3xcALShkb0cW4qMhir+He9eMi7l1uKSP1bwLZfmCVFiokyWeFZig==}
@@ -8777,7 +8777,7 @@ snapshots:
       '@vueuse/math': 10.11.1(vue@3.5.12(typescript@5.4.5))
       defu: 6.1.4
       fuse.js: 6.6.2
-      nuxt-icon: 1.0.0-beta.7(magicast@0.3.5)(rollup@4.24.0)(vite@5.4.9(@types/node@22.7.5)(terser@5.35.0))(vue@3.5.12(typescript@5.4.5))(webpack-sources@3.2.3)
+      nuxt-icon: 0.6.10(magicast@0.3.5)(rollup@4.24.0)(vite@5.4.9(@types/node@22.7.5)(terser@5.35.0))(vue@3.5.12(typescript@5.4.5))(webpack-sources@3.2.3)
       ohash: 1.1.4
       pathe: 1.1.2
       scule: 1.3.0
@@ -13712,18 +13712,12 @@ snapshots:
 
   nuxi@3.14.0: {}
 
-  nuxt-icon@1.0.0-beta.7(magicast@0.3.5)(rollup@4.24.0)(vite@5.4.9(@types/node@22.7.5)(terser@5.35.0))(vue@3.5.12(typescript@5.4.5))(webpack-sources@3.2.3):
+  nuxt-icon@0.6.10(magicast@0.3.5)(rollup@4.24.0)(vite@5.4.9(@types/node@22.7.5)(terser@5.35.0))(vue@3.5.12(typescript@5.4.5))(webpack-sources@3.2.3):
     dependencies:
       '@iconify/collections': 1.0.471
-      '@iconify/types': 2.0.0
-      '@iconify/utils': 2.1.33
       '@iconify/vue': 4.1.2(vue@3.5.12(typescript@5.4.5))
       '@nuxt/devtools-kit': 1.6.0(magicast@0.3.5)(rollup@4.24.0)(vite@5.4.9(@types/node@22.7.5)(terser@5.35.0))(webpack-sources@3.2.3)
       '@nuxt/kit': 3.13.2(magicast@0.3.5)(rollup@4.24.0)(webpack-sources@3.2.3)
-      consola: 3.2.3
-      fast-glob: 3.3.2
-      local-pkg: 0.5.0
-      pathe: 1.1.2
     transitivePeerDependencies:
       - magicast
       - rollup
@@ -13736,7 +13730,7 @@ snapshots:
     dependencies:
       '@vueuse/core': 10.11.1(vue@3.5.12(typescript@5.4.5))
       '@vueuse/nuxt': 10.11.1(magicast@0.3.5)(nuxt@3.13.1(@parcel/watcher@2.4.1)(@types/node@22.7.5)(eslint@9.12.0(jiti@2.3.3))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.24.0)(terser@5.35.0)(typescript@5.4.5)(vite@5.4.9(@types/node@22.7.5)(terser@5.35.0))(webpack-sources@3.2.3))(rollup@4.24.0)(vue@3.5.12(typescript@5.4.5))(webpack-sources@3.2.3)
-      nuxt-icon: 1.0.0-beta.7(magicast@0.3.5)(rollup@4.24.0)(vite@5.4.9(@types/node@22.7.5)(terser@5.35.0))(vue@3.5.12(typescript@5.4.5))(webpack-sources@3.2.3)
+      nuxt-icon: 0.6.10(magicast@0.3.5)(rollup@4.24.0)(vite@5.4.9(@types/node@22.7.5)(terser@5.35.0))(vue@3.5.12(typescript@5.4.5))(webpack-sources@3.2.3)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - magicast
