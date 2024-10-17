@@ -1,0 +1,35 @@
+:root {
+  --twoslash-popup-bg: rgb(var(--color-gray-800) / 1);
+  --twoslash-popup-color: rgb(var(--color-gray-300) / 1);
+  --twoslash-docs-color: inherit;
+  --twoslash-docs-font: inherit;
+  --twoslash-code-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --twoslash-underline-color: #8888;
+  --twoslash-border-color: rgb(var(--color-gray-700) / 1);
+  --twoslash-cursor-color: rgb(var(--color-primary-DEFAULT) / 1);
+  --twoslash-matched-color: rgb(var(--color-primary-DEFAULT) / 1);
+}
+
+html:not(.dark) {
+  --twoslash-popup-bg: rgb(var(--color-gray-100) / 1);
+  --twoslash-popup-color: rgb(var(--color-gray-600) / 1);
+  --twoslash-border-color: rgb(var(--color-gray-300) / 1);
+}
+
+.twoslash-popup-container .twoslash-popup-code {
+  font-size: 0.9em;
+}
+
+.twoslash-popup-container .twoslash-popup-code .line {
+  display: block;
+}
+
+.twoslash-popup-container .shiki .line {
+  --shiki-default-bg: transparent;
+  --shiki-dark-bg: transparent;
+}
+
+.twoslash-floating .twoslash-popup-docs-tags .twoslash-popup-docs-tag-name {
+  color: inherit;
+  opacity: 0.5;
+}

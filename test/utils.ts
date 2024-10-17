@@ -1,4 +1,3 @@
-
 export function extractSeoHead(html: string) {
   const head = html.match(/<head>([\s\S]*)<\/head>/)?.[1]
   // remove all style tags

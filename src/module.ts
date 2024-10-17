@@ -28,7 +28,7 @@ export default defineNuxtModule<ModuleOptions>({
       return
     }
     for (const module of modules) {
-      if (module.slug !== 'nuxt-seo') {
+      if (module.npm !== '@nuxtjs/seo') {
         await installModule(await resolvePath(module.npm), {}, nuxt)
       }
     }
