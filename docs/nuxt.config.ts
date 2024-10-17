@@ -1,14 +1,13 @@
 import { existsSync } from 'node:fs'
 import * as fs from 'node:fs'
-import { logger } from './logger'
 import { globby } from 'globby'
 import { defineNuxtConfig } from 'nuxt/config'
 import { relative, resolve } from 'pathe'
-import { isDevelopment } from 'std-env'
 import { createStorage } from 'unstorage'
 import fsDriver from 'unstorage/drivers/fs'
 import { modules } from '../src/const'
 import NuxtSEO from '../src/module'
+import { logger } from './logger'
 
 export default defineNuxtConfig({
   // const pkgJson = await readPackageJSON('../package.json')
@@ -61,7 +60,8 @@ export default defineNuxtConfig({
             //     prefix: `docs/${key}.${m.slug}`,
             //   },
             // })]
-          } else {
+          }
+          else {
             logger.info(`🔗 Docs source \`${m.slug}\` using GitHub: ${m.repo}`)
           }
         }

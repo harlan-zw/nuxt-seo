@@ -5,7 +5,7 @@ const nav = inject<Ref<NavItem[]>>('navigation')
 // const { navDirFromPath } = useContentHelpers()
 
 const route = useRoute()
-const navDirFromPath = (path: string, tree: NavItem[]): NavItem[] | undefined => {
+function navDirFromPath(path: string, tree: NavItem[]): NavItem[] | undefined {
   for (const file of tree) {
     if (file.path === path) { return file.children }
 

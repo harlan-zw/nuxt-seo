@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { fetchStats } from '~/composables/stats'
-import { modules } from '../../src/const'
 import { queryCollectionNavigation } from '#imports'
 import { titleCase } from 'scule'
+import { fetchStats } from '~/composables/stats'
+import { modules } from '../../src/const'
 
 function mapPath(data, node = 0) {
   console.log(node, data)
