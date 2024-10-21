@@ -1,13 +1,6 @@
-import { existsSync } from 'node:fs'
-import * as fs from 'node:fs'
-import { globby } from 'globby'
 import { defineNuxtConfig } from 'nuxt/config'
-import { relative, resolve } from 'pathe'
-import { createStorage } from 'unstorage'
-import fsDriver from 'unstorage/drivers/fs'
-import { modules } from '../src/const'
+import { resolve } from 'pathe'
 import NuxtSEO from '../src/module'
-import { logger } from './logger'
 
 export default defineNuxtConfig({
   // const pkgJson = await readPackageJSON('../package.json')
@@ -28,44 +21,36 @@ export default defineNuxtConfig({
       nuxt.hooks.hook('nitro:init', (nitro) => {
         nitro.options.alias['#content/server'] = resolve('./server/content-v2')
       })
-      if (existsSync(resolve(__dirname, '.content'))) {
-        return
-      }
-      const lnContentStorage = createStorage({
-        driver: fsDriver({
-          base: resolve(__dirname, '.content'),
-        }),
-      })
-      let key = 0
-      for (const m of modules) {
-        const localDirPaths = [
-          resolve(__dirname, '..', '..', m.npm, 'docs', 'content'),
-          resolve(__dirname, '..', '..', m.repo.replace('harlan-zw/', '').replace('nuxt-modules/', ''), 'docs', 'content'),
-        ]
-        for (const localDirPath of localDirPaths) {
-          if (existsSync(localDirPath)) {
-            logger.info(`🔗 Docs source \`${m.slug}\` using local fs: ${relative(process.cwd(), localDirPath)}`)
-            // copy all files within localDirPath to .content/${key}.${m.slug}
-            // read all files
-            const files = await globby('**/*.md', { cwd: localDirPath })
-            for (const f of files) {
-              const content = await fs.promises.readFile(resolve(localDirPath, f), { encoding: 'utf-8' })
-              await lnContentStorage.set(`${key}.${m.slug}/${f}`, content)
-            }
-            // return [camelCase(m.slug), defineCollection({
-            //   type: 'page',
-            //   source: {
-            //     cwd: localDirPath,
-            //     path: '**/*.md',
-            //     prefix: `docs/${key}.${m.slug}`,
-            //   },
-            // })]
-          }
-          else {
-            logger.info(`🔗 Docs source \`${m.slug}\` using GitHub: ${m.repo}`)
-          }
-        }
-        key++
+      // if (existsSync(resolve(__dirname, '.content'))) {
+      //   return
+      // }
+      // const lnContentStorage = createStorage({
+      //   driver: fsDriver({
+      //     base: resolve(__dirname, '.content'),
+      //   }),
+      // })
+      // let key = 0
+      // for (const m of modules.filter(m => m.slug !== 'nuxt-seo')) {
+      //   let foundSrc = false
+      //   const localDirPaths = new Set([
+      //     resolve(__dirname, '..', '..', m.npm, 'docs', 'content'),
+      //     resolve(__dirname, '..', '..', m.repo.replace('harlan-zw/', '').replace('nuxt-modules/', ''), 'docs', 'content'),
+      //   ])
+      //   for (const localDirPath of localDirPaths) {
+      //     if (existsSync(localDirPath)) {
+      //       logger.info(`🔗 Docs source \`${m.slug}\` using local fs: ${relative(process.cwd(), localDirPath)}`)
+      //       const files = await globby('**/*.md', { cwd: localDirPath })
+      //       for (const f of files) {
+      //         const content = await fs.promises.readFile(resolve(localDirPath, f), { encoding: 'utf-8' })
+      //         await lnContentStorage.set(`${key}.${m.slug}/${f}`, content)
+      //       }
+      //       foundSrc = true
+      //     }
+      //   }
+      //   if (!foundSrc) {
+      //     logger.info(`🔗 Docs source \`${m.slug}\` using GitHub: ${m.repo}`)
+      //   }
+      //   key++
         // return [camelCase(m.slug), defineCollection({
         //   type: 'page',
         //   source: {
@@ -77,7 +62,15 @@ export default defineNuxtConfig({
         //   // driver: 'github',
         //   // dir: 'docs/content',
         // })]
-      }
+      // }
+      // const nuxtSeo = modules.find(m => m.slug === 'nuxt-seo')
+      // const localDirPath = resolve(__dirname, '..', 'content', 'nuxt-seo')
+      // logger.info(`🔗 Docs source \`${nuxtSeo.slug}\` using local fs: ${relative(process.cwd(), localDirPath)}`)
+      // const files = await globby('**/*.md', { cwd: localDirPath })
+      // for (const f of files) {
+      //   const content = await fs.promises.readFile(resolve(localDirPath, f), { encoding: 'utf-8' })
+      //   await lnContentStorage.set(`${key}.${nuxtSeo.slug}/${f}`, content)
+      // }
     },
   ],
 
@@ -144,20 +137,24 @@ export default defineNuxtConfig({
   },
 
   content: {
-    // highlight: {
-    //   theme: {
-    //     light: 'github-light',
-    //     default: 'github-light',
-    //     dark: 'material-theme-palenight',
-    //   },
-    //   preload: [
-    //     'ts',
-    //     'vue',
-    //     'json',
-    //     'html',
-    //     'bash',
-    //   ],
-    // },
+    build: {
+      markdown: {
+        highlight: {
+          theme: {
+            light: 'github-light',
+            default: 'github-light',
+            dark: 'material-theme-palenight',
+          },
+          preload: [
+            'ts',
+            'vue',
+            'json',
+            'html',
+            'bash',
+          ],
+        },
+      },
+    },
     // sources: {
     //   // ...Object.fromEntries(
     //   //   modules
@@ -204,6 +201,13 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false,
+    },
+  ],
+
   sitemap: {
     strictNuxtContentPaths: true,
     xslColumns: [
@@ -213,6 +217,11 @@ export default defineNuxtConfig({
 
   mdc: {
     highlight: {
+      theme: {
+        light: 'github-light',
+        default: 'github-light',
+        dark: 'material-theme-palenight',
+      },
       langs: [
         'ts',
         'vue',
@@ -222,6 +231,7 @@ export default defineNuxtConfig({
         'xml',
         'diff',
         'md',
+        'dotenv',
       ],
     },
   },
@@ -232,7 +242,7 @@ export default defineNuxtConfig({
     '/sitemap': { redirect: { to: '/docs/sitemap/getting-started/installation', statusCode: 301 } },
     '/og-image': { redirect: { to: '/docs/og-image/getting-started/installation', statusCode: 301 } },
     '/schema-org': { redirect: { to: '/docs/schema-org/getting-started/installation', statusCode: 301 } },
-    '/experiments': { redirect: { to: '/docs/experiments/getting-started/installation', statusCode: 301 } },
+    '/experiments': { redirect: { to: '/docs/seo-utils/getting-started/installation', statusCode: 301 } },
     '/site-config': { redirect: { to: '/docs/site-config/getting-started/installation', statusCode: 301 } },
     '/link-checker': { redirect: { to: '/docs/link-checker/getting-started/installation', statusCode: 301 } },
 
@@ -260,6 +270,51 @@ export default defineNuxtConfig({
         statusCode: 301,
       },
     },
+
+    // v2 redirects
+    '/docs/seo-utils/guides/redirect-canonical': {
+      redirect: {
+        to: '/docs/seo-utils/guides/canonical-url',
+        statusCode: 301,
+      },
+    },
+    '/docs/sitemap/getting-started/faq': { redirect: { to: '/docs/sitemap/getting-started/troubleshooting', statusCode: 301 } },
+    '/docs/sitemap/integrations/robots': { redirect: { to: '/docs/sitemap/getting-started/installation', statusCode: 301 } },
+    '/docs/sitemap/guides/lastmod': { redirect: { to: '/docs/sitemap/guides/loc-data', statusCode: 301 } },
+    '/docs/sitemap/guides/cache': { redirect: { to: '/docs/sitemap/guides/performance', statusCode: 301 } },
+    '/docs/sitemap/guides/debugging': { redirect: { to: '/docs/sitemap/getting-started/troubleshooting', statusCode: 301 } },
+    '/docs/sitemap/integrations/content': { redirect: { to: '/docs/sitemap/guides/content', statusCode: 301 } },
+    '/docs/sitemap/api/schema': { redirect: { to: '/docs/sitemap/guides/images-videos', statusCode: 301 } },
+
+    '/docs/robots/getting-started/how-it-works': { redirect: { to: '/docs/robots/guides/how-it-works', statusCode: 301 } },
+    '/docs/robots/integration/i18n': { redirect: { to: '/docs/robots/guides/i18n', statusCode: 301 } },
+    '/docs/robots/nitro-api/get-site-indexable': { redirect: { to: '/docs/robots/nitro-api/get-site-robot-config', statusCode: 301 } },
+
+    '/docs/link-checker/integrations/sitemap': { redirect: { to: '/docs/link-checker/getting-started/installation', statusCode: 301 } },
+
+    '/docs/schema-org/integrations/robots': { redirect: { to: '/docs/schema-org/getting-started/installation', statusCode: 301 } },
+    '/docs/schema-org/getting-started/how-it-works': { redirect: { to: '/docs/schema-org/guides/how-it-works', statusCode: 301 } },
+    '/docs/schema-org/integrations/i18n': { redirect: { to: '/docs/schema-org/guides/i18n', statusCode: 301 } },
+    '/docs/schema-org/guides/debugging': { redirect: { to: '/docs/schema-org/getting-started/troubleshooting', statusCode: 301 } },
+
+    '/docs/og-image/api/nuxt-seo-template': { redirect: { to: '/docs/og-image/guides/community-templates', statusCode: 301 } },
+
+    '/docs/site-config/getting-started/how-it-works': { redirect: { to: '/docs/site-config/guides/how-it-works', statusCode: 301 } },
+    '/docs/site-config/integrations/i18n': { redirect: { to: '/docs/site-config/integrations/i18n', statusCode: 301 } },
+    '/docs/site-config/guides/debugging': { redirect: { to: '/docs/site-config/getting-started/troubleshooting', statusCode: 301 } },
+
+    '/docs/nuxt-seo/getting-started/what-is-nuxt-seo': { redirect: { to: '/docs/nuxt-seo/getting-started/introduction', statusCode: 301 } },
+    '/docs/nuxt-seo/getting-started/faq': { redirect: { to: '/docs/nuxt-seo/getting-started/troubleshooting', statusCode: 301 } },
+    '/docs/nuxt-seo/guides/default-meta': { redirect: { to: '/docs/seo-utils/guides/default-meta', statusCode: 301 } },
+    '/docs/nuxt-seo/guides/fallback-title': { redirect: { to: '/docs/seo-utils/guides/fallback-title', statusCode: 301 } },
+    '/docs/nuxt-seo/guides/redirect-canonical': { redirect: { to: '/docs/seo-utils/guides/canonical-url', statusCode: 301 } },
+    '/docs/nuxt-seo/guides/title-templates': { redirect: { to: '/learn/mastering-titles-in-nuxt', statusCode: 301 } },
+    '/docs/nuxt-seo/guides/trailing-slashes': { redirect: { to: '/learn/trailing-slashes', statusCode: 301 } },
+    '/docs/nuxt-seo/guides/i18n': { redirect: { to: '/docs/nuxt-seo/getting-started/introduction', statusCode: 301 } },
+    '/docs/nuxt-seo/seo-guides/going-live': { redirect: { to: '/learn/going-live', statusCode: 301 } },
+    '/docs/nuxt-seo/api/breadcrumbs': { redirect: { to: '/docs/seo-utils/api/breadcrumbs', statusCode: 301 } },
+    '/docs/nuxt-seo/api/config': { redirect: { to: '/docs/nuxt-seo/getting-started/introduction', statusCode: 301 } },
+    '/docs/nuxt-seo/guides/configuring-modules': { redirect: { to: '/docs/nuxt-seo/guides/using-the-modules', statusCode: 301 } },
   },
 
   css: [

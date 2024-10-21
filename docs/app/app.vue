@@ -1,15 +1,11 @@
 <script setup lang="ts">
-import { queryCollectionNavigation } from '#imports'
 import { titleCase } from 'scule'
 import { fetchStats } from '~/composables/stats'
 import { modules } from '../../src/const'
+import { menu } from './composables/nav'
 
 function mapPath(data, node = 0) {
-  console.log(node, data)
   return data.map((item) => {
-    if (item.page && item.children?.length) {
-      console.log('??', item)
-    }
     if (item.children?.length && !item.page) {
       item.title = titleCase(item.title)
       item.children = mapPath(item.children, node + 1)
@@ -20,29 +16,64 @@ function mapPath(data, node = 0) {
     }
   })
 }
-const { data: navigation } = await useAsyncData('navigation', () => queryCollectionNavigation('docs'), {
-  default: () => [],
-  transform: mapPath,
-})
+
+async function mapPath2(data, node = 0) {
+  return await Promise.all(
+    data
+      .map((item) => {
+        if (item.children?.length && !item.page) {
+          item.title = titleCase(item.title)
+          item.children = mapPath(item.children, node + 1)
+        }
+        return {
+          ...item,
+          _path: item.path,
+        }
+      })
+      .map(async (m) => {
+        if (m.path.endsWith('/api')) {
+          m.icon = 'i-logos-nuxt-icon'
+          m.title = 'Nuxt API'
+        }
+        else if (m.path.endsWith('/nitro-api')) {
+          m.icon = 'i-unjs-nitro'
+          m.title = 'Nitro API'
+        }
+        else if (m.path.endsWith('/releases')) {
+          m.icon = 'i-noto-sparkles'
+          m.title = 'Releases'
+        }
+        else if (m.path.endsWith('/guides')) {
+          m.icon = 'i-ph-book-duotone'
+          m.title = 'Guides'
+        }
+        if (m.children?.length) {
+          m.children = m.children.map((c) => {
+            if (c.children?.length === 1) {
+              c = c.children[0]
+            }
+            return c
+          })
+          for (const k in m.children) {
+            if (m.children[k].title.endsWith('()')) {
+              m.children[k].mdc = true
+              m.children[k].title = await markdownParser(`\`${m.children[k].title}\`{lang="ts"}`)
+            }
+          }
+        }
+        return m
+      })
+  )
+}
+
 const { data: stats } = await useAsyncData('stats', () => fetchStats())
 
 const route = useRoute()
 const appConfig = useAppConfig()
 const colorMode = useColorMode()
-const segment = computed(() => route.path.split('/')[1])
-const children = computed(() => {
-  return navigation!.value!.find(i => i._path === `/${segment.value}`)?.children || []
-})
 
 provide('stats', stats)
-provide('navigation', navigation)
-provide('docsAsideLinks', children)
 provide('modules', modules)
-// provide('module', computed(() => {
-//   const m = modules.find(l => l?.slug === segment.value)
-//   const stats = (publicRuntimeConfig.moduleStats || []).find(m2 => m2.id === m?.id)?.stats || {}
-//   return m
-// }))
 
 useSeoMeta({
   ogTitle: 'Nuxt SEO · All the boring SEO work for Nuxt done.',
@@ -62,75 +93,72 @@ useHead({
 <template>
   <UApp :toaster="appConfig.toaster">
     <NuxtLoadingIndicator color="#FFF" />
-    <Banner />
     <Header />
-
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
 
     <ClientOnly />
 
-    <footer class="relative z-10 antialiased font-sans bg-white dark:bg-gray-900 text-sm text-gray-700 dark:text-gray-200 mt-20">
+    <footer class="relative z-10 antialiased font-sans dark:bg-[#131822] bg-neutral-50 text-sm text-gray-700 dark:text-gray-200 mt-20">
+      <svg viewBox="0 0 1440 181" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-blue-900/30 pointer-events-none absolute w-full top-[1px] transition-all text-primary flex-shrink-0 opacity-100 duration-[400ms] opacity-30 z-20"><mask id="path-1-inside-1_414_5526" fill="white"><path d="M0 0H1440V181H0V0Z" /></mask><path d="M0 0H1440V181H0V0Z" fill="url(#paint0_linear_414_5526)" fill-opacity="0.22" /><path d="M0 2H1440V-2H0V2Z" fill="url(#paint1_linear_414_5526)" mask="url(#path-1-inside-1_414_5526)" /><defs><linearGradient id="paint0_linear_414_5526" x1="720" y1="0" x2="720" y2="181" gradientUnits="userSpaceOnUse"><stop stop-color="currentColor" /><stop offset="1" stop-color="currentColor" stop-opacity="0" /></linearGradient><linearGradient id="paint1_linear_414_5526" x1="0" y1="90.5" x2="1440" y2="90.5" gradientUnits="userSpaceOnUse"><stop stop-color="currentColor" stop-opacity="0" /><stop offset="0.395" stop-color="currentColor" /><stop offset="1" stop-color="currentColor" stop-opacity="0" /></linearGradient></defs></svg>
       <div class="border-t border-gray-200 dark:border-gray-800">
         <UContainer>
           <div class="py-10 grid xl:grid-cols-3 lg:gap-20 gap-10">
-            <div>
-              <div class="mb-5">
-                <NuxtLink to="/" title="Home" class="flex items-end gap-1.5 font-bold text-xl text-gray-900 dark:text-white font-title">
-                  <Logo />
-                </NuxtLink>
-              </div>
-              <nav>
-                <ul class="space-y-6">
-                  <li>
-                    <NuxtLink to="/docs/nuxt-seo/getting-started/what-is-nuxt-seo">
-                      What is Nuxt SEO?
-                    </NuxtLink>
-                  </li>
-                  <li>
-                    <NuxtLink to="/docs/nuxt-seo/getting-started/installation">
-                      Install Nuxt SEO
-                    </NuxtLink>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-            <div>
-              <h3 class="font-bold mb-5">
-                Modules
+            <div v-for="(category, cKey) in menu.filter(c => c.children?.length)" :key="cKey">
+              <h3 class="font-bold mb-5 flex items-center gap-1">
+                <UIcon dynamic :name="category.icon" class="w-5 h-5" />
+                {{ category.label }}
               </h3>
               <nav>
                 <ul class="grid grid-cols-2 gap-6">
-                  <li v-for="(module, key) in modules" :key="key">
-                    <NuxtLink :to="module.to">
-                      <UIcon dynamic :name="module.icon" />
-                      {{ module.label }}
-                    </NuxtLink>
+                  <li v-for="(link, key) in category.children" :key="key">
+                    <ULink :to="link.to" class="flex items-center gap-1 hover:underline transition">
+                      <UIcon v-if="link.icon" dynamic :name="link.icon" class="w-4 h-4" :class="cKey === 0 ? 'text-blue-500 dark:text-blue-300' : ''" />
+                      {{ link.label }}
+                    </ULink>
                   </li>
                 </ul>
               </nav>
             </div>
-            <div>
-              <div class="bg-gray-50 dark:bg-gray-800 flex rounded-xl shadow p-5">
-                <div>
-                  <div class="mb-2">
-                    Hey <UIcon name="i-noto-waving-hand" /> My name is <a href="https://harlanzw.com" target="_blank" class="underline">Harlan</a> and I'm the author and maintainer of Nuxt SEO.
-                  </div>
-                  <div>
-                    I'd love to have your <a href="https://github.com/sponsors/harlan-zw" class="underline">support</a>!
-                  </div>
+          </div>
+          <div class="flex items-center gap-10 mb-6">
+            <NuxtLink to="/" title="Home" class="flex items-end gap-1.5 font-bold text-xl text-gray-900 dark:text-white font-title">
+              <Logo />
+            </NuxtLink>
+            <div class="w-sm bg-gray-50 dark:bg-gray-800 flex rounded-xl shadow p-5">
+              <div>
+                <div class="mb-2">
+                  Hey <UIcon name="i-noto-waving-hand" /> My name is <a href="https://harlanzw.com" target="_blank" class="underline">Harlan</a> and I'm the author and maintainer of Nuxt SEO.
                 </div>
-                <div class="gap-3">
-                  <img alt="Harlan Wilton" loading="lazy" src="https://avatars.githubusercontent.com/u/5326365?v=4" class="mx-auto rounded-full w-10 h-10 mb-3">
-                  <div class="flex justify-center items-center opacity-70">
-                    <UButton title="Twitter" variant="ghost" to="https://twitter.com/harlan_zw" target="_blank">
-                      <UIcon name="i-logos-twitter" class="text-xl" />
-                    </UButton>
-                    <UButton title="GitHub" aria-label="GitHub" variant="ghost" to="https://github.com/harlan-zw" target="_blank">
-                      <UIcon name="i-logos-github-icon" class="text-xl" />
-                    </UButton>
-                  </div>
+                <div>
+                  I'd love to have your <a href="https://github.com/sponsors/harlan-zw" class="underline">support</a>!
+                </div>
+              </div>
+              <div class="gap-3">
+                <img alt="Harlan Wilton" loading="lazy" src="https://avatars.githubusercontent.com/u/5326365?v=4" class="mx-auto rounded-full w-10 h-10 mb-3">
+                <div class="flex justify-center items-center opacity-70">
+                  <UButton
+                    title="Twitter"
+                    aria-label="Twitter"
+                    to="https://twitter.com/harlan_zw"
+                    target="_blank"
+                    color="gray"
+                    variant="ghost"
+                    class="hidden lg:inline-flex transition"
+                    icon="i-simple-icons-x"
+                  />
+
+                  <UButton
+                    title="GitHub"
+                    aria-label="GitHub"
+                    to="https://github.com/harlan-zw/nuxt-seo"
+                    target="_blank"
+                    color="gray"
+                    variant="ghost"
+                    class="hidden lg:inline-flex transition"
+                    icon="i-simple-icons-github"
+                  />
                 </div>
               </div>
             </div>

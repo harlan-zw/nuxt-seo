@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { modules } from '../../../../src/const'
 
 // convert to typescript props
 const props = withDefaults(defineProps<{
@@ -46,8 +47,6 @@ const themeRgb = computed(() => {
   // we want to convert it so it's just `<red>, <green>, <blue>` (255, 255, 255)
   return themeHex.value.replace('#', '').match(/.{1,2}/g)?.map(v => Number.parseInt(v, 16)).join(', ')
 })
-
-const modules = inject('modules')
 </script>
 
 <template>
@@ -64,6 +63,7 @@ const modules = inject('modules')
         backgroundImage: `radial-gradient(circle, rgba(${themeRgb}, 0.5) 0%,  ${colorMode === 'dark' ? 'rgba(5, 5, 5,0.3)' : 'rgba(255, 255, 255, 0.7)'} 50%, ${props.colorMode === 'dark' ? 'rgba(5, 5, 5,0)' : 'rgba(255, 255, 255, 0)'} 70%)`,
       }"
     />
+    <svg viewBox="0 0 1440 181" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-blue-900/90 absolute w-[1200px] h-[100px] top-[0px] transition-all text-primary flex-shrink-0 duration-[400ms] z-20"><mask id="path-1-inside-1_414_5526" fill="white"><path d="M0 0H1440V181H0V0Z" /></mask><path d="M0 0H1440V181H0V0Z" fill="url(#paint0_linear_414_5526)" fill-opacity="0.22" /><path d="M0 2H1440V-2H0V2Z" fill="url(#paint1_linear_414_5526)" mask="url(#path-1-inside-1_414_5526)" /><defs><linearGradient id="paint0_linear_414_5526" x1="720" y1="0" x2="720" y2="181" gradientUnits="userSpaceOnUse"><stop stop-color="currentColor" /><stop offset="1" stop-color="currentColor" stop-opacity="0" /></linearGradient><linearGradient id="paint1_linear_414_5526" x1="0" y1="90.5" x2="1440" y2="90.5" gradientUnits="userSpaceOnUse"><stop stop-color="currentColor" stop-opacity="0" /><stop offset="0.395" stop-color="currentColor" /><stop offset="1" stop-color="currentColor" stop-opacity="0" /></linearGradient></defs></svg>
     <div class="h-full w-full justify-between relative">
       <div class="flex flex-row justify-center items-center text-left w-full">
         <svg height="70" viewBox="0 0 1204 200" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -77,16 +77,8 @@ const modules = inject('modules')
           <path d="M1134 200C1120.76 200 1108.64 196.996 1098 191C1087.49 184.873 1080.1 176.559 1074 166C1068.03 155.311 1065 143.296 1065 130C1065 116.704 1068.03 104.559 1074 94C1080.1 83.311 1088.49 74.9963 1099 69C1109.64 62.8734 1120.76 60 1134 60C1147.11 60 1159.49 62.8734 1170 69C1180.64 74.9963 1189.03 83.311 1195 94C1201.1 104.559 1204 116.704 1204 130C1204 143.296 1201.1 155.311 1195 166C1189.03 176.559 1180.64 184.873 1170 191C1159.49 196.996 1147.11 200 1134 200ZM1134 174C1141.66 174 1148.9 172.78 1155 169C1161.23 165.089 1165.63 159.778 1169 153C1172.5 146.222 1174 138.473 1174 130C1174 121.527 1172.5 113.778 1169 107C1165.63 100.222 1161.23 94.9106 1155 91C1148.9 87.0894 1141.66 85 1134 85C1126.34 85 1120.1 87.0894 1114 91C1107.9 94.9106 1102.5 100.222 1099 107C1095.63 113.778 1094 121.527 1094 130C1094 138.473 1095.63 146.222 1099 153C1102.5 159.778 1107.9 165.089 1114 169C1120.1 172.78 1126.34 174 1134 174Z" fill="#00DC82" />
         </svg>
       </div>
-      <div class="flex justify-center gap-7">
-        <UIcon v-for="(module, key) in modules" :key="key" mode="svg" dynamic class="text-blue-300 w-[100px] h-[100px]" :name="module.icon" />
-      </div>
-      <div class="flex flex-row justify-center">
-        <div class="flex justify-center items-center gap-3 flex-row text-[30px] text-purple-600 ">
-          <p class="bg-purple-50 gap-3 items-center border-1 border-purple-400 px-4 py-1.5 rounded-full flex justify-center">
-            <UIcon mode="svg" name="i-carbon-version-minor" class="w-8 h-8 text-purple-500" />
-            <span>v{{ version }}</span>
-          </p>
-        </div>
+      <div class="flex justify-center max-w-[600px] mb-[60px] mx-auto gap-10">
+        <UIcon v-for="(module, key) in modules" :key="key" mode="svg" dynamic class="text-blue-300 w-[120px] h-[120px]" :name="module.icon" />
       </div>
     </div>
   </div>

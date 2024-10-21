@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     NuxtSEO,
     '@nuxt/test-utils/module',
   ],
+  ssr: false,
   nitro: {
     prerender: {
       failOnError: false,

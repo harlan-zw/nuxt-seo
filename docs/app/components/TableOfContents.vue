@@ -25,9 +25,9 @@ const emit = defineEmits(['move'])
 
 const config = {
   wrapper: 'space-y-1',
-  base: 'inline-block text-sm/6 truncate',
+  base: 'inline-block text-base truncate',
   active: 'text-primary',
-  inactive: 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200',
+  inactive: 'text-gray-500 transition dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-200',
   depth: 'ml-3',
 }
 
@@ -42,17 +42,17 @@ function scrollToHeading(id: string) {
 </script>
 
 <template>
-  <ul v-if="links?.length" :class="ui.wrapper">
-    <li v-for="link in links" :key="link.text" :class="[ui.wrapper, link.depth === 3 && ui.depth]">
+  <ul v-if="links?.length" :class="config.wrapper">
+    <li v-for="link in links" :key="link.text" :class="[config.wrapper, link.depth === 3 && config.depth]">
       <a
         :href="`#${link.id}`"
-        :class="[ui.base]"
+        :class="[config.base, config.inactive]"
         @click.prevent="scrollToHeading(link.id)"
       >
-        <span class="text-blue-300">#</span> {{ link.text }}
+        <span class="text-blue-300 mr-px">#</span> {{ link.text }}
       </a>
 
-      <TableOfContents v-if="link.children" :links="link.children" :ui="ui" />
+      <TableOfContents v-if="link.children" :links="link.children" :ui="config" />
     </li>
   </ul>
 </template>

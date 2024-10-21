@@ -8,11 +8,6 @@ export default defineNuxtConfig({
     '@nuxt/ui',
   ],
 
-  site: {
-    url: 'https://nuxtseo.com',
-    debug: true,
-  },
-
   nitro: {
     prerender: {
       failOnError: false,

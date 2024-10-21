@@ -20,9 +20,10 @@ const isDark = computed({
 
 <template>
   <ClientOnly v-if="!colorMode?.forced">
+    <UTooltip :text="`Change to ${isDark ? 'light' : 'dark'} mode`">
     <UButton
       :icon="isDark ? appConfig.ui.icons.dark : appConfig.ui.icons.light"
-      color="gray"
+      color="neutral"
       class="cursor-pointer"
       variant="ghost"
       v-bind="{
@@ -31,7 +32,7 @@ const isDark = computed({
       :aria-label="`Switch to ${isDark ? 'light' : 'dark'} mode`"
       @click="isDark = !isDark"
     />
-
+    </UTooltip>
     <template #fallback>
       <div class="w-8 h-8" />
     </template>

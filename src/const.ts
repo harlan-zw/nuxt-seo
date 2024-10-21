@@ -9,9 +9,9 @@ export interface NuxtSEOModule {
 
 export const NuxtSEO: NuxtSEOModule = {
   slug: 'nuxt-seo',
-  label: 'Nuxt SEO - All-in-One',
-  icon: 'i-carbon-settings-check',
-  description: 'All the boring SEO work for Nuxt done.',
+  label: 'Nuxt SEO',
+  icon: 'i-carbon-3rd-party-connected',
+  description: 'The all-in-one module that brings it all together.',
   repo: 'harlan-zw/nuxt-seo',
   npm: '@nuxtjs/seo',
 }
@@ -61,7 +61,7 @@ export const LinkCheckerModule: NuxtSEOModule = {
   npm: 'nuxt-link-checker',
 }
 
-export const SeoExperimentsModule: NuxtSEOModule = {
+export const SeoUtilsModule: NuxtSEOModule = {
   slug: 'seo-utils',
   label: 'SEO Utils',
   icon: 'i-carbon-tools',
@@ -86,6 +86,6 @@ export const modules: NuxtSEOModule[] = [
   OgImageModule,
   SchemaOrgModule,
   LinkCheckerModule,
-  SeoExperimentsModule,
+  SeoUtilsModule,
   SiteConfigModule,
 ]
