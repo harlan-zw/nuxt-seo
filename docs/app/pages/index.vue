@@ -834,10 +834,9 @@ const graphData = computed(() => {
           </div>
         </div>
         <UCard class="max-w-full overflow-hidden sm:max-w-[600px] mx-auto p-5">
-          <VisXYContainer :data="graphData" class="overflow-visible w-full h-height w-[250px] xl:w-[500px]" height="250" width="500">
-            <VisLine curve-type="basis" color="#057A55" :x="(d, i) => i" :y="d => d.downloads" :data="graphData" />
-            <VisAxis :grid-line="false" type="y" :y="(d) => humanNumber(d.downloads)" position="right" label="Downloads" />
-          </VisXYContainer>
+          <ClientOnly>
+          <LazyChartDownloads :value="graphData" />
+          </ClientOnly>
         </UCard>
       </UContainer>
     </section>

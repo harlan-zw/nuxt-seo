@@ -61,9 +61,9 @@ onMounted(() => {
 <template>
   <NuxtLink ref="container" :to="`/docs/${module.slug}/getting-started/installation`" class="group hover:shadow-[0_0_15px_5px_rgba(20,255,209,0.05)] transition-all relative min-w-[250px] h-[120px] inline-flex transition-all flex-col rounded-lg font-bold border bg-gradient-to-r from-sky-700/10 to-blue-700/20 border-sky-700/20 px-3 py-2 gap-1" @mouseenter="windowSize = 1" @mouseleave="windowSize = 8">
     <div class="absolute bottom-0 left-0 w-full">
-      <VisXYContainer :height="45" :width="chartWidth" :data="smoothCurveDownloads" class="transition-all opacity-50 group-hover:opacity-100 rounded overflow-hidden">
-        <VisArea curve-type="basis" color="#057A55" :x="(d, i) => i" :y="d => d" :data="smoothCurveDownloads" />
-      </VisXYContainer>
+      <ClientOnly>
+      <LazyChartDownloadsSmall :width="chartWidth" :value="smoothCurveDownloads" />
+      </ClientOnly>
     </div>
     <div class="z-1 flex flex-col justify-between h-full">
       <div>
