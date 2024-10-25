@@ -1,16 +1,15 @@
 import { appStorage } from '~~/server/storage'
-import { fetchSponsors } from 'sponsorkit'
+import { fetchGitHubSponsors } from 'sponsorkit'
 
 export default defineCachedEventHandler(async () => {
-  const token = await hubKV().get<string>('github:token') || useRuntimeConfig().githubAuthToken
+  if (!import.meta.prerender && !import.meta.dev) {
+    return
+  }
+  const token = await appStorage().get<string>('github:token') || useRuntimeConfig().githubAuthToken
   if (!token) {
     return []
   }
-  const _sponsors = await fetchSponsors({
-    github: {
-      login: 'harlan-zw',
-      token,
-    },
+  const _sponsors = await fetchGitHubSponsors(token, 'harlan-zw', 'user', {
     force: true, // use nitro cache
   }).catch((e) => {
     console.error(e)

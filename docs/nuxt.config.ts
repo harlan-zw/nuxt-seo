@@ -62,6 +62,7 @@ export default defineNuxtConfig({
       nuxt.hooks.hook('nitro:init', (nitro) => {
         // from sponsorkit
         nitro.options.alias.sharp = 'unenv/runtime/mock/empty'
+        nitro.options.alias.pnpapi = 'unenv/runtime/mock/empty' // ?
         nitro.options.alias['#content/server'] = resolve('./server/content-v2')
       })
 
@@ -169,7 +170,7 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       failOnError: false,
-      // crawlLinks: true,
+      crawlLinks: true,
       routes: ['/'],
     },
   },
@@ -392,6 +393,7 @@ export default defineNuxtConfig({
   },
 
   ogImage: {
+    zeroRuntime: true,
     strictNuxtContentPaths: true,
   },
 
