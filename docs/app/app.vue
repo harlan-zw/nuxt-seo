@@ -35,7 +35,7 @@ useSeoMeta({
 
 @theme {
   --font-family-sans: 'Hubot Sans', sans-serif;
-  --font-family-mono: 'Hubot Sans', monospace;
+  --font-family-mono: 'Fira Code', monospace;
 
   --color-green-50: #EFFDF5;
   --color-green-100: #D9FBE8;

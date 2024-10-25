@@ -65,57 +65,6 @@ export default defineNuxtConfig({
         nitro.options.alias.pnpapi = 'unenv/runtime/mock/empty' // ?
         nitro.options.alias['#content/server'] = resolve('./server/content-v2')
       })
-
-      // if (existsSync(resolve(__dirname, '.content'))) {
-      //   return
-      // }
-      // const lnContentStorage = createStorage({
-      //   driver: fsDriver({
-      //     base: resolve(__dirname, '.content'),
-      //   }),
-      // })
-      // let key = 0
-      // for (const m of modules.filter(m => m.slug !== 'nuxt-seo')) {
-      //   let foundSrc = false
-      //   const localDirPaths = new Set([
-      //     resolve(__dirname, '..', '..', m.npm, 'docs', 'content'),
-      //     resolve(__dirname, '..', '..', m.repo.replace('harlan-zw/', '').replace('nuxt-modules/', ''), 'docs', 'content'),
-      //   ])
-      //   for (const localDirPath of localDirPaths) {
-      //     if (existsSync(localDirPath)) {
-      //       logger.info(`🔗 Docs source \`${m.slug}\` using local fs: ${relative(process.cwd(), localDirPath)}`)
-      //       const files = await globby('**/*.md', { cwd: localDirPath })
-      //       for (const f of files) {
-      //         const content = await fs.promises.readFile(resolve(localDirPath, f), { encoding: 'utf-8' })
-      //         await lnContentStorage.set(`${key}.${m.slug}/${f}`, content)
-      //       }
-      //       foundSrc = true
-      //     }
-      //   }
-      //   if (!foundSrc) {
-      //     logger.info(`🔗 Docs source \`${m.slug}\` using GitHub: ${m.repo}`)
-      //   }
-      //   key++
-      // return [camelCase(m.slug), defineCollection({
-      //   type: 'page',
-      //   source: {
-      //     path: '',
-      //     prefix: `/docs/${key}.${m.slug}`,
-      //     repository: `https://github.com/nuxt-modules/sitemap/tree/main/docs/content`,
-      //   },
-      //   // token: process.env.NUXT_GITHUB_TOKEN || '',
-      //   // driver: 'github',
-      //   // dir: 'docs/content',
-      // })]
-      // }
-      // const nuxtSeo = modules.find(m => m.slug === 'nuxt-seo')
-      // const localDirPath = resolve(__dirname, '..', 'content', 'nuxt-seo')
-      // logger.info(`🔗 Docs source \`${nuxtSeo.slug}\` using local fs: ${relative(process.cwd(), localDirPath)}`)
-      // const files = await globby('**/*.md', { cwd: localDirPath })
-      // for (const f of files) {
-      //   const content = await fs.promises.readFile(resolve(localDirPath, f), { encoding: 'utf-8' })
-      //   await lnContentStorage.set(`${key}.${nuxtSeo.slug}/${f}`, content)
-      // }
     },
   ],
 
@@ -162,7 +111,6 @@ export default defineNuxtConfig({
       processCSSVariables: true,
     },
     families: [
-      // chef kiss
       { name: 'Hubot Sans', provider: 'local', weight: [200, 900], stretch: '75% 125%' },
     ],
   },
@@ -402,10 +350,10 @@ export default defineNuxtConfig({
       prefix: 'custom',
       dir: resolve('./app/assets/icons'),
     }],
-    // clientBundle: {
-    //   scan: true,
-    //   includeCustomCollections: true,
-    // },
+    clientBundle: {
+      scan: true,
+      includeCustomCollections: true,
+    },
     // provider: 'iconify',
   },
 
