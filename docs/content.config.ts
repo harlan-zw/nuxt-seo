@@ -32,20 +32,16 @@ function getSubModuleCollection(m: NuxtSEOModule) {
       })
     }
   }
-  // if (!foundSrc) {
-  //   logger.info(`🔗 Docs source \`${m.slug}\` using GitHub: ${m.repo}`)
-  // }
-  // return [camelCase(m.slug), defineCollection({
-  //   type: 'page',
-  //   source: {
-  //     path: '',
-  //     prefix: `/docs/${key}.${m.slug}`,
-  //     repository: `https://github.com/nuxt-modules/sitemap/tree/main/docs/content`,
-  //   },
-  //   // token: process.env.NUXT_GITHUB_TOKEN || '',
-  //   // driver: 'github',
-  //   // dir: 'docs/content',
-  // })]
+  // use github source
+  logger.info(`🔗 Docs source \`${m.slug}\` using GitHub: ${m.repo}`)
+  return defineCollection({
+    type: 'page',
+    source: {
+      repository: `https://github.com/${m.repo}`,
+      path: 'docs/content/**/*.md',
+      prefix: `docs/${m.slug}`,
+    },
+  })
 }
 
 export const collections = {
