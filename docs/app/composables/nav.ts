@@ -1,28 +1,32 @@
-import {modules} from "../../../src/const";
+import { modules } from '../../../src/const'
 
 const ecosystemLinks = [
   {
     label: 'Unhead',
     to: 'https://unhead.unjs.io',
+    icon: 'i-custom-unhead',
     target: '_blank',
-    description: 'The universal head tag manager.',
+    description: 'Unhead is the any-framework document head manager built for performance and delightful developer experience.',
   },
   {
     label: 'Zhead',
     to: 'https://zhead.dev',
-    description: 'Find the best head tags for your site.',
+    icon: 'i-custom-unhead',
+    description: 'Zhead is an open-source <head> database. Discover new tags to use to improve your SEO, accessibility and performance.',
     target: '_blank',
   },
   {
     label: 'Request Indexing',
+    icon: 'i-custom-request-indexing',
     to: 'https://requestindexing.com',
-    description: 'Get your site indexed.',
+    description: 'A free, open-source tool to request pages to be indexed using the Web Search Indexing API and view your Google Search Console data.',
     target: '_blank',
   },
   {
     label: 'Unlighthouse',
+    icon: 'i-custom-unlighthouse',
     to: 'https://unlighthouse.dev',
-    description: 'Scan your entire site using Lighthouse.',
+    description: 'Unlighthouse is a tool to scan your entire site with Google Lighthouse in 2 minutes (on average). Open source, fully configurable with minimal setup.',
     target: '_blank',
   },
 ]
@@ -42,15 +46,11 @@ export const menu = computed(() => {
     {
       label: 'Learn',
       icon: 'i-ph-books-duotone',
-      badge: {
-        label: 'New',
-        color: 'success',
-      },
       children: [
         {
           label: 'Community Videos',
           to: '/learn/community-videos',
-          description: 'Community videos and tutorials.',
+          description: 'Learn from the Nuxt community in using Nuxt SEO.',
           icon: 'i-ph-video-duotone',
         },
         {
@@ -75,7 +75,7 @@ export const menu = computed(() => {
     },
     {
       label: 'Releases',
-      icon: 'i-ph-sparkle-duotone',
+      icon: 'i-carbon-version',
       to: '/releases',
     },
     {
@@ -83,7 +83,7 @@ export const menu = computed(() => {
       icon: 'i-ph-sparkle-duotone',
       to: '/pro',
       badge: {
-        label: 'Waitlist',
+        label: 'Presale',
         color: 'info',
       },
     },

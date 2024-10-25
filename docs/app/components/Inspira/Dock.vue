@@ -21,8 +21,8 @@ const props = defineProps({
 })
 
 const dockRef = useTemplateRef<HTMLElement | null>('dockRef')
-const mouseX = ref(Infinity)
-const mouseY = ref(Infinity)
+const mouseX = ref<number>()
+const mouseY = ref<number>()
 
 const dockClass = computed(() => ({
   'items-start': props.direction === 'top',
@@ -46,8 +46,8 @@ const { isOutside } = useMouseInElement(dockRef)
 
 watch(isOutside, (val) => {
   if (val) {
-    mouseX.value = Infinity
-    mouseY.value = Infinity
+    mouseX.value = false
+    mouseY.value = false
   }
 })
 </script>

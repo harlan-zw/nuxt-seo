@@ -1,6 +1,5 @@
 <script setup lang="ts">
 // credits: https://github.com/unjs/undocs
-import { markdownParser } from '~/composables/markdown'
 import { useSyncedPackageManager } from '~/composables/state'
 
 const props = defineProps({
@@ -18,7 +17,7 @@ const packageManagers = ref(await Promise.all(
     { name: 'bun', command: 'bun', install: 'i', run: 'run ', x: 'bunx ' },
   ].map(async pm => ({
     filename: pm.name,
-    code: await markdownParser(`\`${pm.command} ${pm.install} ${pm.name === 'nuxt' ? props.name : module.value.npm}\`{lang="bash"}`),
+    code: `\`${pm.command} ${pm.install} ${pm.name === 'nuxt' ? props.name : module.value.npm}\`{lang="bash"}`,
     key: pm.name,
     lang: 'bash',
   })),
@@ -53,7 +52,7 @@ export default defineNuxtConfig({
             bash
           </div>
           <ProseCode>
-            <MDCRenderer v-bind="codeBlock.code" unwrap="p" class="shiki" />
+            <MDC :value="codeBlock.code" unwrap="p" class="shiki" />
           </ProseCode>
         </div>
         <div v-if="codeBlock.key !== 'nuxt'">

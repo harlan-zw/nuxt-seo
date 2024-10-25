@@ -7,8 +7,8 @@ defineProps<{
 
 const iconRef = useTemplateRef('icon')
 
-const mouseY = inject('mouseY', ref(Infinity))
-const mouseX = inject('mouseX', ref(Infinity))
+const mouseY = inject('mouseY', ref())
+const mouseX = inject('mouseX', ref())
 const magnification = inject('magnification', 60)
 const distance = inject('distance', 100)
 
@@ -25,7 +25,7 @@ function calculateYDistance(val: number) {
 }
 
 const margin = computed(() => {
-  if (mouseX.value === Infinity) {
+  if (!mouseX.value) {
     return { }
   }
   // we want to move the icon to offset the width / height changes
@@ -37,7 +37,7 @@ const margin = computed(() => {
 })
 
 const iconWidth = computed(() => {
-  if (mouseX.value === Infinity) {
+  if (!mouseX.value) {
     return baseWidth
   }
   const distanceCalc = calculateXDistance(mouseX.value)
@@ -50,7 +50,7 @@ const iconWidth = computed(() => {
 })
 
 const iconHeight = computed(() => {
-  if (mouseX.value === Infinity) {
+  if (!mouseX.value) {
     return baseWidth
   }
   const distanceCalc = calculateYDistance(mouseY.value)
@@ -63,7 +63,7 @@ const iconHeight = computed(() => {
 })
 
 const iconColor = computed(() => {
-  if (mouseX.value === Infinity) {
+  if (!mouseX.value) {
     return 'text-blue-300'
   }
   // should be between 300-900 depending on how close the mouse is to the element

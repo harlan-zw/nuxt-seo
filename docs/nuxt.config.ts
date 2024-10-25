@@ -1,6 +1,45 @@
+import type { SourceMapInput } from 'rollup'
+import { pathToFileURL } from 'node:url'
+import { addBuildPlugin } from '@nuxt/kit'
+import MagicString from 'magic-string'
 import { defineNuxtConfig } from 'nuxt/config'
 import { resolve } from 'pathe'
+import {parseQuery, parseURL} from 'ufo'
+import { createUnplugin } from 'unplugin'
 import NuxtSEO from '../src/module'
+
+export function isVue(id: string, opts: { type?: Array<'template' | 'script' | 'style'> } = {}) {
+  // Bare `.vue` file (in Vite)
+  const { search } = parseURL(decodeURIComponent(pathToFileURL(id).href))
+  if (id.endsWith('.vue') && !search) {
+    return true
+  }
+
+  if (!search) {
+    return false
+  }
+
+  const query = parseQuery(search)
+
+  // Component async/lazy wrapper
+  if (query.nuxt_component) {
+    return false
+  }
+
+  // Macro
+  if (query.macro && (search === '?macro=true' || !opts.type || opts.type.includes('script'))) {
+    return true
+  }
+
+  // Non-Vue or Styles
+  const type = 'setup' in query ? 'script' : query.type as 'script' | 'template' | 'style'
+  if (!('vue' in query) || (opts.type && !opts.type.includes(type))) {
+    return false
+  }
+
+  // Query `?vue&type=template` (in Webpack or external template)
+  return true
+}
 
 export default defineNuxtConfig({
   // const pkgJson = await readPackageJSON('../package.json')
@@ -11,6 +50,8 @@ export default defineNuxtConfig({
     'nuxt-content-twoslash',
     'radix-vue/nuxt',
     '@vueuse/nuxt',
+    'nuxt-rebundle',
+    '@nuxthub/core',
     '@nuxt/fonts',
     '@nuxt/content',
     // 'nuxt-build-cache',
@@ -19,8 +60,11 @@ export default defineNuxtConfig({
     NuxtSEO,
     async (_, nuxt) => {
       nuxt.hooks.hook('nitro:init', (nitro) => {
+        // from sponsorkit
+        nitro.options.alias.sharp = 'unenv/runtime/mock/empty'
         nitro.options.alias['#content/server'] = resolve('./server/content-v2')
       })
+
       // if (existsSync(resolve(__dirname, '.content'))) {
       //   return
       // }
@@ -51,17 +95,17 @@ export default defineNuxtConfig({
       //     logger.info(`🔗 Docs source \`${m.slug}\` using GitHub: ${m.repo}`)
       //   }
       //   key++
-        // return [camelCase(m.slug), defineCollection({
-        //   type: 'page',
-        //   source: {
-        //     path: '',
-        //     prefix: `/docs/${key}.${m.slug}`,
-        //     repository: `https://github.com/nuxt-modules/sitemap/tree/main/docs/content`,
-        //   },
-        //   // token: process.env.NUXT_GITHUB_TOKEN || '',
-        //   // driver: 'github',
-        //   // dir: 'docs/content',
-        // })]
+      // return [camelCase(m.slug), defineCollection({
+      //   type: 'page',
+      //   source: {
+      //     path: '',
+      //     prefix: `/docs/${key}.${m.slug}`,
+      //     repository: `https://github.com/nuxt-modules/sitemap/tree/main/docs/content`,
+      //   },
+      //   // token: process.env.NUXT_GITHUB_TOKEN || '',
+      //   // driver: 'github',
+      //   // dir: 'docs/content',
+      // })]
       // }
       // const nuxtSeo = modules.find(m => m.slug === 'nuxt-seo')
       // const localDirPath = resolve(__dirname, '..', 'content', 'nuxt-seo')
@@ -80,12 +124,22 @@ export default defineNuxtConfig({
     },
   },
 
+  hub: {
+    cache: true,
+    kv: true,
+  },
+
   future: {
     compatibilityVersion: 4,
   },
 
   runtimeConfig: {
-    githubToken: '', // NUXT_GITHUB_TOKEN
+    emailOctopusToken: '', // NUXT_EMAIL_OCTOPUS_TOKEN
+    githubAccessToken: '', // NUXT_GITHUB_ACCESS_TOKEN
+    githubAuthToken: '', // NUXT_GITHUB_AUTH_TOKEN
+    githubAuthClientId: 'cabace556bd9519d9299', // NUXT_GITHUB_AUTH_CLIENT_ID
+    githubAuthClientSecret: '', // NUXT_GITHUB_AUTH_SECRET_ID
+
     public: {
       // moduleDeps: pkgJson.dependencies,
       // version: pkgJson.version,
@@ -102,10 +156,20 @@ export default defineNuxtConfig({
     throws: false,
   },
 
+  fonts: {
+    experimental: {
+      processCSSVariables: true,
+    },
+    families: [
+      // chef kiss
+      { name: 'Hubot Sans', provider: 'local', weight: [200, 900], stretch: '75% 125%' },
+    ],
+  },
+
   nitro: {
     prerender: {
       failOnError: false,
-      crawlLinks: true,
+      // crawlLinks: true,
       routes: ['/'],
     },
   },
@@ -133,7 +197,7 @@ export default defineNuxtConfig({
   },
 
   alias: {
-    '#content/server': resolve('./app/utils/content-v2'),
+    '#content/server': resolve('./server/content-v2'),
   },
 
   content: {
@@ -272,12 +336,8 @@ export default defineNuxtConfig({
     },
 
     // v2 redirects
-    '/docs/seo-utils/guides/redirect-canonical': {
-      redirect: {
-        to: '/docs/seo-utils/guides/canonical-url',
-        statusCode: 301,
-      },
-    },
+    '/docs/seo-utils/guides/redirect-canonical': { redirect: { to: '/docs/seo-utils/guides/canonical-url', statusCode: 301 } },
+
     '/docs/sitemap/getting-started/faq': { redirect: { to: '/docs/sitemap/getting-started/troubleshooting', statusCode: 301 } },
     '/docs/sitemap/integrations/robots': { redirect: { to: '/docs/sitemap/getting-started/installation', statusCode: 301 } },
     '/docs/sitemap/guides/lastmod': { redirect: { to: '/docs/sitemap/guides/loc-data', statusCode: 301 } },
@@ -335,6 +395,18 @@ export default defineNuxtConfig({
     strictNuxtContentPaths: true,
   },
 
+  icon: {
+    customCollections: [{
+      prefix: 'custom',
+      dir: resolve('./app/assets/icons'),
+    }],
+    // clientBundle: {
+    //   scan: true,
+    //   includeCustomCollections: true,
+    // },
+    // provider: 'iconify',
+  },
+
   app: {
     pageTransition: {
       name: 'page',
@@ -350,14 +422,6 @@ export default defineNuxtConfig({
       templateParams: {
         separator: '·',
       },
-      link: [
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: 'anonymous' },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Plus+Jakarta+Sans:wght@600&display=swap',
-        },
-      ],
 
       bodyAttrs: {
         class: 'antialiased font-sans text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900',

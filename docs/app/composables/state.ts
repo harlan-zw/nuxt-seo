@@ -1,6 +1,6 @@
 export function useSyncedPackageManager(codeBlocks: Ref<{ filename: string }[]>, syncRef: Ref<number>) {
   const indexToName = (index: number) => codeBlocks.value[index]?.filename
-  const nameToIndex = (name: string) => codeBlocks.value.findIndex((pm) => pm.filename === name)
+  const nameToIndex = (name: string) => codeBlocks.value.findIndex(pm => pm.filename === name)
 
   const packageManager = useState<string>('package-manager', () => localStorage.getItem('package-manager') as string)
 

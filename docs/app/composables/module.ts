@@ -1,16 +1,13 @@
 import { modules } from '../../../src/const'
 
 export function useModule(_slug?: Ref<string>) {
-  const stats = inject('stats')
+  const stats = inject('stats', ref({ modules: [] }))
   const route = useRoute()
-  const slug = computed(() => {
-    return _slug?.value || route.path.split('/')[2]
-  })
   return computed(() => {
-    const _slug = slug.value
+    const slug = _slug ? toValue(_slug) : route.path.split('/')[2]
     return {
-      ...(stats.value?.modules.find(m => m.slug === _slug) || {}),
-      ...(modules.find(m => m.slug === _slug) || {}),
+      ...(stats.value?.modules.find(m => m.slug === slug) || {}),
+      ...(modules.find(m => m.slug === slug) || {}),
     }
   })
 }

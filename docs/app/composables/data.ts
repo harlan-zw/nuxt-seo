@@ -1,6 +1,6 @@
-import type {Collections, NavItem} from '@nuxt/content'
+import type { Collections, NavItem } from '@nuxt/content'
 import { computedAsync, queryCollectionNavigation, useAsyncData } from '#imports'
-import {camelCase, titleCase} from "scule";
+import { camelCase, titleCase } from 'scule'
 
 export function movingAverage(data: number[], windowSize: number) {
   const result = []
@@ -51,16 +51,18 @@ function transformAsTopNav(tree: NavItem[]) {
 export async function useDocsNav() {
   const module = useModule()
   if (!module.value) {
-    return ref({ top: [], bottom: [] })
+    return ref({ files: [], nav: { top: [], bottom: [] } })
   }
   const collection = computed(() => camelCase(module.value.slug) as keyof Collections)
   return computedAsync(async () => {
-    const { data: navigation } = await useAsyncData<{ top: NavItem[], bottom: NavItem[] }>(`navigation-${collection.value}`, () => queryCollectionNavigation(collection.value), {
-      default: () => [],
-      transform(res) {
-        const nav = mapPath(res)
-        const top = transformAsTopNav((nav || []))
-        const bottom = (nav || []).slice(1).map((m) => {
+    const [{ data: files }, { data: nav }] = await Promise.all([
+      useAsyncData('search', () => queryCollectionSearchSections(collection.value)),
+      useAsyncData<{ top: NavItem[], bottom: NavItem[] }>(`navigation-${collection.value}`, () => queryCollectionNavigation(collection.value), {
+        default: () => [],
+        transform(res) {
+          const nav = mapPath(res)
+          const top = transformAsTopNav((nav || []))
+          const bottom = (nav || []).slice(1).map((m) => {
             if (m.path.includes('/api')) {
               m.icon = 'i-logos-nuxt-icon'
               m.title = 'Nuxt API'
@@ -113,13 +115,65 @@ export async function useDocsNav() {
             }
             return m
           })
-        return {
-          top,
-          bottom,
-        }
-      },
-      watch: [collection],
-    })
-    return navigation
+          return {
+            top,
+            bottom,
+          }
+        },
+        watch: [collection],
+      }),
+    ])
+    return { files, nav }
   })
 }
+
+export const reviews = [
+  {
+    username: '@nogueiraju',
+    img: 'https://pbs.twimg.com/profile_images/1413881210321911810/5j9VNqaN_normal.jpg',
+    name: 'Ju Nogueira',
+    body: 'Nuxt SEO by @harlan_zw. Makes my life a lot easier.',
+  },
+  {
+    name: 'Estéban',
+    body: 'I have to say that your SEO modules are one of the things that make me stay on Nuxt for every one of my websites.',
+    img: 'https://avatars.githubusercontent.com/u/45267552?v=4',
+    username: '@soubiran_',
+  },
+  {
+    username: '@eoThica',
+    name: 'Thomas ✪',
+    body: `Just did schema markup for a whole webshop in 20 minutes cause of @harlan_zw. absolutely gorgeous.  Check it out.
+nuxtseo.com`,
+    img: 'https://pbs.twimg.com/profile_images/1650610309785108484/arOyrwG-_normal.png',
+  },
+  {
+    username: 'marcustoy',
+    name: 'marcustoy',
+    body: `Hey man, appreciate all your great work on those Nuxt modules. I'm using Nuxt SEO and it's awesome! 💪🏻
+`,
+    img: 'https://cdn.discordapp.com/avatars/716064643809804288/4895f3e4b7551e9ee03a98f7cd2675fb.webp?size=80',
+  },
+  {
+    username: '@__Sun__',
+    name: 'Sun',
+    body: `how freaking cool is this ?!
+
+OG Image preview of community templates, as well as the ones i made, right in the @nuxt_js dev tools 🤯
+
+amazing work @harlan_zw`,
+    img: 'https://pbs.twimg.com/profile_images/1596204487948894209/SINw8xBj_normal.jpg',
+  },
+  {
+    username: '@Atinux',
+    name: 'Sébastien Chopin',
+    body: `What an impressive work done by @harlan_zw on Nuxt OG Image v3 🙌`,
+    img: 'https://pbs.twimg.com/profile_images/1042510623962275840/1Iw_Mvud_normal.jpg',
+  },
+  {
+    name: 'Fabian B.',
+    img: 'https://pbs.twimg.com/profile_images/1715052883899555840/L0TFwzp9_normal.jpg',
+    username: '@madebyfabian',
+    body: `Nuxt GraphQL middleware by @dulnan is really, really good. And Nuxt SEO by @harlan_zw is also something I use in almost every project. There are so many more though!`,
+  },
+]

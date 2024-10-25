@@ -23,7 +23,7 @@
     "@inspira-ui/plugins": "^0.0.1",
     "@nuxt/content": "^3.0.0-alpha.1",
     "@nuxt/devtools": "1.6.0",
-    "@nuxt/fonts": "^0.10.0",
+    "@nuxt/fonts": "^0.10.2",
     "@nuxt/image": "^1.8.1",
     "@nuxt/scripts": "^0.9.5",
     "@nuxt/ui": "^3.0.0-alpha.6",
@@ -40,12 +40,18 @@
     "nuxt-build-cache": "^0.1.1",
     "nuxt-content-twoslash": "^0.1.1",
     "nuxt-lodash": "^2.5.3",
+    "nuxt-rebundle": "^0.0.2",
     "octokit": "^4.0.2",
     "ofetch": "^1.4.1",
     "radix-vue": "^1.9.7",
-    "shiki": "^1.22.0",
+    "shiki": "^1.22.1",
     "shiki-transformer-color-highlight": "^0.2.0",
     "tailwind-merge": "^2.5.4",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "wrangler": "^3.83.0"
+  },
+  "dependencies": {
+    "@nuxthub/core": "^0.7.37",
+    "sponsorkit": "^0.15.5"
   }
 }

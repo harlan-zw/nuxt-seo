@@ -2,6 +2,7 @@
 import { VisAxis, VisLine, VisXYContainer } from '@unovis/vue'
 import { useElementHover, useTransition, useWindowScroll } from '@vueuse/core'
 import { ref } from 'vue'
+import { reviews } from '~/composables/data'
 import { humanNumber } from '~/composables/format'
 
 definePageMeta({
@@ -11,36 +12,10 @@ definePageMeta({
   },
 })
 
-const { data: robotsTxt } = await useAsyncData('robotsTxt', () => $fetch('/api/robots-txt'))
-
 const modules = inject('modules')
 const stats = inject('stats')
 
-const robotState = ref({
-  hover: false,
-  robots: [''], // start with 1
-  collisions: 0,
-})
-// empty array of 10 entries
-provide('robots', robotState)
-
-const appendRobot = useDebounceFn(() => {
-  if (robotState.value.robots.length >= 10)
-    return
-
-  robotState.value.robots.push('')
-}, 100)
-
-watch(() => robotState.value.collisions, appendRobot, {
-  deep: true,
-})
-
-watch(() => robotState.value.hover, () => {
-  if (!robotState.value.hover)
-    robotState.value.robots = ['']
-}, {
-  deep: true,
-})
+const { data: sponsors } = await useFetch('/api/github/sponsors')
 
 defineOgImageComponent('Home', {
   title: 'Nuxt SEO',
@@ -103,7 +78,11 @@ const robotsItems = [
     slot: 'robots-txt',
     mdc: [
       '```robots-txt [robots.txt] meta=meta-value',
-      robotsTxt.value,
+      `# START nuxt-robots (indexable)
+User-agent: *
+
+Sitemap: https://nuxtseo.com/sitemap.xml
+# END nuxt-robots`,
       '```',
       'Learn about [how it works](/docs/robots/guides/how-it-works).',
     ].join('\n'),
@@ -228,7 +207,7 @@ const schemaOrgItems = [
     mdc: [
       // nuxt.config sitemaps
       '```ts twoslash [nuxt.config.js]',
-    `export default defineNuxtConfig({
+      `export default defineNuxtConfig({
   schemaOrg: {
     identity: {
       type: 'Person',
@@ -315,8 +294,8 @@ const seoUtilOneItems = [
     },
   }
 })`,
-       '```',
-       'Learn more about the [SEO Route Rules](/docs/seo-utils/guides/route-rules).',
+      '```',
+      'Learn more about the [SEO Route Rules](/docs/seo-utils/guides/route-rules).',
     ].join('\n'),
   },
 ]
@@ -428,7 +407,7 @@ const linkCheckerItems = [
     slot: 'meta1',
     mdc: [
       // markdown yaml example
-     `
+      `
 | Inspection | Description                                            |
 | --- |--------------------------------------------------------|
 | \`missing-hash\` | Checks for missing hashes in internal links.           |
@@ -479,58 +458,6 @@ const linkCheckerItems = [
 ]
 
 const [DefineSectionTemplate, ReuseSectionTemplate] = createReusableTemplate()
-const [DefineModuleFeaturesTemplate, ReuseModuleFeaturesTemplate] = createReusableTemplate()
-
-const reviews = [
-  {
-    username: '@nogueiraju',
-    img: 'https://pbs.twimg.com/profile_images/1413881210321911810/5j9VNqaN_normal.jpg',
-    name: 'Ju Nogueira',
-    body: 'Nuxt SEO by @harlan_zw. Makes my life a lot easier.',
-  },
-  {
-    name: 'Estéban',
-    body: 'I have to say that your SEO modules are one of the things that make me stay on Nuxt for every one of my websites.',
-    img: 'https://avatars.githubusercontent.com/u/45267552?v=4',
-    username: '@soubiran_',
-  },
-  {
-    username: '@eoThica',
-    name: 'Thomas ✪',
-    body: `Just did schema markup for a whole webshop in 20 minutes cause of @harlan_zw. absolutely gorgeous.  Check it out.
-nuxtseo.com`,
-    img: 'https://pbs.twimg.com/profile_images/1650610309785108484/arOyrwG-_normal.png',
-  },
-  {
-    username: 'marcustoy',
-    name: 'marcustoy',
-    body: `Hey man, appreciate all your great work on those Nuxt modules. I'm using Nuxt SEO and it's awesome! 💪🏻
-`,
-    img: 'https://cdn.discordapp.com/avatars/716064643809804288/4895f3e4b7551e9ee03a98f7cd2675fb.webp?size=80',
-  },
-  {
-    username: '@__Sun__',
-    name: 'Sun',
-    body: `how freaking cool is this ?!
-
-OG Image preview of community templates, as well as the ones i made, right in the @nuxt_js dev tools 🤯
-
-amazing work @harlan_zw`,
-    img: 'https://pbs.twimg.com/profile_images/1596204487948894209/SINw8xBj_normal.jpg',
-  },
-  {
-    username: '@Atinux',
-    name: 'Sébastien Chopin',
-    body: `What an impressive work done by @harlan_zw on Nuxt OG Image v3 🙌`,
-    img: 'https://pbs.twimg.com/profile_images/1042510623962275840/1Iw_Mvud_normal.jpg',
-  },
-  {
-    name: 'Fabian B.',
-    img: 'https://pbs.twimg.com/profile_images/1715052883899555840/L0TFwzp9_normal.jpg',
-    username: '@madebyfabian',
-    body: `Nuxt GraphQL middleware by @dulnan is really, really good. And Nuxt SEO by @harlan_zw is also something I use in almost every project. There are so many more though!`,
-  },
-]
 
 const graphData = computed(() => {
   // each modules contains a downloads array where each is an object with a date and downloads
@@ -552,21 +479,6 @@ const graphData = computed(() => {
 
 <template>
   <div>
-    <DefineModuleFeaturesTemplate v-slot="{ module, items }">
-      <ModuleCard :slug="module" size="lg" class="rounded-b-none w-full" />
-      <UCard class="rounded-t-none">
-        <UAccordion :default-value="false" :items="items">
-          <template #default="{ item }">
-            <div class="dark:text-gray-300 text-gray-600 text-sm">
-              {{ item.label }}
-            </div>
-          </template>
-          <template v-for="(item, key) in items" :key="key" #[item.slot]="{ item }">
-            <MDC v-if="item.mdc" :value="item.mdc" unwrap="p" class="text-xs pb-5" />
-          </template>
-        </UAccordion>
-      </UCard>
-    </DefineModuleFeaturesTemplate>
     <DefineSectionTemplate v-slot="{ section, $slots }">
       <section class="mb-8 xl:mb-14">
         <div class="xl:grid xl:max-w-full max-w-3xl mx-auto px-10 xl:px-0 grid-cols-6">
@@ -606,12 +518,13 @@ const graphData = computed(() => {
     <div class="gradient" />
     <section class="xl:max-w-full max-w-3xl mx-auto py-5 sm:py-12 xl:py-20">
       <UContainer>
-        <div class="inline-flex gap-3 bg-purple-500/20 inline px-3 py-2 rounded text-sm ring ring-purple-500/50">
-          <div  class="flex items-center gap-2 font-semibold">
-            <UIcon name="i-noto-party-popper" />
-            Nuxt SEO v2 is here!
+        <div class="mb-5 sm:mb-0">
+          <div class="sm:inline-flex block mb-5 gap-3 inline px-3 py-2 rounded text-sm ">
+            <UButton size="sm" variant="outline" to="/announcement">
+              <UIcon name="i-noto-party-popper" />
+              <span>Announcing Nuxt SEO</span>
+            </UButton>
           </div>
-          <UButton size="xs" variant="outline" to="/announcement">Read the announcement</UButton>
         </div>
         <div class="xl:flex gap-10">
           <div class="flex flex-col justify-center">
@@ -626,7 +539,7 @@ const graphData = computed(() => {
 
             <div class="flex mb-5 items-center gap-4 mt-5 md:mt-10  justify-start">
               <UButton size="lg" to="/docs/nuxt-seo/getting-started/introduction">
-                Learn More
+                Get Started
               </UButton>
               <UButton size="lg" icon="i-carbon-download" variant="ghost" to="/docs/nuxt-seo/getting-started/installation">
                 Install Nuxt SEO
@@ -635,12 +548,12 @@ const graphData = computed(() => {
           </div>
           <div class="hidden xl:block max-w-2xl">
             <div class="relative h-full">
-                <div class="z-10 text-blue-200 w-full h-full flex items-center justify-center group-hover:text-blue-500 transition-all relative">
-                    <Dock class="mb-6  left-[100px] top-10">
-                      <DockIcon v-for="(module, key) in modules.filter(m => m.slug !== 'site-config' && m.slug !== 'nuxt-seo')" v-bind="module" :key="key" class="" :icon="module.icon" />
-                    </Dock>
-                </div>
+              <div class="z-10 text-blue-200 w-full h-full flex items-center justify-center group-hover:text-blue-500 transition-all relative">
+                <Dock class="mb-6  left-[100px] top-10">
+                  <DockIcon v-for="(module, key) in modules.filter(m => m.slug !== 'site-config' && m.slug !== 'nuxt-seo')" v-bind="module" :key="key" class="" :icon="module.icon" />
+                </Dock>
               </div>
+            </div>
           </div>
         </div>
       </UContainer>
@@ -656,10 +569,10 @@ const graphData = computed(() => {
       }"
     >
       <template #a>
-        <ReuseModuleFeaturesTemplate module="robots" :items="robotsItems" />
+        <ModuleFeaturesCard module="robots" :items="robotsItems" />
       </template>
       <template #b>
-        <ReuseModuleFeaturesTemplate module="sitemap" :items="sitemapItems" />
+        <ModuleFeaturesCard module="sitemap" :items="sitemapItems" />
       </template>
     </ReuseSectionTemplate>
     <ReuseSectionTemplate
@@ -668,16 +581,16 @@ const graphData = computed(() => {
         id: 2,
         icon: 'i-noto-robot',
         title: 'Feed semantic data to hungry bots.',
-        description: 'Providing a robots.txt and sitemap.xml gives web crawlers data on how to index your site.',
+        description: 'Robots love data, give them what they want with Schema.org and Open Graph tags.',
         bg: 'dark:bg-purple-500/5 bg-purple-500/15',
         border: 'border-purple-500/10 border-purple-500/50',
       }"
     >
       <template #a>
-        <ReuseModuleFeaturesTemplate module="schema-org" :items="schemaOrgItems" />
+        <ModuleFeaturesCard module="schema-org" :items="schemaOrgItems" />
       </template>
       <template #b>
-        <ReuseModuleFeaturesTemplate module="seo-utils" :items="seoUtilOneItems" />
+        <ModuleFeaturesCard module="seo-utils" :items="seoUtilOneItems" />
       </template>
     </ReuseSectionTemplate>
     <ReuseSectionTemplate
@@ -686,16 +599,16 @@ const graphData = computed(() => {
         id: 3,
         icon: 'i-noto-sparkles',
         title: 'Humanize it.',
-        description: 'Providing a robots.txt and sitemap.xml gives web crawlers data on how to index your site.',
+        description: 'Technical SEO doesn\'t just involve robots, make sure your site is human friendly too.',
         bg: 'dark:bg-yellow-500/5 bg-yellow-500/15',
         border: 'border-yellow-500/10 border-yellow-500/50',
       }"
     >
       <template #a>
-        <ReuseModuleFeaturesTemplate module="og-image" :items="ogImageItems" />
+        <ModuleFeaturesCard module="og-image" :items="ogImageItems" />
       </template>
       <template #b>
-        <ReuseModuleFeaturesTemplate module="seo-utils" :items="seoUtilsTwoItems" />
+        <ModuleFeaturesCard module="seo-utils" :items="seoUtilsTwoItems" />
       </template>
     </ReuseSectionTemplate>
     <ReuseSectionTemplate
@@ -710,10 +623,17 @@ const graphData = computed(() => {
       }"
     >
       <template #a>
-        <ReuseModuleFeaturesTemplate module="link-checker" :items="linkCheckerItems" />
+        <div class="space-y-6">
+          <ModuleFeaturesCard module="link-checker" :items="linkCheckerItems" />
+          <ModuleCardInternalLinks />
+          <ModuleCardSEOValidate />
+        </div>
       </template>
       <template #b>
-        <UAlert variant="subtle" title="New Module Coming Soon 🤫" :close="false" />
+        <div class="mb-8">
+          <ModuleCardMagicRedirects />
+        </div>
+        <ModuleCardGsc />
       </template>
     </ReuseSectionTemplate>
     <section v-motion-slide-visible-once-left class="pb-10 xl:pb-20">
@@ -921,15 +841,15 @@ const graphData = computed(() => {
         </UCard>
       </UContainer>
     </section>
-    <section>
+    <section class="mb-14">
       <UContainer>
-        <div class="xl:flex gap-10">
-          <div class="mb-10 mx-auto max-w-[35rem] flex flex-col justify-center items-center lg:items-start">
-            <h2 class="font-bold mb-5 text-5xl text-center lg:text-left">
+        <div class="xl:grid grid-cols-2 gap-10">
+          <div class="mb-10 mx-auto max-w-lg flex flex-col  lg:items-start">
+            <h2 class=" font-bold mb-3 text-5xl text-center lg:text-left">
               Funded by the community
               <span class="text-blue-300 text-3xl" />
             </h2>
-            <p class="mb-5 text-gray-700 dark:text-gray-300 mt-4 max-w-3xl text-center text-xl lg:text-left">
+            <p class="mb-5 text-gray-700 dark:text-gray-300 mt-4 max-w-xl text-center text-xl lg:text-left">
               Nuxt SEO is completely free and open-source due to the generous support of the community.
             </p>
             <div>
@@ -938,17 +858,63 @@ const graphData = computed(() => {
               </UButton>
             </div>
           </div>
-
-          <a href="https://raw.githubusercontent.com/harlan-zw/static/main/sponsors.svg">
-            <img alt="Nuxt SEO Sponsors" loading="lazy" src="https://raw.githubusercontent.com/harlan-zw/static/main/sponsors.svg" width="800" height="545" style="margin: 0 auto;">
-          </a>
+          <div class="max-w-xl mx-auto">
+            <div class="text-2xl font-semibold mb-5">
+              Top Sponsors
+            </div>
+            <div class="sm:grid space-y-5 md:space-y-0 grid-cols-3 gap-5 mb-10">
+              <div v-for="(entry, key) in sponsors.$50" :key="key">
+                <NuxtLink :to="entry.sponsor.websiteUrl" class="flex items-center gap-2">
+                  <NuxtImg loading="lazy" :alt="entry.sponsor.name" width="56" height="56" :src="entry.sponsor.avatarUrl" class="w-14 h-14 rounded-full" />
+                  <div>
+                    <div class="font-bold text-xl whitespace-nowrap">
+                      {{ entry.sponsor.name }}
+                    </div>
+                    <div v-if="entry.sponsor.websiteUrl" class="text-gray-400">
+                      {{ entry.sponsor.websiteUrl.replace('https://', '') }}
+                    </div>
+                  </div>
+                </NuxtLink>
+              </div>
+            </div>
+            <div class="text-2xl font-semibold mb-5">
+              Gold Sponsors
+            </div>
+            <div class="sm:grid space-y-5 md:space-y-0 grid-cols-3 gap-5 mb-10">
+              <div v-for="(entry, key) in sponsors.$25" :key="key">
+                <NuxtLink :to="entry.sponsor.websiteUrl" class="flex items-center gap-2">
+                  <NuxtImg loading="lazy" :alt="entry.sponsor.name || entry.sponsor.login" width="48" height="48" :src="entry.sponsor.avatarUrl" class="w-12 h-12 rounded-full" />
+                  <div>
+                    <div class="font-bold text-sm whitespace-nowrap">
+                      {{ entry.sponsor.name || entry.sponsor.login }}
+                    </div>
+                    <div v-if="entry.sponsor.websiteUrl" class="text-xs text-gray-400">
+                      {{ entry.sponsor.websiteUrl.replace('https://', '') }}
+                    </div>
+                  </div>
+                </NuxtLink>
+              </div>
+            </div>
+            <div class="text-2xl font-semibold mb-5">
+              Backers
+            </div>
+            <div class="grid grid-cols-6 sm:grid-cols-10 gap-3 mb-10">
+              <div v-for="(entry, key) in sponsors.others" :key="key">
+                <UTooltip :text="entry.sponsor.name || entry.sponsor.login">
+                  <NuxtLink :to="(entry.monthlyDollars > 5 ? entry.sponsor.websiteUrl : entry.sponsor.linkUrl) || entry.sponsor.linkUrl" class="flex items-center gap-2">
+                    <NuxtImg loading="lazy" :alt="entry.sponsor.name || entry.sponsor.login" width="48" height="48" :src="entry.sponsor.avatarUrl" class="w-12 h-12 rounded-full" :class="entry.monthlyDollars > 5 ? ['ring-green-500 ring-2'] : []" />
+                  </NuxtLink>
+                </UTooltip>
+              </div>
+            </div>
+          </div>
         </div>
       </UContainer>
     </section>
   </div>
 </template>
 
-<style scoped lang="postcss">
+<style lang="postcss">
 .gradient {
   position: fixed;
   top: 25vh;

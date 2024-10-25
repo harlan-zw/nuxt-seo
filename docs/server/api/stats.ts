@@ -53,11 +53,7 @@ export default defineCachedEventHandler(async (e) => {
         return group
       }, [])
       // first of each group make an object, sort so we get the oldest version
-      const versions = Object.values(versionGroups).sort(customSortSemver).map(v => v[0])
-        // ensure v prefix
-        .map(v => v.startsWith('v') ? v : `v${v}`)
-        // do a locale sort in reverse
-        .sort((a, b) => b.localeCompare(a))
+      const versions = Object.values(versionGroups).sort(customSortSemver).map(v => v[0]).map(v => v.startsWith('v') ? v : `v${v}`).sort((a, b) => b.localeCompare(a))
       resolve({
         slug: m.slug,
         createdAt: stats?.createdAt,

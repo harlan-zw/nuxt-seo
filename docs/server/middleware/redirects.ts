@@ -7,7 +7,7 @@ export default defineEventHandler((e) => {
   if (path.startsWith('/docs/experiments')) {
     return sendRedirect(e, `/docs/seo-utils${path.slice('/docs/experiments'.length)}`, 301)
   }
-  const slugs = modules.map((m) => m.slug)
+  const slugs = modules.map(m => m.slug)
   // get first segment
   const first = path.split('/')[1]
   const rest = path.split('/').slice(2).join('/')

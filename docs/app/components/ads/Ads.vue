@@ -1,13 +1,47 @@
+<script lang="ts" setup>
+import { useLocalStorage } from '@vueuse/core'
+
+const storage = useLocalStorage('nuxt-seo-pro-ad', true)
+
+function closeNuxtProAd() {
+  storage.value = false
+}
+</script>
+
 <template>
-  <ScriptCarbonAds
-    :key="$route.path"
-    class="Carbon border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50/50 dark:bg-white/5"
-    serve="CW7DTKJJ"
-    placement="nuxtseocom"
-    trigger="scroll"
-  >
-    <AdsFallback />
-  </ScriptCarbonAds>
+  <div>
+    <div
+      v-if="storage"
+      class="Carbon border p-3 text-sm dark:text-gray-300 text-gray-700 border-gray-200 dark:border-gray-800 rounded-lg  mb-7"
+    >
+      <div class="mb-2 flex items-center justify-between">
+        <strong>Nuxt SEO <span class="text-green-500">Pro</span></strong>
+        <UButton class="cursor-pointer" size="xs" variant="ghost" color="neutral" type="button" @click="closeNuxtProAd">
+          <UIcon name="i-carbon-close" />
+        </UButton>
+      </div>
+      <ul class="list-disc text-sm ml-4 space-y-1 mb-3">
+        <li>Nuxt Redirects</li>
+        <li>Nuxt Google Search Console</li>
+        <li>Nuxt Internal Links</li>
+        <li>Nuxt SEO Analyze</li>
+      </ul>
+      <div>
+        Save $170 on the <NuxtLink to="/pro" class="underline text-green-500">
+          presale
+        </NuxtLink> now.
+      </div>
+    </div>
+    <ScriptCarbonAds
+      :key="$route.path"
+      class="Carbon border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50/50 dark:bg-white/5"
+      serve="CW7DTKJJ"
+      placement="nuxtseocom"
+      trigger="scroll"
+    >
+      <AdsFallback />
+    </ScriptCarbonAds>
+  </div>
 </template>
 
 <style lang="postcss">

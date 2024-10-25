@@ -72,9 +72,9 @@ onMounted(() => {
             <div class="flex items-center gap-1">
               <UIcon v-if="module.icon" dynamic :name="module.icon" class="text-blue-500 dark:text-blue-300" v-bind="iconAttrs" />{{ module.label }}
               <UTooltip text="Latest version">
-              <UBadge v-if="version" variant="soft" size="sm" color="secondary" class="ml-1">
-                {{ module.version }}
-              </UBadge>
+                <UBadge v-if="version" variant="soft" size="sm" color="secondary" class="ml-1">
+                  {{ module.version }}
+                </UBadge>
               </UTooltip>
             </div>
             <div class="text-balance text-xs text-gray-500 dark:text-gray-400 font-normal">
@@ -84,22 +84,22 @@ onMounted(() => {
           <div class="flex flex-col items-end gap-2">
             <div>
               <UTooltip text="GitHub Stars">
-              <div class="justify-end dark:bg-yellow-700/20 dark:text-yellow-500 text-xs px-1 py-0.5 text-xs rounded ring-yellow-700/30  ring bg-yellow-50 text-yellow-700/75 inline-flex items-center gap-[2px] text-sm ml-2">
-                <UIcon name="i-carbon-star" class="w-3 h-3 " />
-                <div class="font-mono font-normal">
-                  {{ humanNumber(module.stars) }}
+                <div class="justify-end dark:bg-yellow-700/20 dark:text-yellow-500 text-xs px-1 py-0.5 text-xs rounded ring-yellow-700/30  ring bg-yellow-50 text-yellow-700/75 inline-flex items-center gap-[2px] text-sm ml-2">
+                  <UIcon name="i-carbon-star" class="w-3 h-3 " />
+                  <div class="font-mono font-normal">
+                    {{ humanNumber(module.stars) }}
+                  </div>
                 </div>
-              </div>
               </UTooltip>
             </div>
             <div>
               <UTooltip text="Downloads in last 90 days.">
-              <div class="justify-end  dark:bg-neutral-700/20 dark:text-neutral-500 text-xs px-1 py-0.5 text-xs rounded ring-neutral-700/30  ring bg-neutral-50 text-neutral-700/75 inline-flex items-center gap-[2px] text-sm ml-2">
-                <UIcon name="i-carbon-download" class="w-3 h-3 " />
-                <div class="font-mono font-normal">
-                  {{ humanNumber(module.totalDownloads90) }}
+                <div class="justify-end  dark:bg-neutral-700/20 dark:text-neutral-500 text-xs px-1 py-0.5 text-xs rounded ring-neutral-700/30  ring bg-neutral-50 text-neutral-700/75 inline-flex items-center gap-[2px] text-sm ml-2">
+                  <UIcon name="i-carbon-download" class="w-3 h-3 " />
+                  <div class="font-mono font-normal">
+                    {{ humanNumber(module.totalDownloads90) }}
+                  </div>
                 </div>
-              </div>
               </UTooltip>
             </div>
           </div>

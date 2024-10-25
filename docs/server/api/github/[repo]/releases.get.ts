@@ -5,11 +5,11 @@ export default defineCachedEventHandler(async (e) => {
   if (!repo?.startsWith('nuxt') && !repo?.startsWith('harlan-zw/')) {
     throw new Error(`Invalid repo ${repo}`)
   }
-  const { githubToken } = useRuntimeConfig()
+  const { githubAccessToken } = useRuntimeConfig()
   const res = await $fetch(`https://api.github.com/repos/${repo}/releases`, {
     headers: {
       'Accept': 'application/vnd.github+json',
-      'Authorization': `token ${githubToken}`,
+      'Authorization': `token ${githubAccessToken}`,
       'X-GitHub-Api-Version': '2022-11-28',
     },
   })

@@ -1,7 +1,7 @@
 import { defineConfig } from '@nuxtjs/mdc/config'
 import { transformerColorHighlight } from 'shiki-transformer-color-highlight'
-import robotsTxt from './mdc/robots-txt'
 import dir from './mdc/dir'
+import robotsTxt from './mdc/robots-txt'
 
 export default defineConfig({
   shiki: {

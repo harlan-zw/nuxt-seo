@@ -4,23 +4,6 @@ definePageMeta({
 })
 
 const route = useRoute()
-const segment = computed(() => route.path.split('/')[1])
-
-const modules = inject('modules')
-
-const version = computed(() => {
-  const m = modules.find(l => l?.slug === segment.value)
-  if (!m)
-    return ''
-  if (m?.slug === 'nuxt-seo')
-    return '2'
-  if (m.tag?.label) {
-    const v = m.tag.label.replace('^', '')
-    // we want only the major and minor versions, drop patch
-    return v.split('.').slice(0, 2).join('.')
-  }
-  return ''
-})
 
 // collection is the path segment after /docs/<collection>/<page>
 // const collection = computed(() => camelCase(route.path.split('/')[2]))
@@ -46,28 +29,16 @@ useSeoMeta({
   description: () => page.value?.description,
 })
 
-const headline = ''
-
-defineOgImageComponent('Module', {
+defineOgImageComponent('NuxtSeo', {
   title: page.value?.title || '',
-  moduleName: module.value?.repo.replace('harlan-zw/', ''),
   description: page.value?.description,
-  stars: module.value?.stars,
-  downloads: module.value?.downloads,
-  version: version.value,
 })
 
 const repoLinks = computed(() => [
-  // {
-  //   icon: 'i-ph-github-logo',
-  //   label: 'Open an issue',
-  //   to: `https://github.com/${module.value?.repo}/issues/new/choose`,
-  //   target: '_blank',
-  // },
   {
     icon: 'i-ph-pen-duotone',
     label: 'Edit this page',
-    to: `https://github.com/harlan-zw/nuxt-seo/edit/v2/docs/content/${page?.value?._file}`,
+    to: `https://github.com/harlan-zw/nuxt-seo/edit/main/docs/content/learn/${page.value.contentId.split('/').slice(2).join('/')}`,
     target: '_blank',
   },
 ])
@@ -75,13 +46,7 @@ const repoLinks = computed(() => [
 
 <template>
   <div class="max-w-[66ch]">
-    <UPageHeader :title="page.title" :description="page.description" :links="page.links" :headline="headline">
-      <template #headline>
-        <div class="w-full flex items-center justify-between">
-          <div>{{ headline }}</div>
-          <UPageLinks v-if="module" :ui="{ container: 'gap-7' }" :links="repoLinks" />
-        </div>
-      </template>
+    <UPageHeader v-bind="page" :ui="{ title: 'text-center text-balance xl:leading-normal min-w-full', description: 'text-center ' }">
       <div class="mt-5">
         <TableOfContents v-if="page.body?.toc?.links?.length" :links="page.body?.toc?.links" class="mt-7" />
       </div>
@@ -89,9 +54,15 @@ const repoLinks = computed(() => [
 
     <UPageBody prose class="pb-0">
       <ContentRenderer v-if="page.body" :value="page" />
+      <div class="justify-center flex items-center gap-2 font-semibold">
+        <UIcon name="i-simple-icons-github" class="w-5 h-5" />
+        <NuxtLink v-bind="repoLinks[0]" class="hover:underline">
+          {{ repoLinks[0].label }}
+        </NuxtLink>
+      </div>
       <hr v-if="surround?.length" class="my-8">
       <UContentSurround :surround="surround" />
-      <div class="lg:hidden">
+      <div class="xl:hidden">
         <Ads class="my-5" />
       </div>
     </UPageBody>

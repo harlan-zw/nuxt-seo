@@ -11,18 +11,8 @@ useSeoMeta({
   description: 'We are sorry but this page could not be found.',
 })
 
-const { data: navigation } = await useLazyAsyncData('navigation', () => fetchContentNavigation(), {
-  default: () => [],
-  // transform: (navigation) => {
-  //   navigation = navigation.find(link => link._path === prefix.value)?.children || []
-  //
-  //   return prefix.value === '/main' ? removePrefixFromNavigation(navigation) : navigation
-  // }
-})
-
 // Provide
 provide('modules', modules)
-provide('navigation', navigation)
 </script>
 
 <template>
@@ -30,10 +20,12 @@ provide('navigation', navigation)
     <Header />
 
     <UContainer>
-      <UMain>
-        <UPage>
-          {{ error }}
-        </UPage>
+      <UMain class="flex flex-col items-center justify-center">
+        <div class="mb-14">
+          <h1>{{ error.statusCode === 404 ? 'Oops... we can\'t find that.' : 'Uh oh, looks like an error :(' }}</h1>
+          <div v-if="error.statusCode !== 404">{{ error.message }}</div>
+          <div v-else>Go back <NuxtLink to="/" class="underline">home</NuxtLink>.</div>
+        </div>
       </UMain>
     </UContainer>
   </div>

@@ -6,10 +6,12 @@ import type { AccordionRootEmits, AccordionRootProps } from 'radix-vue'
 import _appConfig from '#build/app.config'
 import theme from '#build/ui-pro/content/content-navigation'
 import { tv, type VariantProps } from 'tailwind-variants'
-
-const appConfig = _appConfig as AppConfig & { uiPro: { contentNavigation: Partial<typeof theme> } }
-
-const contentNavigation = tv({ extend: tv(theme), ...(appConfig.uiPro?.contentNavigation || {}) })
+import { useAppConfig, useRoute } from '#imports'
+import { pickLinkProps } from '#ui/utils/link'
+import { mapContentItem } from '#ui-pro/utils/content'
+import { createReusableTemplate, reactivePick } from '@vueuse/core'
+import { Primitive, useForwardPropsEmits } from 'radix-vue'
+import { computed } from 'vue'
 
 type ContentNavigationVariants = VariantProps<typeof contentNavigation>
 
@@ -67,16 +69,13 @@ export interface ContentNavigationSlots<T> {
   'link-title': SlotProps<T>
   'link-trailing': SlotProps<T>
 }
+
+const appConfig = _appConfig as AppConfig & { uiPro: { contentNavigation: Partial<typeof theme> } }
+
+const contentNavigation = tv({ extend: tv(theme), ...(appConfig.uiPro?.contentNavigation || {}) })
 </script>
 
 <script setup lang="ts" generic="T extends ContentNavigationLink">
-import { useAppConfig, useRoute } from '#imports'
-import { pickLinkProps } from '#ui/utils/link'
-import { mapContentItem } from '#ui-pro/utils/content'
-import { createReusableTemplate, reactivePick } from '@vueuse/core'
-import { Primitive, useForwardPropsEmits } from 'radix-vue'
-import { computed } from 'vue'
-
 const props = withDefaults(defineProps<ContentNavigationProps<T>>(), {
   as: 'nav',
   defaultOpen: undefined,

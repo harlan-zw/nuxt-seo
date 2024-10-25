@@ -54,7 +54,7 @@ const repoLinks = computed(() => [
 </script>
 
 <template>
-  <div class="max-w-[66ch]">
+  <div class="max-w-[66ch] ml-auto md:ml-0 md:mr-auto">
     <UPageHeader :title="page.title" :description="page.description" :headline="headline" class="text-balance">
       <div class="mt-5">
         <TableOfContents v-if="page.body?.toc?.links?.length > 1" :links="page.body?.toc?.links" class="mt-7" />
@@ -69,9 +69,10 @@ const repoLinks = computed(() => [
           {{ repoLinks[0].label }}
         </NuxtLink>
       </div>
+      <FeedbackButtons :edit-link="repoLinks[0].to" />
       <USeparator v-if="surround?.length" class="my-8" />
       <UContentSurround :surround="surround" />
-      <div class="lg:hidden">
+      <div class="xl:hidden">
         <Ads class="my-5" />
       </div>
     </UPageBody>

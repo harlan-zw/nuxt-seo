@@ -25,7 +25,6 @@ const loadingType = computed(() => {
     <img
       v-bind="$attrs"
       height="700"
-      format="auto"
       :alt="alt"
       :width="width"
       :src="src"
