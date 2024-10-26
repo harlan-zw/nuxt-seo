@@ -94,7 +94,9 @@
     "devDependencies": {}
   },
   "pnpm": {
-    "neverBuiltDependencies": ["@nuxt/content"],
+    "neverBuiltDependencies": [
+      "@nuxt/content"
+    ],
     "patchedDependencies": {
       "@nuxt/ui": "patches/@nuxt__ui.patch"
     }

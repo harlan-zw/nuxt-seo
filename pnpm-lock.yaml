@@ -149,8 +149,8 @@ importers:
         specifier: ^2.0.0-alpha.6
         version: 2.0.0-alpha.6(embla-carousel@8.3.0)(focus-trap@7.6.0)(ioredis@5.4.1)(magicast@0.3.5)(postcss@8.4.47)(rollup@4.24.0)(typescript@5.6.3)(vite@5.4.8(@types/node@22.7.9)(lightningcss@1.27.0)(terser@5.36.0))(vue@3.5.12(typescript@5.6.3))(webpack-sources@3.2.3)
       '@nuxthub/core':
-        specifier: 0.7.37
-        version: 0.7.37(ioredis@5.4.1)(magicast@0.3.5)(rollup@4.24.0)(vite@5.4.8(@types/node@22.7.9)(lightningcss@1.27.0)(terser@5.36.0))(webpack-sources@3.2.3)
+        specifier: 0.8.2
+        version: 0.8.2(ioredis@5.4.1)(magicast@0.3.5)(rollup@4.24.0)(vite@5.4.8(@types/node@22.7.9)(lightningcss@1.27.0)(terser@5.36.0))(webpack-sources@3.2.3)
       '@unovis/vue':
         specifier: 1.4.4
         version: 1.4.4(@unovis/ts@1.4.4)(vue@3.5.12(typescript@5.6.3))
@@ -1972,8 +1972,8 @@ packages:
     peerDependencies:
       vue: 3.5.12
 
-  '@nuxthub/core@0.7.37':
-    resolution: {integrity: sha512-SOAGUsW+XGA9oghwItTYjx3CtPyKuc7OhBONeGpUMGJ26xs2dKdEW7DV+My2woW2PXBWL4N5YLfV+m5e60yfAg==}
+  '@nuxthub/core@0.8.2':
+    resolution: {integrity: sha512-C9XKgqQq0AXaH2AbCeFVFAEU14aTl0nP0g7mdtUN0c/JiQhdX1MIn70ANDUgFPVbNN5S6s8f38/OfJlXiDdpFA==}
 
   '@nuxtjs/color-mode@3.5.1':
     resolution: {integrity: sha512-GRHF3WUwX6fXIiRVlngNq1nVDwrVuP6dWX1DRmox3QolzX0eH1oJEcFr/lAm1nkT71JVGb8mszho9w+yHJbePw==}
@@ -10208,7 +10208,7 @@ snapshots:
       - vue-tsc
       - webpack-sources
 
-  '@nuxthub/core@0.7.37(ioredis@5.4.1)(magicast@0.3.5)(rollup@4.24.0)(vite@5.4.8(@types/node@22.7.9)(lightningcss@1.27.0)(terser@5.36.0))(webpack-sources@3.2.3)':
+  '@nuxthub/core@0.8.2(ioredis@5.4.1)(magicast@0.3.5)(rollup@4.24.0)(vite@5.4.8(@types/node@22.7.9)(lightningcss@1.27.0)(terser@5.36.0))(webpack-sources@3.2.3)':
     dependencies:
       '@cloudflare/workers-types': 4.20241022.0
       '@nuxt/devtools-kit': 1.6.0(magicast@0.3.5)(rollup@4.24.0)(vite@5.4.8(@types/node@22.7.9)(lightningcss@1.27.0)(terser@5.36.0))(webpack-sources@3.2.3)

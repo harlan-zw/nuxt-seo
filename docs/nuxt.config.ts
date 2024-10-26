@@ -36,6 +36,7 @@ export default defineNuxtConfig({
   },
 
   hub: {
+    database: true,
     cache: true,
     kv: true,
   },
@@ -178,6 +179,16 @@ export default defineNuxtConfig({
       '/api/_mdc/highlight': { cache: { group: 'mdc', name: 'highlight', maxAge: 60 * 60 } },
       '/api/_content/query/**': { cache: { group: 'content', name: 'query', maxAge: 60 * 60 } }
     },
+    scripts: {
+      registry: {
+        fathomAnalytics: {
+          site: 'KGILBQDV',
+        },
+      },
+    },
+    content: {
+      database: { type: 'd1', binding: 'CF_BINDING_NAME' },
+    },
   },
 
   routeRules: {
@@ -260,16 +271,6 @@ export default defineNuxtConfig({
   css: [
     '~/css/scrollbars.css',
   ],
-
-  $production: {
-    scripts: {
-      registry: {
-        fathomAnalytics: {
-          site: 'KGILBQDV',
-        },
-      },
-    },
-  },
 
   ogImage: {
     zeroRuntime: true,
