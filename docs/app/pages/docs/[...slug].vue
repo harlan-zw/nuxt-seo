@@ -11,6 +11,8 @@ const route = useRoute()
 const module = useModule()
 
 const collection = camelCase(module.value.slug) as keyof Collections
+if (!collection)
+  throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 
 const [{ data: page }, { data: surround }] = await Promise.all([
   useAsyncData(`docs-${route.path}`, () => queryCollection(collection).path(route.path).first()),

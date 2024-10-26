@@ -122,11 +122,8 @@ export default defineNuxtConfig({
     '#content/server': resolve('./server/content-v2'),
   },
 
-  $production: {
-    database: { type: 'd1', binding: 'nuxt-seo' },
-  },
-
   content: {
+    database: { type: 'd1', binding: 'nuxt-seo' },
     build: {
       markdown: {
         highlight: {
