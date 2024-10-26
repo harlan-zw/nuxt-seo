@@ -14,7 +14,7 @@ export default defineNuxtConfig({
     'nuxt-rebundle',
     '@nuxthub/core',
     '@nuxt/fonts',
-    'harlan-zw-nuxt-content-v3-fork',
+    '@nuxt/content',
     // 'nuxt-build-cache',
     '@nuxt/scripts',
     '@nuxt/image',
@@ -28,10 +28,6 @@ export default defineNuxtConfig({
       })
     },
   ],
-
-  alias: {
-    '@nuxt/content': 'harlan-zw-nuxt-content-v3-fork'
-  },
 
   ui: {
     theme: {
