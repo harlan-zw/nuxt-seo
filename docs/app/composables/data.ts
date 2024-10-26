@@ -1,6 +1,7 @@
 import type { Collections, NavItem } from '@nuxt/content'
 import { computedAsync, queryCollectionNavigation, useAsyncData } from '#imports'
 import { camelCase, titleCase } from 'scule'
+import useMarkdownParser from '~/utils/mdc'
 
 export function movingAverage(data: number[], windowSize: number) {
   const result = []
@@ -59,10 +60,11 @@ export async function useDocsNav() {
       useAsyncData('search', () => queryCollectionSearchSections(collection.value)),
       useAsyncData<{ top: NavItem[], bottom: NavItem[] }>(`navigation-${collection.value}`, () => queryCollectionNavigation(collection.value), {
         default: () => [],
-        transform(res) {
+        async transform(res) {
+          const parse = useMarkdownParser()
           const nav = mapPath(res)
           const top = transformAsTopNav((nav || []))
-          const bottom = (nav || []).slice(1).map((m) => {
+          const bottom = await Promise.all((nav || []).slice(1).map(async (m) => {
             if (m.path.includes('/api')) {
               m.icon = 'i-logos-nuxt-icon'
               m.title = 'Nuxt API'
@@ -90,7 +92,7 @@ export async function useDocsNav() {
                 }
                 return c
               })
-              m.children = m.children.map((c) => {
+              m.children = await Promise.all(m.children.map(async (c) => {
                 if (c.path.includes('/api/config')) {
                   c.icon = 'i-vscode-icons-file-type-typescript-official'
                   c.title = 'nuxt.config.ts'
@@ -101,20 +103,20 @@ export async function useDocsNav() {
                 }
                 else if (c.title.endsWith('()')) {
                   c.mdc = true
-                  c.title = `\`${c.title}\`{lang="ts"}`
+                  c.title = await parse(`\`${c.title}\`{lang="ts"}`)
                 }
                 else if (c.title.startsWith('<') && c.title.endsWith('>')) {
                   c.mdc = true
-                  c.title = `\`${c.title}\`{lang="html"}`
+                  c.title = await parse(`\`${c.title}\`{lang="html"}`)
                 }
                 if (c.children?.length === 1) {
                   c = c.children[0]
                 }
                 return c
-              })
+              }))
             }
             return m
-          })
+          }))
           return {
             top,
             bottom,

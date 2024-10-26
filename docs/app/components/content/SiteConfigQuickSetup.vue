@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-const md = `
+import useMarkdownParser from '~/utils/mdc'
+
+const { data: md } = await useAsyncData(`site-config-setup`, async () => {
+  const parse = useMarkdownParser()
+  return parse(`
 Setting your site config is important for the modules to work correctly.
 
 ::code-group
@@ -18,7 +22,8 @@ NUXT_PUBLIC_SITE_URL=https://example.com
 NUXT_PUBLIC_SITE_NAME=My Awesome Website
 \`\`\`
 ::
-`
+`)
+})
 </script>
 
 <template>
@@ -27,7 +32,7 @@ NUXT_PUBLIC_SITE_NAME=My Awesome Website
       Quick Setup
     </ModuleLabel>
     <UCard size="sm" class="relative rounded-tl-none">
-      <MDC :value="md" unwrap="p" />
+      <MDCRenderer v-bind="md" unwrap="p" />
       <template #footer>
         <div class="text-sm text-gray-400">
           For more advanced configurations, check out the <NuxtLink to="/docs/site-config/guides/setting-site-config" class="underline">
