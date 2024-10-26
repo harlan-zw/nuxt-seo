@@ -187,7 +187,7 @@ export default defineNuxtConfig({
       },
     },
     content: {
-      database: { type: 'd1', binding: 'CF_BINDING_NAME' },
+      database: { type: 'd1', binding: 'nuxt-seo' },
     },
   },
 
