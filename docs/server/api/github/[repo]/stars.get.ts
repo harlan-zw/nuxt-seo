@@ -1,15 +1,11 @@
-import { $fetch } from 'ofetch'
+import { initOctokitRequestHandler } from '~~/server/utils/github'
 
 export default defineCachedEventHandler(async (e) => {
-  const repo = (getRouterParam(e, 'repo') || '').replace('@', '/')
-  if (!repo?.startsWith('nuxt') && !repo?.startsWith('harlan-zw/')) {
-    throw new Error(`Invalid repo ${repo}`)
-  }
-  const { githubAccessToken } = useRuntimeConfig()
-  const res = await $fetch(`https://api.github.com/repos/${repo}`, {
+  const { octokit, repo, owner } = initOctokitRequestHandler(e)
+  const { data: res } = await octokit.request('GET /repos/{owner}/{repo}', {
+    repo,
+    owner,
     headers: {
-      'Accept': 'application/vnd.github+json',
-      'Authorization': `token ${githubAccessToken}`,
       'X-GitHub-Api-Version': '2022-11-28',
     },
   })
@@ -18,6 +14,6 @@ export default defineCachedEventHandler(async (e) => {
     updated_at: res.updated_at,
   }
 }, {
-  // last for 1 hour
+  swr: true,
   maxAge: 60 * 60,
 })

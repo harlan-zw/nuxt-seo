@@ -3,7 +3,7 @@ import { ProEmailSchema, type ThumbsFeedbackResponse } from '~~/types/schemas'
 export default defineEventHandler<Promise<ThumbsFeedbackResponse>>(async (e) => {
   const body = await readValidatedBody(e, ProEmailSchema.safeParse)
   const { email } = body.data
-  const key = useRuntimeConfig().emailOctopusToken
+  const key = useRuntimeConfig(e).emailOctopusToken
   try {
     await $fetch('https://api.emailoctopus.com/lists/6c462a3a-91b1-11ef-bd09-15cf0f9f3feb/contacts', {
       method: 'PUT',

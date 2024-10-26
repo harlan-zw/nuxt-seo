@@ -5,7 +5,7 @@ export default defineCachedEventHandler(async (e) => {
   if (!repo?.startsWith('nuxt') && !repo?.startsWith('harlan-zw/')) {
     throw new Error(`Invalid repo ${repo}`)
   }
-  const { githubAccessToken } = useRuntimeConfig()
+  const { githubAccessToken } = useRuntimeConfig(e)
   const pager = await $fetch.raw(`https://api.github.com/repos/${repo}/commits?sha=main&per_page=1&page=1`, {
     headers: {
       'Accept': 'application/vnd.github+json',

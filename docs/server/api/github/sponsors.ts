@@ -1,11 +1,11 @@
 import { appStorage } from '~~/server/storage'
 import { fetchGitHubSponsors } from 'sponsorkit'
 
-export default defineCachedEventHandler(async () => {
+export default defineCachedEventHandler(async (e) => {
   if (!import.meta.prerender && !import.meta.dev) {
     return
   }
-  const token = await appStorage().get<string>('github:token') || useRuntimeConfig().githubAuthToken
+  const token = await appStorage().get<string>('github:token') || useRuntimeConfig(e).githubAuthToken
   if (!token) {
     return []
   }

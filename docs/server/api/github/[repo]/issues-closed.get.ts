@@ -5,7 +5,7 @@ export default defineCachedEventHandler(async (e) => {
   if (!repo?.startsWith('nuxt') && !repo?.startsWith('harlan-zw/')) {
     throw new Error(`Invalid repo ${repo}`)
   }
-  const { githubAccessToken } = useRuntimeConfig()
+  const { githubAccessToken } = useRuntimeConfig(e)
   const pager = await $fetch.raw(`https://api.github.com/repos/${repo}/issues`, {
     query: {
       state: 'closed',
