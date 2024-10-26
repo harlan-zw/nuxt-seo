@@ -15,9 +15,6 @@ export function initOctokitRequestHandler(e: H3Event) {
     owner: repo.split('/')[0],
     octokit: new Octokit({
       auth: githubAccessToken,
-      request: {
-        fetch: $fetch,
-      },
     }),
   }
 }
