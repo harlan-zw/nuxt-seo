@@ -41,7 +41,7 @@ export default function useMarkdownParser() {
                     ts: TsLang,
                     // typescript: TsLang,
                   },
-                  engine: await createOnigurumaEngine(import.meta.client ? import('shiki/wasm') : import('shiki/onig.wasm')),
+                  engine: await createOnigurumaEngine(import.meta.client ? import('shiki/wasm') : import('shiki/onig.wasm?url')),
                 }),
               },
             },
