@@ -50,6 +50,7 @@ function transformAsTopNav(tree: NavItem[]) {
 }
 
 export async function useDocsNav() {
+  const nuxtApp = useNuxtApp()
   const module = useModule()
   if (!module.value) {
     return ref({ files: [], nav: { top: [], bottom: [] } })
@@ -61,7 +62,7 @@ export async function useDocsNav() {
       useAsyncData<{ top: NavItem[], bottom: NavItem[] }>(`navigation-${collection.value}`, () => queryCollectionNavigation(collection.value), {
         default: () => [],
         async transform(res) {
-          const parse = useMarkdownParser()
+          const parse = useMarkdownParser(nuxtApp)
           const nav = mapPath(res)
           const top = transformAsTopNav((nav || []))
           const bottom = await Promise.all((nav || []).slice(1).map(async (m) => {

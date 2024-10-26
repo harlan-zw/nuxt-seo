@@ -8,8 +8,9 @@ const props = defineProps({
 
 const module = useModule(props.name)
 
+const nuxtApp = useNuxtApp()
 const { data: packageManagers } = await useAsyncData(`module-install-${props.name}`, async () => {
-  const parse = useMarkdownParser()
+  const parse = useMarkdownParser(nuxtApp)
   return await Promise.all([
     { name: 'nuxt', command: 'npx nuxi', install: 'module add', run: 'run ', x: 'npx ' },
     { name: 'npm', command: 'npm', install: 'i', run: 'run ', x: 'npx ' },

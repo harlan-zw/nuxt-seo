@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import useMarkdownParser from '~/utils/mdc'
 
+const nuxtApp = useNuxtApp()
 const { data: md } = await useAsyncData(`site-config-setup`, async () => {
-  const parse = useMarkdownParser()
+  const parse = useMarkdownParser(nuxtApp)
   return parse(`
 Setting your site config is important for the modules to work correctly.
 

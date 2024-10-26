@@ -12,12 +12,13 @@ import TsLang from 'shiki/langs/typescript.mjs'
 import GithubLightTheme from 'shiki/themes/github-light.mjs'
 import DarkTheme from 'shiki/themes/material-theme-palenight.mjs'
 
-let parser: Awaited<ReturnType<typeof createMarkdownParser>>
+const sharedParserContainer: { parser?: Awaited<ReturnType<typeof createMarkdownParser>> } = {}
 
-export default function useMarkdownParser() {
+export default function useMarkdownParser(nuxtApp?: NuxtApp) {
+  const container = nuxtApp || tryUseNuxtApp() || sharedParserContainer
   const parse = async (markdown: string) => {
-    if (!parser) {
-      parser = await createMarkdownParser({
+    if (!container?.parser) {
+      container.parser = await createMarkdownParser({
         rehype: {
           plugins: {
             highlight: {
@@ -51,7 +52,7 @@ export default function useMarkdownParser() {
         },
       })
     }
-    return parser(markdown, {
+    return container.parser(markdown, {
       toc: false,
     })
   }

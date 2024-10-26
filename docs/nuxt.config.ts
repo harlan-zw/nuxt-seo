@@ -1,45 +1,6 @@
-import type { SourceMapInput } from 'rollup'
-import { pathToFileURL } from 'node:url'
-import { addBuildPlugin } from '@nuxt/kit'
-import MagicString from 'magic-string'
 import { defineNuxtConfig } from 'nuxt/config'
 import { resolve } from 'pathe'
-import {parseQuery, parseURL} from 'ufo'
-import { createUnplugin } from 'unplugin'
 import NuxtSEO from '../src/module'
-
-export function isVue(id: string, opts: { type?: Array<'template' | 'script' | 'style'> } = {}) {
-  // Bare `.vue` file (in Vite)
-  const { search } = parseURL(decodeURIComponent(pathToFileURL(id).href))
-  if (id.endsWith('.vue') && !search) {
-    return true
-  }
-
-  if (!search) {
-    return false
-  }
-
-  const query = parseQuery(search)
-
-  // Component async/lazy wrapper
-  if (query.nuxt_component) {
-    return false
-  }
-
-  // Macro
-  if (query.macro && (search === '?macro=true' || !opts.type || opts.type.includes('script'))) {
-    return true
-  }
-
-  // Non-Vue or Styles
-  const type = 'setup' in query ? 'script' : query.type as 'script' | 'template' | 'style'
-  if (!('vue' in query) || (opts.type && !opts.type.includes(type))) {
-    return false
-  }
-
-  // Query `?vue&type=template` (in Webpack or external template)
-  return true
-}
 
 export default defineNuxtConfig({
   // const pkgJson = await readPackageJSON('../package.json')
@@ -171,46 +132,6 @@ export default defineNuxtConfig({
         },
       },
     },
-    // sources: {
-    //   // ...Object.fromEntries(
-    //   //   modules
-    //   //     .filter(m => m.slug !== 'nuxt-seo')
-    //   //     .map((m, key) => {
-    //   //       const localDirPaths = [
-    //   //         resolve(__dirname, '..', '..', m.npm, 'docs', 'content'),
-    //   //         resolve(__dirname, '..', '..', m.repo.replace('harlan-zw/', '').replace('nuxt-modules/', ''), 'docs', 'content'),
-    //   //       ]
-    //   //       if (isDevelopment) {
-    //   //         for (const localDirPath of localDirPaths) {
-    //   //           if (existsSync(localDirPath)) {
-    //   //             logger.info(`🔗 Docs source \`${m.slug}\` using local fs: ${relative(process.cwd(), localDirPath)}`)
-    //   //             return [m.slug, {
-    //   //               watch: true,
-    //   //               prefix: `/docs/${key}.${m.slug}`,
-    //   //               driver: 'fs',
-    //   //               base: localDirPath,
-    //   //             }]
-    //   //           }
-    //   //         }
-    //   //       }
-    //   //       logger.info(`🔗 Docs source \`${m.slug}\` using GitHub: ${m.repo}`)
-    //   //       return [m.slug, {
-    //   //         token: process.env.NUXT_GITHUB_TOKEN || '',
-    //   //         prefix: `/docs/${key}.${m.slug}`,
-    //   //         driver: 'github',
-    //   //         repo: m.repo,
-    //   //         branch: 'main',
-    //   //         dir: 'docs/content',
-    //   //       }]
-    //   //     }),
-    //   // ),
-    //   nuxtSeo: {
-    //     watch: true,
-    //     driver: 'fs',
-    //     prefix: '/docs/nuxt-seo',
-    //     base: resolve(__dirname, 'content', 'nuxt-seo'),
-    //   },
-    // },
   },
 
   devtools: {
@@ -249,6 +170,13 @@ export default defineNuxtConfig({
         'md',
         'dotenv',
       ],
+    },
+  },
+
+  $production: {
+    routeRules: {
+      '/api/_mdc/highlight': { cache: { group: 'mdc', name: 'highlight', maxAge: 60 * 60 } },
+      '/api/_content/query/**': { cache: { group: 'content', name: 'query', maxAge: 60 * 60 } }
     },
   },
 
@@ -358,6 +286,7 @@ export default defineNuxtConfig({
       includeCustomCollections: true,
     },
     // provider: 'iconify',
+    fallbackToApi: 'client-only',
   },
 
   app: {
