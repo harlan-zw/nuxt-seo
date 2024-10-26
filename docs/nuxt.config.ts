@@ -115,6 +115,7 @@ export default defineNuxtConfig({
   },
 
   content: {
+    database: { type: 'd1', binding: 'nuxt-seo' },
     build: {
       markdown: {
         highlight: {
@@ -185,9 +186,6 @@ export default defineNuxtConfig({
           site: 'KGILBQDV',
         },
       },
-    },
-    content: {
-      database: { type: 'd1', binding: 'nuxt-seo' },
     },
   },
 

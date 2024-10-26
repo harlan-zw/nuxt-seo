@@ -39,7 +39,7 @@ function getSubModuleCollection(m: NuxtSEOModule) {
     source: {
       repository: `https://github.com/${m.repo}`,
       path: 'docs/content/**/*.md',
-      prefix: `docs/${m.slug}`,
+      prefix: `/docs/${m.slug}`,
     },
   })
 }
@@ -50,7 +50,7 @@ export const collections = {
     source: {
       path: '**/*.md',
       cwd: resolve('content/nuxtSeo'),
-      prefix: 'docs/nuxt-seo',
+      prefix: '/docs/nuxt-seo',
     },
   }),
   robots: getSubModuleCollection(RobotsModule),
@@ -65,7 +65,7 @@ export const collections = {
     source: {
       path: '**/*.md',
       cwd: resolve('content/learn'),
-      prefix: 'learn',
+      prefix: '/learn',
     },
     schema: z.object({
       icon: z.string().optional(),
