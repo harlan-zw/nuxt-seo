@@ -3,9 +3,11 @@ import {
   createShikiHighlighter,
   rehypeHighlight,
 } from '@nuxtjs/mdc/runtime'
-import { createOnigurumaEngine } from 'shiki/engine/oniguruma'
+import { createJavaScriptRegexEngine } from 'shiki/engine-javascript.mjs'
 import BashLang from 'shiki/langs/bash.mjs'
 import DotEnvLang from 'shiki/langs/dotenv.mjs'
+import HtmlLang from 'shiki/langs/html.mjs'
+import MdcLang from 'shiki/langs/mdc.mjs'
 import TsLang from 'shiki/langs/typescript.mjs'
 import GithubLightTheme from 'shiki/themes/github-light.mjs'
 import DarkTheme from 'shiki/themes/material-theme-palenight.mjs'
@@ -33,15 +35,15 @@ export default function useMarkdownParser() {
                   bundledLangs: {
                     dotenv: DotEnvLang,
                     bash: BashLang,
-                    // html: HtmlLang,
-                    // mdc: MdcLang,
+                    html: HtmlLang,
+                    mdc: MdcLang,
                     // vue: VueLang,
                     // yml: YamlLang,
                     // scss: ScssLang,
                     ts: TsLang,
                     // typescript: TsLang,
                   },
-                  engine: await createOnigurumaEngine(import.meta.client ? import('shiki/wasm') : import('shiki/onig.wasm?url')),
+                  engine: await createJavaScriptRegexEngine(),
                 }),
               },
             },
@@ -49,7 +51,9 @@ export default function useMarkdownParser() {
         },
       })
     }
-    return parser(markdown)
+    return parser(markdown, {
+      toc: false,
+    })
   }
 
   return parse
