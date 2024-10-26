@@ -123,7 +123,7 @@ export default defineNuxtConfig({
   },
 
   content: {
-    database: { type: 'd1', binding: 'nuxt-seo' },
+    database: { type: 'd1', binding: 'DB' },
     build: {
       markdown: {
         highlight: {
