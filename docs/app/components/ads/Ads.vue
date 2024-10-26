@@ -44,95 +44,113 @@ function closeNuxtProAd() {
   </div>
 </template>
 
-<style lang="postcss">
+<style>
 .dark .Carbon {
   min-height: 220px;
-  .carbon-text {
-    @apply text-gray-400;
-
-    &:hover {
-      @apply text-gray-200;
-    }
-  }
+}
+.dark .Carbon .carbon-text {
+  color: #9ca3af; /* text-gray-400 */
+}
+.dark .Carbon .carbon-text:hover {
+  color: #e5e7eb; /* text-gray-200 */
 }
 
-.light .Carbon {
-  .carbon-text {
-    @apply text-gray-600;
-
-    &:hover {
-      @apply text-gray-800;
-    }
-  }
+.light .Carbon .carbon-text {
+  color: #4b5563; /* text-gray-600 */
+}
+.light .Carbon .carbon-text:hover {
+  color: #1f2937; /* text-gray-800 */
 }
 
 .Carbon {
-  @apply p-2 flex flex-col max-w-full;
-
-  @screen sm {
-    @apply max-w-xs;
+  padding: 0.5rem; /* p-2 */
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+@media (min-width: 640px) {
+  .Carbon {
+    max-width: 20rem; /* max-w-xs */
   }
-
-  @screen lg {
-    @apply mt-0;
+}
+@media (min-width: 1024px) {
+  .Carbon {
+    margin-top: 0; /* mt-0 */
   }
+}
 
-  #carbonads span {
-    @apply flex flex-col justify-between;
-
-    .carbon-wrap {
-      @apply flex flex-col;
-
-      flex: 1;
-
-      @media (min-width: 320px) {
-        @apply flex-row;
-      }
-
-      @screen lg {
-        @apply flex-col;
-      }
-
-      .carbon-img {
-        @apply flex items-start justify-center mb-2;
-
-        @media (min-width: 320px) {
-          @apply mb-0;
-        }
-
-        @screen lg {
-          @apply mb-4;
-        }
-      }
-
-      .carbon-text {
-        @apply flex-1 text-sm w-full m-0 text-left block;
-
-        &:hover {
-          @apply no-underline;
-        }
-
-        @media (min-width: 320px) {
-          @apply ml-4;
-        }
-
-        @screen lg {
-          @apply ml-0;
-        }
-      }
-    }
+#carbonads span {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#carbonads span .carbon-wrap {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+@media (min-width: 320px) {
+  #carbonads span .carbon-wrap {
+    flex-direction: row;
   }
-
-  img {
-    @apply w-full;
+}
+@media (min-width: 1024px) {
+  #carbonads span .carbon-wrap {
+    flex-direction: column;
   }
-
-  & .carbon-poweredby {
-    @apply ml-2 text-xs text-right text-gray-400 block pt-2;
-
-    &:hover {
-      @apply no-underline text-gray-500;
-    }
+}
+#carbonads span .carbon-wrap .carbon-img {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 0.5rem; /* mb-2 */
+}
+@media (min-width: 320px) {
+  #carbonads span .carbon-wrap .carbon-img {
+    margin-bottom: 0; /* mb-0 */
   }
+}
+@media (min-width: 1024px) {
+  #carbonads span .carbon-wrap .carbon-img {
+    margin-bottom: 1rem; /* mb-4 */
+  }
+}
+#carbonads span .carbon-wrap .carbon-text {
+  flex: 1;
+  font-size: 0.875rem; /* text-sm */
+  width: 100%;
+  margin: 0;
+  text-align: left;
+  display: block;
+}
+#carbonads span .carbon-wrap .carbon-text:hover {
+  text-decoration: none; /* no-underline */
+}
+@media (min-width: 320px) {
+  #carbonads span .carbon-wrap .carbon-text {
+    margin-left: 1rem; /* ml-4 */
+  }
+}
+@media (min-width: 1024px) {
+  #carbonads span .carbon-wrap .carbon-text {
+    margin-left: 0; /* ml-0 */
+  }
+}
+
+.Carbon img {
+  width: 100%;
+}
+
+.Carbon .carbon-poweredby {
+  margin-left: 0.5rem; /* ml-2 */
+  font-size: 0.75rem; /* text-xs */
+  text-align: right;
+  color: #9ca3af; /* text-gray-400 */
+  display: block;
+  padding-top: 0.5rem; /* pt-2 */
+}
+.Carbon .carbon-poweredby:hover {
+  text-decoration: none; /* no-underline */
+  color: #6b7280; /* text-gray-500 */
 }
 </style>
