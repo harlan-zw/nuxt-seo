@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { fetchStats } from '~/composables/stats'
-import { modules } from '../../src/const'
+import {modules} from '../../src/const'
 
-const { data: stats } = await useAsyncData('stats', () => fetchStats())
+const {data: stats} = await useFetch('/api/stats')
 
 const appConfig = useAppConfig()
 
@@ -16,17 +15,17 @@ useSeoMeta({
 </script>
 
 <template>
-  <UApp :toaster="appConfig.toaster">
-    <NuxtLoadingIndicator color="#FFF" />
-    <Header />
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+<UApp :toaster="appConfig.toaster">
+  <NuxtLoadingIndicator color="#FFF"/>
+  <Header/>
+  <NuxtLayout>
+    <NuxtPage/>
+  </NuxtLayout>
 
-    <ClientOnly />
+  <ClientOnly/>
 
-    <Footer />
-  </UApp>
+  <Footer/>
+</UApp>
 </template>
 
 <style>
@@ -57,16 +56,68 @@ useSeoMeta({
 body {
   -webkit-font-smoothing: antialiased;
 }
+
 p, h1, h2, h3, h4, h5, h6 {
   overflow-wrap: break-word;
 }
+
 p {
   text-wrap: pretty;
 }
+
 h1, h2, h3, h4, h5, h6 {
   text-wrap: balance;
 }
+
 #root, #__nuxt {
   isolation: isolate;
+}
+
+html .light .shiki span {
+  color: var(--shiki-light);
+  background: var(--shiki-light-bg);
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+  text-decoration: var(--shiki-light-text-decoration);
+}
+
+html.light .shiki span {
+  color: var(--shiki-light);
+  background: var(--shiki-light-bg);
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+  text-decoration: var(--shiki-light-text-decoration);
+}
+
+html .default .shiki span {
+  color: var(--shiki-default);
+  background: var(--shiki-default-bg);
+  font-style: var(--shiki-default-font-style);
+  font-weight: var(--shiki-default-font-weight);
+  text-decoration: var(--shiki-default-text-decoration);
+}
+
+html .shiki span {
+  color: var(--shiki-default);
+  background: var(--shiki-default-bg);
+  font-style: var(--shiki-default-font-style);
+  font-weight: var(--shiki-default-font-weight);
+  text-decoration: var(--shiki-default-text-decoration);
+}
+
+html .dark .shiki span {
+  color: var(--shiki-dark);
+  background: var(--shiki-dark-bg);
+  font-style: var(--shiki-dark-font-style);
+  font-weight: var(--shiki-dark-font-weight);
+  text-decoration: var(--shiki-dark-text-decoration);
+}
+
+html.dark .shiki span {
+  color: var(--shiki-dark);
+  background: var(--shiki-dark-bg);
+  font-style: var(--shiki-dark-font-style);
+  font-weight: var(--shiki-dark-font-weight);
+  text-decoration: var(--shiki-dark-text-decoration);
 }
 </style>

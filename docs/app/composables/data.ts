@@ -1,7 +1,6 @@
 import type { Collections, NavItem } from '@nuxt/content'
 import { computedAsync, queryCollectionNavigation, useAsyncData } from '#imports'
 import { camelCase, titleCase } from 'scule'
-import useMarkdownParser from '~/utils/mdc'
 
 export function movingAverage(data: number[], windowSize: number) {
   const result = []
@@ -62,7 +61,6 @@ export async function useDocsNav() {
       useAsyncData<{ top: NavItem[], bottom: NavItem[] }>(`navigation-${collection.value}`, () => queryCollectionNavigation(collection.value), {
         default: () => [],
         async transform(res) {
-          const parse = useMarkdownParser(nuxtApp)
           const nav = mapPath(res)
           const top = transformAsTopNav((nav || []))
           const bottom = await Promise.all((nav || []).slice(1).map(async (m) => {
@@ -103,12 +101,15 @@ export async function useDocsNav() {
                   c.title = 'runtime/types.ts'
                 }
                 else if (c.title.endsWith('()')) {
-                  c.mdc = true
-                  c.title = await parse(`\`${c.title}\`{lang="ts"}`)
+                  c.html = true
+                  const [fnName] = c.title.split('()')
+                  c.title = `<code class="language-ts shiki shiki-themes github-light github-light material-theme-palenight" language="ts"><span style="--shiki-light: #6F42C1; --shiki-default: #6F42C1; --shiki-dark: #82AAFF;">${fnName}</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #BABED8;">()</span></code>`
                 }
                 else if (c.title.startsWith('<') && c.title.endsWith('>')) {
-                  c.mdc = true
-                  c.title = await parse(`\`${c.title}\`{lang="html"}`)
+                  const inner = c.title.slice(1, -1)
+                  c.html = true
+                  c.title = `<code class="language-ts shiki shiki-themes github-light github-light material-theme-palenight" language="ts"><span class="line" line="2"><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #89DDFF;">  &lt;</span><span style="--shiki-light: #22863A; --shiki-default: #22863A; --shiki-dark: #F07178;">${inner}</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #89DDFF;"> /&gt;
+</span></span></code>`
                 }
                 if (c.children?.length === 1) {
                   c = c.children[0]

@@ -59,14 +59,13 @@ const files = computed(() => _nav.value?.files.value || [])
       <div class="bg-gray-800 h-[1px] my-5 mr-5" />
       <ContentNavigation as="div" default-open :collapsible="false" :navigation="nav.bottom" highlight :ui="{ listWithChildren: 'sm:ml-0 my-10' }">
         <template #link="{ link }">
-          <div v-if="!link.mdc" class="flex items-center gap-2">
+          <div v-if="!link.html" class="flex items-center gap-2">
             <UIcon v-if="link.icon" :name="link.icon" class="w-4 h-4 text-primary-400 dark:text-sky-200" />
             <div :class="link.children?.length ? 'text-sm font-bold' : ''">
               {{ link.title }}
             </div>
           </div>
-          <div v-else>
-            <MDC :value="link.title" unwrap="p" />
+          <div v-else v-html="link.html">
           </div>
         </template>
       </ContentNavigation>
