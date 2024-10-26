@@ -35,6 +35,14 @@ export default defineNuxtConfig({
     },
   },
 
+  robots: {
+    enabled: false,
+  },
+
+  sitemap: {
+    enabled: false,
+  },
+
   hub: {
     database: true,
     cache: true,
