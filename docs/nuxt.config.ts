@@ -114,8 +114,11 @@ export default defineNuxtConfig({
     '#content/server': resolve('./server/content-v2'),
   },
 
-  content: {
+  $production: {
     database: { type: 'd1', binding: 'nuxt-seo' },
+  },
+
+  content: {
     build: {
       markdown: {
         highlight: {
