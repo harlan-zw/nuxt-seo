@@ -41,6 +41,10 @@ export default defineNuxtConfig({
 
   sitemap: {
     enabled: false,
+    strictNuxtContentPaths: true,
+    xslColumns: [
+      { label: 'URL', width: '100%' },
+    ],
   },
 
   hub: {
@@ -155,13 +159,6 @@ export default defineNuxtConfig({
     },
   ],
 
-  sitemap: {
-    strictNuxtContentPaths: true,
-    xslColumns: [
-      { label: 'URL', width: '100%' },
-    ],
-  },
-
   mdc: {
     highlight: {
       theme: {
@@ -186,7 +183,8 @@ export default defineNuxtConfig({
   $production: {
     routeRules: {
       '/api/_mdc/highlight': { cache: { group: 'mdc', name: 'highlight', maxAge: 60 * 60 } },
-      '/api/_content/query/**': { cache: { group: 'content', name: 'query', maxAge: 60 * 60 } }
+      '/api/_content/query/**': { cache: { group: 'content', name: 'query', maxAge: 60 * 60 } },
+      '/api/_nuxt_icon': { cache: { group: 'icon', name: 'icon', maxAge: 60 * 60 * 24 * 7 } },
     },
     scripts: {
       registry: {
@@ -292,8 +290,9 @@ export default defineNuxtConfig({
       scan: true,
       includeCustomCollections: true,
     },
+    serverBundle: false, // test
     // provider: 'iconify',
-    fallbackToApi: 'client-only',
+    // fallbackToApi: 'client-only',
   },
 
   app: {

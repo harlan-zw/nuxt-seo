@@ -2,6 +2,7 @@
 import type { Collections } from '@nuxt/content'
 import { camelCase } from 'scule'
 import { useModule } from '~/composables/module'
+import { appendHeader, setHeader } from 'h3'
 
 definePageMeta({
   layout: 'docs',
@@ -14,10 +15,24 @@ const collection = camelCase(module.value.slug) as keyof Collections
 if (!collection)
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 
+const start = Date.now()
+const e = useRequestEvent()
 const [{ data: page }, { data: surround }] = await Promise.all([
-  useAsyncData(`docs-${route.path}`, () => queryCollection(collection).path(route.path).first()),
+  useAsyncData(`docs-${route.path}`, () => queryCollection(collection).path(route.path).first()).then(v => {
+    // set server timings
+    if (import.meta.server) {
+      setHeader(e, 'X-Content-Timing', Date.now() - start)
+      appendHeader(e, 'Server-Timing', `docs;dur=${Date.now() - start}`)
+    }
+    return v
+  }),
   useAsyncData(`docs-${route.path}-surround`, () => queryCollectionItemSurroundings(collection, route.path, {
     fields: ['title', 'description', 'path'],
+  }).then(v => {
+    if (import.meta.server) {
+      setHeader(e, 'X-Content-Surround-Timing', Date.now() - start)
+      appendHeader(e, 'Server-Timing', `docs-surround;dur=${Date.now() - start}`)
+    }
   }), {
     transform(items) {
       return items.map((m) => {
@@ -38,13 +53,13 @@ useSeoMeta({
 })
 
 const headline = ''
-
-defineOgImageComponent('Module', {
-  title: page.value?.title || '',
-  moduleName: module.value?.repo.replace('harlan-zw/', ''),
-  description: page.value?.description,
-  ...module.value,
-})
+//
+// defineOgImageComponent('Module', {
+//   title: page.value?.title || '',
+//   moduleName: module.value?.repo.replace('harlan-zw/', ''),
+//   description: page.value?.description,
+//   ...module.value,
+// })
 
 const repoLinks = computed(() => [
   {
