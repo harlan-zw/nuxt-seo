@@ -53,13 +53,12 @@ useSeoMeta({
 })
 
 const headline = ''
-//
-// defineOgImageComponent('Module', {
-//   title: page.value?.title || '',
-//   moduleName: module.value?.repo.replace('harlan-zw/', ''),
-//   description: page.value?.description,
-//   ...module.value,
-// })
+defineOgImageComponent('Module', {
+  title: page.value?.title || '',
+  moduleName: module.value?.repo.replace('harlan-zw/', ''),
+  description: page.value?.description,
+  ...module.value,
+})
 
 const repoLinks = computed(() => [
   {

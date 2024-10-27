@@ -5,7 +5,7 @@
       <UPage :ui="{ left: 'lg:col-span-3', center: 'xl:col-span-6 lg:col-span-7' }">
         <template #left>
           <UPageAside class="max-w-[300px] pt-0">
-<!--            <DocsSidebarHeader />-->
+            <DocsSidebarHeader />
           </UPageAside>
         </template>
         <slot />

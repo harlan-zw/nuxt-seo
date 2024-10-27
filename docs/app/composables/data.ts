@@ -50,14 +50,30 @@ function transformAsTopNav(tree: NavItem[]) {
 
 export async function useDocsNav() {
   const module = useModule()
-  if (!module.value || 1 === 1) {
+  if (!module.value) {
     return ref({ files: [], nav: { top: [], bottom: [] } })
   }
+  const start = Date.now()
+  const e = useRequestEvent()
   const collection = computed(() => camelCase(module.value.slug) as keyof Collections)
   return computedAsync(async () => {
     const [{ data: files }, { data: nav }] = await Promise.all([
-      useAsyncData('search', () => queryCollectionSearchSections(collection.value)),
-      useAsyncData<{ top: NavItem[], bottom: NavItem[] }>(`navigation-${collection.value}`, () => queryCollectionNavigation(collection.value), {
+      useAsyncData('search', () => queryCollectionSearchSections(collection.value).then(res => {
+        // set server timings
+        if (import.meta.server) {
+          setHeader(e, 'X-Content-Search-Timing', Date.now() - start)
+          appendHeader(e, 'Server-Timing', `search;dur=${Date.now() - start}`)
+        }
+        return res
+      })),
+      useAsyncData<{ top: NavItem[], bottom: NavItem[] }>(`navigation-${collection.value}`, () => queryCollectionNavigation(collection.value).then((res) => {
+        // set server timings
+        if (import.meta.server) {
+          setHeader(e, 'X-Content-Nav-Timing', Date.now() - start)
+          appendHeader(e, 'Server-Timing', `nav;dur=${Date.now() - start}`)
+        }
+        return res
+      }), {
         default: () => [],
         async transform(res) {
           const nav = mapPath(res)
