@@ -49,9 +49,8 @@ function transformAsTopNav(tree: NavItem[]) {
 }
 
 export async function useDocsNav() {
-  const nuxtApp = useNuxtApp()
   const module = useModule()
-  if (!module.value) {
+  if (!module.value || 1 === 1) {
     return ref({ files: [], nav: { top: [], bottom: [] } })
   }
   const collection = computed(() => camelCase(module.value.slug) as keyof Collections)
