@@ -90,10 +90,8 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    experimental: {
-      wasm: true,
-    },
     prerender: {
+      autoSubfolderIndex: false,
       failOnError: false,
       crawlLinks: true,
       routes: ['/'],

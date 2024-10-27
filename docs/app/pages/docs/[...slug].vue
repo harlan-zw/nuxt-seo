@@ -17,7 +17,7 @@ if (!collection)
 const start = Date.now()
 const e = useRequestEvent()
 const [{ data: page }, { data: surround }] = await Promise.all([
-  useAsyncData(`docs-${route.path}`, () => queryCollection(collection).path(route.path).first()).then((v) => {
+  useAsyncData(`docs-${route.path}`, () => queryCollection(collection).path(route.path).first()).then(v => {
     // set server timings
     if (import.meta.server) {
       setHeader(e, 'X-Content-Timing', Date.now() - start)
@@ -27,7 +27,7 @@ const [{ data: page }, { data: surround }] = await Promise.all([
   }),
   useAsyncData(`docs-${route.path}-surround`, () => queryCollectionItemSurroundings(collection, route.path, {
     fields: ['title', 'description', 'path'],
-  }).then((v) => {
+  }).then(v => {
     if (import.meta.server) {
       setHeader(e, 'X-Content-Surround-Timing', Date.now() - start)
       appendHeader(e, 'Server-Timing', `docs-surround;dur=${Date.now() - start}`)
