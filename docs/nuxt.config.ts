@@ -1,5 +1,6 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import { resolve } from 'pathe'
+import NuxtSEO from '../src/module'
 
 export default defineNuxtConfig({
   // const pkgJson = await readPackageJSON('../package.json')
@@ -15,10 +16,10 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxt/image',
     // maybe buggy
-    // 'nuxt-content-twoslash',
-    // 'nuxt-rebundle',
-    // 'nuxt-build-cache',
-    // NuxtSEO,
+    'nuxt-content-twoslash',
+    'nuxt-rebundle',
+    'nuxt-build-cache',
+    NuxtSEO,
     async (_, nuxt) => {
       nuxt.hooks.hook('nitro:init', (nitro) => {
         // from sponsorkit
@@ -35,12 +36,7 @@ export default defineNuxtConfig({
     },
   },
 
-  robots: {
-    enabled: false,
-  },
-
   sitemap: {
-    enabled: false,
     strictNuxtContentPaths: true,
     xslColumns: [
       { label: 'URL', width: '100%' },

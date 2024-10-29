@@ -24,8 +24,7 @@ const path = ref('/nuxt-seo/api/breadcrumbs')
 
 const hideRoot = ref(false)
 const hideCurrent = ref(false)
-// const items = useBreadcrumbItems({ path, hideRoot, hideCurrent })
-const items = []
+const items = useBreadcrumbItems({ path, hideRoot, hideCurrent })
 </script>
 
 <template>
