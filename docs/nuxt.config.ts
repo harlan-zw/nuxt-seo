@@ -7,17 +7,17 @@ export default defineNuxtConfig({
     '@vueuse/motion/nuxt',
     '@nuxt/ui',
     '@nuxt/ui-pro',
-    'nuxt-content-twoslash',
     'radix-vue/nuxt',
     '@vueuse/nuxt',
     '@nuxthub/core',
     '@nuxt/fonts',
     '@nuxt/content',
-    // experimental
-    // 'nuxt-rebundle',
-    // 'nuxt-build-cache',
     '@nuxt/scripts',
     '@nuxt/image',
+    // maybe buggy
+    // 'nuxt-content-twoslash',
+    // 'nuxt-rebundle',
+    // 'nuxt-build-cache',
     // NuxtSEO,
     async (_, nuxt) => {
       nuxt.hooks.hook('nitro:init', (nitro) => {

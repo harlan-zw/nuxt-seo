@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, useBreadcrumbItems } from '#imports'
+import { ref } from '#imports'
 
 const md = `
 \`\`\`vue [components/Breadcrumbs.vue]
@@ -24,7 +24,8 @@ const path = ref('/nuxt-seo/api/breadcrumbs')
 
 const hideRoot = ref(false)
 const hideCurrent = ref(false)
-const items = useBreadcrumbItems({ path, hideRoot, hideCurrent })
+// const items = useBreadcrumbItems({ path, hideRoot, hideCurrent })
+const items = []
 </script>
 
 <template>
