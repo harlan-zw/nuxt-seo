@@ -39,6 +39,10 @@ export default defineNuxtConfig({
     enabled: false,
   },
 
+  experimental: {
+    payloadExtraction: true,
+  },
+
   sitemap: {
     enabled: false,
     strictNuxtContentPaths: true,

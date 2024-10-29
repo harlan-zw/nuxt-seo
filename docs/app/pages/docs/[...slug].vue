@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Collections } from '@nuxt/content'
-import { appendHeader, setHeader } from 'h3'
 import { camelCase } from 'scule'
 import { useModule } from '~/composables/module'
+import { createPerformanceMeasure } from '~/utils/perf'
 
 definePageMeta({
   layout: 'docs',
@@ -15,25 +15,18 @@ const collection = camelCase(module.value.slug) as keyof Collections
 if (!collection)
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 
-const start = Date.now()
-const e = useRequestEvent()
+const perf = createPerformanceMeasure()
 const [{ data: page }, { data: surround }] = await Promise.all([
   useAsyncData(`docs-${route.path}`, async () => {
     const item = await queryCollection(collection).path(route.path).first()
-    if (import.meta.server) {
-      setHeader(e, 'X-Content-Timing', Date.now() - start)
-      appendHeader(e, 'Server-Timing', `docs;dur=${Date.now() - start}`)
-    }
+    perf('docs')
     return item
   }),
   useAsyncData(`docs-${route.path}-surround`, async () => {
     const surroundings = await queryCollectionItemSurroundings(collection, route.path, {
       fields: ['title', 'description', 'path'],
     })
-    if (import.meta.server) {
-      setHeader(e, 'X-Content-Surround-Timing', Date.now() - start)
-      appendHeader(e, 'Server-Timing', `docs-surround;dur=${Date.now() - start}`)
-    }
+    perf('docs-surround')
     return surroundings
   }, {
     transform(items) {

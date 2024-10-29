@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { appendHeader } from 'h3'
+import { createPerformanceMeasure } from '~/utils/perf'
 
 const module = useModule()
 const searchTerm = ref('')
+const perf = createPerformanceMeasure()
 const _nav = await useDocsNav()
-const e = useRequestEvent()
-if (import.meta.server) {
-  appendHeader(e, 'Server-Timing', `docs-search;dur=${_nav.value?.searchTiming}`)
-  appendHeader(e, 'Server-Timing', `docs-nav;dur=${_nav.value?.navTiming}`)
-}
+perf('docs-nav', _nav.value?.navTiming)
+perf('docs-search', _nav.value?.searchTiming)
 const nav = computed(() => {
   const { top = [], bottom = [] } = _nav.value?.nav.value || {}
   return {
@@ -72,8 +70,7 @@ const files = computed(() => _nav.value?.files.value || [])
               {{ link.title }}
             </div>
           </div>
-          <div v-else v-html="link.html">
-          </div>
+          <div v-else v-html="link.html" />
         </template>
       </ContentNavigation>
     </nav>
