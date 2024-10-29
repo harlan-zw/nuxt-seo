@@ -35,10 +35,12 @@ export default defineNuxtConfig({
             const routes: { version: number, include: string[], exclude: string[] } = await readFile(routesPath)
               .then(buffer => JSON.parse(buffer.toString()))
             const preSize = routes.exclude.length
-            routes.exclude = routes.exclude.filter(path => path.startsWith('/docs') && !path.includes('*'))
-            routes.exclude = routes.exclude.filter(path => path.startsWith('/learn') && !path.includes('*'))
+            routes.exclude = routes.exclude.filter(path => !path.startsWith('/docs'))
+            routes.exclude.push('/docs/*')
+            routes.exclude = routes.exclude.filter(path => !path.startsWith('/learn'))
+            routes.exclude.push('/learn/*')
             if (preSize !== routes.exclude.length) {
-              logger.info(`Optimizing CloudFlare \`_routes.json\` for prerendered OG Images ${gray(`(${100 - Math.round(routes.exclude.length / preSize * 100)}% smaller)`)}`)
+              logger.info(`Optimizing CloudFlare \`_routes.json\` for prerendered Nuxt SEO ${gray(`(${100 - Math.round(routes.exclude.length / preSize * 100)}% smaller)`)}`)
             }
             await writeFile(routesPath, JSON.stringify(routes, void 0, 2))
           }
