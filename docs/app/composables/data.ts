@@ -58,7 +58,7 @@ export async function useDocsNav() {
   const collection = computed(() => camelCase(module.value.slug) as keyof Collections)
   return computedAsync(async () => {
     const [{ data: files }, { data: nav }] = await Promise.all([
-      useAsyncData('search', () => queryCollectionSearchSections(collection.value).then(res => {
+      useAsyncData('search', () => queryCollectionSearchSections(collection.value).then((res) => {
         // set server timings
         if (import.meta.server) {
           setHeader(e, 'X-Content-Search-Timing', Date.now() - start)
