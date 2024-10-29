@@ -1,0 +1,40 @@
+diff --git a/dist/runtime/internal/query.js b/dist/runtime/internal/query.js
+index 0f2296562280d21e935284e8637fb6a79e40c7dc..5870e4740c0a93896b6673b0419381c465e021f9 100644
+--- a/dist/runtime/internal/query.js
++++ b/dist/runtime/internal/query.js
+@@ -98,20 +98,20 @@ const checkDatabaseIntegrity = {};
+ let integrityCheckPromise = null;
+ export async function executeContentQueryWithEvent(event, collection, sql) {
+   const conf = useRuntimeConfig().content;
+-  if (import.meta.server && event) {
+-    if (checkDatabaseIntegrity[String(collection)] !== false) {
+-      checkDatabaseIntegrity[String(collection)] = false;
+-      integrityCheckPromise = integrityCheckPromise || import("./database.server.js").then((m) => m.checkAndImportDatabaseIntegrity(event, collection, checksums[String(collection)], conf)).then((isValid) => {
+-        checkDatabaseIntegrity[String(collection)] = !isValid;
+-      }).catch((error) => {
+-        console.log("Database integrity check failed", error);
+-        checkDatabaseIntegrity[String(collection)] = true;
+-        integrityCheckPromise = null;
+-      });
+-    }
+-    if (integrityCheckPromise) {
+-      await integrityCheckPromise;
+-    }
+-  }
++  // if (import.meta.server && event) {
++  //   if (checkDatabaseIntegrity[String(collection)] !== false) {
++  //     checkDatabaseIntegrity[String(collection)] = false;
++  //     integrityCheckPromise = integrityCheckPromise || import("./database.server.js").then((m) => m.checkAndImportDatabaseIntegrity(event, collection, checksums[String(collection)], conf)).then((isValid) => {
++  //       checkDatabaseIntegrity[String(collection)] = !isValid;
++  //     }).catch((error) => {
++  //       console.log("Database integrity check failed", error);
++  //       checkDatabaseIntegrity[String(collection)] = true;
++  //       integrityCheckPromise = null;
++  //     });
++  //   }
++  //   if (integrityCheckPromise) {
++  //     await integrityCheckPromise;
++  //   }
++  // }
+   return loadDatabaseAdapter(conf).all(sql);
+ }
