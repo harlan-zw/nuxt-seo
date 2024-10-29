@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
-import { gray, logger } from '~~/logger'
+import { gray, logger } from './logger'
 import { defineNuxtConfig } from 'nuxt/config'
 import { resolve } from 'pathe'
 import NuxtSEO from '../src/module'
