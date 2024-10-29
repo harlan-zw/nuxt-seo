@@ -1,9 +1,9 @@
 import { existsSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
-import { gray, logger } from './logger'
 import { defineNuxtConfig } from 'nuxt/config'
 import { resolve } from 'pathe'
 import NuxtSEO from '../src/module'
+import { gray, logger } from './logger'
 
 export default defineNuxtConfig({
   // const pkgJson = await readPackageJSON('../package.json')
@@ -35,10 +35,21 @@ export default defineNuxtConfig({
             const routes: { version: number, include: string[], exclude: string[] } = await readFile(routesPath)
               .then(buffer => JSON.parse(buffer.toString()))
             const preSize = routes.exclude.length
-            routes.exclude = routes.exclude.filter(path => !path.startsWith('/docs'))
-            routes.exclude.push('/docs/*')
-            routes.exclude = routes.exclude.filter(path => !path.startsWith('/learn'))
-            routes.exclude.push('/learn/*')
+            routes.exclude = routes.exclude.filter((path) => {
+              if (path.startsWith('/docs') || path.startsWith('/learn')) {
+                return false
+              }
+              if (path.startsWith('/nuxt-seo') || path.startsWith('/experiments') || path.startsWith('/og-image') || path.startsWith('/schema-org') || path.startsWith('/sitemap') || path.startsWith('/robots') || path.startsWith('/site-config') || path.startsWith('/link-checker')) {
+                return false
+              }
+              return true
+            })
+            if (!routes.exclude.includes('/docs/*')) {
+              routes.exclude.push('/docs/*')
+            }
+            if (!routes.exclude.includes('/learn/*')) {
+              routes.exclude.push('/learn/*')
+            }
             if (preSize !== routes.exclude.length) {
               logger.info(`Optimizing CloudFlare \`_routes.json\` for prerendered Nuxt SEO ${gray(`(${100 - Math.round(routes.exclude.length / preSize * 100)}% smaller)`)}`)
             }
@@ -116,6 +127,14 @@ export default defineNuxtConfig({
           exclude: [
             '/docs/*',
             '/learn/*',
+            // old links still get added for some reason
+            '/nuxt-seo/*',
+            '/og-image/*',
+            '/schema-org/*',
+            '/sitemap/*',
+            '/robots/*',
+            '/site-config/*',
+            '/experiments/*',
           ],
         },
       },
