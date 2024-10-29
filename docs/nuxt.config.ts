@@ -95,6 +95,16 @@ export default defineNuxtConfig({
       crawlLinks: true,
       routes: ['/'],
     },
+    cloudflare: {
+      pages: {
+        routes: {
+          exclude: [
+            '/docs/*',
+            '/learn/*',
+          ],
+        },
+      },
+    },
   },
 
   site: {
