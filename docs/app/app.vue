@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {modules} from '../../src/const'
+import { modules } from '../../src/const'
 
-const {data: stats} = await useFetch('/api/stats')
+const { data: stats } = await useFetch('/api/stats')
 
 const appConfig = useAppConfig()
 
@@ -15,17 +15,17 @@ useSeoMeta({
 </script>
 
 <template>
-<UApp :toaster="appConfig.toaster">
-  <NuxtLoadingIndicator color="#FFF"/>
-  <Header/>
-  <NuxtLayout>
-    <NuxtPage/>
-  </NuxtLayout>
+  <UApp :toaster="appConfig.toaster">
+    <NuxtLoadingIndicator color="#FFF" />
+    <Header />
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
 
-  <ClientOnly/>
+    <ClientOnly />
 
-  <Footer/>
-</UApp>
+    <Footer />
+  </UApp>
 </template>
 
 <style>

@@ -1,6 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config'
 import { resolve } from 'pathe'
-import NuxtSEO from '../src/module'
 
 export default defineNuxtConfig({
   // const pkgJson = await readPackageJSON('../package.json')
@@ -11,14 +10,15 @@ export default defineNuxtConfig({
     'nuxt-content-twoslash',
     'radix-vue/nuxt',
     '@vueuse/nuxt',
-    'nuxt-rebundle',
     '@nuxthub/core',
     '@nuxt/fonts',
     '@nuxt/content',
+    // experimental
+    // 'nuxt-rebundle',
     // 'nuxt-build-cache',
     '@nuxt/scripts',
     '@nuxt/image',
-    NuxtSEO,
+    // NuxtSEO,
     async (_, nuxt) => {
       nuxt.hooks.hook('nitro:init', (nitro) => {
         // from sponsorkit
@@ -37,10 +37,6 @@ export default defineNuxtConfig({
 
   robots: {
     enabled: false,
-  },
-
-  experimental: {
-    payloadExtraction: true,
   },
 
   sitemap: {
@@ -95,17 +91,10 @@ export default defineNuxtConfig({
 
   nitro: {
     prerender: {
-      autoSubfolderIndex: false,
       failOnError: false,
       crawlLinks: true,
       routes: ['/'],
     },
-  },
-
-  experimental: {
-    headNext: true,
-    sharedPrerenderData: true,
-    appManifest: true,
   },
 
   site: {
@@ -148,10 +137,6 @@ export default defineNuxtConfig({
         },
       },
     },
-  },
-
-  devtools: {
-    enabled: true,
   },
 
   components: [

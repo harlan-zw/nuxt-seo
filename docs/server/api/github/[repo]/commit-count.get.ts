@@ -1,5 +1,4 @@
-import { $fetch } from 'ofetch'
-import {initOctokitRequestHandler} from "~~/server/utils/github";
+import { initOctokitRequestHandler } from '~~/server/utils/github'
 
 export default defineCachedEventHandler(async (e) => {
   const { octokit, repo, owner } = initOctokitRequestHandler(e)

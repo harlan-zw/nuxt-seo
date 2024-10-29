@@ -33,10 +33,12 @@ const { data: packageManagers } = await useAsyncData(`module-install-${props.nam
           <div v-html="codeBlock.code" />
         </div>
         <div v-if="codeBlock.key !== 'nuxt'">
-          <p class="mb-3">You will need to manually add the module to your Nuxt config.</p>
+          <p class="mb-3">
+            You will need to manually add the module to your Nuxt config.
+          </p>
           <div class="relative group my-5">
             <div class="flex items-center gap-1.5 border border-[--ui-color-neutral-200] dark:border-[--ui-color-neutral-700] bg-[--ui-bg] border-b-0 relative rounded-t-[calc(var(--ui-radius)*1.5)] px-4 py-3">
-              <span class="iconify i-vscode-icons:file-type-nuxt size-4 shrink-0" aria-hidden="true"></span><span class="text-[--ui-text] text-sm/6">nuxt.config.ts</span>
+              <span class="iconify i-vscode-icons:file-type-nuxt size-4 shrink-0" aria-hidden="true" /><span class="text-[--ui-text] text-sm/6">nuxt.config.ts</span>
             </div>
             <pre class="my-0 rounded-t-none font-mono text-sm/6 border border-[--ui-color-neutral-200] dark:border-[--ui-color-neutral-700] bg-[--ui-color-neutral-50] dark:bg-[--ui-color-neutral-800] rounded-[calc(var(--ui-radius)*1.5)] px-4 py-3 whitespace-pre-wrap break-words overflow-x-auto language-ts shiki shiki-themes github-light github-light material-theme-palenight"><code><span class="line" line="1"><span style="--shiki-light: #D73A49; --shiki-light-font-style: inherit; --shiki-default: #D73A49; --shiki-default-font-style: inherit; --shiki-dark: #89DDFF; --shiki-dark-font-style: italic;">export</span><span style="--shiki-light: #D73A49; --shiki-light-font-style: inherit; --shiki-default: #D73A49; --shiki-default-font-style: inherit; --shiki-dark: #89DDFF; --shiki-dark-font-style: italic;"> default</span><span style="--shiki-light: #6F42C1; --shiki-default: #6F42C1; --shiki-dark: #82AAFF;"> defineNuxtConfig</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #BABED8;">(</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #89DDFF;">{
 </span></span><span class="line" line="2"><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #F07178;">  modules</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #89DDFF;">:</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #BABED8;"> [

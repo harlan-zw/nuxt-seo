@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-const codeOne =
-`export default defineNuxtConfig({
+const codeOne
+= `export default defineNuxtConfig({
   site: {
     url: 'https://example.com',
     name: 'My Awesome Website'
@@ -17,24 +17,24 @@ NUXT_PUBLIC_SITE_NAME=My Awesome Website`
     </ModuleLabel>
     <UCard size="sm" class="relative rounded-tl-none">
       <div>
-        <p class="mb-3">Setting your site config is important for the modules to work correctly.</p>
+        <p class="mb-3">
+          Setting your site config is important for the modules to work correctly.
+        </p>
         <CodeGroup>
           <ProsePre lang="ts" filename="nuxt.config.ts" :code="codeOne">
             <ProseCode class="shiki flex flex-col shiki-themes github-light github-light material-theme-palenight">
-<span class="line" line="1"><span style="--shiki-light: #D73A49; --shiki-light-font-style: inherit; --shiki-default: #D73A49; --shiki-default-font-style: inherit; --shiki-dark: #89DDFF; --shiki-dark-font-style: italic;">export</span><span style="--shiki-light: #D73A49; --shiki-light-font-style: inherit; --shiki-default: #D73A49; --shiki-default-font-style: inherit; --shiki-dark: #89DDFF; --shiki-dark-font-style: italic;"> default</span><span style="--shiki-light: #6F42C1; --shiki-default: #6F42C1; --shiki-dark: #82AAFF;"> defineNuxtConfig</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #BABED8;">(</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #89DDFF;">
-
-</span>
-</span>
+              <span class="line" line="1"><span style="--shiki-light: #D73A49; --shiki-light-font-style: inherit; --shiki-default: #D73A49; --shiki-default-font-style: inherit; --shiki-dark: #89DDFF; --shiki-dark-font-style: italic;">export</span><span style="--shiki-light: #D73A49; --shiki-light-font-style: inherit; --shiki-default: #D73A49; --shiki-default-font-style: inherit; --shiki-dark: #89DDFF; --shiki-dark-font-style: italic;"> default</span><span style="--shiki-light: #6F42C1; --shiki-default: #6F42C1; --shiki-dark: #82AAFF;"> defineNuxtConfig</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #BABED8;">(</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #89DDFF;" />
+              </span>
               <span class="line" line="2"><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #F07178;">  site</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #89DDFF;">:</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #89DDFF;"> {
-</span></span>
+              </span></span>
               <span class="line" line="3"><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #F07178; padding-left: 2ch;">     url</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #89DDFF;">:</span><span style="--shiki-light: #032F62; --shiki-default: #032F62; --shiki-dark: #89DDFF;"> '</span><span style="--shiki-light: #032F62; --shiki-default: #032F62; --shiki-dark: #C3E88D;">https://example.com</span><span style="--shiki-light: #032F62; --shiki-default: #032F62; --shiki-dark: #89DDFF;">'</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #89DDFF;">,
-</span></span>
+              </span></span>
               <span class="line" line="4"><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #F07178; padding-left: 2ch;">     name</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #89DDFF;">:</span><span style="--shiki-light: #032F62; --shiki-default: #032F62; --shiki-dark: #89DDFF;"> '</span><span style="--shiki-light: #032F62; --shiki-default: #032F62; --shiki-dark: #C3E88D;">My Awesome Website</span><span style="--shiki-light: #032F62; --shiki-default: #032F62; --shiki-dark: #89DDFF;">'
-</span></span>
+              </span></span>
               <span class="line" line="5"><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #89DDFF;">  },
-</span></span>
+              </span></span>
               <span class="line" line="6"><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #89DDFF;">}</span><span style="--shiki-light: #24292E; --shiki-default: #24292E; --shiki-dark: #BABED8;">)
-</span></span>
+              </span></span>
             </ProseCode>
           </ProsePre>
           <ProsePre lang="dotenv" filename=".env" :code="codeTwo">

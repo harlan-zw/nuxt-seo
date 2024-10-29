@@ -224,12 +224,12 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
       </div>
     </div>
     <section class="px-10 max-w-4xl mx-auto mb-5">
-        <h2 class="font-semibold text-2xl mb-2 flex items-center gap-2">
-          <UIcon name="i-carbon-3rd-party-connected" class="text-blue-300" /> New Modules
-        </h2>
-        <p class="dark:text-gray-300">
-          Four new modules to help you nurture your organic SEO growth.
-        </p>
+      <h2 class="font-semibold text-2xl mb-2 flex items-center gap-2">
+        <UIcon name="i-carbon-3rd-party-connected" class="text-blue-300" /> New Modules
+      </h2>
+      <p class="dark:text-gray-300">
+        Four new modules to help you nurture your organic SEO growth.
+      </p>
     </section>
     <div class="max-w-2xl lg:max-w-6xl space-y-5 mb-5 px-10 mx-auto lg:grid grid-cols-2">
       <ReuseSectionTemplate :value="magicRedirects">
@@ -268,12 +268,12 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
             <USeparator orientation="vertical" class="h-12" />
             <div class="inline-flex flex-col max-w-xs">
               <div class="flex gap-1">
-              <div class="mb-[1px] font-semibold text-2xl">
-                0
-              </div>
-              <div class="mb-[1px]">
-                <span class="text-sm whitespace-nowrap">/25 sales</span>
-              </div>
+                <div class="mb-[1px] font-semibold text-2xl">
+                  0
+                </div>
+                <div class="mb-[1px]">
+                  <span class="text-sm whitespace-nowrap">/25 sales</span>
+                </div>
               </div>
               <UProgress :model-value="0" :max="25" />
             </div>
@@ -322,31 +322,35 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
           </div>
         </div>
         <div class="max-w-lg mx-auto bg-gray-200/30 dark:bg-gray-900 dark:text-gray-400 p-10 rounded-2xl py-[70px] flex flex-col items-center justify-center">
-          <template  v-if="waitlistStatus !== 'submitted'">
-          <div class="mb-7">
-            <div class="text-xl mb-2 font-semibold">
-              Or Join the Waitlist
+          <template v-if="waitlistStatus !== 'submitted'">
+            <div class="mb-7">
+              <div class="text-xl mb-2 font-semibold">
+                Or Join the Waitlist
+              </div>
+              <div>
+                <p class="text-sm">
+                  Get notified on Nuxt SEO Pro's progress and when it releases.
+                </p>
+              </div>
             </div>
-            <div>
-              <p class="text-sm">
-                Get notified on Nuxt SEO Pro's progress and when it releases.
-              </p>
-            </div>
-          </div>
-          <UForm :schema="ProEmailSchema" :state="waitlistState" class="flex gap-2" :validate-on="['change']" @submit="onSubmit">
-            <UFormField name="email">
-              <UInput v-model="waitlistState.email" size="xl" type="email" placeholder="Your email" />
-            </UFormField>
-            <div>
-              <UButton type="submit" color="secondary" size="xl" :loading="waitlistStatus === 'loading'">
-                Submit
-              </UButton>
-            </div>
-          </UForm>
+            <UForm :schema="ProEmailSchema" :state="waitlistState" class="flex gap-2" :validate-on="['change']" @submit="onSubmit">
+              <UFormField name="email">
+                <UInput v-model="waitlistState.email" size="xl" type="email" placeholder="Your email" />
+              </UFormField>
+              <div>
+                <UButton type="submit" color="secondary" size="xl" :loading="waitlistStatus === 'loading'">
+                  Submit
+                </UButton>
+              </div>
+            </UForm>
           </template>
           <div v-else-if="waitlistFeedbackStatus !== 'submitted'">
-            <div class="mb-3 text-lg font-semibold">Thanks for signing up!</div>
-            <div class="mb-3">Help me out by letting me know modules interest you and what SEO struggles you have.</div>
+            <div class="mb-3 text-lg font-semibold">
+              Thanks for signing up!
+            </div>
+            <div class="mb-3">
+              Help me out by letting me know modules interest you and what SEO struggles you have.
+            </div>
             <UForm :schema="ProWaitlistFeedbackSchema" :state="waitlistFeedbackState" class="space-y-4" :validate-on="['change']" @submit="onSubmitProWaitlistFeedback">
               <UFormField label="Comments" name="comment" class="mb-3">
                 <UTextarea v-model="waitlistFeedbackState.comment" type="textarea" class="w-full" />

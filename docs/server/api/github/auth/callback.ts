@@ -1,5 +1,5 @@
+import { appStorage } from '~~/server/storage'
 import { getQuery, getRequestHost } from 'h3'
-import {appStorage} from "~~/server/storage";
 
 export default defineEventHandler(async (e) => {
   const query = getQuery(e)

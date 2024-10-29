@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { VisAxis, VisLine, VisXYContainer } from '@unovis/vue'
 import { useElementHover, useTransition, useWindowScroll } from '@vueuse/core'
 import { ref } from 'vue'
 import { reviews } from '~/composables/data'
@@ -17,10 +16,10 @@ const stats = inject('stats')
 
 const { data: sponsors } = await useFetch('/api/github/sponsors')
 
-defineOgImageComponent('Home', {
-  title: 'Nuxt SEO',
-  version: useRuntimeConfig().public.version,
-})
+// defineOgImageComponent('Home', {
+//   title: 'Nuxt SEO',
+//   version: useRuntimeConfig().public.version,
+// })
 
 interface JSConfettiApi {
   addConfetti: (options?: { emojis: string[] }) => void
@@ -835,7 +834,7 @@ const graphData = computed(() => {
         </div>
         <UCard class="max-w-full overflow-hidden sm:max-w-[600px] mx-auto p-5">
           <ClientOnly>
-          <LazyChartDownloads :value="graphData" />
+            <LazyChartDownloads :value="graphData" />
           </ClientOnly>
         </UCard>
       </UContainer>

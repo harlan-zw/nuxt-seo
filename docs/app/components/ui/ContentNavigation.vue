@@ -5,12 +5,12 @@ import type { AppConfig } from '@nuxt/schema'
 import type { AccordionRootEmits, AccordionRootProps } from 'radix-vue'
 import _appConfig from '#build/app.config'
 import theme from '#build/ui-pro/content/content-navigation'
-import { tv, type VariantProps } from 'tailwind-variants'
 import { useAppConfig, useRoute } from '#imports'
 import { pickLinkProps } from '#ui/utils/link'
 import { mapContentItem } from '#ui-pro/utils/content'
 import { createReusableTemplate, reactivePick } from '@vueuse/core'
 import { Primitive, useForwardPropsEmits } from 'radix-vue'
+import { tv, type VariantProps } from 'tailwind-variants'
 import { computed } from 'vue'
 
 type ContentNavigationVariants = VariantProps<typeof contentNavigation>

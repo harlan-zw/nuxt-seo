@@ -23,8 +23,14 @@ provide('modules', modules)
       <UMain class="flex flex-col items-center justify-center">
         <div class="mb-14">
           <h1>{{ error.statusCode === 404 ? 'Oops... we can\'t find that.' : 'Uh oh, looks like an error :(' }}</h1>
-          <div v-if="error.statusCode !== 404">{{ error.message }}</div>
-          <div v-else>Go back <NuxtLink to="/" class="underline">home</NuxtLink>.</div>
+          <div v-if="error.statusCode !== 404">
+            {{ error.message }}
+          </div>
+          <div v-else>
+            Go back <NuxtLink to="/" class="underline">
+              home
+            </NuxtLink>.
+          </div>
         </div>
       </UMain>
     </UContainer>
