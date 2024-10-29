@@ -70,7 +70,7 @@ const files = computed(() => _nav.value?.files.value || [])
               {{ link.title }}
             </div>
           </div>
-          <div v-else v-html="link.html" />
+          <div v-else v-html="link.title" />
         </template>
       </ContentNavigation>
     </nav>

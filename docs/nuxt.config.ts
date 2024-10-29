@@ -1,3 +1,6 @@
+import { existsSync } from 'node:fs'
+import { readFile, writeFile } from 'node:fs/promises'
+import { gray, logger } from '~~/logger'
 import { defineNuxtConfig } from 'nuxt/config'
 import { resolve } from 'pathe'
 import NuxtSEO from '../src/module'
@@ -26,6 +29,20 @@ export default defineNuxtConfig({
         nitro.options.alias.sharp = 'unenv/runtime/mock/empty'
         nitro.options.alias.pnpapi = 'unenv/runtime/mock/empty' // ?
         nitro.options.alias['#content/server'] = resolve('./server/content-v2')
+        nitro.hooks.hook('compiled', async (_nitro) => {
+          const routesPath = resolve(nitro.options.output.publicDir, '_routes.json')
+          if (existsSync(routesPath)) {
+            const routes: { version: number, include: string[], exclude: string[] } = await readFile(routesPath)
+              .then(buffer => JSON.parse(buffer.toString()))
+            const preSize = routes.exclude.length
+            routes.exclude = routes.exclude.filter(path => path.startsWith('/docs') && !path.includes('*'))
+            routes.exclude = routes.exclude.filter(path => path.startsWith('/learn') && !path.includes('*'))
+            if (preSize !== routes.exclude.length) {
+              logger.info(`Optimizing CloudFlare \`_routes.json\` for prerendered OG Images ${gray(`(${100 - Math.round(routes.exclude.length / preSize * 100)}% smaller)`)}`)
+            }
+            await writeFile(routesPath, JSON.stringify(routes, void 0, 2))
+          }
+        })
       })
     },
   ],

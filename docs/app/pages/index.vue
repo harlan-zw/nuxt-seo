@@ -474,6 +474,8 @@ const graphData = computed(() => {
     return acc
   }, [])
 })
+
+const isNuxtSeoStableReleased = false
 </script>
 
 <template>
@@ -517,7 +519,7 @@ const graphData = computed(() => {
     <div class="gradient" />
     <section class="xl:max-w-full max-w-3xl mx-auto py-5 sm:py-12 xl:py-20">
       <UContainer>
-        <div class="mb-5 sm:mb-0">
+        <div v-if="isNuxtSeoStableReleased" class="mb-5 sm:mb-0">
           <div class="sm:inline-flex block mb-5 gap-3 inline px-3 py-2 rounded text-sm ">
             <UButton size="sm" variant="outline" to="/announcement">
               <UIcon name="i-noto-party-popper" />
