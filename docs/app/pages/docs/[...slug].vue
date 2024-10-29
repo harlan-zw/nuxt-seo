@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Collections } from '@nuxt/content'
+import { appendHeader, setHeader } from 'h3'
 import { camelCase } from 'scule'
 import { useModule } from '~/composables/module'
 
@@ -17,23 +18,24 @@ if (!collection)
 const start = Date.now()
 const e = useRequestEvent()
 const [{ data: page }, { data: surround }] = await Promise.all([
-  useAsyncData(`docs-${route.path}`, () => queryCollection(collection).path(route.path).first()).then(v => {
-    // set server timings
+  useAsyncData(`docs-${route.path}`, async () => {
+    const item = await queryCollection(collection).path(route.path).first()
     if (import.meta.server) {
       setHeader(e, 'X-Content-Timing', Date.now() - start)
       appendHeader(e, 'Server-Timing', `docs;dur=${Date.now() - start}`)
     }
-    return v
+    return item
   }),
-  useAsyncData(`docs-${route.path}-surround`, () => queryCollectionItemSurroundings(collection, route.path, {
-    fields: ['title', 'description', 'path'],
-  }).then(v => {
+  useAsyncData(`docs-${route.path}-surround`, async () => {
+    const surroundings = await queryCollectionItemSurroundings(collection, route.path, {
+      fields: ['title', 'description', 'path'],
+    })
     if (import.meta.server) {
       setHeader(e, 'X-Content-Surround-Timing', Date.now() - start)
       appendHeader(e, 'Server-Timing', `docs-surround;dur=${Date.now() - start}`)
     }
-    return v
-  }), {
+    return surroundings
+  }, {
     transform(items) {
       return items.map((m) => {
         return {

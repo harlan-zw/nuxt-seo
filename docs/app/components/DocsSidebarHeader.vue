@@ -1,7 +1,14 @@
 <script setup lang="ts">
+import { appendHeader } from 'h3'
+
 const module = useModule()
 const searchTerm = ref('')
 const _nav = await useDocsNav()
+const e = useRequestEvent()
+if (import.meta.server) {
+  appendHeader(e, 'Server-Timing', `docs-search;dur=${_nav.value?.searchTiming}`)
+  appendHeader(e, 'Server-Timing', `docs-nav;dur=${_nav.value?.navTiming}`)
+}
 const nav = computed(() => {
   const { top = [], bottom = [] } = _nav.value?.nav.value || {}
   return {

@@ -54,26 +54,21 @@ export async function useDocsNav() {
     return ref({ files: [], nav: { top: [], bottom: [] } })
   }
   const start = Date.now()
-  const e = useRequestEvent()
+  let searchTiming: number
+  let navTiming: number
   const collection = computed(() => camelCase(module.value.slug) as keyof Collections)
   return computedAsync(async () => {
     const [{ data: files }, { data: nav }] = await Promise.all([
-      useAsyncData('search', () => queryCollectionSearchSections(collection.value).then((res) => {
-        // set server timings
-        if (import.meta.server) {
-          setHeader(e, 'X-Content-Search-Timing', Date.now() - start)
-          appendHeader(e, 'Server-Timing', `search;dur=${Date.now() - start}`)
-        }
-        return res
-      })),
-      useAsyncData<{ top: NavItem[], bottom: NavItem[] }>(`navigation-${collection.value}`, () => queryCollectionNavigation(collection.value).then((res) => {
-        // set server timings
-        if (import.meta.server) {
-          setHeader(e, 'X-Content-Nav-Timing', Date.now() - start)
-          appendHeader(e, 'Server-Timing', `nav;dur=${Date.now() - start}`)
-        }
-        return res
-      }), {
+      useAsyncData('search', async () => {
+        const files = await queryCollectionSearchSections(collection.value)
+        searchTiming = Date.now() - start
+        return files
+      }),
+      useAsyncData(`navigation-${collection.value}`, async () => {
+        const nav = await queryCollectionNavigation(collection.value)
+        navTiming = Date.now() - start
+        return nav
+      }, {
         default: () => [],
         async transform(res) {
           const nav = mapPath(res)
@@ -142,7 +137,7 @@ export async function useDocsNav() {
         watch: [collection],
       }),
     ])
-    return { files, nav }
+    return { files, nav, searchTiming, navTiming }
   })
 }
 
