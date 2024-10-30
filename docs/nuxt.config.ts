@@ -8,6 +8,7 @@ import { gray, logger } from './logger'
 export default defineNuxtConfig({
   // const pkgJson = await readPackageJSON('../package.json')
   modules: [
+    'nuxt-content-twoslash',
     '@vueuse/motion/nuxt',
     '@nuxt/ui',
     '@nuxt/ui-pro',
@@ -19,7 +20,6 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxt/image',
     // maybe buggy
-    'nuxt-content-twoslash',
     'nuxt-rebundle',
     'nuxt-build-cache',
     NuxtSEO,
@@ -64,6 +64,10 @@ export default defineNuxtConfig({
     theme: {
       transitions: true,
     },
+  },
+
+  robots: {
+    disableNuxtContentIntegration: true,
   },
 
   sitemap: {

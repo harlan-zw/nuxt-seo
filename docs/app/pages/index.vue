@@ -16,10 +16,10 @@ const stats = inject('stats')
 
 const { data: sponsors } = await useFetch('/api/github/sponsors')
 
-// defineOgImageComponent('Home', {
-//   title: 'Nuxt SEO',
-//   version: useRuntimeConfig().public.version,
-// })
+defineOgImageComponent('Home', {
+  title: 'Nuxt SEO',
+  version: useRuntimeConfig().public.version,
+})
 
 interface JSConfettiApi {
   addConfetti: (options?: { emojis: string[] }) => void

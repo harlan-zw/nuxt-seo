@@ -29,10 +29,10 @@ useSeoMeta({
   description: () => page.value?.description,
 })
 
-// defineOgImageComponent('NuxtSeo', {
-//   title: page.value?.title || '',
-//   description: page.value?.description,
-// })
+defineOgImageComponent('NuxtSeo', {
+  title: page.value?.title || '',
+  description: page.value?.description,
+})
 
 const repoLinks = computed(() => [
   {
