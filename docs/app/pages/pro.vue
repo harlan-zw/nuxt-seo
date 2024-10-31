@@ -269,13 +269,13 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
             <div class="inline-flex flex-col max-w-xs">
               <div class="flex gap-1">
                 <div class="mb-[1px] font-semibold text-2xl">
-                  0
+                  1
                 </div>
                 <div class="mb-[1px]">
                   <span class="text-sm whitespace-nowrap">/25 sales</span>
                 </div>
               </div>
-              <UProgress :model-value="0" :max="25" />
+              <UProgress :model-value="1" :max="25" />
             </div>
           </div>
         </div>
