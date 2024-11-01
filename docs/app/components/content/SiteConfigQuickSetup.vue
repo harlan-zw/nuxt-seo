@@ -17,9 +17,6 @@ NUXT_PUBLIC_SITE_NAME=My Awesome Website`
     </ModuleLabel>
     <UCard size="sm" class="relative rounded-tl-none">
       <div>
-        <p class="mb-3">
-          Setting your site config is important for the modules to work correctly.
-        </p>
         <CodeGroup>
           <ProsePre lang="ts" filename="nuxt.config.ts" :code="codeOne">
             <ProseCode class="shiki flex flex-col shiki-themes github-light github-light material-theme-palenight">

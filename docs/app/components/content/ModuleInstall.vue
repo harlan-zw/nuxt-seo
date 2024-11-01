@@ -52,5 +52,4 @@ const { data: packageManagers } = await useAsyncData(`module-install-${props.nam
       </UCard>
     </CodeGroup>
   </div>
-  <SiteConfigQuickSetup />
 </template>

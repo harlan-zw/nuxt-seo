@@ -175,12 +175,16 @@ export default defineNuxtConfig({
             default: 'github-light',
             dark: 'material-theme-palenight',
           },
-          preload: [
+          langs: [
             'ts',
             'vue',
             'json',
             'html',
             'bash',
+            'xml',
+            'diff',
+            'md',
+            'dotenv',
           ],
         },
       },
