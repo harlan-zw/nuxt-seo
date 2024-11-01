@@ -265,17 +265,15 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
               <UIcon name="i-carbon-calendar" class="text-blue-300" />
               <div>{{ daysUntilNewYear }} days</div>
             </div>
-            <USeparator orientation="vertical" class="h-12" />
+            <USeparator label="or" orientation="vertical" class="h-12" />
             <div class="inline-flex flex-col max-w-xs">
-              <div class="flex gap-1">
+              <div class="flex gap-2 items-center ">
                 <div class="mb-[1px] font-semibold text-2xl">
-                  1
+                  23
                 </div>
-                <div class="mb-[1px]">
-                  <span class="text-sm whitespace-nowrap">/25 sales</span>
-                </div>
+                <div>copies sold</div>
               </div>
-              <UProgress :model-value="1" :max="25" />
+              <UProgress :model-value="2" :max="25" />
             </div>
           </div>
         </div>
@@ -319,6 +317,7 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
             <div class="font-bold">
               Save $170
             </div>
+            <div class="italic text-sm text-gray-500 dark:text-gray-400">First release scheduled for Q1 2025.</div>
           </div>
         </div>
         <div class="max-w-lg mx-auto bg-gray-200/30 dark:bg-gray-900 dark:text-gray-400 p-10 rounded-2xl py-[70px] flex flex-col items-center justify-center">
