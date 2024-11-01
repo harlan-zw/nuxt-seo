@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from '#imports'
 
-const md = `
+const { data: md } = await useAsyncData(() => parseMarkdown(`
 \`\`\`vue [components/Breadcrumbs.vue]
 <script lang="ts" setup>
 const links = useBreadcrumbItems() // uses the current route
@@ -10,7 +10,7 @@ const links = useBreadcrumbItems() // uses the current route
 <template>
 <nav aria-label="Breadcrumbs">
   <ul>
-    <li v-for="(item, key) in items" :key="key">
+    <li v-for="(item, key) in links" :key="key">
       <NuxtLink v-bind="item">
         {{ item.label }}
       </NuxtLink>
@@ -18,7 +18,7 @@ const links = useBreadcrumbItems() // uses the current route
   </ul>
 </nav>
 </template>
-\`\`\``
+\`\`\``))
 
 const path = ref('/nuxt-seo/api/breadcrumbs')
 
@@ -50,14 +50,14 @@ const items = useBreadcrumbItems({ path, hideRoot, hideCurrent })
         </div>
         <div class="flex items-center space-x-4 text-sm mt-2">
           <label>Hide Root
-            <UToggle v-model="hideRoot" />
+            <UCheckbox v-model="hideRoot" />
           </label>
-          <label>Hiden Current
-            <UToggle v-model="hideCurrent" label="Hide Current" />
+          <label>Hide Current
+            <UCheckbox v-model="hideCurrent" label="Hide Current" />
           </label>
         </div>
       </div>
     </div>
-    <MDC :value="md" />
+    <MDCRenderer v-bind="md" />
   </div>
 </template>
