@@ -37,7 +37,7 @@ function closeNuxtProAd() {
       class="Carbon border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50/50 dark:bg-white/5"
       serve="CW7DTKJJ"
       placement="nuxtseocom"
-      trigger="scroll"
+      trigger="onNuxtReady"
     >
       <AdsFallback />
     </ScriptCarbonAds>

@@ -40,7 +40,7 @@ const navigation = computed(() => {
         </div>
       </div>
       <div class="hidden lg:block">
-        <UNavigationMenu :ui="{ viewport: 'min-w-[500px]' }" :items="menu.slice(0, 4)" class="justify-center" />
+        <UNavigationMenu :ui="{ viewport: 'min-w-[600px]' }" :items="menu.slice(0, 4)" class="justify-center" />
       </div>
     </template>
 

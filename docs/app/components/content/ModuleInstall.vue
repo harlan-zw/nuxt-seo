@@ -4,9 +4,10 @@ const props = defineProps({
   name: { type: String, required: true },
 })
 
-const module = useModule(props.name)
+const modules = inject('modules', [])
 
 const { data: packageManagers } = await useAsyncData(`module-install-${props.name}`, async () => {
+  const module = useModule(modules.find(m => m.slug === props.name || m.npm === props.name)?.slug || props.name)
   return await Promise.all([
     { name: 'nuxt', command: 'npx nuxi', install: 'module add', run: 'run ', x: 'npx ' },
     { name: 'npm', command: 'npm', install: 'i', run: 'run ', x: 'npx ' },
