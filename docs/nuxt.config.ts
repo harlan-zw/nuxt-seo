@@ -215,6 +215,14 @@ export default defineNuxtConfig({
     },
   },
 
+  schemaOrg: {
+    identity: {
+      type: 'Organization',
+      name: 'Nuxt SEO',
+      logo: '/logo.svg',
+    },
+  },
+
   $production: {
     routeRules: {
       '/api/_mdc/highlight': { cache: { group: 'mdc', name: 'highlight', maxAge: 60 * 60 } },
