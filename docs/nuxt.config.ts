@@ -326,9 +326,6 @@ export default defineNuxtConfig({
       scan: true,
       includeCustomCollections: true,
     },
-    serverBundle: false, // test
-    // provider: 'iconify',
-    // fallbackToApi: 'client-only',
   },
 
   app: {
