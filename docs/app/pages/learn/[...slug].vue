@@ -53,6 +53,9 @@ const repoLinks = computed(() => [
     </UPageHeader>
 
     <UPageBody prose class="pb-0">
+      <div class="xl:fixed my-5 block w-[200px] bottom-5 right-5">
+        <Ads />
+      </div>
       <ContentRenderer v-if="page.body" :value="page" />
       <div class="justify-center flex items-center gap-2 font-semibold">
         <UIcon name="i-simple-icons-github" class="w-5 h-5" />
@@ -62,9 +65,6 @@ const repoLinks = computed(() => [
       </div>
       <hr v-if="surround?.length" class="my-8">
       <UContentSurround :surround="surround" />
-      <div class="xl:hidden">
-        <Ads class="my-5" />
-      </div>
     </UPageBody>
   </div>
 </template>

@@ -1,32 +1,26 @@
 <script lang="ts" setup>
-import { useLocalStorage } from '@vueuse/core'
-
-const storage = useLocalStorage('nuxt-seo-pro-ad', true)
-
-function closeNuxtProAd() {
-  storage.value = false
-}
+import { proAd } from '~/utils/ads'
 </script>
 
 <template>
   <div>
     <div
-      v-if="storage"
-      class="Carbon border p-3 text-sm dark:text-gray-300 text-gray-700 border-gray-200 dark:border-gray-800 rounded-lg  mb-7"
+      v-if="proAd"
+      class="Carbon border text-sm dark:text-gray-300 text-gray-700 border-gray-200 dark:border-gray-800 rounded-lg mb-5"
     >
-      <div class="mb-2 flex items-center justify-between">
+      <div class="px-1 pt-1 mb-2 flex items-center justify-between">
         <strong>Nuxt SEO <span class="text-green-500">Pro</span></strong>
-        <UButton class="cursor-pointer" size="xs" variant="ghost" color="neutral" type="button" @click="closeNuxtProAd">
+        <UButton class="cursor-pointer" size="xs" variant="ghost" color="neutral" type="button" @click="proAd = false">
           <UIcon name="i-carbon-close" />
         </UButton>
       </div>
-      <ul class="list-disc text-sm ml-4 space-y-1 mb-3">
+      <ul class="px-1 list-disc text-sm ml-4 space-y-1 mb-3">
         <li>Nuxt Redirects</li>
         <li>Nuxt Google Search Console</li>
         <li>Nuxt Internal Links</li>
         <li>Nuxt SEO Analyze</li>
       </ul>
-      <div>
+      <div class="px-1">
         Save $170 on the <NuxtLink to="/pro" class="underline text-green-500">
           presale
         </NuxtLink> now.
@@ -46,7 +40,7 @@ function closeNuxtProAd() {
 
 <style>
 .dark .Carbon {
-  min-height: 220px;
+  min-height: 225px;
 }
 .dark .Carbon .carbon-text {
   color: #9ca3af; /* text-gray-400 */

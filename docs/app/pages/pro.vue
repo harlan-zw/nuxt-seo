@@ -7,6 +7,7 @@ import {
   type ProWaitlistFeedbackSchemaOutput,
 } from '~~/types/schemas'
 import { reviews } from '~/composables/data'
+import { proAd } from '~/utils/ads'
 
 const faq = [
   {
@@ -117,6 +118,7 @@ const waitlistState = reactive<ProEmailSchemaOutput>({
 const toast = useToast()
 
 async function onSubmit(event: FormSubmitEvent<ProEmailSchemaOutput>) {
+  proAd.value = false
   waitlistStatus.value = 'loading'
   $fetch('/api/pro-waitlist', {
     method: 'POST',
@@ -295,7 +297,7 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
               <li>Access to the GitHub repos</li>
             </ul>
 
-            <UButton icon="i-carbon-arrow-right" color="secondary" class="font-bold" to="https://buy.stripe.com/8wMeXhd4v3cR0lG5kk" target="_blank" size="xl">
+            <UButton icon="i-carbon-arrow-right" color="secondary" class="font-bold" to="https://buy.stripe.com/8wMeXhd4v3cR0lG5kk" target="_blank" size="xl" @click="proAd = false">
               Purchase Nuxt SEO Pro
             </UButton>
             <div class="flex flex-row items-center gap-x-1.5">
@@ -317,7 +319,9 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
             <div class="font-bold">
               Save $170
             </div>
-            <div class="italic text-sm text-gray-500 dark:text-gray-400">First release scheduled for Q1 2025.</div>
+            <div class="italic text-sm text-gray-500 dark:text-gray-400">
+              First release scheduled for Q1 2025.
+            </div>
           </div>
         </div>
         <div class="max-w-lg mx-auto bg-gray-200/30 dark:bg-gray-900 dark:text-gray-400 p-10 rounded-2xl py-[70px] flex flex-col items-center justify-center">

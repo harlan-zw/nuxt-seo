@@ -42,6 +42,5 @@ const navigation = computed(() => {
         <slot />
       </UPage>
     </div>
-    <Ads class="hidden w-[180px] xl:inline-block fixed bottom-5 right-5" />
   </UMain>
 </template>
