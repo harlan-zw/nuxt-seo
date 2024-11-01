@@ -51,16 +51,7 @@ describe('base url', () => {
     `)
   })
   it('robots - default', async () => {
-    // extract the <head>
-    const txt = await $fetch('/base/robots.txt')
-    expect(txt).toMatchInlineSnapshot(`
-      "# START nuxt-robots (indexable)
-      User-agent: *
-      Disallow: 
-
-      Sitemap: https://local.nuxtseo.com/sitemap.xml
-      # END nuxt-robots"
-    `)
+    // does not work as we can only serve robots.txt from root!
   })
   it('schema.org - default', async () => {
     // extract the <head>

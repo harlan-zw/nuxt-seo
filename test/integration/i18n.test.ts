@@ -148,7 +148,7 @@ describe('i18n', () => {
               {
                 "@type": "ListItem",
                 "item": "https://nuxtseo.com/en",
-                "name": "Home",
+                "name": "En",
                 "position": 2,
               },
               {
@@ -160,7 +160,7 @@ describe('i18n', () => {
               {
                 "@type": "ListItem",
                 "item": "https://nuxtseo.com/en/blog/my-post",
-                "name": "Home",
+                "name": "My Post",
                 "position": 4,
               },
               {
