@@ -35,13 +35,9 @@ const items = useBreadcrumbItems({ path, hideRoot, hideCurrent })
             Enter any path and watch the breadcrumbs be generated!
           </div>
         </div>
-        <div class="flex items-center space-x-4 text-sm mt-2">
-          <label>Hide Root
-            <UCheckbox v-model="hideRoot" />
-          </label>
-          <label>Hide Current
-            <UCheckbox v-model="hideCurrent" label="Hide Current" />
-          </label>
+        <div class="flex items-center space-x-3 text-sm mt-2">
+          <UCheckbox v-model="hideRoot" label="Hide Current" />
+          <UCheckbox v-model="hideCurrent" label="Hide Current" />
         </div>
       </div>
     </div>
