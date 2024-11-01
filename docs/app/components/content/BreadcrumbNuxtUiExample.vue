@@ -12,7 +12,7 @@ const links = useBreadcrumbItems() // uses the current route
 </template>
 \`\`\`
 `))
-const path = ref('/nuxt-seo/api/breadcrumbs')
+const path = ref('/docs/seo-utils/api/breadcrumbs')
 
 const hideRoot = ref(false)
 const hideCurrent = ref(false)
@@ -36,7 +36,7 @@ const items = useBreadcrumbItems({ path, hideRoot, hideCurrent })
           </div>
         </div>
         <div class="flex items-center space-x-3 text-sm mt-2">
-          <UCheckbox v-model="hideRoot" label="Hide Current" />
+          <UCheckbox v-model="hideRoot" label="Hide Root" />
           <UCheckbox v-model="hideCurrent" label="Hide Current" />
         </div>
       </div>
