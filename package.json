@@ -27,14 +27,14 @@
     },
     "./const": {
       "types": "./dist/const.d.ts",
-      "import": "./dist/const.mjs",
-      "require": "./dist/const.cjs"
+      "import": "./dist/const.mjs"
     }
   },
   "main": "./dist/module.cjs",
   "types": "./dist/types.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "const.d.ts"
   ],
   "scripts": {
     "prepare": "nuxt-module-build build --stub && nuxt-module-build prepare",
