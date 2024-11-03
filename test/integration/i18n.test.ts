@@ -102,7 +102,7 @@ describe('i18n', () => {
             "@id": "https://nuxtseo.com/#website",
             "@type": "WebSite",
             "description": "en description",
-            "inLanguage": "en-US",
+            "inLanguage": "en",
             "name": "@nuxtjs/seo",
             "url": "https://nuxtseo.com/",
             "workTranslation": [
