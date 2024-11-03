@@ -5,9 +5,8 @@ import robotsTxt from './mdc/robots-txt'
 
 export default defineConfig({
   shiki: {
-    setup(highlighter) {
-      highlighter.loadLanguage(robotsTxt)
-      highlighter.loadLanguage(dir)
+    async setup(highlighter) {
+      await highlighter.loadLanguage(robotsTxt, dir)
     },
     transformers: [
       transformerColorHighlight(),

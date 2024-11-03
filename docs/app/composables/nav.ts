@@ -40,7 +40,7 @@ export const menu = computed(() => {
         label: m.label,
         icon: m.icon,
         description: m.description,
-        to: `/docs/${m.slug}/getting-started/installation`,
+        to: `/docs/${m.slug}/getting-started/introduction`,
       })),
     },
     {
@@ -48,19 +48,19 @@ export const menu = computed(() => {
       icon: 'i-ph-books-duotone',
       children: [
         {
-          label: 'Community Videos',
-          to: '/learn/community-videos',
-          description: 'Learn from the Nuxt community in using Nuxt SEO.',
-          icon: 'i-ph-video-duotone',
-        },
-        {
           label: 'Mastering Page Titles',
           description: 'Learn best practices for titles, setting them with title templates and more.',
           icon: 'i-heroicons-h1-solid',
-          to: '/learn/mastering-titles-in-nuxt',
+          to: '/learn/mastering-page-titles',
         },
         {
-          label: 'Trailing Slashes in Nuxt',
+          label: 'Conquering Web Crawlers',
+          description: 'Being able to tell crawlers what to do can help with your SEO strategy, learn how to do it in Vue and Nuxt.',
+          icon: 'i-ph-robot-duotone',
+          to: '/learn/controlling-crawlers',
+        },
+        {
+          label: 'Trailing Slashes',
           description: 'Learn how to set up your Nuxt app to properly handle trailing slashes.',
           icon: 'i-tabler-slashes',
           to: '/learn/trailing-slashes',
@@ -71,8 +71,38 @@ export const menu = computed(() => {
           icon: 'i-carbon-recording',
           to: '/learn/going-live',
         },
+        {
+          label: 'Community Videos',
+          to: '/learn/community-videos',
+          description: 'Learn from the Nuxt community in using Nuxt SEO.',
+          icon: 'i-ph-video-duotone',
+        },
       ],
     },
+    /*{
+      label: 'Recipes',
+      icon: 'i-ph-cooking-pot-duotone',
+      children: [
+        {
+          label: 'Documentation Sites',
+          description: 'Learn how to set up technical SEO for a documentation site in Vue or Nuxt.',
+          icon: 'i-ph-notebook-duotone',
+          to: '/learn/mastering-page-titles',
+        },
+        {
+          label: 'SaaS Apps',
+          description: 'Being able to tell crawlers what to do can help with your SEO strategy, learn how to do it in Vue and Nuxt.',
+          icon: 'i-ph-rocket-launch-duotone',
+          to: '/learn/controlling-crawlers',
+        },
+        {
+          label: 'Blog',
+          description: 'Learn how to set up your Nuxt app to properly handle trailing slashes.',
+          icon: 'i-tabler-slashes',
+          to: '/learn/trailing-slashes',
+        },
+      ],
+    },*/
     {
       label: 'Releases',
       icon: 'i-carbon-version',

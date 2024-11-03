@@ -29,7 +29,7 @@ const iconAttrs = computed(() => {
 </script>
 
 <template>
-  <NuxtLink :to="`/docs/${module.slug}/getting-started/installation`" class="relative inline-flex transition-all hover:shadow-lg flex-col rounded-lg font-bold border bg-gradient-to-r from-sky-700/10 to-blue-700/20 border-sky-700/20 px-3 py-2 gap-1">
+  <NuxtLink :to="`/docs/${module.slug}/getting-started/introduction`" class="relative inline-flex transition-all hover:shadow-lg flex-col rounded-lg font-bold border bg-gradient-to-r from-sky-700/10 to-blue-700/20 border-sky-700/20 px-3 py-2 gap-1">
     <div class="z-1 flex flex-col justify-between h-full">
       <div>
         <div class="flex items-center justify-between mb-1">

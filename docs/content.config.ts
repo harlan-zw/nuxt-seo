@@ -69,6 +69,10 @@ export const collections = {
     },
     schema: z.object({
       icon: z.string().optional(),
+      publishedAt: z.string().optional(),
+      updatedAt: z.string().optional(),
+      keywords: z.array(z.string()).optional(),
+      readTime: z.string(),
     }),
   }),
 }

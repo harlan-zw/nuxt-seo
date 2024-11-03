@@ -34,6 +34,46 @@ defineOgImageComponent('NuxtSeo', {
   description: page.value?.description,
 })
 
+// Technical SEO for an blog article
+const articlePublishedTime = `${page.value.publishedAt}T12:00:00Z`
+const articleModifiedTime = `${page.value.updatedAt}T12:00:00Z`
+
+const humanPublishedDate = new Date(page.value.publishedAt).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+})
+
+useSeoMeta({
+  ogType: 'article',
+  author: 'Harlan Wilton',
+  articleAuthor: ['Harlan Wilton'],
+  articleSection: 'SEO Tutorials for Vue and Nuxt',
+  articleTag: page.value.keywords,
+  articlePublishedTime,
+  articleModifiedTime,
+})
+
+useSchemaOrg([
+  definePerson({
+    '@id': '#author',
+    'name': 'Harlan Wilton',
+    'description': 'An open-source developer from  Sydney, Australia. Core team member of  Nuxt,  VueUse and  UnJS. Author of Unlighthouse, Unhead and Nuxt SEO.',
+    'sameAs': [
+      'https://twitter.com/harlan_zw',
+      'https://github.com/harlan-zw',
+    ],
+    'url': 'https://harlanzw.com',
+  }),
+  defineArticle({
+    author: { '@id': '#author' },
+    keywords: page.value.keywords,
+    datePublished: articlePublishedTime,
+    dateModified: articleModifiedTime,
+    articleSection: ['SEO Tutorials for Vue and Nuxt'],
+  }),
+])
+
 const repoLinks = computed(() => [
   {
     icon: 'i-ph-pen-duotone',
@@ -47,12 +87,25 @@ const repoLinks = computed(() => [
 <template>
   <div class="max-w-[66ch]">
     <UPageHeader v-bind="page" :ui="{ title: 'text-center text-balance xl:leading-normal min-w-full', description: 'text-center ' }">
+      <div class="flex justify-center gap-5 mt-5">
+        <div class="flex items-center gap-2 text-gray-300">
+          <NuxtLink to="htttps://harlanzw.com/" class="hover:underline inline-flex items-center gap-2">
+            <img src="https://avatars.githubusercontent.com/u/5326365?v=4" class="w-6 h-6 rounded-full">
+            Harlan Wilton
+          </NuxtLink>
+        </div>
+        <span v-if="page.readTime" class="font-semibold text-gray-500">{{ page.readTime }} read</span>
+      </div>
       <div class="mt-5">
         <TableOfContents v-if="page.body?.toc?.links?.length" :links="page.body?.toc?.links" class="mt-7" />
       </div>
     </UPageHeader>
 
     <UPageBody prose class="pb-0">
+      <div v-if="page.updatedAt" class="text-gray-500">
+        Last Updated
+        <time :datetime="page.updatedAt">{{ humanPublishedDate }}</time>
+      </div>
       <div class="xl:fixed my-5 block w-[200px] bottom-5 right-5">
         <Ads />
       </div>
