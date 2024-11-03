@@ -53,7 +53,7 @@ describe('spa', () => {
     expect(txt).toMatchInlineSnapshot(`
       "# START nuxt-robots (indexable)
       User-agent: *
-      Disallow:
+      Disallow: 
 
       Sitemap: https://local.nuxtseo.com/sitemap.xml
       # END nuxt-robots"
