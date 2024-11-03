@@ -79,7 +79,7 @@ export const menu = computed(() => {
         },
       ],
     },
-    /*{
+    /* {
       label: 'Recipes',
       icon: 'i-ph-cooking-pot-duotone',
       children: [
@@ -102,7 +102,7 @@ export const menu = computed(() => {
           to: '/learn/trailing-slashes',
         },
       ],
-    },*/
+    }, */
     {
       label: 'Releases',
       icon: 'i-carbon-version',
