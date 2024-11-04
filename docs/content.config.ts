@@ -73,6 +73,7 @@ export const collections = {
       updatedAt: z.string().optional(),
       keywords: z.array(z.string()).optional(),
       readTime: z.string(),
+      ogImageComponent: z.string().optional(),
     }),
   }),
 }

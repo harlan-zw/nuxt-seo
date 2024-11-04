@@ -4,13 +4,13 @@ import { ref } from '#imports'
 const { data: md } = await useAsyncData(() => parseMarkdown(`
 \`\`\`vue [components/Breadcrumbs.vue]
 <script lang="ts" setup>
-const links = useBreadcrumbItems() // uses the current route
+const items = useBreadcrumbItems() // uses the current route
 <\/script>
 
 <template>
 <nav aria-label="Breadcrumbs">
   <ul>
-    <li v-for="(item, key) in links" :key="key">
+    <li v-for="(item, key) in items" :key="key">
       <NuxtLink v-bind="item">
         {{ item.label }}
       </NuxtLink>

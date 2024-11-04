@@ -29,7 +29,7 @@ useSeoMeta({
   description: () => page.value?.description,
 })
 
-defineOgImageComponent('NuxtSeo', {
+defineOgImageComponent(page.value.ogImageComponent || 'NuxtSeo', {
   title: page.value?.title || '',
   description: page.value?.description,
 })
@@ -44,6 +44,12 @@ const humanPublishedDate = new Date(page.value.publishedAt).toLocaleDateString('
   day: 'numeric',
 })
 
+const humanUpdatedDate = new Date(page.value.updatedAt).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+})
+
 useSeoMeta({
   ogType: 'article',
   author: 'Harlan Wilton',
@@ -52,6 +58,10 @@ useSeoMeta({
   articleTag: page.value.keywords,
   articlePublishedTime,
   articleModifiedTime,
+  twitterData1: 'Harlan Wilton',
+  twitterLabel1: 'Author',
+  twitterData2: page.value.readTime,
+  twitterLabel2: 'Read Time',
 })
 
 useSchemaOrg([
@@ -82,14 +92,31 @@ const repoLinks = computed(() => [
     target: '_blank',
   },
 ])
+
+const breadcrumbs = useBreadcrumbItems({
+  overrides: [
+    null,
+    {
+      icon: 'i-ph-books-duotone',
+    },
+    {
+      icon: 'i-ph-robot-duotone',
+      label: 'Controlling Web Crawlers',
+    },
+    {
+      label: 'Robots.txt',
+    },
+  ],
+})
 </script>
 
 <template>
   <div class="max-w-[66ch]">
+    <UBreadcrumb :items="breadcrumbs" class="mt-10" />
     <UPageHeader v-bind="page" :ui="{ title: 'text-center text-balance xl:leading-normal min-w-full', description: 'text-center ' }">
       <div class="flex justify-center gap-5 mt-5">
         <div class="flex items-center gap-2 text-gray-300">
-          <NuxtLink to="htttps://harlanzw.com/" class="hover:underline inline-flex items-center gap-2">
+          <NuxtLink to="https://x.com/harlan_zw" class="hover:underline inline-flex items-center gap-2">
             <img src="https://avatars.githubusercontent.com/u/5326365?v=4" class="w-6 h-6 rounded-full">
             Harlan Wilton
           </NuxtLink>
@@ -102,9 +129,17 @@ const repoLinks = computed(() => [
     </UPageHeader>
 
     <UPageBody prose class="pb-0">
-      <div v-if="page.updatedAt" class="text-gray-500">
-        Last Updated
-        <time :datetime="page.updatedAt">{{ humanPublishedDate }}</time>
+      <div>
+        <div class="flex justify-between">
+          <div v-if="page.updatedAt" class="text-gray-500">
+            Last Updated
+            <time :datetime="page.updatedAt">{{ humanUpdatedDate }}</time>
+          </div>
+          <div v-if="page.publishedAt" class="text-gray-500">
+            Published
+            <time :datetime="page.publishedAt">{{ humanPublishedDate }}</time>
+          </div>
+        </div>
       </div>
       <div class="xl:fixed my-5 block w-[200px] bottom-5 right-5">
         <Ads />

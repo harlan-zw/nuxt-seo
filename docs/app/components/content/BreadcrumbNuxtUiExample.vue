@@ -4,11 +4,11 @@ import { ref } from '#imports'
 const { data: md } = await useAsyncData(() => parseMarkdown(`
 \`\`\`vue [components/Breadcrumbs.vue]
 <script lang="ts" setup>
-const links = useBreadcrumbItems() // uses the current route
+const items = useBreadcrumbItems() // uses the current route
 <\/script>
 
 <template>
-<UBreadcrumb :links="links"/>
+<UBreadcrumb :items="items"/>
 </template>
 \`\`\`
 `))

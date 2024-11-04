@@ -54,7 +54,7 @@ export const menu = computed(() => {
           to: '/learn/mastering-page-titles',
         },
         {
-          label: 'Conquering Web Crawlers',
+          label: 'Controlling Web Crawlers',
           description: 'Being able to tell crawlers what to do can help with your SEO strategy, learn how to do it in Vue and Nuxt.',
           icon: 'i-ph-robot-duotone',
           to: '/learn/controlling-crawlers',
