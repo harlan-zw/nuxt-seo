@@ -77,6 +77,13 @@ export const menu = computed(() => {
           description: 'Learn from the Nuxt community in using Nuxt SEO.',
           icon: 'i-ph-video-duotone',
         },
+        {
+          label: 'Danny Postma\'s SEO Blueprint',
+          to: 'https://www.dannypostma.com/seo-course?via=harlan',
+          description: 'The SEO blueprint to get your website to #1 brought to you by Nuxt Indiehacker Danny Postma.',
+          icon: 'i-ph-rocket-duotone',
+          target: '_blank',
+        },
       ],
     },
     /* {

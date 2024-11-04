@@ -1,31 +1,67 @@
 <script lang="ts" setup>
-import { proAd } from '~/utils/ads'
+import { blueprintAd, proAd } from '~/utils/ads'
+
+const possibleAds = computed(() => {
+  return [{ id: 'pro', enabled: proAd.value }, { id: 'blueprint', enabled: blueprintAd.value }].filter(v => v.enabled)
+})
+// shuffle
+const ad = computed(() => {
+  if (possibleAds.value.length === 0)
+    return null
+  return possibleAds.value[Math.floor(Math.random() * possibleAds.value.length)]
+})
 </script>
 
 <template>
   <div>
-    <div
-      v-if="proAd"
-      class="Carbon border text-sm dark:text-gray-300 text-gray-700 border-gray-200 dark:border-gray-800 rounded-lg mb-5"
-    >
-      <div class="px-1 pt-1 mb-2 flex items-center justify-between">
-        <strong>Nuxt SEO <span class="text-green-500">Pro</span></strong>
-        <UButton class="cursor-pointer" size="xs" variant="ghost" color="neutral" type="button" @click="proAd = false">
-          <UIcon name="i-carbon-close" />
-        </UButton>
-      </div>
-      <ul class="px-1 list-disc text-sm ml-4 space-y-1 mb-3">
-        <li>Nuxt Redirects</li>
-        <li>Nuxt Google Search Console</li>
-        <li>Nuxt Internal Links</li>
-        <li>Nuxt SEO Analyze</li>
-      </ul>
-      <div class="px-1">
-        Save $170 on the <NuxtLink to="/pro" class="underline text-green-500">
-          presale
-        </NuxtLink> now.
-      </div>
-    </div>
+    <ClientOnly>
+      <template v-if="ad">
+        <div
+          v-if="ad.id === 'pro'"
+          class="Carbon border text-sm dark:text-gray-300 text-gray-700 border-gray-200 dark:border-gray-800 rounded-lg mb-5"
+        >
+          <div class="px-1 pt-1 mb-2 flex items-center justify-between">
+            <strong>Nuxt SEO <span class="text-green-500">Pro</span></strong>
+            <UButton class="cursor-pointer" size="xs" variant="ghost" color="neutral" type="button" @click="proAd = false">
+              <UIcon name="i-carbon-close" />
+            </UButton>
+          </div>
+          <ul class="px-1 list-disc text-sm ml-4 space-y-1 mb-3">
+            <li>Nuxt Redirects</li>
+            <li>Nuxt Google Search Console</li>
+            <li>Nuxt Internal Links</li>
+            <li>Nuxt SEO Analyze</li>
+          </ul>
+          <div class="px-1">
+            Save $170 on the <NuxtLink to="/pro" class="underline text-green-500">
+              presale
+            </NuxtLink> now.
+          </div>
+        </div>
+        <div
+          v-else-if="ad.id === 'blueprint'"
+          class="Carbon border text-sm dark:text-gray-300 text-gray-700 border-gray-200 dark:border-gray-800 rounded-lg mb-5"
+        >
+          <div class="px-1 pt-1 mb-2 flex items-center justify-between">
+            <strong>SEO <span class="text-green-500">Blueprint</span></strong>
+            <UButton class="cursor-pointer" size="xs" variant="ghost" color="neutral" type="button" @click="blueprintAd = false">
+              <UIcon name="i-carbon-close" />
+            </UButton>
+          </div>
+          <ul class="px-1 list-disc text-sm ml-4 space-y-1 mb-3">
+            <li>2hr 58min video course</li>
+            <li>Get your website to #1</li>
+            <li>For beginners and professionals</li>
+            <li>By Nuxt IndieHacker Danny Postma</li>
+          </ul>
+          <div class="px-1">
+            <NuxtLink to="https://www.dannypostma.com/seo-course?via=harlan" class="underline text-green-500">
+              See course outline
+            </NuxtLink>
+          </div>
+        </div>
+      </template>
+    </ClientOnly>
     <ScriptCarbonAds
       :key="$route.path"
       class="Carbon border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50/50 dark:bg-white/5"
