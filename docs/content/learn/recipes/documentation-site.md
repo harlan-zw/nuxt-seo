@@ -14,7 +14,7 @@ Documentation sites have one job: getting users to the exact information they ne
 
 When users can't quickly find answers, they bounce - and high bounce rates signal to search engines that your content doesn't cut it.
 
-The complexity comes from managing dense internal linking structures, where every guide, API reference, and code example needs to be discoverable without competing with each other. 
+The complexity comes from every guide, API reference, and code example needs to be discoverable without competing with each other. 
 
 Search engines need to understand your documentation's hierarchy, what content is most important, and how different pages relate to each other.
 
@@ -30,7 +30,7 @@ This recipe will show you general SEO guidelines for solving some of these as we
 
 All you need to get started:
 
-:ModuleInstall{name="nuxt-seo"
+:ModuleInstall{name="nuxt-seo"}
 
 ## Content Organization: Version Management
 
