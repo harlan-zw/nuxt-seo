@@ -92,27 +92,10 @@ const repoLinks = computed(() => [
     target: '_blank',
   },
 ])
-
-const breadcrumbs = useBreadcrumbItems({
-  overrides: [
-    null,
-    {
-      icon: 'i-ph-books-duotone',
-    },
-    {
-      icon: 'i-ph-robot-duotone',
-      label: 'Controlling Web Crawlers',
-    },
-    {
-      label: 'Robots.txt',
-    },
-  ],
-})
 </script>
 
 <template>
   <div class="max-w-[66ch]">
-    <UBreadcrumb :items="breadcrumbs" class="mt-10" />
     <UPageHeader v-bind="page" :ui="{ title: 'text-center text-balance xl:leading-normal min-w-full', description: 'text-center ' }">
       <div class="flex justify-center gap-5 mt-5">
         <div class="flex items-center gap-2 text-gray-300">

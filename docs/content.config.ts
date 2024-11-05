@@ -76,4 +76,20 @@ export const collections = {
       ogImageComponent: z.string().optional(),
     }),
   }),
+  recipes: defineCollection({
+    type: 'page',
+    source: {
+      path: '**/*.md',
+      cwd: resolve('content/recipes'),
+      prefix: '/recipes',
+    },
+    schema: z.object({
+      icon: z.string().optional(),
+      publishedAt: z.string().optional(),
+      updatedAt: z.string().optional(),
+      keywords: z.array(z.string()).optional(),
+      readTime: z.string(),
+      ogImageComponent: z.string().optional(),
+    }),
+  }),
 }

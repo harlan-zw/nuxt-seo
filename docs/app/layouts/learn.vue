@@ -1,31 +1,12 @@
 <script setup lang="ts">
+import { defu } from 'defu'
 import { titleCase } from 'scule'
-import { menu } from '~/composables/nav'
 
-const navigation = computed(() => {
-  return menu.value[1].children.map((item) => {
-    return {
-      ...item,
-      title: item.label,
-      children: item.children?.map((child) => {
-        return {
-          ...child,
-          to: child.children?.length ? child.children[0].to : child.to,
-          title: child.label,
-        }
-      }),
-    }
-  })
-})
-
-function mapPath(data, node = 0) {
-  if (node < 1) {
-    return mapPath(data[0].children, node + 1)
-  }
+function mapPath(data) {
   return data.map((item) => {
     if (item.children?.length && !item.page) {
       item.title = titleCase(item.title)
-      item.children = mapPath(item.children, node + 1)
+      item.children = mapPath(item.children)
     }
     return {
       ...item,
@@ -34,31 +15,42 @@ function mapPath(data, node = 0) {
   })
 }
 
-const { data: nav } = await useAsyncData(`docs-nav-learn`, () => queryCollectionNavigation('learn'), {
+const { data: nav } = await useAsyncData(`docs-nav-learn`, () => queryCollectionNavigation('learn', [
+  'icon',
+]), {
   default: () => [],
   transform(res) {
-    const nav = mapPath(res, 0)
-    return nav
+    // firstly we need to merge the children on the path key
+    const children = res[0].children
+    // map as an object path => data, merge data
+    const mappedChildren = children.reduce((acc, item) => {
+      if (!acc[item.path]) {
+        acc[item.path] = item
+      } else {
+        acc[item.path] = defu(acc[item.path], item)
+        // filter the children, they shouldn't contain the item.path
+      }
+      return acc
+    }, {})
+    return mapPath(Object.values(mappedChildren)).map(item => item.children.map(c => ({ icon: 'i-ph-dot-outline-duotone', ...c,})))
   },
 })
 
 const route = useRoute()
-const isOnSubPage = computed(() => {
-  return route.path.split('/').length > 3 || route.path.startsWith('/learn/controlling-crawlers')
-})
-const subPageNav = computed(() => {
-  if (!isOnSubPage.value) {
-    return []
-  }
-  // find the nav that starts with the current path
-  const currentPath = route.path.split('/').slice(0, 3).join('/')
-  return [
-    {
-      title: 'Introduction',
-      to: currentPath,
-    },
-    ...nav.value.find(item => item.path === currentPath)?.children || [],
-  ]
+const breadcrumbs = useBreadcrumbItems({
+  overrides: computed(() => {
+    const segments = route.path.split('/')
+    const parent = nav.value.flat().find(i => i.path === segments.slice(0, 3).join('/'))
+    const currItem = nav.value.flat().find(i => i.path === route.path)
+    return [
+      null,
+      {
+        icon: 'i-ph-books-duotone',
+      },
+      parent,
+      { label: currItem?.title },
+    ]
+  }),
 })
 </script>
 
@@ -69,7 +61,7 @@ const subPageNav = computed(() => {
       <UPage :ui="{ left: 'lg:col-span-3', center: 'lg:col-span-6' }">
         <template #left>
           <UPageAside class="max-w-[300px]">
-            <div v-if="!isOnSubPage" class="mb-10 relative inline-flex transition-all hover:shadow-lg flex-col rounded-lg font-bold border bg-gradient-to-r from-sky-700/10 to-blue-700/20 border-sky-700/20 px-5 py-3 gap-1">
+            <div class="mb-10 relative inline-flex transition-all hover:shadow-lg flex-col rounded-lg font-bold border bg-gradient-to-r from-sky-700/10 to-blue-700/20 border-sky-700/20 px-5 py-3 gap-1">
               <div class="z-1 flex flex-col justify-between h-full">
                 <div>
                   <div class="flex items-center justify-between mb-1">
@@ -79,22 +71,15 @@ const subPageNav = computed(() => {
                   </div>
                 </div>
               </div>
-              <UContentNavigation :navigation="navigation" />
-            </div>
-            <div v-else class="relative inline-flex transition-all hover:shadow-lg flex-col rounded-lg font-bold border bg-gradient-to-r from-sky-700/10 to-blue-700/20 border-sky-700/20 px-5 py-3 gap-1">
-              <div class="z-1 flex flex-col justify-between h-full">
-                <div>
-                  <div class="flex items-center justify-between mb-1">
-                    <div class="flex items-center gap-1">
-                      <UIcon name="i-ph-books-duotone" class="text-blue-300" />Controlling Web Crawlers
-                    </div>
-                  </div>
+              <div class="space-y-5">
+                <div v-for="section in nav">
+                <UContentNavigation :navigation="section" />
                 </div>
               </div>
-              <UContentNavigation :navigation="subPageNav" />
             </div>
           </UPageAside>
         </template>
+        <UBreadcrumb :items="breadcrumbs" class="mt-10" />
         <slot />
       </UPage>
     </div>
