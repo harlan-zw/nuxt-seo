@@ -86,30 +86,24 @@ export const menu = computed(() => {
         },
       ],
     },
-    /* {
+    {
       label: 'Recipes',
       icon: 'i-ph-cooking-pot-duotone',
       children: [
         {
-          label: 'Documentation Sites',
-          description: 'Learn how to set up technical SEO for a documentation site in Vue or Nuxt.',
-          icon: 'i-ph-notebook-duotone',
-          to: '/learn/mastering-page-titles',
+          label: 'Documentation Site',
+          description: 'A starter kit for a documentation site with Nuxt SEO.',
+          icon: 'i-carbon-document-requirements',
+          to: '/learn/recipes/documentation-site',
         },
-        {
-          label: 'SaaS Apps',
-          description: 'Being able to tell crawlers what to do can help with your SEO strategy, learn how to do it in Vue and Nuxt.',
-          icon: 'i-ph-rocket-launch-duotone',
-          to: '/learn/controlling-crawlers',
-        },
-        {
-          label: 'Blog',
-          description: 'Learn how to set up your Nuxt app to properly handle trailing slashes.',
-          icon: 'i-tabler-slashes',
-          to: '/learn/trailing-slashes',
-        },
+        // {
+        //   label: 'Blog',
+        //   description: 'A starter kit for a setting up a blog site with Nuxt SEO.',
+        //   icon: 'i-tabler-slashes',
+        //   to: '/learn/trailing-slashes',
+        // },
       ],
-    }, */
+    },
     {
       label: 'Releases',
       icon: 'i-carbon-version',
