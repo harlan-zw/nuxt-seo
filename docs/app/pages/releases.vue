@@ -102,15 +102,3 @@ const HighlightedVersion = defineComponent({
   </div>
 </template>
 
-<style lang="postcss">
-.gradient {
-  position: fixed;
-  top: 25vh;
-  width: 100%;
-  height: 30vh;
-  background: radial-gradient(50% 50% at 50% 50%, #00DC82 0%, rgba(0, 220, 130, 0) 100%);
-  filter: blur(180px);
-  opacity: 0.6;
-  z-index: -1;
-}
-</style>

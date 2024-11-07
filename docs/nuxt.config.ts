@@ -321,7 +321,7 @@ export default defineNuxtConfig({
   },
 
   css: [
-    '~/css/scrollbars.css',
+    '~/css/global.css',
   ],
 
   ogImage: {
