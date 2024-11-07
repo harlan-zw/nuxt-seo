@@ -852,7 +852,7 @@ const isNuxtSeoStableReleased = false
         </div>
         <UCard class="max-w-full overflow-hidden sm:max-w-[600px] mx-auto p-5">
           <ClientOnly>
-            <LazyChartDownloads :value="graphData" />
+            <ChartDownloads :value="graphData" />
           </ClientOnly>
         </UCard>
       </UContainer>
