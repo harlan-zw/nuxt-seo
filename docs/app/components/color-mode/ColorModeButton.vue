@@ -4,7 +4,6 @@ defineOptions({
 })
 
 const colorMode = useColorMode()
-const appConfig = useAppConfig()
 
 // Computed
 
@@ -19,22 +18,19 @@ const isDark = computed({
 </script>
 
 <template>
-  <ClientOnly v-if="!colorMode?.forced">
-    <UTooltip :text="`Change to ${isDark ? 'light' : 'dark'} mode`">
-      <UButton
-        :icon="isDark ? appConfig.ui.icons.dark : appConfig.ui.icons.light"
-        color="neutral"
-        class="cursor-pointer"
-        variant="ghost"
-        v-bind="{
-          ...$attrs,
-        }"
-        :aria-label="`Switch to ${isDark ? 'light' : 'dark'} mode`"
-        @click="isDark = !isDark"
-      />
-    </UTooltip>
-    <template #fallback>
-      <div class="w-8 h-8" />
-    </template>
-  </ClientOnly>
+  <UTooltip :text="`Change to ${isDark ? 'light' : 'dark'} mode`">
+    <UButton
+      color="neutral"
+      class="cursor-pointer"
+      variant="ghost"
+      v-bind="{
+        ...$attrs,
+      }"
+      :aria-label="`Switch to ${isDark ? 'light' : 'dark'} mode`"
+      @click="isDark = !isDark"
+    >
+      <UIcon v-if="isDark" name="i-ph-moon-stars-duotone" class="w-5 h-5" />
+      <UIcon v-else name="i-ph-sun-dim-duotone" class="w-5 h-5" />
+    </UButton>
+  </UTooltip>
 </template>
