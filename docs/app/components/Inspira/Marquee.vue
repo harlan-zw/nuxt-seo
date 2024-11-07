@@ -46,7 +46,7 @@ withDefaults(
   </div>
 </template>
 
-<style scoped>
+<style>
 .animate-marquee {
   animation: marquee var(--duration) linear infinite;
   animation-direction: reverse;

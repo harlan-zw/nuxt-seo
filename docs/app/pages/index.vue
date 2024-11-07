@@ -34,6 +34,7 @@ const confetti = useScript<JSConfettiApi>({
   key: 'confetti',
   src: 'https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js',
 }, {
+  trigger: 'manual',
   use() {
     if (window.JSConfetti)
       return new window.JSConfetti()
@@ -54,7 +55,7 @@ onMounted(() => {
   const scoreHovered = useElementHover(scoreEl.value)
   const endHoverWatch = watch(scoreHovered, (hovered) => {
     if (hovered) {
-      confetti.$script.load()
+      confetti.load()
       endHoverWatch()
     }
   })
@@ -71,6 +72,17 @@ onMounted(() => {
   })
 })
 
+
+useServerHead({
+  link: [
+    {
+      rel: 'dns-prefetch',
+      href: 'https://avatars.githubusercontent.com',
+    },
+  ],
+})
+
+// TODO ssr these
 const robotsItems = [
   {
     label: 'Zero config dynamic /robots.txt',
@@ -652,7 +664,9 @@ const isNuxtSeoStableReleased = false
           <ShowcaseCard label="Integrate with Ecosystem" description="Modules integrate with themselves as well as Nuxt Content, Nuxt I18n and Nuxt DevTools.">
             <div class="gap-5 flex">
               <div><img alt="Nuxt I18n Icon" class="h-20" height="80" width="80" src="https://ipx.nuxt.com/s_80,f_auto/gh/nuxt/modules/main/icons/i18n.png"></div>
-              <div><img alt="Nuxt Icon" class="h-20" height="80" width="80" src="https://raw.githubusercontent.com/nuxt/modules/main/icons/nuxt.svg"></div>
+              <div>
+                <UIcon name="i-logos-nuxt-icon" class="w-20 h-20" />
+              </div>
             </div>
           </ShowcaseCard>
         </div>
@@ -712,7 +726,9 @@ const isNuxtSeoStableReleased = false
                 Nuxt SEO was started at the end of 2022 and has received continuous bug fixes and feature improvements from the community.
               </p>
               <div class="gap-2 mx-auto text-center grid grid-cols-12">
-                <UAvatar v-for="(c, index) in stats.uniqueContributors || []" :key="index" :alt="`GitHub User ${c}`" loading="lazy" :src="`https://avatars.githubusercontent.com/u/${c}?s=80&v=4`" />
+                <span v-for="(c, index) in stats.uniqueContributors || []" :key="index" class="inline-flex items-center justify-center shrink-0 select-none overflow-hidden rounded-full align-middle bg-[--ui-bg-elevated] size-8 text-base">
+                <NuxtImg class="h-full w-full rounded-[inherit] object-cover" :alt="`GitHub User ${c}`" size="xl" height="45" width="45" loading="lazy" :src="`https://avatars.githubusercontent.com/u/${c}?s=80&v=4`" />
+              </span>
               </div>
             </div>
           </div>

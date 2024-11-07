@@ -21,7 +21,7 @@ const loadingType = computed(() => {
 </script>
 
 <template>
-  <figure class="flex flex-col items-center justify-center mx-auto max-w-full my-2">
+  <figure class="figure-image flex flex-col items-center justify-center mx-auto max-w-full my-2">
     <img
       v-bind="$attrs"
       height="700"
@@ -36,14 +36,14 @@ const loadingType = computed(() => {
   </figure>
 </template>
 
-<style scoped>
+<style>
 @media(max-width: 1024px) {
-  figure {
+  .figure-image {
     transform: translateX(0) !important;
   }
 }
 
-figure :deep(img:not([src$=".svg"])) {
+.figure-image :deep(img:not([src$=".svg"])) {
   width: auto;
   border-radius: 0.5em;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 1px 10px 0 rgba(0, 0, 0, 0.05);

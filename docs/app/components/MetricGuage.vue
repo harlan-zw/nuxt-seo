@@ -77,8 +77,8 @@ const guageArcStyle = computed(() => {
   </div>
 </template>
 
-<style scoped>
-* {
+<style>
+.guage__wrapper {
   --color-amber-50: #fff8e1;
   --color-blue-200: #90caf9;
   --color-blue-900: #0d47a1;

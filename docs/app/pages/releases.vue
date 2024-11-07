@@ -102,7 +102,7 @@ const HighlightedVersion = defineComponent({
   </div>
 </template>
 
-<style scoped lang="postcss">
+<style lang="postcss">
 .gradient {
   position: fixed;
   top: 25vh;
