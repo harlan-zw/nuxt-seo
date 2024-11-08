@@ -2,6 +2,7 @@
 title: Schema.org in Vue & Nuxt
 description: Schema.org can help search engines understand your content better, but is it worth the effort? Learn when to use it and when to skip it in Vue & Nuxt applications.
 navigation:
+  title: 'Schema.org'
 publishedAt: 2024-11-05
 updatedAt: 2024-11-05
 readTime: 8 mins
