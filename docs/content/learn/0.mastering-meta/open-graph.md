@@ -86,7 +86,13 @@ Create dynamic images using [Nuxt OG Image](/docs/og-image/getting-started/intro
 
 ### `og:type`{lang="ts}
 
+Use this to provide context to crawlers. Common values are `website`, `article`, `book`, `profile`.
 
+```ts
+useSeoMeta({
+  ogType: 'article'
+})
+```
 
 ### `og:url`{lang="ts}
 
