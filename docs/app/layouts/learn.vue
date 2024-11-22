@@ -46,6 +46,7 @@ const breadcrumbs = useBreadcrumbItems({
       null,
       {
         icon: 'i-ph-books-duotone',
+        label: 'Learn SEO',
       },
       parent,
       { label: currItem?.title },
@@ -66,7 +67,7 @@ const breadcrumbs = useBreadcrumbItems({
                 <div>
                   <div class="flex items-center justify-between mb-1">
                     <div class="flex items-center gap-1">
-                      <UIcon name="i-ph-books-duotone" class="text-blue-300" />Learn
+                      <UIcon name="i-ph-books-duotone" class="text-blue-300" />Learn SEO
                     </div>
                   </div>
                 </div>

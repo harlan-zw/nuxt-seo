@@ -13,7 +13,7 @@ const { data: nav } = await useAsyncData(`learn`, () => queryCollectionNavigatio
 
 <template>
   <div class="max-w-[66ch]">
-    <UPageHeader title="Learn" :ui="{ title: 'text-center text-balance xl:leading-normal min-w-full', description: 'text-center ' }" />
+    <UPageHeader title="Learn SEO" description="Learn more about the SEO fundamentals that power Nuxt SEO." :ui="{ title: 'text-center text-balance xl:leading-normal min-w-full', description: 'text-center ' }" />
     <UPageBody prose class="pb-0">
       <div class="xl:fixed my-5 block w-[200px] bottom-5 right-5">
         <Ads />

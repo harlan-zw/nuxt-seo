@@ -44,7 +44,7 @@ export const menu = computed(() => {
       })),
     },
     {
-      label: 'Learn',
+      label: 'Learn SEO',
       icon: 'i-ph-books-duotone',
       children: [
         {
