@@ -73,24 +73,24 @@ export const menu = computed(() => {
         },
       ],
     },
-    {
-      label: 'Recipes',
-      icon: 'i-ph-cooking-pot-duotone',
-      children: [
-        {
-          label: 'Documentation Site',
-          description: 'A starter kit for a documentation site with Nuxt SEO.',
-          icon: 'i-carbon-document-requirements',
-          to: '/learn/recipes/documentation-site',
-        },
-        // {
-        //   label: 'Blog',
-        //   description: 'A starter kit for a setting up a blog site with Nuxt SEO.',
-        //   icon: 'i-tabler-slashes',
-        //   to: '/learn/trailing-slashes',
-        // },
-      ],
-    },
+    // {
+    //   label: 'Recipes',
+    //   icon: 'i-ph-cooking-pot-duotone',
+    //   children: [
+    //     {
+    //       label: 'Documentation Site',
+    //       description: 'A starter kit for a documentation site with Nuxt SEO.',
+    //       icon: 'i-carbon-document-requirements',
+    //       to: '/learn/recipes/documentation-site',
+    //     },
+    //     // {
+    //     //   label: 'Blog',
+    //     //   description: 'A starter kit for a setting up a blog site with Nuxt SEO.',
+    //     //   icon: 'i-tabler-slashes',
+    //     //   to: '/learn/trailing-slashes',
+    //     // },
+    //   ],
+    // },
     {
       label: 'Releases',
       icon: 'i-carbon-version',
