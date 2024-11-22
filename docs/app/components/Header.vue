@@ -40,7 +40,7 @@ const navigation = computed(() => {
         </div>
       </div>
       <div class="hidden lg:block">
-        <UNavigationMenu :ui="{ viewport: 'min-w-[600px]' }" :items="menu.slice(0, 4)" class="justify-center" />
+        <UNavigationMenu :ui="{ viewport: 'min-w-[600px]' }" :items="menu.slice(0, 3)" class="justify-center" />
       </div>
     </template>
 
@@ -52,7 +52,7 @@ const navigation = computed(() => {
     <template #right>
       <div class="flex items-center justify-end lg:-mr-1.5 ml-3 gap-3">
         <div class="hidden lg:block">
-          <UNavigationMenu :items="menu.slice(4)" :ui="{ viewport: 'min-w-[500px] -left-full' }" class="justify-center" />
+          <UNavigationMenu :items="menu.slice(3)" :ui="{ viewport: 'min-w-[500px] -left-full' }" class="justify-center" />
         </div>
         <UTooltip text="Star on GitHub">
           <UButton to="https://github.com/harlan-zw/nuxt-seo" target="_blank" color="primary" variant="ghost">
