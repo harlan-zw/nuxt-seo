@@ -318,6 +318,8 @@ export default defineNuxtConfig({
     '/docs/nuxt-seo/api/breadcrumbs': { redirect: { to: '/docs/seo-utils/api/breadcrumbs', statusCode: 301 } },
     '/docs/nuxt-seo/api/config': { redirect: { to: '/docs/nuxt-seo/getting-started/introduction', statusCode: 301 } },
     '/docs/nuxt-seo/guides/configuring-modules': { redirect: { to: '/docs/nuxt-seo/guides/using-the-modules', statusCode: 301 } },
+
+    '/docs/link-checker/guides/skip-inspections': { redirect: { to: '/docs/link-checker/guides/rules', statusCode: 301 } },
   },
 
   css: [
