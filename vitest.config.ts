@@ -1,8 +1,8 @@
 /// <reference types="vitest" />
 /// <reference types="vitest/globals" />
-import { defineConfig } from 'vite'
+import { defineVitestConfig } from '@nuxt/test-utils/config'
 
-export default defineConfig({
+export default defineVitestConfig({
   test: {
     watch: false,
   },
