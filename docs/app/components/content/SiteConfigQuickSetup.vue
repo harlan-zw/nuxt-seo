@@ -6,8 +6,8 @@ const codeOne
     name: 'My Awesome Website'
   },
 })`
-const codeTwo = `NUXT_PUBLIC_SITE_URL=https://example.com
-NUXT_PUBLIC_SITE_NAME=My Awesome Website`
+const codeTwo = `NUXT_SITE_URL=https://example.com
+NUXT_SITE_NAME=My Awesome Website`
 </script>
 
 <template>
@@ -36,8 +36,8 @@ NUXT_PUBLIC_SITE_NAME=My Awesome Website`
           </ProsePre>
           <ProsePre lang="dotenv" filename=".env" :code="codeTwo">
             <ProseCode class="shiki flex flex-col shiki-themes github-light github-light material-theme-palenight">
-              <span class="line" line="1"><span style="--shiki-light: #D73A49; --shiki-light-font-style: inherit; --shiki-default: #D73A49; --shiki-default-font-style: inherit; --shiki-dark: #89DDFF; --shiki-dark-font-style: italic;">NUXT_PUBLIC_SITE_URL</span><span style="--shiki-light: #D73A49; --shiki-light-font-style: inherit; --shiki-default: #D73A49; --shiki-default-font-style: inherit; --shiki-dark: #89DDFF; --shiki-dark-font-style: italic;">=</span><span style="--shiki-light: #6F42C1; --shiki-default: #6F42C1; --shiki-dark: #82AAFF;">https://example.com</span></span>
-              <span class="line" line="2"><span style="--shiki-light: #D73A49; --shiki-light-font-style: inherit; --shiki-default: #D73A49; --shiki-default-font-style: inherit; --shiki-dark: #89DDFF; --shiki-dark-font-style: italic;">NUXT_PUBLIC_SITE_NAME</span><span style="--shiki-light: #D73A49; --shiki-light-font-style: inherit; --shiki-default: #D73A49; --shiki-default-font-style: inherit; --shiki-dark: #89DDFF; --shiki-dark-font-style: italic;">=</span><span style="--shiki-light: #6F42C1; --shiki-default: #6F42C1; --shiki-dark: #82AAFF;">My Awesome Website</span></span>
+              <span class="line" line="1"><span style="--shiki-light: #D73A49; --shiki-light-font-style: inherit; --shiki-default: #D73A49; --shiki-default-font-style: inherit; --shiki-dark: #89DDFF; --shiki-dark-font-style: italic;">NUXT_SITE_URL</span><span style="--shiki-light: #D73A49; --shiki-light-font-style: inherit; --shiki-default: #D73A49; --shiki-default-font-style: inherit; --shiki-dark: #89DDFF; --shiki-dark-font-style: italic;">=</span><span style="--shiki-light: #6F42C1; --shiki-default: #6F42C1; --shiki-dark: #82AAFF;">https://example.com</span></span>
+              <span class="line" line="2"><span style="--shiki-light: #D73A49; --shiki-light-font-style: inherit; --shiki-default: #D73A49; --shiki-default-font-style: inherit; --shiki-dark: #89DDFF; --shiki-dark-font-style: italic;">NUXT_SITE_NAME</span><span style="--shiki-light: #D73A49; --shiki-light-font-style: inherit; --shiki-default: #D73A49; --shiki-default-font-style: inherit; --shiki-dark: #89DDFF; --shiki-dark-font-style: italic;">=</span><span style="--shiki-light: #6F42C1; --shiki-default: #6F42C1; --shiki-dark: #82AAFF;">My Awesome Website</span></span>
             </ProseCode>
           </ProsePre>
         </CodeGroup>
