@@ -320,7 +320,7 @@ export default defineNuxtConfig({
     '/docs/nuxt-seo/guides/configuring-modules': { redirect: { to: '/docs/nuxt-seo/guides/using-the-modules', statusCode: 301 } },
 
     '/docs/link-checker/guides/skip-inspections': { redirect: { to: '/docs/link-checker/guides/rules', statusCode: 301 } },
-
+    '/docs/schema-org/guides/quick-setup': { redirect: { to: '/docs/schema-org/guides/setup-identity', statusCode: 301 } },
   },
 
   css: [

@@ -213,7 +213,7 @@ const schemaOrgItems = [
     ].join('\n'),
   },
   {
-    label: 'Easily set a linked Identity',
+    label: 'Easily set a linked identity',
     slot: 'meta',
     mdc: [
       // nuxt.config sitemaps
@@ -233,7 +233,7 @@ const schemaOrgItems = [
   }
 })`,
       '```',
-      'Learn more about [setting up your identity](/docs/schema-org/guides/quick-setup).',
+      'Learn more about [setting up your identity](/docs/schema-org/guides/setup-identity).',
     ].join('\n'),
   },
   {
@@ -275,7 +275,7 @@ const seoUtilOneItems = [
   }
 })`,
       '```',
-      'Learn more about [setting up your identity](/docs/schema-org/guides/quick-setup).',
+      'Learn more about [canonical URLs](https://nuxtseo.com/docs/seo-utils/guides/canonical-url).',
     ].join('\n'),
   },
   {
