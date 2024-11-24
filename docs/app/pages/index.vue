@@ -72,7 +72,6 @@ onMounted(() => {
   })
 })
 
-
 useServerHead({
   link: [
     {
@@ -725,8 +724,8 @@ const graphData = computed(() => {
               </p>
               <div class="gap-2 mx-auto text-center grid grid-cols-12">
                 <span v-for="(c, index) in stats.uniqueContributors || []" :key="index" class="inline-flex items-center justify-center shrink-0 select-none overflow-hidden rounded-full align-middle bg-[--ui-bg-elevated] size-8 text-base">
-                <NuxtImg class="h-full w-full rounded-[inherit] object-cover" :alt="`GitHub User ${c}`" size="xl" height="45" width="45" loading="lazy" :src="`https://avatars.githubusercontent.com/u/${c}?s=80&v=4`" />
-              </span>
+                  <NuxtImg class="h-full w-full rounded-[inherit] object-cover" :alt="`GitHub User ${c}`" size="xl" height="45" width="45" loading="lazy" :src="`https://avatars.githubusercontent.com/u/${c}?s=80&v=4`" />
+                </span>
               </div>
             </div>
           </div>
@@ -927,4 +926,3 @@ const graphData = computed(() => {
     </section>
   </div>
 </template>
-

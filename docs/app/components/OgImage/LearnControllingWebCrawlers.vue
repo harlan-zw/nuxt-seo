@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // convert to typescript props
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
   colorMode?: 'dark' | 'light'
   title?: string
   description?: string

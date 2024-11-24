@@ -341,7 +341,7 @@ export default defineNuxtConfig({
       scan: true,
       includeCustomCollections: true,
     },
-    provider: 'iconify'
+    provider: 'iconify',
   },
 
   app: {

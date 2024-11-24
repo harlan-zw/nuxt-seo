@@ -17,7 +17,6 @@ keywords:
 
 Meta descriptions don't directly impact rankings, however, they can influence click-through rates by giving users context about your page's content.
 
-
 ```html
 <meta name="description" content="Learn how to implement meta descriptions in Vue & Nuxt. Includes reactive content, SEO best practices, and social sharing tips.">
 ```
@@ -63,7 +62,6 @@ useSeoMeta({
   description: () => post.value.description
 })
 </script>
-
 ```
 
 ## Open Graph Description `'og:description'`{lang="ts"}

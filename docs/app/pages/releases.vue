@@ -101,4 +101,3 @@ const HighlightedVersion = defineComponent({
     </section>
   </div>
 </template>
-

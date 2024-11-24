@@ -29,12 +29,6 @@ const humanPublishedDate = new Date(page.value.publishedAt).toLocaleDateString('
   day: 'numeric',
 })
 
-const humanUpdatedDate = new Date(page.value.updatedAt).toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-})
-
 useSeoMeta({
   ogType: 'article',
   author: 'Harlan Wilton',
@@ -67,29 +61,29 @@ useSchemaOrg([
 </script>
 
 <template>
-<div class="max-w-[66ch]">
-  <UPageHeader v-bind="page" :ui="{ title: 'text-center text-balance xl:leading-normal min-w-full', description: 'text-center ' }">
-    <div class="flex justify-center gap-5 mt-5">
-      <div class="flex items-center gap-2 text-gray-300">
-        <NuxtLink to="https://x.com/harlan_zw" class="hover:underline inline-flex items-center gap-2">
-          <img alt="Harlan Wilton" src="https://avatars.githubusercontent.com/u/5326365?v=4" class="w-6 h-6 rounded-full">
-          Harlan Wilton
-        </NuxtLink>
+  <div class="max-w-[66ch]">
+    <UPageHeader v-bind="page" :ui="{ title: 'text-center text-balance xl:leading-normal min-w-full', description: 'text-center ' }">
+      <div class="flex justify-center gap-5 mt-5">
+        <div class="flex items-center gap-2 text-gray-300">
+          <NuxtLink to="https://x.com/harlan_zw" class="hover:underline inline-flex items-center gap-2">
+            <img alt="Harlan Wilton" src="https://avatars.githubusercontent.com/u/5326365?v=4" class="w-6 h-6 rounded-full">
+            Harlan Wilton
+          </NuxtLink>
+        </div>
+        <span v-if="page.readTime" class="font-semibold text-gray-500">{{ page.readTime }} read</span>
       </div>
-      <span v-if="page.readTime" class="font-semibold text-gray-500">{{ page.readTime }} read</span>
-    </div>
-  </UPageHeader>
+    </UPageHeader>
 
-  <UPageBody prose class="pb-0">
-    <div>
-      <div class="flex justify-between">
-        <div v-if="page.publishedAt" class="text-gray-500">
-          Published
-          <time :datetime="page.publishedAt">{{ humanPublishedDate }}</time>
+    <UPageBody prose class="pb-0">
+      <div>
+        <div class="flex justify-between">
+          <div v-if="page.publishedAt" class="text-gray-500">
+            Published
+            <time :datetime="page.publishedAt">{{ humanPublishedDate }}</time>
+          </div>
         </div>
       </div>
-    </div>
-    <ContentRenderer v-if="page.body" :value="page" />
-  </UPageBody>
-</div>
+      <ContentRenderer v-if="page.body" :value="page" />
+    </UPageBody>
+  </div>
 </template>

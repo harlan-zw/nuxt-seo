@@ -14,7 +14,7 @@ Documentation sites have one job: getting users to the exact information they ne
 
 When users can't quickly find answers, they bounce - and high bounce rates signal to search engines that your content doesn't cut it.
 
-The complexity comes from every guide, API reference, and code example needs to be discoverable without competing with each other. 
+The complexity comes from every guide, API reference, and code example needs to be discoverable without competing with each other.
 
 Search engines need to understand your documentation's hierarchy, what content is most important, and how different pages relate to each other.
 
@@ -49,7 +49,7 @@ The strongest signal to search engines is the URL structure, but we can also [co
 
 - Keep latest version at root (`/docs` or `/docs/latest`) with older versions clearly marked (`/docs/v2`, `/docs/v3`)
 - Make sure all links point to the latest version, this will signal they are the most important
-- For the non-latest version, include the version in page titles and descriptions 
+- For the non-latest version, include the version in page titles and descriptions
 - Let the user know they are on an older version and provide a link to the latest version
 
 We can look at how other sites handles this for inspiration.
@@ -64,7 +64,6 @@ https://laravel.com/docs/11.x/routing -> canonicals to master
 https://laravel.com/docs/12.x/routing -> master
 ```
 
-
 ```dir [Vue]
 // Vue does not use canonicals but has a clear signal in the subdomain and path prefix
 https://v2.vuejs.org/v2/guide/list -> v2
@@ -76,7 +75,7 @@ https://vuejs.org/guide/essentials/list.html -> v3
 https://nodejs.org/<page> -> master
 https://nodejs.org/docs/<version>/<page> -> canonicals to master
 
-https://nodejs.org/docs/latest-v20.x/api/index.html -> canonicals to https://nodejs.org/api/index.html 
+https://nodejs.org/docs/latest-v20.x/api/index.html -> canonicals to https://nodejs.org/api/index.html
 https://nodejs.org/docs/latest/api/documentation.html -> canonicals to https://nodejs.org/api/documentation.html
 ```
 
@@ -93,7 +92,6 @@ However, based on popular examples, we can see that adding a canonical to the la
 It still allows users to find the specific version of the docs they need through search while ensuring as Google does not
 guarantee it won't show this in a result page. That the latest version is the one that search engines prioritize.
 
-
 ```vue [pages/docs/[version]/[...slug].vue]
 <script lang="ts" setup>
 const route = useRoute()
@@ -107,7 +105,6 @@ useHead({
 })
 </script>
 ```
-
 
 ## Noindexing Experimental Versions
 
@@ -141,7 +138,6 @@ useRobotsRule(computed(() => route.params.version !== 'beta'))
 
 ::
 
-
 ## Titles
 
 - **[Titles](/learn/mastering-page-titles):** The title of a page is a strong signal to search engines about the content.
@@ -168,5 +164,3 @@ useHead({
 })
 </script>
 ```
-
-

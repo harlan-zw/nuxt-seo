@@ -60,7 +60,6 @@ As these modules gained traction it was clear there was a demand for these techn
 ::ModuleCard{slug="seo-utils"}
 ::
 
-
 </div>
 
 The final touch was to combine them all into a module you could install without installing each one individually
