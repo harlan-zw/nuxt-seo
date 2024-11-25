@@ -1,6 +1,6 @@
 ---
 title: Announcing Nuxt SEO Stable
-description: Nuxt SEO v2 has been released, marking a new stable version. Learn about the journey of Nuxt SEO and what's next.
+description: Nuxt SEO v2 is here, learn about the journey of this milestone and what's next.
 readTime: 5 mins
 ---
 
