@@ -80,13 +80,15 @@ describe('i18n', () => {
   it('robots - default', async () => {
     // extract the <head>
     const txt = await $fetch('/robots.txt')
-    expect(txt).toMatchInlineSnapshot(`
-      "# START nuxt-robots (indexable)
-      User-agent: *
-      Disallow:
-
-      Sitemap: https://nuxtseo.com/sitemap_index.xml
-      # END nuxt-robots"
+    expect(txt.split('\n').map(s => s.trim())).toMatchInlineSnapshot(`
+      [
+        "# START nuxt-robots (indexable)",
+        "User-agent: *",
+        "Disallow:",
+        "",
+        "Sitemap: https://nuxtseo.com/sitemap_index.xml",
+        "# END nuxt-robots",
+      ]
     `)
   })
   it('schema.org - default', async () => {
