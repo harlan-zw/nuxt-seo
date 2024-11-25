@@ -17,6 +17,7 @@ useSeoMeta({
 defineOgImageComponent(page.value.ogImageComponent || 'NuxtSeo', {
   title: page.value?.title || '',
   description: page.value?.description,
+  colorMode: 'dark',
 })
 
 // Technical SEO for an blog article

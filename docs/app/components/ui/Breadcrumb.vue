@@ -6,7 +6,15 @@ import type { AppConfig } from '@nuxt/schema'
 import _appConfig from '#build/app.config'
 import theme from '#build/ui/breadcrumb'
 import { tv } from 'tailwind-variants'
+</script>
 
+<script setup lang="ts" generic="T extends BreadcrumbItem">
+import UAvatar from '#ui/components/Avatar.vue'
+import UIcon from '#ui/components/Icon.vue'
+import ULink from '#ui/components/Link.vue'
+import ULinkBase from '#ui/components/LinkBase.vue'
+import { pickLinkProps } from '#ui/utils/link'
+import { Primitive } from 'radix-vue'
 
 export interface BreadcrumbItem extends Omit<LinkProps, 'raw' | 'custom'> {
   label?: string
@@ -48,15 +56,6 @@ const slots = defineSlots<BreadcrumbSlots<T>>()
 const appConfig = _appConfig as AppConfig & { ui: { breadcrumb: Partial<typeof theme> } }
 
 const breadcrumb = tv({ extend: tv(theme), ...(appConfig.ui?.breadcrumb || {}) })
-</script>
-
-<script setup lang="ts" generic="T extends BreadcrumbItem">
-import UAvatar from '#ui/components/Avatar.vue'
-import UIcon from '#ui/components/Icon.vue'
-import ULink from '#ui/components/Link.vue'
-import ULinkBase from '#ui/components/LinkBase.vue'
-import { pickLinkProps } from '#ui/utils/link'
-import { Primitive } from 'radix-vue'
 
 const ui = breadcrumb()
 </script>

@@ -52,7 +52,7 @@ useSeoMeta({
 useHead({
   templateParams: {
     moduleName,
-  }
+  },
 })
 
 const headline = ''

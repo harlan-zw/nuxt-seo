@@ -330,6 +330,10 @@ export default defineNuxtConfig({
   ogImage: {
     zeroRuntime: true,
     strictNuxtContentPaths: true,
+    fonts: [
+      'Hubot+Sans:400',
+      'Hubot+Sans:700',
+    ],
   },
 
   icon: {

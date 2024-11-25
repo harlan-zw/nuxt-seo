@@ -89,3 +89,12 @@ export const modules: NuxtSEOModule[] = [
   SeoUtilsModule,
   SiteConfigModule,
 ]
+
+export const explicitModules = [
+  RobotsModule,
+  SitemapModule,
+  OgImageModule,
+  SchemaOrgModule,
+  LinkCheckerModule,
+  SeoUtilsModule,
+]
