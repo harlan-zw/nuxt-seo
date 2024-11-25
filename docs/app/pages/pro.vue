@@ -254,10 +254,16 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
         </h2>
       </div>
       <div class="lg:flex gap-10 w-full">
+        <div>
         <p class="mb-5 max-w-xl text-lg text-[--ui-text-muted]">
           You can preorder Nuxt SEO Pro and have immediate access to the modules and content as they become available, while
           saving a significant amount of money.
         </p>
+        <p>
+          The preorder is limited to the first 25 sales, after which purchases will be closed until the official release in Q1 2025. Lock your
+          spot in with the 14 others who have already preordered.
+        </p>
+        </div>
         <div class="mb-5">
           <div class="mb-2">
             The presale will end in:
@@ -269,13 +275,13 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
             </div>
             <USeparator label="or" orientation="vertical" class="h-12" />
             <div class="inline-flex flex-col max-w-xs">
-              <div class="flex gap-2 items-center ">
+              <div class="flex gap-2 items-center mb-1">
                 <div class="mb-[1px] font-semibold text-2xl">
-                  13
+                  11
                 </div>
-                <div>copies sold</div>
+                <div class="whitespace-nowrap text-xs">more sales</div>
               </div>
-              <UProgress :model-value="12" :max="25" />
+              <UProgress size="lg" :model-value="14" :max="25" />
             </div>
           </div>
         </div>
