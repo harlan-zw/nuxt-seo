@@ -42,9 +42,17 @@ const [{ data: page }, { data: surround }] = await Promise.all([
 if (!page.value)
   throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 
+const moduleName = computed(() => `Nuxt ${module.value.label}`)
 useSeoMeta({
-  title: () => page.value?.title || '',
+  title: () => (page.value?.title === moduleName.value ? '' : page.value?.title) || '',
   description: () => page.value?.description,
+  titleTemplate: '%s %separator %moduleName %separator %siteName',
+})
+
+useHead({
+  templateParams: {
+    moduleName,
+  }
 })
 
 const headline = ''

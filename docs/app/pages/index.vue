@@ -14,6 +14,12 @@ definePageMeta({
 const modules = inject('modules')
 const stats = inject('stats')
 
+useSeoMeta({
+  title: '%siteName %separator All-in-one Technical SEO for Nuxt',
+  ogTitle: '%siteName %separator All-in-one Technical SEO for Nuxt',
+  titleTemplate: null,
+})
+
 const { data: sponsors } = await useFetch('/api/github/sponsors')
 
 defineOgImageComponent('Home', {
