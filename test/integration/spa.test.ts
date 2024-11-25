@@ -63,7 +63,6 @@ describe('spa', () => {
     // extract the <head>
     const txt = await $fetch('/')
     // extract schema.org from <script type="application/ld+json" id="schema-org-graph"></script>
-    const schemaOrg = txt.match(/<script type="application\/ld\+json" id="schema-org-graph">([\s\S]*)<\/script>/)?.[1]
-    expect(schemaOrg).toBeUndefined()
+    expect(txt.match(/<script type="application\/ld\+json"[^>]*>([^<]+)<\/script>/)).toBe(null)
   })
 })

@@ -66,7 +66,7 @@ describe('trailing slash', () => {
     // extract the <head>
     const txt = await $fetch('/about')
     // extract schema.org from <script type="application/ld+json" id="schema-org-graph"></script>
-    const schemaOrg = JSON.parse(txt.match(/<script type="application\/ld\+json" id="schema-org-graph">([\s\S]*)<\/script>/)?.[1])
+    const schemaOrg = JSON.parse(txt.match(/<script type="application\/ld\+json"[^>]*>([^<]+)<\/script>/)[1])
     expect(schemaOrg).toMatchInlineSnapshot(`
       {
         "@context": "https://schema.org",

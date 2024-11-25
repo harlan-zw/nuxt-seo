@@ -83,7 +83,7 @@ describe('i18n', () => {
     expect(txt).toMatchInlineSnapshot(`
       "# START nuxt-robots (indexable)
       User-agent: *
-      Disallow: 
+      Disallow:
 
       Sitemap: https://nuxtseo.com/sitemap_index.xml
       # END nuxt-robots"
@@ -93,7 +93,7 @@ describe('i18n', () => {
     // extract the <head>
     const txt = await $fetch('/')
     // extract schema.org from <script type="application/ld+json" id="schema-org-graph"></script>
-    const schemaOrg = JSON.parse(txt.match(/<script type="application\/ld\+json" id="schema-org-graph">([\s\S]*)<\/script>/)?.[1])
+    const schemaOrg = JSON.parse(txt.match(/<script type="application\/ld\+json"[^>]*>([^<]+)<\/script>/)[1])
     expect(schemaOrg).toMatchInlineSnapshot(`
       {
         "@context": "https://schema.org",
