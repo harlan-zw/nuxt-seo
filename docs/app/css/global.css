@@ -55,3 +55,33 @@ pre {
   opacity: 0.6;
   z-index: -1;
 }
+
+@keyframes slide-right {
+  from {
+    transform: scale(0.6) translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.slide-right {
+  animation: slide-right 400ms cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;;
+}
+
+.pop {
+  animation: pop 400ms cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}

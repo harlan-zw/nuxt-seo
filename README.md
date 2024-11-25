@@ -26,7 +26,6 @@ The Nuxt SEO module is an all-in-one SEO solution for Nuxt. It combines 6 SEO mo
 </table>
 </p>
 
-
 ## Installation
 
 Install `@nuxtjs/seo` dependency to your project:

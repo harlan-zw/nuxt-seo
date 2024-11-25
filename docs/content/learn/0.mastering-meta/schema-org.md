@@ -121,7 +121,6 @@ For example:
 
 See the [Unhead Schema.org](https://unhead.unjs.io/schema-org/getting-started/setup) documentation for more details.
 
-
 ### Reactivity with `useSchemaOrg()`{lang="ts"}
 
 The `useSchemaOrg()` composable accepts any reactive data you can throw at it.
@@ -141,14 +140,13 @@ useSchemaOrg([
 ])
 ```
 
-
 ## Example: Generic Site Pages
 
 For generic pages we can provide a minimal configuration that works across all pages.
 
 ```vue [app.vue]
 <script lang="ts" setup>
-import { useSchemaOrg, defineWebPage, defineWebSite, defineOrganization } from '@unhead/schema-org/vue'
+import { defineOrganization, defineWebPage, defineWebSite, useSchemaOrg } from '@unhead/schema-org/vue'
 
 // we can remove a lot of boilerplate from Schema.org by providing template params
 const route = useRoute()
@@ -166,12 +164,12 @@ useSchemaOrg([
   // much of the data will be inferred such as the title, description and all URLs
   defineWebPage(),
   defineWebSite({
-    'name': 'Nuxt SEO',
-    'description': 'Nuxt SEO is a collection of hand-crafted Nuxt Modules to help you rank higher in search engines.',
+    name: 'Nuxt SEO',
+    description: 'Nuxt SEO is a collection of hand-crafted Nuxt Modules to help you rank higher in search engines.',
   }),
   // choose an identity, either with definePerson or an defineOrganization
   defineOrganization({
-    'name': 'Nuxt SEO',
+    name: 'Nuxt SEO',
   })
 ])
 </script>
@@ -185,21 +183,21 @@ For a personal blog, we can provide more detailed information about the author.
 
 ```vue [app.vue]
 <script lang="ts" setup>
-import { useSchemaOrg, defineWebPage, defineWebSite, definePerson } from '@unhead/schema-org/vue'
+import { definePerson, defineWebPage, defineWebSite, useSchemaOrg } from '@unhead/schema-org/vue'
 
 useSchemaOrg([
   defineWebPage(),
   defineWebSite({
-    'name': 'My Blog',
-    'description': 'A blog about my life and experiences.',
+    name: 'My Blog',
+    description: 'A blog about my life and experiences.',
   }),
   definePerson({
-    'name': 'Your Name',
-    'url': 'https://your-blog.com',
-    'image': 'https://your-blog.com/avatar.jpg',
-    'sameAs': [
+    name: 'Your Name',
+    url: 'https://your-blog.com',
+    image: 'https://your-blog.com/avatar.jpg',
+    sameAs: [
       'https://twitter.com/your-twitter',
-     ]
+    ]
   }),
 ])
 </script>
@@ -213,7 +211,7 @@ As Vue is hierarchical, we don't need to define the `WebSite` and `WebPage` node
 
 ```vue [blog/[article].vue]
 <script lang="ts" setup>
-import { useSchemaOrg, defineArticle } from '@unhead/schema-org/vue'
+import { defineArticle, useSchemaOrg } from '@unhead/schema-org/vue'
 
 useSchemaOrg([
   defineArticle({
@@ -225,4 +223,3 @@ useSchemaOrg([
 ])
 </script>
 ```
-

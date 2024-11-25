@@ -100,7 +100,7 @@ const repoLinks = computed(() => [
       <div class="flex justify-center gap-5 mt-5">
         <div class="flex items-center gap-2 text-gray-300">
           <NuxtLink to="https://x.com/harlan_zw" class="hover:underline inline-flex items-center gap-2">
-            <img src="https://avatars.githubusercontent.com/u/5326365?v=4" class="w-6 h-6 rounded-full">
+            <img alt="Harlan Wilton" src="https://avatars.githubusercontent.com/u/5326365?v=4" class="w-6 h-6 rounded-full">
             Harlan Wilton
           </NuxtLink>
         </div>

@@ -72,7 +72,6 @@ onMounted(() => {
   })
 })
 
-
 useServerHead({
   link: [
     {
@@ -213,7 +212,7 @@ const schemaOrgItems = [
     ].join('\n'),
   },
   {
-    label: 'Easily set a linked Identity',
+    label: 'Easily set a linked identity',
     slot: 'meta',
     mdc: [
       // nuxt.config sitemaps
@@ -233,7 +232,7 @@ const schemaOrgItems = [
   }
 })`,
       '```',
-      'Learn more about [setting up your identity](/docs/schema-org/guides/quick-setup).',
+      'Learn more about [setting up your identity](/docs/schema-org/guides/setup-identity).',
     ].join('\n'),
   },
   {
@@ -275,7 +274,7 @@ const seoUtilOneItems = [
   }
 })`,
       '```',
-      'Learn more about [setting up your identity](/docs/schema-org/guides/quick-setup).',
+      'Learn more about [canonical URLs](https://nuxtseo.com/docs/seo-utils/guides/canonical-url).',
     ].join('\n'),
   },
   {
@@ -486,8 +485,6 @@ const graphData = computed(() => {
     return acc
   }, [])
 })
-
-const isNuxtSeoStableReleased = false
 </script>
 
 <template>
@@ -531,11 +528,11 @@ const isNuxtSeoStableReleased = false
     <div class="gradient" />
     <section class="xl:max-w-full max-w-3xl mx-auto py-5 sm:py-12 xl:py-20">
       <UContainer>
-        <div v-if="isNuxtSeoStableReleased" class="mb-5 sm:mb-0">
+        <div class="mb-5 sm:mb-0">
           <div class="sm:inline-flex block mb-5 gap-3 inline px-3 py-2 rounded text-sm ">
-            <UButton size="sm" variant="outline" to="/announcement">
+            <UButton variant="outline" to="/announcement">
               <UIcon name="i-noto-party-popper" />
-              <span>Announcing Nuxt SEO</span>
+              <span>Announcing Nuxt SEO v2 stable</span>
             </UButton>
           </div>
         </div>
@@ -727,8 +724,8 @@ const isNuxtSeoStableReleased = false
               </p>
               <div class="gap-2 mx-auto text-center grid grid-cols-12">
                 <span v-for="(c, index) in stats.uniqueContributors || []" :key="index" class="inline-flex items-center justify-center shrink-0 select-none overflow-hidden rounded-full align-middle bg-[--ui-bg-elevated] size-8 text-base">
-                <NuxtImg class="h-full w-full rounded-[inherit] object-cover" :alt="`GitHub User ${c}`" size="xl" height="45" width="45" loading="lazy" :src="`https://avatars.githubusercontent.com/u/${c}?s=80&v=4`" />
-              </span>
+                  <NuxtImg class="h-full w-full rounded-[inherit] object-cover" :alt="`GitHub User ${c}`" size="xl" height="45" width="45" loading="lazy" :src="`https://avatars.githubusercontent.com/u/${c}?s=80&v=4`" />
+                </span>
               </div>
             </div>
           </div>
@@ -929,4 +926,3 @@ const isNuxtSeoStableReleased = false
     </section>
   </div>
 </template>
-

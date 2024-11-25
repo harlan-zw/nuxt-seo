@@ -27,7 +27,6 @@ There are [60+ possible OG tags](https://ogp.me/) but most have specific use cas
 <meta property="og:url" content="https://mysite.com/page">
 ```
 
-
 ### Quick Tips
 
 1. **Images matter**: A good og:image can double your click-through rate, they must be an absolute URL and at least 1200x600px.
@@ -36,7 +35,7 @@ There are [60+ possible OG tags](https://ogp.me/) but most have specific use cas
 
 ## Implementation in Vue
 
-You should handle your OG tags with [`useSeoMeta()`{lang="ts"}](https://unhead.unjs.io/usage/composables/use-seo-meta), 
+You should handle your OG tags with [`useSeoMeta()`{lang="ts"}](https://unhead.unjs.io/usage/composables/use-seo-meta),
 this handles the use `property` attribute, which can be easy to forget.
 
 ```ts
@@ -63,7 +62,7 @@ Some rules:
 - Use `og:image:alt` for accessibility
 
 There are several other properties, including them can be useful to ensure
-the image is being displayed correctly. 
+the image is being displayed correctly.
 
 ```ts
 useSeoMeta({

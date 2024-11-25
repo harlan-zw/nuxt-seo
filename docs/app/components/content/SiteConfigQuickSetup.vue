@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import ProseCode from '@nuxtjs/mdc/runtime/components/prose/ProseCode.vue'
+
 const codeOne
 = `export default defineNuxtConfig({
   site: {

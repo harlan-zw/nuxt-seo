@@ -19,7 +19,7 @@ const { data: nav } = await useAsyncData(`learn`, () => queryCollectionNavigatio
         <Ads />
       </div>
       <div class="space-y-5">
-        <div v-for="item in nav[0].children">
+        <div v-for="(item, key) in nav[0].children" :key="key">
           <NuxtLink :to="item.path" class="relative inline-flex transition-all hover:shadow-lg flex-col rounded-lg font-bold border bg-gradient-to-r from-sky-700/10 to-blue-700/20 border-sky-700/20 px-5 py-3 gap-1">
             <div class="z-1 flex flex-col justify-between h-full">
               <div>

@@ -26,13 +26,14 @@ const { data: nav } = await useAsyncData(`docs-nav-learn`, () => queryCollection
     const mappedChildren = children.reduce((acc, item) => {
       if (!acc[item.path]) {
         acc[item.path] = item
-      } else {
+      }
+      else {
         acc[item.path] = defu(acc[item.path], item)
         // filter the children, they shouldn't contain the item.path
       }
       return acc
     }, {})
-    return mapPath(Object.values(mappedChildren)).map(item => item.children.map(c => ({ icon: 'i-ph-dot-outline-duotone', ...c,})))
+    return mapPath(Object.values(mappedChildren)).map(item => item.children.map(c => ({ icon: 'i-ph-dot-outline-duotone', ...c })))
   },
 })
 
@@ -73,8 +74,8 @@ const breadcrumbs = useBreadcrumbItems({
                 </div>
               </div>
               <div class="space-y-5">
-                <div v-for="section in nav">
-                <UContentNavigation :navigation="section" />
+                <div v-for="(section, key) in nav" :key="key">
+                  <UContentNavigation :navigation="section" />
                 </div>
               </div>
             </div>
