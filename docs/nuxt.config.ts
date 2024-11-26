@@ -198,6 +198,16 @@ export default defineNuxtConfig({
     },
   ],
 
+  hooks: {
+    'components:extend'(components) {
+      for (const component of components) {
+        if (component.pascalName === 'UAlert') {
+          component.global = true
+        }
+      }
+    },
+  },
+
   mdc: {
     highlight: {
       theme: {
