@@ -154,7 +154,7 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
     })
 }
 
-const sales = 15
+const sales = 16
 const totalSales = 25
 </script>
 
