@@ -45,8 +45,20 @@ const navigation = computed(() => {
     </template>
 
     <template #content>
-      <DocsSidebarHeader v-if="route.path.startsWith('/docs')" />
-      <UContentNavigation :navigation="navigation" />
+    <div  v-if="route.path.startsWith('/docs')">
+      <DocsSidebarHeader />
+      <USeparator class="mb-5" />
+    </div>
+      <UContentNavigation :navigation="navigation">
+        <template #link="{ link }">
+        <div class="flex items-center gap-2">
+          <UIcon v-if="link.icon" :name="link.icon" class="w-4 h-4 text-primary-400 dark:text-sky-200" />
+          <div :class="link.children?.length ? 'text-sm font-bold' : ''">
+            {{ link.title }}
+          </div>
+        </div>
+        </template>
+      </UContentNavigation>
     </template>
 
     <template #right>
@@ -55,7 +67,7 @@ const navigation = computed(() => {
           <UNavigationMenu :items="menu.slice(3)" :ui="{ viewport: 'min-w-[500px] -left-full' }" class="justify-center" />
         </div>
         <UTooltip text="Star on GitHub">
-          <UButton class="hidden sm:block" to="https://github.com/harlan-zw/nuxt-seo" target="_blank" color="primary" variant="ghost">
+          <UButton class="hidden sm:flex" to="https://github.com/harlan-zw/nuxt-seo" target="_blank" color="primary" variant="ghost">
             <template #leading>
               <div class="flex items-center transition rounded-l py-1 space-x-1 dark:text-gray-200">
                 <UIcon name="i-carbon-star" class="w-3 h-3 " />

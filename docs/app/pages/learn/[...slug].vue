@@ -124,9 +124,7 @@ const repoLinks = computed(() => [
           </div>
         </div>
       </div>
-      <div class="xl:fixed my-5 block w-[200px] bottom-5 right-5">
         <Ads />
-      </div>
       <ContentRenderer v-if="page.body" :value="page" />
       <div class="justify-center flex items-center gap-2 font-semibold">
         <UIcon name="i-simple-icons-github" class="w-5 h-5" />

@@ -8,12 +8,15 @@ const possibleAds = computed(() => {
 const ad = computed(() => {
   if (possibleAds.value.length === 0)
     return null
+  // if we're on mobile, show nothing
+  if (import.meta.client && window.innerWidth < 640)
+    return null
   return possibleAds.value[Math.floor(Math.random() * possibleAds.value.length)]
 })
 </script>
 
 <template>
-  <div>
+  <div class="w-full xl:fixed my-5 block xl:w-[200px] bottom-5 right-5 xl:block grid grid-cols-2 gap-5 ">
     <ClientOnly>
       <template v-if="ad">
         <div
@@ -64,7 +67,7 @@ const ad = computed(() => {
     </ClientOnly>
     <ScriptCarbonAds
       :key="$route.path"
-      class="Carbon border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50/50 dark:bg-white/5"
+      class="xl:min-h-[265px] Carbon border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50/50 dark:bg-white/5"
       serve="CW7DTKJJ"
       placement="nuxtseocom"
       trigger="onNuxtReady"
@@ -75,9 +78,6 @@ const ad = computed(() => {
 </template>
 
 <style>
-.dark .Carbon {
-  min-height: 225px;
-}
 .dark .Carbon .carbon-text {
   color: #9ca3af; /* text-gray-400 */
 }

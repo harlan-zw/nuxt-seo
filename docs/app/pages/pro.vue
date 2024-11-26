@@ -153,6 +153,9 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
       waitlistFeedbackStatus.value = 'submitted'
     })
 }
+
+const sales = 15
+const totalSales = 25
 </script>
 
 <template>
@@ -260,8 +263,8 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
             saving a significant amount of money.
           </p>
           <p>
-            The preorder is limited to the first 25 sales, after which purchases will be closed until the official release in Q1 2025. Lock your
-            spot in with the 14 others who have already preordered.
+            The preorder is limited to the first {{ totalSales }} sales, after which purchases will be closed until the official release in Q1 2025. Lock your
+            spot in with the {{ sales }} others who have already preordered.
           </p>
         </div>
         <div class="mb-5">
@@ -277,13 +280,13 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
             <div class="inline-flex flex-col max-w-xs">
               <div class="flex gap-2 items-center mb-1">
                 <div class="mb-[1px] font-semibold text-2xl">
-                  11
+                  {{ totalSales - sales }}
                 </div>
                 <div class="whitespace-nowrap text-xs">
                   more sales
                 </div>
               </div>
-              <UProgress size="lg" :model-value="14" :max="25" />
+              <UProgress size="lg" :model-value="sales" :max="totalSales" />
             </div>
           </div>
         </div>

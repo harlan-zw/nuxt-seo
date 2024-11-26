@@ -25,7 +25,7 @@ const emit = defineEmits(['move'])
 
 const config = {
   wrapper: 'space-y-1',
-  base: 'inline-block text-base truncate',
+  base: 'inline-block text-base truncate max-w-full',
   active: 'text-primary',
   inactive: 'text-gray-500 transition dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-200',
   depth: 'ml-3',
