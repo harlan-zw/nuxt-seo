@@ -28,7 +28,7 @@ and take advantage of the new features that Nuxt v3 had to offer without being b
 
 I set out by introducing two "simple" modules - Nuxt Simple Robots and Nuxt Simple Sitemap.
 
-<div class="grid grid-cols-2 gap-5">
+<div class="sm:grid grid-cols-2 gap-5 space-y-5 sm:space-y-0">
 
 ::ModuleCard{slug="robots"}
 ::
@@ -46,7 +46,7 @@ My principals for building them were:
 
 As these modules gained traction it was clear there was a demand for these technical SEO modules. So I continued and built the following:
 
-<div class="grid grid-cols-2 gap-5">
+<div class="sm:grid grid-cols-2 gap-5 space-y-5 sm:space-y-0">
 
 ::ModuleCard{slug="og-image"}
 ::
@@ -65,7 +65,7 @@ As these modules gained traction it was clear there was a demand for these techn
 The final touch was to combine them all into a module you could install without installing each one individually
 and a module that would sync the config between all of the modules
 
-<div class="grid grid-cols-2 gap-5">
+<div class="sm:grid grid-cols-2 gap-5 space-y-5 sm:space-y-0">
 
 ::ModuleCard{slug="nuxt-seo"}
 ::

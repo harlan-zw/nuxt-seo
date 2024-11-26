@@ -55,7 +55,7 @@ const navigation = computed(() => {
           <UNavigationMenu :items="menu.slice(3)" :ui="{ viewport: 'min-w-[500px] -left-full' }" class="justify-center" />
         </div>
         <UTooltip text="Star on GitHub">
-          <UButton to="https://github.com/harlan-zw/nuxt-seo" target="_blank" color="primary" variant="ghost">
+          <UButton class="hidden sm:block" to="https://github.com/harlan-zw/nuxt-seo" target="_blank" color="primary" variant="ghost">
             <template #leading>
               <div class="flex items-center transition rounded-l py-1 space-x-1 dark:text-gray-200">
                 <UIcon name="i-carbon-star" class="w-3 h-3 " />
@@ -73,6 +73,7 @@ const navigation = computed(() => {
 
           <UTooltip text="Harlan's X">
             <UButton
+              class="hidden sm:block"
               aria-label="Harlan's X"
               to="https://twitter.com/harlan_zw"
               target="_blank"

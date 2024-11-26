@@ -737,9 +737,9 @@ const graphData = computed(() => {
           </div>
           <div class=" text-center justify-center gap-16 lg:mx-20 xl:mx-0 mb-10 ">
             <div class="mb-7">
-              <div class="flex justify-center gap-10">
+              <div class="md:flex justify-center gap-10">
                 <div>
-                  <div class="font-light flex items-center gap-3 text-6xl mb-2">
+                  <div class="font-light justify-center flex items-center gap-3 text-6xl mb-2">
                     <UIcon name="i-carbon-commit" />
                     {{ humanNumber(stats.totalCommits) }}
                   </div>
@@ -748,7 +748,7 @@ const graphData = computed(() => {
                   </div>
                 </div>
                 <div>
-                  <div class="font-light flex items-center gap-3 text-6xl mb-2">
+                  <div class="font-light justify-center flex items-center gap-3 text-6xl mb-2">
                     <UIcon name="i-carbon-checkmark" />
                     {{ humanNumber(stats.totalIssuesClosed) }}
                   </div>
