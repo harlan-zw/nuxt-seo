@@ -101,7 +101,7 @@ export const menu = computed(() => {
       icon: 'i-ph-sparkle-duotone',
       to: '/pro',
       badge: {
-        label: 'Presale',
+        label: 'Waitlist',
         color: 'info',
       },
     },

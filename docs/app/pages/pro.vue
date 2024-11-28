@@ -100,9 +100,10 @@ The SEO Analyze module will inspect your pages in real-time and build-time to va
 It will also provide suggestions on how to improve your SEO tags to help you rank higher in search engines.
 `
 
-const daysUntilNewYear = computed(() => {
+const daysUntilQ1 = computed(() => {
+  // we want the middle of q1, so probably middle of feb
   const now = new Date()
-  const newYear = new Date(now.getFullYear() + 1, 0, 1)
+  const newYear = new Date(now.getFullYear() + 1, 1, 15)
   return Math.floor((newYear.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
 })
 
@@ -153,9 +154,6 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
       waitlistFeedbackStatus.value = 'submitted'
     })
 }
-
-const sales = 24
-const totalSales = 25
 </script>
 
 <template>
@@ -205,9 +203,6 @@ const totalSales = 25
               Introducing Nuxt SEO Pro: a collection of new modules and learning resources to help you further grow your sites organic traffic
               through technical SEO.
             </p>
-            <p class="dark:text-gray-300 mb-3">
-              You can pre-purchase it for $79, saving $170. You'll get immediate access to the modules and content as they become available.
-            </p>
             <p class="mb-3">
               By supporting me, you support all of my <NuxtLink to="https://harlanzw.com/projects" class="underline">
                 open-source work
@@ -253,54 +248,31 @@ const totalSales = 25
     <section class="px-10 max-w-4xl mx-auto mb-12">
       <div class="mb-7 max-w-xl">
         <h2 class="text-3xl font-bold mb-2">
-          Purchase Presale
+          Join the waitlist
         </h2>
       </div>
       <div class="lg:flex gap-10 w-full">
         <div>
           <p class="mb-5 max-w-xl text-lg text-[--ui-text-muted]">
-            You can preorder Nuxt SEO Pro and have immediate access to the modules and content as they become available, while
-            saving a significant amount of money.
-          </p>
-          <p>
-            The preorder is limited to the first {{ totalSales }} sales, after which purchases will be closed until the official release in Q1 2025. Lock your
-            spot in with the {{ sales }} others who have already preordered.
+            Keep up-to-date with the development of Nuxt SEO Pro by joining the waitlist and receive an exlusive discount on launch in Q1 2025.
           </p>
         </div>
-        <div class="mb-5">
-          <div class="mb-2">
-            The presale will end in:
-          </div>
-          <div class="mb-3 flex items-center gap-10">
-            <div class="whitespace-nowrap font-semibold flex flex-col gap-2 items-center">
-              <UIcon name="i-carbon-calendar" class="text-blue-300" />
-              <div>{{ daysUntilNewYear }} days</div>
-            </div>
-            <USeparator label="or" orientation="vertical" class="h-12" />
-            <div class="inline-flex flex-col max-w-xs">
-              <div class="flex gap-2 items-center mb-1">
-                <div class="mb-[1px] font-semibold text-2xl">
-                  {{ totalSales - sales }}
-                </div>
-                <div class="whitespace-nowrap text-xs">
-                  more sales
-                </div>
-              </div>
-              <UProgress size="lg" :model-value="sales" :max="totalSales" />
-            </div>
-          </div>
+        <div class="mb-5 ">
+            Release estimated in<br>
+          <UIcon name="i-carbon-calendar" class="-mt-2 text-blue-300" />
+          ~{{ daysUntilQ1 }} days
         </div>
       </div>
 
-      <USeparator class="my-12" />
+      <USeparator class="my-3" />
       <div class="lg:grid grid-cols-2 gap-5 space-y-5 lg:space-y-0">
         <div class="flex flex-col items-center justify-center">
           <div class="relative max-w-sm mx-auto ring-green-500 ring  rounded-2xl  p-5 space-y-4 text-left">
             <UBadge variant="soft" color="warning" size="lg" class="absolute font-bold top-5 right-5">
-              68% off!
+              50% off!
             </UBadge>
             <h3 class="font-bold text-2xl">
-              The one plan.
+              Waitlist Plan.
             </h3>
             <ul class="text-sm space-y-2 list-disc ml-5">
               <li>Up to 5 projects, $39 for each extra project.</li>
@@ -308,15 +280,12 @@ const totalSales = 25
               <li>Access to the GitHub repos</li>
             </ul>
 
-            <UButton icon="i-carbon-arrow-right" color="secondary" class="font-bold" to="https://buy.stripe.com/8wMeXhd4v3cR0lG5kk" target="_blank" size="xl" @click="proAd = false">
-              Purchase Nuxt SEO Pro
-            </UButton>
             <div class="flex flex-row items-center gap-x-1.5">
               <div class="line-through text-2xl">
                 $249
               </div>
               <p class="text-gray-900 dark:text-white text-2xl sm:text-4xl font-semibold">
-                $79
+                $119
               </p>
               <div class="text-xs">
                 <p class="text-gray-600 dark:text-gray-300 font-semibold">
@@ -328,22 +297,22 @@ const totalSales = 25
               </div>
             </div>
             <div class="font-bold">
-              Save $170
+              Save $130
             </div>
             <div class="italic text-sm text-gray-500 dark:text-gray-400">
               First release scheduled for Q1 2025.
             </div>
           </div>
         </div>
-        <div class="max-w-lg mx-auto bg-gray-200/30 dark:bg-gray-900 dark:text-gray-400 p-10 rounded-2xl py-[70px] flex flex-col items-center justify-center">
+        <div class="max-w-lg mx-auto bg-gray-200/30 dark:bg-gray-900 dark:text-gray-200 p-10 rounded-2xl py-[70px] flex flex-col items-center justify-center">
           <template v-if="waitlistStatus !== 'submitted'">
             <div class="mb-7">
               <div class="text-xl mb-2 font-semibold">
-                Or Join the Waitlist
+                Connect your email
               </div>
               <div>
                 <p class="text-sm">
-                  Get notified on Nuxt SEO Pro's progress and when it releases.
+                  Receive development updates and an exclusive launch discount of 50% off, saving $130.
                 </p>
               </div>
             </div>
@@ -377,6 +346,17 @@ const totalSales = 25
           <div v-else>
             Thanks for your help!
           </div>
+        </div>
+      </div>
+      <div class="mt-10 justify-center flex-col dark:text-gray-300/75 flex items-center gap-1">
+        <UAvatarGroup size="xl" class="mb-3">
+          <UAvatar src="https://cdn.discordapp.com/avatars/212548363529355264/a23dd75d7ffadac117115cb745edb25a.webp?size=240" />
+          <UAvatar src="https://pbs.twimg.com/profile_images/1374040164180299791/ACw4G3nZ_400x400.jpg" />
+          <UAvatar src="https://pbs.twimg.com/profile_images/1832800489580224512/uqwwtRlK_400x400.jpg" />
+          <UAvatar text="+37" class="text-white text-xs font-bold"></UAvatar>
+        </UAvatarGroup>
+        <div class="text-lg text-center max-w-xs">
+          Join the 40 Nuxters who have already signed up.
         </div>
       </div>
       <div class="max-w-lg mx-auto mt-10">

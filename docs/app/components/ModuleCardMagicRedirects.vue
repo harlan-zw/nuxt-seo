@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const module = {
-  label: 'Redirects',
+  label: 'Magic Redirects',
   description: 'Never worry about a 404 again with zero-config redirects that feel like magic.',
   icon: 'i-carbon-direction-loop-right',
   scheduled: 'Q1 2025',

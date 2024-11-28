@@ -30,14 +30,14 @@ const ad = computed(() => {
             </UButton>
           </div>
           <ul class="px-1 list-disc text-sm ml-4 space-y-1 mb-3">
-            <li>Nuxt Redirects</li>
+            <li>Nuxt Magic Redirects</li>
             <li>Nuxt Google Search Console</li>
             <li>Nuxt Internal Links</li>
             <li>Nuxt SEO Analyze</li>
           </ul>
           <div class="px-1">
-            Save $170 on the <NuxtLink to="/pro" class="underline text-green-500">
-              presale
+            Save $130 by joining the <NuxtLink to="/pro" class="underline text-green-500">
+              waitlist
             </NuxtLink> now.
           </div>
         </div>
