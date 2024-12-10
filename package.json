@@ -91,5 +91,10 @@
     "resolutions": {},
     "scripts": {},
     "devDependencies": {}
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@nuxt/ui@3.0.0-alpha.6": "patches/@nuxt__ui@3.0.0-alpha.6.patch"
+    }
   }
 }

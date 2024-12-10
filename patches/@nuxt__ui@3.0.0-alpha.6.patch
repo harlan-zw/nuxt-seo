@@ -1,0 +1,13 @@
+diff --git a/dist/runtime/components/Link.vue b/dist/runtime/components/Link.vue
+index aaf57eeff08b17cefc8dd8231ccd7fb859f665ad..9c7dd1d539c068d53a6d9b20da2d6bd1527c354d 100644
+--- a/dist/runtime/components/Link.vue
++++ b/dist/runtime/components/Link.vue
+@@ -4,7 +4,7 @@ import { tv } from 'tailwind-variants'
+ import type { AppConfig } from '@nuxt/schema'
+ import _appConfig from '#build/app.config'
+ import theme from '#build/ui/link'
+-import type { NuxtLinkProps } from '#app'
++import type { NuxtLinkProps } from 'nuxt/app'
+ 
+ const appConfig = _appConfig as AppConfig & { ui: { link: Partial<typeof theme> } }
+ 
