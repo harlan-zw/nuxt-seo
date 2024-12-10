@@ -1,6 +1,6 @@
+import { hash } from 'ohash'
 import { appStorage } from '~~/server/storage'
 import { ProWaitlistFeedbackSchema } from '~~/types/schemas'
-import { hash } from 'ohash'
 
 export default defineEventHandler(async (e) => {
   const body = await readValidatedBody(e, ProWaitlistFeedbackSchema.safeParse)

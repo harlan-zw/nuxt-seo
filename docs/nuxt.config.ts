@@ -199,7 +199,7 @@ export default defineNuxtConfig({
   ],
 
   hooks: {
-    'components:extend'(components) {
+    'components:extend': function (components) {
       for (const component of components) {
         if (component.pascalName === 'UAlert') {
           component.global = true

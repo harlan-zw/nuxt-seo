@@ -81,7 +81,7 @@ const repoLinks = computed(() => [
     </UPageHeader>
 
     <UPageBody prose class="pb-0">
-        <Ads />
+      <Ads />
       <ContentRenderer v-if="page.body" :value="page" />
       <div class="justify-center flex items-center gap-2 font-semibold">
         <UIcon name="i-simple-icons-github" class="w-5 h-5" />

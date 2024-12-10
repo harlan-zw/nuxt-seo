@@ -45,18 +45,18 @@ const navigation = computed(() => {
     </template>
 
     <template #content>
-    <div  v-if="route.path.startsWith('/docs')">
-      <DocsSidebarHeader />
-      <USeparator class="mb-5" />
-    </div>
+      <div v-if="route.path.startsWith('/docs')">
+        <DocsSidebarHeader />
+        <USeparator class="mb-5" />
+      </div>
       <UContentNavigation :navigation="navigation">
         <template #link="{ link }">
-        <div class="flex items-center gap-2">
-          <UIcon v-if="link.icon" :name="link.icon" class="w-4 h-4 text-primary-400 dark:text-sky-200" />
-          <div :class="link.children?.length ? 'text-sm font-bold' : ''">
-            {{ link.title }}
+          <div class="flex items-center gap-2">
+            <UIcon v-if="link.icon" :name="link.icon" class="w-4 h-4 text-primary-400 dark:text-sky-200" />
+            <div :class="link.children?.length ? 'text-sm font-bold' : ''">
+              {{ link.title }}
+            </div>
           </div>
-        </div>
         </template>
       </UContentNavigation>
     </template>

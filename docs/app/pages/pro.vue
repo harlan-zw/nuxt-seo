@@ -258,7 +258,7 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
           </p>
         </div>
         <div class="mb-5 ">
-            Release estimated in<br>
+          Release estimated in<br>
           <UIcon name="i-carbon-calendar" class="-mt-2 text-blue-300" />
           ~{{ daysUntilQ1 }} days
         </div>
@@ -353,7 +353,7 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
           <UAvatar src="https://cdn.discordapp.com/avatars/212548363529355264/a23dd75d7ffadac117115cb745edb25a.webp?size=240" />
           <UAvatar src="https://pbs.twimg.com/profile_images/1374040164180299791/ACw4G3nZ_400x400.jpg" />
           <UAvatar src="https://pbs.twimg.com/profile_images/1832800489580224512/uqwwtRlK_400x400.jpg" />
-          <UAvatar text="+37" class="text-white text-xs font-bold"></UAvatar>
+          <UAvatar text="+37" class="text-white text-xs font-bold" />
         </UAvatarGroup>
         <div class="text-lg text-center max-w-xs">
           Join the 40 Nuxters who have already signed up.

@@ -1,5 +1,5 @@
-import { appStorage } from '~~/server/storage'
 import { fetchGitHubSponsors } from 'sponsorkit'
+import { appStorage } from '~~/server/storage'
 
 export default defineCachedEventHandler(async (e) => {
   if (!import.meta.prerender && !import.meta.dev) {

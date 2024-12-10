@@ -1,5 +1,5 @@
-import { logger } from '~~/logger'
 import { appendHeader } from 'h3'
+import { logger } from '~~/logger'
 
 export function createPerformanceMeasure() {
   const e = useRequestEvent()
