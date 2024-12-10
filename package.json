@@ -48,41 +48,35 @@
   },
   "dependencies": {
     "@nuxt/kit": "3.14.1592",
-    "@nuxtjs/robots": "^5.0.0",
+    "@nuxtjs/robots": "^5.0.1",
     "@nuxtjs/sitemap": "^7.0.0",
-    "nuxt-link-checker": "^4.0.0",
-    "nuxt-og-image": "^4.0.0",
-    "nuxt-schema-org": "^4.0.2",
-    "nuxt-seo-utils": "^6.0.2",
-    "nuxt-site-config": "^3.0.4"
+    "nuxt-link-checker": "^4.0.2",
+    "nuxt-og-image": "^4.0.1",
+    "nuxt-schema-org": "^4.0.3",
+    "nuxt-seo-utils": "^6.0.4",
+    "nuxt-site-config": "^3.0.6"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.9.2",
+    "@antfu/eslint-config": "^3.11.2",
     "@nuxt/module-builder": "^0.8.4",
     "@nuxt/schema": "3.14.1592",
-    "@nuxt/test-utils": "^3.14.4",
-    "@nuxtjs/i18n": "^9.1.0",
+    "@nuxt/test-utils": "^3.15.1",
+    "@nuxtjs/i18n": "^9.1.1",
     "@vue/test-utils": "^2.4.6",
-    "bumpp": "^9.8.1",
-    "eslint": "^9.15.0",
-    "execa": "^9.5.1",
-    "happy-dom": "^15.11.6",
+    "bumpp": "^9.9.0",
+    "eslint": "^9.16.0",
+    "execa": "^9.5.2",
+    "happy-dom": "^15.11.7",
     "nitropack": "^2.10.4",
     "nuxt": "3.14.1592",
     "typescript": "5.6.3",
-    "vitest": "^2.1.5"
+    "vitest": "^2.1.8"
   },
   "build": {
     "externals": [
       "ofetch",
       "consola/utils"
     ]
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "@nuxt/ui": "patches/@nuxt__ui.patch",
-      "@nuxt/content": "patches/@nuxt__content.patch"
-    }
   },
   "resolutions": {
     "@nuxt/kit": "3.14.1592",
