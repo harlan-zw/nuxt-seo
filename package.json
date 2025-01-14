@@ -47,13 +47,13 @@
     "typecheck": "pnpm dev:prepare && tsc --noEmit && npx vue-tsc --noEmit --strict"
   },
   "dependencies": {
-    "@nuxt/kit": "3.15.1",
+    "@nuxt/kit": "^3.15.1",
     "@nuxtjs/robots": "^5.1.1",
     "@nuxtjs/sitemap": "^7.0.2",
     "nuxt-link-checker": "^4.0.4",
     "nuxt-og-image": "^4.0.3",
     "nuxt-schema-org": "^4.0.4",
-    "nuxt-seo-utils": "^6.0.7",
+    "nuxt-seo-utils": "^6.0.8",
     "nuxt-site-config": "^3.0.6"
   },
   "devDependencies": {
