@@ -1,6 +1,6 @@
 import type { NuxtSEOModule } from '../src/const'
 import { existsSync } from 'node:fs'
-import { defineCollection } from '@nuxt/content'
+import { defineCollection, defineContentConfig } from '@nuxt/content'
 import { relative, resolve } from 'pathe'
 import z from 'zod'
 import {
@@ -25,7 +25,7 @@ function getSubModuleCollection(m: NuxtSEOModule) {
       return defineCollection({
         type: 'page',
         source: {
-          path: '**/*.md',
+          include: '**/*.md',
           cwd: localDirPath,
           prefix: `docs/${m.slug}`,
         },
@@ -38,74 +38,76 @@ function getSubModuleCollection(m: NuxtSEOModule) {
     type: 'page',
     source: {
       repository: `https://github.com/${m.repo}`,
-      path: 'docs/content/**/*.md',
+      include: 'docs/content/**/*.md',
       prefix: `/docs/${m.slug}`,
     },
   })
 }
 
-export const collections = {
-  nuxtSeo: defineCollection({
-    type: 'page',
-    source: {
-      path: '**/*.md',
-      cwd: resolve('content/nuxtSeo'),
-      prefix: '/docs/nuxt-seo',
-    },
-  }),
-  robots: getSubModuleCollection(RobotsModule),
-  sitemap: getSubModuleCollection(SitemapModule),
-  ogImage: getSubModuleCollection(OgImageModule),
-  schemaOrg: getSubModuleCollection(SchemaOrgModule),
-  linkChecker: getSubModuleCollection(LinkCheckerModule),
-  seoUtils: getSubModuleCollection(SeoUtilsModule),
-  siteConfig: getSubModuleCollection(SiteConfigModule),
-  learn: defineCollection({
-    type: 'page',
-    source: {
-      path: '**/*.md',
-      cwd: resolve('content/learn'),
-      prefix: '/learn',
-    },
-    schema: z.object({
-      icon: z.string().optional(),
-      publishedAt: z.string().optional(),
-      updatedAt: z.string().optional(),
-      keywords: z.array(z.string()).optional(),
-      readTime: z.string(),
-      ogImageComponent: z.string().optional(),
+export default defineContentConfig({
+  collections: {
+    nuxtSeo: defineCollection({
+      type: 'page',
+      source: {
+        include: '**/*.md',
+        cwd: resolve('content/nuxtSeo'),
+        prefix: '/docs/nuxt-seo',
+      },
     }),
-  }),
-  root: defineCollection({
-    type: 'page',
-    source: {
-      path: '**/*.md',
-      cwd: resolve('content/root'),
-      prefix: '/',
-    },
-    schema: z.object({
-      icon: z.string().optional(),
-      publishedAt: z.string().optional(),
-      updatedAt: z.string().optional(),
-      keywords: z.array(z.string()).optional(),
-      readTime: z.string(),
-      ogImageComponent: z.string().optional(),
+    robots: getSubModuleCollection(RobotsModule),
+    sitemap: getSubModuleCollection(SitemapModule),
+    ogImage: getSubModuleCollection(OgImageModule),
+    schemaOrg: getSubModuleCollection(SchemaOrgModule),
+    linkChecker: getSubModuleCollection(LinkCheckerModule),
+    seoUtils: getSubModuleCollection(SeoUtilsModule),
+    siteConfig: getSubModuleCollection(SiteConfigModule),
+    learn: defineCollection({
+      type: 'page',
+      source: {
+        include: '**/*.md',
+        cwd: resolve('content/learn'),
+        prefix: '/learn',
+      },
+      schema: z.object({
+        icon: z.string().optional(),
+        publishedAt: z.string().optional(),
+        updatedAt: z.string().optional(),
+        keywords: z.array(z.string()).optional(),
+        readTime: z.string(),
+        ogImageComponent: z.string().optional(),
+      }),
     }),
-  }),
-  recipes: defineCollection({
-    type: 'page',
-    source: {
-      path: '**/*.md',
-      cwd: resolve('content/recipes'),
-      prefix: '/recipes',
-    },
-    schema: z.object({
-      icon: z.string().optional(),
-      publishedAt: z.string().optional(),
-      updatedAt: z.string().optional(),
-      keywords: z.array(z.string()).optional(),
-      readTime: z.string(),
-      ogImageComponent: z.string().optional(),
+    root: defineCollection({
+      type: 'page',
+      source: {
+        include: '**/*.md',
+        cwd: resolve('content/root'),
+        prefix: '/',
+      },
+      schema: z.object({
+        icon: z.string().optional(),
+        publishedAt: z.string().optional(),
+        updatedAt: z.string().optional(),
+        keywords: z.array(z.string()).optional(),
+        readTime: z.string(),
+        ogImageComponent: z.string().optional(),
+      }),
     }),
-  }),
-}
+    recipes: defineCollection({
+      type: 'page',
+      source: {
+        include: '**/*.md',
+        cwd: resolve('content/recipes'),
+        prefix: '/recipes',
+      },
+      schema: z.object({
+        icon: z.string().optional(),
+        publishedAt: z.string().optional(),
+        updatedAt: z.string().optional(),
+        keywords: z.array(z.string()).optional(),
+        readTime: z.string(),
+        ogImageComponent: z.string().optional(),
+      }),
+    }),
+  },
+})

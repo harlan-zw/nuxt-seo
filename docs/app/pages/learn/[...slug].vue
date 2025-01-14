@@ -88,7 +88,7 @@ const repoLinks = computed(() => [
   {
     icon: 'i-ph-pen-duotone',
     label: 'Edit this page',
-    to: `https://github.com/harlan-zw/nuxt-seo/edit/main/docs/content/learn/${page.value._id.split('/').slice(2).join('/')}`,
+    to: `https://github.com/harlan-zw/nuxt-seo/edit/main/docs/content/learn/${page.value.id.split('/').slice(2).join('/')}`,
     target: '_blank',
   },
 ])

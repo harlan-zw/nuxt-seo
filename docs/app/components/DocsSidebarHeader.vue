@@ -23,7 +23,7 @@ const files = computed(() => _nav.value?.files.value || [])
       <ModuleCard :key="module.slug" :module="module" :version="false" class="mb-2" />
     </div>
     <div class="block md:hidden flex items-center gap-1 font-bold mb-3">
-      <UIcon v-if="module.icon" dynamic :name="module.icon" class="text-blue-500 dark:text-blue-300" v-bind="iconAttrs" />{{ module.label }}
+      <UIcon v-if="module.icon" dynamic :name="module.icon" class="text-blue-500 dark:text-blue-300" />{{ module.label }}
     </div>
     <div class="flex items-center gap-1 mb-3">
       <USelectMenu :search-input="false" size="sm" :model-value="module.version" :items="module.versions?.map(v => ({ label: v, disabled: v !== module.version }))" class="md:w-full" />

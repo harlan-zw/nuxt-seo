@@ -165,6 +165,12 @@ export default defineNuxtConfig({
     '#content/server': resolve('./server/content-v2'),
   },
 
+  build: {
+    transpile: [
+      'debug',
+    ],
+  },
+
   content: {
     database: { type: 'd1', binding: 'DB' },
     build: {

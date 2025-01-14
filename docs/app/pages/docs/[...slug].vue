@@ -66,7 +66,7 @@ defineOgImageComponent('Module', {
 const repoLinks = computed(() => [
   {
     label: 'Edit this page',
-    to: `https://github.com/${module.value.repo}/edit/main/docs/content/${page.value._id.split('/').slice(3).join('/')}`,
+    to: `https://github.com/${module.value.repo}/edit/main/docs/content/${page.value.id.split('/').slice(3).join('/')}`,
     target: '_blank',
   },
 ])
