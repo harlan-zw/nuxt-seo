@@ -9,6 +9,9 @@
     "lint:docs:fix": "markdownlint ./content --fix && case-police 'content/**/*.md' *.md --fix",
     "twoslash:verify": "nuxt-content-twoslash verify --content-dir content"
   },
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "type": "module",
   "devDependencies": {
     "@iconify-json/carbon": "^1.2.5",
@@ -53,6 +56,7 @@
     "tailwind-merge": "^2.6.0",
     "tailwindcss": "4.0.0-beta.9",
     "tailwindcss-animate": "^1.0.7",
-    "wrangler": "^3.103.2"
+    "wrangler": "^3.103.2",
+    "better-sqlite3": "^11.8.1"
   }
 }
