@@ -6,6 +6,9 @@ on:
       - '**/README.md'
       - 'docs/**'
 
+permissions:
+  contents: read # access to check out code and install dependencies
+
 jobs:
   build:
     runs-on: ubuntu-latest
