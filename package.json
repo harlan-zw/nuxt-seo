@@ -28,49 +28,61 @@
     "./const": {
       "types": "./dist/const.d.ts",
       "import": "./dist/const.mjs"
+    },
+    "./content": {
+      "types": "./dist/content.d.ts",
+      "import": "./dist/content.mjs"
     }
   },
   "main": "./dist/module.cjs",
   "types": "./dist/types.d.ts",
+  "typesVersions": {
+    "*": {
+      "content": [
+        "dist/content"
+      ]
+    }
+  },
   "files": [
     "const.d.ts",
+    "content.d.ts",
     "dist"
   ],
   "scripts": {
     "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build",
     "dev": "nuxi dev playground",
     "dev:docs": "nuxi dev docs",
-    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare",
     "lint": "eslint . --fix",
     "release": "pnpm build && bumpp && pnpm -r publish --access public",
     "test": " pnpm dev:prepare && nuxi prepare test/fixtures/basic && nuxi prepare test/fixtures/i18n && vitest",
     "typecheck": "pnpm dev:prepare && tsc --noEmit && npx vue-tsc --noEmit --strict"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.15.1",
-    "@nuxtjs/robots": "^5.1.1",
-    "@nuxtjs/sitemap": "^7.0.2",
-    "nuxt-link-checker": "^4.0.4",
-    "nuxt-og-image": "^4.0.3",
-    "nuxt-schema-org": "^4.0.4",
+    "@nuxt/kit": "^3.15.2",
+    "@nuxtjs/robots": "^5.2.2",
+    "@nuxtjs/sitemap": "^7.2.2",
+    "nuxt-link-checker": "^4.1.0",
+    "nuxt-og-image": "^4.1.1",
+    "nuxt-schema-org": "^4.1.1",
     "nuxt-seo-utils": "^6.0.8",
     "nuxt-site-config": "^3.0.6"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.14.0",
     "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/schema": "3.15.1",
+    "@nuxt/schema": "3.15.2",
     "@nuxt/test-utils": "^3.15.4",
     "@nuxtjs/i18n": "^9.1.1",
     "@vue/test-utils": "^2.4.6",
-    "bumpp": "^9.10.0",
+    "bumpp": "^9.10.1",
     "eslint": "^9.18.0",
     "execa": "^9.5.2",
-    "happy-dom": "^16.5.3",
+    "happy-dom": "^16.6.0",
     "nitropack": "^2.10.4",
-    "nuxt": "3.15.1",
+    "nuxt": "3.15.2",
     "typescript": "5.6.3",
-    "vitest": "^2.1.8"
+    "vitest": "^3.0.2"
   },
   "pnpm": {
     "patchedDependencies": {

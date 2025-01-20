@@ -1,11 +1,11 @@
 import NuxtSEO from '../../../src/module'
+import {resolve} from "pathe";
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   modules: [
     NuxtSEO,
     '@nuxtjs/i18n',
-    '@nuxt/ui',
   ],
 
   nitro: {
@@ -14,6 +14,8 @@ export default defineNuxtConfig({
       ignore: ['/'],
     },
   },
+
+  workspaceDir: resolve(__dirname, '../../..'),
 
   i18n: {
     baseUrl: 'https://nuxtseo.com',

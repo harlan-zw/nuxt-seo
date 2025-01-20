@@ -16,19 +16,18 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxthub/core',
     '@nuxt/fonts',
-    '@nuxt/content',
     '@nuxt/scripts',
     '@nuxt/image',
     // maybe buggy
     'nuxt-rebundle',
     'nuxt-build-cache',
     NuxtSEO,
+    '@nuxt/content',
     async (_, nuxt) => {
       nuxt.hooks.hook('nitro:init', (nitro) => {
         // from sponsorkit
         nitro.options.alias.sharp = 'unenv/runtime/mock/empty'
         nitro.options.alias.pnpapi = 'unenv/runtime/mock/empty' // ?
-        nitro.options.alias['#content/server'] = resolve('./server/content-v2')
         nitro.hooks.hook('compiled', async (_nitro) => {
           const routesPath = resolve(nitro.options.output.publicDir, '_routes.json')
           if (existsSync(routesPath)) {
@@ -66,12 +65,7 @@ export default defineNuxtConfig({
     },
   },
 
-  robots: {
-    disableNuxtContentIntegration: true,
-  },
-
   sitemap: {
-    strictNuxtContentPaths: true,
     xslColumns: [
       { label: 'URL', width: '100%' },
     ],
@@ -258,6 +252,12 @@ export default defineNuxtConfig({
     },
   },
 
+  linkChecker: {
+    report: {
+      markdown: true,
+    },
+  },
+
   routeRules: {
     // for doc linking purposes
     '/robots': { redirect: { to: '/docs/robots/getting-started/installation', statusCode: 301 } },
@@ -345,7 +345,6 @@ export default defineNuxtConfig({
 
   ogImage: {
     zeroRuntime: true,
-    strictNuxtContentPaths: true,
     fonts: [
       'Hubot+Sans:400',
       'Hubot+Sans:700',
@@ -364,26 +363,27 @@ export default defineNuxtConfig({
     provider: 'iconify',
   },
 
+  seo: {
+    meta: {
+      themeColor: [
+        { content: '#18181b', media: '(prefers-color-scheme: dark)' },
+        { content: 'white', media: '(prefers-color-scheme: light)' },
+      ],
+    },
+  },
+
   app: {
     pageTransition: {
       name: 'page',
       mode: 'out-in',
     },
     head: {
-      seoMeta: {
-        themeColor: [
-          { content: '#18181b', media: '(prefers-color-scheme: dark)' },
-          { content: 'white', media: '(prefers-color-scheme: light)' },
-        ],
-      },
       templateParams: {
         separator: '·',
       },
-
       bodyAttrs: {
         class: 'antialiased font-sans text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900',
       },
-
     },
   },
 
