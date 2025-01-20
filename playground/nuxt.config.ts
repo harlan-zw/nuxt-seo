@@ -4,7 +4,6 @@ import NuxtSEO from '../src/module'
 export default defineNuxtConfig({
   modules: [
     NuxtSEO,
-    '@nuxt/ui',
   ],
 
   devtools: {

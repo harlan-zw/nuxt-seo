@@ -1,3 +1,4 @@
+import { resolve } from 'pathe'
 import NuxtSEO from '../../../src/module'
 
 export default defineNuxtConfig({
@@ -16,5 +17,8 @@ export default defineNuxtConfig({
   sitemap: {
     credits: false, // breaks snapshot
   },
+
+  workspaceDir: resolve(__dirname, '../../..'),
+
   compatibilityDate: '2024-08-07',
 })
