@@ -12,6 +12,7 @@ import {
   SiteConfigModule,
   SitemapModule,
 } from '../src/const'
+import { asSeoCollection } from '../src/content'
 import { logger } from './logger'
 
 function getSubModuleCollection(m: NuxtSEOModule) {
@@ -34,26 +35,26 @@ function getSubModuleCollection(m: NuxtSEOModule) {
   }
   // use github source
   logger.info(`🔗 Docs source \`${m.slug}\` using GitHub: ${m.repo}`)
-  return defineCollection({
+  return defineCollection(asSeoCollection({
     type: 'page',
     source: {
       repository: `https://github.com/${m.repo}`,
       include: 'docs/content/**/*.md',
       prefix: `/docs/${m.slug}`,
     },
-  })
+  }))
 }
 
 export default defineContentConfig({
   collections: {
-    nuxtSeo: defineCollection({
+    nuxtSeo: defineCollection(asSeoCollection({
       type: 'page',
       source: {
         include: '**/*.md',
         cwd: resolve('content/nuxtSeo'),
         prefix: '/docs/nuxt-seo',
       },
-    }),
+    })),
     robots: getSubModuleCollection(RobotsModule),
     sitemap: getSubModuleCollection(SitemapModule),
     ogImage: getSubModuleCollection(OgImageModule),
@@ -61,7 +62,7 @@ export default defineContentConfig({
     linkChecker: getSubModuleCollection(LinkCheckerModule),
     seoUtils: getSubModuleCollection(SeoUtilsModule),
     siteConfig: getSubModuleCollection(SiteConfigModule),
-    learn: defineCollection({
+    learn: defineCollection(asSeoCollection({
       type: 'page',
       source: {
         include: '**/*.md',
@@ -76,8 +77,8 @@ export default defineContentConfig({
         readTime: z.string(),
         ogImageComponent: z.string().optional(),
       }),
-    }),
-    root: defineCollection({
+    })),
+    root: defineCollection(asSeoCollection({
       type: 'page',
       source: {
         include: '**/*.md',
@@ -92,8 +93,8 @@ export default defineContentConfig({
         readTime: z.string(),
         ogImageComponent: z.string().optional(),
       }),
-    }),
-    recipes: defineCollection({
+    })),
+    recipes: defineCollection(asSeoCollection({
       type: 'page',
       source: {
         include: '**/*.md',
@@ -106,8 +107,7 @@ export default defineContentConfig({
         updatedAt: z.string().optional(),
         keywords: z.array(z.string()).optional(),
         readTime: z.string(),
-        ogImageComponent: z.string().optional(),
       }),
-    }),
+    })),
   },
 })
