@@ -5,7 +5,6 @@ export default defineNuxtConfig({
   modules: [
     NuxtSEO,
     '@nuxt/ui',
-    '@nuxt/content',
   ],
 
   devtools: {

@@ -16,13 +16,13 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxthub/core',
     '@nuxt/fonts',
-    '@nuxt/content',
     '@nuxt/scripts',
     '@nuxt/image',
     // maybe buggy
     'nuxt-rebundle',
     'nuxt-build-cache',
     NuxtSEO,
+    '@nuxt/content',
     async (_, nuxt) => {
       nuxt.hooks.hook('nitro:init', (nitro) => {
         // from sponsorkit

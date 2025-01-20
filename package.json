@@ -52,7 +52,7 @@
     "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build",
     "dev": "nuxi dev playground",
     "dev:docs": "nuxi dev docs",
-    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && cd playground && pnpm prepare",
     "lint": "eslint . --fix",
     "release": "pnpm build && bumpp && pnpm -r publish --access public",
     "test": " pnpm dev:prepare && nuxi prepare test/fixtures/basic && nuxi prepare test/fixtures/i18n && vitest",
@@ -70,7 +70,6 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.14.0",
-    "@nuxt/fonts": "^0.10.3",
     "@nuxt/module-builder": "^0.8.4",
     "@nuxt/schema": "3.15.2",
     "@nuxt/test-utils": "^3.15.4",
