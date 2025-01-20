@@ -52,7 +52,7 @@
     "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build",
     "dev": "nuxi dev playground",
     "dev:docs": "nuxi dev docs",
-    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && cd playground && pnpm dev:prepare",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare",
     "lint": "eslint . --fix",
     "release": "pnpm build && bumpp && pnpm -r publish --access public",
     "test": " pnpm dev:prepare && nuxi prepare test/fixtures/basic && nuxi prepare test/fixtures/i18n && vitest",
