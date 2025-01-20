@@ -12,7 +12,6 @@ export default defineNuxtConfig({
     NuxtFonts,
     'nuxt-content-twoslash',
     '@vueuse/motion/nuxt',
-    '@nuxt/ui',
     '@nuxt/ui-pro',
     'radix-vue/nuxt',
     '@vueuse/nuxt',
@@ -63,8 +62,8 @@ export default defineNuxtConfig({
 
   ui: {
     theme: {
-      transitions: true,
-    },
+      colors: ['primary', 'secondary', 'tertiary', 'info', 'success', 'warning', 'error']
+    }
   },
 
   sitemap: {
@@ -155,16 +154,6 @@ export default defineNuxtConfig({
   typescript: {
     strict: false,
     includeWorkspace: true,
-  },
-
-  alias: {
-    '#content/server': resolve('./server/content-v2'),
-  },
-
-  build: {
-    transpile: [
-      'debug',
-    ],
   },
 
   content: {

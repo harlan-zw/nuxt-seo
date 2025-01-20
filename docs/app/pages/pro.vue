@@ -356,7 +356,7 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
           <UAvatar text="+60" class="text-white text-xs font-bold" />
         </UAvatarGroup>
         <div class="text-lg text-center max-w-xs">
-          Join the 63 Nuxters who have already signed up.
+          Join the 93 Nuxters who have already signed up.
         </div>
       </div>
       <div class="max-w-lg mx-auto mt-10">

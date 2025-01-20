@@ -4,9 +4,6 @@ export default defineAppConfig({
     expand: true,
     duration: 5000,
   },
-  theme: {
-    radius: 0.25,
-  },
   ui: {
     icons: {
       caution: 'i-carbon-warning-alt',
@@ -36,10 +33,6 @@ export default defineAppConfig({
       loading: 'i-carbon-loading',
       minus: 'i-carbon-subtract',
       search: 'i-carbon-search',
-    },
-    colors: {
-      primary: 'green',
-      gray: 'slate',
     },
   },
   uiPro: {
