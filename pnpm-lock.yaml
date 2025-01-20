@@ -145,13 +145,13 @@ importers:
         specifier: 2.0.0-alpha.6
         version: 2.0.0-alpha.6(change-case@5.4.4)(db0@0.2.1(@libsql/client@0.14.0)(better-sqlite3@11.8.1))(embla-carousel@8.5.2)(focus-trap@7.6.4)(ioredis@5.4.2)(magicast@0.3.5)(postcss@8.5.1)(rollup@4.31.0)(typescript@5.6.3)(vite@6.0.9(@types/node@22.10.7)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))(vue@3.5.13(typescript@5.6.3))
       '@nuxthub/core':
-        specifier: 0.8.12
+        specifier: ^0.8.12
         version: 0.8.12(db0@0.2.1(@libsql/client@0.14.0)(better-sqlite3@11.8.1))(ioredis@5.4.2)(magicast@0.3.5)(rollup@4.31.0)(vite@6.0.9(@types/node@22.10.7)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
       '@nuxtjs/mdc':
         specifier: ^0.13.1
         version: 0.13.1(magicast@0.3.5)(rollup@4.31.0)
       '@unovis/vue':
-        specifier: 1.5.0
+        specifier: ^1.5.0
         version: 1.5.0(@unovis/ts@1.5.0)(vue@3.5.13(typescript@5.6.3))
       '@vueuse/core':
         specifier: ^12.4.0
@@ -219,9 +219,6 @@ importers:
 
   playground:
     dependencies:
-      '@nuxt/content':
-        specifier: ^3.0.0
-        version: 3.0.0(@libsql/client@0.14.0)(magicast@0.3.5)(pg@8.13.1)(rollup@4.31.0)
       '@nuxt/fonts':
         specifier: ^0.10.3
         version: 0.10.3(db0@0.2.1(@libsql/client@0.14.0)(better-sqlite3@11.8.1))(ioredis@5.4.2)(magicast@0.3.5)(rollup@4.31.0)(vite@6.0.9(@types/node@22.10.7)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
