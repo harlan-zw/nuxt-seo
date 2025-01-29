@@ -1,6 +1,10 @@
 {
   "name": "nuxt-seo-docs",
+  "type": "module",
   "private": true,
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "scripts": {
     "dev": "nuxi dev",
     "build": "npm -C ../ run build && nuxi build",
@@ -9,10 +13,6 @@
     "lint:docs:fix": "markdownlint ./content --fix && case-police 'content/**/*.md' *.md --fix",
     "twoslash:verify": "nuxt-content-twoslash verify --content-dir content"
   },
-  "engines": {
-    "node": ">=22.0.0"
-  },
-  "type": "module",
   "devDependencies": {
     "@iconify-json/carbon": "^1.2.5",
     "@iconify-json/heroicons": "^1.2.2",
@@ -39,6 +39,7 @@
     "@vueuse/core": "^12.4.0",
     "@vueuse/motion": "^2.2.6",
     "@vueuse/nuxt": "^12.4.0",
+    "better-sqlite3": "^11.8.1",
     "case-police": "^0.7.2",
     "clsx": "^2.1.1",
     "consola": "^3.4.0",
@@ -56,7 +57,6 @@
     "tailwind-merge": "^2.6.0",
     "tailwindcss": "4.0.0-beta.9",
     "tailwindcss-animate": "^1.0.7",
-    "wrangler": "^3.103.2",
-    "better-sqlite3": "^11.8.1"
+    "wrangler": "^3.103.2"
   }
 }

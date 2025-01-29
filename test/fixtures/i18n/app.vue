@@ -3,10 +3,6 @@ import { updateSiteConfig, useBreadcrumbItems, useI18n, useRoute, useSiteConfig 
 
 const i18n = useI18n()
 
-function setLanguage(code: string) {
-  i18n.setLocale(code)
-}
-
 const items = useBreadcrumbItems({
   path: `/${i18n.locale.value}/blog/my-post`,
   prepend: [

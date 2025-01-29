@@ -59,40 +59,40 @@
     "typecheck": "pnpm dev:prepare && tsc --noEmit && npx vue-tsc --noEmit --strict"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.15.2",
+    "@nuxt/kit": "^3.15.3",
     "@nuxtjs/robots": "^5.2.2",
-    "@nuxtjs/sitemap": "^7.2.2",
+    "@nuxtjs/sitemap": "^7.2.3",
     "nuxt-link-checker": "^4.1.0",
-    "nuxt-og-image": "^4.1.1",
+    "nuxt-og-image": "^4.1.2",
     "nuxt-schema-org": "^4.1.1",
     "nuxt-seo-utils": "^6.0.8",
     "nuxt-site-config": "^3.0.6"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.14.0",
+    "@antfu/eslint-config": "^4.1.0",
     "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/schema": "3.15.2",
+    "@nuxt/schema": "3.15.3",
     "@nuxt/test-utils": "^3.15.4",
-    "@nuxtjs/i18n": "^9.1.1",
+    "@nuxtjs/i18n": "^9.1.3",
     "@vue/test-utils": "^2.4.6",
-    "bumpp": "^9.10.1",
-    "eslint": "^9.18.0",
+    "bumpp": "^10.0.1",
+    "eslint": "^9.19.0",
     "execa": "^9.5.2",
-    "happy-dom": "^16.6.0",
+    "happy-dom": "^16.7.3",
     "nitropack": "^2.10.4",
-    "nuxt": "3.15.2",
-    "typescript": "5.6.3",
-    "vitest": "^3.0.2"
+    "nuxt": "3.15.3",
+    "typescript": "5.7.3",
+    "vitest": "^3.0.4"
   },
   "resolutions": {
-    "typescript": "5.6.3",
-    "@tailwindcss/postcss": "4.0.0-beta.9",
-    "@tailwindcss/vite": "4.0.0-beta.9",
-    "tailwindcss": "4.0.0-beta.9",
     "@nuxt/ui": "3.0.0-alpha.11",
     "@nuxt/ui-pro": "3.0.0-alpha.11",
+    "@tailwindcss/postcss": "4.0.0-beta.9",
+    "@tailwindcss/vite": "4.0.0-beta.9",
+    "node-fetch-native": "1.6.6",
     "tailwind-variants": "0.3.0",
-    "node-fetch-native": "1.6.6"
+    "tailwindcss": "4.0.0-beta.9",
+    "typescript": "5.6.3"
   },
   "publishConfig": {
     "resolutions": {},
