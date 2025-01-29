@@ -1,7 +1,8 @@
+import type { ThumbsFeedbackResponse } from '~~/types/schemas'
 import { getHeader } from 'h3'
 import { parseURL } from 'ufo'
 import { appStorage } from '~~/server/storage'
-import { type ThumbsFeedbackResponse, ThumbsFeedbackSchema } from '~~/types/schemas'
+import { ThumbsFeedbackSchema } from '~~/types/schemas'
 
 export default defineEventHandler<Promise<ThumbsFeedbackResponse>>(async (e) => {
   const body = await readValidatedBody(e, ThumbsFeedbackSchema.safeParse)

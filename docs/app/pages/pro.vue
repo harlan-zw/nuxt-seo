@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '#ui/types'
+import type { ProEmailSchemaOutput, ProWaitlistFeedbackSchemaOutput } from '~~/types/schemas'
 import {
   ProEmailSchema,
-  type ProEmailSchemaOutput,
+
   ProWaitlistFeedbackSchema,
-  type ProWaitlistFeedbackSchemaOutput,
+
 } from '~~/types/schemas'
 import { reviews } from '~/composables/data'
 import { proAd } from '~/utils/ads'

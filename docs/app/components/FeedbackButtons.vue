@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import type { FormSubmitEvent } from '#ui/types'
+import type { CommentFeedbackSchemaOutput, ThumbsFeedbackResponse } from '~~/types/schemas'
 import { useTimeoutFn } from '@vueuse/core'
-import { CommentFeedbackSchema, type CommentFeedbackSchemaOutput, type ThumbsFeedbackResponse } from '~~/types/schemas'
+import { CommentFeedbackSchema } from '~~/types/schemas'
 
 defineProps<{
   editLink: string

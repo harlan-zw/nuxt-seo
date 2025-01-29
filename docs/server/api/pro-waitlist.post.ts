@@ -1,4 +1,5 @@
-import { ProEmailSchema, type ThumbsFeedbackResponse } from '~~/types/schemas'
+import type { ThumbsFeedbackResponse } from '~~/types/schemas'
+import { ProEmailSchema } from '~~/types/schemas'
 
 export default defineEventHandler<Promise<ThumbsFeedbackResponse>>(async (e) => {
   const body = await readValidatedBody(e, ProEmailSchema.safeParse)
