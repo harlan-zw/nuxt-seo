@@ -58,7 +58,7 @@ async function onSubmit(event: FormSubmitEvent<CommentFeedbackSchemaOutput>) {
 
 <template>
   <div>
-    <div class="mb-5 text-sm font-semibold text-neutral-300">
+    <div class="mb-5 text-sm font-semibold dark:text-neutral-300">
       Did this page help you?
     </div>
     <div class="flex items-center gap-3">
