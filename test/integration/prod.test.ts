@@ -34,8 +34,8 @@ describe('dev', () => {
       <meta property="og:title" content="@nuxtjs/seo">
       <meta property="og:url" content="https://local.nuxtseo.com/">
       <meta property="og:site_name" content="@nuxtjs/seo">
-      <meta name="description" content="The all-in-one SEO layer for Nuxt 3.">
-      <meta property="og:description" content="The all-in-one SEO layer for Nuxt 3.">"
+      <meta property="og:description" content="The all-in-one SEO layer for Nuxt 3.">
+      <meta name="description" content="The all-in-one SEO layer for Nuxt 3.">"
     `)
   })
   it('sitemap - default', async () => {

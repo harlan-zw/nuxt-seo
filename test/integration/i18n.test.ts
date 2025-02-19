@@ -36,8 +36,8 @@ describe('i18n', () => {
       <meta property="og:url" content="https://nuxtseo.com/">
       <meta property="og:locale" content="en">
       <meta property="og:site_name" content="@nuxtjs/seo">
-      <meta name="description" content="en description">
-      <meta property="og:description" content="en description">"
+      <meta property="og:description" content="en description">
+      <meta name="description" content="en description">"
     `)
   })
   it('seo utils - default - fr', async () => {
@@ -55,8 +55,8 @@ describe('i18n', () => {
       <meta property="og:url" content="https://nuxtseo.com/fr">
       <meta property="og:locale" content="fr">
       <meta property="og:site_name" content="fr name">
-      <meta name="description" content="fr description">
-      <meta property="og:description" content="fr description">"
+      <meta property="og:description" content="fr description">
+      <meta name="description" content="fr description">"
     `)
   })
   it('sitemap - default', async () => {
