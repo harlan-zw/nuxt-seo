@@ -1,0 +1,3 @@
+# foo
+
+no sitemap config
