@@ -28,11 +28,12 @@ describe('trailing slash', () => {
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>About | @nuxtjs&#x2F;seo</title>
       <link rel="canonical" href="https://local.nuxtseo.com/about/">
-      <meta property="og:title" content="About | @nuxtjs/seo">
       <meta property="og:url" content="https://local.nuxtseo.com/about/">
       <meta property="og:site_name" content="@nuxtjs/seo">
-      <meta property="og:description" content="The all-in-one SEO layer for Nuxt 3.">
-      <meta name="description" content="The all-in-one SEO layer for Nuxt 3.">"
+      <meta name="description" content="The all-in-one SEO layer for Nuxt 3.">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta property="og:title" data-infer="true" content="About | @nuxtjs/seo">
+      <meta property="og:description" data-infer="true" content="The all-in-one SEO layer for Nuxt 3.">"
     `)
   })
   it('sitemap - default', async () => {
@@ -72,9 +73,17 @@ describe('trailing slash', () => {
         "@context": "https://schema.org",
         "@graph": [
           {
-            "@id": "https://local.nuxtseo.com/#website",
+            "@id": "https://local.nuxtseo.com#website",
             "@type": "WebSite",
             "description": "The all-in-one SEO layer for Nuxt 3.",
+            "inLanguage": {
+              "__v_isRef": true,
+              "__v_isShallow": false,
+              "dep": {
+                "sc": 0,
+                "version": 0,
+              },
+            },
             "name": "@nuxtjs/seo",
             "url": "https://local.nuxtseo.com",
           },
@@ -83,7 +92,7 @@ describe('trailing slash', () => {
             "@type": "WebPage",
             "description": "The all-in-one SEO layer for Nuxt 3.",
             "isPartOf": {
-              "@id": "https://local.nuxtseo.com/#website",
+              "@id": "https://local.nuxtseo.com#website",
             },
             "name": "About",
             "potentialAction": [

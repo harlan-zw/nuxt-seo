@@ -32,12 +32,13 @@ describe('i18n', () => {
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>@nuxtjs&#x2F;seo</title>
       <link rel="canonical" href="https://nuxtseo.com/">
-      <meta property="og:title" content="@nuxtjs/seo">
       <meta property="og:url" content="https://nuxtseo.com/">
       <meta property="og:locale" content="en">
       <meta property="og:site_name" content="@nuxtjs/seo">
-      <meta property="og:description" content="en description">
-      <meta name="description" content="en description">"
+      <meta name="description" content="en description">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta property="og:title" data-infer="true" content="@nuxtjs/seo">
+      <meta property="og:description" data-infer="true" content="en description">"
     `)
   })
   it('seo utils - default - fr', async () => {
@@ -51,12 +52,13 @@ describe('i18n', () => {
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>Fr | fr name</title>
       <link rel="canonical" href="https://nuxtseo.com/fr">
-      <meta property="og:title" content="Fr | fr name">
       <meta property="og:url" content="https://nuxtseo.com/fr">
       <meta property="og:locale" content="fr">
       <meta property="og:site_name" content="fr name">
-      <meta property="og:description" content="fr description">
-      <meta name="description" content="fr description">"
+      <meta name="description" content="fr description">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta property="og:title" data-infer="true" content="Fr | fr name">
+      <meta property="og:description" data-infer="true" content="fr description">"
     `)
   })
   it('sitemap - default', async () => {
@@ -117,10 +119,10 @@ describe('i18n', () => {
             ],
           },
           {
-            "@id": "https://nuxtseo.com/#webpage",
+            "@id": "https://nuxtseo.com#webpage",
             "@type": "WebPage",
             "breadcrumb": {
-              "@id": "https://nuxtseo.com/#breadcrumb",
+              "@id": "https://nuxtseo.com#breadcrumb",
             },
             "description": "en description",
             "isPartOf": {
@@ -137,7 +139,7 @@ describe('i18n', () => {
             "url": "https://nuxtseo.com",
           },
           {
-            "@id": "https://nuxtseo.com/#breadcrumb",
+            "@id": "https://nuxtseo.com#breadcrumb",
             "@type": "BreadcrumbList",
             "id": "#breadcrumb",
             "itemListElement": [

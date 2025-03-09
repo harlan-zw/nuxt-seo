@@ -2,7 +2,7 @@
   "name": "@nuxtjs/seo",
   "type": "module",
   "version": "2.2.0",
-  "packageManager": "pnpm@10.4.1",
+  "packageManager": "pnpm@10.6.1",
   "description": "The all-in-one SEO layer for Nuxt 3.",
   "author": {
     "name": "Harlan Wilton",
@@ -59,31 +59,31 @@
     "typecheck": "pnpm dev:prepare && tsc --noEmit && npx vue-tsc --noEmit --strict"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.15.4",
-    "@nuxtjs/robots": "^5.2.4",
-    "@nuxtjs/sitemap": "^7.2.6",
+    "@nuxt/kit": "^3.16.0",
+    "@nuxtjs/robots": "^5.2.6",
+    "@nuxtjs/sitemap": "^7.2.7",
     "nuxt-link-checker": "^4.1.1",
-    "nuxt-og-image": "^4.1.4",
-    "nuxt-schema-org": "^4.1.2",
-    "nuxt-seo-utils": "^6.0.11",
-    "nuxt-site-config": "^3.1.0"
+    "nuxt-og-image": "^5.0.2",
+    "nuxt-schema-org": "^5.0.1",
+    "nuxt-seo-utils": "^7.0.2",
+    "nuxt-site-config": "^3.1.4"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.3.0",
-    "@nuxt/content": "^3.1.1",
+    "@antfu/eslint-config": "^4.8.1",
+    "@nuxt/content": "^3.3.0",
     "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/schema": "3.15.4",
-    "@nuxt/test-utils": "^3.15.4",
-    "@nuxtjs/i18n": "9.2.0",
+    "@nuxt/schema": "3.16.0",
+    "@nuxt/test-utils": "^3.17.2",
+    "@nuxtjs/i18n": "9.3.1",
     "@vue/test-utils": "^2.4.6",
     "bumpp": "^10.0.3",
-    "eslint": "^9.20.1",
+    "eslint": "^9.22.0",
     "execa": "^9.5.2",
-    "happy-dom": "^17.1.1",
-    "nitropack": "^2.10.4",
-    "nuxt": "3.15.4",
+    "happy-dom": "^17.4.3",
+    "nitropack": "^2.11.6",
+    "nuxt": "3.16.0",
     "typescript": "5.7.3",
-    "vitest": "^3.0.6"
+    "vitest": "^3.0.8"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -97,12 +97,12 @@
     ]
   },
   "resolutions": {
-    "@nuxt/ui": "3.0.0-alpha.13",
-    "@nuxt/ui-pro": "3.0.0-alpha.13",
     "@tailwindcss/postcss": "4.0.7",
     "@tailwindcss/vite": "4.0.7",
     "tailwindcss": "4.0.7",
-    "typescript": "5.6.3"
+    "typescript": "5.6.3",
+    "@uhead/vue": "2.0.0-rc.9",
+    "unhead": "2.0.0-rc.9"
   },
   "publishConfig": {
     "resolutions": {},
