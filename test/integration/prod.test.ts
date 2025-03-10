@@ -76,7 +76,7 @@ describe('dev', () => {
         "@context": "https://schema.org",
         "@graph": [
           {
-            "@id": "https://local.nuxtseo.com#website",
+            "@id": "https://local.nuxtseo.com/#website",
             "@type": "WebSite",
             "description": "The all-in-one SEO layer for Nuxt 3.",
             "inLanguage": {
@@ -88,24 +88,24 @@ describe('dev', () => {
               },
             },
             "name": "@nuxtjs/seo",
-            "url": "https://local.nuxtseo.com",
+            "url": "https://local.nuxtseo.com/",
           },
           {
-            "@id": "https://local.nuxtseo.com#webpage",
+            "@id": "https://local.nuxtseo.com/#webpage",
             "@type": "WebPage",
             "description": "The all-in-one SEO layer for Nuxt 3.",
             "isPartOf": {
-              "@id": "https://local.nuxtseo.com#website",
+              "@id": "https://local.nuxtseo.com/#website",
             },
             "potentialAction": [
               {
                 "@type": "ReadAction",
                 "target": [
-                  "https://local.nuxtseo.com",
+                  "https://local.nuxtseo.com/",
                 ],
               },
             ],
-            "url": "https://local.nuxtseo.com",
+            "url": "https://local.nuxtseo.com/",
           },
         ],
       }

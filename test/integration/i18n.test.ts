@@ -119,10 +119,10 @@ describe('i18n', () => {
             ],
           },
           {
-            "@id": "https://nuxtseo.com#webpage",
+            "@id": "https://nuxtseo.com/#webpage",
             "@type": "WebPage",
             "breadcrumb": {
-              "@id": "https://nuxtseo.com#breadcrumb",
+              "@id": "https://nuxtseo.com/#breadcrumb",
             },
             "description": "en description",
             "isPartOf": {
@@ -132,14 +132,14 @@ describe('i18n', () => {
               {
                 "@type": "ReadAction",
                 "target": [
-                  "https://nuxtseo.com",
+                  "https://nuxtseo.com/",
                 ],
               },
             ],
-            "url": "https://nuxtseo.com",
+            "url": "https://nuxtseo.com/",
           },
           {
-            "@id": "https://nuxtseo.com#breadcrumb",
+            "@id": "https://nuxtseo.com/#breadcrumb",
             "@type": "BreadcrumbList",
             "id": "#breadcrumb",
             "itemListElement": [

@@ -63,7 +63,7 @@ describe('base url', () => {
         "@context": "https://schema.org",
         "@graph": [
           {
-            "@id": "https://local.nuxtseo.com#website",
+            "@id": "https://local.nuxtseo.com/#website",
             "@type": "WebSite",
             "description": "The all-in-one SEO layer for Nuxt 3.",
             "inLanguage": {
@@ -75,14 +75,14 @@ describe('base url', () => {
               },
             },
             "name": "@nuxtjs/seo",
-            "url": "https://local.nuxtseo.com",
+            "url": "https://local.nuxtseo.com/",
           },
           {
             "@id": "https://local.nuxtseo.com/base#webpage",
             "@type": "WebPage",
             "description": "The all-in-one SEO layer for Nuxt 3.",
             "isPartOf": {
-              "@id": "https://local.nuxtseo.com#website",
+              "@id": "https://local.nuxtseo.com/#website",
             },
             "potentialAction": [
               {
