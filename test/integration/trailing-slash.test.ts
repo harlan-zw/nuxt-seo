@@ -76,14 +76,6 @@ describe('trailing slash', () => {
             "@id": "https://local.nuxtseo.com/#website",
             "@type": "WebSite",
             "description": "The all-in-one SEO layer for Nuxt 3.",
-            "inLanguage": {
-              "__v_isRef": true,
-              "__v_isShallow": false,
-              "dep": {
-                "sc": 0,
-                "version": 0,
-              },
-            },
             "name": "@nuxtjs/seo",
             "url": "https://local.nuxtseo.com/",
           },
