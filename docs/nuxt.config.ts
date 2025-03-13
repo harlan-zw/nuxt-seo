@@ -27,8 +27,8 @@ export default defineNuxtConfig({
     async (_, nuxt) => {
       nuxt.hooks.hook('nitro:init', (nitro) => {
         // from sponsorkit
-        nitro.options.alias.sharp = 'unenv/runtime/mock/empty'
-        nitro.options.alias.pnpapi = 'unenv/runtime/mock/empty' // ?
+        nitro.options.alias.sharp = 'unenv/mock/empty'
+        nitro.options.alias.pnpapi = 'unenv/mock/empty' // ?
         nitro.hooks.hook('compiled', async (_nitro) => {
           const routesPath = resolve(nitro.options.output.publicDir, '_routes.json')
           if (existsSync(routesPath)) {
