@@ -21,7 +21,7 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/types.d.ts",
+      "types": "./dist/types.d.mts",
       "import": "./dist/module.mjs",
       "require": "./dist/module.cjs"
     },
@@ -34,6 +34,7 @@
       "import": "./dist/content.mjs"
     }
   },
+  "module": "./dist/module.mjs",
   "main": "./dist/module.cjs",
   "types": "./dist/types.d.ts",
   "typesVersions": {
@@ -56,7 +57,8 @@
     "lint": "eslint . --fix",
     "release": "pnpm build && bumpp && pnpm -r publish --access public",
     "test": " pnpm dev:prepare && nuxi prepare test/fixtures/basic && nuxi prepare test/fixtures/i18n && vitest",
-    "typecheck": "pnpm dev:prepare && tsc --noEmit && npx vue-tsc --noEmit --strict"
+    "typecheck": "pnpm dev:prepare && tsc --noEmit && npx vue-tsc --noEmit --strict",
+    "test:attw": "attw --pack"
   },
   "dependencies": {
     "@nuxt/kit": "^3.16.0",
@@ -71,6 +73,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^4.10.1",
     "@nuxt/content": "^3.3.0",
+    "@arethetypeswrong/cli": "0.17.4",
     "@nuxt/module-builder": "^0.8.4",
     "@nuxt/schema": "3.16.0",
     "@nuxt/test-utils": "^3.17.2",
