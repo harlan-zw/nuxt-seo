@@ -31,14 +31,13 @@ describe('i18n', () => {
       <meta property="og:type" content="website">
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>@nuxtjs&#x2F;seo</title>
-      <link rel="canonical" href="https://nuxtseo.com/">
-      <meta property="og:url" content="https://nuxtseo.com/">
-      <meta property="og:locale" content="en">
-      <meta property="og:site_name" content="@nuxtjs/seo">
       <meta name="description" content="en description">
       <meta name="twitter:card" content="summary_large_image">
       <meta property="og:title" data-infer="true" content="@nuxtjs/seo">
-      <meta property="og:description" data-infer="true" content="en description">"
+      <meta property="og:description" data-infer="true" content="en description">
+      <link rel="canonical" href="https://nuxtseo.com/">
+      <meta property="og:url" content="https://nuxtseo.com/">
+      <meta property="og:site_name" content="@nuxtjs/seo">"
     `)
   })
   it('seo utils - default - fr', async () => {
@@ -51,14 +50,13 @@ describe('i18n', () => {
       <meta property="og:type" content="website">
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>Fr | fr name</title>
-      <link rel="canonical" href="https://nuxtseo.com/fr">
-      <meta property="og:url" content="https://nuxtseo.com/fr">
-      <meta property="og:locale" content="fr">
-      <meta property="og:site_name" content="fr name">
       <meta name="description" content="fr description">
       <meta name="twitter:card" content="summary_large_image">
       <meta property="og:title" data-infer="true" content="Fr | fr name">
-      <meta property="og:description" data-infer="true" content="fr description">"
+      <meta property="og:description" data-infer="true" content="fr description">
+      <link rel="canonical" href="https://nuxtseo.com/fr">
+      <meta property="og:url" content="https://nuxtseo.com/fr">
+      <meta property="og:site_name" content="fr name">"
     `)
   })
   it('sitemap - default', async () => {
@@ -106,10 +104,13 @@ describe('i18n', () => {
             "@id": "https://nuxtseo.com/#website",
             "@type": "WebSite",
             "description": "en description",
-            "inLanguage": "en",
+            "inLanguage": "en-US",
             "name": "@nuxtjs/seo",
             "url": "https://nuxtseo.com/",
             "workTranslation": [
+              {
+                "@id": "https://nuxtseo.com/#website",
+              },
               {
                 "@id": "https://nuxtseo.com/es#website",
               },
