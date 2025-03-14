@@ -117,7 +117,7 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       failOnError: false,
-      crawlLinks: true,
+      // crawlLinks: true,
       routes: ['/'],
     },
     cloudflare: {
@@ -355,16 +355,6 @@ export default defineNuxtConfig({
     provider: 'iconify',
   },
 
-  vite: {
-    build: {
-      rollupOptions: {
-        output: {
-          sanitizeFileName: true,
-        },
-      },
-    },
-  },
-
   seo: {
     meta: {
       themeColor: [
@@ -388,6 +378,4 @@ export default defineNuxtConfig({
       },
     },
   },
-
-  compatibilityDate: '2024-07-12',
 })
