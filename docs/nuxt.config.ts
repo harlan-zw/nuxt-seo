@@ -222,7 +222,8 @@ export default defineNuxtConfig({
 
   $production: {
     routeRules: {
-      '/api/stats': { prerender: true, },
+      '/api/stats': { prerender: true },
+      '/api/github/sponsors': { prerender: true },
       '/api/_mdc/highlight': { cache: { group: 'mdc', name: 'highlight', maxAge: 60 * 60 } },
       '/api/_content/query/**': { cache: { group: 'content', name: 'query', maxAge: 60 * 60 } },
       '/api/_nuxt_icon': { cache: { group: 'icon', name: 'icon', maxAge: 60 * 60 * 24 * 7 } },

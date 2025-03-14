@@ -12,7 +12,7 @@ definePageMeta({
 })
 
 const modules = inject('modules')
-const stats = inject('stats') || ref({})
+const stats = toValue(inject('stats')) || ref({})
 
 useSeoMeta({
   title: '%siteName %separator All-in-one Technical SEO for Nuxt',
@@ -881,8 +881,8 @@ const graphData = computed(() => {
             <div class="text-2xl font-semibold mb-5">
               Top Sponsors
             </div>
-            <div class="sm:grid space-y-5 md:space-y-0 grid-cols-3 gap-5 mb-10">
-              <div v-for="(entry, key) in sponsors.$50" :key="key">
+            <div v-if="sponsors" class="sm:grid space-y-5 md:space-y-0 grid-cols-3 gap-5 mb-10">
+              <div v-for="(entry, key) in sponsors.$50 || {}" :key="key">
                 <NuxtLink :to="entry.sponsor.websiteUrl" class="flex items-center gap-2">
                   <NuxtImg loading="lazy" :alt="entry.sponsor.name" width="56" height="56" :src="entry.sponsor.avatarUrl" class="w-14 h-14 rounded-full" />
                   <div>
@@ -900,7 +900,7 @@ const graphData = computed(() => {
               Gold Sponsors
             </div>
             <div class="sm:grid space-y-5 md:space-y-0 grid-cols-3 gap-5 mb-10">
-              <div v-for="(entry, key) in sponsors.$25" :key="key">
+              <div v-for="(entry, key) in sponsors.$25 || {}" :key="key">
                 <NuxtLink :to="entry.sponsor.websiteUrl" class="flex items-center gap-2">
                   <NuxtImg loading="lazy" :alt="entry.sponsor.name || entry.sponsor.login" width="48" height="48" :src="entry.sponsor.avatarUrl" class="w-12 h-12 rounded-full" />
                   <div>
@@ -918,7 +918,7 @@ const graphData = computed(() => {
               Backers
             </div>
             <div class="grid grid-cols-6 sm:grid-cols-10 gap-3 mb-10">
-              <div v-for="(entry, key) in sponsors.others" :key="key">
+              <div v-for="(entry, key) in sponsors.others || {}" :key="key">
                 <UTooltip :text="entry.sponsor.name || entry.sponsor.login">
                   <NuxtLink :to="(entry.monthlyDollars > 5 ? entry.sponsor.websiteUrl : entry.sponsor.linkUrl) || entry.sponsor.linkUrl" class="flex items-center gap-2">
                     <NuxtImg loading="lazy" :alt="entry.sponsor.name || entry.sponsor.login" width="48" height="48" :src="entry.sponsor.avatarUrl" class="w-12 h-12 rounded-full" :class="entry.monthlyDollars > 5 ? ['ring-green-500 ring-2'] : []" />
