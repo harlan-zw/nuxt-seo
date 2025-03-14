@@ -239,7 +239,9 @@ export default defineNuxtConfig({
 
   linkChecker: {
     report: {
+      html: true,
       markdown: true,
+      publish: true,
     },
   },
 
