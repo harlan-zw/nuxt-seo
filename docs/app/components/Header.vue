@@ -83,15 +83,15 @@ const navigation = computed(() => {
         <div class="flex items-center lg:gap-1.5">
           <ColorModeButton />
 
-          <UTooltip text="Harlan's X">
+          <UTooltip text="Harlan's Bluesky">
             <UButton
               class="hidden sm:block"
-              aria-label="Harlan's X"
-              to="https://twitter.com/harlan_zw"
+              aria-label="Harlan's Bluesky"
+              to="https://bsky.app/profile/harlanzw.com"
               target="_blank"
               color="neutral"
               variant="ghost"
-              icon="i-carbon-logo-x"
+              icon="i-simple-icons-bluesky"
             />
           </UTooltip>
 

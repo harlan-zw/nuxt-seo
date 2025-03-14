@@ -12,7 +12,7 @@ definePageMeta({
 })
 
 const modules = inject('modules')
-const stats = toValue(inject('stats')) || ref({})
+const stats = inject('stats')
 
 useSeoMeta({
   title: '%siteName %separator All-in-one Technical SEO for Nuxt',
@@ -20,7 +20,7 @@ useSeoMeta({
   titleTemplate: null,
 })
 
-const { data: sponsors } = await useFetch('/api/github/sponsors')
+const { data: sponsors } = await useFetch('/api/github/sponsors.json')
 
 defineOgImageComponent('Home', {
   title: 'Nuxt SEO',

@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { modules } from '../../src/const'
 
-const { data: stats } = await useFetch('/api/stats')
+const { data: stats } = await useFetch('/api/stats.json')
+
+if (!stats.value) {
+  createError({
+    statusText: 'Missing stats.json!',
+    status: 500,
+  })
+}
 
 const appConfig = useAppConfig()
 
