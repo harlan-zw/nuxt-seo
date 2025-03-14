@@ -20,7 +20,9 @@ useSeoMeta({
   titleTemplate: null,
 })
 
-const { data: sponsors } = await useFetch('/api/github/sponsors.json')
+const { data: sponsors } = await useFetch('/api/github/sponsors.json', {
+  key: 'sponsors',
+})
 
 defineOgImageComponent('Home', {
   title: 'Nuxt SEO',
@@ -877,11 +879,11 @@ const graphData = computed(() => {
               </UButton>
             </div>
           </div>
-          <div class="max-w-xl mx-auto">
+          <div v-if="sponsors" class="max-w-xl mx-auto">
             <div class="text-2xl font-semibold mb-5">
               Top Sponsors
             </div>
-            <div v-if="sponsors" class="sm:grid space-y-5 md:space-y-0 grid-cols-3 gap-5 mb-10">
+            <div class="sm:grid space-y-5 md:space-y-0 grid-cols-3 gap-5 mb-10">
               <div v-for="(entry, key) in sponsors.$50 || {}" :key="key">
                 <NuxtLink :to="entry.sponsor.websiteUrl" class="flex items-center gap-2">
                   <NuxtImg loading="lazy" :alt="entry.sponsor.name" width="56" height="56" :src="entry.sponsor.avatarUrl" class="w-14 h-14 rounded-full" />
