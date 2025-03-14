@@ -355,6 +355,16 @@ export default defineNuxtConfig({
     provider: 'iconify',
   },
 
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          sanitizeFileName: true,
+        },
+      },
+    },
+  },
+
   seo: {
     meta: {
       themeColor: [
