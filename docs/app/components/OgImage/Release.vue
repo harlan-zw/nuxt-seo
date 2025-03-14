@@ -52,7 +52,7 @@ const themeRgb = computed(() => {
   <div
     class="w-full h-full flex justify-between relative p-[60px]"
     :class="[
-      colorMode === 'light' ? ['bg-white', 'text-gray-900'] : ['bg-gray-900', 'text-gray-100'],
+      colorMode === 'light' ? ['bg-white', 'text-neutral-900'] : ['bg-neutral-900', 'text-neutral-100'],
     ]"
   >
     <div
@@ -67,7 +67,7 @@ const themeRgb = computed(() => {
         <div class="text-[40px] flex items-center gap-3 flex-row">
           <UIcon mode="svg" class="text-blue-500 w-20 h-20" dynamic :name="icon" />
           <div>
-            <div class="text-[36px] font-mono text-gray-300">
+            <div class="text-[36px] font-mono text-neutral-300">
               {{ moduleName }}
             </div>
           </div>

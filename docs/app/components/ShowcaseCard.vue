@@ -9,7 +9,7 @@ defineProps<Partial<NuxtSEOModule>>()
     <div class="h-full">
       <div class="group relative border hover:border-blue-400 transition rounded-xl overflow-hidden h-full">
         <div
-          class="h-48 relative flex items-center justify-center bg-no-repeat bg-cover border-b-2 border-gray-100/30 dark:border-gray-900/10"
+          class="h-48 relative flex items-center justify-center bg-no-repeat bg-cover border-b-2 border-neutral-100/30 dark:border-neutral-900/10"
           style="background-image: url('/grid.png')"
         >
           <div
@@ -25,7 +25,7 @@ defineProps<Partial<NuxtSEOModule>>()
           <h3 class="font-semibold">
             {{ label }}
           </h3>
-          <p class="text-sm mt-1 text-gray-400">
+          <p class="text-sm mt-1 text-neutral-400">
             {{ description }}
           </p>
         </div>

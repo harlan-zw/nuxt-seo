@@ -64,11 +64,11 @@ const HighlightedVersion = defineComponent({
     <section class=" py-5 sm:py-12 xl:py-20">
       <UContainer>
         <UPageHeader title="Nuxt SEO Releases" description="See what has been shipping recently." />
-        <div class="mt-3 dark:text-gray-300 text-sm">
+        <div class="mt-3 dark:text-neutral-300 text-sm">
           Last fetched:
           {{ formatTimeAgo(new Date(stats.fetchedAt)) }}.
         </div>
-        <div class="mt-3 dark:text-gray-300 text-sm">
+        <div class="mt-3 dark:text-neutral-300 text-sm">
           Please use GitHub to check for realtime updates, this list is only updated every 24 hours.
         </div>
       </UContainer>
@@ -94,7 +94,7 @@ const HighlightedVersion = defineComponent({
             </UCard>
           </li>
         </ul>
-        <div class="mt-10 text-center dark:text-gray-300 text-sm">
+        <div class="mt-10 text-center dark:text-neutral-300 text-sm">
           Please check GitHub for releases further back.
         </div>
       </UContainer>

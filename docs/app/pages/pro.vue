@@ -197,10 +197,10 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
             <h2 class="font-semibold text-2xl mb-3 flex items-center gap-2">
               Introduction
             </h2>
-            <p class="dark:text-gray-300 mb-3">
+            <p class="dark:text-neutral-300 mb-3">
               Hi there, I'm looking to push the Nuxt SEO ecosystem even further, but I'll need your help!
             </p>
-            <p class="dark:text-gray-300 mb-3">
+            <p class="dark:text-neutral-300 mb-3">
               Introducing Nuxt SEO Pro: a collection of new modules and learning resources to help you further grow your sites organic traffic
               through technical SEO.
             </p>
@@ -214,7 +214,7 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
                 <img src="https://avatars.githubusercontent.com/u/5326365?v=4" alt="Harlan" class="w-8 h-8 rounded-full inline mr-1">
                 <div>
                   Harlan
-                  <div class="text-sm dark:text-gray-400 text-gray-600">
+                  <div class="text-sm dark:text-neutral-400 text-neutral-600">
                     Nuxt Core Maintainer
                   </div>
                 </div>
@@ -228,7 +228,7 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
       <h2 class="font-semibold text-2xl mb-2 flex items-center gap-2">
         <UIcon name="i-carbon-3rd-party-connected" class="text-blue-300" /> New Modules
       </h2>
-      <p class="dark:text-gray-300">
+      <p class="dark:text-neutral-300">
         Four new modules to help you nurture your organic SEO growth.
       </p>
     </section>
@@ -285,14 +285,14 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
               <div class="line-through text-2xl">
                 $249
               </div>
-              <p class="text-gray-900 dark:text-white text-2xl sm:text-4xl font-semibold">
+              <p class="text-neutral-900 dark:text-white text-2xl sm:text-4xl font-semibold">
                 $119
               </p>
               <div class="text-xs">
-                <p class="text-gray-600 dark:text-gray-300 font-semibold">
+                <p class="text-neutral-600 dark:text-neutral-300 font-semibold">
                   one-time payment
                 </p>
-                <p class="text-gray-400 dark:tex-gray-500">
+                <p class="text-neutral-400 dark:tex-neutral-500">
                   plus local taxes
                 </p>
               </div>
@@ -300,12 +300,12 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
             <div class="font-bold">
               Save $130
             </div>
-            <div class="italic text-sm text-gray-500 dark:text-gray-400">
+            <div class="italic text-sm text-(--ui-text-muted)">
               First release scheduled for Q1 2025.
             </div>
           </div>
         </div>
-        <div class="max-w-lg mx-auto bg-gray-200/30 dark:bg-gray-900 dark:text-gray-200 p-10 rounded-2xl py-[70px] flex flex-col items-center justify-center">
+        <div class="max-w-lg mx-auto bg-neutral-200/30 dark:bg-neutral-900 dark:text-neutral-200 p-10 rounded-2xl py-[70px] flex flex-col items-center justify-center">
           <template v-if="waitlistStatus !== 'submitted'">
             <div class="mb-7">
               <div class="text-xl mb-2 font-semibold">
@@ -349,7 +349,7 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
           </div>
         </div>
       </div>
-      <div class="mt-10 justify-center flex-col dark:text-gray-300/75 flex items-center gap-1">
+      <div class="mt-10 justify-center flex-col dark:text-neutral-300/75 flex items-center gap-1">
         <UAvatarGroup size="xl" class="mb-3">
           <UAvatar src="https://cdn.discordapp.com/avatars/212548363529355264/a23dd75d7ffadac117115cb745edb25a.webp?size=240" />
           <UAvatar src="https://pbs.twimg.com/profile_images/1374040164180299791/ACw4G3nZ_400x400.jpg" />
@@ -394,11 +394,11 @@ function onSubmitProWaitlistFeedback(event: FormSubmitEvent<ProWaitlistFeedbackS
             </Marquee>
 
             <div
-              class="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-gray-900"
+              class="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-neutral-900"
             />
 
             <div
-              class="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-gray-900"
+              class="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-neutral-900"
             />
           </div>
         </UContainer>

@@ -508,10 +508,10 @@ const graphData = computed(() => {
           <div class="col-span-1 p-5 xl:p-0 relative xl:rounded-r-[70px] xl:pr-7 h-full xl:border-t xl:border-r xl:bottom-b xl:px-4 xl:py-10" :class="[section.bg, section.border]">
             <div class="relative flex items-center gap-3 sticky top-[100px]">
               <div>
-                <h2 class="text-3xl text-balance text-gray-700 dark:text-gray-100 leading-tight font-bold mb-3 flex items-center gap-2">
+                <h2 class="text-3xl text-balance text-neutral-700 dark:text-neutral-100 leading-tight font-bold mb-3 flex items-center gap-2">
                   {{ section.title }}
                 </h2>
-                <div class="text-balance dark:text-gray-300/80 text-gray-600">
+                <div class="text-balance dark:text-neutral-300/80 text-neutral-600">
                   {{ section.description }}
                 </div>
               </div>
@@ -544,10 +544,10 @@ const graphData = computed(() => {
         </div>
         <div class="xl:flex gap-10">
           <div class="flex flex-col justify-center">
-            <h1 class="max-w-xl text-gray-900/90 dark:text-gray-100 text-4xl md:text-6xl leading-tight font-bold tracking-tight" style="line-height: 1.3;">
+            <h1 class="max-w-xl text-neutral-900/90 dark:text-neutral-100 text-4xl md:text-6xl leading-tight font-bold tracking-tight" style="line-height: 1.3;">
               Your boring Nuxt <span class="font-cursive dark:text-yellow-200 text-purple-600">Technical SEO</span> shipped in <span class="bg-green-500/10 px-2"> 2 mins</span>.
             </h1>
-            <p class="max-w-xl text-gray-700 dark:text-gray-300 mt-4 max-w-3xl text-base md:text-xl">
+            <p class="max-w-xl text-neutral-700 dark:text-neutral-300 mt-4 max-w-3xl text-base md:text-xl">
               Nuxt SEO is a collection of  <NuxtLink to="https://nuxt.com/modules" class="font-semibold">
                 modules
               </NuxtLink> that handle all of the technical aspects in growing your sites organic traffic.
@@ -725,7 +725,7 @@ const graphData = computed(() => {
                 Up To Date. Always.
                 <span class="text-blue-300 text-3xl" />
               </h2>
-              <p class="text-gray-700 mb-3 dark:text-gray-300 mt-4 max-w-3xl text-center text-xl lg:text-left">
+              <p class="text-neutral-700 mb-3 dark:text-neutral-300 mt-4 max-w-3xl text-center text-xl lg:text-left">
                 Nuxt SEO was started at the end of 2022 and has received continuous bug fixes and feature improvements from the community.
               </p>
               <div class="gap-2 mx-auto text-center grid grid-cols-12">
@@ -781,7 +781,7 @@ const graphData = computed(() => {
             Loved by Nuxt Developers
             <span class="text-blue-300 text-3xl" />
           </h2>
-          <p class="text-gray-700 dark:text-gray-300 mt-4 max-w-3xl text-center text-xl lg:text-left">
+          <p class="text-neutral-700 dark:text-neutral-300 mt-4 max-w-3xl text-center text-xl lg:text-left">
             Nuxt SEO was built for the community. Here's what some of them have to say.
           </p>
         </div>
@@ -812,11 +812,11 @@ const graphData = computed(() => {
             </Marquee>
 
             <div
-              class="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-gray-900"
+              class="pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-white dark:from-neutral-900"
             />
 
             <div
-              class="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-gray-900"
+              class="pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-white dark:from-neutral-900"
             />
           </div>
         </UContainer>
@@ -868,7 +868,7 @@ const graphData = computed(() => {
               Funded by the community
               <span class="text-blue-300 text-3xl" />
             </h2>
-            <p class="mb-5 text-gray-700 dark:text-gray-300 mt-4 max-w-xl text-center text-xl lg:text-left">
+            <p class="mb-5 text-neutral-700 dark:text-neutral-300 mt-4 max-w-xl text-center text-xl lg:text-left">
               Nuxt SEO is completely free and open-source due to the generous support of the community.
             </p>
             <div>
@@ -889,7 +889,7 @@ const graphData = computed(() => {
                     <div class="font-bold text-xl whitespace-nowrap">
                       {{ entry.sponsor.name }}
                     </div>
-                    <div v-if="entry.sponsor.websiteUrl" class="text-gray-400">
+                    <div v-if="entry.sponsor.websiteUrl" class="text-neutral-400">
                       {{ entry.sponsor.websiteUrl.replace('https://', '') }}
                     </div>
                   </div>
@@ -907,7 +907,7 @@ const graphData = computed(() => {
                     <div class="font-bold text-sm whitespace-nowrap">
                       {{ entry.sponsor.name || entry.sponsor.login }}
                     </div>
-                    <div v-if="entry.sponsor.websiteUrl" class="text-xs text-gray-400">
+                    <div v-if="entry.sponsor.websiteUrl" class="text-xs text-neutral-400">
                       {{ entry.sponsor.websiteUrl.replace('https://', '') }}
                     </div>
                   </div>

@@ -14,7 +14,7 @@ const isComingSoon = computed(() => typeof props.module === 'object')
     <UCard class="rounded-t-none">
       <UAccordion v-if="!isComingSoon" :default-value="false" :items="items">
         <template #default="{ item }">
-          <div class="dark:text-gray-300 text-gray-600 text-sm">
+          <div class="dark:text-neutral-300 text-neutral-600 text-sm">
             {{ item.label }}
           </div>
         </template>
@@ -24,7 +24,7 @@ const isComingSoon = computed(() => typeof props.module === 'object')
       </UAccordion>
       <div v-else>
         <ul class="space-y-3 ">
-          <li v-for="(item, key) in items" :key="key" class="dark:text-gray-300 text-gray-600 text-sm">
+          <li v-for="(item, key) in items" :key="key" class="dark:text-neutral-300 text-neutral-600 text-sm">
             {{ item.label }}
           </li>
         </ul>

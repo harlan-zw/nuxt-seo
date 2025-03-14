@@ -25,7 +25,7 @@ const items = useBreadcrumbItems({ path, hideRoot, hideCurrent })
       This demo integrates directly with the <a href="https://ui.nuxt.com/navigation/breadcrumb">Nuxt UI Breadcrumb</a> component.
     </p>
     <div class="not-prose">
-      <div class="flex justify-center border-2 mb-5 rounded border-solid border-gray-100 dark:border-gray-800 p-5">
+      <div class="flex justify-center border-2 mb-5 rounded border-solid border-neutral-100 dark:border-neutral-800 p-5">
         <UBreadcrumb id="sub" :items="items" class="not-prose " />
       </div>
       <div class="flex items-start gap-5 ">

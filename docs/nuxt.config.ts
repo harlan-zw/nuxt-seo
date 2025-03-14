@@ -60,16 +60,15 @@ export default defineNuxtConfig({
     },
   ],
 
-  ui: {
-    theme: {
-      colors: ['primary', 'secondary', 'tertiary', 'info', 'success', 'warning', 'error'],
-    },
-  },
-
   sitemap: {
     xslColumns: [
       { label: 'URL', width: '100%' },
     ],
+  },
+
+  uiPro: {
+    mdc: true,
+    content: true
   },
 
   hub: {
@@ -97,7 +96,7 @@ export default defineNuxtConfig({
 
   twoslash: {
     floatingVueOptions: {
-      classMarkdown: 'prose prose-primary dark:prose-invert bg-blue-500',
+      classMarkdown: 'prose prose-(--ui-text-muted) dark:prose-invert bg-blue-500',
     },
     // Skip Twoslash in dev to improve performance. Turn this on when you want to explictly test twoslash in dev.
     enableInDev: false,
@@ -117,8 +116,9 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       failOnError: false,
-      // crawlLinks: true,
+      crawlLinks: true,
       routes: ['/'],
+      autoSubfolderIndex: false
     },
     cloudflare: {
       pages: {
@@ -201,6 +201,7 @@ export default defineNuxtConfig({
 
   mdc: {
     highlight: {
+      noApiRoute: false,
       theme: {
         light: 'github-light',
         default: 'github-light',
@@ -335,7 +336,7 @@ export default defineNuxtConfig({
   ],
 
   ogImage: {
-    enabled: false,
+    // enabled: false,
     zeroRuntime: true,
     fonts: [
       'Hubot+Sans:400',
@@ -374,8 +375,10 @@ export default defineNuxtConfig({
         separator: '·',
       },
       bodyAttrs: {
-        class: 'antialiased font-sans text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-900',
+        class: 'antialiased font-sans text-neutral-700 dark:text-neutral-200 bg-white dark:bg-neutral-900',
       },
     },
   },
+
+  compatibilityDate: '2025-03-14',
 })

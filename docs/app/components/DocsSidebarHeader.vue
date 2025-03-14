@@ -19,7 +19,7 @@ const files = computed(() => _nav.value?.files.value || [])
 
 <template>
   <div>
-    <div class="isolate -ml-2.5  hidden md:block md:sticky pt-8 rounded bg-white dark:bg-gray-900 top-0 z-1">
+    <div class="isolate hidden md:block md:sticky pt-8 rounded bg-white dark:bg-neutral-900 top-0 z-1">
       <ModuleCard :key="module.slug" :module="module" :version="false" class="mb-2" />
     </div>
     <div class="block md:hidden flex items-center gap-1 font-bold mb-3">
@@ -59,16 +59,16 @@ const files = computed(() => _nav.value?.files.value || [])
     <nav aria-title="Documentation Navigation">
       <ContentNavigation as="div" class="mb-5" default-open :collapsible="false" :navigation="nav.top" highlight :ui="{ listWithChildren: 'sm:ml-0 my-10' }">
         <template #link-leading="{ link, active }">
-          <div v-if="link.icon" class="rounded-md p-1 inline-flex ring-inset ring-1 bg-gray-100/50 dark:bg-gray-800/50 ring-gray-300 dark:ring-gray-700 group-hover:bg-primary group-hover:ring-primary group-hover:text-background" :class="active ? 'dark:bg-teal-700' : ''">
-            <UIcon :name="link.icon" class="w-4 h-4 text-primary-400 dark:text-sky-200" />
+          <div v-if="link.icon" class="rounded-md p-1 inline-flex ring-inset ring-1 bg-neutral-100/50 dark:bg-neutral-800/50 ring-neutral-300 dark:ring-neutral-700 group-hover:bg-primary group-hover:ring-primary group-hover:text-background" :class="active ? 'dark:bg-teal-700' : ''">
+            <UIcon :name="link.icon" class="w-4 h-4 text-(--ui-text-muted) dark:text-sky-200" />
           </div>
         </template>
       </ContentNavigation>
-      <div class="bg-gray-800 h-[1px] my-5 mr-5" />
+      <div class="bg-neutral-800 h-[1px] my-5 mr-5" />
       <ContentNavigation as="div" default-open :collapsible="false" :navigation="nav.bottom" highlight :ui="{ listWithChildren: 'sm:ml-0 my-10' }">
         <template #link="{ link }">
           <div v-if="!link.html" class="flex items-center gap-2">
-            <UIcon v-if="link.icon" :name="link.icon" class="w-4 h-4 text-primary-400 dark:text-sky-200" />
+            <UIcon v-if="link.icon" :name="link.icon" class="w-4 h-4 text-(--ui-text-muted) dark:text-sky-200" />
             <div :class="link.children?.length ? 'text-sm font-bold' : ''">
               {{ link.title }}
             </div>

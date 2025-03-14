@@ -82,7 +82,7 @@ const repoLinks = computed(() => [
 
     <UPageBody prose class="pb-0">
       <Ads />
-      <ContentRenderer v-if="page.body" :value="page" />
+      <ContentRenderer v-if="page.body" :value="page" class="mb-10" />
       <div class="justify-center flex items-center gap-2 font-semibold">
         <UIcon name="i-simple-icons-github" class="w-5 h-5" />
         <NuxtLink v-bind="repoLinks[0]" class="hover:underline">

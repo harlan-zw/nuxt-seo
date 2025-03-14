@@ -51,7 +51,7 @@ const themeRgb = computed(() => {
   <div
     class="w-full h-full flex justify-between relative p-[60px]"
     :class="[
-      colorMode === 'light' ? ['bg-white', 'text-gray-900'] : ['bg-gray-900', 'text-gray-50'],
+      colorMode === 'light' ? ['bg-white', 'text-neutral-900'] : ['bg-neutral-900', 'text-neutral-50'],
     ]"
   >
     <div

@@ -27,7 +27,7 @@ const { data: nav } = await useAsyncData(`learn`, () => queryCollectionNavigatio
                   </div>
                 </div>
               </div>
-              <div class="text-sm font-light text-gray-400">
+              <div class="text-sm font-light text-neutral-400">
                 {{ item.description }}
               </div>
             </div>

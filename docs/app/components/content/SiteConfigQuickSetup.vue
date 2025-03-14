@@ -45,7 +45,7 @@ NUXT_SITE_NAME=My Awesome Website`
         </CodeGroup>
       </div>
       <template #footer>
-        <div class="text-sm text-gray-400">
+        <div class="text-sm text-neutral-400">
           For more advanced configurations, check out the <NuxtLink to="/docs/site-config/guides/setting-site-config" class="underline">
             site config guide
           </NuxtLink>.

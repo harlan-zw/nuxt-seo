@@ -18,14 +18,14 @@ withDefaults(defineProps<{
 
 <template>
   <div
-    class="w-full h-full flex justify-between relative p-[60px] bg-gray-900 text-gray-100"
+    class="w-full h-full flex justify-between relative p-[60px] bg-neutral-900 text-neutral-100"
   >
     <div class="h-full w-full relative">
       <div class="flex flex-row justify-between items-center">
         <div class="text-[40px] flex items-center gap-3 flex-row">
           <UIcon mode="svg" class="text-blue-300 w-20 h-20" name="i-ph-robot-duotone" />
           <div>
-            <div class="text-[36px] font-mono text-gray-300">
+            <div class="text-[36px] font-mono text-neutral-300">
               Controlling Web Crawlers
             </div>
           </div>

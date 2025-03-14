@@ -21,7 +21,7 @@ const ad = computed(() => {
       <template v-if="ad">
         <div
           v-if="ad.id === 'pro'"
-          class="Carbon border text-sm dark:text-gray-300 text-gray-700 border-gray-200 dark:border-gray-800 rounded-lg mb-5"
+          class="Carbon border text-sm dark:text-neutral-300 text-neutral-700 border-neutral-200 dark:border-neutral-800 rounded-lg mb-5"
         >
           <div class="px-1 pt-1 mb-2 flex items-center justify-between">
             <strong>Nuxt SEO <span class="text-green-500">Pro</span></strong>
@@ -43,7 +43,7 @@ const ad = computed(() => {
         </div>
         <div
           v-else-if="ad.id === 'blueprint'"
-          class="Carbon border text-sm dark:text-gray-300 text-gray-700 border-gray-200 dark:border-gray-800 rounded-lg mb-5"
+          class="Carbon border text-sm dark:text-neutral-300 text-neutral-700 border-neutral-200 dark:border-neutral-800 rounded-lg mb-5"
         >
           <div class="px-1 pt-1 mb-2 flex items-center justify-between">
             <strong>SEO <span class="text-green-500">Blueprint</span></strong>
@@ -67,7 +67,8 @@ const ad = computed(() => {
     </ClientOnly>
     <ScriptCarbonAds
       :key="$route.path"
-      class="xl:min-h-[265px] Carbon border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50/50 dark:bg-white/5"
+      format="inline"
+      class="xl:min-h-[265px] Carbon border border-neutral-200 dark:border-neutral-800 rounded-lg bg-neutral-50/50 dark:bg-white/5"
       serve="CW7DTKJJ"
       placement="nuxtseocom"
       trigger="onNuxtReady"
@@ -79,17 +80,17 @@ const ad = computed(() => {
 
 <style>
 .dark .Carbon .carbon-text {
-  color: #9ca3af; /* text-gray-400 */
+  color: #9ca3af; /* text-neutral-400 */
 }
 .dark .Carbon .carbon-text:hover {
-  color: #e5e7eb; /* text-gray-200 */
+  color: #e5e7eb; /* text-neutral-200 */
 }
 
 .light .Carbon .carbon-text {
-  color: #4b5563; /* text-gray-600 */
+  color: #4b5563; /* text-neutral-600 */
 }
 .light .Carbon .carbon-text:hover {
-  color: #1f2937; /* text-gray-800 */
+  color: #1f2937; /* text-neutral-800 */
 }
 
 .Carbon {
@@ -175,12 +176,12 @@ const ad = computed(() => {
   margin-left: 0.5rem; /* ml-2 */
   font-size: 0.75rem; /* text-xs */
   text-align: right;
-  color: #9ca3af; /* text-gray-400 */
+  color: #9ca3af; /* text-neutral-400 */
   display: block;
   padding-top: 0.5rem; /* pt-2 */
 }
 .Carbon .carbon-poweredby:hover {
   text-decoration: none; /* no-underline */
-  color: #6b7280; /* text-gray-500 */
+  color: #6b7280; /* text-neutral-500 */
 }
 </style>

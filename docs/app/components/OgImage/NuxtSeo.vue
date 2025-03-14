@@ -52,7 +52,7 @@ const themeRgb = computed(() => {
   <div
     class="w-full h-full flex relative p-[60px]"
     :class="[
-      colorMode === 'light' ? ['bg-white', 'text-gray-900'] : ['bg-gray-900', 'text-gray-50'],
+      colorMode === 'light' ? ['bg-white', 'text-neutral-900'] : ['bg-neutral-900', 'text-neutral-50'],
     ]"
   >
     <div
@@ -82,12 +82,12 @@ const themeRgb = computed(() => {
         </h1>
         <p
           class="text-[32px] leading-[45px] max-w-[800px] font-normal m-0" :class="[
-            colorMode === 'light' ? ['text-gray-700'] : ['text-gray-200'],
+            colorMode === 'light' ? ['text-neutral-700'] : ['text-neutral-200'],
           ]"
         >
           {{ description }}
         </p>
-        <div class="text-2xl mb-10 text-gray-300 flex flex-row items-center gap-3">
+        <div class="text-2xl mb-10 text-neutral-300 flex flex-row items-center gap-3">
           <img class="w-10 h-10 rounded-full" src="https://avatars.githubusercontent.com/u/5326365?v=4">
           <div>Harlan Wilton</div>
         </div>

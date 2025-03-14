@@ -98,13 +98,13 @@ const repoLinks = computed(() => [
   <div class="max-w-[66ch]">
     <UPageHeader v-bind="page" :ui="{ title: 'text-center text-balance xl:leading-normal min-w-full', description: 'text-center ' }">
       <div class="flex justify-center gap-5 mt-5">
-        <div class="flex items-center gap-2 text-gray-300">
+        <div class="flex items-center gap-2 text-neutral-300">
           <NuxtLink to="https://x.com/harlan_zw" class="hover:underline inline-flex items-center gap-2">
             <img alt="Harlan Wilton" src="https://avatars.githubusercontent.com/u/5326365?v=4" class="w-6 h-6 rounded-full">
             Harlan Wilton
           </NuxtLink>
         </div>
-        <span v-if="page.readTime" class="font-semibold text-gray-500">{{ page.readTime }} read</span>
+        <span v-if="page.readTime" class="font-semibold text-(--ui-text-muted)">{{ page.readTime }} read</span>
       </div>
       <div class="mt-5">
         <TableOfContents v-if="page.body?.toc?.links?.length" :links="page.body?.toc?.links" class="mt-7" />
@@ -114,11 +114,11 @@ const repoLinks = computed(() => [
     <UPageBody prose class="pb-0">
       <div>
         <div class="flex justify-between">
-          <div v-if="page.updatedAt" class="text-gray-500">
+          <div v-if="page.updatedAt" class="text-(--ui-text-muted)">
             Last Updated
             <time :datetime="page.updatedAt">{{ humanUpdatedDate }}</time>
           </div>
-          <div v-if="page.publishedAt" class="text-gray-500">
+          <div v-if="page.publishedAt" class="text-(--ui-text-muted)">
             Published
             <time :datetime="page.publishedAt">{{ humanPublishedDate }}</time>
           </div>

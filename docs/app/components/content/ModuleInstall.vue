@@ -26,8 +26,8 @@ const { data: packageManagers } = await useAsyncData(`module-install-${props.nam
 <template>
   <div class="mb-12">
     <CodeGroup>
-      <UCard v-for="(codeBlock, index) in packageManagers" :key="index" v-bind="codeBlock" class="rounded-t-none ring-gray-200 dark:ring-gray-700 mx-[1px]">
-        <div class="mb-7 bg-gray-100 dark:bg-gray-800 ring-gray-300 dark:ring-gray-700 ring rounded py-2 px-4 relative">
+      <UCard v-for="(codeBlock, index) in packageManagers" :key="index" v-bind="codeBlock" class="rounded-t-none ring-neutral-200 dark:ring-neutral-700 mx-[1px]">
+        <div class="mb-7 bg-neutral-100 dark:bg-neutral-800 ring-neutral-300 dark:ring-neutral-700 ring rounded py-2 px-4 relative">
           <div class="absolute right-3 opacity-50 top-3 text-xs font-mono">
             bash
           </div>

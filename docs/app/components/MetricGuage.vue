@@ -84,16 +84,16 @@ const guageArcStyle = computed(() => {
   --color-blue-900: #0d47a1;
   --color-blue-A700: #2962ff;
   --color-cyan-500: #00bcd4;
-  --color-gray-100: #f5f5f5;
-  --color-gray-300: #cfcfcf;
-  --color-gray-200: #e0e0e0;
-  --color-gray-400: #bdbdbd;
-  --color-gray-50: #fafafa;
-  --color-gray-500: #9e9e9e;
-  --color-gray-600: #757575;
-  --color-gray-700: #616161;
-  --color-gray-800: #424242;
-  --color-gray-900: #212121;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-300: #cfcfcf;
+  --color-neutral-200: #e0e0e0;
+  --color-neutral-400: #bdbdbd;
+  --color-neutral-50: #fafafa;
+  --color-neutral-500: #9e9e9e;
+  --color-neutral-600: #757575;
+  --color-neutral-700: #616161;
+  --color-neutral-800: #424242;
+  --color-neutral-900: #212121;
   --color-gray: #000000;
   --color-green-700: #018642;
   --color-green: #0cce6b;
@@ -109,11 +109,11 @@ const guageArcStyle = computed(() => {
   --color-average: var(--color-orange);
   --color-fail-secondary: var(--color-red-700);
   --color-fail: var(--color-red);
-  --color-hover: var(--color-gray-50);
+  --color-hover: var(--color-neutral-50);
   --color-informative: var(--color-blue-900);
   --color-pass-secondary: var(--color-green-700);
   --color-pass: var(--color-green);
-  --color-not-applicable: var(--color-gray-600);
+  --color-not-applicable: var(--color-neutral-600);
 }
 .guage__wrapper--pass {
   color: var(--color-pass);

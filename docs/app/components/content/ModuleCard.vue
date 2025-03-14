@@ -93,7 +93,7 @@ onMounted(() => {
                 </div>
               </div>
             </div>
-            <div class="text-xs text-gray-500 dark:text-gray-400 font-normal">
+            <div class="text-xs text-(--ui-text-muted) font-normal">
               {{ module.description }}
             </div>
           </div>

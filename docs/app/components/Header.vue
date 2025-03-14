@@ -33,7 +33,7 @@ const navigation = computed(() => {
       <div class="flex items-center justify-between gap-2 h-16 xl:pl-10 xl:pr-5">
         <div class="flex items-center gap-10">
           <div class="flex items-center gap-3">
-            <UButton variant="ghost" to="/" title="Home" aria-label="Title" class="py-2 flex items-end gap-1.5 font-bold text-xl text-gray-900 dark:text-white font-title">
+            <UButton variant="ghost" to="/" title="Home" aria-label="Title" class="py-2 flex items-end gap-1.5 font-bold text-xl text-neutral-900 dark:text-white font-title">
               <Logo />
             </UButton>
           </div>
@@ -52,7 +52,7 @@ const navigation = computed(() => {
       <UContentNavigation :navigation="navigation">
         <template #link="{ link }">
           <div class="flex items-center gap-2">
-            <UIcon v-if="link.icon" :name="link.icon" class="w-4 h-4 text-primary-400 dark:text-sky-200" />
+            <UIcon v-if="link.icon" :name="link.icon" class="w-4 h-4 text-(--ui-text-muted) dark:text-sky-200" />
             <div :class="link.children?.length ? 'text-sm font-bold' : ''">
               {{ link.title }}
             </div>
@@ -69,7 +69,7 @@ const navigation = computed(() => {
         <UTooltip text="Star on GitHub">
           <UButton class="hidden sm:flex" to="https://github.com/harlan-zw/nuxt-seo" target="_blank" color="primary" variant="ghost">
             <template #leading>
-              <div class="flex items-center transition rounded-l py-1 space-x-1 dark:text-gray-200">
+              <div class="flex items-center transition rounded-l py-1 space-x-1 dark:text-neutral-200">
                 <UIcon name="i-carbon-star" class="w-3 h-3 " />
                 <div>Star</div>
               </div>

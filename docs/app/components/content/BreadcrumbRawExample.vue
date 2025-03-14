@@ -30,7 +30,7 @@ const items = useBreadcrumbItems({ path, hideRoot, hideCurrent })
 <template>
   <div class="mx-3 pt-5">
     <div class="not-prose">
-      <div class="flex justify-center border-2 mb-5 rounded border-solid border-gray-100 p-5">
+      <div class="flex justify-center border-2 mb-5 rounded border-solid border-neutral-100 p-5">
         <nav aria-label="Breadcrumbs">
           <ul>
             <li v-for="(item, key) in items" :key="key">
