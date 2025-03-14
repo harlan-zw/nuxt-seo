@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "nuxi dev",
-    "build": "npm -C ../ run build && nuxi build",
+    "build": "npm -C ../ run build && nuxi prepare && nuxi build",
     "deploy": "NITRO_PRESET=netlify nuxt build && npx netlify deploy",
     "lint:docs": "markdownlint ./content && case-police 'content/**/*.md' *.md",
     "lint:docs:fix": "markdownlint ./content --fix && case-police 'content/**/*.md' *.md --fix",

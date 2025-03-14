@@ -9,8 +9,8 @@ export default defineNuxtConfig({
   modules: [
     NuxtSEO,
     '@nuxt/ui-pro',
-    '@nuxt/content',
     'nuxt-content-twoslash',
+    '@nuxt/content',
     '@vueuse/motion/nuxt',
     '@vueuse/nuxt',
     '@nuxthub/core',
