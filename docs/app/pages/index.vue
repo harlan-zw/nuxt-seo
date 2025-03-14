@@ -12,7 +12,7 @@ definePageMeta({
 })
 
 const modules = inject('modules')
-const stats = inject('stats')
+const stats = inject('stats') || ref({})
 
 useSeoMeta({
   title: '%siteName %separator All-in-one Technical SEO for Nuxt',
@@ -741,7 +741,7 @@ const graphData = computed(() => {
                 <div>
                   <div class="font-light justify-center flex items-center gap-3 text-6xl mb-2">
                     <UIcon name="i-carbon-commit" />
-                    {{ humanNumber(stats.totalCommits) }}
+                    {{ humanNumber(stats?.totalCommits || 0) }}
                   </div>
                   <div class="text-sm opacity-80">
                     Commits
