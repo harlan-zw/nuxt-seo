@@ -1,10 +1,12 @@
-name: Test
+name: Nightly
 
 on:
+  pull_request:
   push:
-    paths-ignore:
-      - '**/README.md'
-      - 'docs/**'
+    branches:
+      - "main"
+    tags:
+      - "!**"
 
 permissions:
   contents: read # access to check out code and install dependencies
@@ -30,9 +32,6 @@ jobs:
 
       - name: Build
         run: pnpm run build
-
-      - name: Test
-        run: pnpm run test
 
       - name: Publish
         run: pnpm dlx pkg-pr-new publish
