@@ -1,29 +1,24 @@
 import { existsSync } from 'node:fs'
 import { readFile, writeFile } from 'node:fs/promises'
-import NuxtFonts from '@nuxt/fonts'
 import { defineNuxtConfig } from 'nuxt/config'
 import { resolve } from 'pathe'
 import NuxtSEO from '../src/module'
 import { gray, logger } from './logger'
 
 export default defineNuxtConfig({
-  // const pkgJson = await readPackageJSON('../package.json')
   modules: [
-    NuxtFonts,
+    NuxtSEO,
+    '@nuxt/ui-pro',
+    '@nuxt/content',
     'nuxt-content-twoslash',
     '@vueuse/motion/nuxt',
-    '@nuxt/ui-pro',
-    'radix-vue/nuxt',
     '@vueuse/nuxt',
     '@nuxthub/core',
-    '@nuxt/fonts',
     '@nuxt/scripts',
     '@nuxt/image',
     // maybe buggy
     // 'nuxt-rebundle',
     // 'nuxt-build-cache',
-    NuxtSEO,
-    '@nuxt/content',
     async (_, nuxt) => {
       nuxt.hooks.hook('nitro:init', (nitro) => {
         // from sponsorkit
