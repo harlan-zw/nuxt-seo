@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "nuxi dev",
-    "build": "npm -C ../ run build && nuxi prepare && nuxi build",
+    "build": "cd .. && pnpm dev:prepare && cd docs && nuxi prepare && nuxi build",
     "deploy": "NITRO_PRESET=netlify nuxt build && npx netlify deploy",
     "lint:docs": "markdownlint ./content && case-police 'content/**/*.md' *.md",
     "lint:docs:fix": "markdownlint ./content --fix && case-police 'content/**/*.md' *.md --fix",
@@ -55,6 +55,6 @@
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "4.0.14",
     "tailwindcss-animate": "^1.0.7",
-    "wrangler": "^4.0.0"
+    "wrangler": "^3.114.0"
   }
 }

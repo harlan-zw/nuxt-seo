@@ -16,9 +16,7 @@ export default defineNuxtConfig({
     '@nuxthub/core',
     '@nuxt/scripts',
     '@nuxt/image',
-    // maybe buggy
-    // 'nuxt-rebundle',
-    // 'nuxt-build-cache',
+    'nuxt-rebundle',
     async (_, nuxt) => {
       nuxt.hooks.hook('nitro:init', (nitro) => {
         // from sponsorkit
@@ -63,7 +61,7 @@ export default defineNuxtConfig({
 
   uiPro: {
     mdc: true,
-    content: true
+    content: true,
   },
 
   hub: {
@@ -113,7 +111,6 @@ export default defineNuxtConfig({
       failOnError: false,
       crawlLinks: true,
       routes: ['/'],
-      autoSubfolderIndex: false
     },
     cloudflare: {
       pages: {
