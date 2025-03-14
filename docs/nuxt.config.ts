@@ -20,8 +20,8 @@ export default defineNuxtConfig({
     '@nuxt/scripts',
     '@nuxt/image',
     // maybe buggy
-    'nuxt-rebundle',
-    'nuxt-build-cache',
+    // 'nuxt-rebundle',
+    // 'nuxt-build-cache',
     NuxtSEO,
     '@nuxt/content',
     async (_, nuxt) => {
