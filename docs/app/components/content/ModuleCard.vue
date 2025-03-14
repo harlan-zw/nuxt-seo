@@ -20,7 +20,7 @@ const propsAsRefs = toRefs(reactive({
   version,
 }))
 
-const module = _module ? propsAsRefs.module : useModule(propsAsRefs.slug)
+const module = _module ? propsAsRefs.module : useModule((await useStats()).value.modules, propsAsRefs.slug)
 
 const iconAttrs = computed(() => {
   switch (size) {

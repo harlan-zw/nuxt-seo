@@ -9,7 +9,9 @@ definePageMeta({
 })
 
 const route = useRoute()
-const module = useModule()
+
+const modules = (await useStats()).value.modules
+const module = useModule(modules)
 
 const collection = camelCase(module.value.slug) as keyof Collections
 if (!collection)

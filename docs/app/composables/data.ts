@@ -1,6 +1,13 @@
 import type { Collections, NavItem } from '@nuxt/content'
-import { computedAsync, queryCollectionNavigation, useAsyncData } from '#imports'
+import { computedAsync, queryCollectionNavigation, useAsyncData, useFetch } from '#imports'
 import { camelCase, titleCase } from 'scule'
+
+export async function useStats() {
+  const { data: stats } = await useFetch('/api/stats.json', {
+    key: 'stats',
+  })
+  return stats
+}
 
 export function movingAverage(data: number[], windowSize: number) {
   const result = []
@@ -48,8 +55,7 @@ function transformAsTopNav(tree: NavItem[]) {
   ]
 }
 
-export async function useDocsNav() {
-  const module = useModule()
+export async function useDocsNav(module: any) {
   if (!module.value) {
     return ref({ files: [], nav: { top: [], bottom: [] } })
   }

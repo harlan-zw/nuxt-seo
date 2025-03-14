@@ -4,8 +4,8 @@ const props = defineProps({
   name: { type: String, required: true },
 })
 
-const modules = inject('modules', [])
-const module = useModule(modules.find(m => m.slug === props.name || m.npm === props.name)?.slug || props.name)
+const modules = (await useStats()).value.modules
+const module = useModule(modules, modules.find(m => m.slug === props.name || m.npm === props.name)?.slug || props.name)
 
 const { data: packageManagers } = await useAsyncData(`module-install-${props.name}`, async () => {
   return await Promise.all([

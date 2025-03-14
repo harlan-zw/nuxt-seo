@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { createPerformanceMeasure } from '~/utils/perf'
 
-const module = useModule()
+const activeModule = useModule((await useStats()).value.modules)
 const searchTerm = ref('')
 const perf = createPerformanceMeasure()
-const _nav = await useDocsNav()
+const _nav = await useDocsNav(activeModule)
 perf('docs-nav', _nav.value?.navTiming)
 perf('docs-search', _nav.value?.searchTiming)
 const nav = computed(() => {
@@ -20,13 +20,13 @@ const files = computed(() => _nav.value?.files.value || [])
 <template>
   <div>
     <div class="isolate hidden md:block md:sticky pt-8 rounded bg-white dark:bg-neutral-900 top-0 z-1">
-      <ModuleCard :key="module.slug" :module="module" :version="false" class="mb-2" />
+      <ModuleCard :key="activeModule.slug" :module="activeModule" :version="false" class="mb-2" />
     </div>
     <div class="block md:hidden flex items-center gap-1 font-bold mb-3">
-      <UIcon v-if="module.icon" dynamic :name="module.icon" class="text-blue-500 dark:text-blue-300" />{{ module.label }}
+      <UIcon v-if="activeModule.icon" dynamic :name="activeModule.icon" class="text-blue-500 dark:text-blue-300" />{{ activeModule.label }}
     </div>
     <div class="flex items-center gap-1 mb-3">
-      <USelectMenu :search-input="false" size="sm" :model-value="module.version" :items="module.versions?.map(v => ({ label: v, disabled: v !== module.version }))" class="md:w-full" />
+      <USelectMenu :search-input="false" size="sm" :model-value="activeModule.version" :items="activeModule.versions?.map(v => ({ label: v, disabled: v !== activeModule.version }))" class="md:w-full" />
 
       <UTooltip
         text="Search"
@@ -38,7 +38,7 @@ const files = computed(() => _nav.value?.files.value || [])
       <UButton
         title="GitHub"
         aria-label="GitHub"
-        :to="`https://github.com/${module.repo}`"
+        :to="`https://github.com/${activeModule.repo}`"
         target="_blank"
         color="neutral"
         variant="ghost"
@@ -48,7 +48,7 @@ const files = computed(() => _nav.value?.files.value || [])
       <UButton
         title="NPM"
         aria-label="NPM"
-        :to="`https://npmjs.com/package/${module.npm}`"
+        :to="`https://npmjs.com/package/${activeModule.npm}`"
         target="_blank"
         color="neutral"
         variant="ghost"
@@ -81,7 +81,7 @@ const files = computed(() => _nav.value?.files.value || [])
       <LazyUContentSearch
         v-model:search-term="searchTerm"
         :files="files"
-        :navigation="[{ title: 'Getting Started', _path: `/docs/${module.slug}/getting-started`, path: `/docs/${module.slug}/getting-started`, children: nav.top }, ...nav.bottom]"
+        :navigation="[{ title: 'Getting Started', _path: `/docs/${activeModule.slug}/getting-started`, path: `/docs/${activeModule.slug}/getting-started`, children: nav.top }, ...nav.bottom]"
         :fuse="{ resultLimit: 42 }"
       />
     </ClientOnly>

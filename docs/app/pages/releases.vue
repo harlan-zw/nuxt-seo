@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { formatTimeAgo } from '@vueuse/core'
+import { useStats } from '~/composables/data'
 
 definePageMeta({
   breadcrumb: {
@@ -8,7 +9,7 @@ definePageMeta({
   },
 })
 
-const stats = inject('stats')
+const stats = await useStats()
 
 // credits https://github.com/antfu/releases.antfu.me/blob/main/app/components/TheItem.vue
 const HighlightedVersion = defineComponent({

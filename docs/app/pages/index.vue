@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useElementHover, useTransition, useWindowScroll } from '@vueuse/core'
 import { ref } from 'vue'
-import { reviews } from '~/composables/data'
+import { reviews, useStats } from '~/composables/data'
 import { humanNumber } from '~/composables/format'
 
 definePageMeta({
@@ -12,7 +12,7 @@ definePageMeta({
 })
 
 const modules = inject('modules')
-const stats = inject('stats')
+const stats = await useStats()
 
 useSeoMeta({
   title: '%siteName %separator All-in-one Technical SEO for Nuxt',

@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useStats } from '~/composables/data'
 import { modules } from '../../src/const'
 
-const { data: stats } = await useFetch('/api/stats.json')
-
+const stats = await useStats()
 if (!stats.value) {
   createError({
     statusText: 'Missing stats.json!',
@@ -12,12 +12,11 @@ if (!stats.value) {
 
 const appConfig = useAppConfig()
 
-provide('stats', stats)
 provide('modules', modules)
 
 useHead({
   style: [
-    { innerHTML: `:root { --ui-primary: #1d293d; } .dark { --ui-primary: oklch(0.809 0.105 251.813); }`, id: 'nuxt-ui-black-as-primary', tagPriority: -2 }
+    { innerHTML: `:root { --ui-primary: #1d293d; } .dark { --ui-primary: oklch(0.809 0.105 251.813); }`, id: 'nuxt-ui-black-as-primary', tagPriority: -2 },
   ],
   htmlAttrs: {
     lang: 'en',

@@ -7,7 +7,7 @@ const props = defineProps<{
   size?: 'sm' | 'md' | 'lg'
 }>()
 
-const module = useModule(ref(props.slug))
+const module = useModule((await useStats()).value.modules, ref(props.slug))
 
 const textAttrs = computed(() => {
   switch (props.size || 'md') {

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { useStats } from '../composables/data'
 import { menu } from '../composables/nav'
 
-const stats = inject('stats', ref())
+const stats = await useStats()
 const route = useRoute()
 
 const nuxtSeoStars = computed(() => {
