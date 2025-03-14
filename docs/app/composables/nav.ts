@@ -105,10 +105,10 @@ export const menu = computed(() => {
         color: 'info',
       },
     },
-    {
-      label: 'Ecosystem',
-      icon: 'i-ph-heart-straight-duotone',
-      children: ecosystemLinks,
-    },
+    // {
+    //   label: 'Ecosystem',
+    //   icon: 'i-ph-heart-straight-duotone',
+    //   children: ecosystemLinks,
+    // },
   ]
 })

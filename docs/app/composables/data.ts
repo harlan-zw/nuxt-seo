@@ -188,7 +188,7 @@ amazing work @harlan_zw`,
     username: '@Atinux',
     name: 'Sébastien Chopin',
     body: `What an impressive work done by @harlan_zw on Nuxt OG Image v3 🙌`,
-    img: 'https://pbs.twimg.com/profile_images/1042510623962275840/1Iw_Mvud_normal.jpg',
+    img: 'https://avatars.githubusercontent.com/u/904724?v=4',
   },
   {
     name: 'Fabian B.',

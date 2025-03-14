@@ -25,7 +25,7 @@ import { menu } from '~/composables/nav'
             </nav>
           </div>
         </div>
-        <div class="flex items-center gap-10 mb-6">
+        <div class="sm:flex items-center gap-10 mb-6">
           <NuxtLink to="/" title="Home" class="flex items-end gap-1.5 font-bold text-xl text-neutral-900 dark:text-white font-title">
             <Logo />
           </NuxtLink>
@@ -39,7 +39,9 @@ import { menu } from '~/composables/nav'
               </div>
             </div>
             <div class="gap-3">
-              <img alt="Harlan Wilton" loading="lazy" src="https://avatars.githubusercontent.com/u/5326365?v=4" class="mx-auto rounded-full w-10 h-10 mb-3">
+              <div class="w-10 h-10">
+                <img alt="Harlan Wilton" loading="lazy" src="https://avatars.githubusercontent.com/u/5326365?v=4" class="mx-auto rounded-full w-10 h-10 mb-3">
+              </div>
               <div class="flex justify-center items-center opacity-70">
                 <UButton
                   title="Twitter"

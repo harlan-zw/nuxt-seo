@@ -44,7 +44,7 @@ const navigation = computed(() => {
       </div>
     </template>
 
-    <template #content>
+    <template #body>
       <div v-if="route.path.startsWith('/docs')">
         <DocsSidebarHeader />
         <USeparator class="mb-5" />
