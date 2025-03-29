@@ -33,8 +33,8 @@ describe('i18n', () => {
       <title>@nuxtjs&#x2F;seo</title>
       <meta name="description" content="en description">
       <meta name="twitter:card" content="summary_large_image">
-      <meta property="og:title" data-infer="true" content="@nuxtjs/seo">
-      <meta property="og:description" data-infer="true" content="en description">
+      <meta property="og:title" data-infer="" content="@nuxtjs/seo">
+      <meta property="og:description" data-infer="" content="en description">
       <link rel="canonical" href="https://nuxtseo.com/">
       <meta property="og:url" content="https://nuxtseo.com/">
       <meta property="og:site_name" content="@nuxtjs/seo">"
@@ -52,8 +52,8 @@ describe('i18n', () => {
       <title>Fr | fr name</title>
       <meta name="description" content="fr description">
       <meta name="twitter:card" content="summary_large_image">
-      <meta property="og:title" data-infer="true" content="Fr | fr name">
-      <meta property="og:description" data-infer="true" content="fr description">
+      <meta property="og:title" data-infer="" content="Fr | fr name">
+      <meta property="og:description" data-infer="" content="fr description">
       <link rel="canonical" href="https://nuxtseo.com/fr">
       <meta property="og:url" content="https://nuxtseo.com/fr">
       <meta property="og:site_name" content="fr name">"
