@@ -32,8 +32,8 @@ describe('dev', () => {
       <title>@nuxtjs&#x2F;seo</title>
       <meta name="description" content="The all-in-one SEO layer for Nuxt 3.">
       <meta name="twitter:card" content="summary_large_image">
-      <meta property="og:title" data-infer="true" content="@nuxtjs/seo">
-      <meta property="og:description" data-infer="true" content="The all-in-one SEO layer for Nuxt 3.">
+      <meta property="og:title" data-infer="" content="@nuxtjs/seo">
+      <meta property="og:description" data-infer="" content="The all-in-one SEO layer for Nuxt 3.">
       <link rel="canonical" href="https://local.nuxtseo.com/">
       <meta property="og:url" content="https://local.nuxtseo.com/">
       <meta property="og:site_name" content="@nuxtjs/seo">"
