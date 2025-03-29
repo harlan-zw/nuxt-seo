@@ -5,6 +5,7 @@ export interface NuxtSEOModule {
   description: string
   repo: string
   npm: string
+  playgrounds: Record<string, string>
 }
 
 export const NuxtSEO: NuxtSEOModule = {
@@ -14,6 +15,10 @@ export const NuxtSEO: NuxtSEOModule = {
   description: 'The all-in-one module that brings it all together.',
   repo: 'harlan-zw/nuxt-seo',
   npm: '@nuxtjs/seo',
+  playgrounds: {
+    basic: 'https://stackblitz.com/edit/nuxt-starter-zycxux?file=public%2F_robots.txt',
+    i18n: 'https://stackblitz.com/edit/nuxt-starter-pnej8lvb?file=public%2F_robots.txt',
+  },
 }
 
 export const SiteConfigModule: NuxtSEOModule = {
@@ -23,6 +28,9 @@ export const SiteConfigModule: NuxtSEOModule = {
   description: 'Powerful build and runtime shared site configuration for Nuxt modules.',
   repo: 'harlan-zw/nuxt-site-config',
   npm: 'nuxt-site-config',
+  playgrounds: {
+    basic: 'https://stackblitz.com/edit/nuxt-starter-zycxux?file=public%2F_robots.txt',
+  },
 }
 
 export const RobotsModule: NuxtSEOModule = {
@@ -32,6 +40,10 @@ export const RobotsModule: NuxtSEOModule = {
   description: 'Tame the robots crawling and indexing your site with ease.',
   repo: 'nuxt-modules/robots',
   npm: '@nuxtjs/robots',
+  playgrounds: {
+    basic: 'https://stackblitz.com/edit/nuxt-starter-zycxux?file=public%2F_robots.txt',
+    i18n: 'https://stackblitz.com/edit/nuxt-starter-pnej8lvb?file=public%2F_robots.txt',
+  },
 }
 
 export const SitemapModule: NuxtSEOModule = {
@@ -41,6 +53,12 @@ export const SitemapModule: NuxtSEOModule = {
   description: 'Powerfully flexible XML Sitemaps that integrate seamlessly.',
   repo: 'nuxt-modules/sitemap',
   npm: '@nuxtjs/sitemap',
+  playgrounds: {
+    basic: 'https://stackblitz.com/edit/nuxt-starter-dyraxc?file=server%2Fapi%2F_sitemap-urls.ts',
+    i18n: 'https://stackblitz.com/edit/nuxt-starter-jwuie4?file=app.vue',
+    manualChunking: 'https://stackblitz.com/edit/nuxt-starter-umyso3?file=nuxt.config.ts',
+    nuxtContent: 'https://stackblitz.com/edit/nuxt-starter-a5qk3s?file=nuxt.config.ts',
+  },
 }
 
 export const OgImageModule: NuxtSEOModule = {
@@ -50,6 +68,12 @@ export const OgImageModule: NuxtSEOModule = {
   description: 'Generate OG Images with Vue templates in Nuxt.',
   repo: 'nuxt-modules/og-image',
   npm: 'nuxt-og-image',
+  playgrounds: {
+    basic: 'https://stackblitz.com/edit/nuxt-starter-pxs3wk?file=pages/index.vue',
+    i18n: 'https://stackblitz.com/edit/nuxt-starter-uw7pqmxg?file=nuxt.config.ts',
+    nuxtContent2: 'https://stackblitz.com/edit/github-hgunsf?file=package.json',
+    nuxtContent3: 'https://stackblitz.com/edit/github-hgunsf-wd8esdec',
+  },
 }
 
 export const LinkCheckerModule: NuxtSEOModule = {
@@ -59,6 +83,9 @@ export const LinkCheckerModule: NuxtSEOModule = {
   description: 'Find and magically fix links that may be negatively effecting your SEO.',
   repo: 'harlan-zw/nuxt-link-checker',
   npm: 'nuxt-link-checker',
+  playgrounds: {
+    basic: 'https://stackblitz.com/edit/nuxt-starter-r2wzt1?file=nuxt.config.ts',
+  },
 }
 
 export const SeoUtilsModule: NuxtSEOModule = {
@@ -68,6 +95,9 @@ export const SeoUtilsModule: NuxtSEOModule = {
   description: 'SEO utilities to improve your Nuxt sites discoverability and shareability.',
   repo: 'harlan-zw/nuxt-seo-utils',
   npm: 'nuxt-seo-utils',
+  playgrounds: {
+    basic: 'https://stackblitz.com/edit/nuxt-starter-vbay3q?file=app.vue',
+  },
 }
 
 export const SchemaOrgModule: NuxtSEOModule = {
@@ -77,6 +107,9 @@ export const SchemaOrgModule: NuxtSEOModule = {
   description: 'The quickest and easiest way to build Schema.org graphs.',
   repo: 'harlan-zw/nuxt-schema-org',
   npm: 'nuxt-schema-org',
+  playgrounds: {
+    basic: 'https://stackblitz.com/edit/nuxt-starter-z9np1t?file=app.vue',
+  },
 }
 
 export const modules: NuxtSEOModule[] = [
