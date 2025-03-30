@@ -5,7 +5,9 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-The Nuxt SEO module is an all-in-one SEO solution for Nuxt. It combines 6 SEO modules and best practices into one module that requires minimal effort to configure.
+Fully equipped Technical SEO for busy Nuxters.
+
+Nuxt SEO combines 6 SEO modules and best practices into one module that requires minimal effort to configure.
 
 ## Modules
 
