@@ -1,0 +1,46 @@
+name: Deploy to NuxtHub
+on: push
+
+jobs:
+  deploy:
+    name: "Deploy to NuxtHub"
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}
+      url: ${{ steps.deploy.outputs.deployment-url }}
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: docs
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Ensure NuxtHub module is installed
+        run: pnpx nuxthub@latest ensure
+
+      - name: Build application
+        run: pnpm build
+
+      - name: Deploy to NuxtHub
+        uses: nuxt-hub/action@v1
+        id: deploy
+        with:
+          project-key: nuxt-seo-yt9l
+          directory: docs/dist
