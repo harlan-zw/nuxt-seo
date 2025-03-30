@@ -27,10 +27,10 @@ describe('base url', () => {
       <meta property="og:type" content="website">
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>@nuxtjs&#x2F;seo</title>
-      <meta name="description" content="The all-in-one SEO layer for Nuxt 3.">
+      <meta name="description" content="Fully equipped Technical SEO for busy Nuxters.">
       <meta name="twitter:card" content="summary_large_image">
       <meta property="og:title" data-infer="" content="@nuxtjs/seo">
-      <meta property="og:description" data-infer="" content="The all-in-one SEO layer for Nuxt 3.">
+      <meta property="og:description" data-infer="" content="Fully equipped Technical SEO for busy Nuxters.">
       <link rel="canonical" href="https://local.nuxtseo.com/base">
       <meta property="og:url" content="https://local.nuxtseo.com/base">
       <meta property="og:site_name" content="@nuxtjs/seo">"
@@ -65,14 +65,14 @@ describe('base url', () => {
           {
             "@id": "https://local.nuxtseo.com/#website",
             "@type": "WebSite",
-            "description": "The all-in-one SEO layer for Nuxt 3.",
+            "description": "Fully equipped Technical SEO for busy Nuxters.",
             "name": "@nuxtjs/seo",
             "url": "https://local.nuxtseo.com/",
           },
           {
             "@id": "https://local.nuxtseo.com/base#webpage",
             "@type": "WebPage",
-            "description": "The all-in-one SEO layer for Nuxt 3.",
+            "description": "Fully equipped Technical SEO for busy Nuxters.",
             "isPartOf": {
               "@id": "https://local.nuxtseo.com/#website",
             },
