@@ -2,7 +2,7 @@
   "name": "@nuxtjs/seo",
   "type": "module",
   "version": "3.0.2",
-  "packageManager": "pnpm@10.7.0",
+  "packageManager": "pnpm@10.8.1",
   "description": "Fully equipped Technical SEO for busy Nuxters.",
   "author": {
     "name": "Harlan Wilton",
@@ -22,31 +22,26 @@
   "exports": {
     ".": {
       "types": "./dist/types.d.mts",
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
+      "import": "./dist/module.mjs"
     },
-    "./const": {
-      "types": "./dist/const.d.ts",
-      "import": "./dist/const.mjs"
-    },
-    "./content": {
-      "types": "./dist/content.d.ts",
-      "import": "./dist/content.mjs"
-    }
+    "./const": "./dist/const.mjs",
+    "./content": "./dist/content.mjs"
   },
-  "module": "./dist/module.mjs",
-  "main": "./dist/module.cjs",
-  "types": "./dist/types.d.ts",
+  "main": "./dist/module.mjs",
   "typesVersions": {
     "*": {
+      ".": [
+        "./dist/types.d.mts"
+      ],
+      "const": [
+        "./dist/const.d.mts"
+      ],
       "content": [
-        "dist/content"
+        "./dist/content.d.mts"
       ]
     }
   },
   "files": [
-    "const.d.ts",
-    "content.d.ts",
     "dist"
   ],
   "scripts": {
@@ -62,30 +57,30 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.16.2",
-    "@nuxtjs/robots": "^5.2.8",
-    "@nuxtjs/sitemap": "^7.2.9",
+    "@nuxtjs/robots": "^5.2.10",
+    "@nuxtjs/sitemap": "^7.2.10",
     "nuxt-link-checker": "^4.3.0",
-    "nuxt-og-image": "^5.1.1",
-    "nuxt-schema-org": "^5.0.4",
-    "nuxt-seo-utils": "^7.0.5",
-    "nuxt-site-config": "^3.1.7"
+    "nuxt-og-image": "^5.1.2",
+    "nuxt-schema-org": "^5.0.5",
+    "nuxt-seo-utils": "^7.0.8",
+    "nuxt-site-config": "^3.1.9"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.11.0",
-    "@arethetypeswrong/cli": "0.17.4",
+    "@antfu/eslint-config": "^4.12.0",
+    "@arethetypeswrong/cli": "^0.17.4",
     "@nuxt/content": "^3.4.0",
-    "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/schema": "3.16.2",
+    "@nuxt/module-builder": "^1.0.1",
+    "@nuxt/schema": "^3.16.2",
     "@nuxt/test-utils": "^3.17.2",
-    "@nuxtjs/i18n": "9.4.0",
+    "@nuxtjs/i18n": "^9.5.3",
     "@vue/test-utils": "^2.4.6",
     "bumpp": "^10.1.0",
-    "eslint": "^9.23.0",
+    "eslint": "^9.24.0",
     "execa": "^9.5.2",
     "happy-dom": "^17.4.4",
-    "nitropack": "^2.11.8",
+    "nitropack": "^2.11.9",
     "nuxt": "3.16.2",
-    "typescript": "5.8.2",
+    "typescript": "^5.8.3",
     "vitest": "^3.1.1"
   },
   "pnpm": {
