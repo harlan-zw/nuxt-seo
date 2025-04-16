@@ -37,6 +37,7 @@ describe('i18n', () => {
       <meta property="og:description" data-infer="" content="en description">
       <link rel="canonical" href="https://nuxtseo.com/">
       <meta property="og:url" content="https://nuxtseo.com/">
+      <meta property="og:locale" content="en_US">
       <meta property="og:site_name" content="@nuxtjs/seo">"
     `)
   })
@@ -56,6 +57,7 @@ describe('i18n', () => {
       <meta property="og:description" data-infer="" content="fr description">
       <link rel="canonical" href="https://nuxtseo.com/fr">
       <meta property="og:url" content="https://nuxtseo.com/fr">
+      <meta property="og:locale" content="fr_FR">
       <meta property="og:site_name" content="fr name">"
     `)
   })
@@ -142,7 +144,7 @@ describe('i18n', () => {
           {
             "@id": "https://nuxtseo.com/#breadcrumb",
             "@type": "BreadcrumbList",
-            "id": "#breadcrumb",
+            "id": "#19:breadcrumb",
             "itemListElement": [
               {
                 "@type": "ListItem",
