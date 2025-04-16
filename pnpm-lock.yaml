@@ -27,8 +27,8 @@ importers:
         specifier: ^5.0.5
         version: 5.0.5(@unhead/vue@2.0.7(vue@3.5.13(typescript@5.8.3)))(magicast@0.3.5)(vue@3.5.13(typescript@5.8.3))
       nuxt-seo-utils:
-        specifier: ^7.0.8
-        version: 7.0.8(magicast@0.3.5)(rollup@4.40.0)(vue@3.5.13(typescript@5.8.3))
+        specifier: ^7.0.9
+        version: 7.0.9(magicast@0.3.5)(rollup@4.40.0)(vue@3.5.13(typescript@5.8.3))
       nuxt-site-config:
         specifier: ^3.1.9
         version: 3.1.9(magicast@0.3.5)(vue@3.5.13(typescript@5.8.3))
@@ -4386,8 +4386,8 @@ packages:
       '@unhead/vue':
         optional: true
 
-  nuxt-seo-utils@7.0.8:
-    resolution: {integrity: sha512-K6q3rucAsX65c2gjnIJp7+S/t0fIWK3MnaRGDjbIURBjoYsdER/43PSdqPtA+3QnFeOIRHhInL8Tf1oBtc6K3A==}
+  nuxt-seo-utils@7.0.9:
+    resolution: {integrity: sha512-nrxKOUlnYE2TIOC2Mqmn9mqmAXNblXdR4WApkOYBtueT+AlUA0Yi/LKGhKAKa1YO5tww7r3r9uByopohnVFpjQ==}
 
   nuxt-site-config-kit@3.1.9:
     resolution: {integrity: sha512-bcmpajYJgkNzA0jTq6CmmhKF2wHZUUKeVx/CIGI8lwWuAD81EBUZN0T4iKvVDo54g9UBrUUl8/5GhD65YBBG0A==}
@@ -11261,7 +11261,7 @@ snapshots:
       - magicast
       - vue
 
-  nuxt-seo-utils@7.0.8(magicast@0.3.5)(rollup@4.40.0)(vue@3.5.13(typescript@5.8.3)):
+  nuxt-seo-utils@7.0.9(magicast@0.3.5)(rollup@4.40.0)(vue@3.5.13(typescript@5.8.3)):
     dependencies:
       '@nuxt/kit': 3.16.2(magicast@0.3.5)
       '@unhead/addons': 2.0.7(rollup@4.40.0)
