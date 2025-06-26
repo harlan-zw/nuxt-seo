@@ -2,7 +2,7 @@
   "name": "@nuxtjs/seo",
   "type": "module",
   "version": "3.0.3",
-  "packageManager": "pnpm@10.8.1",
+  "packageManager": "pnpm@10.12.3",
   "description": "Fully equipped Technical SEO for busy Nuxters.",
   "author": {
     "name": "Harlan Wilton",
@@ -56,32 +56,32 @@
     "test:attw": "attw --pack"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.16.2",
-    "@nuxtjs/robots": "^5.2.10",
-    "@nuxtjs/sitemap": "^7.2.10",
-    "nuxt-link-checker": "^4.3.0",
-    "nuxt-og-image": "^5.1.2",
-    "nuxt-schema-org": "^5.0.5",
-    "nuxt-seo-utils": "^7.0.9",
-    "nuxt-site-config": "^3.1.9"
+    "@nuxt/kit": "^3.17.5",
+    "@nuxtjs/robots": "^5.2.11",
+    "@nuxtjs/sitemap": "^7.4.2",
+    "nuxt-link-checker": "^4.3.1",
+    "nuxt-og-image": "^5.1.8",
+    "nuxt-schema-org": "^5.0.6",
+    "nuxt-seo-utils": "^7.0.12",
+    "nuxt-site-config": "^3.2.2"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.12.0",
-    "@arethetypeswrong/cli": "^0.17.4",
-    "@nuxt/content": "^3.4.0",
+    "@antfu/eslint-config": "^4.16.1",
+    "@arethetypeswrong/cli": "^0.18.2",
+    "@nuxt/content": "^3.6.1",
     "@nuxt/module-builder": "^1.0.1",
-    "@nuxt/schema": "^3.16.2",
-    "@nuxt/test-utils": "^3.17.2",
-    "@nuxtjs/i18n": "^9.5.3",
+    "@nuxt/schema": "^3.17.5",
+    "@nuxt/test-utils": "^3.19.1",
+    "@nuxtjs/i18n": "^9.5.6",
     "@vue/test-utils": "^2.4.6",
-    "bumpp": "^10.1.0",
-    "eslint": "^9.24.0",
-    "execa": "^9.5.2",
-    "happy-dom": "^17.4.4",
-    "nitropack": "^2.11.9",
-    "nuxt": "3.16.2",
+    "bumpp": "^10.2.0",
+    "eslint": "^9.29.0",
+    "execa": "^9.6.0",
+    "happy-dom": "^18.0.1",
+    "nitropack": "^2.11.13",
+    "nuxt": "^3.17.5",
     "typescript": "^5.8.3",
-    "vitest": "^3.1.1"
+    "vitest": "^3.2.4"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
