@@ -66,6 +66,7 @@ describe('base url', () => {
             "@id": "https://local.nuxtseo.com/#website",
             "@type": "WebSite",
             "description": "Fully equipped Technical SEO for busy Nuxters.",
+            "inLanguage": "en",
             "name": "@nuxtjs/seo",
             "url": "https://local.nuxtseo.com/",
           },

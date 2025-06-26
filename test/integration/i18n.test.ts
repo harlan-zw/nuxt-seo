@@ -65,7 +65,8 @@ describe('i18n', () => {
     // extract the <head>
     const xml = await $fetch('/sitemap.xml')
     expect(xml).toMatchInlineSnapshot(`
-      "<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="/__sitemap__/style.xsl"?>
+      "<?xml version="1.0" encoding="UTF-8"?>
+      <?xml-stylesheet type="text/xsl" href="/__sitemap__/style.xsl"?>
       <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
           <sitemap>
               <loc>https://nuxtseo.com/__sitemap__/en-US.xml</loc>
@@ -144,7 +145,7 @@ describe('i18n', () => {
           {
             "@id": "https://nuxtseo.com/#breadcrumb",
             "@type": "BreadcrumbList",
-            "id": "#19:breadcrumb",
+            "id": "#breadcrumb",
             "itemListElement": [
               {
                 "@type": "ListItem",
