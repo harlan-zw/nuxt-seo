@@ -10,5 +10,12 @@ export function extractSeoHead(html: string) {
     }
     return ''
   })
-  return withSeoLinks!.split('\n').filter(Boolean).join('\n').trim()
+  return withSeoLinks!
+    .replace(/></g, '>\n<')
+    .split('\n')
+    .filter(Boolean)
+    .map(line => line.trim())
+    .filter(line => line.length > 0)
+    .join('\n')
+    .trim()
 }
