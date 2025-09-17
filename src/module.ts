@@ -19,7 +19,6 @@ export default defineNuxtModule<ModuleOptions>({
     name: 'nuxtseo',
     compatibility: {
       nuxt: '>=3.16.0',
-      bridge: false,
     },
   },
   defaults: {
