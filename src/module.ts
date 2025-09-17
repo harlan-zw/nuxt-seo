@@ -1,15 +1,11 @@
 import {
   defineNuxtModule,
-  hasNuxtModule,
-  installModule,
 } from '@nuxt/kit'
-import {
-  modules,
-} from './const'
 
 export interface ModuleOptions {
   /**
    * Whether the module should be loaded.
+   * @deprecated Does not do anything
    */
   enabled: boolean
 }
@@ -21,20 +17,31 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt: '>=3.16.0',
     },
   },
+  moduleDependencies: {
+    '@nuxtjs/robots': {
+      version: '^5.5',
+    },
+    '@nuxtjs/sitemap': {
+      version: '^7.4',
+    },
+    'nuxt-link-checker': {
+      version: '^4.3',
+    },
+    'nuxt-og-image': {
+      version: '^5.1',
+    },
+    'nuxt-schema-org': {
+      version: '^5.0',
+    },
+    'nuxt-seo-utils': {
+      version: '^7.0',
+    },
+    'nuxt-site-config': {
+      version: '^3.2',
+    },
+  },
   defaults: {
     enabled: true,
   },
-  async setup(config) {
-    if (!config.enabled) {
-      return
-    }
-
-    for (const module of modules) {
-      if (module.npm !== '@nuxtjs/seo') {
-        if (!hasNuxtModule(module.npm)) {
-          await installModule(module.npm, {})
-        }
-      }
-    }
-  },
+  async setup() {},
 })
