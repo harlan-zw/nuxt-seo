@@ -22,10 +22,19 @@
   "exports": {
     ".": {
       "types": "./dist/types.d.mts",
-      "import": "./dist/module.mjs"
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
     },
-    "./const": "./dist/const.mjs",
-    "./content": "./dist/content.mjs"
+    "./const": {
+      "types": "./dist/const.d.mts",
+      "import": "./dist/const.mjs",
+      "require": "./dist/const.cjs"
+    },
+    "./content": {
+      "types": "./dist/content.d.mts",
+      "import": "./dist/content.mjs",
+      "require": "./dist/content.cjs"
+    }
   },
   "main": "./dist/module.mjs",
   "typesVersions": {
