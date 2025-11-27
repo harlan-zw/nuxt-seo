@@ -70,5 +70,5 @@ Licensed under the [MIT license](https://github.com/harlan-zw/nuxt-seo/blob/main
 [license-src]: https://img.shields.io/github/license/harlan-zw/nuxt-seo.svg?style=flat&colorA=18181B&colorB=28CF8D
 [license-href]: https://github.com/harlan-zw/nuxt-seo/blob/main/LICENSE.md
 
-[nuxt-src]: https://img.shields.io/badge/Nuxt-18181B?logo=nuxt.js
+[nuxt-src]: https://img.shields.io/badge/Nuxt-18181B?logo=nuxt
 [nuxt-href]: https://nuxt.com
