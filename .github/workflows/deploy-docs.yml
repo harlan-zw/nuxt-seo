@@ -1,18 +1,18 @@
- name: Deploy Docs
+name: Deploy Docs
 
-  on:
-    push:
-      paths:
-        - 'docs/**'
+on:
+  push:
+    paths:
+      - 'docs/**'
 
-  jobs:
-    deploy:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Trigger nuxtseo.com deploy
-          run: |
-            curl -X POST \
-              -H "Authorization: token ${{ secrets.NUXTSEO_DEPLOY_TOKEN }}" \
-              -H "Accept: application/vnd.github.v3+json" \
-              https://api.github.com/repos/nuxt-seo-pro/nuxtseo.com/dispatches \
-              -d '{"event_type":"docs-updated"}'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger nuxtseo.com deploy
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.NUXTSEO_DEPLOY_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/nuxt-seo-pro/nuxtseo.com/dispatches \
+            -d '{"event_type":"docs-updated"}'
