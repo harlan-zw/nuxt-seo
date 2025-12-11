@@ -1,11 +1,12 @@
 export interface NuxtSEOModule {
-  slug: 'nuxt-seo' | 'site-config' | 'robots' | 'sitemap' | 'og-image' | 'link-checker' | 'seo-utils' | 'schema-org'
+  slug: 'nuxt-seo' | 'site-config' | 'robots' | 'sitemap' | 'og-image' | 'link-checker' | 'seo-utils' | 'schema-org' | 'skew-protection' | 'ai-ready' | 'ai-search'
   label: string
   icon: string
   description: string
   repo: string
   npm: string
-  playgrounds: Record<string, string>
+  pro?: boolean
+  playgrounds?: Record<string, string>
 }
 
 export const NuxtSEO: NuxtSEOModule = {
@@ -112,6 +113,36 @@ export const SchemaOrgModule: NuxtSEOModule = {
   },
 }
 
+export const SkewProtectionModule: NuxtSEOModule = {
+  slug: 'skew-protection',
+  npm: 'nuxt-skew-protection',
+  repo: 'nuxt-seo-pro/nuxt-skew-protection',
+  description: 'Solve Nuxt version skews with persistent assets and instant updates.',
+  label: 'Skew Protection',
+  icon: 'i-carbon-version',
+  pro: true,
+}
+
+export const AiReadyModule: NuxtSEOModule = {
+  slug: 'ai-ready',
+  npm: 'nuxt-ai-ready',
+  repo: 'nuxt-seo-pro/nuxt-ai-ready',
+  description: 'Best practice AI & LLM discoverability for Nuxt sites.',
+  label: 'AI Ready',
+  icon: 'i-carbon-ai-label',
+  pro: true,
+}
+
+export const AiSearchModule: NuxtSEOModule = {
+  slug: 'ai-search',
+  npm: 'nuxt-ai-search',
+  repo: 'nuxt-seo-pro/nuxt-ai-search',
+  description: 'Add AI Chat to your Nuxt app with no vendor-lock in and full customization.',
+  label: 'AI Search',
+  icon: 'i-carbon-chat-bot',
+  pro: true,
+}
+
 export const modules: NuxtSEOModule[] = [
   NuxtSEO,
   RobotsModule,
@@ -121,13 +152,22 @@ export const modules: NuxtSEOModule[] = [
   LinkCheckerModule,
   SeoUtilsModule,
   SiteConfigModule,
+  SkewProtectionModule,
+  AiReadyModule,
+  AiSearchModule,
 ]
 
-export const explicitModules = [
+export const normalModules = [
   RobotsModule,
   SitemapModule,
   OgImageModule,
   SchemaOrgModule,
   LinkCheckerModule,
   SeoUtilsModule,
+]
+
+export const proModules = [
+  SkewProtectionModule,
+  AiReadyModule,
+  AiSearchModule,
 ]
