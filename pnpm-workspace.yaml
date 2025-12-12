@@ -1,11 +1,47 @@
-catalogMode: prefer
-shellEmulator: true
-trustPolicy: no-downgrade
-
 packages:
   - docs
   - playground
   - '!**/.data/**'
+trustPolicy: no-downgrade
+
+catalog:
+  '@antfu/eslint-config': ^6.6.1
+  '@arethetypeswrong/cli': ^0.18.2
+  '@nuxt/content': ^3.9.0
+  '@nuxt/kit': ^4.2.2
+  '@nuxt/module-builder': ^1.0.2
+  '@nuxt/schema': ^4.2.2
+  '@nuxt/test-utils': ^3.21.0
+  '@nuxtjs/i18n': ^10.2.1
+  '@nuxtjs/robots': ^5.6.4
+  '@nuxtjs/sitemap': ^7.4.9
+  '@vue/test-utils': ^2.4.6
+  bumpp: ^10.3.2
+  eslint: ^9.39.1
+  execa: ^9.6.1
+  happy-dom: ^20.0.11
+  nitropack: ^2.12.9
+  nuxt: ^4.2.2
+  nuxt-link-checker: ^4.3.9
+  nuxt-og-image: ^5.1.13
+  nuxt-schema-org: ^5.0.10
+  nuxt-seo-utils: ^7.0.19
+  nuxt-site-config: ^3.2.11
+  typescript: ^5.9.3
+  vitest: ^4.0.15
+
+catalogMode: prefer
+
+catalogs:
+  submodules:
+    '@nuxtjs/robots': ^5.6.4
+    '@nuxtjs/sitemap': ^7.4.9
+    nuxt-link-checker: ^4.3.9
+    nuxt-og-image: ^5.1.13
+    nuxt-schema-org: ^5.0.10
+    nuxt-seo-utils: ^7.0.19
+    nuxt-site-config: ^3.2.12
+
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - better-sqlite3
@@ -14,3 +50,5 @@ onlyBuiltDependencies:
   - sharp
   - vue-demi
   - workerd
+
+shellEmulator: true
