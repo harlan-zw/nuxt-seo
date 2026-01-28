@@ -1,5 +1,5 @@
 export interface NuxtSEOModule {
-  slug: 'nuxt-seo' | 'site-config' | 'robots' | 'sitemap' | 'og-image' | 'link-checker' | 'seo-utils' | 'schema-org' | 'skew-protection' | 'ai-ready' | 'ai-search'
+  slug: 'nuxt-seo' | 'site-config' | 'robots' | 'sitemap' | 'og-image' | 'link-checker' | 'seo-utils' | 'schema-org' | 'skew-protection' | 'ai-ready' | 'ai-kit'
   label: string
   icon: string
   description: string
@@ -134,11 +134,11 @@ export const AiReadyModule: NuxtSEOModule = {
 }
 
 export const AiSearchModule: NuxtSEOModule = {
-  slug: 'ai-search',
-  npm: 'nuxt-ai-search',
-  repo: 'nuxt-seo-pro/nuxt-ai-search',
+  slug: 'ai-kit',
+  npm: 'nuxt-ai-kit',
+  repo: 'nuxt-seo-pro/nuxt-ai-kit',
   description: 'Add AI Chat to your Nuxt app with no vendor-lock in and full customization.',
-  label: 'AI Search',
+  label: 'AI Kit',
   icon: 'i-carbon-chat-bot',
   pro: true,
 }
