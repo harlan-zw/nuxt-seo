@@ -2,7 +2,7 @@
   "name": "@nuxtjs/seo",
   "type": "module",
   "version": "3.3.0",
-  "packageManager": "pnpm@10.25.0",
+  "packageManager": "pnpm@10.28.2",
   "description": "Fully equipped Technical SEO for busy Nuxters.",
   "author": {
     "name": "Harlan Wilton",
@@ -46,13 +46,13 @@
   ],
   "scripts": {
     "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build",
-    "dev": "nuxi dev playground",
-    "dev:docs": "nuxi dev docs",
+    "dev": "nuxt dev playground",
+    "dev:docs": "nuxt dev docs",
     "prepack": "pnpm run build",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare",
     "lint": "eslint . --fix",
     "release": "pnpm build && bumpp -x \"npx changelogen --output=CHANGELOG.md\"",
-    "test": " pnpm dev:prepare && nuxi prepare test/fixtures/basic && nuxi prepare test/fixtures/i18n && vitest",
+    "test": " pnpm dev:prepare && nuxt prepare test/fixtures/basic && nuxt prepare test/fixtures/i18n && vitest",
     "typecheck": "pnpm dev:prepare && tsc --noEmit && npx vue-tsc --noEmit --strict",
     "test:attw": "attw --pack"
   },
