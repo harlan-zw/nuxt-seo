@@ -28,7 +28,7 @@ export default defineNuxtModule<ModuleOptions>({
       version: '^4.3',
     },
     'nuxt-og-image': {
-      version: '^5.1',
+      version: '>=5.1',
     },
     'nuxt-schema-org': {
       version: '^5.0',
