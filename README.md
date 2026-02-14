@@ -36,6 +36,12 @@ Install `@nuxtjs/seo` dependency to your project:
 npx nuxi@latest module add seo
 ```
 
+> [!TIP]
+> Generate an Agent Skill for this package using [skilld](https://github.com/harlan-zw/skilld):
+> ```bash
+> npx skilld add @nuxtjs/seo
+> ```
+
 Once installed check the [Default Module Features](https://nuxtseo.com/docs/nuxt-seo/guides/using-the-modules) guide
 for a quick start.
 
