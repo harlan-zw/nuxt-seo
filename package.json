@@ -56,7 +56,6 @@
     "test:run": "pnpm prepare:fixtures && vitest run",
     "test:attw": "attw --pack",
     "prepack": "pnpm run build",
-    "postinstall": "simple-git-hooks",
     "release": "pnpm build && bumpp --output=CHANGELOG.md"
   },
   "peerDependencies": {
