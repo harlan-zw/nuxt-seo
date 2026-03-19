@@ -4,12 +4,16 @@ import NuxtSEO from '../src/module'
 export default defineNuxtConfig({
   modules: [
     NuxtSEO,
+    '@nuxtjs/i18n',
+    '@nuxtjs/sitemap',
+    '@nuxtjs/robots',
   ],
 
   devtools: {
     enabled: true,
   },
 
+  // @ts-expect-error i18n module config
   i18n: {
     locales: ['en', 'it'],
   },

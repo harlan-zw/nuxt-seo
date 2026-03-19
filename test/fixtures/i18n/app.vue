@@ -1,7 +1,8 @@
 <script lang="ts" setup>
+// @ts-ignore
 import { updateSiteConfig, useBreadcrumbItems, useI18n, useRoute, useSiteConfig } from '#imports'
 
-const i18n = useI18n()
+const i18n = useI18n() as any
 
 const items = useBreadcrumbItems({
   path: `/${i18n.locale.value}/blog/my-post`,

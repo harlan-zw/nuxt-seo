@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@nuxt/content',
   ],
 
+  // @ts-ignore
   site: {
     url: 'https://nuxtseo.com',
   },

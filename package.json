@@ -2,7 +2,7 @@
   "name": "@nuxtjs/seo",
   "type": "module",
   "version": "3.4.0",
-  "packageManager": "pnpm@10.28.2",
+  "packageManager": "pnpm@10.32.1",
   "description": "Fully equipped Technical SEO for busy Nuxters.",
   "author": {
     "name": "Harlan Wilton",
@@ -45,26 +45,32 @@
     "dist"
   ],
   "scripts": {
-    "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build",
+    "build": "nuxt-module-build build",
     "dev": "nuxt dev playground",
-    "dev:docs": "nuxt dev docs",
+    "dev:prepare": "nuxt-module-build prepare && nuxt prepare playground",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "nuxt typecheck",
+    "prepare:fixtures": "nuxt prepare test/fixtures/basic && nuxt prepare test/fixtures/i18n",
+    "test": "pnpm prepare:fixtures && vitest",
+    "test:run": "pnpm prepare:fixtures && vitest run",
+    "test:attw": "attw --pack",
     "prepack": "pnpm run build",
-    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare",
-    "lint": "eslint . --fix",
-    "release": "pnpm build && bumpp -x \"npx changelogen --output=CHANGELOG.md\"",
-    "test": " pnpm dev:prepare && nuxt prepare test/fixtures/basic && nuxt prepare test/fixtures/i18n && vitest",
-    "typecheck": "pnpm dev:prepare && tsc --noEmit && npx vue-tsc --noEmit --strict",
-    "test:attw": "attw --pack"
+    "postinstall": "simple-git-hooks",
+    "release": "pnpm build && bumpp --output=CHANGELOG.md"
+  },
+  "peerDependencies": {
+    "nuxt": "^3.16.0 || ^4.0.0"
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",
-    "@nuxtjs/robots": "catalog:submodules",
-    "@nuxtjs/sitemap": "catalog:submodules",
-    "nuxt-link-checker": "catalog:submodules",
-    "nuxt-og-image": "catalog:submodules",
-    "nuxt-schema-org": "catalog:submodules",
-    "nuxt-seo-utils": "catalog:submodules",
-    "nuxt-site-config": "catalog:submodules"
+    "@nuxtjs/robots": "catalog:",
+    "@nuxtjs/sitemap": "catalog:",
+    "nuxt-link-checker": "catalog:",
+    "nuxt-og-image": "catalog:",
+    "nuxt-schema-org": "catalog:",
+    "nuxt-seo-utils": "catalog:",
+    "nuxt-site-config": "catalog:"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
@@ -74,15 +80,30 @@
     "@nuxt/schema": "catalog:",
     "@nuxt/test-utils": "catalog:",
     "@nuxtjs/i18n": "catalog:",
+    "@resvg/resvg-js": "catalog:",
+    "@types/jest-image-snapshot": "catalog:",
     "@vue/test-utils": "catalog:",
     "bumpp": "catalog:",
     "eslint": "catalog:",
+    "eslint-plugin-harlanzw": "catalog:",
     "execa": "catalog:",
     "happy-dom": "catalog:",
+    "jest-image-snapshot": "catalog:",
+    "lint-staged": "catalog:",
     "nitropack": "catalog:",
     "nuxt": "catalog:",
+    "satori": "catalog:",
+    "simple-git-hooks": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,ts,mjs,cjs,vue}": [
+      "pnpm exec eslint --fix"
+    ]
   },
   "publishConfig": {
     "resolutions": {},

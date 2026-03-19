@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+// @ts-ignore
 import { useBreadcrumbItems } from '#imports'
 
 const links = useBreadcrumbItems()

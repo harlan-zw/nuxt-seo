@@ -1,4 +1,4 @@
-name: Test
+name: CI
 
 on:
   push:
@@ -6,30 +6,60 @@ on:
       - '**/README.md'
       - 'docs/**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
 permissions:
-  contents: read # access to check out code and install dependencies
+  contents: read
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  lint:
+    runs-on: ubuntu-24.04-arm
     steps:
       - uses: actions/checkout@v6
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Use Node.js LTS
-        uses: actions/setup-node@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: lts/*
-          registry-url: https://registry.npmjs.org/
           cache: pnpm
-
       - run: pnpm i
+      - run: pnpm lint
 
-      - name: Build
-        run: pnpm run build
+  typecheck:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: pnpm
+      - run: pnpm i
+      - run: pnpm dev:prepare
+      - run: pnpm typecheck
 
-      - name: Test
-        run: pnpm run test
+  build:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: pnpm
+      - run: pnpm i
+      - run: pnpm build
+
+  test:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: pnpm
+      - run: pnpm i
+      - run: pnpm dev:prepare
+      - run: pnpm test:run

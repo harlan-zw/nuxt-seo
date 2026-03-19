@@ -1,7 +1,7 @@
 import { createResolver } from '@nuxt/kit'
-import { $fetch, setup } from '@nuxt/test-utils/e2e'
+import { $fetch, setup, url } from '@nuxt/test-utils/e2e'
 import { describe, expect, it } from 'vitest'
-import { extractSeoHead } from '../utils'
+import { extractOgImageUrl, extractSeoHead } from '../utils'
 
 const { resolve } = createResolver(import.meta.url)
 
@@ -20,15 +20,23 @@ await setup({
 describe('base url', () => {
   it('seo utils - default', async () => {
     // extract the <head>
-    const html = await $fetch('/base')
+    const html = await $fetch('/base') as string
     expect(extractSeoHead(html)).toMatchInlineSnapshot(`
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta property="og:image" content="https://local.nuxtseo.com/base/_og/d/default.png?_v=test">
+      <meta property="og:image:type" content="image/png">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:image" content="https://local.nuxtseo.com/base/_og/d/default.png?_v=test">
+      <meta name="twitter:image:src" content="https://local.nuxtseo.com/base/_og/d/default.png?_v=test">
+      <meta property="og:image:width" content="1200">
+      <meta name="twitter:image:width" content="1200">
+      <meta property="og:image:height" content="600">
+      <meta name="twitter:image:height" content="600">
       <meta property="og:type" content="website">
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>@nuxtjs&#x2F;seo</title>
       <meta name="description" content="Fully equipped Technical SEO for busy Nuxters.">
-      <meta name="twitter:card" content="summary_large_image">
       <meta property="og:title" data-infer="" content="@nuxtjs/seo">
       <meta property="og:description" data-infer="" content="Fully equipped Technical SEO for busy Nuxters.">
       <link rel="canonical" href="https://local.nuxtseo.com/base">
@@ -54,10 +62,19 @@ describe('base url', () => {
   it('robots - default', async () => {
     // does not work as we can only serve robots.txt from root!
   })
+  it('og-image - url', async () => {
+    const html = await $fetch('/base') as string
+    const ogImageUrl = extractOgImageUrl(html)
+    expect(ogImageUrl).toMatchInlineSnapshot(`"https://local.nuxtseo.com/base/_og/d/default.png?_v=test"`)
+  })
+  it('og-image - image snapshot', async () => {
+    const image = await fetch(url('/base/_og/d/default.png')).then(r => r.arrayBuffer())
+    expect(Buffer.from(image)).toMatchImageSnapshot()
+  })
   it('schema.org - default', async () => {
     // extract the <head>
-    const txt = await $fetch('/base')
-    const schemaOrg = JSON.parse(txt.match(/<script type="application\/ld\+json"[^>]*>([^<]+)<\/script>/)[1])
+    const txt = await $fetch('/base') as string
+    const schemaOrg = JSON.parse(txt.match(/<script type="application\/ld\+json"[^>]*>([^<]+)<\/script>/)?.[1] || '{}')
     expect(schemaOrg).toMatchInlineSnapshot(`
       {
         "@context": "https://schema.org",

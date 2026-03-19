@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-import { defineOgImage, definePageMeta } from '#imports'
+import { defineOgImage } from '#imports'
 
+// @ts-expect-error auto-imported macro
 definePageMeta({
   title: 'About',
   description: 'My description',
   image: 'https://example.com/image.jpg',
 })
 
-defineOgImage({
+// @ts-expect-error playground component
+defineOgImage('OgImageDefault.satori', {
   title: 'About',
   description: 'My description',
   customSomething: 'custom',

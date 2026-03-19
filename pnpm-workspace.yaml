@@ -1,43 +1,44 @@
-catalogMode: prefer
-
 shellEmulator: true
 trustPolicy: no-downgrade
-
 packages:
   - docs
   - playground
   - '!**/.data/**'
 
 catalog:
-  '@antfu/eslint-config': ^7.2.0
+  '@antfu/eslint-config': ^7.7.3
   '@arethetypeswrong/cli': ^0.18.2
-  '@nuxt/content': ^3.11.0
-  '@nuxt/kit': ^4.3.0
+  '@nuxt/content': ^3.12.0
+  '@nuxt/kit': ^4.4.2
   '@nuxt/module-builder': ^1.0.2
-  '@nuxt/schema': ^4.3.0
-  '@nuxt/test-utils': ^3.23.0
-  '@nuxtjs/i18n': ^10.2.1
+  '@nuxt/schema': ^4.4.2
+  '@nuxt/test-utils': ^4.0.0
+  '@nuxtjs/i18n': ^10.2.3
+  '@nuxtjs/robots': ^5.7.1
+  '@nuxtjs/sitemap': ^7.6.0
+  '@resvg/resvg-js': ^2.6.2
+  '@types/jest-image-snapshot': ^6.4.1
   '@vue/test-utils': ^2.4.6
-  bumpp: ^10.4.0
-  eslint: ^9.39.2
+  bumpp: ^11.0.1
+  eslint: ^10.0.3
+  eslint-plugin-harlanzw: ^0.6.0
   execa: ^9.6.1
-  happy-dom: ^20.4.0
+  happy-dom: ^20.8.4
+  jest-image-snapshot: ^6.5.2
+  lint-staged: ^16.4.0
   nitropack: ^2.13.1
-  nuxt: ^4.3.0
+  nuxt: ^4.4.2
+  nuxt-link-checker: ^4.3.9
+  nuxt-og-image: ^6.0.5
+  nuxt-schema-org: ^5.0.10
+  nuxt-seo-utils: ^7.0.19
+  nuxt-site-config: ^3.2.21
+  satori: ^0.25.0
+  simple-git-hooks: ^2.13.1
   typescript: ^5.9.3
-  vitest: ^4.0.18
+  vitest: ^4.1.0
 
-catalogs:
-  submodules:
-    '@nuxtjs/robots': ^5.7.0
-    '@nuxtjs/sitemap': ^7.6.0
-    nuxt-link-checker: ^4.3.9
-    nuxt-og-image: ^5.1.13
-    nuxt-schema-org: ^5.0.10
-    nuxt-seo-utils: ^7.0.19
-    nuxt-site-config: ^3.2.19
-
-onlyBuiltDependencies:
+ignoredBuiltDependencies:
   - '@parcel/watcher'
   - better-sqlite3
   - esbuild

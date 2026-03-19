@@ -49,7 +49,7 @@ for a quick start.
 
 [📖 Read the full documentation](https://nuxtseo.com/) for more information.
 
-## Stackblitz
+## StackBlitz
 
 For reproductions and demo environments, you can use the [Nuxt SEO Basic Reproduction](https://stackblitz.com/edit/nuxt-starter-gfrej6?file=nuxt.config.ts)
 template.

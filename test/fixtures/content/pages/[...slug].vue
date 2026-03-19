@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { queryCollection, useRoute } from '#imports'
+// @ts-ignore
+import { defineOgImage, queryCollection, useRoute } from '#imports'
 
 const route = useRoute()
 const { data: page } = await useAsyncData(`page-${route.path}`, () => {
   return queryCollection('content').path(route.path).first()
 })
 useSeoMeta({
-  title: page.value?.seo?.title || 'Nuxt OG Image',
-  description: page.value?.seo?.description || 'The quickest and easiest way to build Open Graph images for Nuxt.',
+  title: (page.value as any)?.seo?.title || 'Nuxt OG Image',
+  description: (page.value as any)?.seo?.description || 'The quickest and easiest way to build Open Graph images for Nuxt.',
 })
-if (page.value.ogImage) {
-  defineOgImage(page.value.ogImage)
+if ((page.value as any)?.ogImage) {
+  defineOgImage((page.value as any).ogImage)
 }
 </script>
 

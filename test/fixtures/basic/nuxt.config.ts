@@ -11,13 +11,13 @@ export default defineNuxtConfig({
       failOnError: false,
     },
   },
+  // @ts-ignore
   site: {
     url: 'https://local.nuxtseo.com',
   },
   sitemap: {
     credits: false, // breaks snapshot
   },
-
   workspaceDir: resolve(__dirname, '../../..'),
 
   compatibilityDate: '2024-08-07',

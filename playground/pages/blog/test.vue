@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+// @ts-ignore
 import { definePageMeta } from '#imports'
 
 definePageMeta({
