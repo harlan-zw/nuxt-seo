@@ -49,6 +49,7 @@ jobs:
           node-version: lts/*
           cache: pnpm
       - run: pnpm i
+      - run: pnpm dev:prepare
       - run: pnpm build
 
   test:

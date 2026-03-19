@@ -29,6 +29,7 @@ jobs:
           cache: pnpm
 
       - run: pnpm i
+      - run: pnpm dev:prepare
 
       - name: Build
         run: pnpm run build
