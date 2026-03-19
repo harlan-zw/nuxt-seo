@@ -5,7 +5,7 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-Fully equipped Technical SEO for busy Nuxters.
+> Fully equipped Technical SEO for busy Nuxters.
 
 Nuxt SEO combines 6 SEO modules and best practices into one module that requires minimal effort to configure.
 
@@ -44,6 +44,19 @@ npx nuxi@latest module add seo
 
 Once installed check the [Default Module Features](https://nuxtseo.com/docs/nuxt-seo/guides/using-the-modules) guide
 for a quick start.
+
+## Nuxt SEO Tools
+
+- [Meta Tag Checker](https://nuxtseo.com/tools/meta-tag-checker)
+- [Schema Validator](https://nuxtseo.com/tools/schema-validator)
+- [XML Sitemap Validator](https://nuxtseo.com/tools/xml-sitemap-validator)
+- [Robots.txt Validator](https://nuxtseo.com/tools/robots-txt-validator)
+- [Robots.txt Generator](https://nuxtseo.com/tools/robots-txt-generator)
+- [Social Share Debugger](https://nuxtseo.com/tools/social-share-debugger)
+- [HTML to Markdown](https://nuxtseo.com/tools/html-to-markdown)
+- [SERP Analyzer](https://nuxtseo.com/tools/serp-analyzer)
+- [Keyword Research](https://nuxtseo.com/tools/keyword-research)
+- [Domain Rankings](https://nuxtseo.com/tools/domain-rankings)
 
 ## Documentation
 
