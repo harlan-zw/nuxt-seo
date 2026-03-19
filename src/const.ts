@@ -133,16 +133,6 @@ export const AiReadyModule: NuxtSEOModule = {
   pro: true,
 }
 
-export const AiSearchModule: NuxtSEOModule = {
-  slug: 'ai-kit',
-  npm: 'nuxt-ai-kit',
-  repo: 'nuxt-seo-pro/nuxt-ai-kit',
-  description: 'Add AI Chat to your Nuxt app with no vendor-lock in and full customization.',
-  label: 'AI Kit',
-  icon: 'i-carbon-chat-bot',
-  pro: true,
-}
-
 export const modules: NuxtSEOModule[] = [
   NuxtSEO,
   RobotsModule,
@@ -154,7 +144,6 @@ export const modules: NuxtSEOModule[] = [
   SiteConfigModule,
   SkewProtectionModule,
   AiReadyModule,
-  AiSearchModule,
 ]
 
 export const normalModules = [
@@ -169,5 +158,4 @@ export const normalModules = [
 export const proModules = [
   SkewProtectionModule,
   AiReadyModule,
-  AiSearchModule,
 ]
