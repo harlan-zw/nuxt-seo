@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { defineOgImage } from '#imports'
 
-// @ts-expect-error auto-imported macro
 definePageMeta({
   title: 'About',
   description: 'My description',

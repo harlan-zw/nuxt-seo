@@ -13,7 +13,6 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
-  // @ts-expect-error i18n module config
   i18n: {
     locales: ['en', 'it'],
   },
