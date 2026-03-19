@@ -28,7 +28,7 @@ export default defineNuxtModule<ModuleOptions>({
       version: '^4.3',
     },
     'nuxt-og-image': {
-      version: '>=5.1',
+      version: '>=6.0',
     },
     'nuxt-schema-org': {
       version: '^5.0',
@@ -38,6 +38,10 @@ export default defineNuxtModule<ModuleOptions>({
     },
     'nuxt-site-config': {
       version: '^3.2',
+    },
+    '@nuxtjs/i18n': {
+      version: '^10.0',
+      optional: true,
     },
   },
   defaults: {
