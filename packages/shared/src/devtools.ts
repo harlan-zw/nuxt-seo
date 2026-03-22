@@ -28,14 +28,20 @@ export function setupDevToolsUI(config: DevToolsUIConfig, resolve: Resolver['res
   }
   else {
     nuxt.hook('vite:extendConfig', (config) => {
-      const server = (config.server ??= {}) as any
-      server.proxy ??= {}
-      server.proxy[route] = {
-        target: `http://localhost:${devPort}${route}`,
-        changeOrigin: true,
-        followRedirects: true,
-        rewrite: path => path.replace(route, ''),
-      }
+      Object.assign(config, {
+        server: {
+          ...config.server,
+          proxy: {
+            ...config.server?.proxy,
+            [route]: {
+              target: `http://localhost:${devPort}${route}`,
+              changeOrigin: true,
+              followRedirects: true,
+              rewrite: (p: string) => p.replace(route, ''),
+            },
+          },
+        },
+      })
     })
   }
 
