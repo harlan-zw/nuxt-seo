@@ -58,8 +58,7 @@
   ],
   "scripts": {
     "build": "unbuild",
-    "stub": "unbuild --stub",
-    "typecheck": "tsc --noEmit"
+    "stub": "unbuild --stub"
   },
   "peerDependencies": {
     "@nuxt/schema": "^3.16.0 || ^4.0.0",
