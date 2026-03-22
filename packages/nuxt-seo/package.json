@@ -1,0 +1,95 @@
+{
+  "name": "@nuxtjs/seo",
+  "type": "module",
+  "version": "4.0.2",
+  "description": "Fully equipped Technical SEO for busy Nuxters.",
+  "author": {
+    "name": "Harlan Wilton",
+    "email": "harlan@harlanzw.com",
+    "url": "https://harlanzw.com/"
+  },
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/harlan-zw",
+  "homepage": "https://nuxtseo.com/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harlan-zw/nuxt-seo.git",
+    "directory": "packages/nuxt-seo"
+  },
+  "bugs": {
+    "url": "https://github.com/harlan-zw/nuxt-seo/issues"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
+    },
+    "./const": "./dist/const.mjs",
+    "./content": "./dist/content.mjs"
+  },
+  "main": "./dist/module.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types.d.mts"
+      ],
+      "const": [
+        "./dist/const.d.mts"
+      ],
+      "content": [
+        "./dist/content.d.mts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "nuxt-module-build build",
+    "dev": "nuxt dev playground",
+    "dev:prepare": "nuxt-module-build prepare && nuxt prepare playground",
+    "typecheck": "nuxt typecheck playground",
+    "prepare:fixtures": "nuxt prepare test/fixtures/basic && nuxt prepare test/fixtures/i18n",
+    "test": "pnpm prepare:fixtures && vitest",
+    "test:run": "pnpm prepare:fixtures && vitest run",
+    "test:attw": "attw --pack",
+    "prepack": "pnpm run build"
+  },
+  "peerDependencies": {
+    "nuxt": "^3.16.0 || ^4.0.0"
+  },
+  "dependencies": {
+    "@nuxt/kit": "catalog:",
+    "@nuxtjs/robots": "catalog:",
+    "@nuxtjs/sitemap": "catalog:",
+    "nuxt-link-checker": "catalog:",
+    "nuxt-og-image": "catalog:",
+    "nuxt-schema-org": "catalog:",
+    "nuxt-seo-utils": "catalog:",
+    "nuxt-site-config": "catalog:"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "catalog:",
+    "@nuxt/content": "catalog:",
+    "@nuxt/module-builder": "catalog:",
+    "@nuxt/schema": "catalog:",
+    "@nuxt/test-utils": "catalog:",
+    "@nuxtjs/i18n": "catalog:",
+    "@resvg/resvg-js": "catalog:",
+    "@types/jest-image-snapshot": "catalog:",
+    "@vue/test-utils": "catalog:",
+    "execa": "catalog:",
+    "happy-dom": "catalog:",
+    "jest-image-snapshot": "catalog:",
+    "nitropack": "catalog:",
+    "nuxt": "catalog:",
+    "satori": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "publishConfig": {
+    "resolutions": {},
+    "scripts": {},
+    "devDependencies": {}
+  }
+}
