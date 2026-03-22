@@ -3,6 +3,9 @@ import { getNuxtModuleVersion, hasNuxtModule, hasNuxtModuleCompatibility } from 
 import { joinURL, withBase, withHttps, withLeadingSlash } from 'ufo'
 import { getNuxtModuleOptions } from './kit'
 
+const I18N_MODULES = ['@nuxtjs/i18n', 'nuxt-i18n-micro'] as const
+type I18nModuleName = typeof I18N_MODULES[number]
+
 const SLASH_PATTERN = /^\/|\/$/g
 
 export type Strategies = 'no_prefix' | 'prefix_except_default' | 'prefix' | 'prefix_and_default'
@@ -120,16 +123,39 @@ export function mapPathForI18nPages(path: string, autoI18n: AutoI18nConfig): str
   return false
 }
 
+export interface I18nModuleResolution {
+  module: I18nModuleName
+  isMicro: boolean
+}
+
+/**
+ * Detect which i18n module is installed (@nuxtjs/i18n or nuxt-i18n-micro).
+ *
+ * Returns `false` when neither is installed.
+ */
+export function resolveI18nModule(): false | I18nModuleResolution {
+  const found = I18N_MODULES.find(m => hasNuxtModule(m))
+  if (!found)
+    return false
+  return {
+    module: found,
+    isMicro: found === 'nuxt-i18n-micro',
+  }
+}
+
 export async function resolveI18nConfig(logger?: { warn: (msg: string) => void }): Promise<false | AutoI18nConfig> {
-  if (!hasNuxtModule('@nuxtjs/i18n'))
+  const i18n = resolveI18nModule()
+  if (!i18n)
     return false
 
-  const i18nVersion = await getNuxtModuleVersion('@nuxtjs/i18n')
-  if (!await hasNuxtModuleCompatibility('@nuxtjs/i18n', '>=8')) {
-    logger?.warn(`You are using @nuxtjs/i18n v${i18nVersion}. For the best compatibility, please upgrade to @nuxtjs/i18n v8.0.0 or higher.`)
+  if (!i18n.isMicro) {
+    const i18nVersion = await getNuxtModuleVersion(i18n.module)
+    if (!await hasNuxtModuleCompatibility(i18n.module, '>=8')) {
+      logger?.warn(`You are using ${i18n.module} v${i18nVersion}. For the best compatibility, please upgrade to ${i18n.module} v8.0.0 or higher.`)
+    }
   }
 
-  const nuxtI18nConfig = (await getNuxtModuleOptions('@nuxtjs/i18n') || {}) as NuxtI18nOptions
+  const nuxtI18nConfig = (await getNuxtModuleOptions(i18n.module) || {}) as NuxtI18nOptions
   const normalisedLocales = normalizeLocales(nuxtI18nConfig)
   const usingI18nPages = Object.keys(nuxtI18nConfig.pages || {}).length
   const hasI18nConfigForAlternatives = nuxtI18nConfig.differentDomains || usingI18nPages || (nuxtI18nConfig.strategy !== 'no_prefix' && nuxtI18nConfig.locales)

@@ -2,7 +2,7 @@ import type { Nuxt } from '@nuxt/schema'
 import type { Nitro } from 'nitropack'
 import type { NitroConfig } from 'nitropack/types'
 import type { NuxtModule, NuxtPage } from 'nuxt/schema'
-import { addTemplate, createResolver, loadNuxtModuleInstance, tryUseNuxt, useNuxt } from '@nuxt/kit'
+import { addTemplate, createResolver, hasNuxtModule, hasNuxtModuleCompatibility, loadNuxtModuleInstance, tryUseNuxt, useNuxt } from '@nuxt/kit'
 import { relative } from 'pathe'
 import { env, provider } from 'std-env'
 
@@ -114,4 +114,23 @@ export function createNitroPromise(nuxt: Nuxt = useNuxt()): Promise<Nitro> {
   return new Promise<Nitro>((resolve) => {
     nuxt.hooks.hook('nitro:init', nitro => resolve(nitro))
   })
+}
+
+export interface NuxtContentVersion {
+  version: 2 | 3
+}
+
+/**
+ * Detect which version of @nuxt/content is installed.
+ *
+ * Returns `false` when @nuxt/content is not installed or the version is unrecognised.
+ */
+export async function resolveNuxtContentVersion(): Promise<false | NuxtContentVersion> {
+  if (!hasNuxtModule('@nuxt/content'))
+    return false
+  if (await hasNuxtModuleCompatibility('@nuxt/content', '^3'))
+    return { version: 3 }
+  if (await hasNuxtModuleCompatibility('@nuxt/content', '^2'))
+    return { version: 2 }
+  return false
 }
