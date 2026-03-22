@@ -1,7 +1,7 @@
 {
   "name": "nuxtseo-shared",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Shared utilities for Nuxt SEO modules.",
   "author": {
     "name": "Harlan Wilton",
@@ -13,6 +13,10 @@
     ".": {
       "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs"
+    },
+    "./content": {
+      "types": "./dist/content.d.mts",
+      "import": "./dist/content.mjs"
     },
     "./kit": {
       "types": "./dist/kit.d.mts",
@@ -29,10 +33,6 @@
     "./pro": {
       "types": "./dist/pro.d.mts",
       "import": "./dist/pro.mjs"
-    },
-    "./runtime/server/kit": {
-      "types": "./dist/runtime/server/kit.d.mts",
-      "import": "./dist/runtime/server/kit.mjs"
     },
     "./client": {
       "types": "./dist/client/index.d.mts",
@@ -62,20 +62,16 @@
   },
   "peerDependencies": {
     "@nuxt/schema": "^3.16.0 || ^4.0.0",
-    "h3": "^1.15.0",
-    "nitropack": "^2.12.0",
     "nuxt": "^3.16.0 || ^4.0.0",
     "nuxt-site-config": "^3.2.0",
-    "vue": "^3.5.0"
+    "vue": "^3.5.0",
+    "zod": "^3.23.0"
   },
   "peerDependenciesMeta": {
-    "h3": {
-      "optional": true
-    },
-    "nitropack": {
-      "optional": true
-    },
     "nuxt-site-config": {
+      "optional": true
+    },
+    "zod": {
       "optional": true
     }
   },
@@ -98,8 +94,6 @@
     "@shikijs/langs": "catalog:",
     "@shikijs/themes": "catalog:",
     "@vueuse/core": "catalog:",
-    "h3": "catalog:",
-    "nitropack": "catalog:",
     "nuxt-site-config": "catalog:",
     "shiki": "catalog:",
     "typescript": "catalog:",

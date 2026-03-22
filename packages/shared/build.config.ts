@@ -3,11 +3,11 @@ import { defineBuildConfig } from 'unbuild'
 export default defineBuildConfig({
   entries: [
     'src/index',
+    'src/content',
     'src/kit',
     'src/devtools',
     'src/i18n',
     'src/pro',
-    'src/runtime/server/kit',
     'src/client/index',
     'src/client/composables/rpc',
     'src/client/composables/shiki',
@@ -22,10 +22,6 @@ export default defineBuildConfig({
     'nuxt',
     'nuxt/schema',
     'nuxt/app',
-    'h3',
-    'nitropack',
-    'nitropack/runtime',
-    'nitropack/types',
     'vue',
     'shiki',
     'shiki/core',
@@ -40,5 +36,7 @@ export default defineBuildConfig({
     'nuxt-site-config/kit',
     '@nuxtjs/i18n',
     '@clack/prompts',
+    'zod',
+    '@nuxt/content',
   ],
 })
