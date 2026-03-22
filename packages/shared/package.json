@@ -1,0 +1,110 @@
+{
+  "name": "nuxtseo-shared",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Shared utilities for Nuxt SEO modules.",
+  "author": {
+    "name": "Harlan Wilton",
+    "email": "harlan@harlanzw.com",
+    "url": "https://harlanzw.com/"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    },
+    "./kit": {
+      "types": "./dist/kit.d.mts",
+      "import": "./dist/kit.mjs"
+    },
+    "./devtools": {
+      "types": "./dist/devtools.d.mts",
+      "import": "./dist/devtools.mjs"
+    },
+    "./i18n": {
+      "types": "./dist/i18n.d.mts",
+      "import": "./dist/i18n.mjs"
+    },
+    "./pro": {
+      "types": "./dist/pro.d.mts",
+      "import": "./dist/pro.mjs"
+    },
+    "./runtime/server/kit": {
+      "types": "./dist/runtime/server/kit.d.mts",
+      "import": "./dist/runtime/server/kit.mjs"
+    },
+    "./client": {
+      "types": "./dist/client/index.d.mts",
+      "import": "./dist/client/index.mjs"
+    },
+    "./client/composables/rpc": {
+      "types": "./dist/client/composables/rpc.d.mts",
+      "import": "./dist/client/composables/rpc.mjs"
+    },
+    "./client/composables/shiki": {
+      "types": "./dist/client/composables/shiki.d.mts",
+      "import": "./dist/client/composables/shiki.mjs"
+    },
+    "./client/components/OCodeBlock": "./src/client/components/OCodeBlock.vue",
+    "./client/components/OSectionBlock": "./src/client/components/OSectionBlock.vue",
+    "./client/components/NuxtSeoLogo": "./src/client/components/NuxtSeoLogo.vue"
+  },
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "files": [
+    "dist",
+    "src/client/components"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@nuxt/schema": "^3.16.0 || ^4.0.0",
+    "h3": "^1.15.0",
+    "nitropack": "^2.12.0",
+    "nuxt": "^3.16.0 || ^4.0.0",
+    "nuxt-site-config": "^3.2.0",
+    "vue": "^3.5.0"
+  },
+  "peerDependenciesMeta": {
+    "h3": {
+      "optional": true
+    },
+    "nitropack": {
+      "optional": true
+    },
+    "nuxt-site-config": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@clack/prompts": "catalog:",
+    "@nuxt/devtools-kit": "catalog:",
+    "@nuxt/kit": "catalog:",
+    "consola": "catalog:",
+    "defu": "catalog:",
+    "ofetch": "catalog:",
+    "pathe": "catalog:",
+    "radix3": "catalog:",
+    "sirv": "catalog:",
+    "std-env": "catalog:",
+    "ufo": "catalog:"
+  },
+  "devDependencies": {
+    "@nuxt/schema": "catalog:",
+    "@nuxtjs/i18n": "catalog:",
+    "@shikijs/langs": "catalog:",
+    "@shikijs/themes": "catalog:",
+    "@vueuse/core": "catalog:",
+    "h3": "catalog:",
+    "nitropack": "catalog:",
+    "nuxt-site-config": "catalog:",
+    "shiki": "catalog:",
+    "typescript": "catalog:",
+    "unbuild": "catalog:",
+    "vue": "catalog:"
+  }
+}

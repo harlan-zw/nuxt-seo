@@ -1,0 +1,83 @@
+name: Reusable CI
+
+on:
+  workflow_call:
+    inputs:
+      runner:
+        description: Runner to use
+        type: string
+        default: ubuntu-24.04-arm
+      node-version:
+        description: Node.js version
+        type: string
+        default: 'lts/*'
+      pre-test-command:
+        description: Command to run before tests (e.g. playwright install)
+        type: string
+        default: ''
+      test-command:
+        description: Test command
+        type: string
+        default: 'pnpm test:run'
+      typecheck-command:
+        description: Typecheck command
+        type: string
+        default: pnpm typecheck
+      prepare-command:
+        description: Dev prepare command
+        type: string
+        default: 'pnpm dev:prepare'
+
+jobs:
+  lint:
+    runs-on: ${{ inputs.runner }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: pnpm
+      - run: pnpm i
+      - run: pnpm lint
+
+  typecheck:
+    runs-on: ${{ inputs.runner }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: pnpm
+      - run: pnpm i
+      - run: ${{ inputs.prepare-command }}
+      - run: ${{ inputs.typecheck-command }}
+
+  build:
+    runs-on: ${{ inputs.runner }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: pnpm
+      - run: pnpm i
+      - run: ${{ inputs.prepare-command }}
+      - run: pnpm build
+
+  test:
+    runs-on: ${{ inputs.runner }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: pnpm
+      - run: pnpm i
+      - run: ${{ inputs.prepare-command }}
+      - if: ${{ inputs.pre-test-command != '' }}
+        run: ${{ inputs.pre-test-command }}
+      - run: ${{ inputs.test-command }}
