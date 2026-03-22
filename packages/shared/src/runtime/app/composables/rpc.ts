@@ -1,11 +1,12 @@
 import type { NuxtDevtoolsClient } from '@nuxt/devtools-kit/types'
 import type { $Fetch } from 'nitropack/types'
+import type { Ref } from 'vue'
 import { onDevtoolsClientConnected } from '@nuxt/devtools-kit/iframe-client'
 import { ref, watchEffect } from 'vue'
 
-export const appFetch = ref<$Fetch>()
-export const devtools = ref<NuxtDevtoolsClient>()
-export const colorMode = ref<'dark' | 'light'>('dark')
+export const appFetch: Ref<$Fetch | undefined> = ref()
+export const devtools: Ref<NuxtDevtoolsClient | undefined> = ref()
+export const colorMode: Ref<'dark' | 'light'> = ref('dark')
 
 export interface DevtoolsConnectionOptions {
   onConnected?: (client: any) => void

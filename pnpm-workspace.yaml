@@ -7,6 +7,7 @@ packages:
   - '!**/.data/**'
 
 overrides:
+  rollup-plugin-dts: ^6.4.1
   semver: ^7.7.4
 catalog:
   '@antfu/eslint-config': ^7.7.3
@@ -43,6 +44,7 @@ catalog:
   nuxt-schema-org: ^5.0.10
   nuxt-seo-utils: ^7.0.19
   nuxt-site-config: ^4.0.0
+  obuild: ^0.4.32
   ofetch: ^1.5.1
   pathe: ^2.0.3
   radix3: ^1.1.2
@@ -56,6 +58,7 @@ catalog:
   unbuild: ^3.6.1
   vitest: ^4.1.0
   vue: ^3.5.30
+  vue-tsc: ^3.2.6
 
 ignoredBuiltDependencies:
   - '@parcel/watcher'

@@ -34,31 +34,30 @@
       "types": "./dist/pro.d.mts",
       "import": "./dist/pro.mjs"
     },
-    "./client": {
-      "types": "./dist/client/index.d.mts",
-      "import": "./dist/client/index.mjs"
+    "./runtime/app": {
+      "types": "./dist/runtime/app/index.d.mts",
+      "import": "./dist/runtime/app/index.mjs"
     },
-    "./client/composables/rpc": {
-      "types": "./dist/client/composables/rpc.d.mts",
-      "import": "./dist/client/composables/rpc.mjs"
+    "./runtime/app/composables/rpc": {
+      "types": "./dist/runtime/app/composables/rpc.d.mts",
+      "import": "./dist/runtime/app/composables/rpc.mjs"
     },
-    "./client/composables/shiki": {
-      "types": "./dist/client/composables/shiki.d.mts",
-      "import": "./dist/client/composables/shiki.mjs"
+    "./runtime/app/composables/shiki": {
+      "types": "./dist/runtime/app/composables/shiki.d.mts",
+      "import": "./dist/runtime/app/composables/shiki.mjs"
     },
-    "./client/components/OCodeBlock": "./src/client/components/OCodeBlock.vue",
-    "./client/components/OSectionBlock": "./src/client/components/OSectionBlock.vue",
-    "./client/components/NuxtSeoLogo": "./src/client/components/NuxtSeoLogo.vue"
+    "./runtime/app/components/OCodeBlock": "./dist/runtime/app/components/OCodeBlock.vue",
+    "./runtime/app/components/OSectionBlock": "./dist/runtime/app/components/OSectionBlock.vue",
+    "./runtime/app/components/NuxtSeoLogo": "./dist/runtime/app/components/NuxtSeoLogo.vue"
   },
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
   "files": [
-    "dist",
-    "src/client/components"
+    "dist"
   ],
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub"
+    "build": "obuild",
+    "stub": "obuild --stub"
   },
   "peerDependencies": {
     "@nuxt/schema": "^3.16.0 || ^4.0.0",
@@ -95,9 +94,9 @@
     "@shikijs/themes": "catalog:",
     "@vueuse/core": "catalog:",
     "nuxt-site-config": "catalog:",
+    "obuild": "catalog:",
     "shiki": "catalog:",
     "typescript": "catalog:",
-    "unbuild": "catalog:",
     "vue": "catalog:"
   }
 }

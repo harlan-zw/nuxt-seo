@@ -1,11 +1,11 @@
 import type { HighlighterCore, LanguageRegistration } from 'shiki'
-import type { ComputedRef, MaybeRef } from 'vue'
+import type { ComputedRef, MaybeRef, Ref } from 'vue'
 import { createHighlighterCore } from 'shiki/core'
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript'
 import { computed, ref, toValue } from 'vue'
 import { colorMode } from './rpc'
 
-export const shiki = ref<HighlighterCore>()
+export const shiki: Ref<HighlighterCore | undefined> = ref()
 
 export interface LoadShikiOptions {
   extraLangs?: (LanguageRegistration | Promise<LanguageRegistration>)[]
