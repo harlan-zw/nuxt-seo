@@ -1,100 +1,33 @@
 {
-  "name": "@nuxtjs/seo",
   "type": "module",
-  "version": "4.0.2",
+  "private": true,
   "packageManager": "pnpm@10.32.1",
-  "description": "Fully equipped Technical SEO for busy Nuxters.",
+  "description": "Nuxt SEO monorepo",
   "author": {
     "name": "Harlan Wilton",
     "email": "harlan@harlanzw.com",
     "url": "https://harlanzw.com/"
   },
   "license": "MIT",
-  "funding": "https://github.com/sponsors/harlan-zw",
-  "homepage": "https://nuxtseo.com/",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/harlan-zw/nuxt-seo.git"
-  },
-  "bugs": {
-    "url": "https://github.com/harlan-zw/nuxt-seo/issues"
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/types.d.mts",
-      "import": "./dist/module.mjs"
-    },
-    "./const": "./dist/const.mjs",
-    "./content": "./dist/content.mjs"
-  },
-  "main": "./dist/module.mjs",
-  "typesVersions": {
-    "*": {
-      ".": [
-        "./dist/types.d.mts"
-      ],
-      "const": [
-        "./dist/const.d.mts"
-      ],
-      "content": [
-        "./dist/content.d.mts"
-      ]
-    }
-  },
-  "files": [
-    "dist"
-  ],
   "scripts": {
-    "build": "nuxt-module-build build",
-    "dev": "nuxt dev playground",
-    "dev:prepare": "nuxt-module-build prepare && nuxt prepare playground",
+    "build": "pnpm --filter './packages/**' build",
+    "dev": "pnpm --filter @nuxtjs/seo dev",
+    "dev:prepare": "pnpm --filter './packages/**' stub && pnpm --filter @nuxtjs/seo dev:prepare",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "typecheck": "nuxt typecheck playground",
-    "prepare:fixtures": "nuxt prepare test/fixtures/basic && nuxt prepare test/fixtures/i18n",
-    "test": "pnpm prepare:fixtures && vitest",
-    "test:run": "pnpm prepare:fixtures && vitest run",
-    "test:attw": "attw --pack",
-    "prepack": "pnpm run build",
+    "typecheck": "pnpm -r --parallel --filter './packages/**' run typecheck",
+    "test": "pnpm --filter @nuxtjs/seo test",
+    "test:run": "pnpm --filter @nuxtjs/seo test:run",
     "release": "pnpm build && bumpp --output=CHANGELOG.md"
-  },
-  "peerDependencies": {
-    "nuxt": "^3.16.0 || ^4.0.0"
-  },
-  "dependencies": {
-    "@nuxt/kit": "catalog:",
-    "@nuxtjs/robots": "catalog:",
-    "@nuxtjs/sitemap": "catalog:",
-    "nuxt-link-checker": "catalog:",
-    "nuxt-og-image": "catalog:",
-    "nuxt-schema-org": "catalog:",
-    "nuxt-seo-utils": "catalog:",
-    "nuxt-site-config": "catalog:"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
-    "@arethetypeswrong/cli": "catalog:",
-    "@nuxt/content": "catalog:",
-    "@nuxt/module-builder": "catalog:",
-    "@nuxt/schema": "catalog:",
-    "@nuxt/test-utils": "catalog:",
-    "@nuxtjs/i18n": "catalog:",
-    "@resvg/resvg-js": "catalog:",
-    "@types/jest-image-snapshot": "catalog:",
-    "@vue/test-utils": "catalog:",
     "bumpp": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-harlanzw": "catalog:",
-    "execa": "catalog:",
-    "happy-dom": "catalog:",
-    "jest-image-snapshot": "catalog:",
     "lint-staged": "catalog:",
-    "nitropack": "catalog:",
-    "nuxt": "catalog:",
-    "satori": "catalog:",
     "simple-git-hooks": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:"
+    "typescript": "catalog:"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged"
@@ -103,10 +36,5 @@
     "*.{js,ts,mjs,cjs,vue}": [
       "pnpm exec eslint --fix"
     ]
-  },
-  "publishConfig": {
-    "resolutions": {},
-    "scripts": {},
-    "devDependencies": {}
   }
 }

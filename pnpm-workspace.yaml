@@ -2,10 +2,12 @@ shellEmulator: true
 trustPolicy: no-downgrade
 packages:
   - docs
-  - playground
-  - packages/shared
+  - packages/*
+  - packages/*/playground
   - '!**/.data/**'
 
+overrides:
+  semver: ^7.7.2
 catalog:
   '@antfu/eslint-config': ^7.7.3
   '@arethetypeswrong/cli': ^0.18.2

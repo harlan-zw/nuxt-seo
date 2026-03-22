@@ -8,6 +8,8 @@ export default antfu(
       'CLAUDE.md',
       'test/fixtures/**',
       'playground/**',
+      '**/test/fixtures/**',
+      '**/playground/**',
     ],
     rules: {
       'node/prefer-global/buffer': 'off',
