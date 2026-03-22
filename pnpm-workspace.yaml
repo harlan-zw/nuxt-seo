@@ -7,13 +7,13 @@ packages:
   - '!**/.data/**'
 
 overrides:
-  semver: ^7.7.2
+  semver: ^7.7.4
 catalog:
   '@antfu/eslint-config': ^7.7.3
   '@arethetypeswrong/cli': ^0.18.2
-  '@clack/prompts': ^0.10.0
+  '@clack/prompts': ^1.1.0
   '@nuxt/content': ^3.12.0
-  '@nuxt/devtools-kit': ^2.3.0
+  '@nuxt/devtools-kit': ^3.2.4
   '@nuxt/kit': ^4.4.2
   '@nuxt/module-builder': ^1.0.2
   '@nuxt/schema': ^4.4.2
@@ -22,41 +22,40 @@ catalog:
   '@nuxtjs/robots': ^5.7.1
   '@nuxtjs/sitemap': ^7.6.0
   '@resvg/resvg-js': ^2.6.2
-  '@shikijs/langs': ^3.0.0
-  '@shikijs/themes': ^3.0.0
+  '@shikijs/langs': ^4.0.2
+  '@shikijs/themes': ^4.0.2
   '@types/jest-image-snapshot': ^6.4.1
   '@vue/test-utils': ^2.4.6
-  '@vueuse/core': ^13.0.0
+  '@vueuse/core': ^14.2.1
   bumpp: ^11.0.1
   consola: ^3.4.2
   defu: ^6.1.4
-  eslint: ^10.0.3
-  eslint-plugin-harlanzw: ^0.6.0
+  eslint: ^10.1.0
+  eslint-plugin-harlanzw: ^0.10.3
   execa: ^9.6.1
-  h3: ^1.15.0
   happy-dom: ^20.8.4
   jest-image-snapshot: ^6.5.2
   lint-staged: ^16.4.0
-  nitropack: ^2.13.1
+  nitropack: ^2.13.2
   nuxt: ^4.4.2
   nuxt-link-checker: ^4.3.9
-  nuxt-og-image: ^6.0.5
+  nuxt-og-image: ^6.1.2
   nuxt-schema-org: ^5.0.10
   nuxt-seo-utils: ^7.0.19
-  nuxt-site-config: ^3.2.21
-  ofetch: ^1.4.1
+  nuxt-site-config: ^4.0.0
+  ofetch: ^1.5.1
   pathe: ^2.0.3
   radix3: ^1.1.2
-  satori: ^0.25.0
-  shiki: ^3.0.0
+  satori: ^0.26.0
+  shiki: ^4.0.2
   simple-git-hooks: ^2.13.1
-  sirv: ^3.0.1
-  std-env: ^3.9.0
+  sirv: ^3.0.2
+  std-env: ^4.0.0
   typescript: ^5.9.3
-  ufo: ^1.6.1
-  unbuild: ^3.5.0
+  ufo: ^1.6.3
+  unbuild: ^3.6.1
   vitest: ^4.1.0
-  vue: ^3.5.0
+  vue: ^3.5.30
 
 ignoredBuiltDependencies:
   - '@parcel/watcher'
@@ -66,3 +65,5 @@ ignoredBuiltDependencies:
   - sharp
   - vue-demi
   - workerd
+
+trustPolicyIgnoreAfter: 262800

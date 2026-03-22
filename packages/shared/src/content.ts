@@ -77,6 +77,7 @@ export interface DefineContentSchemaConfig<TSchema extends ZodTypeAny> {
  *
  * export { defineSchema as defineRobotsSchema, asCollection as asRobotsCollection, schema }
  */
+// eslint-disable-next-line ts/explicit-function-return-type
 export function createContentSchemaFactory<TSchema extends ZodTypeAny>(
   config: DefineContentSchemaConfig<TSchema>,
   defaultZ: ZodInstance,
