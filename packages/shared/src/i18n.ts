@@ -59,7 +59,7 @@ export function normalizeLocales(nuxtI18nConfig: NuxtI18nOptions): AutoI18nConfi
   const rawLocales = nuxtI18nConfig.locales || []
   let onlyLocales = nuxtI18nConfig?.bundle?.onlyLocales || []
   onlyLocales = typeof onlyLocales === 'string' ? [onlyLocales] : onlyLocales
-  let locales = mergeOnKey(rawLocales.map((locale): LocaleObject => typeof locale === 'string' ? { code: locale } : locale), 'code') as LocaleObject[]
+  let locales = mergeOnKey(rawLocales.map(locale => typeof locale === 'string' ? { code: locale } : locale), 'code') as LocaleObject[]
   if (onlyLocales.length) {
     locales = locales.filter(locale => onlyLocales.includes(locale.code))
   }

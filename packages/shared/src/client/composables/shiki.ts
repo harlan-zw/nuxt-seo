@@ -1,5 +1,5 @@
 import type { HighlighterCore, LanguageRegistration } from 'shiki'
-import type { MaybeRef } from 'vue'
+import type { ComputedRef, MaybeRef } from 'vue'
 import { createHighlighterCore } from 'shiki/core'
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript'
 import { computed, ref, toValue } from 'vue'
@@ -33,7 +33,7 @@ export async function loadShiki(options: LoadShikiOptions = {}): Promise<Highlig
   return shiki.value
 }
 
-export function useRenderCodeHighlight(code: MaybeRef<string>, lang: string): ReturnType<typeof computed<string>> {
+export function useRenderCodeHighlight(code: MaybeRef<string>, lang: string): ComputedRef<string> {
   return computed(() => {
     if (!shiki.value)
       return ''

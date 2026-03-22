@@ -6,7 +6,7 @@ import { createRouter as createRadixRouter, toRouteMatcher } from 'radix3'
 import { parseURL, withoutBase, withoutTrailingSlash } from 'ufo'
 
 export function withoutQuery(path: string): string {
-  return path.split('?')[0]
+  return path.split('?')[0]!
 }
 
 export function createNitroRouteRuleMatcher(e?: H3Event): (path: string) => NitroRouteConfig {

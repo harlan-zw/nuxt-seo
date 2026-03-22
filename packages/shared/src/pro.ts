@@ -53,7 +53,7 @@ export function hookNuxtSeoProLicense(): void {
     nuxt.hooks.hook('build:before', async () => {
       p.intro('Nuxt SEO Pro: License Verification')
       const siteConfig = useSiteConfig()
-      const spinner = p.spinner()
+      const spinner = p.spinner() as any
       spinner.start('🔑 Verifying Nuxt SEO Pro license...')
       const siteUrl = siteConfig.url?.startsWith('http') ? siteConfig.url : undefined
       const siteName = siteConfig.name || undefined
