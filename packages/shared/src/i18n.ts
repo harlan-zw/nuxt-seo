@@ -7,8 +7,10 @@ const SLASH_PATTERN = /^\/|\/$/g
 
 export type Strategies = 'no_prefix' | 'prefix_except_default' | 'prefix' | 'prefix_and_default'
 
+export type NormalisedLocale = LocaleObject & { _sitemap: string, _hreflang: string }
+
 export interface AutoI18nConfig {
-  locales: LocaleObject[]
+  locales: NormalisedLocale[]
   defaultLocale: string
   strategy: Strategies
   differentDomains?: boolean
