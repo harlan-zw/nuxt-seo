@@ -1,0 +1,36 @@
+{
+  "name": "nuxtseo-layer-devtools",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared Nuxt layer for Nuxt SEO devtools clients.",
+  "author": {
+    "name": "Harlan Wilton",
+    "email": "harlan@harlanzw.com",
+    "url": "https://harlanzw.com/"
+  },
+  "license": "MIT",
+  "main": "./nuxt.config.ts",
+  "files": [
+    "app.config.ts",
+    "assets",
+    "components",
+    "composables",
+    "nuxt.config.ts"
+  ],
+  "dependencies": {
+    "@nuxt/devtools-kit": "catalog:",
+    "@nuxt/fonts": "catalog:",
+    "@nuxt/kit": "catalog:",
+    "@nuxt/ui": "catalog:",
+    "@shikijs/langs": "catalog:",
+    "@shikijs/themes": "catalog:",
+    "@vueuse/core": "catalog:",
+    "shiki": "catalog:",
+    "ufo": "catalog:"
+  },
+  "devDependencies": {
+    "nuxt": "catalog:",
+    "vue": "catalog:"
+  }
+}

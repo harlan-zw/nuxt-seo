@@ -11,14 +11,10 @@ on:
         description: Node.js version
         type: string
         default: 'lts/*'
-      pre-test-command:
-        description: Command to run before tests (e.g. playwright install)
-        type: string
-        default: ''
       test-command:
         description: Test command
         type: string
-        default: 'pnpm test:run'
+        default: pnpm test
       typecheck-command:
         description: Typecheck command
         type: string
@@ -53,6 +49,7 @@ jobs:
       - run: pnpm i
       - run: ${{ inputs.prepare-command }}
       - run: ${{ inputs.typecheck-command }}
+      - run: pnpm run --if-present test:attw
 
   build:
     runs-on: ${{ inputs.runner }}
@@ -78,6 +75,17 @@ jobs:
           cache: pnpm
       - run: pnpm i
       - run: ${{ inputs.prepare-command }}
-      - if: ${{ inputs.pre-test-command != '' }}
-        run: ${{ inputs.pre-test-command }}
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ inputs.runner }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm exec playwright-core install chromium
+
+      - run: pnpm run --if-present prepare:fixtures
       - run: ${{ inputs.test-command }}

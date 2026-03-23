@@ -19,9 +19,6 @@ on:
         description: Command to run before build (e.g. npx nuxi prepare)
         type: string
         default: ''
-    secrets:
-      NPM_TOKEN:
-        required: true
 
 permissions:
   contents: write
@@ -55,11 +52,7 @@ jobs:
       - run: pnpm build
 
       - if: ${{ inputs.monorepo }}
-        run: pnpm publish -r --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm publish -r --access public --no-git-checks --provenance
 
       - if: ${{ !inputs.monorepo }}
-        run: pnpm publish --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm publish --access public --no-git-checks --provenance
