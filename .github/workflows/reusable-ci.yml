@@ -86,6 +86,7 @@ jobs:
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright-core install chromium
+        continue-on-error: true
 
       - run: pnpm run --if-present prepare:fixtures
       - run: ${{ inputs.test-command }}
