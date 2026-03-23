@@ -19,6 +19,10 @@ on:
         description: Dev prepare command
         type: string
         default: 'pnpm dev:prepare'
+      publish-packages:
+        description: Space-separated list of package paths to publish (leave empty to publish all)
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -46,4 +50,4 @@ jobs:
       - run: pnpm build
 
       - name: Publish
-        run: pnpm dlx pkg-pr-new publish
+        run: pnpm dlx pkg-pr-new publish ${{ inputs.publish-packages }}
