@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { onClickOutside } from '@vueuse/core'
+import { computed, ref } from 'vue'
 import { colorMode } from '../composables/rpc'
 import { hasProductionUrl, isProductionMode, previewSource, productionUrl } from '../composables/state'
 
@@ -58,6 +59,17 @@ const productionHostname = computed(() => {
 })
 
 const isRouteNav = computed(() => navItems.some(item => item.to))
+
+const modeDropdownOpen = ref(false)
+const modeDropdownRef = ref<HTMLElement>()
+onClickOutside(modeDropdownRef, () => {
+  modeDropdownOpen.value = false
+})
+
+function selectMode(mode: 'local' | 'production') {
+  previewSource.value = mode
+  modeDropdownOpen.value = false
+}
 </script>
 
 <template>
@@ -94,19 +106,35 @@ const isRouteNav = computed(() => navItems.some(item => item.to))
               >
                 v{{ version }}
               </UBadge>
-              <UDropdownMenu
-                v-if="hasProductionUrl"
-                :items="[
-                  { label: 'Local', icon: 'carbon:laptop', onSelect: () => previewSource = 'local' },
-                  { label: `Production (${productionHostname})`, icon: 'carbon:cloud', onSelect: () => previewSource = 'production' },
-                ]"
-              >
-                <button type="button" class="devtools-mode-btn">
+              <div v-if="hasProductionUrl" ref="modeDropdownRef" class="mode-dropdown-wrapper">
+                <button type="button" class="devtools-mode-btn" @click="modeDropdownOpen = !modeDropdownOpen">
                   <UIcon :name="isProductionMode ? 'carbon:cloud' : 'carbon:laptop'" class="w-3.5 h-3.5" />
                   <span class="hidden sm:inline">{{ isProductionMode ? 'Production' : 'Local' }}</span>
-                  <UIcon name="carbon:chevron-down" class="w-3 h-3 opacity-50" />
+                  <template v-if="isProductionMode">
+                    <span class="devtools-production-badge">
+                      <span class="devtools-production-dot" />
+                      {{ productionHostname }}
+                    </span>
+                  </template>
+                  <UIcon name="carbon:chevron-down" class="w-3 h-3 opacity-50 transition-transform" :class="modeDropdownOpen ? 'rotate-180' : ''" />
                 </button>
-              </UDropdownMenu>
+                <Transition name="dropdown">
+                  <div v-if="modeDropdownOpen" class="mode-dropdown-menu">
+                    <button type="button" class="mode-dropdown-item" @click="selectMode('local')">
+                      <UIcon name="carbon:laptop" class="w-4 h-4" />
+                      <span>Local</span>
+                    </button>
+                    <button type="button" class="mode-dropdown-item" @click="selectMode('production')">
+                      <UIcon name="carbon:cloud" class="w-4 h-4" />
+                      <span>Production</span>
+                      <span class="devtools-production-badge text-[10px]">
+                        <span class="devtools-production-dot" />
+                        {{ productionHostname }}
+                      </span>
+                    </button>
+                  </div>
+                </Transition>
+              </div>
             </div>
           </div>
 
@@ -192,7 +220,7 @@ const isRouteNav = computed(() => navItems.some(item => item.to))
 
       <!-- Main Content -->
       <div class="devtools-main">
-        <main class="mx-auto flex flex-col w-full max-w-7xl">
+        <main class="devtools-main-content">
           <DevtoolsLoading v-if="loading" />
           <div v-show="!loading">
             <slot />
@@ -202,3 +230,59 @@ const isRouteNav = computed(() => navItems.some(item => item.to))
     </div>
   </UApp>
 </template>
+
+<style scoped>
+.mode-dropdown-wrapper {
+  position: relative;
+}
+
+.mode-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 180px;
+  padding: 4px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-elevated);
+  box-shadow: 0 8px 24px oklch(0% 0 0 / 0.12);
+  z-index: 100;
+}
+
+.dark .mode-dropdown-menu {
+  box-shadow: 0 8px 24px oklch(0% 0 0 / 0.4);
+}
+
+.mode-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.4rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 100ms, color 100ms;
+}
+
+.mode-dropdown-item:hover {
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+}
+
+.dropdown-enter-active {
+  transition: opacity 150ms ease, transform 150ms ease;
+}
+
+.dropdown-leave-active {
+  transition: opacity 100ms ease, transform 100ms ease;
+}
+
+.dropdown-enter-from,
+.dropdown-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+</style>

@@ -37,7 +37,7 @@ export default defineNuxtModule<ModuleOptions>({
       version: '^7.0',
     },
     'nuxt-site-config': {
-      version: '^3.2',
+      version: '>=3.2',
     },
     '@nuxtjs/i18n': {
       version: '^10.0',

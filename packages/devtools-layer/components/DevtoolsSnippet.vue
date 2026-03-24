@@ -47,5 +47,7 @@ const {
   font-size: 0.6875rem;
   line-height: 1.6;
   padding: 0.5rem 0.625rem !important;
+  max-height: 300px;
+  overflow-y: auto;
 }
 </style>

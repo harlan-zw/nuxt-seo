@@ -4,19 +4,20 @@ const {
   variant = 'info',
 } = defineProps<{
   icon?: string
-  variant?: 'info' | 'warning' | 'success' | 'production'
+  variant?: 'info' | 'warning' | 'error' | 'success' | 'production'
 }>()
 
 const defaultIcons: Record<string, string> = {
   info: 'carbon:information',
   warning: 'carbon:warning',
+  error: 'carbon:close-outline',
   success: 'carbon:checkmark-outline',
   production: 'carbon:cloud',
 }
 </script>
 
 <template>
-  <div class="devtools-alert" :class="`devtools-alert-${variant}`" role="status">
+  <div class="devtools-alert" :class="`devtools-alert-${variant}`" :role="variant === 'error' ? 'alert' : 'status'">
     <UIcon :name="icon || defaultIcons[variant]" class="devtools-alert-icon" aria-hidden="true" />
     <div class="devtools-alert-content">
       <slot />
@@ -61,6 +62,18 @@ const defaultIcons: Record<string, string> = {
 .dark .devtools-alert-info {
   background: oklch(45% 0.1 230 / 0.15);
   color: oklch(80% 0.1 230);
+}
+
+/* Error */
+.devtools-alert-error {
+  background: oklch(65% 0.18 25 / 0.1);
+  color: oklch(52% 0.18 25);
+  border-bottom-color: oklch(55% 0.15 25 / 0.25);
+}
+
+.dark .devtools-alert-error {
+  background: oklch(40% 0.14 25 / 0.18);
+  color: oklch(75% 0.14 25);
 }
 
 /* Warning */
