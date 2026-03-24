@@ -6,6 +6,51 @@ import { addTemplate, createResolver, hasNuxtModule, hasNuxtModuleCompatibility,
 import { relative } from 'pathe'
 import { env, provider } from 'std-env'
 
+export interface NuxtSeoModuleDetection {
+  name: string
+  version?: string
+  entryPath?: string
+  features?: Record<string, boolean | string | number>
+}
+
+const NUXT_SEO_MODULES = new Set([
+  '@nuxtjs/robots',
+  '@nuxtjs/sitemap',
+  'nuxt-og-image',
+  'nuxt-schema-org',
+  'nuxt-seo-utils',
+  'nuxt-link-checker',
+  'nuxt-site-config',
+  'nuxt-skew-protection',
+  'nuxt-ai-ready',
+])
+
+const PRO_MODULES = new Set([
+  'nuxt-skew-protection',
+  'nuxt-ai-ready',
+])
+
+/**
+ * Detect all installed Nuxt SEO modules from `nuxt.options._installedModules`.
+ * No self-registration needed; modules are discovered automatically.
+ */
+export function detectNuxtSeoModules(nuxt: Nuxt = useNuxt()): NuxtSeoModuleDetection[] {
+  return nuxt.options._installedModules
+    .filter(m => m.meta?.name && NUXT_SEO_MODULES.has(m.meta.name))
+    .map(m => ({
+      name: m.meta.name!,
+      version: m.meta.version,
+      entryPath: m.entryPath,
+    }))
+}
+
+/**
+ * Detect installed Nuxt SEO Pro modules.
+ */
+export function detectNuxtSeoProModules(nuxt: Nuxt = useNuxt()): NuxtSeoModuleDetection[] {
+  return detectNuxtSeoModules(nuxt).filter(m => PRO_MODULES.has(m.name))
+}
+
 const autodetectableProviders: Record<string, string> = {
   azure_static: 'azure',
   cloudflare_pages: 'cloudflare-pages',
@@ -34,7 +79,7 @@ export function resolveNitroPreset(nitroConfig?: NitroConfig): string {
     preset = nitroConfig.preset
   if (!preset)
     preset = env.NITRO_PRESET || env.SERVER_PRESET || detectTarget() || 'node-server'
-  return preset.replace('_', '-')
+  return preset.replaceAll('_', '-')
 }
 
 /**

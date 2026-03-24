@@ -11,13 +11,11 @@ export function createFilter(options: CreateFilterOptions = {}): (path: string) 
   if (include.length === 0 && exclude.length === 0)
     return () => true
 
-  // Pre-compute regex and string rules once
   const excludeRegex = exclude.filter(r => r instanceof RegExp) as RegExp[]
   const includeRegex = include.filter(r => r instanceof RegExp) as RegExp[]
   const excludeStrings = exclude.filter(r => typeof r === 'string') as string[]
   const includeStrings = include.filter(r => typeof r === 'string') as string[]
 
-  // Pre-create routers once (expensive operation)
   const excludeMatcher = excludeStrings.length > 0
     ? toRouteMatcher(createRouter({
         routes: Object.fromEntries(excludeStrings.map(r => [r, true])),
@@ -31,12 +29,10 @@ export function createFilter(options: CreateFilterOptions = {}): (path: string) 
       }))
     : null
 
-  // Pre-create Sets for O(1) exact match lookups
   const excludeExact = new Set(excludeStrings)
   const includeExact = new Set(includeStrings)
 
   return function (path: string): boolean {
-    // Check exclude rules first
     if (excludeRegex.some(r => r.test(path)))
       return false
     if (excludeExact.has(path))
@@ -44,7 +40,6 @@ export function createFilter(options: CreateFilterOptions = {}): (path: string) 
     if (excludeMatcher && excludeMatcher.matchAll(path).length > 0)
       return false
 
-    // Check include rules
     if (includeRegex.some(r => r.test(path)))
       return true
     if (includeExact.has(path))
@@ -54,4 +49,8 @@ export function createFilter(options: CreateFilterOptions = {}): (path: string) 
 
     return include.length === 0
   }
+}
+
+export function withoutQuery(path: string): string {
+  return path.split('?')[0]
 }

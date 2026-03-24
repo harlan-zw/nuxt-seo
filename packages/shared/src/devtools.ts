@@ -3,6 +3,7 @@ import type { Nuxt } from 'nuxt/schema'
 import { existsSync } from 'node:fs'
 import { addCustomTab } from '@nuxt/devtools-kit'
 import { useNuxt } from '@nuxt/kit'
+import sirv from 'sirv'
 
 export interface DevToolsUIConfig {
   route: string
@@ -18,8 +19,7 @@ export function setupDevToolsUI(config: DevToolsUIConfig, resolve: Resolver['res
   const isProductionBuild = existsSync(clientPath)
 
   if (isProductionBuild) {
-    nuxt.hook('vite:serverCreated', async (server) => {
-      const sirv = await import('sirv').then(r => r.default || r)
+    nuxt.hook('vite:serverCreated', (server) => {
       server.middlewares.use(
         route,
         sirv(clientPath, { dev: true, single: true }),

@@ -49,7 +49,7 @@
     "dev": "nuxt dev playground",
     "dev:prepare": "nuxt-module-build prepare && nuxt prepare playground",
     "typecheck": "nuxt typecheck playground",
-    "prepare:fixtures": "nuxt prepare test/fixtures/basic && nuxt prepare test/fixtures/i18n",
+    "prepare:fixtures": "nuxt prepare test/fixtures/basic && nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/content",
     "test": "pnpm prepare:fixtures && vitest",
     "test:run": "pnpm prepare:fixtures && vitest run",
     "test:attw": "attw --pack",

@@ -13,7 +13,7 @@ export default defineNuxtConfig({
   },
 
   ogImage: {
-    debug: true,
+    enabled: false,
   },
 
   devtools: { enabled: true },

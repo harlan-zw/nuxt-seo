@@ -3,7 +3,6 @@ import type { ComputedRef, MaybeRef, Ref } from 'vue'
 import { createHighlighterCore } from 'shiki/core'
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript'
 import { computed, ref, toValue } from 'vue'
-import { colorMode } from './rpc'
 
 export const shiki: Ref<HighlighterCore | undefined> = ref()
 
@@ -40,10 +39,12 @@ export function useRenderCodeHighlight(code: MaybeRef<string>, lang: string): Co
   return computed(() => {
     if (!shiki.value)
       return ''
-    const theme = colorMode.value === 'dark' ? 'vitesse-dark' : 'vitesse-light'
     return shiki.value.codeToHtml(toValue(code) || '', {
       lang,
-      theme,
+      themes: {
+        light: 'vitesse-light',
+        dark: 'vitesse-dark',
+      },
     }) || ''
   })
 }

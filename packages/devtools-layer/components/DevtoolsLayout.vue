@@ -92,8 +92,21 @@ const isRouteNav = computed(() => navItems.some(item => item.to))
                 v-if="version"
                 class="font-mono text-[10px] sm:text-xs hidden sm:inline-flex"
               >
-                {{ version }}
+                v{{ version }}
               </UBadge>
+              <UDropdownMenu
+                v-if="hasProductionUrl"
+                :items="[
+                  { label: 'Local', icon: 'carbon:laptop', onSelect: () => previewSource = 'local' },
+                  { label: `Production (${productionHostname})`, icon: 'carbon:cloud', onSelect: () => previewSource = 'production' },
+                ]"
+              >
+                <button type="button" class="devtools-mode-btn">
+                  <UIcon :name="isProductionMode ? 'carbon:cloud' : 'carbon:laptop'" class="w-3.5 h-3.5" />
+                  <span class="hidden sm:inline">{{ isProductionMode ? 'Production' : 'Local' }}</span>
+                  <UIcon name="carbon:chevron-down" class="w-3 h-3 opacity-50" />
+                </button>
+              </UDropdownMenu>
             </div>
           </div>
 
@@ -150,36 +163,6 @@ const isRouteNav = computed(() => navItems.some(item => item.to))
               </template>
             </div>
 
-            <!-- Preview source toggle -->
-            <div v-if="hasProductionUrl" class="devtools-preview-toggle">
-              <button
-                type="button"
-                class="devtools-preview-btn"
-                :class="{ active: previewSource === 'local' }"
-                @click="previewSource = 'local'"
-              >
-                <UIcon name="carbon:laptop" class="w-3.5 h-3.5" aria-hidden="true" />
-                <span class="hidden sm:inline">Local</span>
-              </button>
-              <button
-                type="button"
-                class="devtools-preview-btn"
-                :class="{ active: previewSource === 'production' }"
-                @click="previewSource = 'production'"
-              >
-                <UIcon name="carbon:cloud" class="w-3.5 h-3.5" aria-hidden="true" />
-                <span class="hidden sm:inline">Production</span>
-              </button>
-            </div>
-
-            <!-- Production URL indicator -->
-            <UTooltip v-if="isProductionMode" :text="productionUrl">
-              <span class="devtools-production-badge">
-                <span class="devtools-production-dot" />
-                <span class="hidden sm:inline text-xs">{{ productionHostname }}</span>
-              </span>
-            </UTooltip>
-
             <!-- Actions -->
             <div class="flex items-center gap-1">
               <slot name="actions" />
@@ -211,7 +194,9 @@ const isRouteNav = computed(() => navItems.some(item => item.to))
       <div class="devtools-main">
         <main class="mx-auto flex flex-col w-full max-w-7xl">
           <DevtoolsLoading v-if="loading" />
-          <slot v-else />
+          <div v-show="!loading">
+            <slot />
+          </div>
         </main>
       </div>
     </div>

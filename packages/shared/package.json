@@ -1,7 +1,7 @@
 {
   "name": "nuxtseo-shared",
   "type": "module",
-  "version": "0.1.2",
+  "version": "0.5.2",
   "description": "Shared utilities for Nuxt SEO modules.",
   "author": {
     "name": "Harlan Wilton",
@@ -11,8 +11,8 @@
   "license": "MIT",
   "exports": {
     ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs"
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
     },
     "./content": {
       "types": "./dist/content.d.mts",
@@ -34,37 +34,35 @@
       "types": "./dist/pro.d.mts",
       "import": "./dist/pro.mjs"
     },
-    "./runtime/app": {
-      "types": "./dist/runtime/app/index.d.mts",
-      "import": "./dist/runtime/app/index.mjs"
+    "./telemetry": {
+      "types": "./dist/telemetry.d.mts",
+      "import": "./dist/telemetry.mjs"
     },
-    "./runtime/app/composables/rpc": {
-      "types": "./dist/runtime/app/composables/rpc.d.mts",
-      "import": "./dist/runtime/app/composables/rpc.mjs"
+    "./utils": {
+      "types": "./dist/utils.d.mts",
+      "import": "./dist/utils.mjs"
     },
-    "./runtime/app/composables/shiki": {
-      "types": "./dist/runtime/app/composables/shiki.d.mts",
-      "import": "./dist/runtime/app/composables/shiki.mjs"
-    },
-    "./runtime/app/components/OCodeBlock": "./dist/runtime/app/components/OCodeBlock.vue",
-    "./runtime/app/components/OSectionBlock": "./dist/runtime/app/components/OSectionBlock.vue",
-    "./runtime/app/components/NuxtSeoLogo": "./dist/runtime/app/components/NuxtSeoLogo.vue"
+    "./package.json": "./package.json"
   },
-  "main": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
+  "main": "./dist/module.mjs",
+  "types": "./dist/types.d.mts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "obuild",
-    "stub": "obuild --stub"
+    "build": "nuxt-module-build build",
+    "dev:prepare": "nuxt-module-build prepare",
+    "stub": "nuxt-module-build build --stub",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "typecheck": "vue-tsc --noEmit"
   },
   "peerDependencies": {
     "@nuxt/schema": "^3.16.0 || ^4.0.0",
     "nuxt": "^3.16.0 || ^4.0.0",
     "nuxt-site-config": "^3.2.0",
     "vue": "^3.5.0",
-    "zod": "^3.23.0"
+    "zod": "^3.23.0 || ^4.0.0"
   },
   "peerDependenciesMeta": {
     "nuxt-site-config": {
@@ -82,21 +80,20 @@
     "defu": "catalog:",
     "ofetch": "catalog:",
     "pathe": "catalog:",
+    "pkg-types": "catalog:",
     "radix3": "catalog:",
     "sirv": "catalog:",
     "std-env": "catalog:",
     "ufo": "catalog:"
   },
   "devDependencies": {
+    "@nuxt/module-builder": "catalog:",
     "@nuxt/schema": "catalog:",
     "@nuxtjs/i18n": "catalog:",
-    "@shikijs/langs": "catalog:",
-    "@shikijs/themes": "catalog:",
-    "@vueuse/core": "catalog:",
     "nuxt-site-config": "catalog:",
-    "obuild": "catalog:",
-    "shiki": "catalog:",
     "typescript": "catalog:",
-    "vue": "catalog:"
+    "vitest": "catalog:",
+    "vue": "catalog:",
+    "vue-tsc": "catalog:"
   }
 }

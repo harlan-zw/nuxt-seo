@@ -16,12 +16,14 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "pnpm -r --parallel --filter './packages/**' run typecheck",
-    "test": "pnpm --filter @nuxtjs/seo test",
-    "test:run": "pnpm --filter @nuxtjs/seo test:run",
-    "release": "pnpm build && bumpp --output=CHANGELOG.md"
+    "test": "pnpm --filter nuxtseo-shared --filter @nuxtjs/seo test",
+    "test:run": "pnpm --filter nuxtseo-shared --filter @nuxtjs/seo test:run",
+    "release": "pnpm build && bumpp --output=CHANGELOG.md",
+    "sync:workflows": "node scripts/sync-workflows.mjs"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
+    "better-sqlite3": "^12.8.0",
     "bumpp": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-harlanzw": "catalog:",

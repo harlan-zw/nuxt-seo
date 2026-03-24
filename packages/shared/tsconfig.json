@@ -1,16 +1,6 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "jsx": "preserve",
-    "rootDir": "src",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "strict": true,
-    "declaration": true,
-    "outDir": "dist",
-    "esModuleInterop": true,
-    "skipLibCheck": true
-  },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+  "extends": "./.nuxt/tsconfig.json",
+  "exclude": [
+    "dist"
+  ]
 }

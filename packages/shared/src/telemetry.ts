@@ -1,15 +1,17 @@
-import type { ModuleRegistration } from './pro'
+import type { NuxtSeoModuleDetection } from './kit'
 import { createHash } from 'node:crypto'
 import { useNuxt } from '@nuxt/kit'
 import { $fetch } from 'ofetch'
 import { detectPackageManager } from 'pkg-types'
 import { provider as ciProvider, isCI, isTest } from 'std-env'
+import { detectNuxtSeoModules } from './kit'
 
 const TELEMETRY_ENDPOINT = 'https://nuxtseo.com/api/telemetry/collect'
 
 /**
  * Hook into build to send telemetry. Call once from the shared module.
- * Reads from the existing _nuxtSeoModules registration list.
+ * Auto-detects installed Nuxt SEO modules from `_installedModules`.
+ * Modules can optionally report features via the `nuxt-seo:features` hook.
  * Only fires in CI, never in dev/test, fully fire-and-forget.
  *
  * Disable with NUXT_SEO_TELEMETRY_DISABLED=1
@@ -30,10 +32,13 @@ export function hookNuxtSeoTelemetry(): void {
   nuxt._isNuxtSeoTelemetryHooked = true
 
   nuxt.hooks.hook('build:done', async () => {
-    // @ts-expect-error untyped
-    const modules: ModuleRegistration[] = nuxt._nuxtSeoModules || []
+    const modules: NuxtSeoModuleDetection[] = detectNuxtSeoModules(nuxt)
     if (modules.length === 0)
       return
+
+    // Let modules optionally report feature flags
+    // @ts-expect-error untyped hook
+    await nuxt.callHook('nuxt-seo:features', modules)
 
     const projectHash = createHash('sha256')
       .update(nuxt.options.rootDir)

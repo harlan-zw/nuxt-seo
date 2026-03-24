@@ -1,14 +1,9 @@
-import type { z as zodLib } from 'zod'
-
-type ZodInstance = typeof zodLib
-type ZodTypeAny = zodLib.ZodTypeAny
-
 export interface ContentSchemaOptions {
   /**
    * Pass the `z` instance from `@nuxt/content` to ensure `.editor()` works
    * across Zod versions. When omitted, the module's bundled `z` is used.
    */
-  z?: ZodInstance
+  z?: any
 }
 
 export interface ContentEditorConfig {
@@ -21,7 +16,7 @@ export interface ContentEditorConfig {
  * Apply Nuxt Content `.editor()` metadata to a zod schema field.
  * No-ops gracefully when `.editor()` is not patched onto ZodType (outside Nuxt Content).
  */
-export function withEditor<T extends ZodTypeAny>(schema: T, config: ContentEditorConfig): T {
+export function withEditor<T>(schema: T, config: ContentEditorConfig): T {
   if (typeof (schema as any).editor === 'function')
     return (schema as any).editor(config)
   return schema
@@ -29,13 +24,12 @@ export function withEditor<T extends ZodTypeAny>(schema: T, config: ContentEdito
 
 /**
  * Hide a zod schema field from the Nuxt Content / Studio editor.
- * Only use for fields that genuinely don't work in a form (freeform JSON, deeply nested arrays).
  */
-export function withEditorHidden<T extends ZodTypeAny>(schema: T): T {
+export function withEditorHidden<T>(schema: T): T {
   return withEditor(schema, { hidden: true })
 }
 
-export interface DefineContentSchemaConfig<TSchema extends ZodTypeAny> {
+export interface DefineContentSchemaConfig<TSchema = any, TDefineOptions extends ContentSchemaOptions = ContentSchemaOptions> {
   /**
    * The field name used in frontmatter (e.g. 'robots', 'sitemap', 'ogImage').
    */
@@ -44,7 +38,7 @@ export interface DefineContentSchemaConfig<TSchema extends ZodTypeAny> {
    * Build the zod schema for this field. Receives the zod instance
    * (either the user's `@nuxt/content` patched version or the module's bundled one).
    */
-  buildSchema: (z: ZodInstance) => TSchema
+  buildSchema: (z: any) => TSchema
   /**
    * Module label for deprecation warnings (e.g. 'robots', 'sitemap').
    */
@@ -53,6 +47,11 @@ export interface DefineContentSchemaConfig<TSchema extends ZodTypeAny> {
    * Documentation URL for migration guidance.
    */
   docsUrl?: string
+  /**
+   * Hook called when `defineSchema()` is invoked. Use for validation or
+   * registering module-specific side effects (e.g. sitemap filter/onUrl).
+   */
+  onDefineSchema?: (options: TDefineOptions) => void
 }
 
 /**
@@ -64,7 +63,6 @@ export interface DefineContentSchemaConfig<TSchema extends ZodTypeAny> {
  * - Deprecated `asXxxCollection()` wrapper with migration warning
  *
  * @example
- * // In @nuxtjs/robots/content.ts
  * import { z } from 'zod'
  * import { createContentSchemaFactory } from 'nuxtseo-shared/content'
  *
@@ -72,22 +70,24 @@ export interface DefineContentSchemaConfig<TSchema extends ZodTypeAny> {
  *   fieldName: 'robots',
  *   label: 'robots',
  *   docsUrl: 'https://nuxtseo.com/robots/guides/content',
- *   buildSchema: (z) => z.enum(['index, follow', 'noindex', 'nofollow', 'noindex, nofollow', 'none']).optional(),
+ *   buildSchema: (z) => z.union([z.string(), z.boolean()]).optional(),
  * }, z)
  *
  * export { defineSchema as defineRobotsSchema, asCollection as asRobotsCollection, schema }
  */
 // eslint-disable-next-line ts/explicit-function-return-type
-export function createContentSchemaFactory<TSchema extends ZodTypeAny>(
-  config: DefineContentSchemaConfig<TSchema>,
-  defaultZ: ZodInstance,
+export function createContentSchemaFactory<TSchema, TDefineOptions extends ContentSchemaOptions = ContentSchemaOptions>(
+  config: DefineContentSchemaConfig<TSchema, TDefineOptions>,
+  defaultZ: any,
 ) {
-  const { fieldName, buildSchema, label, docsUrl } = config
+  const { fieldName, buildSchema, label, docsUrl, onDefineSchema } = config
 
   const defaultSchema = buildSchema(defaultZ)
   const schemaObject = defaultZ.object({ [fieldName]: defaultSchema })
 
-  function defineSchema(options?: ContentSchemaOptions): TSchema {
+  function defineSchema(options?: TDefineOptions): TSchema {
+    if (options && onDefineSchema)
+      onDefineSchema(options)
     const _z = options?.z ?? defaultZ
     if (_z === defaultZ)
       return defaultSchema

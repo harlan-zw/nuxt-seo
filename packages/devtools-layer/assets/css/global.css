@@ -42,8 +42,8 @@
   --color-surface: var(--color-neutral-950);
   --color-surface-elevated: var(--color-neutral-900);
   --color-surface-sunken: oklch(7% 0.004 260);
-  --color-border: var(--color-neutral-800);
-  --color-border-subtle: oklch(16% 0.008 260);
+  --color-border: oklch(25% 0.012 260);
+  --color-border-subtle: oklch(20% 0.01 260);
   --color-text: var(--color-neutral-100);
   --color-text-muted: var(--color-neutral-400);
   --color-text-subtle: var(--color-neutral-500);
@@ -232,6 +232,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .code-block .shiki {
   background: transparent !important;
+}
+
+.shiki,
+.shiki span {
+  color: var(--shiki-light) !important;
+  background-color: transparent !important;
 }
 
 .dark .shiki,
@@ -501,42 +507,26 @@ html.dark {
 }
 
 /* Preview source toggle */
-.devtools-preview-toggle {
-  display: flex;
-  gap: 1px;
-  background: var(--color-border);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.devtools-preview-btn {
-  display: flex;
+.devtools-mode-btn {
+  display: inline-flex;
   align-items: center;
   gap: 0.25rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.2rem 0.5rem;
   font-size: 0.6875rem;
   font-weight: 500;
   color: var(--color-text-muted);
   background: var(--color-surface-sunken);
-  border: none;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
   cursor: pointer;
-  transition: color 150ms, background 150ms;
+  transition: color 150ms, background 150ms, border-color 150ms;
   white-space: nowrap;
 }
 
-.devtools-preview-btn:hover {
+.devtools-mode-btn:hover {
   color: var(--color-text);
   background: var(--color-surface-elevated);
-}
-
-.devtools-preview-btn.active {
-  color: var(--color-text);
-  background: var(--color-surface-elevated);
-  box-shadow: 0 1px 2px oklch(0% 0 0 / 0.06);
-}
-
-.dark .devtools-preview-btn.active {
-  box-shadow: 0 1px 2px oklch(0% 0 0 / 0.2);
+  border-color: var(--color-border-hover, var(--color-border));
 }
 
 /* Production URL badge */

@@ -25,3 +25,8 @@ These modules are not bundled in `@nuxtjs/seo` but are available for installatio
 | PRO: Skew Protection | `nuxt-skew-protection` | `~/pkg/nuxt-skew-protection` |
 | PRO: AI Ready        | `nuxt-ai-ready` | `~/pkg/nuxt-ai-ready` |
 
+
+<!-- skilld -->
+Before modifying code, evaluate each installed skill against the current task.
+For each skill, determine YES/NO relevance and invoke all YES skills before proceeding.
+<!-- /skilld -->
