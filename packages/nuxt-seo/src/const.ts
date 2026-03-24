@@ -70,10 +70,10 @@ export const OgImageModule: NuxtSEOModule = {
   repo: 'nuxt-modules/og-image',
   npm: 'nuxt-og-image',
   playgrounds: {
-    basic: 'https://stackblitz.com/edit/nuxt-starter-pxs3wk?file=pages/index.vue',
-    i18n: 'https://stackblitz.com/edit/nuxt-starter-uw7pqmxg?file=nuxt.config.ts',
-    nuxtContent2: 'https://stackblitz.com/edit/github-hgunsf?file=package.json',
-    nuxtContent3: 'https://stackblitz.com/edit/github-hgunsf-wd8esdec',
+    'basic-satori': 'https://stackblitz.com/github/nuxt-modules/og-image/tree/main/examples/basic-satori',
+    'basic-takumi': 'https://stackblitz.com/github/nuxt-modules/og-image/tree/main/examples/basic-takumi',
+    'content': 'https://stackblitz.com/github/nuxt-modules/og-image/tree/main/examples/content',
+    'i18n': 'https://stackblitz.com/github/nuxt-modules/og-image/tree/main/examples/i18n',
   },
 }
 
