@@ -1,10 +1,14 @@
-
+shellEmulator: true
+trustPolicy: no-downgrade
 packages:
   - docs
   - playground
   - packages/*
   - packages/*/playground
   - '!**/.data/**'
+overrides:
+  rollup-plugin-dts: ^6.4.1
+  semver: ^7.7.4
 catalog:
   '@antfu/eslint-config': ^7.7.3
   '@arethetypeswrong/cli': ^0.18.2
@@ -27,6 +31,7 @@ catalog:
   '@vue/test-utils': ^2.4.6
   '@vueuse/core': ^14.2.1
   '@vueuse/nuxt': ^14.2.1
+  birpc: ^4.0.0
   bumpp: ^11.0.1
   consola: ^3.4.2
   defu: ^6.1.4
@@ -69,9 +74,4 @@ ignoredBuiltDependencies:
 
 onlyBuiltDependencies:
   - better-sqlite3
-overrides:
-  rollup-plugin-dts: ^6.4.1
-  semver: ^7.7.4
-shellEmulator: true
-trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 262800

@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { standaloneUrl } from '../composables/state'
 
+const trailingSlashes = /\/+$/
 const urlInput = ref(standaloneUrl.value || 'http://localhost:3000')
 const error = ref('')
 const connecting = ref(false)
@@ -9,7 +10,7 @@ const connecting = ref(false)
 async function connect() {
   error.value = ''
   connecting.value = true
-  const url = urlInput.value.replace(/\/+$/, '')
+  const url = urlInput.value.replace(trailingSlashes, '')
   try {
     // Verify the dev server is reachable
     await fetch(url, { mode: 'no-cors', signal: AbortSignal.timeout(5000) })

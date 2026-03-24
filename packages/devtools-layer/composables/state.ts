@@ -9,6 +9,11 @@ export const path = ref('/')
 export const query = ref()
 export const base = ref('/')
 
+// Standalone mode state
+export const standaloneUrl = useLocalStorage<string>('nuxt-seo:standalone-url', '')
+export const isConnected = ref(false)
+export const isStandalone = computed(() => !isConnected.value && !!standaloneUrl.value)
+
 export const host = computed(() => {
   if (isStandalone.value)
     return standaloneUrl.value
@@ -35,8 +40,3 @@ export const hasProductionUrl = computed(() => {
 })
 
 export const isProductionMode = computed(() => previewSource.value === 'production' && hasProductionUrl.value)
-
-// Standalone mode state
-export const standaloneUrl = useLocalStorage<string>('nuxt-seo:standalone-url', '')
-export const isConnected = ref(false)
-export const isStandalone = computed(() => !isConnected.value && !!standaloneUrl.value)
