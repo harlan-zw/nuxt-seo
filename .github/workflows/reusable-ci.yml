@@ -23,6 +23,10 @@ on:
         description: Dev prepare command
         type: string
         default: 'pnpm dev:prepare'
+      redis:
+        description: Enable Redis service container for tests
+        type: boolean
+        default: false
 
 jobs:
   lint:
@@ -65,7 +69,46 @@ jobs:
       - run: pnpm build
 
   test:
+    if: ${{ !inputs.redis }}
     runs-on: ${{ inputs.runner }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: pnpm
+      - run: pnpm i
+      - run: ${{ inputs.prepare-command }}
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ inputs.runner }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: pnpm exec playwright-core install chromium
+        continue-on-error: true
+
+      - run: pnpm run --if-present prepare:fixtures
+      - run: ${{ inputs.test-command }}
+
+  test-redis:
+    if: ${{ inputs.redis }}
+    runs-on: ${{ inputs.runner }}
+    services:
+      redis:
+        image: redis:latest
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v6
       - uses: pnpm/action-setup@v4

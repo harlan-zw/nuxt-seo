@@ -8,14 +8,31 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/fonts',
     '@nuxt/ui',
+    '@vueuse/nuxt',
   ],
 
   css: [resolve('./assets/css/global.css')],
+
+  robots: false,
+  content: false,
+  sitemap: false,
 
   fonts: {
     families: [
       { name: 'Hubot Sans' },
     ],
+  },
+
+  vite: {
+    optimizeDeps: {
+      include: [
+        '@vueuse/core',
+      ],
+    },
+  },
+
+  imports: {
+    autoImport: true,
   },
 
   devtools: {

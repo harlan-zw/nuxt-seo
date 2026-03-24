@@ -1,9 +1,12 @@
 import type { Resolver } from '@nuxt/kit'
+import type { BirpcGroup } from 'birpc'
 import type { Nuxt } from 'nuxt/schema'
-import { existsSync } from 'node:fs'
-import { addCustomTab } from '@nuxt/devtools-kit'
+import { existsSync, readdirSync } from 'node:fs'
+import { addCustomTab, extendServerRpc, onDevToolsInitialized } from '@nuxt/devtools-kit'
 import { useNuxt } from '@nuxt/kit'
 import sirv from 'sirv'
+
+export type { BirpcGroup } from 'birpc'
 
 export interface DevToolsUIConfig {
   route: string
@@ -15,8 +18,8 @@ export interface DevToolsUIConfig {
 
 export function setupDevToolsUI(config: DevToolsUIConfig, resolve: Resolver['resolve'], nuxt: Nuxt = useNuxt()): void {
   const { route, name, title, icon, devPort = 3030 } = config
-  const clientPath = resolve('./client')
-  const isProductionBuild = existsSync(clientPath)
+  const clientPath = resolve('./devtools')
+  const isProductionBuild = existsSync(clientPath) && readdirSync(clientPath).length > 0
 
   if (isProductionBuild) {
     nuxt.hook('vite:serverCreated', (server) => {
@@ -37,7 +40,16 @@ export function setupDevToolsUI(config: DevToolsUIConfig, resolve: Resolver['res
               target: `http://localhost:${devPort}${route}`,
               changeOrigin: true,
               followRedirects: true,
+              ws: true,
               rewrite: (p: string) => p.replace(route, ''),
+              configure: (proxy: any) => {
+                proxy.on('error', (err: Error, _req: any, res: any) => {
+                  if (res.headersSent)
+                    return
+                  res.writeHead(502, { 'Content-Type': 'text/plain' })
+                  res.end(`Devtools client not ready: ${err.message}`)
+                })
+              },
             },
           },
         },
@@ -53,5 +65,20 @@ export function setupDevToolsUI(config: DevToolsUIConfig, resolve: Resolver['res
       type: 'iframe',
       src: route,
     },
+  })
+}
+
+export function setupDevToolsRpc<
+  ServerFunctions extends object,
+  ClientFunctions extends object,
+>(
+  namespace: string,
+  serverFunctions: ServerFunctions,
+  nuxt: Nuxt = useNuxt(),
+): Promise<BirpcGroup<ClientFunctions, ServerFunctions>> {
+  return new Promise((resolve) => {
+    onDevToolsInitialized(() => {
+      resolve(extendServerRpc<ClientFunctions, ServerFunctions>(namespace, serverFunctions, nuxt))
+    }, nuxt)
   })
 }

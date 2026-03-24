@@ -51,8 +51,19 @@ jobs:
 
       - run: pnpm build
 
+      - name: Detect prerelease tag
+        id: prerelease
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          if [[ "$TAG" =~ -(beta|rc|alpha) ]]; then
+            DIST_TAG=$(echo "$TAG" | sed 's/.*-\(beta\|rc\|alpha\).*/\1/')
+            echo "tag=--tag $DIST_TAG" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=" >> "$GITHUB_OUTPUT"
+          fi
+
       - if: ${{ inputs.monorepo }}
-        run: pnpm publish -r --access public --no-git-checks --provenance
+        run: pnpm publish -r --access public --no-git-checks --provenance ${{ steps.prerelease.outputs.tag }}
 
       - if: ${{ !inputs.monorepo }}
-        run: pnpm publish --access public --no-git-checks --provenance
+        run: pnpm publish --access public --no-git-checks --provenance ${{ steps.prerelease.outputs.tag }}
