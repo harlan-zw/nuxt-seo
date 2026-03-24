@@ -1,9 +1,13 @@
+import type { z as _z } from 'zod'
+
+export type Zod = typeof _z
+
 export interface ContentSchemaOptions {
   /**
    * Pass the `z` instance from `@nuxt/content` to ensure `.editor()` works
    * across Zod versions. When omitted, the module's bundled `z` is used.
    */
-  z?: any
+  z?: Zod
 }
 
 export interface ContentEditorConfig {
@@ -38,7 +42,7 @@ export interface DefineContentSchemaConfig<TSchema = any, TDefineOptions extends
    * Build the zod schema for this field. Receives the zod instance
    * (either the user's `@nuxt/content` patched version or the module's bundled one).
    */
-  buildSchema: (z: any) => TSchema
+  buildSchema: (z: Zod) => TSchema
   /**
    * Module label for deprecation warnings (e.g. 'robots', 'sitemap').
    */
@@ -78,7 +82,7 @@ export interface DefineContentSchemaConfig<TSchema = any, TDefineOptions extends
 // eslint-disable-next-line ts/explicit-function-return-type
 export function createContentSchemaFactory<TSchema, TDefineOptions extends ContentSchemaOptions = ContentSchemaOptions>(
   config: DefineContentSchemaConfig<TSchema, TDefineOptions>,
-  defaultZ: any,
+  defaultZ: Zod,
 ) {
   const { fieldName, buildSchema, label, docsUrl, onDefineSchema } = config
 

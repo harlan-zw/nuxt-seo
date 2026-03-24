@@ -2,7 +2,7 @@
 import { onClickOutside } from '@vueuse/core'
 import { computed, ref } from 'vue'
 import { colorMode } from '../composables/rpc'
-import { hasProductionUrl, isProductionMode, previewSource, productionUrl } from '../composables/state'
+import { hasProductionUrl, isConnected, isProductionMode, isStandalone, path, previewSource, productionUrl, standaloneUrl } from '../composables/state'
 
 export interface DevtoolsNavItem {
   value: string
@@ -70,6 +70,21 @@ function selectMode(mode: 'local' | 'production') {
   previewSource.value = mode
   modeDropdownOpen.value = false
 }
+
+const standaloneHostname = computed(() => {
+  try {
+    return new URL(standaloneUrl.value).host
+  }
+  catch {
+    return standaloneUrl.value
+  }
+})
+
+const showStandaloneSetup = computed(() => !isConnected.value && !isStandalone.value)
+
+function disconnectStandalone() {
+  standaloneUrl.value = ''
+}
 </script>
 
 <template>
@@ -106,7 +121,8 @@ function selectMode(mode: 'local' | 'production') {
               >
                 v{{ version }}
               </UBadge>
-              <div v-if="hasProductionUrl" ref="modeDropdownRef" class="mode-dropdown-wrapper">
+              <!-- Mode dropdown: embedded with production URL -->
+              <div v-if="hasProductionUrl && !isStandalone" ref="modeDropdownRef" class="mode-dropdown-wrapper">
                 <button type="button" class="devtools-mode-btn" @click="modeDropdownOpen = !modeDropdownOpen">
                   <UIcon :name="isProductionMode ? 'carbon:cloud' : 'carbon:laptop'" class="w-3.5 h-3.5" />
                   <span class="hidden sm:inline">{{ isProductionMode ? 'Production' : 'Local' }}</span>
@@ -134,6 +150,16 @@ function selectMode(mode: 'local' | 'production') {
                     </button>
                   </div>
                 </Transition>
+              </div>
+              <!-- Standalone mode indicator -->
+              <div v-if="isStandalone" class="standalone-indicator">
+                <UIcon name="carbon:plug" class="w-3.5 h-3.5 text-[var(--seo-green)]" />
+                <span class="text-xs font-mono">{{ standaloneHostname }}</span>
+                <UTooltip text="Disconnect">
+                  <button type="button" class="standalone-disconnect" @click="disconnectStandalone">
+                    <UIcon name="carbon:close" class="w-3 h-3" />
+                  </button>
+                </UTooltip>
               </div>
             </div>
           </div>
@@ -218,11 +244,28 @@ function selectMode(mode: 'local' | 'production') {
         </div>
       </header>
 
+      <!-- Standalone path input -->
+      <div v-if="isStandalone" class="standalone-path-bar">
+        <div class="standalone-path-inner">
+          <UIcon name="carbon:document" class="w-3.5 h-3.5 text-[var(--color-text-muted)]" />
+          <span class="text-xs text-[var(--color-text-muted)]">Path:</span>
+          <input
+            :value="path"
+            type="text"
+            class="standalone-path-input"
+            placeholder="/"
+            @change="path = ($event.target as HTMLInputElement).value"
+            @keydown.enter="($event.target as HTMLInputElement).blur()"
+          >
+        </div>
+      </div>
+
       <!-- Main Content -->
       <div class="devtools-main">
         <main class="devtools-main-content">
-          <DevtoolsLoading v-if="loading" />
-          <div v-show="!loading">
+          <DevtoolsStandaloneConnect v-if="showStandaloneSetup" />
+          <DevtoolsLoading v-show="!showStandaloneSetup && loading" />
+          <div v-show="!showStandaloneSetup && !loading">
             <slot />
           </div>
         </main>
@@ -284,5 +327,65 @@ function selectMode(mode: 'local' | 'production') {
 .dropdown-leave-to {
   opacity: 0;
   transform: translateY(-4px);
+}
+
+.standalone-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: oklch(from var(--seo-green) l c h / 0.1);
+  border: 1px solid oklch(from var(--seo-green) l c h / 0.2);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.standalone-disconnect {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: background 100ms, color 100ms;
+}
+
+.standalone-disconnect:hover {
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
+}
+
+.standalone-path-bar {
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: 0.375rem 1rem;
+}
+
+.standalone-path-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.standalone-path-input {
+  flex: 1;
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--color-text);
+  outline: none;
+  transition: border-color 150ms;
+}
+
+.standalone-path-input:focus {
+  border-color: var(--seo-green);
 }
 </style>

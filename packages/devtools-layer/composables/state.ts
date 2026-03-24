@@ -9,7 +9,11 @@ export const path = ref('/')
 export const query = ref()
 export const base = ref('/')
 
-export const host = computed(() => withBase(base.value, `${window.location.protocol}//${hostname}`))
+export const host = computed(() => {
+  if (isStandalone.value)
+    return standaloneUrl.value
+  return withBase(base.value, `${window.location.protocol}//${hostname}`)
+})
 
 export const refreshSources = useDebounceFn(() => {
   refreshTime.value = Date.now()
@@ -31,3 +35,8 @@ export const hasProductionUrl = computed(() => {
 })
 
 export const isProductionMode = computed(() => previewSource.value === 'production' && hasProductionUrl.value)
+
+// Standalone mode state
+export const standaloneUrl = useLocalStorage<string>('nuxt-seo:standalone-url', '')
+export const isConnected = ref(false)
+export const isStandalone = computed(() => !isConnected.value && !!standaloneUrl.value)

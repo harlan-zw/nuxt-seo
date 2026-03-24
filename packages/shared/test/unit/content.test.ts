@@ -1,3 +1,4 @@
+import type { Zod } from '../../src/content'
 import { describe, expect, it, vi } from 'vitest'
 import { createContentSchemaFactory, withEditor, withEditorHidden } from '../../src/content'
 
@@ -21,7 +22,7 @@ function createMockZ() {
         shape: { ...shape, ...otherShape },
       }),
     }),
-  }
+  } as unknown as Zod
 }
 
 // -------------------------------------------------------------------
@@ -109,7 +110,7 @@ describe('createContentSchemaFactory', () => {
   it('defineSchema calls buildSchema with custom z when provided', () => {
     const defaultZ = createMockZ()
     const customZ = createMockZ()
-    const buildSchema = vi.fn((_z: any) => _z.string())
+    const buildSchema = vi.fn((_z: Zod) => _z.string())
 
     const { defineSchema } = createContentSchemaFactory(
       {

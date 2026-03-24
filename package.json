@@ -19,7 +19,8 @@
     "test": "pnpm --filter nuxtseo-shared --filter @nuxtjs/seo test",
     "test:run": "pnpm --filter nuxtseo-shared --filter @nuxtjs/seo test:run",
     "release": "pnpm build && bumpp --output=CHANGELOG.md",
-    "sync:workflows": "node scripts/sync-workflows.mjs"
+    "sync:workflows": "node scripts/sync-workflows.mjs",
+    "prepare": "skilld prepare || true"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
