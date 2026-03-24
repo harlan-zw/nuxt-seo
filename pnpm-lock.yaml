@@ -69,6 +69,9 @@ catalogs:
     '@vueuse/nuxt':
       specifier: ^14.2.1
       version: 14.2.1
+    birpc:
+      specifier: ^4.0.0
+      version: 4.0.0
     bumpp:
       specifier: ^11.0.1
       version: 11.0.1
@@ -332,7 +335,7 @@ importers:
         specifier: 'catalog:'
         version: 4.4.2(magicast@0.5.2)
       birpc:
-        specifier: ^4.0.0
+        specifier: 'catalog:'
         version: 4.0.0
       consola:
         specifier: 'catalog:'
