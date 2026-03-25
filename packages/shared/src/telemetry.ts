@@ -2,7 +2,8 @@ import type { NuxtSeoModuleDetection } from './kit'
 import { createHash } from 'node:crypto'
 import { useNuxt } from '@nuxt/kit'
 import { $fetch } from 'ofetch'
-import { detectPackageManager } from 'pkg-types'
+import { basename } from 'pathe'
+import { resolveLockfile } from 'pkg-types'
 import { provider as ciProvider, isCI, isTest } from 'std-env'
 import { detectNuxtSeoModules } from './kit'
 
@@ -72,7 +73,16 @@ export function hookNuxtSeoTelemetry(): void {
       nodeVersion: process.version,
       // eslint-disable-next-line node/prefer-global/process
       os: process.platform,
-      packageManager: await detectPackageManager(nuxt.options.rootDir).then(r => r?.name).catch(() => undefined),
+      packageManager: await resolveLockfile(nuxt.options.rootDir)
+        .then((lockfile) => {
+          const name = basename(lockfile)
+          if (name === 'pnpm-lock.yaml') return 'pnpm'
+          if (name === 'yarn.lock') return 'yarn'
+          if (name === 'bun.lock' || name === 'bun.lockb') return 'bun'
+          if (name === 'package-lock.json') return 'npm'
+          return undefined
+        })
+        .catch(() => undefined),
       ci: ciProvider || 'true',
     }
 

@@ -71,7 +71,7 @@ export function detectTarget(options: { static?: boolean } = {}): string | undef
 }
 
 export function resolveNitroPreset(nitroConfig?: NitroConfig): string {
-  nitroConfig = nitroConfig || tryUseNuxt()?.options?.nitro
+  nitroConfig = nitroConfig || (tryUseNuxt()?.options as any)?.nitro
   if (provider === 'stackblitz' || provider === 'codesandbox')
     return provider
   let preset
@@ -112,10 +112,11 @@ export async function getNuxtModuleOptions(module: string | NuxtModule, nuxt: Nu
 }
 
 export function isNuxtGenerate(nuxt: Nuxt = useNuxt()): boolean {
-  return nuxt.options.nitro.static || (nuxt.options as any)._generate || [
+  const nitroOptions = (nuxt.options as any).nitro
+  return nitroOptions?.static || (nuxt.options as any)._generate || [
     'static',
     'github-pages',
-  ].includes(resolveNitroPreset(nuxt.options.nitro))
+  ].includes(resolveNitroPreset(nitroOptions))
 }
 
 /**
@@ -157,7 +158,8 @@ export function createPagesPromise(nuxt: Nuxt = useNuxt()): Promise<NuxtPage[]> 
  */
 export function createNitroPromise(nuxt: Nuxt = useNuxt()): Promise<Nitro> {
   return new Promise<Nitro>((resolve) => {
-    nuxt.hooks.hook('nitro:init', nitro => resolve(nitro))
+    // @ts-expect-error nitro:init hook exists at runtime but removed from NuxtHooks types in Nuxt 4
+    nuxt.hooks.hook('nitro:init', (nitro: Nitro) => resolve(nitro))
   })
 }
 

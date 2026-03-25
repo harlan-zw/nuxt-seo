@@ -87,7 +87,7 @@ export function createContentSchemaFactory<TSchema, TDefineOptions extends Conte
   const { fieldName, buildSchema, label, docsUrl, onDefineSchema } = config
 
   const defaultSchema = buildSchema(defaultZ)
-  const schemaObject = defaultZ.object({ [fieldName]: defaultSchema })
+  const schemaObject = defaultZ.object({ [fieldName]: defaultSchema } as any)
 
   function defineSchema(options?: TDefineOptions): TSchema {
     if (options && onDefineSchema)
