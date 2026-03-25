@@ -19,28 +19,28 @@ export default defineNuxtModule<ModuleOptions>({
   },
   moduleDependencies: {
     '@nuxtjs/robots': {
-      version: '^5.5',
+      version: '>=5.5',
     },
     '@nuxtjs/sitemap': {
-      version: '^7.4',
+      version: '>=7.4',
     },
     'nuxt-link-checker': {
-      version: '^4.3',
+      version: '>=4.3',
     },
     'nuxt-og-image': {
       version: '>=6.0',
     },
     'nuxt-schema-org': {
-      version: '^5.0',
+      version: '>=5.0',
     },
     'nuxt-seo-utils': {
-      version: '^7.0',
+      version: '>=7.0',
     },
     'nuxt-site-config': {
       version: '>=3.2',
     },
     '@nuxtjs/i18n': {
-      version: '^10.0',
+      version: '>=10.0',
       optional: true,
     },
   },
