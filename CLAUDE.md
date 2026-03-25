@@ -25,6 +25,10 @@ These modules are not bundled in `@nuxtjs/seo` but are available for installatio
 | PRO: Skew Protection | `nuxt-skew-protection` | `~/pkg/nuxt-skew-protection` |
 | PRO: AI Ready        | `nuxt-ai-ready` | `~/pkg/nuxt-ai-ready` |
 
+## Website
+
+The nuxtseo.com website source lives at `~/sites/nuxtseo.com`. It is a Nuxt app deployed to Cloudflare Workers with D1 databases. The `nuxt-seo-pro` layer (`layers/nuxt-seo-pro/`) contains the Pro dashboard, telemetry API, and license verification endpoints.
+
 
 <!-- skilld -->
 Before modifying code, evaluate each installed skill against the current task.

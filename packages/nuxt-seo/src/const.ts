@@ -17,8 +17,8 @@ export const NuxtSEO: NuxtSEOModule = {
   repo: 'harlan-zw/nuxt-seo',
   npm: '@nuxtjs/seo',
   playgrounds: {
-    basic: 'https://stackblitz.com/edit/nuxt-starter-zycxux?file=public%2F_robots.txt',
-    i18n: 'https://stackblitz.com/edit/nuxt-starter-pnej8lvb?file=public%2F_robots.txt',
+    basic: 'https://stackblitz.com/github/harlan-zw/nuxt-seo/tree/main/examples/basic',
+    i18n: 'https://stackblitz.com/github/harlan-zw/nuxt-seo/tree/main/examples/i18n',
   },
 }
 
@@ -30,7 +30,9 @@ export const SiteConfigModule: NuxtSEOModule = {
   repo: 'harlan-zw/nuxt-site-config',
   npm: 'nuxt-site-config',
   playgrounds: {
-    basic: 'https://stackblitz.com/edit/nuxt-starter-zycxux?file=public%2F_robots.txt',
+    'basic': 'https://stackblitz.com/github/harlan-zw/nuxt-site-config/tree/main/examples/basic',
+    'env-driven': 'https://stackblitz.com/github/harlan-zw/nuxt-site-config/tree/main/examples/env-driven',
+    'multi-site': 'https://stackblitz.com/github/harlan-zw/nuxt-site-config/tree/main/examples/multi-site',
   },
 }
 
@@ -42,8 +44,9 @@ export const RobotsModule: NuxtSEOModule = {
   repo: 'nuxt-modules/robots',
   npm: '@nuxtjs/robots',
   playgrounds: {
-    basic: 'https://stackblitz.com/edit/nuxt-starter-zycxux?file=public%2F_robots.txt',
-    i18n: 'https://stackblitz.com/edit/nuxt-starter-pnej8lvb?file=public%2F_robots.txt',
+    'basic': 'https://stackblitz.com/github/nuxt-modules/robots/tree/main/examples/basic',
+    'i18n': 'https://stackblitz.com/github/nuxt-modules/robots/tree/main/examples/i18n',
+    'custom-rules': 'https://stackblitz.com/github/nuxt-modules/robots/tree/main/examples/custom-rules',
   },
 }
 
@@ -55,10 +58,9 @@ export const SitemapModule: NuxtSEOModule = {
   repo: 'nuxt-modules/sitemap',
   npm: '@nuxtjs/sitemap',
   playgrounds: {
-    basic: 'https://stackblitz.com/edit/nuxt-starter-dyraxc?file=server%2Fapi%2F_sitemap-urls.ts',
-    i18n: 'https://stackblitz.com/edit/nuxt-starter-jwuie4?file=app.vue',
-    manualChunking: 'https://stackblitz.com/edit/nuxt-starter-umyso3?file=nuxt.config.ts',
-    nuxtContent: 'https://stackblitz.com/edit/nuxt-starter-a5qk3s?file=nuxt.config.ts',
+    'basic': 'https://stackblitz.com/github/nuxt-modules/sitemap/tree/main/examples/basic',
+    'i18n': 'https://stackblitz.com/github/nuxt-modules/sitemap/tree/main/examples/i18n',
+    'dynamic-urls': 'https://stackblitz.com/github/nuxt-modules/sitemap/tree/main/examples/dynamic-urls',
   },
 }
 
@@ -85,7 +87,9 @@ export const LinkCheckerModule: NuxtSEOModule = {
   repo: 'harlan-zw/nuxt-link-checker',
   npm: 'nuxt-link-checker',
   playgrounds: {
-    basic: 'https://stackblitz.com/edit/nuxt-starter-r2wzt1?file=nuxt.config.ts',
+    'basic': 'https://stackblitz.com/github/harlan-zw/nuxt-link-checker/tree/main/examples/basic',
+    'broken-links': 'https://stackblitz.com/github/harlan-zw/nuxt-link-checker/tree/main/examples/broken-links',
+    'skip-inspection': 'https://stackblitz.com/github/harlan-zw/nuxt-link-checker/tree/main/examples/skip-inspection',
   },
 }
 
@@ -97,7 +101,9 @@ export const SeoUtilsModule: NuxtSEOModule = {
   repo: 'harlan-zw/nuxt-seo-utils',
   npm: 'nuxt-seo-utils',
   playgrounds: {
-    basic: 'https://stackblitz.com/edit/nuxt-starter-vbay3q?file=app.vue',
+    'basic': 'https://stackblitz.com/github/harlan-zw/nuxt-seo-utils/tree/main/examples/basic',
+    'breadcrumbs': 'https://stackblitz.com/github/harlan-zw/nuxt-seo-utils/tree/main/examples/breadcrumbs',
+    'meta-tags': 'https://stackblitz.com/github/harlan-zw/nuxt-seo-utils/tree/main/examples/meta-tags',
   },
 }
 
@@ -109,7 +115,9 @@ export const SchemaOrgModule: NuxtSEOModule = {
   repo: 'harlan-zw/nuxt-schema-org',
   npm: 'nuxt-schema-org',
   playgrounds: {
-    basic: 'https://stackblitz.com/edit/nuxt-starter-z9np1t?file=app.vue',
+    'basic': 'https://stackblitz.com/github/harlan-zw/nuxt-schema-org/tree/main/examples/basic',
+    'blog': 'https://stackblitz.com/github/harlan-zw/nuxt-schema-org/tree/main/examples/blog',
+    'e-commerce': 'https://stackblitz.com/github/harlan-zw/nuxt-schema-org/tree/main/examples/e-commerce',
   },
 }
 
