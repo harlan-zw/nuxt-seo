@@ -9,7 +9,6 @@ export default defineBuildConfig({
     { input: 'src/devtools', name: 'devtools' },
     { input: 'src/i18n', name: 'i18n' },
     { input: 'src/pro', name: 'pro' },
-    { input: 'src/telemetry', name: 'telemetry' },
     { input: 'src/utils', name: 'utils' },
   ],
   externals: [

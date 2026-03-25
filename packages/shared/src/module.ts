@@ -1,6 +1,5 @@
 import { defineNuxtModule } from '@nuxt/kit'
 import { hookNuxtSeoProLicense } from './pro'
-import { hookNuxtSeoTelemetry } from './telemetry'
 
 export default defineNuxtModule({
   meta: {
@@ -12,6 +11,5 @@ export default defineNuxtModule({
   },
   setup() {
     hookNuxtSeoProLicense()
-    hookNuxtSeoTelemetry()
   },
 })

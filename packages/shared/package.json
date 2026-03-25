@@ -1,7 +1,7 @@
 {
   "name": "nuxtseo-shared",
   "type": "module",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Shared utilities for Nuxt SEO modules.",
   "author": {
     "name": "Harlan Wilton",
@@ -33,10 +33,6 @@
     "./pro": {
       "types": "./dist/pro.d.mts",
       "import": "./dist/pro.mjs"
-    },
-    "./telemetry": {
-      "types": "./dist/telemetry.d.mts",
-      "import": "./dist/telemetry.mjs"
     },
     "./utils": {
       "types": "./dist/utils.d.mts",

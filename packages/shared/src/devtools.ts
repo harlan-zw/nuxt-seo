@@ -16,9 +16,32 @@ export interface DevToolsUIConfig {
   devPort?: number
 }
 
+export interface SeoModuleInfo {
+  name: string
+  title: string
+  icon: string
+  route: string
+}
+
 export function setupDevToolsUI(config: DevToolsUIConfig, resolve: Resolver['resolve'], nuxt: Nuxt = useNuxt()): void {
   const { route, name, title, icon, devPort = 3030 } = config
   const clientPath = resolve('./devtools')
+
+  // Register this module in the shared SEO modules registry
+  const modules: SeoModuleInfo[] = (nuxt as any)._seoDevtoolsModules ??= []
+  modules.push({ name, title, icon, route })
+
+  // Register shared RPC endpoint once (first module to call wins)
+  if (!(nuxt as any)._seoDevtoolsRpcRegistered) {
+    (nuxt as any)._seoDevtoolsRpcRegistered = true
+    onDevToolsInitialized(() => {
+      extendServerRpc('nuxt-seo-modules', {
+        getInstalledSeoModules(): SeoModuleInfo[] {
+          return (nuxt as any)._seoDevtoolsModules || []
+        },
+      }, nuxt)
+    }, nuxt)
+  }
   const isProductionBuild = existsSync(clientPath) && readdirSync(clientPath).length > 0
 
   if (isProductionBuild) {

@@ -1,0 +1,44 @@
+{
+  "name": "nuxtseo-telemetry",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Optional anonymous telemetry for Nuxt SEO modules.",
+  "author": {
+    "name": "Harlan Wilton",
+    "email": "harlan@harlanzw.com",
+    "url": "https://harlanzw.com/"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
+    }
+  },
+  "main": "./dist/module.mjs",
+  "types": "./dist/types.d.mts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "nuxt-module-build build",
+    "dev:prepare": "nuxt-module-build prepare",
+    "stub": "nuxt-module-build build --stub"
+  },
+  "dependencies": {
+    "@nuxt/kit": "catalog:",
+    "nuxtseo-shared": "workspace:*",
+    "ofetch": "catalog:",
+    "pathe": "catalog:",
+    "pkg-types": "catalog:",
+    "rc9": "catalog:",
+    "std-env": "catalog:"
+  },
+  "devDependencies": {
+    "@nuxt/module-builder": "catalog:",
+    "@nuxt/schema": "catalog:",
+    "nuxt": "catalog:",
+    "typescript": "catalog:"
+  }
+}

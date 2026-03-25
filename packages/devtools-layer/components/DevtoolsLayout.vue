@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
 import { computed, ref } from 'vue'
+import { fetchInstalledModules, showModuleSplash } from '../composables/modules'
 import { colorMode } from '../composables/rpc'
 import { hasProductionUrl, isConnected, isProductionMode, isStandalone, path, previewSource, productionUrl, standaloneUrl } from '../composables/state'
 
@@ -16,6 +17,7 @@ const {
   title,
   icon,
   version,
+  moduleName,
   navItems,
   githubUrl,
   loading = false,
@@ -23,6 +25,7 @@ const {
   title: string
   icon: string
   version?: string
+  moduleName?: string
   navItems: DevtoolsNavItem[]
   githubUrl: string
   loading?: boolean
@@ -31,6 +34,9 @@ const {
 const emit = defineEmits<{
   refresh: []
 }>()
+
+// Fetch installed modules for the splash screen
+fetchInstalledModules()
 
 const activeTab = defineModel<string>('activeTab')
 
@@ -96,15 +102,14 @@ function disconnectStandalone() {
         <div class="devtools-header-content">
           <!-- Logo & Brand -->
           <div class="flex items-center gap-3 sm:gap-4">
-            <a
-              href="https://nuxtseo.com"
-              target="_blank"
-              rel="noopener"
-              aria-label="Nuxt SEO"
-              class="flex items-center opacity-90 hover:opacity-100 transition-opacity"
+            <button
+              type="button"
+              aria-label="Nuxt SEO Modules"
+              class="flex items-center opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
+              @click="showModuleSplash = true"
             >
               <NuxtSeoLogo class="h-6 sm:h-7" />
-            </a>
+            </button>
 
             <div class="devtools-divider" />
 
@@ -271,6 +276,8 @@ function disconnectStandalone() {
         </main>
       </div>
     </div>
+
+    <DevtoolsModuleSplash :current-module="moduleName" />
   </UApp>
 </template>
 
