@@ -1,14 +1,9 @@
-shellEmulator: true
-trustPolicy: no-downgrade
 packages:
   - docs
   - playground
   - packages/*
   - packages/*/playground
   - '!**/.data/**'
-overrides:
-  rollup-plugin-dts: ^6.4.1
-  semver: ^7.7.4
 catalog:
   '@antfu/eslint-config': ^7.7.3
   '@arethetypeswrong/cli': ^0.18.2
@@ -22,8 +17,8 @@ catalog:
   '@nuxt/test-utils': ^4.0.0
   '@nuxt/ui': ^4.6.0
   '@nuxtjs/i18n': ^10.2.4
-  '@nuxtjs/robots': ^5.7.1
-  '@nuxtjs/sitemap': ^7.6.0
+  '@nuxtjs/robots': ^6.0.1
+  '@nuxtjs/sitemap': ^8.0.1
   '@resvg/resvg-js': ^2.6.2
   '@shikijs/langs': ^4.0.2
   '@shikijs/themes': ^4.0.2
@@ -36,18 +31,18 @@ catalog:
   consola: ^3.4.2
   defu: ^6.1.4
   eslint: ^10.1.0
-  eslint-plugin-harlanzw: ^0.10.4
+  eslint-plugin-harlanzw: ^0.11.0
   execa: ^9.6.1
-  happy-dom: ^20.8.7
+  happy-dom: ^20.8.8
   jest-image-snapshot: ^6.5.2
   lint-staged: ^16.4.0
   nitropack: ^2.13.2
   nuxt: ^4.4.2
-  nuxt-link-checker: ^4.3.9
-  nuxt-og-image: ^6.1.2
-  nuxt-schema-org: ^5.0.10
-  nuxt-seo-utils: ^7.0.19
-  nuxt-site-config: ^4.0.0
+  nuxt-link-checker: ^5.0.1
+  nuxt-og-image: ^6.2.0
+  nuxt-schema-org: ^6.0.0
+  nuxt-seo-utils: ^8.0.1
+  nuxt-site-config: ^4.0.1
   ofetch: ^1.5.1
   pathe: ^2.0.3
   pkg-types: ^2.3.0
@@ -74,4 +69,9 @@ ignoredBuiltDependencies:
 
 onlyBuiltDependencies:
   - better-sqlite3
+overrides:
+  rollup-plugin-dts: ^6.4.1
+  semver: ^7.7.4
+shellEmulator: true
+trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 262800
