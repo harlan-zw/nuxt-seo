@@ -9,6 +9,16 @@
     "url": "https://harlanzw.com/"
   },
   "license": "MIT",
+  "funding": "https://github.com/sponsors/harlan-zw",
+  "homepage": "https://nuxtseo.com/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harlan-zw/nuxt-seo.git",
+    "directory": "packages/devtools-layer"
+  },
+  "bugs": {
+    "url": "https://github.com/harlan-zw/nuxt-seo/issues"
+  },
   "exports": {
     ".": "./nuxt.config.ts",
     "./composables/shiki": "./composables/shiki.ts",
