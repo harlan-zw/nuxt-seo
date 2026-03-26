@@ -10,6 +10,8 @@ export default defineNuxtConfig({
   // @ts-ignore
   site: {
     url: 'https://nuxtseo.com',
+    name: '@nuxtjs/seo',
+    description: 'Fully equipped Technical SEO for busy Nuxters.',
   },
 
   ogImage: {

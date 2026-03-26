@@ -52,5 +52,5 @@ export function createFilter(options: CreateFilterOptions = {}): (path: string) 
 }
 
 export function withoutQuery(path: string): string {
-  return path.split('?')[0]
+  return path.split('?')[0]!
 }

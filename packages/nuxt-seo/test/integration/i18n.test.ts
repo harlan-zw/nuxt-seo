@@ -28,25 +28,25 @@ describe('i18n', () => {
     expect(extractSeoHead(html)).toMatchInlineSnapshot(`
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta property="og:image" content="https://nuxtseo.com/_og/d/default.png?_v=test">
+      <meta property="og:type" content="website">
+      <meta property="og:url" content="https://nuxtseo.com/">
+      <meta property="og:locale" content="en_US">
+      <meta property="og:site_name" content="@nuxtjs/seo">
+      <meta property="og:image" content="https://nuxtseo.com/_og/d/ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
       <meta property="og:image:type" content="image/png">
       <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:image" content="https://nuxtseo.com/_og/d/default.png?_v=test">
-      <meta name="twitter:image:src" content="https://nuxtseo.com/_og/d/default.png?_v=test">
+      <meta name="twitter:image" content="https://nuxtseo.com/_og/d/ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
+      <meta name="twitter:image:src" content="https://nuxtseo.com/_og/d/ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
       <meta property="og:image:width" content="1200">
       <meta name="twitter:image:width" content="1200">
       <meta property="og:image:height" content="600">
       <meta name="twitter:image:height" content="600">
-      <meta property="og:type" content="website">
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>@nuxtjs&#x2F;seo</title>
-      <meta name="description" content="en description">
       <meta property="og:title" data-infer="" content="@nuxtjs/seo">
       <meta property="og:description" data-infer="" content="en description">
       <link rel="canonical" href="https://nuxtseo.com/">
-      <meta property="og:url" content="https://nuxtseo.com/">
-      <meta property="og:locale" content="en_US">
-      <meta property="og:site_name" content="@nuxtjs/seo">"
+      <meta name="description" content="en description">"
     `)
   })
   it('seo utils - default - fr', async () => {
@@ -56,25 +56,25 @@ describe('i18n', () => {
     expect(extractSeoHead(html)).toMatchInlineSnapshot(`
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta property="og:image" content="https://nuxtseo.com/_og/d/p_Ii9mciI.png?_v=test">
+      <meta property="og:type" content="website">
+      <meta property="og:url" content="https://nuxtseo.com/fr">
+      <meta property="og:locale" content="fr_FR">
+      <meta property="og:site_name" content="fr name">
+      <meta property="og:image" content="https://nuxtseo.com/_og/d/p_Ii9mciI,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
       <meta property="og:image:type" content="image/png">
       <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:image" content="https://nuxtseo.com/_og/d/p_Ii9mciI.png?_v=test">
-      <meta name="twitter:image:src" content="https://nuxtseo.com/_og/d/p_Ii9mciI.png?_v=test">
+      <meta name="twitter:image" content="https://nuxtseo.com/_og/d/p_Ii9mciI,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
+      <meta name="twitter:image:src" content="https://nuxtseo.com/_og/d/p_Ii9mciI,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
       <meta property="og:image:width" content="1200">
       <meta name="twitter:image:width" content="1200">
       <meta property="og:image:height" content="600">
       <meta name="twitter:image:height" content="600">
-      <meta property="og:type" content="website">
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>Fr | fr name</title>
-      <meta name="description" content="fr description">
       <meta property="og:title" data-infer="" content="Fr | fr name">
       <meta property="og:description" data-infer="" content="fr description">
       <link rel="canonical" href="https://nuxtseo.com/fr">
-      <meta property="og:url" content="https://nuxtseo.com/fr">
-      <meta property="og:locale" content="fr_FR">
-      <meta property="og:site_name" content="fr name">"
+      <meta name="description" content="fr description">"
     `)
   })
   it('sitemap - default', async () => {
@@ -113,7 +113,7 @@ describe('i18n', () => {
   it('og-image - url', async () => {
     const html = await $fetch('/') as string
     const ogImageUrl = extractOgImageUrl(html)
-    expect(ogImageUrl).toMatchInlineSnapshot(`"https://nuxtseo.com/_og/d/default.png?_v=test"`)
+    expect(ogImageUrl).toMatchInlineSnapshot(`"https://nuxtseo.com/_og/d/ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png"`)
   })
   it('og-image - image snapshot', async () => {
     const image = await fetch(url('/_og/d/default.png')).then(r => r.arrayBuffer())
@@ -151,7 +151,7 @@ describe('i18n', () => {
             "@id": "https://nuxtseo.com/#webpage",
             "@type": "WebPage",
             "breadcrumb": {
-              "@id": "https://nuxtseo.com/#breadcrumb",
+              "@id": "https://nuxtseo.com/#/schema/breadcrumb-list/#breadcrumb",
             },
             "description": "en description",
             "isPartOf": {
@@ -168,9 +168,8 @@ describe('i18n', () => {
             "url": "https://nuxtseo.com/",
           },
           {
-            "@id": "https://nuxtseo.com/#breadcrumb",
+            "@id": "https://nuxtseo.com/#/schema/breadcrumb-list/#breadcrumb",
             "@type": "BreadcrumbList",
-            "id": "#breadcrumb",
             "itemListElement": [
               {
                 "@type": "ListItem",

@@ -14,6 +14,8 @@ export default defineNuxtConfig({
   // @ts-ignore
   site: {
     url: 'https://local.nuxtseo.com',
+    name: '@nuxtjs/seo',
+    description: 'Fully equipped Technical SEO for busy Nuxters.',
   },
   sitemap: {
     credits: false, // breaks snapshot

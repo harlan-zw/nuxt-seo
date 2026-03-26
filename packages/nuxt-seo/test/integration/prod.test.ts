@@ -27,24 +27,24 @@ describe('dev', () => {
     expect(extractSeoHead(html)).toMatchInlineSnapshot(`
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta property="og:image" content="https://local.nuxtseo.com/_og/d/default.png?_v=test">
+      <meta name="description" content="Fully equipped Technical SEO for busy Nuxters.">
+      <meta property="og:type" content="website">
+      <meta property="og:url" content="https://local.nuxtseo.com/">
+      <meta property="og:site_name" content="@nuxtjs/seo">
+      <meta property="og:image" content="https://local.nuxtseo.com/_og/d/ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
       <meta property="og:image:type" content="image/png">
       <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:image" content="https://local.nuxtseo.com/_og/d/default.png?_v=test">
-      <meta name="twitter:image:src" content="https://local.nuxtseo.com/_og/d/default.png?_v=test">
+      <meta name="twitter:image" content="https://local.nuxtseo.com/_og/d/ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
+      <meta name="twitter:image:src" content="https://local.nuxtseo.com/_og/d/ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
       <meta property="og:image:width" content="1200">
       <meta name="twitter:image:width" content="1200">
       <meta property="og:image:height" content="600">
       <meta name="twitter:image:height" content="600">
-      <meta property="og:type" content="website">
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>@nuxtjs&#x2F;seo</title>
-      <meta name="description" content="Fully equipped Technical SEO for busy Nuxters.">
       <meta property="og:title" data-infer="" content="@nuxtjs/seo">
       <meta property="og:description" data-infer="" content="Fully equipped Technical SEO for busy Nuxters.">
-      <link rel="canonical" href="https://local.nuxtseo.com/">
-      <meta property="og:url" content="https://local.nuxtseo.com/">
-      <meta property="og:site_name" content="@nuxtjs/seo">"
+      <link rel="canonical" href="https://local.nuxtseo.com/">"
     `)
   })
   it('sitemap - default', async () => {
@@ -77,7 +77,7 @@ describe('dev', () => {
   it('og-image - url', async () => {
     const html = await $fetch('/') as string
     const ogImageUrl = extractOgImageUrl(html)
-    expect(ogImageUrl).toMatchInlineSnapshot(`"https://local.nuxtseo.com/_og/d/default.png?_v=test"`)
+    expect(ogImageUrl).toMatchInlineSnapshot(`"https://local.nuxtseo.com/_og/d/ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png"`)
   })
   it('og-image - image snapshot', async () => {
     const image = await fetch(url('/_og/d/default.png')).then(r => r.arrayBuffer())

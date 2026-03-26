@@ -18,6 +18,11 @@ export default defineNuxtConfig({
   workspaceDir: resolve(__dirname, '../../..'),
 
   // @ts-ignore
+  site: {
+    name: '@nuxtjs/seo',
+  },
+
+  // @ts-ignore
   i18n: {
     baseUrl: 'https://nuxtseo.com',
     defaultLocale: 'en',

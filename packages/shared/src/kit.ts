@@ -158,7 +158,6 @@ export function createPagesPromise(nuxt: Nuxt = useNuxt()): Promise<NuxtPage[]> 
  */
 export function createNitroPromise(nuxt: Nuxt = useNuxt()): Promise<Nitro> {
   return new Promise<Nitro>((resolve) => {
-    // @ts-expect-error nitro:init hook exists at runtime but removed from NuxtHooks types in Nuxt 4
     nuxt.hooks.hook('nitro:init', (nitro: Nitro) => resolve(nitro))
   })
 }
