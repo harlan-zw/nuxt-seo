@@ -1,4 +1,7 @@
 export default defineNuxtConfig({
-  extends: ['../packages/devtools-layer'],
+  extends: ['nuxtseo-layer-devtools'],
   compatibilityDate: '2026-03-13',
+  devtools: {
+    enabled: true,
+  }
 })

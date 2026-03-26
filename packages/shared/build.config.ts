@@ -10,6 +10,7 @@ export default defineBuildConfig({
     { input: 'src/i18n', name: 'i18n' },
     { input: 'src/pro', name: 'pro' },
     { input: 'src/utils', name: 'utils' },
+    { input: 'src/const', name: 'const' },
   ],
   externals: [
     /^nitropack/,

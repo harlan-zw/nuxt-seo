@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { refreshSources } from '../packages/devtools-layer/composables/state'
+import { refreshSources } from 'nuxtseo-layer-devtools/composables/state'
 
 const navItems = [
   { value: 'components', to: '/', icon: 'carbon:assembly-cluster', label: 'Components' },
@@ -18,6 +18,7 @@ const currentTab = computed(() => route.path.split('/')[1] || 'components')
     title="Playground"
     icon="carbon:view"
     version="0.1.2"
+    module-name="nuxt-schema-org"
     :nav-items="navItems"
     :active-tab="currentTab"
     github-url="https://github.com/harlan-zw/nuxt-seo"

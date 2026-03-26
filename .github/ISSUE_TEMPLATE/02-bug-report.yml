@@ -14,7 +14,10 @@ body:
       required: true
     attributes:
       label: 🛠️ To reproduce
-      description: 'A reproduction of the bug. Please create a StackBlitz reproduction https://nuxtseo.com/docs/nuxt-seo/getting-started/troubleshooting#stackblitz-playgrounds'
+      description: |
+        A reproduction of the bug. Please create a StackBlitz reproduction from one of the starters:
+        - [Basic](https://stackblitz.com/github/harlan-zw/nuxt-seo/tree/main/examples/basic)
+        - [i18n](https://stackblitz.com/github/harlan-zw/nuxt-seo/tree/main/examples/i18n)
       placeholder: https://stackblitz.com/[...]
   - type: textarea
     validations:

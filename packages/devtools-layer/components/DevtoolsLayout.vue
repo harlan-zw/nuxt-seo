@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
 import { computed, ref } from 'vue'
-import { fetchInstalledModules, showModuleSplash } from '../composables/modules'
+import { getSetupChecklist } from '../composables/checklist'
+import { fetchInstalledModules, findModuleByName, showModuleSplash } from '../composables/modules'
 import { colorMode } from '../composables/rpc'
 import { hasProductionUrl, isConnected, isProductionMode, isStandalone, path, previewSource, productionUrl, standaloneUrl } from '../composables/state'
+import { useModuleUpdate } from '../composables/update-check'
 
 export interface DevtoolsNavItem {
   value: string
@@ -34,6 +36,10 @@ const {
 const emit = defineEmits<{
   refresh: []
 }>()
+
+const moduleInfo = computed(() => moduleName ? findModuleByName(moduleName) : undefined)
+const npmPackage = computed(() => moduleInfo.value?.npm)
+const { hasUpdate, latestVersion } = useModuleUpdate(npmPackage.value, version)
 
 // Fetch installed modules for the splash screen
 fetchInstalledModules()
@@ -88,6 +94,13 @@ const standaloneHostname = computed(() => {
 
 const showStandaloneSetup = computed(() => !isConnected.value && !isStandalone.value)
 
+const { evaluated, getModuleResultByName } = getSetupChecklist()
+const moduleChecklistResult = computed(() => {
+  if (!evaluated.value || !moduleName)
+    return undefined
+  return getModuleResultByName(moduleName)
+})
+
 function disconnectStandalone() {
   standaloneUrl.value = ''
 }
@@ -125,14 +138,28 @@ function disconnectStandalone() {
                 <span class="text-sm sm:text-base font-semibold tracking-tight text-[var(--color-text)]">
                   {{ title }}
                 </span>
+                <DevtoolsChecklistBadge
+                  v-if="moduleChecklistResult?.totalPending"
+                  :required-pending="moduleChecklistResult.requiredPending"
+                  :recommended-pending="moduleChecklistResult.recommendedPending"
+                />
                 <UIcon name="carbon:chevron-down" class="w-3 h-3 opacity-50 transition-transform" :class="showModuleSplash ? 'rotate-180' : ''" />
               </button>
-              <UBadge
-                v-if="version"
-                class="font-mono text-[10px] sm:text-xs hidden sm:inline-flex"
-              >
-                v{{ version }}
-              </UBadge>
+              <UTooltip v-if="version" :text="hasUpdate ? `Update available: v${latestVersion}` : `v${version}`">
+                <a
+                  :href="hasUpdate && npmPackage ? `https://npmjs.com/package/${npmPackage}` : undefined"
+                  :target="hasUpdate ? '_blank' : undefined"
+                  rel="noopener"
+                  class="version-badge-wrapper"
+                >
+                  <UBadge
+                    class="font-mono text-[10px] sm:text-xs hidden sm:inline-flex"
+                  >
+                    v{{ version }}
+                  </UBadge>
+                  <span v-if="hasUpdate" class="update-dot" />
+                </a>
+              </UTooltip>
               <!-- Mode dropdown: embedded with production URL -->
               <div v-if="hasProductionUrl && !isStandalone" ref="modeDropdownRef" class="mode-dropdown-wrapper">
                 <button type="button" class="devtools-mode-btn" @click="modeDropdownOpen = !modeDropdownOpen">
@@ -272,6 +299,20 @@ function disconnectStandalone() {
         </div>
       </div>
 
+      <!-- Setup checklist alert -->
+      <DevtoolsAlert
+        v-if="moduleChecklistResult?.requiredPending"
+        variant="warning"
+      >
+        {{ moduleChecklistResult.requiredPending }} required setup {{ moduleChecklistResult.requiredPending === 1 ? 'step' : 'steps' }} remaining
+        <template #action>
+          <button type="button" class="checklist-alert-action" @click="showModuleSplash = true">
+            View setup
+            <UIcon name="carbon:arrow-right" class="w-3 h-3" />
+          </button>
+        </template>
+      </DevtoolsAlert>
+
       <!-- Main Content -->
       <div class="devtools-main">
         <main class="devtools-main-content">
@@ -279,6 +320,9 @@ function disconnectStandalone() {
           <DevtoolsLoading v-show="!showStandaloneSetup && loading" />
           <div v-show="!showStandaloneSetup && !loading">
             <slot />
+            <div v-if="activeTab === 'debug' && moduleName" class="devtools-troubleshooting-section">
+              <DevtoolsTroubleshooting :module-name="moduleName" :version="version" />
+            </div>
           </div>
         </main>
       </div>
@@ -289,6 +333,25 @@ function disconnectStandalone() {
 </template>
 
 <style scoped>
+.version-badge-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.update-dot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--seo-green);
+  border: 1.5px solid var(--color-surface);
+  pointer-events: none;
+}
+
 .devtools-module-switcher {
   display: flex;
   align-items: center;
@@ -417,5 +480,26 @@ function disconnectStandalone() {
 
 .standalone-path-input:focus {
   border-color: var(--seo-green);
+}
+
+.devtools-troubleshooting-section {
+  padding: 1.5rem 1rem 1rem;
+  max-width: 48rem;
+}
+
+.checklist-alert-action {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: inherit;
+  opacity: 0.8;
+  cursor: pointer;
+  transition: opacity 100ms;
+}
+
+.checklist-alert-action:hover {
+  opacity: 1;
 }
 </style>

@@ -1,14 +1,12 @@
 shellEmulator: true
 
 trustPolicy: no-downgrade
-
 packages:
   - docs
   - playground
   - packages/*
   - packages/*/playground
   - '!**/.data/**'
-
 overrides:
   rollup-plugin-dts: ^6.4.1
   semver: ^7.7.4
@@ -25,8 +23,8 @@ catalog:
   '@nuxt/test-utils': ^4.0.0
   '@nuxt/ui': ^4.6.0
   '@nuxtjs/i18n': ^10.2.4
-  '@nuxtjs/robots': ^6.0.4
-  '@nuxtjs/sitemap': ^8.0.3
+  '@nuxtjs/robots': ^6.0.6
+  '@nuxtjs/sitemap': ^8.0.5
   '@resvg/resvg-js': ^2.6.2
   '@shikijs/langs': ^4.0.2
   '@shikijs/themes': ^4.0.2
@@ -39,18 +37,18 @@ catalog:
   consola: ^3.4.2
   defu: ^6.1.4
   eslint: ^10.1.0
-  eslint-plugin-harlanzw: ^0.11.0
+  eslint-plugin-harlanzw: ^0.12.0
   execa: ^9.6.1
   happy-dom: ^20.8.8
   jest-image-snapshot: ^6.5.2
   lint-staged: ^16.4.0
   nitropack: ^2.13.2
   nuxt: ^4.4.2
-  nuxt-link-checker: ^5.0.3
-  nuxt-og-image: ^6.2.2
-  nuxt-schema-org: ^6.0.2
-  nuxt-seo-utils: ^8.0.3
-  nuxt-site-config: ^4.0.6
+  nuxt-link-checker: ^5.0.5
+  nuxt-og-image: ^6.2.5
+  nuxt-schema-org: ^6.0.4
+  nuxt-seo-utils: ^8.1.0
+  nuxt-site-config: ^4.0.7
   ofetch: ^1.5.1
   pathe: ^2.0.3
   pkg-types: ^2.3.0
@@ -65,7 +63,7 @@ catalog:
   typescript: ^6.0.2
   ufo: ^1.6.3
   unbuild: ^3.6.1
-  vitest: ^4.1.1
+  vitest: ^4.1.2
   vue: ^3.5.31
   vue-tsc: ^3.2.6
 
@@ -79,5 +77,4 @@ ignoredBuiltDependencies:
 
 onlyBuiltDependencies:
   - better-sqlite3
-
 trustPolicyIgnoreAfter: 262800

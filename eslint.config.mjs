@@ -20,6 +20,6 @@ export default antfu(
   {
     rules: {
       'harlanzw/prompt-mixed-conventions': 'off',
-    }
-  }
+    },
+  },
 )

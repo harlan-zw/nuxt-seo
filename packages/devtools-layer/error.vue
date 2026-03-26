@@ -5,6 +5,7 @@ const { error } = defineProps<{
   error: NuxtError
 }>()
 
+// eslint-disable-next-line no-control-regex
 const ANSI_RE = /\u001B\[[0-9;]*m/g
 
 const stack = computed(() => {

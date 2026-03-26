@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { loadShiki } from '../../packages/devtools-layer/composables/shiki'
+import { loadShiki } from 'nuxtseo-layer-devtools/composables/shiki'
 
 await loadShiki()
 
@@ -234,6 +234,28 @@ const showPanel = ref(true)
           title="Custom error"
           error="Could not connect to the server"
         />
+      </div>
+    </section>
+
+    <!-- Playgrounds -->
+    <section class="card overflow-hidden animate-fade-up" style="animation-delay: 575ms">
+      <div class="px-5 py-3 border-b border-[var(--color-border-subtle)] flex items-center gap-2">
+        <UIcon name="carbon:game-console" class="text-[var(--color-text-subtle)]" aria-hidden="true" />
+        <span class="text-xs font-mono text-[var(--color-text-muted)]">DevtoolsPlaygrounds</span>
+      </div>
+      <div class="p-4">
+        <DevtoolsPlaygrounds module-name="nuxt-schema-org" />
+      </div>
+    </section>
+
+    <!-- Troubleshooting -->
+    <section class="card overflow-hidden animate-fade-up" style="animation-delay: 590ms">
+      <div class="px-5 py-3 border-b border-[var(--color-border-subtle)] flex items-center gap-2">
+        <UIcon name="carbon:help" class="text-[var(--color-text-subtle)]" aria-hidden="true" />
+        <span class="text-xs font-mono text-[var(--color-text-muted)]">DevtoolsTroubleshooting</span>
+      </div>
+      <div class="p-4">
+        <DevtoolsTroubleshooting module-name="nuxt-schema-org" version="4.1.0" />
       </div>
     </section>
 

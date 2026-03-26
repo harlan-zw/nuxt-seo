@@ -19,7 +19,7 @@ Icons use the Iconify format. Convention: `carbon:*` prefix for consistency.
 
 | Component | Props | Key Slots | Purpose |
 |---|---|---|---|
-| `DevtoolsLayout` | `title`, `icon`, `version?`, `moduleName?`, `navItems: DevtoolsNavItem[]`, `githubUrl`, `loading?` | `actions`, default | Main shell with header, tabs, refresh, module splash, standalone mode, production mode |
+| `DevtoolsLayout` | `title`, `icon`, `version?`, `moduleName?`, `npmPackage?`, `navItems: DevtoolsNavItem[]`, `githubUrl`, `loading?` | `actions`, default | Main shell with header, tabs, refresh, module splash, standalone mode, production mode. Pass `npmPackage` to enable update check indicator on version badge. |
 | `DevtoolsPanel` | `title?`, `icon?`, `closable?` (false), `padding?` (true) | `header`, `actions`, default | Card container. Emits `close` when closable button clicked. |
 | `DevtoolsToolbar` | `variant` ('default'\|'minimal') | default | Horizontal toolbar strip |
 | `DevtoolsSection` | `icon?`, `text?`, `description?`, `collapse?`, `open?`, `padding?` | `text`, `description`, `actions`, `details`, default, `footer` | Collapsible details/summary block |
@@ -56,6 +56,8 @@ interface DevtoolsNavItem {
 | `DevtoolsSnippet` | `label?`, `code`, `lang` ('js'\|'json'\|'xml') | `header` | Code block with header, copy, max 300px scroll |
 | `OCodeBlock` | `code`, `lang`, `lines?`, `transformRendered?` | none | Shiki syntax highlighted pre |
 | `DevtoolsDocs` | `url` | none | Full height iframe |
+| `DevtoolsPlaygrounds` | `moduleName` | none | StackBlitz playground links with UTabs for variant selection. Reusable standalone or inside other components. Shows nothing if module has no playgrounds. |
+| `DevtoolsTroubleshooting` | `moduleName`, `version?` | none | Guided troubleshooting section: clear .nuxt, debug mode, create repro (with playgrounds), report issue. Shows all installed module versions with copy for GitHub issues. |
 
 ### Module Navigation
 
@@ -122,13 +124,14 @@ const isProductionMode: ComputedRef<boolean>
 
 ```ts
 interface SeoModuleInfo { name: string, title: string, icon: string, route: string }
-interface SeoModuleCatalogEntry extends SeoModuleInfo { description: string, installed: boolean, npmUrl: string, pro?: boolean }
+interface SeoModuleCatalogEntry extends SeoModuleInfo { description: string, installed: boolean, npm: string, pro?: boolean, playgrounds?: Record<string, string> }
 
 const installedModules: Ref<SeoModuleInfo[]>
 const showModuleSplash: Ref<boolean>
 const moduleCatalog: ComputedRef<SeoModuleCatalogEntry[]>
 
 function fetchInstalledModules(): void // Called by DevtoolsLayout automatically
+function findModuleByName(moduleName: string): SeoModuleCatalogEntry | undefined // Look up module info by name
 function switchToModule(moduleName: string): void // Navigate devtools iframe to another module
 ```
 
@@ -144,6 +147,18 @@ function useRenderCodeHighlight(code: MaybeRef<string>, lang: string): ComputedR
 ```ts
 function useCopy(timeout?: number): { copy: (text: string) => Promise<void>, copied: Ref<boolean> }
 ```
+
+### Update Check (`composables/update-check.ts`)
+
+```ts
+function useModuleUpdate(npmPackage: string | undefined, currentVersion: string | undefined): {
+  hasUpdate: ComputedRef<boolean>
+  latestVersion: ComputedRef<string | undefined>
+  info: ComputedRef<ModuleUpdateInfo | undefined>
+}
+```
+
+Fetches latest version from npm registry. Results are cached per package name. Already integrated into `DevtoolsLayout` when `npmPackage` prop is provided.
 
 ## CSS Design System
 
