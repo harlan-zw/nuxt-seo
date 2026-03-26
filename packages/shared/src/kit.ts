@@ -158,7 +158,7 @@ export function createPagesPromise(nuxt: Nuxt = useNuxt()): Promise<NuxtPage[]> 
  */
 export function createNitroPromise(nuxt: Nuxt = useNuxt()): Promise<Nitro> {
   return new Promise<Nitro>((resolve) => {
-    nuxt.hooks.hook('nitro:init', (nitro: Nitro) => resolve(nitro))
+    nuxt.hooks.hook('nitro:init' as any, (nitro: Nitro) => resolve(nitro))
   })
 }
 
