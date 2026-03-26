@@ -1,8 +1,14 @@
 <script setup lang="ts">
 const {
   title,
+  closable = false,
+  icon,
+  padding = true,
 } = defineProps<{
   title?: string
+  closable?: boolean
+  icon?: string
+  padding?: boolean
 }>()
 
 defineEmits<{
@@ -14,18 +20,22 @@ defineEmits<{
   <div class="devtools-panel">
     <div v-if="title || $slots.header" class="devtools-panel-header">
       <slot name="header">
-        <span class="devtools-panel-title">{{ title }}</span>
+        <div class="flex items-center gap-2">
+          <UIcon v-if="icon" :name="icon" class="text-sm text-[var(--color-text-muted)]" />
+          <span class="devtools-panel-title">{{ title }}</span>
+        </div>
       </slot>
-      <div class="devtools-panel-actions">
+      <div v-if="closable || $slots.actions" class="devtools-panel-actions">
         <slot name="actions" />
         <UButton
+          v-if="closable"
           icon="carbon:close"
           aria-label="Close panel"
           @click="$emit('close')"
         />
       </div>
     </div>
-    <div class="devtools-panel-content">
+    <div class="devtools-panel-content" :class="padding ? 'p-3' : ''">
       <slot />
     </div>
   </div>

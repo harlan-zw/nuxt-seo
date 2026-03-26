@@ -1,15 +1,40 @@
 # Devtools Layer API Reference
 
+## Nuxt UI (available to all consumers)
+
+The layer registers `@nuxt/ui` v4, so all Nuxt UI components are auto imported. Use them freely:
+
+- `UButton`, `UInput`, `UTextarea`, `USelect`, `UCheckbox`, `UToggle`, `URadio`
+- `UBadge`, `UIcon`, `UTooltip`, `UPopover`, `UModal`, `UDrawer`
+- `UApp` (wraps the root, already used by `DevtoolsLayout`)
+- `UCard`, `UAccordion`, `UTabs`, `UDropdownMenu`
+
+Default variants via `app.config.ts`: primary green, neutral neutral. Buttons: ghost/neutral/sm. Badges: subtle/neutral/xs. Tooltips: zero delay.
+
+Icons use the Iconify format. Convention: `carbon:*` prefix for consistency.
+
 ## Components (auto imported)
 
 ### Layout & Structure
 
 | Component | Props | Key Slots | Purpose |
 |---|---|---|---|
-| `DevtoolsLayout` | `title`, `icon`, `version?`, `navItems`, `githubUrl`, `loading?` | `actions`, default | Main shell with header, tabs, refresh |
-| `DevtoolsPanel` | `title?` | `header`, `actions`, default | Card container with close button |
+| `DevtoolsLayout` | `title`, `icon`, `version?`, `moduleName?`, `navItems: DevtoolsNavItem[]`, `githubUrl`, `loading?` | `actions`, default | Main shell with header, tabs, refresh, module splash, standalone mode, production mode |
+| `DevtoolsPanel` | `title?`, `icon?`, `closable?` (false), `padding?` (true) | `header`, `actions`, default | Card container. Emits `close` when closable button clicked. |
 | `DevtoolsToolbar` | `variant` ('default'\|'minimal') | default | Horizontal toolbar strip |
 | `DevtoolsSection` | `icon?`, `text?`, `description?`, `collapse?`, `open?`, `padding?` | `text`, `description`, `actions`, `details`, default, `footer` | Collapsible details/summary block |
+
+### DevtoolsNavItem Interface
+
+```ts
+interface DevtoolsNavItem {
+  value: string
+  to?: string // If set, renders as NuxtLink (route navigation)
+  icon: string
+  label: string
+  devOnly?: boolean // Hidden in production mode
+}
+```
 
 ### Feedback & States
 
@@ -31,6 +56,14 @@
 | `DevtoolsSnippet` | `label?`, `code`, `lang` ('js'\|'json'\|'xml') | `header` | Code block with header, copy, max 300px scroll |
 | `OCodeBlock` | `code`, `lang`, `lines?`, `transformRendered?` | none | Shiki syntax highlighted pre |
 | `DevtoolsDocs` | `url` | none | Full height iframe |
+
+### Module Navigation
+
+| Component | Props | Key Slots | Purpose |
+|---|---|---|---|
+| `DevtoolsModuleSplash` | `currentModule?` | none | Modal overlay showing all Nuxt SEO modules with install status, switch between modules, Pro section |
+| `DevtoolsStandaloneConnect` | none | none | Connection form for standalone mode (outside devtools iframe) |
+| `NuxtSeoLogo` | none | none | Nuxt SEO brand logo SVG |
 
 ### KeyValueItem Interface
 
@@ -73,11 +106,30 @@ const host: ComputedRef<string>
 const refreshSources: () => void // Debounced 200ms
 const slowRefreshSources: () => void // Debounced 1000ms
 
+// Standalone mode (running outside devtools iframe)
+const standaloneUrl: Ref<string> // localStorage persisted
+const isConnected: Ref<boolean>
+const isStandalone: ComputedRef<boolean> // true when not connected but has standaloneUrl
+
 // Production preview mode
 const previewSource: Ref<'local' | 'production'> // localStorage persisted
 const productionUrl: Ref<string>
 const hasProductionUrl: ComputedRef<boolean>
 const isProductionMode: ComputedRef<boolean>
+```
+
+### Modules (`composables/modules.ts`)
+
+```ts
+interface SeoModuleInfo { name: string, title: string, icon: string, route: string }
+interface SeoModuleCatalogEntry extends SeoModuleInfo { description: string, installed: boolean, npmUrl: string, pro?: boolean }
+
+const installedModules: Ref<SeoModuleInfo[]>
+const showModuleSplash: Ref<boolean>
+const moduleCatalog: ComputedRef<SeoModuleCatalogEntry[]>
+
+function fetchInstalledModules(): void // Called by DevtoolsLayout automatically
+function switchToModule(moduleName: string): void // Navigate devtools iframe to another module
 ```
 
 ### Shiki (`composables/shiki.ts`)
@@ -95,7 +147,7 @@ function useCopy(timeout?: number): { copy: (text: string) => Promise<void>, cop
 
 ## CSS Design System
 
-Do NOT add custom CSS unless layer components are insufficient.
+Do NOT add custom CSS unless layer components or Nuxt UI are insufficient.
 
 ### Semantic Variables
 
@@ -104,10 +156,6 @@ Do NOT add custom CSS unless layer components are insufficient.
 ### Utility Classes
 
 `.glass` (backdrop blur), `.gradient-bg` (green/blue radials), `.card` (elevated hover), `.code-block`, `.status-enabled/.status-disabled`, `.link-external` (with arrow), `.hint-callout`, `.panel-grids`, `.animate-fade-up/.scale-in/.spin`, `.stagger-children`, `.devtools-main-content` (max-width 80rem centered container)
-
-### Nuxt UI Defaults (app.config.ts)
-
-Primary: green, Neutral: neutral. Buttons: ghost/neutral/sm. Badges: subtle/neutral/xs. Tooltips: zero delay.
 
 ## Common Patterns
 
