@@ -1,6 +1,7 @@
 shellEmulator: true
 
 trustPolicy: no-downgrade
+
 packages:
   - docs
   - playground
@@ -11,7 +12,6 @@ packages:
 overrides:
   rollup-plugin-dts: ^6.4.1
   semver: ^7.7.4
-
 catalog:
   '@antfu/eslint-config': ^7.7.3
   '@arethetypeswrong/cli': ^0.18.2
@@ -25,8 +25,8 @@ catalog:
   '@nuxt/test-utils': ^4.0.0
   '@nuxt/ui': ^4.6.0
   '@nuxtjs/i18n': ^10.2.4
-  '@nuxtjs/robots': ^6.0.1
-  '@nuxtjs/sitemap': ^8.0.1
+  '@nuxtjs/robots': ^6.0.4
+  '@nuxtjs/sitemap': ^8.0.3
   '@resvg/resvg-js': ^2.6.2
   '@shikijs/langs': ^4.0.2
   '@shikijs/themes': ^4.0.2
@@ -46,11 +46,11 @@ catalog:
   lint-staged: ^16.4.0
   nitropack: ^2.13.2
   nuxt: ^4.4.2
-  nuxt-link-checker: ^5.0.1
-  nuxt-og-image: ^6.2.0
-  nuxt-schema-org: ^6.0.0
-  nuxt-seo-utils: ^8.0.1
-  nuxt-site-config: ^4.0.1
+  nuxt-link-checker: ^5.0.3
+  nuxt-og-image: ^6.2.2
+  nuxt-schema-org: ^6.0.2
+  nuxt-seo-utils: ^8.0.3
+  nuxt-site-config: ^4.0.6
   ofetch: ^1.5.1
   pathe: ^2.0.3
   pkg-types: ^2.3.0

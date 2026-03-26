@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { loadShiki } from '../../packages/shared/src/layer-devtools/composables/shiki'
+import { loadShiki } from '../../packages/devtools-layer/composables/shiki'
 
 await loadShiki()
 

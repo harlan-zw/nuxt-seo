@@ -1,7 +1,7 @@
 {
   "name": "nuxtseo-layer-devtools",
   "type": "module",
-  "version": "0.3.1",
+  "version": "0.4.4",
   "description": "Shared Nuxt layer for Nuxt SEO devtools clients.",
   "author": {
     "name": "Harlan Wilton",
@@ -21,12 +21,14 @@
     "assets",
     "components",
     "composables",
+    "error.vue",
     "nuxt.config.ts",
+    "plugins",
+    "public",
     "skills"
   ],
   "dependencies": {
     "@nuxt/devtools-kit": "catalog:",
-    "@nuxt/fonts": "catalog:",
     "@nuxt/kit": "catalog:",
     "@nuxt/ui": "catalog:",
     "@shikijs/langs": "catalog:",

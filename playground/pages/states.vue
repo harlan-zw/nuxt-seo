@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { hostname, host, path, base, refreshTime, previewSource, productionUrl, hasProductionUrl, isProductionMode } from '../../packages/shared/src/layer-devtools/composables/state'
+import { hostname, host, path, base, refreshTime, previewSource, productionUrl, hasProductionUrl, isProductionMode } from '../../packages/devtools-layer/composables/state'
 
 const stateItems = computed(() => [
   { label: 'hostname', value: hostname, type: 'string' as const },

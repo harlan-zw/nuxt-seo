@@ -40,7 +40,7 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/about': { sitemap: { changefreq: 'daily', priority: 0.3 } },
-    '/secret': { index: false },
+    '/secret': { robots: false },
     '/blog/tag': { redirect: { to: '/blog/tags', statusCode: 301 } },
   },
 

@@ -6,7 +6,6 @@ export default defineNuxtConfig({
   ssr: false,
 
   modules: [
-    '@nuxt/fonts',
     '@nuxt/ui',
     '@vueuse/nuxt',
   ],
@@ -16,12 +15,6 @@ export default defineNuxtConfig({
   robots: false,
   content: false,
   sitemap: false,
-
-  fonts: {
-    families: [
-      { name: 'Hubot Sans' },
-    ],
-  },
 
   vite: {
     optimizeDeps: {

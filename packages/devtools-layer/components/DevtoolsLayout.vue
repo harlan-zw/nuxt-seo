@@ -106,7 +106,7 @@ function disconnectStandalone() {
               type="button"
               aria-label="Nuxt SEO Modules"
               class="flex items-center opacity-90 hover:opacity-100 transition-opacity cursor-pointer"
-              @click="showModuleSplash = true"
+              @click="showModuleSplash = !showModuleSplash"
             >
               <NuxtSeoLogo class="h-6 sm:h-7" />
             </button>
@@ -114,12 +114,19 @@ function disconnectStandalone() {
             <div class="devtools-divider" />
 
             <div class="flex items-center gap-2">
-              <div class="devtools-brand-icon" aria-hidden="true">
-                <UIcon :name="icon" class="text-base sm:text-lg" />
-              </div>
-              <h1 class="text-sm sm:text-base font-semibold tracking-tight text-[var(--color-text)]">
-                {{ title }}
-              </h1>
+              <button
+                type="button"
+                class="devtools-module-switcher"
+                @click="showModuleSplash = !showModuleSplash"
+              >
+                <div class="devtools-brand-icon" aria-hidden="true">
+                  <UIcon :name="icon" class="text-base sm:text-lg" />
+                </div>
+                <span class="text-sm sm:text-base font-semibold tracking-tight text-[var(--color-text)]">
+                  {{ title }}
+                </span>
+                <UIcon name="carbon:chevron-down" class="w-3 h-3 opacity-50 transition-transform" :class="showModuleSplash ? 'rotate-180' : ''" />
+              </button>
               <UBadge
                 v-if="version"
                 class="font-mono text-[10px] sm:text-xs hidden sm:inline-flex"
@@ -282,6 +289,22 @@ function disconnectStandalone() {
 </template>
 
 <style scoped>
+.devtools-module-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem 0.25rem 0.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 100ms, border-color 100ms;
+}
+
+.devtools-module-switcher:hover {
+  background: var(--color-surface-elevated);
+  border-color: var(--color-border);
+}
+
 .mode-dropdown-wrapper {
   position: relative;
 }

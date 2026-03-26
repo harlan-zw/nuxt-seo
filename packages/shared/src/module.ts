@@ -1,5 +1,14 @@
+import type { NuxtSeoModuleDetection } from './kit'
 import { defineNuxtModule } from '@nuxt/kit'
 import { hookNuxtSeoProLicense } from './pro'
+
+export interface ModuleHooks {
+  'nuxt-seo-pro:modules': (modules: NuxtSeoModuleDetection[]) => Promise<void> | void
+}
+
+declare module '@nuxt/schema' {
+  interface NuxtHooks extends ModuleHooks {}
+}
 
 export default defineNuxtModule({
   meta: {

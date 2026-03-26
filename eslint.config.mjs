@@ -10,10 +10,16 @@ export default antfu(
       'playground/**',
       '**/test/fixtures/**',
       '**/playground/**',
+      '.claude',
     ],
     rules: {
       'node/prefer-global/buffer': 'off',
     },
   },
   ...harlanzw({ link: true, nuxt: true, vue: true }),
+  {
+    rules: {
+      'harlanzw/prompt-mixed-conventions': 'off',
+    }
+  }
 )

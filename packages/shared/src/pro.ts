@@ -37,6 +37,7 @@ export function hookNuxtSeoProLicense(): void {
       const siteUrl = siteConfig.url?.startsWith('http') ? siteConfig.url : undefined
       const siteName = siteConfig.name || undefined
       const proModules: NuxtSeoModuleDetection[] = detectNuxtSeoProModules(nuxt)
+      await nuxt.hooks.callHook('nuxt-seo-pro:modules', proModules)
       const modules = proModules.length > 0 ? proModules : undefined
       const res = await $fetch<{ ok: boolean }>('https://nuxtseo.com/api/pro/verify', {
         method: 'POST',

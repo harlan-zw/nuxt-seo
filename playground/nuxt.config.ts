@@ -1,4 +1,4 @@
 export default defineNuxtConfig({
-  extends: ['../packages/shared/src/layer-devtools'],
+  extends: ['../packages/devtools-layer'],
   compatibilityDate: '2026-03-13',
 })

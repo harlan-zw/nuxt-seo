@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { refreshSources } from '../packages/shared/src/layer-devtools/composables/state'
+import { refreshSources } from '../packages/devtools-layer/composables/state'
 
 const navItems = [
   { value: 'components', to: '/', icon: 'carbon:assembly-cluster', label: 'Components' },
