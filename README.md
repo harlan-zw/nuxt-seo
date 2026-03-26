@@ -66,8 +66,16 @@ Every module works standalone. Install `@nuxtjs/seo` to get everything at once, 
 
 ## Installation
 
+Install everything at once:
+
 ```sh
-npx nuxi@latest module add seo
+npx nuxt module add seo
+```
+
+Or pick only what you need:
+
+```sh
+npx nuxt module add sitemap robots
 ```
 
 > [!TIP]
@@ -78,15 +86,21 @@ npx nuxi@latest module add seo
 
 Once installed, check the [Using the Modules](https://nuxtseo.com/docs/nuxt-seo/guides/using-the-modules) guide to get started.
 
-## SEO Tools
+## Going Further
 
-Free online tools for debugging and validating your SEO:
+Modules handle the technical foundation, but testing your production environment is as important. Nuxt SEO provides free tools to validate your live site:
 
 - [Meta Tag Checker](https://nuxtseo.com/tools/meta-tag-checker)
 - [Schema Validator](https://nuxtseo.com/tools/schema-validator)
 - [XML Sitemap Validator](https://nuxtseo.com/tools/xml-sitemap-validator)
 - [Robots.txt Validator](https://nuxtseo.com/tools/robots-txt-validator)
 - [Social Share Debugger](https://nuxtseo.com/tools/social-share-debugger)
+
+Learn more about SEO beyond the technical basics:
+
+- [SEO Checklist](https://nuxtseo.com/learn-seo/checklist)
+- [Pre-Launch Warmup](https://nuxtseo.com/learn-seo/pre-launch-warmup)
+- [Backlinks & Authority](https://nuxtseo.com/learn-seo/backlinks)
 
 ## Documentation
 
