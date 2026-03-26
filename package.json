@@ -1,5 +1,6 @@
 {
   "type": "module",
+  "version": "4.0.2",
   "private": true,
   "packageManager": "pnpm@10.33.0",
   "description": "Nuxt SEO monorepo",
@@ -18,7 +19,7 @@
     "typecheck": "pnpm -r --parallel --filter './packages/**' run typecheck",
     "test": "pnpm --filter nuxtseo-shared --filter @nuxtjs/seo test",
     "test:run": "pnpm --filter nuxtseo-shared --filter @nuxtjs/seo test:run",
-    "release": "pnpm build && bumpp --output=CHANGELOG.md",
+    "release": "pnpm build && bumpp -r --output=CHANGELOG.md",
     "sync:workflows": "node scripts/sync-workflows.mjs",
     "prepare": "skilld prepare || true"
   },

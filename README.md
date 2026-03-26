@@ -7,16 +7,7 @@
 
 > Fully equipped Technical SEO for busy Nuxters.
 
-Nuxt SEO combines 6 SEO modules and best practices into one module that requires minimal effort to configure.
-
-## Modules
-
-- 🤖 [@nuxtjs/robots](https://github.com/nuxt-modules/robots) - Manage site crawling
-- 📄 [@nuxtjs/sitemap](https://github.com/nuxt-modules/sitemap) - Sitemap.xml Support
-- 🔎 [nuxt-schema-org](https://github.com/harlan-zw/nuxt-schema-org) - Generate Schema.org JSON-LD for SEO
-- △ [nuxt-seo-utils](https://github.com/harlan-zw/nuxt-seo-utils) - Experimental SEO meta features
-- 🖼️ [nuxt-og-image](https://github.com/nuxt-modules/og-image) - Generate dynamic social share images
-- ✅ [nuxt-link-checker](https://github.com/harlan-zw/nuxt-link-checker) - Check for broken links
+[Nuxt SEO](https://nuxtseo.com) is an ecosystem of SEO modules, tools, and tutorials built around the Nuxt community. Technical SEO requires many moving parts: sitemaps, robots.txt, Schema.org, OG images, meta tags, broken links. Nuxt SEO provides a module for each, so you can install them individually or all at once.
 
 <p align="center">
 <table>
@@ -28,9 +19,52 @@ Nuxt SEO combines 6 SEO modules and best practices into one module that requires
 </table>
 </p>
 
-## Installation
+## Features
 
-Install `@nuxtjs/seo` dependency to your project:
+- 🤖 **Crawl Control**: Automatic `robots.txt` generation, `<meta name="robots">` tags, and `X-Robots-Tag` headers to manage how search engines access your site.
+- 📄 **Sitemaps**: Auto-generated `sitemap.xml` from your app's data sources, with multi-sitemap support for i18n sites.
+- 🖼️ **OG Images**: Dynamic Open Graph image generation for every page, no manual design work needed.
+- 🔎 **Structured Data**: Schema.org JSON-LD generated automatically with sensible defaults and opt-in rich schemas.
+- ✅ **Link Checking**: Broken link detection at build time with [ESLint](https://eslint.org) integration and DevTools support.
+- △ **SEO Utils**: Automatic favicons, default meta tags, breadcrumbs, and social share links.
+
+## The `@nuxtjs/seo` Module
+
+The `@nuxtjs/seo` package is a simple alias for installing all of the modules in one go.
+
+```ts
+// This is all it does!
+export default defineNuxtModule<ModuleOptions>({
+  moduleDependencies: {
+    '@nuxtjs/robots': { version: '>=6.0' },
+    '@nuxtjs/sitemap': { version: '>=8.0' },
+    'nuxt-link-checker': { version: '>=5.0' },
+    'nuxt-og-image': { version: '>=6.2' },
+    'nuxt-schema-org': { version: '>=6.0' },
+    'nuxt-seo-utils': { version: '>=8.1' },
+    'nuxt-site-config': { version: '>=4.0' },
+  },
+})
+```
+
+Every module works standalone. Install `@nuxtjs/seo` to get everything at once, or pick only what you need (e.g. Sitemap and Robots). Configuration, composables, and features are identical either way.
+
+### Modules
+
+| Module | Package | What it solves |
+|--------|---------|----------------|
+| Robots | [@nuxtjs/robots](https://github.com/nuxt-modules/robots) | Search engines need clear instructions about which pages to crawl and index |
+| Sitemap | [@nuxtjs/sitemap](https://github.com/nuxt-modules/sitemap) | Search engines can't discover all your pages without a structured index |
+| OG Image | [nuxt-og-image](https://github.com/nuxt-modules/og-image) | Social platforms need preview images when content is shared |
+| Schema.org | [nuxt-schema-org](https://github.com/harlan-zw/nuxt-schema-org) | Rich snippets and search features require structured data |
+| SEO Utils | [nuxt-seo-utils](https://github.com/harlan-zw/nuxt-seo-utils) | Favicons, default meta, breadcrumbs, and other SEO essentials |
+| Link Checker | [nuxt-link-checker](https://github.com/harlan-zw/nuxt-link-checker) | Broken links harm SEO and user experience |
+| Site Config | [nuxt-site-config](https://github.com/harlan-zw/nuxt-site-config) | All modules need consistent site URL, name, and locale config |
+
+> [!NOTE]
+> Site Config installs automatically with any SEO module. It provides a unified configuration layer that works across all modules at both build time and runtime.
+
+## Installation
 
 ```sh
 npx nuxi@latest module add seo
@@ -42,30 +76,21 @@ npx nuxi@latest module add seo
 > npx skilld add @nuxtjs/seo
 > ```
 
-Once installed check the [Default Module Features](https://nuxtseo.com/docs/nuxt-seo/guides/using-the-modules) guide
-for a quick start.
+Once installed, check the [Using the Modules](https://nuxtseo.com/docs/nuxt-seo/guides/using-the-modules) guide to get started.
 
-## Nuxt SEO Tools
+## SEO Tools
+
+Free online tools for debugging and validating your SEO:
 
 - [Meta Tag Checker](https://nuxtseo.com/tools/meta-tag-checker)
 - [Schema Validator](https://nuxtseo.com/tools/schema-validator)
 - [XML Sitemap Validator](https://nuxtseo.com/tools/xml-sitemap-validator)
 - [Robots.txt Validator](https://nuxtseo.com/tools/robots-txt-validator)
-- [Robots.txt Generator](https://nuxtseo.com/tools/robots-txt-generator)
 - [Social Share Debugger](https://nuxtseo.com/tools/social-share-debugger)
-- [HTML to Markdown](https://nuxtseo.com/tools/html-to-markdown)
-- [SERP Analyzer](https://nuxtseo.com/tools/serp-analyzer)
-- [Keyword Research](https://nuxtseo.com/tools/keyword-research)
-- [Domain Rankings](https://nuxtseo.com/tools/domain-rankings)
 
 ## Documentation
 
-[📖 Read the full documentation](https://nuxtseo.com/) for more information.
-
-## StackBlitz
-
-For reproductions and demo environments, you can use the [Nuxt SEO Basic Reproduction](https://stackblitz.com/edit/nuxt-starter-gfrej6?file=nuxt.config.ts)
-template.
+[Read the full documentation](https://nuxtseo.com/) for configuration options, guides, and examples.
 
 ## Sponsors
 
