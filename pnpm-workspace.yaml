@@ -1,15 +1,9 @@
-shellEmulator: true
-
-trustPolicy: no-downgrade
 packages:
   - docs
   - playground
   - packages/*
   - packages/*/playground
   - '!**/.data/**'
-overrides:
-  rollup-plugin-dts: ^6.4.1
-  semver: ^7.7.4
 catalog:
   '@antfu/eslint-config': ^7.7.3
   '@arethetypeswrong/cli': ^0.18.2
@@ -24,7 +18,7 @@ catalog:
   '@nuxt/ui': ^4.6.0
   '@nuxtjs/i18n': ^10.2.4
   '@nuxtjs/robots': ^6.0.6
-  '@nuxtjs/sitemap': ^8.0.5
+  '@nuxtjs/sitemap': ^8.0.6
   '@resvg/resvg-js': ^2.6.2
   '@shikijs/langs': ^4.0.2
   '@shikijs/themes': ^4.0.2
@@ -45,9 +39,9 @@ catalog:
   nitropack: ^2.13.2
   nuxt: ^4.4.2
   nuxt-link-checker: ^5.0.5
-  nuxt-og-image: ^6.2.5
+  nuxt-og-image: ^6.2.6
   nuxt-schema-org: ^6.0.4
-  nuxt-seo-utils: ^8.1.0
+  nuxt-seo-utils: ^8.1.2
   nuxt-site-config: ^4.0.7
   ofetch: ^1.5.1
   pathe: ^2.0.3
@@ -77,4 +71,10 @@ ignoredBuiltDependencies:
 
 onlyBuiltDependencies:
   - better-sqlite3
+overrides:
+  rollup-plugin-dts: ^6.4.1
+  semver: ^7.7.4
+shellEmulator: true
+
+trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 262800
