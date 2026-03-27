@@ -7,7 +7,7 @@
 
 > Fully equipped Technical SEO for busy Nuxters.
 
-[Nuxt SEO](https://nuxtseo.com) is an ecosystem of SEO modules, tools, and tutorials built around the Nuxt community. Technical SEO requires many moving parts: sitemaps, robots.txt, Schema.org, OG images, meta tags, broken links. Nuxt SEO provides a module for each, so you can install them individually or all at once.
+[Nuxt SEO](https://nuxtseo.com) is an ecosystem of SEO modules, tools, and tutorials built with and for the Nuxt community. Technical SEO requires many moving parts: sitemaps, robots.txt, Schema.org, OG images, meta tags, broken links. Nuxt SEO provides a module for each, so you can install them individually or all at once.
 
 <p align="center">
 <table>
