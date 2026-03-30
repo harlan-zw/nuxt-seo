@@ -1,0 +1,49 @@
+{
+  "name": "nuxt-seo-pro-devtools",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Nuxt SEO Pro devtools integration for per-page traffic and keyword data.",
+  "author": {
+    "name": "Harlan Wilton",
+    "email": "harlan@harlanzw.com",
+    "url": "https://harlanzw.com/"
+  },
+  "license": "MIT",
+  "homepage": "https://nuxtseo.com/pro",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harlan-zw/nuxt-seo.git",
+    "directory": "packages/nuxt-seo-pro-devtools"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
+    }
+  },
+  "main": "./dist/module.mjs",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build && pnpm run build:devtools",
+    "build:devtools": "nuxt generate devtools",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare",
+    "devtools": "nuxi dev devtools --port 3031",
+    "prepack": "pnpm run build"
+  },
+  "dependencies": {
+    "@nuxt/kit": "catalog:",
+    "nuxt-site-config": "catalog:",
+    "nuxtseo-shared": "workspace:*",
+    "ofetch": "catalog:",
+    "pathe": "catalog:"
+  },
+  "devDependencies": {
+    "@nuxt/module-builder": "catalog:",
+    "nuxt": "catalog:",
+    "typescript": "catalog:",
+    "vue": "catalog:"
+  }
+}
