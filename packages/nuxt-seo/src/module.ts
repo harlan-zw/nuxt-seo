@@ -39,6 +39,14 @@ export default defineNuxtModule<ModuleOptions>({
     'nuxt-site-config': {
       version: '>=3.2',
     },
+    'nuxt-skew-protection': {
+      version: '>=1.0',
+      optional: true,
+    },
+    'nuxt-ai-ready': {
+      version: '>=1.0',
+      optional: true,
+    },
     '@nuxtjs/i18n': {
       version: '>=10.0',
       optional: true,

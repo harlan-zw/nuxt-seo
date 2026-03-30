@@ -19,7 +19,6 @@ export interface NuxtSEOModule {
   description: string
   repo: string
   npm: string
-  pro?: boolean
   playgrounds?: Record<string, string>
 }
 
@@ -142,7 +141,6 @@ export const SkewProtectionModule: NuxtSEOModule = {
   description: 'Solve Nuxt version skews with persistent assets and instant updates.',
   label: 'Skew Protection',
   icon: 'i-carbon-version',
-  pro: true,
 }
 
 export const AiReadyModule: NuxtSEOModule = {
@@ -152,7 +150,6 @@ export const AiReadyModule: NuxtSEOModule = {
   description: 'Best practice AI & LLM discoverability for Nuxt sites.',
   label: 'AI Ready',
   icon: 'i-carbon-ai-label',
-  pro: true,
 }
 
 export const modules: NuxtSEOModule[] = [
@@ -168,7 +165,7 @@ export const modules: NuxtSEOModule[] = [
   AiReadyModule,
 ]
 
-export const normalModules = [
+export const bundledModules = [
   RobotsModule,
   SitemapModule,
   OgImageModule,
@@ -177,7 +174,12 @@ export const normalModules = [
   SeoUtilsModule,
 ]
 
-export const proModules = [
+export const standaloneModules = [
   SkewProtectionModule,
   AiReadyModule,
 ]
+
+/** @deprecated Use `bundledModules` */
+export const normalModules = bundledModules
+/** @deprecated Use `standaloneModules` */
+export const proModules = standaloneModules

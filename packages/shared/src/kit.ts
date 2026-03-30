@@ -25,11 +25,6 @@ const NUXT_SEO_MODULES = new Set([
   'nuxt-ai-ready',
 ])
 
-const PRO_MODULES = new Set([
-  'nuxt-skew-protection',
-  'nuxt-ai-ready',
-])
-
 /**
  * Detect all installed Nuxt SEO modules from `nuxt.options._installedModules`.
  * No self-registration needed; modules are discovered automatically.
@@ -42,13 +37,6 @@ export function detectNuxtSeoModules(nuxt: Nuxt = useNuxt()): NuxtSeoModuleDetec
       version: m.meta.version,
       entryPath: m.entryPath,
     }))
-}
-
-/**
- * Detect installed Nuxt SEO Pro modules.
- */
-export function detectNuxtSeoProModules(nuxt: Nuxt = useNuxt()): NuxtSeoModuleDetection[] {
-  return detectNuxtSeoModules(nuxt).filter(m => PRO_MODULES.has(m.name))
 }
 
 const autodetectableProviders: Record<string, string> = {

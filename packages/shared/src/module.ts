@@ -1,6 +1,6 @@
 import type { NuxtSeoModuleDetection } from './kit'
 import { defineNuxtModule } from '@nuxt/kit'
-import { hookNuxtSeoProLicense } from './pro'
+import { hookNuxtSeoProDataUpload } from './pro'
 
 export interface ModuleHooks {
   'nuxt-seo-pro:modules': (modules: NuxtSeoModuleDetection[]) => Promise<void> | void
@@ -19,6 +19,6 @@ export default defineNuxtModule({
     },
   },
   setup() {
-    hookNuxtSeoProLicense()
+    hookNuxtSeoProDataUpload()
   },
 })

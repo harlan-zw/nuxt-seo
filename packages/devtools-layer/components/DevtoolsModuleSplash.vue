@@ -15,8 +15,7 @@ onClickOutside(panelRef, () => {
   showModuleSplash.value = false
 })
 
-const coreModules = computed(() => moduleCatalog.value.filter(m => !m.pro))
-const proModules = computed(() => moduleCatalog.value.filter(m => m.pro))
+const allModules = computed(() => moduleCatalog.value)
 
 const selectedForInstall = ref(new Set<string>())
 
@@ -56,9 +55,6 @@ const tabs = computed<TabsItem[]>(() => {
   const items: TabsItem[] = [
     { label: 'Modules', value: 'modules', icon: 'i-carbon-grid' },
   ]
-  if (proModules.value.length) {
-    items.push({ label: 'Pro', value: 'pro', icon: 'i-carbon-locked' })
-  }
   if (evaluated.value && summary.value.total > 0) {
     items.push({
       label: 'Setup',
@@ -116,7 +112,7 @@ function handleModuleClick(mod: typeof moduleCatalog.value[0]) {
           <div v-show="activeTab === 'modules'" class="splash-tab-content">
             <div class="splash-grid">
               <button
-                v-for="mod of coreModules"
+                v-for="mod of allModules"
                 :key="mod.name"
                 type="button"
                 class="splash-module"
@@ -157,43 +153,6 @@ function handleModuleClick(mod: typeof moduleCatalog.value[0]) {
             </Transition>
           </div>
 
-          <!-- Pro tab -->
-          <div v-show="activeTab === 'pro'" class="splash-tab-content">
-            <div class="splash-grid">
-              <button
-                v-for="mod of proModules"
-                :key="mod.name"
-                type="button"
-                class="splash-module"
-                :class="{
-                  'is-current': mod.name === currentModule,
-                  'is-unavailable': !mod.installed,
-                  'is-switchable': mod.installed && mod.name !== currentModule && isConnected,
-                }"
-                :disabled="!mod.installed || mod.name === currentModule"
-                @click="handleModuleClick(mod)"
-              >
-                <div class="splash-module-icon">
-                  <UIcon :name="mod.icon" class="text-base" />
-                </div>
-                <span class="splash-module-title">{{ mod.title }}</span>
-                <UBadge size="xs" color="neutral" variant="outline" class="splash-pro-badge">
-                  PRO
-                </UBadge>
-              </button>
-            </div>
-            <div class="splash-pro-status">
-              <div class="splash-pro-status-inner">
-                <UIcon name="carbon:locked" class="w-3.5 h-3.5 opacity-50" />
-                <span>Unlock Pro modules with a license key</span>
-              </div>
-              <a href="https://nuxtseo.com/pro" target="_blank" rel="noopener" class="splash-pro-cta">
-                Learn more
-                <UIcon name="carbon:arrow-right" class="w-3 h-3" />
-              </a>
-            </div>
-          </div>
-
           <!-- Setup tab -->
           <div v-show="activeTab === 'setup'" class="splash-tab-content">
             <div v-if="evaluated && summary.total > 0" class="splash-health-header">
@@ -208,6 +167,21 @@ function handleModuleClick(mod: typeof moduleCatalog.value[0]) {
             </div>
             <DevtoolsSetupChecklist :current-module="currentModule" />
           </div>
+
+          <!-- Pro ad -->
+          <a href="https://nuxtseo.com/pro" target="_blank" rel="noopener" class="splash-pro-ad">
+            <div class="splash-pro-ad-content">
+              <UIcon name="i-carbon-chart-line-data" class="w-4 h-4 text-violet-500" />
+              <div>
+                <span class="splash-pro-ad-title">Nuxt SEO Pro</span>
+                <span class="splash-pro-ad-desc">GSC analytics, indexing diagnostics, competitor tracking &amp; MCP server</span>
+              </div>
+            </div>
+            <span class="splash-pro-ad-cta">
+              Learn more
+              <UIcon name="carbon:arrow-right" class="w-3 h-3" />
+            </span>
+          </a>
 
           <!-- Footer -->
           <div class="splash-footer">
@@ -392,48 +366,6 @@ function handleModuleClick(mod: typeof moduleCatalog.value[0]) {
   flex-shrink: 0;
 }
 
-.splash-pro-badge {
-  font-size: 9px !important;
-  flex-shrink: 0;
-  color: oklch(65% 0.25 290) !important;
-  border-color: oklch(65% 0.25 290 / 0.3) !important;
-}
-
-/* Pro status / CTA */
-.splash-pro-status {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0.375rem 0 0;
-  padding: 0.4rem 0.625rem;
-  border-radius: var(--radius-md);
-  background: oklch(65% 0.25 290 / 0.06);
-  border: 1px solid oklch(65% 0.25 290 / 0.12);
-  font-size: 0.6875rem;
-  color: var(--color-text-muted);
-}
-
-.splash-pro-status-inner {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-}
-
-.splash-pro-cta {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.6875rem;
-  font-weight: 500;
-  color: oklch(65% 0.25 290);
-  text-decoration: none;
-  transition: opacity 100ms;
-}
-
-.splash-pro-cta:hover {
-  opacity: 0.8;
-}
-
 /* Setup Health header */
 .splash-health-header {
   display: flex;
@@ -541,6 +473,58 @@ function handleModuleClick(mod: typeof moduleCatalog.value[0]) {
 .install-bar-enter-to,
 .install-bar-leave-from {
   max-height: 4rem;
+}
+
+/* Pro ad */
+.splash-pro-ad {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 0.375rem 0.75rem 0;
+  padding: 0.5rem 0.625rem;
+  border-radius: var(--radius-md);
+  background: oklch(65% 0.25 290 / 0.06);
+  border: 1px solid oklch(65% 0.25 290 / 0.12);
+  text-decoration: none;
+  transition: border-color 100ms, background 100ms;
+}
+
+.splash-pro-ad:hover {
+  background: oklch(65% 0.25 290 / 0.1);
+  border-color: oklch(65% 0.25 290 / 0.2);
+}
+
+.splash-pro-ad-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.splash-pro-ad-title {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.splash-pro-ad-desc {
+  display: block;
+  font-size: 0.625rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.splash-pro-ad-cta {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  font-size: 0.625rem;
+  font-weight: 500;
+  color: oklch(65% 0.25 290);
+  white-space: nowrap;
 }
 
 /* Footer */

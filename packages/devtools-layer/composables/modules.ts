@@ -21,7 +21,6 @@ export interface SeoModuleCatalogEntry {
   route?: string
   npm: string
   repo: string
-  pro?: boolean
   playgrounds?: Record<string, string>
 }
 
@@ -55,7 +54,6 @@ function moduleToCatalogEntry(mod: NuxtSEOModule): Omit<SeoModuleCatalogEntry, '
     icon: toIconify(mod.icon),
     npm: mod.npm,
     repo: mod.repo,
-    pro: mod.pro,
     playgrounds: mod.playgrounds,
   }
 }
