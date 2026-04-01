@@ -8,8 +8,9 @@ export interface ModuleUpdateInfo {
 }
 
 function parseSemver(version: string): [number, number, number] {
-  // eslint-disable-next-line e18e/prefer-static-regex
-  const parts = version.replace(/^v/, '').split('.').map(Number)
+  // Strip leading v, then strip pre-release/build metadata (e.g. 1.2.3-rc.1+build)
+  const clean = version.replace(/^v/, '').replace(/[-+].*$/, '')
+  const parts = clean.split('.').map(Number)
   return [parts[0] || 0, parts[1] || 0, parts[2] || 0]
 }
 
@@ -26,26 +27,28 @@ function isNewerVersion(latest: string, current: string): boolean {
 const updateCache = ref<Record<string, ModuleUpdateInfo>>({})
 
 export function useModuleUpdate(npmPackage: string | undefined, currentVersion: string | undefined): { hasUpdate: ComputedRef<boolean>, latestVersion: ComputedRef<string | undefined>, info: ComputedRef<ModuleUpdateInfo | undefined> } {
+  const cacheKey = npmPackage && currentVersion ? `${npmPackage}@${currentVersion}` : undefined
+
   const info = computed(() => {
-    if (!npmPackage || !currentVersion)
+    if (!cacheKey)
       return undefined
-    return updateCache.value[npmPackage]
+    return updateCache.value[cacheKey]
   })
 
   const hasUpdate = computed(() => info.value?.hasUpdate ?? false)
   const latestVersion = computed(() => info.value?.latestVersion)
 
-  if (npmPackage && currentVersion && !updateCache.value[npmPackage]) {
+  if (cacheKey && !updateCache.value[cacheKey]) {
     fetch(`https://registry.npmjs.org/${npmPackage}/latest`)
       .then(r => r.json())
       .then((data) => {
         const latest = data.version as string
         if (!latest)
           return
-        updateCache.value[npmPackage] = {
-          currentVersion,
+        updateCache.value[cacheKey] = {
+          currentVersion: currentVersion!,
           latestVersion: latest,
-          hasUpdate: isNewerVersion(latest, currentVersion),
+          hasUpdate: isNewerVersion(latest, currentVersion!),
         }
       })
       .catch(() => {})
