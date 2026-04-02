@@ -41,7 +41,7 @@ export interface ChecklistSummary {
 
 // Debug endpoint paths for each module
 const DEBUG_ENDPOINTS: Partial<Record<NuxtSEOModule['slug'], string>> = {
-  'site-config': '/__site-config__/debug',
+  'site-config': '/__site-config__/debug.json',
   'robots': '/__robots__/debug.json',
   'sitemap': '/__sitemap__/debug.json',
   'og-image': '/__nuxt-og-image/debug.json',
