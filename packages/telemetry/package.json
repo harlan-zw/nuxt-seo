@@ -13,7 +13,7 @@
   "exports": {
     ".": {
       "types": "./dist/types.d.mts",
-      "import": "./dist/module.mjs"
+      "default": "./dist/module.mjs"
     }
   },
   "main": "./dist/module.mjs",
@@ -24,7 +24,8 @@
   "scripts": {
     "build": "nuxt-module-build build",
     "dev:prepare": "nuxt-module-build prepare",
-    "stub": "nuxt-module-build build --stub"
+    "stub": "nuxt-module-build build --stub",
+    "test:attw": "true"
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",

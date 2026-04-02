@@ -7,9 +7,12 @@ export interface ModuleUpdateInfo {
   hasUpdate: boolean
 }
 
+const LEADING_V_RE = /^v/
+const PRERELEASE_RE = /[-+].*$/
+
 function parseSemver(version: string): [number, number, number] {
   // Strip leading v, then strip pre-release/build metadata (e.g. 1.2.3-rc.1+build)
-  const clean = version.replace(/^v/, '').replace(/[-+].*$/, '')
+  const clean = version.replace(LEADING_V_RE, '').replace(PRERELEASE_RE, '')
   const parts = clean.split('.').map(Number)
   return [parts[0] || 0, parts[1] || 0, parts[2] || 0]
 }
