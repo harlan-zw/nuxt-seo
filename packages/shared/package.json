@@ -22,35 +22,35 @@
   "exports": {
     ".": {
       "types": "./dist/types.d.mts",
-      "import": "./dist/module.mjs"
+      "default": "./dist/module.mjs"
     },
     "./content": {
       "types": "./dist/content.d.mts",
-      "import": "./dist/content.mjs"
+      "default": "./dist/content.mjs"
     },
     "./kit": {
       "types": "./dist/kit.d.mts",
-      "import": "./dist/kit.mjs"
+      "default": "./dist/kit.mjs"
     },
     "./devtools": {
       "types": "./dist/devtools.d.mts",
-      "import": "./dist/devtools.mjs"
+      "default": "./dist/devtools.mjs"
     },
     "./i18n": {
       "types": "./dist/i18n.d.mts",
-      "import": "./dist/i18n.mjs"
+      "default": "./dist/i18n.mjs"
     },
     "./pro": {
       "types": "./dist/pro.d.mts",
-      "import": "./dist/pro.mjs"
+      "default": "./dist/pro.mjs"
     },
     "./utils": {
       "types": "./dist/utils.d.mts",
-      "import": "./dist/utils.mjs"
+      "default": "./dist/utils.mjs"
     },
     "./const": {
       "types": "./dist/const.d.mts",
-      "import": "./dist/const.mjs"
+      "default": "./dist/const.mjs"
     },
     "./package.json": "./package.json"
   },
@@ -65,6 +65,7 @@
     "stub": "nuxt-module-build build --stub",
     "test": "vitest",
     "test:run": "vitest run",
+    "test:attw": "attw --pack --profile esm-only",
     "typecheck": "vue-tsc --noEmit"
   },
   "peerDependencies": {
@@ -98,6 +99,7 @@
     "ufo": "catalog:"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "catalog:",
     "@nuxt/module-builder": "catalog:",
     "@nuxt/schema": "catalog:",
     "@nuxtjs/i18n": "catalog:",

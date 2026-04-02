@@ -22,7 +22,7 @@
   "exports": {
     ".": {
       "types": "./dist/types.d.mts",
-      "import": "./dist/module.mjs"
+      "default": "./dist/module.mjs"
     },
     "./const": "./dist/const.mjs",
     "./content": "./dist/content.mjs"
@@ -52,7 +52,7 @@
     "prepare:fixtures": "nuxt prepare test/fixtures/basic && nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/content",
     "test": "pnpm prepare:fixtures && vitest",
     "test:run": "pnpm prepare:fixtures && vitest run",
-    "test:attw": "attw --pack",
+    "test:attw": "attw --pack --profile esm-only",
     "prepack": "pnpm run build"
   },
   "peerDependencies": {

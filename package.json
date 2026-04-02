@@ -19,12 +19,14 @@
     "typecheck": "pnpm -r --parallel --filter './packages/**' run typecheck",
     "test": "pnpm --filter nuxtseo-shared --filter @nuxtjs/seo test",
     "test:run": "pnpm --filter nuxtseo-shared --filter @nuxtjs/seo test:run",
+    "test:attw": "pnpm --filter './packages/**' test:attw",
     "release": "pnpm build && bumpp -r --output=CHANGELOG.md",
     "sync:workflows": "node scripts/sync-workflows.mjs",
     "prepare": "skilld prepare || true"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
+    "@arethetypeswrong/cli": "catalog:",
     "bumpp": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-harlanzw": "catalog:",
