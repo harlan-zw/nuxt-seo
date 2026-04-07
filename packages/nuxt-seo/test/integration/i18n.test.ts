@@ -30,7 +30,6 @@ describe('i18n', () => {
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta property="og:type" content="website">
       <meta property="og:url" content="https://nuxtseo.com/">
-      <meta property="og:locale" content="en_US">
       <meta property="og:site_name" content="@nuxtjs/seo">
       <meta property="og:image" content="https://nuxtseo.com/_og/d/ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
       <meta property="og:image:type" content="image/png">
@@ -46,6 +45,7 @@ describe('i18n', () => {
       <meta property="og:title" data-infer="" content="@nuxtjs/seo">
       <meta property="og:description" data-infer="" content="en description">
       <link rel="canonical" href="https://nuxtseo.com/">
+      <meta property="og:locale" content="en_US">
       <meta name="description" content="en description">"
     `)
   })
@@ -58,7 +58,6 @@ describe('i18n', () => {
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta property="og:type" content="website">
       <meta property="og:url" content="https://nuxtseo.com/fr">
-      <meta property="og:locale" content="fr_FR">
       <meta property="og:site_name" content="fr name">
       <meta property="og:image" content="https://nuxtseo.com/_og/d/p_Ii9mciI,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
       <meta property="og:image:type" content="image/png">
@@ -74,6 +73,7 @@ describe('i18n', () => {
       <meta property="og:title" data-infer="" content="Fr | fr name">
       <meta property="og:description" data-infer="" content="fr description">
       <link rel="canonical" href="https://nuxtseo.com/fr">
+      <meta property="og:locale" content="fr_FR">
       <meta name="description" content="fr description">"
     `)
   })
