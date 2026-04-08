@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "version": "5.1.0",
+  "version": "5.1.2",
   "private": true,
   "packageManager": "pnpm@10.33.0",
   "description": "Nuxt SEO monorepo",
@@ -34,7 +34,8 @@
     "simple-git-hooks": "catalog:",
     "typescript": "catalog:",
     "unbuild": "catalog:",
-    "vue-tsc": "catalog:"
+    "vue-tsc": "catalog:",
+    "zod": "catalog:"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged"

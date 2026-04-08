@@ -94,17 +94,19 @@ describe('createContentSchemaFactory', () => {
     expect(typeof result.asCollection).toBe('function')
   })
 
-  it('defineSchema returns default schema when called without options', () => {
+  it('defineSchema returns schema when called without options', () => {
     const z = createMockZ()
-    const { defineSchema, fieldSchema } = createContentSchemaFactory(
+    const buildSchema = vi.fn((_z: Zod) => _z.string().optional())
+    const { defineSchema } = createContentSchemaFactory(
       {
         fieldName: 'robots',
         label: 'robots',
-        buildSchema: _z => _z.string().optional(),
+        buildSchema,
       },
       z,
     )
-    expect(defineSchema()).toBe(fieldSchema)
+    defineSchema()
+    expect(buildSchema).toHaveBeenCalledWith(z)
   })
 
   it('defineSchema calls buildSchema with custom z when provided', () => {
@@ -126,17 +128,19 @@ describe('createContentSchemaFactory', () => {
     expect(buildSchema).toHaveBeenCalledWith(customZ)
   })
 
-  it('defineSchema returns cached schema when z matches default', () => {
+  it('defineSchema calls buildSchema with default z when same z provided', () => {
     const z = createMockZ()
-    const { defineSchema, fieldSchema } = createContentSchemaFactory(
+    const buildSchema = vi.fn((_z: Zod) => _z.string())
+    const { defineSchema } = createContentSchemaFactory(
       {
         fieldName: 'robots',
         label: 'robots',
-        buildSchema: _z => _z.string(),
+        buildSchema,
       },
       z,
     )
-    expect(defineSchema({ z })).toBe(fieldSchema)
+    defineSchema({ z })
+    expect(buildSchema).toHaveBeenCalledWith(z)
   })
 
   it('defineSchema calls onDefineSchema when options provided', () => {

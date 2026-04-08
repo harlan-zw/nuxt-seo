@@ -86,15 +86,12 @@ export function createContentSchemaFactory<TSchema, TDefineOptions extends Conte
 ) {
   const { fieldName, buildSchema, label, docsUrl, onDefineSchema } = config
 
-  const defaultSchema = buildSchema(defaultZ)
-  const schemaObject = defaultZ.object({ [fieldName]: defaultSchema } as any)
+  const schemaObject = defaultZ.object({ [fieldName]: buildSchema(defaultZ) } as any)
 
   function defineSchema(options?: TDefineOptions): TSchema {
     if (options && onDefineSchema)
       onDefineSchema(options)
     const _z = options?.z ?? defaultZ
-    if (_z === defaultZ)
-      return defaultSchema
     return buildSchema(_z)
   }
 
@@ -104,9 +101,18 @@ export function createContentSchemaFactory<TSchema, TDefineOptions extends Conte
       : ''
     console.warn(`[${label}] \`as${capitalize(label)}Collection()\` is deprecated. Use \`define${capitalize(label)}Schema()\` in your collection schema instead.${migrationHint}`)
     if (collection.type === 'page') {
-      collection.schema = collection.schema
-        ? schemaObject.extend(collection.schema.shape)
-        : schemaObject
+      try {
+        collection.schema = collection.schema
+          ? schemaObject.extend(collection.schema.shape)
+          : schemaObject
+      }
+      catch (e) {
+        console.warn(
+          `[${label}] Failed to apply ${label} schema to collection. This is likely a Zod version mismatch.`,
+          `Pass your Zod instance explicitly: \`define${capitalize(label)}Schema({ z })\`.${migrationHint}`,
+          `Error: ${(e as Error).message}`,
+        )
+      }
     }
     return collection
   }
@@ -115,7 +121,7 @@ export function createContentSchemaFactory<TSchema, TDefineOptions extends Conte
     defineSchema,
     asCollection,
     schema: schemaObject,
-    fieldSchema: defaultSchema,
+    fieldSchema: buildSchema(defaultZ),
   }
 }
 

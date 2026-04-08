@@ -24,16 +24,16 @@ describe('trailing slash', () => {
     expect(extractSeoHead(html)).toMatchInlineSnapshot(`
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="description" content="Fully equipped Technical SEO for busy Nuxters.">
       <meta property="og:type" content="website">
-      <meta property="og:url" content="https://local.nuxtseo.com/about/">
-      <meta property="og:site_name" content="@nuxtjs/seo">
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>About | @nuxtjs&#x2F;seo</title>
+      <meta name="description" content="Fully equipped Technical SEO for busy Nuxters.">
       <meta name="twitter:card" content="summary_large_image">
       <meta property="og:title" data-infer="" content="About | @nuxtjs/seo">
       <meta property="og:description" data-infer="" content="Fully equipped Technical SEO for busy Nuxters.">
-      <link rel="canonical" href="https://local.nuxtseo.com/about/">"
+      <link rel="canonical" href="https://local.nuxtseo.com/about/">
+      <meta property="og:url" content="https://local.nuxtseo.com/about/">
+      <meta property="og:site_name" content="@nuxtjs/seo">"
     `)
   })
   it('sitemap - default', async () => {
@@ -66,7 +66,7 @@ describe('trailing slash', () => {
   it('og-image - url', async () => {
     const html = await $fetch('/') as string
     const ogImageUrl = extractOgImageUrl(html)
-    expect(ogImageUrl).toMatchInlineSnapshot(`"https://local.nuxtseo.com/_og/d/ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png"`)
+    expect(ogImageUrl).toMatchInlineSnapshot(`"https://local.nuxtseo.com/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png"`)
   })
   it('og-image - image snapshot', async () => {
     const image = await fetch(url('/_og/d/default.png')).then(r => r.arrayBuffer())
