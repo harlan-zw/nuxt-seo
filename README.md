@@ -5,9 +5,9 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-> Fully equipped Technical SEO for busy Nuxters.
+> Fully equipped Technical SEO & AEO for busy Nuxters.
 
-[Nuxt SEO](https://nuxtseo.com) is an ecosystem of SEO modules, tools, and tutorials built with and for the Nuxt community. Technical SEO requires many moving parts: sitemaps, robots.txt, Schema.org, OG images, meta tags, broken links. Nuxt SEO provides a module for each, so you can install them individually or all at once.
+[Nuxt SEO](https://nuxtseo.com) is an ecosystem of SEO modules, tools, and tutorials built with and for the Nuxt community. Search has changed: Google still matters, but [ChatGPT](https://chatgpt.com), Claude, [Perplexity](https://perplexity.ai), and AI Overviews now answer questions your site could answer, and they only cite sources they can parse. Nuxt SEO ships the full stack, robots.txt, sitemaps, Schema.org, OG images, meta tags, link checks, to make your Nuxt app discoverable by both search engines and answer engines.
 
 <p align="center">
 <table>
@@ -21,12 +21,22 @@
 
 ## Features
 
-- 🤖 **Crawl Control**: Automatic `robots.txt` generation, `<meta name="robots">` tags, and `X-Robots-Tag` headers to manage how search engines access your site.
+- 🤖 **Crawl Control**: Automatic `robots.txt` generation, `<meta name="robots">` tags, and `X-Robots-Tag` headers to manage how search engines and AI crawlers access your site.
 - 📄 **Sitemaps**: Auto-generated `sitemap.xml` from your app's data sources, with multi-sitemap support for i18n sites.
+- 🔎 **Structured Data**: Schema.org JSON-LD generated automatically, the single biggest lever for rich results, AI Overviews, and entity recognition.
 - 🖼️ **OG Images**: Dynamic Open Graph image generation for every page, no manual design work needed.
-- 🔎 **Structured Data**: Schema.org JSON-LD generated automatically with sensible defaults and opt-in rich schemas.
+- △ **SEO Utils**: Clean titles, default meta, canonical URLs, breadcrumbs, favicons, and social share links, AEO fundamentals AI parsers rely on.
 - ✅ **Link Checking**: Broken link detection at build time with [ESLint](https://eslint.org) integration and DevTools support.
-- △ **SEO Utils**: Automatic favicons, default meta tags, breadcrumbs, and social share links.
+
+### Made for the age of AI answers
+
+Traditional SEO signals (clean HTML, structured data, crawlable sitemaps, valid meta) are the same signals AI crawlers use to decide what to cite. Nuxt SEO gives you all of them by default. Pair it with [`nuxt-ai-ready`](https://github.com/harlan-zw/nuxt-ai-ready) for `llms.txt`, on-demand markdown endpoints, and an MCP server, and you get a **100/100 score on `@vercel/agent-readability`** by default.
+
+```sh
+npx nuxi module add seo ai-ready
+# then verify:
+npx @vercel/agent-readability audit https://your-site.com
+```
 
 ## The `@nuxtjs/seo` Module
 
@@ -53,13 +63,22 @@ Every module works standalone. Install `@nuxtjs/seo` to get everything at once, 
 
 | Module | Package | What it solves |
 |--------|---------|----------------|
-| Robots | [@nuxtjs/robots](https://github.com/nuxt-modules/robots) | Search engines need clear instructions about which pages to crawl and index |
-| Sitemap | [@nuxtjs/sitemap](https://github.com/nuxt-modules/sitemap) | Search engines can't discover all your pages without a structured index |
-| OG Image | [nuxt-og-image](https://github.com/nuxt-modules/og-image) | Social platforms need preview images when content is shared |
-| Schema.org | [nuxt-schema-org](https://github.com/harlan-zw/nuxt-schema-org) | Rich snippets and search features require structured data |
-| SEO Utils | [nuxt-seo-utils](https://github.com/harlan-zw/nuxt-seo-utils) | Favicons, default meta, breadcrumbs, and other SEO essentials |
-| Link Checker | [nuxt-link-checker](https://github.com/harlan-zw/nuxt-link-checker) | Broken links harm SEO and user experience |
-| Site Config | [nuxt-site-config](https://github.com/harlan-zw/nuxt-site-config) | All modules need consistent site URL, name, and locale config |
+| Robots | [@nuxtjs/robots](https://github.com/nuxt-modules/robots) | Control which crawlers (Googlebot, GPTBot, ClaudeBot, PerplexityBot…) can access which pages |
+| Sitemap | [@nuxtjs/sitemap](https://github.com/nuxt-modules/sitemap) | Give every crawler, search and answer engine, a full index of your content |
+| Schema.org | [nuxt-schema-org](https://github.com/harlan-zw/nuxt-schema-org) | The structured data AI engines rely on to understand entities, authors, products, FAQs |
+| OG Image | [nuxt-og-image](https://github.com/nuxt-modules/og-image) | Preview images for social shares and chat-bot rich cards |
+| SEO Utils | [nuxt-seo-utils](https://github.com/harlan-zw/nuxt-seo-utils) | Favicons, canonicals, breadcrumbs, default meta, the AEO fundamentals |
+| Link Checker | [nuxt-link-checker](https://github.com/harlan-zw/nuxt-link-checker) | Broken links harm SEO, confuse AI crawlers, and hurt UX |
+| Site Config | [nuxt-site-config](https://github.com/harlan-zw/nuxt-site-config) | Unified site URL, name, and locale config shared across every module |
+
+### Companion modules
+
+Not bundled by default, but highly recommended to round out your AEO stack:
+
+| Module | Package | What it solves |
+|--------|---------|----------------|
+| AI Ready | [nuxt-ai-ready](https://github.com/harlan-zw/nuxt-ai-ready) | `llms.txt`, on-demand `.md` route variants, MCP server, IndexNow, RAG-ready output |
+| Skew Protection | [nuxt-skew-protection](https://github.com/harlan-zw/nuxt-skew-protection) | Persistent assets and instant updates across deployments |
 
 > [!NOTE]
 > Site Config installs automatically with any SEO module. It provides a unified configuration layer that works across all modules at both build time and runtime.
@@ -78,6 +97,12 @@ Or pick only what you need:
 npx nuxt module add sitemap robots
 ```
 
+Going all-in on AEO? Add `nuxt-ai-ready` alongside:
+
+```sh
+npx nuxt module add seo ai-ready
+```
+
 > [!TIP]
 > Generate an Agent Skill for this package using [skilld](https://github.com/harlan-zw/skilld):
 > ```bash
@@ -88,7 +113,7 @@ Once installed, check the [Using the Modules](https://nuxtseo.com/docs/nuxt-seo/
 
 ## Going Further
 
-Modules handle the technical foundation, but testing your production environment is as important. Nuxt SEO provides free tools to validate your live site:
+Modules handle the technical foundation. Validating your live site is equally important:
 
 - [Meta Tag Checker](https://nuxtseo.com/tools/meta-tag-checker)
 - [Schema Validator](https://nuxtseo.com/tools/schema-validator)
@@ -96,11 +121,12 @@ Modules handle the technical foundation, but testing your production environment
 - [Robots.txt Validator](https://nuxtseo.com/tools/robots-txt-validator)
 - [Social Share Debugger](https://nuxtseo.com/tools/social-share-debugger)
 
-Learn more about SEO beyond the technical basics:
+Learn more about SEO and AEO:
 
 - [SEO Checklist](https://nuxtseo.com/learn-seo/checklist)
+- [AI-Optimized Content](https://nuxtseo.com/learn-seo/nuxt/launch-and-listen/ai-optimized-content)
+- [llms.txt Guide](https://nuxtseo.com/learn-seo/nuxt/controlling-crawlers/llms-txt)
 - [Pre-Launch Warmup](https://nuxtseo.com/learn-seo/pre-launch-warmup)
-- [Backlinks & Authority](https://nuxtseo.com/learn-seo/backlinks)
 
 ## Documentation
 
