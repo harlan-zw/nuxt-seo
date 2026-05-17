@@ -22,4 +22,11 @@ export default antfu(
       'harlanzw/prompt-mixed-conventions': 'off',
     },
   },
+  {
+    files: ['examples/*/package.json'],
+    rules: {
+      'pnpm/json-enforce-catalog': 'off',
+      'pnpm/json-prefer-workspace-settings': 'off',
+    },
+  },
 )
