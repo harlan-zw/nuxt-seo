@@ -27,11 +27,11 @@ describe('dev', () => {
     expect(extractSeoHead(html)).toMatchInlineSnapshot(`
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta property="og:image" content="https://local.nuxtseo.com/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
-      <meta property="og:image:type" content="image/png">
       <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:image" content="https://local.nuxtseo.com/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
       <meta name="twitter:image:src" content="https://local.nuxtseo.com/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
+      <meta property="og:image" content="https://local.nuxtseo.com/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
+      <meta property="og:image:type" content="image/png">
       <meta property="og:image:width" content="1200">
       <meta name="twitter:image:width" content="1200">
       <meta property="og:image:height" content="600">

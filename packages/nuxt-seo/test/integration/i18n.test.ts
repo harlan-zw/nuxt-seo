@@ -28,11 +28,11 @@ describe('i18n', () => {
     expect(extractSeoHead(html)).toMatchInlineSnapshot(`
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta property="og:image" content="https://nuxtseo.com/_og/d/description_en+description,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
-      <meta property="og:image:type" content="image/png">
       <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:image" content="https://nuxtseo.com/_og/d/description_en+description,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
       <meta name="twitter:image:src" content="https://nuxtseo.com/_og/d/description_en+description,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
+      <meta property="og:image" content="https://nuxtseo.com/_og/d/description_en+description,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
+      <meta property="og:image:type" content="image/png">
       <meta property="og:image:width" content="1200">
       <meta name="twitter:image:width" content="1200">
       <meta property="og:image:height" content="600">
@@ -56,11 +56,11 @@ describe('i18n', () => {
     expect(extractSeoHead(html)).toMatchInlineSnapshot(`
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta property="og:image" content="https://nuxtseo.com/_og/d/title_Fr,description_fr+description,p_Ii9mciI,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
-      <meta property="og:image:type" content="image/png">
       <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:image" content="https://nuxtseo.com/_og/d/title_Fr,description_fr+description,p_Ii9mciI,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
-      <meta name="twitter:image:src" content="https://nuxtseo.com/_og/d/title_Fr,description_fr+description,p_Ii9mciI,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
+      <meta name="twitter:image" content="https://nuxtseo.com/_og/d/description_fr+description,p_Ii9mciI,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
+      <meta name="twitter:image:src" content="https://nuxtseo.com/_og/d/description_fr+description,p_Ii9mciI,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
+      <meta property="og:image" content="https://nuxtseo.com/_og/d/description_fr+description,p_Ii9mciI,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
+      <meta property="og:image:type" content="image/png">
       <meta property="og:image:width" content="1200">
       <meta name="twitter:image:width" content="1200">
       <meta property="og:image:height" content="600">
