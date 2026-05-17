@@ -4,7 +4,7 @@ useSeoMeta({
   description: 'Welcome to the home page.',
 })
 
-defineOgImage()
+defineOgImage('NuxtSeo')
 </script>
 
 <template>

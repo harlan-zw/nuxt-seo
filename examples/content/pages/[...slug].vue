@@ -14,7 +14,7 @@ useSeoMeta({
   description: () => page.value?.description,
 })
 
-defineOgImage()
+defineOgImage('NuxtSeo')
 </script>
 
 <template>

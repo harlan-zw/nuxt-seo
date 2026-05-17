@@ -6,7 +6,7 @@ useSeoMeta({
   description: () => t('homeDescription'),
 })
 
-defineOgImage()
+defineOgImage('NuxtSeo')
 </script>
 
 <template>
