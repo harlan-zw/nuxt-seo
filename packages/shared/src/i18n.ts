@@ -60,6 +60,47 @@ export function splitPathForI18nLocales(path: string, autoI18n: AutoI18nConfig):
   ]
 }
 
+const COMPACT_LOCALE_PATTERN = /\/:locale\(([^)]+)\)/
+
+export interface ExpandedLocaleRoute {
+  locale: string
+  path: string
+}
+
+/**
+ * Detect a compacted i18n route such as `/:locale(en|fr)/about`.
+ *
+ * Both `nuxt-i18n-micro` and `@nuxtjs/i18n` (experimental `compactRoutes`) collapse
+ * per-locale routes into a single regex route using this syntax, so route-table
+ * consumers (sitemap, link-checker) see one `:locale(...)` route instead of one per
+ * locale.
+ */
+export function isCompactLocaleRoute(path: string): boolean {
+  return COMPACT_LOCALE_PATTERN.test(path)
+}
+
+/**
+ * Expand a compacted i18n route into one entry per locale.
+ *
+ * `/:locale(en|fr)/about` -> `[{ locale: 'en', path: '/en/about' }, { locale: 'fr', path: '/fr/about' }]`
+ *
+ * Pass `knownLocales` to guard against a genuine `:locale` route param: when provided,
+ * expansion only runs if at least one captured token is a real locale code. Returns
+ * `null` when the path is not a compacted locale route.
+ */
+export function expandCompactLocaleRoute(path: string, knownLocales?: string[]): ExpandedLocaleRoute[] | null {
+  const match = COMPACT_LOCALE_PATTERN.exec(path)
+  if (!match?.[1])
+    return null
+  const locales = match[1].split('|')
+  if (knownLocales?.length && !locales.some(l => knownLocales.includes(l)))
+    return null
+  return locales.map(locale => ({
+    locale,
+    path: path.replace(COMPACT_LOCALE_PATTERN, `/${locale}`),
+  }))
+}
+
 export function normalizeLocales(nuxtI18nConfig: NuxtI18nOptions): AutoI18nConfig['locales'] {
   const rawLocales = nuxtI18nConfig.locales || []
   let onlyLocales = nuxtI18nConfig?.bundle?.onlyLocales || []
