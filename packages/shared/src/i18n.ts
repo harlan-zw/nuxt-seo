@@ -60,7 +60,10 @@ export function splitPathForI18nLocales(path: string, autoI18n: AutoI18nConfig):
   ]
 }
 
-const COMPACT_LOCALE_PATTERN = /\/:locale\(([^)]+)\)/
+// Anchored to the start: the compacted segment is always a leading path prefix
+// (`/:locale(en|fr)` + route path). Anchoring keeps matching linear and avoids the
+// polynomial backtracking CodeQL flags on unanchored `[^)]+` searches.
+const COMPACT_LOCALE_PATTERN = /^\/:locale\(([^)]+)\)/
 
 export interface ExpandedLocaleRoute {
   locale: string
