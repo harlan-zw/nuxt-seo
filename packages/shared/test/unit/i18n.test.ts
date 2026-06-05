@@ -1,7 +1,9 @@
 import type { AutoI18nConfig, NormalisedLocale, StrategyProps } from '../../src/i18n'
 import { describe, expect, it } from 'vitest'
 import {
+  expandCompactLocaleRoute,
   generatePathForI18nPages,
+  isCompactLocaleRoute,
   mapPathForI18nPages,
   mergeOnKey,
   normalizeLocales,
@@ -252,6 +254,56 @@ describe('splitPathForI18nLocales', () => {
     const config = makeAutoI18n()
     const result = splitPathForI18nLocales('/fr', config)
     expect(result).toBe('/fr')
+  })
+})
+
+// -------------------------------------------------------------------
+// expandCompactLocaleRoute / isCompactLocaleRoute
+// -------------------------------------------------------------------
+describe('expandCompactLocaleRoute', () => {
+  it('detects compacted locale routes', () => {
+    expect(isCompactLocaleRoute('/:locale(en|fr)/about')).toBe(true)
+    expect(isCompactLocaleRoute('/about')).toBe(false)
+    expect(isCompactLocaleRoute('/posts/:slug')).toBe(false)
+  })
+
+  it('expands one entry per locale', () => {
+    expect(expandCompactLocaleRoute('/:locale(en|fr|ja)/about')).toEqual([
+      { locale: 'en', path: '/en/about' },
+      { locale: 'fr', path: '/fr/about' },
+      { locale: 'ja', path: '/ja/about' },
+    ])
+  })
+
+  it('expands a root compacted route', () => {
+    expect(expandCompactLocaleRoute('/:locale(en|fr)')).toEqual([
+      { locale: 'en', path: '/en' },
+      { locale: 'fr', path: '/fr' },
+    ])
+  })
+
+  it('expands a non-default subset (prefix_except_default)', () => {
+    expect(expandCompactLocaleRoute('/:locale(fr|ja)/about', ['en', 'fr', 'ja'])).toEqual([
+      { locale: 'fr', path: '/fr/about' },
+      { locale: 'ja', path: '/ja/about' },
+    ])
+  })
+
+  it('returns null for non-compacted routes', () => {
+    expect(expandCompactLocaleRoute('/about')).toBeNull()
+    expect(expandCompactLocaleRoute('/posts/:slug')).toBeNull()
+  })
+
+  it('expands when at least one token is a known locale', () => {
+    // mirrors i18n route data where a locale may be absent from normalised locales
+    expect(expandCompactLocaleRoute('/:locale(de|ja)/page', ['en', 'de', 'ru'])).toEqual([
+      { locale: 'de', path: '/de/page' },
+      { locale: 'ja', path: '/ja/page' },
+    ])
+  })
+
+  it('does not expand a genuine :locale param with no known locale tokens', () => {
+    expect(expandCompactLocaleRoute('/:locale(foo|bar)/page', ['en', 'fr'])).toBeNull()
   })
 })
 

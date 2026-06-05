@@ -90,7 +90,20 @@ jobs:
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright-core install chromium
+        # The arm64 chromium download from cdn.playwright.dev can stall indefinitely;
+        # bound each attempt and retry so a flaky CDN doesn't wedge the job for hours.
+        run: |
+          for attempt in 1 2 3; do
+            echo "::group::Playwright install attempt $attempt"
+            if timeout 300 pnpm exec playwright-core install chromium; then
+              echo "::endgroup::"
+              exit 0
+            fi
+            echo "attempt $attempt stalled or failed, retrying" && echo "::endgroup::"
+          done
+          echo "Playwright install failed after 3 attempts"
+          exit 1
+        timeout-minutes: 18
         continue-on-error: true
 
       - run: pnpm run --if-present prepare:fixtures
@@ -128,7 +141,20 @@ jobs:
 
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright-core install chromium
+        # The arm64 chromium download from cdn.playwright.dev can stall indefinitely;
+        # bound each attempt and retry so a flaky CDN doesn't wedge the job for hours.
+        run: |
+          for attempt in 1 2 3; do
+            echo "::group::Playwright install attempt $attempt"
+            if timeout 300 pnpm exec playwright-core install chromium; then
+              echo "::endgroup::"
+              exit 0
+            fi
+            echo "attempt $attempt stalled or failed, retrying" && echo "::endgroup::"
+          done
+          echo "Playwright install failed after 3 attempts"
+          exit 1
+        timeout-minutes: 18
         continue-on-error: true
 
       - run: pnpm run --if-present prepare:fixtures
