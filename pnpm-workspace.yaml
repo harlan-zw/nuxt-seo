@@ -47,7 +47,7 @@ catalog:
   nuxt-ai-ready: ^1.3.7
   nuxt-link-checker: ^5.0.10
   nuxt-og-image: ^6.5.2
-  nuxt-schema-org: ^6.1.0
+  nuxt-schema-org: ^6.1.2
   nuxt-seo-utils: ^8.1.11
   nuxt-site-config: ^4.0.8
   nuxt-skew-protection: ^1.1.1
@@ -88,3 +88,5 @@ allowBuilds:
   sharp: true
   simple-git-hooks: false
   vue-demi: true
+minimumReleaseAgeExclude:
+  - nuxt-schema-org@6.1.2
