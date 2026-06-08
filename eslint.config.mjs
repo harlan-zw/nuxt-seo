@@ -4,6 +4,7 @@ import harlanzw from 'eslint-plugin-harlanzw'
 export default antfu(
   {
     type: 'lib',
+    vue: true,
     ignores: [
       'CLAUDE.md',
       'test/fixtures/**',
