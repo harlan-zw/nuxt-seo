@@ -63,7 +63,7 @@ const steps = computed(() => {
       title: 'Clear generated files and update dependencies',
       description: 'Delete your .nuxt directory, update packages, then restart.',
       codes: [
-        `rm -rf .nuxt && ${pm.exec} nuxi dev`,
+        `rm -rf .nuxt && ${pm.exec} nuxt dev`,
         updateCmd,
       ],
     },

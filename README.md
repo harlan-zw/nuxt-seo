@@ -33,7 +33,7 @@
 Traditional SEO signals (clean HTML, structured data, crawlable sitemaps, valid meta) are the same signals AI crawlers use to decide what to cite. Nuxt SEO gives you all of them by default. Pair it with [`nuxt-ai-ready`](https://github.com/harlan-zw/nuxt-ai-ready) for `llms.txt`, on-demand markdown endpoints, and an MCP server, and you get a **100/100 score on `@vercel/agent-readability`** by default.
 
 ```sh
-npx nuxi module add seo nuxt-ai-ready
+npx nuxt module add seo nuxt-ai-ready
 # then verify:
 npx @vercel/agent-readability audit https://your-site.com
 ```

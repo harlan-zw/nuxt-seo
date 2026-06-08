@@ -189,8 +189,8 @@ const showPanel = ref(true)
         <span class="text-xs font-mono text-[var(--color-text-muted)]">DevtoolsCopyButton</span>
       </div>
       <div class="p-5 flex items-center gap-4">
-        <code class="text-sm font-mono bg-[var(--color-surface-sunken)] px-3 py-1.5 rounded border border-[var(--color-border-subtle)]">npx nuxi module add @nuxtjs/seo</code>
-        <DevtoolsCopyButton text="npx nuxi module add @nuxtjs/seo" />
+        <code class="text-sm font-mono bg-[var(--color-surface-sunken)] px-3 py-1.5 rounded border border-[var(--color-border-subtle)]">npx nuxt module add @nuxtjs/seo</code>
+        <DevtoolsCopyButton text="npx nuxt module add @nuxtjs/seo" />
       </div>
     </section>
 
