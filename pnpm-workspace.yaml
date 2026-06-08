@@ -1,7 +1,19 @@
+ignoreWorkspaceRootCheck: true
+
 minimumReleaseAgeExclude:
   - nuxt-schema-org@6.1.2
+# pnpm 11 reads these from pnpm-workspace.yaml, not .npmrc.
+# @nuxtjs/i18n resolves its private @intlify/* + vue-i18n deps via @nuxt/kit's
+# resolveModule, which only searches root node_modules, so hoist just those
+# instead of shamefully-hoisting everything.
+publicHoistPattern:
+  - '*eslint*'
+  - '*prettier*'
+  - '@intlify/*'
+  - vue-i18n
 shellEmulator: true
 
+strictPeerDependencies: false
 trustPolicy: no-downgrade
 packages:
   - docs
