@@ -1,8 +1,10 @@
 import type { Collection } from '@nuxt/content'
-import { asRobotsCollection } from '@nuxtjs/robots/content'
-import { asSitemapCollection } from '@nuxtjs/sitemap/content'
-import { asOgImageCollection } from 'nuxt-og-image/content'
-import { asSchemaOrgCollection } from 'nuxt-schema-org/content'
+import { asRobotsCollection, defineRobotsSchema } from '@nuxtjs/robots/content'
+import { asSitemapCollection, defineSitemapSchema } from '@nuxtjs/sitemap/content'
+import { asOgImageCollection, defineOgImageSchema } from 'nuxt-og-image/content'
+import { asSchemaOrgCollection, defineSchemaOrgSchema } from 'nuxt-schema-org/content'
+
+export { defineOgImageSchema, defineRobotsSchema, defineSchemaOrgSchema, defineSitemapSchema }
 
 /**
  * @deprecated Use `defineRobotsSchema()`, `defineSitemapSchema()`, `defineOgImageSchema()`, and `defineSchemaOrgSchema()` from each module instead.
