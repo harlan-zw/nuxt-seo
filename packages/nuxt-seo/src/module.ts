@@ -28,7 +28,9 @@ export default defineNuxtModule<ModuleOptions>({
       version: '>=4.3',
     },
     'nuxt-og-image': {
-      version: '>=6.0',
+      // 6.4.3 could fail to load a native transitive binding (oxc-parser/lightningcss)
+      // in some environments, surfacing as a cryptic "Could not load nuxt-og-image".
+      version: '>=6.4.4',
     },
     'nuxt-schema-org': {
       version: '>=5.0',
