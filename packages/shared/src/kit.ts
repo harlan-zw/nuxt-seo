@@ -4,7 +4,7 @@ import type { NitroConfig } from 'nitropack/types'
 import type { NuxtModule, NuxtPage } from 'nuxt/schema'
 import { addTemplate, createResolver, hasNuxtModule, hasNuxtModuleCompatibility, loadNuxtModuleInstance, tryUseNuxt, useNuxt } from '@nuxt/kit'
 import { relative } from 'pathe'
-import { readPackageJSON } from 'pkg-types'
+import { readPackageJSON, resolvePackageJSON } from 'pkg-types'
 import { env, provider } from 'std-env'
 
 export interface NuxtSeoModuleDetection {
@@ -203,12 +203,30 @@ export type UnheadMajor = 2 | 3
  * that ships both majors can use this to alias to the matching one.
  */
 export async function resolveHostUnheadMajor(rootDir: string): Promise<UnheadMajor> {
+  const rootUrl = rootDir.endsWith('/') ? rootDir : `${rootDir}/`
+  // Search roots for the host's unhead. Under pnpm's strict (non-hoisted) layout
+  // `@unhead/vue`/`unhead` are transitive deps of `nuxt` and are NOT resolvable
+  // from the project root, so detection would always miss and fall back to the
+  // default major. Also search from `nuxt`'s install location, where the host's
+  // unhead is always reachable.
+  const searchUrls = [rootUrl]
+  const nuxtJson = await resolvePackageJSON('nuxt', { url: rootUrl }).catch(() => {
+    // a missing `nuxt` is an expected miss (e.g. a non-standard layout); we just
+    // keep searching from the project root only.
+    return undefined
+  })
+  if (nuxtJson)
+    searchUrls.push(nuxtJson.replace(/[^/\\]+$/, ''))
+  // `@unhead/vue` is what the head-stack packages peer-depend on; fall back to the
+  // core `unhead` package when it isn't directly resolvable.
   for (const id of ['@unhead/vue', 'unhead']) {
-    const major = await resolvePackageMajor(id, rootDir)
-    if (major === 2)
-      return 2
-    if (major !== undefined && major >= 3)
-      return 3
+    for (const url of searchUrls) {
+      const major = await resolvePackageMajor(id, url)
+      if (major === 2)
+        return 2
+      if (major !== undefined && major >= 3)
+        return 3
+    }
   }
   return 3
 }
