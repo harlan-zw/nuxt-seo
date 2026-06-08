@@ -2,6 +2,7 @@ import type { Nuxt } from '@nuxt/schema'
 import type { NuxtSeoModuleDetection } from 'nuxtseo-shared/kit'
 import { createHash } from 'node:crypto'
 import { readFileSync, statSync } from 'node:fs'
+import process from 'node:process'
 import { defineNuxtModule, useNuxt } from '@nuxt/kit'
 import { detectNuxtSeoModules } from 'nuxtseo-shared/kit'
 import { $fetch } from 'ofetch'
@@ -17,17 +18,23 @@ function isDocker(): boolean {
     statSync('/.dockerenv')
     return true
   }
-  catch {}
+  catch {
+    // The marker file is absent or unreadable outside Docker.
+  }
   try {
     if (readFileSync('/proc/self/cgroup', 'utf8').includes('docker'))
       return true
   }
-  catch {}
+  catch {
+    // /proc/self/cgroup is not available on every platform.
+  }
   try {
     if (readFileSync('/proc/self/mountinfo', 'utf8').includes('/docker/containers/'))
       return true
   }
-  catch {}
+  catch {
+    // /proc/self/mountinfo is not available on every platform.
+  }
   return false
 }
 
@@ -43,11 +50,9 @@ function isDocker(): boolean {
  * 6. CI with no opt-out → enabled
  */
 function resolveEnabled(nuxt: Nuxt): boolean {
-  // eslint-disable-next-line node/prefer-global/process
   if (process.env.NUXT_SEO_TELEMETRY_DISABLED)
     return false
 
-  // eslint-disable-next-line node/prefer-global/process
   if (isTest || process.env.VITEST)
     return false
 
@@ -68,7 +73,6 @@ function resolveEnabled(nuxt: Nuxt): boolean {
     return true
 
   // Non-interactive environments without explicit opt-in
-  // eslint-disable-next-line node/prefer-global/process
   if (!isCI || isMinimal || isDocker() || process.env.CODESANDBOX_SSE)
     return false
 
@@ -127,9 +131,7 @@ export default defineNuxtModule({
         ),
         config: Object.keys(config).length > 0 ? config : undefined,
         nuxtVersion: nuxt._version,
-        // eslint-disable-next-line node/prefer-global/process
         nodeVersion: process.version,
-        // eslint-disable-next-line node/prefer-global/process
         os: process.platform,
         packageManager: await resolveLockfile(nuxt.options.rootDir)
           .then((lockfile) => {
@@ -144,7 +146,10 @@ export default defineNuxtModule({
               return 'npm'
             return undefined
           })
-          .catch(() => undefined),
+          .catch(() => {
+            // Package manager detection is optional telemetry metadata.
+            return undefined
+          }),
         ci: ciProvider || (isCI ? 'true' : undefined),
       }
 
@@ -152,7 +157,10 @@ export default defineNuxtModule({
         method: 'POST',
         body: payload,
         timeout: 5000,
-      }).catch(() => {})
+      }).catch(() => {
+        // Telemetry is best effort and must never fail the Nuxt build.
+        return undefined
+      })
     })
   },
 })

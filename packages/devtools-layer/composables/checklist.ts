@@ -471,7 +471,10 @@ export async function evaluate(): Promise<void> {
   if (loading.value)
     return
   loading.value = true
-  await fetchDebugData().catch(() => {})
+  await fetchDebugData().catch(() => {
+    // Debug endpoints are optional; keep the checklist usable with fallback state.
+    debugCache.value = new Map()
+  })
   evaluated.value = true
   loading.value = false
 }

@@ -36,6 +36,9 @@ export function detectPackageManager(): void {
           packageManager.value = pm
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        // Missing or blocked lockfile probes leave the default package manager.
+        return false
+      })
   }
 }

@@ -66,7 +66,7 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:attw": "attw --pack --profile esm-only",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "nuxt typecheck ."
   },
   "peerDependencies": {
     "@nuxt/schema": "^3.16.0 || ^4.0.0",
@@ -103,6 +103,8 @@
     "@nuxt/module-builder": "catalog:",
     "@nuxt/schema": "catalog:",
     "@nuxtjs/i18n": "catalog:",
+    "nitropack": "catalog:",
+    "nuxt": "catalog:",
     "nuxt-site-config": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",

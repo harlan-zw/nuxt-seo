@@ -54,7 +54,10 @@ export function useModuleUpdate(npmPackage: string | undefined, currentVersion: 
           hasUpdate: isNewerVersion(latest, currentVersion!),
         }
       })
-      .catch(() => {})
+      .catch(() => {
+        // Registry checks are advisory; a failed request means no update badge.
+        return undefined
+      })
   }
 
   return { hasUpdate, latestVersion, info }
