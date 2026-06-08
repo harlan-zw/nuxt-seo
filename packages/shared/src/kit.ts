@@ -2,8 +2,9 @@ import type { Nuxt } from '@nuxt/schema'
 import type { Nitro } from 'nitropack'
 import type { NitroConfig } from 'nitropack/types'
 import type { NuxtModule, NuxtPage } from 'nuxt/schema'
+import { pathToFileURL } from 'node:url'
 import { addTemplate, createResolver, hasNuxtModule, hasNuxtModuleCompatibility, loadNuxtModuleInstance, tryUseNuxt, useNuxt } from '@nuxt/kit'
-import { relative } from 'pathe'
+import { dirname, relative } from 'pathe'
 import { readPackageJSON, resolvePackageJSON } from 'pkg-types'
 import { env, provider } from 'std-env'
 
@@ -12,6 +13,13 @@ export interface NuxtSeoModuleDetection {
   version?: string
   entryPath?: string
   features?: Record<string, boolean | string | number>
+}
+
+function normalizePackageUrl(rootDir: string): string {
+  const url = rootDir.startsWith('file:')
+    ? rootDir
+    : pathToFileURL(rootDir.endsWith('/') ? rootDir : `${rootDir}/`).href
+  return url.endsWith('/') ? url : `${url}/`
 }
 
 const NUXT_SEO_MODULES = new Set([
@@ -178,7 +186,7 @@ export async function resolveNuxtContentVersion(): Promise<false | NuxtContentVe
  * `undefined` when the package can't be resolved or has no parseable version.
  */
 export async function resolvePackageMajor(id: string, rootDir: string): Promise<number | undefined> {
-  const url = rootDir.endsWith('/') ? rootDir : `${rootDir}/`
+  const url = normalizePackageUrl(rootDir)
   const version = await readPackageJSON(id, { url }).then(pkg => pkg.version).catch(() => {
     // an unresolvable package is an expected miss (it just isn't installed under
     // this id); the caller decides on a fallback.
@@ -203,20 +211,21 @@ export type UnheadMajor = 2 | 3
  * that ships both majors can use this to alias to the matching one.
  */
 export async function resolveHostUnheadMajor(rootDir: string): Promise<UnheadMajor> {
-  const rootUrl = rootDir.endsWith('/') ? rootDir : `${rootDir}/`
-  // Search roots for the host's unhead. Under pnpm's strict (non-hoisted) layout
-  // `@unhead/vue`/`unhead` are transitive deps of `nuxt` and are NOT resolvable
-  // from the project root, so detection would always miss and fall back to the
-  // default major. Also search from `nuxt`'s install location, where the host's
-  // unhead is always reachable.
-  const searchUrls = [rootUrl]
-  const nuxtJson = await resolvePackageJSON('nuxt', { url: rootUrl }).catch(() => {
-    // a missing `nuxt` is an expected miss (e.g. a non-standard layout); we just
-    // keep searching from the project root only.
-    return undefined
-  })
-  if (nuxtJson)
-    searchUrls.push(nuxtJson.replace(/[^/\\]+$/, ''))
+  const rootUrl = normalizePackageUrl(rootDir)
+  // Search from the packages that own SSR before the app root. A host can have
+  // @unhead/vue v3 installed at the project root while Nuxt/Nitro renders with
+  // nested @unhead/vue v2; matching the root copy can still crash SSR.
+  const searchUrls = []
+  for (const id of ['@nuxt/nitro-server', 'nuxt']) {
+    const pkgJson = await resolvePackageJSON(id, { url: rootUrl }).catch(() => {
+      // A missing package is an expected miss in non-standard layouts; keep
+      // searching from the remaining candidates.
+      return undefined
+    })
+    if (pkgJson)
+      searchUrls.push(`${dirname(pkgJson)}/`)
+  }
+  searchUrls.push(rootUrl)
   // `@unhead/vue` is what the head-stack packages peer-depend on; fall back to the
   // core `unhead` package when it isn't directly resolvable.
   for (const id of ['@unhead/vue', 'unhead']) {

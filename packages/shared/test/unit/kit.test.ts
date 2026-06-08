@@ -1,7 +1,10 @@
-import * as stdEnv from 'std-env'
+import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
 
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import * as stdEnv from 'std-env'
 import { describe, expect, it, vi } from 'vitest'
-import { detectTarget, resolveNitroPreset } from '../../src/kit'
+import { detectTarget, resolveHostUnheadMajor, resolveNitroPreset } from '../../src/kit'
 
 // Mock std-env before importing kit
 vi.mock('std-env', () => ({
@@ -19,6 +22,13 @@ vi.mock('@nuxt/kit', () => ({
   hasNuxtModuleCompatibility: vi.fn(() => false),
   loadNuxtModuleInstance: vi.fn(),
 }))
+
+function writePackage(root: string, id: string, version: string) {
+  const packageDir = join(root, 'node_modules', ...id.split('/'))
+  mkdirSync(packageDir, { recursive: true })
+  writeFileSync(join(packageDir, 'index.js'), '')
+  writeFileSync(join(packageDir, 'package.json'), JSON.stringify({ name: id, version, main: './index.js' }))
+}
 
 // -------------------------------------------------------------------
 // detectTarget
@@ -114,5 +124,24 @@ describe('resolveNitroPreset', () => {
     vi.mocked(stdEnv).env = { NITRO_PRESET: 'aws-lambda' }
     expect(resolveNitroPreset({ preset: 'cloudflare' })).toBe('cloudflare')
     vi.mocked(stdEnv).env = {}
+  })
+})
+
+// -------------------------------------------------------------------
+// resolveHostUnheadMajor
+// -------------------------------------------------------------------
+describe('resolveHostUnheadMajor', () => {
+  it('prefers Nuxt Nitro server unhead over root-level unhead', async () => {
+    const root = mkdtempSync(join(tmpdir(), 'nuxtseo-shared-unhead-'))
+
+    writePackage(root, '@unhead/vue', '3.1.3')
+    writePackage(root, 'unhead', '3.1.3')
+    writePackage(root, 'nuxt', '4.4.7')
+    writePackage(root, 'nuxt/node_modules/@unhead/vue', '2.1.15')
+    writePackage(root, '@nuxt/nitro-server', '4.4.7')
+    writePackage(root, '@nuxt/nitro-server/node_modules/@unhead/vue', '2.1.15')
+    writePackage(root, '@nuxt/nitro-server/node_modules/unhead', '2.1.15')
+
+    await expect(resolveHostUnheadMajor(root)).resolves.toBe(2)
   })
 })
