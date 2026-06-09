@@ -1,0 +1,13 @@
+{
+  "name": "nuxtseo-shared-playground",
+  "private": true,
+  "type": "module",
+  "scripts": { "dev": "nuxi dev" },
+  "devDependencies": {
+    "@iconify-json/carbon": "^1.2.0",
+    "nuxt": "catalog:",
+    "nuxtseo-layer-devtools": "workspace:*",
+    "nuxtseo-shared": "workspace:*",
+    "shiki": "catalog:"
+  }
+}

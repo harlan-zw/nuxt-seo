@@ -61,11 +61,13 @@ function onToggle(e: any) {
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--color-surface-elevated);
-  transition: border-color 200ms ease;
+  box-shadow: var(--elevation-flat);
+  transition: border-color 200ms ease, box-shadow 200ms ease;
 }
 
 .section-block:hover {
   border-color: var(--color-neutral-300);
+  box-shadow: var(--elevation-raised);
 }
 
 .dark .section-block:hover {

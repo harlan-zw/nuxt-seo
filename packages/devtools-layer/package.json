@@ -22,6 +22,7 @@
   "exports": {
     ".": "./nuxt.config.ts",
     "./composables/shiki": "./composables/shiki.ts",
+    "./composables/host": "./composables/host.ts",
     "./composables/rpc": "./composables/rpc.ts",
     "./composables/state": "./composables/state.ts"
   },
@@ -37,6 +38,10 @@
     "public",
     "skills"
   ],
+  "scripts": {
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
   "dependencies": {
     "@nuxt/devtools-kit": "catalog:",
     "@nuxt/kit": "catalog:",
@@ -48,10 +53,12 @@
     "nuxtseo-shared": "workspace:*",
     "ofetch": "catalog:",
     "shiki": "catalog:",
+    "tailwindcss": "catalog:",
     "ufo": "catalog:"
   },
   "devDependencies": {
     "nuxt": "catalog:",
+    "vitest": "catalog:",
     "vue": "catalog:"
   }
 }
