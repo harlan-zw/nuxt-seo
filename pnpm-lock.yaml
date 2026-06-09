@@ -156,6 +156,9 @@ catalogs:
     std-env:
       specifier: ^4.1.0
       version: 4.1.0
+    tailwindcss:
+      specifier: ^4.0.0
+      version: 4.3.0
     typescript:
       specifier: ^6.0.3
       version: 6.0.3
@@ -253,7 +256,7 @@ importers:
         specifier: 'catalog:'
         version: 4.2.0
       tailwindcss:
-        specifier: ^4.0.0
+        specifier: 'catalog:'
         version: 4.3.0
       ufo:
         specifier: 'catalog:'
