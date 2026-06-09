@@ -21,23 +21,39 @@
   --font-sans: 'Hubot Sans', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'Fira Code', ui-monospace, monospace;
 
-  /* Neutral palette, true gray with minimal chroma */
-  --color-neutral-50: oklch(98% 0.002 260);
-  --color-neutral-100: oklch(96% 0.003 260);
-  --color-neutral-200: oklch(91% 0.005 260);
-  --color-neutral-300: oklch(85% 0.008 260);
-  --color-neutral-400: oklch(65% 0.015 260);
-  --color-neutral-500: oklch(50% 0.018 260);
-  --color-neutral-600: oklch(40% 0.015 260);
-  --color-neutral-700: oklch(30% 0.012 260);
-  --color-neutral-800: oklch(20% 0.01 260);
-  --color-neutral-900: oklch(14% 0.008 260);
-  --color-neutral-950: oklch(9% 0.005 260);
+  /* Neutral — slate realigned to the violet primary hue (292), chroma lifted so
+     a subtle violet warmth bleeds through every surface (matches DESIGN.md /
+     layers/design-system). Reads as a violet-tinted grey, not a cold blue-grey. */
+  --color-neutral-50: oklch(98.4% 0.005 292);
+  --color-neutral-100: oklch(96.8% 0.009 292);
+  --color-neutral-200: oklch(92.9% 0.020 292);
+  --color-neutral-300: oklch(86.9% 0.033 292);
+  --color-neutral-400: oklch(70.4% 0.052 292);
+  --color-neutral-500: oklch(55.4% 0.058 292);
+  --color-neutral-600: oklch(44.6% 0.056 292);
+  --color-neutral-700: oklch(32% 0.050 292);
+  --color-neutral-800: oklch(22% 0.044 292);
+  --color-neutral-900: oklch(16% 0.036 292);
+  --color-neutral-950: oklch(11% 0.029 292);
+
+  /* Primary — deep, rich violet (hue 292). Drives @nuxt/ui `primary: violet`. */
+  --color-violet-50: oklch(97.0% 0.037 292);
+  --color-violet-100: oklch(94.4% 0.065 292);
+  --color-violet-200: oklch(89.5% 0.110 292);
+  --color-violet-300: oklch(76.0% 0.150 292);
+  --color-violet-400: oklch(63.0% 0.180 292);
+  --color-violet-500: oklch(54.0% 0.225 292);
+  --color-violet-600: oklch(48.0% 0.240 292);
+  --color-violet-700: oklch(43.0% 0.230 292);
+  --color-violet-800: oklch(38.0% 0.200 292);
+  --color-violet-900: oklch(33.0% 0.165 292);
+  --color-violet-950: oklch(24.0% 0.120 292);
 }
 
 :root {
-  /* Brand colors - Nuxt SEO green */
-  --seo-green: oklch(65% 0.2 145);
+  /* Brand accent — violet primary (was Nuxt SEO green). Kept as --seo-green for
+     component compatibility; all 30+ usages now read as brand violet. */
+  --seo-green: var(--color-violet-500);
 
   /* Semantic colors */
   --color-surface: var(--color-neutral-50);
@@ -49,20 +65,47 @@
   --color-text-muted: var(--color-neutral-500);
   --color-text-subtle: var(--color-neutral-400);
 
+  /* Radius — aligned to DESIGN.md (sm 6 / md 8 / lg 12 / xl 16). */
   --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* Focus ring — violet, matches design-system --shadow-focus. */
+  --shadow-focus: 0 0 0 3px color-mix(in oklab, var(--color-violet-500) 30%, transparent);
+
+  /* Depth & elevation ladder (from layers/design-system). Tier A ingredients
+     compose into Tier B presets — components reference only the presets:
+       inset   carved edge, no lift    flat   hairline ring, zero lift
+       raised  resting drop + bevel    overlay atmospheric + bevel (modals)
+       popover atmospheric + brand bevel (tooltip/dropdown) */
+  --_depth-ambient-low: 0 1px 2px rgb(0 0 0 / 0.03), 0 1px 5px rgb(0 0 0 / 0.035);
+  --_depth-ambient-high: 0 1px 1px 0 rgb(0 0 0 / 0.04), 0 2px 6px -2px rgb(0 0 0 / 0.06), 0 8px 16px -6px rgb(0 0 0 / 0.08);
+  --_depth-bevel: inset 0 1px 0 0 rgb(255 255 255 / 0.06), inset 0 -1px 0 0 rgb(0 0 0 / 0.04);
+  --_depth-bevel-brand: inset 0 1.5px 0 0 color-mix(in srgb, var(--color-violet-400) 26%, transparent), inset 0 -1px 0 0 rgb(0 0 0 / 0.04);
+  --_depth-ring: inset 0 0 0 1px var(--color-border);
+  --elevation-inset: var(--_depth-bevel);
+  --elevation-flat: var(--_depth-ring);
+  --elevation-raised: var(--_depth-ambient-low), var(--_depth-bevel);
+  --elevation-overlay: var(--_depth-ambient-high), var(--_depth-bevel);
+  --elevation-popover: var(--_depth-ambient-high), var(--_depth-bevel-brand);
 }
 
 .dark {
   --color-surface: var(--color-neutral-950);
   --color-surface-elevated: var(--color-neutral-900);
-  --color-surface-sunken: oklch(7% 0.004 260);
-  --color-border: oklch(25% 0.012 260);
-  --color-border-subtle: oklch(20% 0.01 260);
+  --color-surface-sunken: oklch(7% 0.018 292);
+  --color-border: oklch(25% 0.040 292);
+  --color-border-subtle: oklch(20% 0.034 292);
   --color-text: var(--color-neutral-100);
   --color-text-muted: var(--color-neutral-400);
   --color-text-subtle: var(--color-neutral-500);
+
+  /* Dark redefines the depth ingredients; presets inherit via var(). */
+  --_depth-ambient-low: 0 1px 2px rgb(0 0 0 / 0.35), 0 1px 5px rgb(0 0 0 / 0.22);
+  --_depth-ambient-high: 0 1px 1px 0 rgb(0 0 0 / 0.4), 0 2px 6px -2px rgb(0 0 0 / 0.35), 0 8px 16px -6px rgb(0 0 0 / 0.4);
+  --_depth-bevel: inset 0 1px 0 0 rgb(255 255 255 / 0.08), inset 0 -1px 0 0 rgb(0 0 0 / 0.2);
+  --_depth-bevel-brand: inset 0 1.5px 0 0 color-mix(in srgb, var(--color-violet-400) 40%, transparent), inset 0 -1px 0 0 rgb(0 0 0 / 0.2);
 }
 
 /* Base styles */

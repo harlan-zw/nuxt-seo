@@ -48,12 +48,8 @@ defineEmits<{
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
   background: var(--color-surface-elevated);
-  box-shadow: 0 8px 32px oklch(0% 0 0 / 0.12);
+  box-shadow: var(--elevation-overlay);
   overflow: hidden;
-}
-
-.dark .devtools-panel {
-  box-shadow: 0 8px 32px oklch(0% 0 0 / 0.4);
 }
 
 .devtools-panel-header {

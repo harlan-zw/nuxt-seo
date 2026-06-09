@@ -1,7 +1,7 @@
 export default {
   ui: {
     colors: {
-      primary: 'green',
+      primary: 'violet',
       neutral: 'neutral',
     },
     button: {
