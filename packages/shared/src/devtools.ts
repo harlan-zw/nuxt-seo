@@ -10,17 +10,19 @@ import sirv from 'sirv'
 
 export type { BirpcGroup } from 'birpc'
 
-/** Origin-root route the assembled devtools client is served from. */
+/** Origin-root route the assembled (layer-mode) devtools client is served from. */
 export const UNIFIED_CLIENT_ROUTE = '/__nuxt-seo-devtools'
 
 export interface DevToolsUIConfig {
-  /** Legacy per-module route — no longer served; kept for back-compat. */
+  /** Per-module route used by the legacy prebuilt-client mode. */
   route?: string
   name: string
   title: string
   icon: string
-  /** Route segment inside the client (e.g. `robots`). Defaults to name minus `nuxt-`. */
+  /** Route segment inside the unified client (layer mode). Defaults to name minus `nuxt-`. */
   slug?: string
+  /** Legacy dev-proxy port (prebuilt-client mode only). */
+  devPort?: number
 }
 
 export interface SeoModuleInfo {
@@ -47,7 +49,6 @@ function placeholderHtml(): string {
 <script>setInterval(async()=>{try{const r=await fetch('${UNIFIED_CLIENT_ROUTE}/__status');const j=await r.json();if(j.ready)location.reload()}catch{}},1000)</script></body></html>`
 }
 
-/** Full route list for a module: `/slug` + `/slug/<page>` for each non-index page. */
 function deriveRoutes(layerDir: string, slug: string): string[] {
   const routes = [`/${slug}`]
   const pagesDir = join(layerDir, 'pages', slug)
@@ -60,9 +61,21 @@ function deriveRoutes(layerDir: string, slug: string): string[] {
   return routes
 }
 
-function generateAndBuild(cacheDir: string, baseLayer: string, installed: SeoDevtoolsEntry[], onReady: () => void): void {
+/** Register the shared `getInstalledSeoModules` RPC once (drives the module switcher). */
+function registerSharedRpcOnce(nuxt: Nuxt): void {
+  if ((nuxt as any)._seoDevtoolsRpcRegistered)
+    return
+  (nuxt as any)._seoDevtoolsRpcRegistered = true
+  onDevToolsInitialized(() => {
+    extendServerRpc('nuxt-seo-modules', {
+      getInstalledSeoModules: (): SeoModuleInfo[] => (nuxt as any)._seoDevtoolsModules || [],
+    }, nuxt)
+  }, nuxt)
+}
+
+function generateAndBuild(cacheDir: string, installed: SeoDevtoolsEntry[], onReady: () => void): void {
   const routes = ['/', ...installed.flatMap(m => deriveRoutes(m.layerDir, m.slug))]
-  const extendsList = [baseLayer, ...installed.map(m => m.layerDir)]
+  const extendsList = ['nuxtseo-layer-devtools', ...installed.map(m => m.layerDir)]
   mkdirSync(join(cacheDir, 'pages'), { recursive: true })
   writeFileSync(join(cacheDir, 'nuxt.config.ts'), `import { resolve } from 'pathe'
 export default defineNuxtConfig({
@@ -93,18 +106,21 @@ export default defineNuxtConfig({
 }
 
 /**
- * Register a module's devtools panel. Each SEO module calls this from its module
- * setup; the panels are assembled into ONE client built in the user's project from
- * exactly the installed modules' layers (async, with a Building… placeholder), so the
- * vendor/fonts/css ship once instead of per-module. First call wins the orchestration.
+ * Layer mode (current): the module ships its devtools as a source layer. All such
+ * modules are assembled into ONE client built in the user's project (async, behind a
+ * Building… placeholder) and served at `/__nuxt-seo-devtools/<slug>`.
  */
-export function setupDevToolsUI(config: DevToolsUIConfig, resolve: Resolver['resolve'], nuxt: Nuxt = useNuxt()): void {
-  if (!nuxt.options.dev)
-    return
-
+function setupLayerModule(config: DevToolsUIConfig, layerDir: string, nuxt: Nuxt): void {
   const slug = config.slug ?? config.name.replace(/^nuxt-/, '')
-  const list: SeoDevtoolsEntry[] = (nuxt as any)._seoDevtoolsModules ??= []
-  list.push({ slug, name: config.name, title: config.title, icon: config.icon, layerDir: resolve('./devtools') })
+  const clientRoute = `${UNIFIED_CLIENT_ROUTE}/${slug}`
+
+  const modules: SeoModuleInfo[] = (nuxt as any)._seoDevtoolsModules ??= []
+  modules.push({ name: config.name, title: config.title, icon: config.icon, route: clientRoute })
+
+  const layers: SeoDevtoolsEntry[] = (nuxt as any)._seoDevtoolsLayers ??= []
+  layers.push({ slug, name: config.name, title: config.title, icon: config.icon, layerDir })
+
+  addCustomTab({ name: `nuxt-seo-${slug}`, title: config.title, icon: config.icon, view: { type: 'iframe', src: clientRoute } })
 
   if ((nuxt as any)._seoDevtoolsInit)
     return
@@ -114,16 +130,14 @@ export function setupDevToolsUI(config: DevToolsUIConfig, resolve: Resolver['res
   const dist = join(cacheDir, 'dist/devtools')
   const state = { ready: false }
 
-  // Build once after every module has registered.
   nuxt.hook('modules:done', () => {
-    const installed: SeoDevtoolsEntry[] = (nuxt as any)._seoDevtoolsModules
+    const installed: SeoDevtoolsEntry[] = (nuxt as any)._seoDevtoolsLayers
     const key = hashSet(installed.map(m => m.slug).sort())
     state.ready = existsSync(join(cacheDir, '.installed-hash')) && readFileSync(join(cacheDir, '.installed-hash'), 'utf8') === key && existsSync(dist)
     if (!state.ready)
-      generateAndBuild(cacheDir, 'nuxtseo-layer-devtools', installed, () => { state.ready = true })
+      generateAndBuild(cacheDir, installed, () => { state.ready = true })
   })
 
-  // Serve: placeholder until ready, then the assembled client (connect strips the prefix).
   nuxt.hook('vite:serverCreated', (server) => {
     const serve = sirv(dist, { dev: true, single: '200.html' })
     server.middlewares.use(UNIFIED_CLIENT_ROUTE, (req, res, next) => {
@@ -138,15 +152,75 @@ export function setupDevToolsUI(config: DevToolsUIConfig, resolve: Resolver['res
       return serve(req, res, next)
     })
   })
+}
 
-  onDevToolsInitialized(() => {
-    const installed: SeoDevtoolsEntry[] = (nuxt as any)._seoDevtoolsModules
-    extendServerRpc('nuxt-seo-modules', {
-      getInstalledSeoModules: (): SeoModuleInfo[] => installed.map(m => ({ name: m.slug, title: m.title, icon: m.icon, route: `${UNIFIED_CLIENT_ROUTE}/${m.slug}` })),
-    }, nuxt)
-    for (const m of installed)
-      addCustomTab({ name: `nuxt-seo-${m.slug}`, title: m.title, icon: m.icon, view: { type: 'iframe', src: `${UNIFIED_CLIENT_ROUTE}/${m.slug}` } })
-  }, nuxt)
+/**
+ * Legacy mode: the module ships a prebuilt devtools client at `./devtools`. Serve it
+ * at the module's own route (or proxy to its dev server when not built). Preserved so a
+ * module that hasn't migrated to the layer format keeps working with this version.
+ */
+function setupLegacyModule(config: DevToolsUIConfig, clientPath: string, nuxt: Nuxt): void {
+  const { name, title, icon, devPort = 3030 } = config
+  const route = config.route ?? `/__${name.replace(/^nuxt-/, '')}`
+
+  const modules: SeoModuleInfo[] = (nuxt as any)._seoDevtoolsModules ??= []
+  modules.push({ name, title, icon, route })
+
+  const isProductionBuild = existsSync(clientPath) && readdirSync(clientPath).length > 0
+  if (isProductionBuild) {
+    nuxt.hook('vite:serverCreated', (server) => {
+      server.middlewares.use(route, sirv(clientPath, { dev: true, single: true }))
+    })
+  }
+  else {
+    nuxt.hook('vite:extendConfig', (viteConfig) => {
+      Object.assign(viteConfig, {
+        server: {
+          ...viteConfig.server,
+          proxy: {
+            ...viteConfig.server?.proxy,
+            [route]: {
+              target: `http://localhost:${devPort}${route}`,
+              changeOrigin: true,
+              followRedirects: true,
+              ws: true,
+              rewrite: (p: string) => p.replace(route, ''),
+              configure: (proxy: any) => {
+                proxy.on('error', (err: Error, _req: any, res: any) => {
+                  if (res.headersSent)
+                    return
+                  res.writeHead(502, { 'Content-Type': 'text/plain' })
+                  res.end(`Devtools client not ready: ${err.message}`)
+                })
+              },
+            },
+          },
+        },
+      })
+    })
+  }
+
+  addCustomTab({ name, title, icon, view: { type: 'iframe', src: route } })
+}
+
+/**
+ * Register a module's devtools panel. Detects whether the module ships a source layer
+ * (current) or a prebuilt client (legacy) and handles each, so old and new modules can
+ * be mixed during migration.
+ */
+export function setupDevToolsUI(config: DevToolsUIConfig, resolve: Resolver['resolve'], nuxt: Nuxt = useNuxt()): void {
+  if (!nuxt.options.dev)
+    return
+
+  const layerDir = resolve('./devtools')
+  const isLayer = existsSync(join(layerDir, 'nuxt.config.ts')) && !existsSync(join(layerDir, 'index.html'))
+
+  registerSharedRpcOnce(nuxt)
+
+  if (isLayer)
+    setupLayerModule(config, layerDir, nuxt)
+  else
+    setupLegacyModule(config, layerDir, nuxt)
 }
 
 export function setupDevToolsRpc<
