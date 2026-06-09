@@ -27,6 +27,10 @@ on:
         description: Enable Redis service container for tests
         type: boolean
         default: false
+      playwright:
+        description: Install Playwright browsers before tests (disable for repos with no browser tests)
+        type: boolean
+        default: true
 
 jobs:
   lint:
@@ -83,13 +87,14 @@ jobs:
 
       - name: Cache Playwright browsers
         id: playwright-cache
+        if: ${{ inputs.playwright }}
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ inputs.runner }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        if: ${{ inputs.playwright && steps.playwright-cache.outputs.cache-hit != 'true' }}
         # The arm64 chromium download from cdn.playwright.dev can stall indefinitely;
         # bound each attempt and retry so a flaky CDN doesn't wedge the job for hours.
         run: |
@@ -134,13 +139,14 @@ jobs:
 
       - name: Cache Playwright browsers
         id: playwright-cache
+        if: ${{ inputs.playwright }}
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ inputs.runner }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        if: ${{ inputs.playwright && steps.playwright-cache.outputs.cache-hit != 'true' }}
         # The arm64 chromium download from cdn.playwright.dev can stall indefinitely;
         # bound each attempt and retry so a flaky CDN doesn't wedge the job for hours.
         run: |
