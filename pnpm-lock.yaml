@@ -252,6 +252,9 @@ importers:
       shiki:
         specifier: 'catalog:'
         version: 4.2.0
+      tailwindcss:
+        specifier: ^4.0.0
+        version: 4.3.0
       ufo:
         specifier: 'catalog:'
         version: 1.6.4
@@ -259,6 +262,9 @@ importers:
       nuxt:
         specifier: 'catalog:'
         version: 4.4.7(@babel/plugin-syntax-jsx@7.27.1(@babel/core@7.29.0))(@babel/plugin-syntax-typescript@7.28.6(@babel/core@7.29.0))(@parcel/watcher@2.5.6)(@types/node@25.5.2)(@vue/compiler-sfc@3.5.35)(better-sqlite3@12.8.0)(cac@6.7.14)(db0@0.3.4(better-sqlite3@12.8.0)(drizzle-orm@0.45.2(better-sqlite3@12.8.0)))(drizzle-orm@0.45.2(better-sqlite3@12.8.0))(eslint@10.4.1(jiti@2.7.0))(ioredis@5.10.1)(lightningcss@1.32.0)(magicast@0.5.3)(optionator@0.9.4)(rolldown@1.0.0-rc.10(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(rollup-plugin-visualizer@7.0.1(rolldown@1.0.0-rc.10(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(rollup@4.61.1))(rollup@4.61.1)(terser@5.46.1)(typescript@6.0.3)(vite@7.3.5(@types/node@25.5.2)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.9.0))(vue-tsc@3.3.3(typescript@6.0.3))(yaml@2.9.0)
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.8(@types/node@25.5.2)(happy-dom@20.10.2)(vite@7.3.5(@types/node@25.5.2)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.9.0))
       vue:
         specifier: 'catalog:'
         version: 3.5.35(typescript@6.0.3)
@@ -438,6 +444,24 @@ importers:
       vue-tsc:
         specifier: 'catalog:'
         version: 3.3.3(typescript@6.0.3)
+
+  packages/shared/playground:
+    devDependencies:
+      '@iconify-json/carbon':
+        specifier: ^1.2.0
+        version: 1.2.23
+      nuxt:
+        specifier: 'catalog:'
+        version: 4.4.7(@babel/plugin-syntax-jsx@7.27.1(@babel/core@7.29.0))(@babel/plugin-syntax-typescript@7.28.6(@babel/core@7.29.0))(@parcel/watcher@2.5.6)(@types/node@25.5.2)(@vue/compiler-sfc@3.5.35)(better-sqlite3@12.8.0)(cac@6.7.14)(db0@0.3.4(better-sqlite3@12.8.0)(drizzle-orm@0.45.2(better-sqlite3@12.8.0)))(drizzle-orm@0.45.2(better-sqlite3@12.8.0))(eslint@10.4.1(jiti@2.7.0))(ioredis@5.10.1)(lightningcss@1.32.0)(magicast@0.5.3)(optionator@0.9.4)(rolldown@1.0.0-rc.10)(rollup-plugin-visualizer@7.0.1(rolldown@1.0.0-rc.10)(rollup@4.61.1))(rollup@4.61.1)(terser@5.46.1)(typescript@6.0.3)(vite@7.3.5(@types/node@25.5.2)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.9.0))(vue-tsc@3.3.3(typescript@6.0.3))(yaml@2.9.0)
+      nuxtseo-layer-devtools:
+        specifier: workspace:*
+        version: link:../../devtools-layer
+      nuxtseo-shared:
+        specifier: workspace:*
+        version: link:..
+      shiki:
+        specifier: 'catalog:'
+        version: 4.2.0
 
   packages/telemetry:
     dependencies:
@@ -1371,6 +1395,9 @@ packages:
   '@humanwhocodes/retry@0.4.3':
     resolution: {integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==}
     engines: {node: '>=18.18'}
+
+  '@iconify-json/carbon@1.2.23':
+    resolution: {integrity: sha512-7apXetbRmEiWDXIQyikFJZyq7pCVBKHYRzmeLdtT7wWoHYdWHwnFcBAzpuLoSh+ZEAfXZapSWEe8iuS6dUqf+Q==}
 
   '@iconify/collections@1.0.693':
     resolution: {integrity: sha512-gY7LpY5x2hhZzuWZlsQ6Fl/vze2rfJA6C3NLHglha1pMCiC2IL1qsa1Xg8EpJPlKn80Kq3LhcEcRX1byZ+wMOg==}
@@ -10028,6 +10055,10 @@ snapshots:
   '@humanwhocodes/module-importer@1.0.1': {}
 
   '@humanwhocodes/retry@0.4.3': {}
+
+  '@iconify-json/carbon@1.2.23':
+    dependencies:
+      '@iconify/types': 2.0.0
 
   '@iconify/collections@1.0.693':
     dependencies:
