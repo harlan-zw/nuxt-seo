@@ -619,6 +619,20 @@ html.dark {
   50% { opacity: 0.4; }
 }
 
+/* Remote (standalone) dev-server badge inside the source select */
+.devtools-remote-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-weight: 500;
+  font-family: var(--font-mono, ui-monospace, monospace);
+}
+
 /* Main content wrapper */
 .devtools-main {
   flex: 1;
