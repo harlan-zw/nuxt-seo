@@ -46,7 +46,7 @@ const {
   border-radius: var(--radius-sm);
   font-size: 0.6875rem;
   line-height: 1.6;
-  padding: 0.5rem 0.625rem !important;
+  padding: 0.875rem 1rem !important;
   max-height: 300px;
   overflow-y: auto;
 }

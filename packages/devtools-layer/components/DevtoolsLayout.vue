@@ -160,45 +160,60 @@ function disconnectStandalone() {
                   <span v-if="hasUpdate" class="update-dot" />
                 </a>
               </UTooltip>
-              <!-- Mode dropdown: embedded with production URL -->
-              <div v-if="hasProductionUrl && !isStandalone" ref="modeDropdownRef" class="mode-dropdown-wrapper">
+              <!-- Unified source select. One control for every data source (Local,
+                   Production, and a remote/standalone dev server). Always a select,
+                   never a dismissable chip; the standalone disconnect lives in the menu. -->
+              <div v-if="isConnected || isStandalone" ref="modeDropdownRef" class="mode-dropdown-wrapper">
                 <button type="button" class="devtools-mode-btn" @click="modeDropdownOpen = !modeDropdownOpen">
                   <UIcon :name="isProductionMode ? 'carbon:cloud' : 'carbon:laptop'" class="w-3.5 h-3.5" />
                   <span class="hidden sm:inline">{{ isProductionMode ? 'Production' : 'Local' }}</span>
-                  <template v-if="isProductionMode">
-                    <span class="devtools-production-badge">
-                      <span class="devtools-production-dot" />
-                      {{ productionHostname }}
-                    </span>
-                  </template>
+                  <span v-if="isProductionMode" class="devtools-production-badge">
+                    <span class="devtools-production-dot" />
+                    {{ productionHostname }}
+                  </span>
+                  <span v-else-if="isStandalone" class="devtools-remote-badge">
+                    <UIcon name="carbon:plug" class="w-3 h-3" />
+                    {{ standaloneHostname }}
+                  </span>
                   <UIcon name="carbon:chevron-down" class="w-3 h-3 opacity-50 transition-transform" :class="modeDropdownOpen ? 'rotate-180' : ''" />
                 </button>
                 <Transition name="dropdown">
                   <div v-if="modeDropdownOpen" class="mode-dropdown-menu">
-                    <button type="button" class="mode-dropdown-item" @click="selectMode('local')">
+                    <button type="button" class="mode-dropdown-item" :class="!isProductionMode ? 'is-active' : ''" @click="selectMode('local')">
                       <UIcon name="carbon:laptop" class="w-4 h-4" />
                       <span>Local</span>
+                      <UIcon v-if="!isProductionMode" name="carbon:checkmark" class="w-3.5 h-3.5 ml-auto text-[var(--seo-green)]" />
                     </button>
-                    <button type="button" class="mode-dropdown-item" @click="selectMode('production')">
+                    <button
+                      type="button"
+                      class="mode-dropdown-item"
+                      :class="[isProductionMode ? 'is-active' : '', !hasProductionUrl ? 'is-disabled' : '']"
+                      :disabled="!hasProductionUrl"
+                      @click="hasProductionUrl && selectMode('production')"
+                    >
                       <UIcon name="carbon:cloud" class="w-4 h-4" />
                       <span>Production</span>
-                      <span class="devtools-production-badge text-[10px]">
+                      <span v-if="hasProductionUrl" class="devtools-production-badge text-[10px]">
                         <span class="devtools-production-dot" />
                         {{ productionHostname }}
                       </span>
+                      <span v-else class="text-[10px] opacity-60 ml-auto">Set site url</span>
+                      <UIcon v-if="isProductionMode" name="carbon:checkmark" class="w-3.5 h-3.5 ml-1 text-[var(--seo-green)]" />
                     </button>
+                    <!-- Remote connection context: shown when reading from a standalone dev server -->
+                    <template v-if="isStandalone">
+                      <div class="mode-dropdown-divider" />
+                      <div class="mode-dropdown-meta">
+                        <UIcon name="carbon:plug" class="w-3.5 h-3.5 text-[var(--seo-green)]" />
+                        <span class="truncate">{{ standaloneHostname }}</span>
+                      </div>
+                      <button type="button" class="mode-dropdown-item" @click="disconnectStandalone(); modeDropdownOpen = false">
+                        <UIcon name="carbon:logout" class="w-4 h-4" />
+                        <span>Disconnect</span>
+                      </button>
+                    </template>
                   </div>
                 </Transition>
-              </div>
-              <!-- Standalone mode indicator -->
-              <div v-if="isStandalone" class="standalone-indicator">
-                <UIcon name="carbon:plug" class="w-3.5 h-3.5 text-[var(--seo-green)]" />
-                <span class="text-xs font-mono">{{ standaloneHostname }}</span>
-                <UTooltip text="Disconnect">
-                  <button type="button" class="standalone-disconnect" @click="disconnectStandalone">
-                    <UIcon name="carbon:close" class="w-3 h-3" />
-                  </button>
-                </UTooltip>
               </div>
             </div>
           </div>
@@ -406,6 +421,36 @@ function disconnectStandalone() {
 .mode-dropdown-item:hover {
   background: var(--color-surface-sunken);
   color: var(--color-text);
+}
+
+.mode-dropdown-item.is-active {
+  color: var(--color-text);
+}
+
+.mode-dropdown-item.is-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.mode-dropdown-item.is-disabled:hover {
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.mode-dropdown-divider {
+  height: 1px;
+  margin: 4px 0;
+  background: var(--color-border);
+}
+
+.mode-dropdown-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.6875rem;
+  font-family: var(--font-mono);
+  color: var(--color-text-subtle);
 }
 
 .dropdown-enter-active {
