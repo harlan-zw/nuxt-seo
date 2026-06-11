@@ -260,6 +260,10 @@ async function installToolchain(rootDir: string, nuxt: Nuxt, onProgress: (step: 
       nuxt,
     )
     const proc = getProcess()
+    if (!proc) {
+      resolve(false)
+      return
+    }
     proc.on('exit', (code: number | null) => resolve(code === 0 && toolchainInstalled(rootDir)))
     proc.on('error', (err: Error) => {
       console.error(`[nuxt-seo] could not run "${command} ${args.join(' ')}": ${err.message}`)
