@@ -42,23 +42,51 @@
     "test": "vitest",
     "test:run": "vitest run"
   },
-  "dependencies": {
+  "peerDependencies": {
     "@iconify-json/carbon": "catalog:",
-    "@nuxt/devtools-kit": "catalog:",
-    "@nuxt/kit": "catalog:",
     "@nuxt/ui": "catalog:",
     "@shikijs/langs": "catalog:",
     "@shikijs/themes": "catalog:",
+    "shiki": "catalog:",
+    "tailwindcss": "catalog:"
+  },
+  "peerDependenciesMeta": {
+    "@iconify-json/carbon": {
+      "optional": true
+    },
+    "@nuxt/ui": {
+      "optional": true
+    },
+    "@shikijs/langs": {
+      "optional": true
+    },
+    "@shikijs/themes": {
+      "optional": true
+    },
+    "shiki": {
+      "optional": true
+    },
+    "tailwindcss": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@nuxt/devtools-kit": "catalog:",
+    "@nuxt/kit": "catalog:",
     "@vueuse/core": "catalog:",
     "@vueuse/nuxt": "catalog:",
     "nuxtseo-shared": "workspace:*",
     "ofetch": "catalog:",
-    "shiki": "catalog:",
-    "tailwindcss": "catalog:",
     "ufo": "catalog:"
   },
   "devDependencies": {
+    "@iconify-json/carbon": "catalog:",
+    "@nuxt/ui": "catalog:",
+    "@shikijs/langs": "catalog:",
+    "@shikijs/themes": "catalog:",
     "nuxt": "catalog:",
+    "shiki": "catalog:",
+    "tailwindcss": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:"
   }

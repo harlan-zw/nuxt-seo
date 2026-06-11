@@ -1,0 +1,40 @@
+{
+  "name": "nuxtseo-devtools",
+  "type": "module",
+  "version": "5.2.6",
+  "description": "DevTools UI toolchain for Nuxt SEO modules. Added automatically the first time you open the Nuxt SEO DevTools panel; not used in production.",
+  "author": {
+    "name": "Harlan Wilton",
+    "email": "harlan@harlanzw.com",
+    "url": "https://harlanzw.com/"
+  },
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/harlan-zw",
+  "homepage": "https://nuxtseo.com/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harlan-zw/nuxt-seo.git",
+    "directory": "packages/devtools"
+  },
+  "bugs": {
+    "url": "https://github.com/harlan-zw/nuxt-seo/issues"
+  },
+  "files": [
+    "README.md"
+  ],
+  "scripts": {
+    "build": "true",
+    "dev:prepare": "true",
+    "stub": "true",
+    "test:attw": "true"
+  },
+  "dependencies": {
+    "@iconify-json/carbon": "catalog:",
+    "@nuxt/ui": "catalog:",
+    "@shikijs/langs": "catalog:",
+    "@shikijs/themes": "catalog:",
+    "nuxtseo-layer-devtools": "workspace:*",
+    "shiki": "catalog:",
+    "tailwindcss": "catalog:"
+  }
+}
