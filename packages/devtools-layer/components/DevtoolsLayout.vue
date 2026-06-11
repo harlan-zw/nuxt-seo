@@ -39,7 +39,7 @@ const emit = defineEmits<{
 
 const moduleInfo = computed(() => moduleName ? findModuleByName(moduleName) : undefined)
 const npmPackage = computed(() => moduleInfo.value?.npm)
-const { hasUpdate, latestVersion } = useModuleUpdate(npmPackage.value, version)
+const { hasUpdate, latestVersion } = useModuleUpdate(npmPackage, () => version)
 
 // Fetch installed modules for the splash screen
 fetchInstalledModules()
