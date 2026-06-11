@@ -24,7 +24,7 @@ export interface DevtoolsHost {
   /** Resolve an app-level provide (e.g. `'usehead'`) regardless of which Vue internal exposes it. */
   inject: <T>(key: string | symbol) => T | undefined
   /** Open a birpc channel to the host, or undefined when the devtools bridge is unavailable. */
-  rpc: <ServerFunctions = Record<string, never>, ClientFunctions = Record<string, never>>(
+  rpc: <ServerFunctions extends object = Record<string, never>, ClientFunctions extends object = Record<string, never>>(
     namespace: string,
     handlers: ClientFunctions,
   ) => BirpcReturn<ServerFunctions, ClientFunctions> | undefined
