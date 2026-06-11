@@ -236,8 +236,9 @@ export function setupDevToolsUI(config: DevToolsUIConfig, resolve: Resolver['res
   // Published packages ship the layer at `<dist>/devtools`, but when a module runs from
   // source in dev (playground importing `../src/module`) it lives at `<root>/devtools`.
   // Prefer the dist-relative path, fall back to the source-relative one.
-  const layerCandidates = [resolve('./devtools'), resolve('../devtools')]
-  const layerDir = layerCandidates.find(dir => existsSync(join(dir, 'nuxt.config.ts'))) ?? layerCandidates[0]
+  const layerFallback = resolve('./devtools')
+  const layerCandidates = [layerFallback, resolve('../devtools')]
+  const layerDir = layerCandidates.find(dir => existsSync(join(dir, 'nuxt.config.ts'))) ?? layerFallback
   const isLayer = existsSync(join(layerDir, 'nuxt.config.ts')) && !existsSync(join(layerDir, 'index.html'))
 
   registerSharedRpcOnce(nuxt)

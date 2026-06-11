@@ -19,7 +19,7 @@ Icons use the Iconify format. Convention: `carbon:*` prefix for consistency.
 
 | Component | Props | Key Slots | Purpose |
 |---|---|---|---|
-| `DevtoolsLayout` | `title`, `icon`, `version?`, `moduleName?`, `npmPackage?`, `navItems: DevtoolsNavItem[]`, `githubUrl`, `loading?` | `actions`, default | Main shell with header, tabs, refresh, module splash, standalone mode, production mode. Pass `npmPackage` to enable update check indicator on version badge. |
+| `DevtoolsLayout` | `title`, `icon`, `version?`, `moduleName?`, `navItems: DevtoolsNavItem[]`, `githubUrl`, `loading?` | `actions`, default | Main shell with header, tabs, refresh, module splash, standalone mode, production mode. The npm package + update-check indicator and the debug-tab `DevtoolsTroubleshooting` section are derived automatically from `moduleName` (via the modules catalog) — there is NO `npmPackage` prop, and you do not render troubleshooting yourself. |
 | `DevtoolsPanel` | `title?`, `icon?`, `closable?` (false), `padding?` (true) | `header`, `actions`, default | Card container. Emits `close` when closable button clicked. |
 | `DevtoolsToolbar` | `variant` ('default'\|'minimal') | default | Horizontal toolbar strip |
 | `DevtoolsSection` | `icon?`, `text?`, `description?`, `collapse?`, `open?`, `padding?` | `text`, `description`, `actions`, `details`, default, `footer` | Collapsible details/summary block |
@@ -57,7 +57,17 @@ interface DevtoolsNavItem {
 | `OCodeBlock` | `code`, `lang`, `lines?`, `transformRendered?` | none | Shiki syntax highlighted pre |
 | `DevtoolsDocs` | `url` | none | Full height iframe |
 | `DevtoolsPlaygrounds` | `moduleName` | none | StackBlitz playground links with UTabs for variant selection. Reusable standalone or inside other components. Shows nothing if module has no playgrounds. |
-| `DevtoolsTroubleshooting` | `moduleName`, `version?` | none | Guided troubleshooting section: clear .nuxt, debug mode, create repro (with playgrounds), report issue. Shows all installed module versions with copy for GitHub issues. |
+| `DevtoolsTroubleshooting` | `moduleName`, `version?` | none | Guided troubleshooting section: clear .nuxt, debug mode, create repro (with playgrounds), report issue. Shows all installed module versions with copy for GitHub issues. Auto-rendered by `DevtoolsLayout` in the debug tab. |
+
+### Setup Checklist
+
+Centralized SEO setup checklist driven by `composables/checklist.ts`. The detection logic for every module lives in the layer (keyed by module slug) and reads each installed module's `/__<mod>__/debug.json`. Intended for the central/meta client overview, not per-module panels.
+
+| Component | Props | Key Slots | Purpose |
+|---|---|---|---|
+| `DevtoolsSetupChecklist` | none | none | Renders the aggregated per-module checklist (required vs recommended, pass/fail + detail) from `getSetupChecklist()` |
+| `DevtoolsChecklistBadge` | `result: ModuleChecklistResult` | none | Compact pass/pending badge for a module's checklist summary |
+| `DevtoolsChecklistItem` | `item: ChecklistItemResult` | none | Single checklist row (icon, label, description, detail, docs link) |
 
 ### Module Navigation
 
@@ -158,7 +168,33 @@ function useModuleUpdate(npmPackage: string | undefined, currentVersion: string 
 }
 ```
 
-Fetches latest version from npm registry. Results are cached per package name. Already integrated into `DevtoolsLayout` when `npmPackage` prop is provided.
+Fetches latest version from npm registry, cached per package name. Already wired into `DevtoolsLayout` — it resolves the npm package from `moduleName` automatically (no prop to pass).
+
+### Setup Checklist (`composables/checklist.ts`)
+
+```ts
+function getSetupChecklist(): {
+  results: ComputedRef<ModuleChecklistResult[]> // per installed module
+  summary: ComputedRef<ChecklistSummary> // total / passed / requiredPending / recommendedPending
+  loading: Ref<boolean>
+  evaluated: Ref<boolean>
+  evaluate: () => Promise<void> // fetch each module's debug.json + run detections
+  getModuleResult: (slug: string) => ModuleChecklistResult | undefined
+  getModuleResultByName: (devtoolsName: string) => ModuleChecklistResult | undefined
+}
+```
+
+Detection rules for site-config / robots / sitemap / og-image / schema-org / seo-utils are defined in the layer, keyed by module slug, and read each installed module's `/__<mod>__/debug.json`. Surface via `DevtoolsSetupChecklist` (central/meta client).
+
+### Package Manager (`composables/package-manager.ts`)
+
+```ts
+const packageManager: Ref<'pnpm' | 'yarn' | 'bun' | 'npm'>
+function detectPackageManager(): void // detect from the host project
+function pmCommands(): { run: string, exec: string, update: string, dedupe: string }
+```
+
+Used by `DevtoolsTroubleshooting` to print install/run commands in the project's package manager.
 
 ## CSS Design System
 
