@@ -1,4 +1,4 @@
-name: Reusable Nightly
+pnpm/action-setup@v6name: Reusable Nightly
 
 on:
   workflow_call:
@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
       - uses: actions/setup-node@v6
         with:
