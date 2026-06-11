@@ -42,7 +42,7 @@ jobs:
         with:
           node-version: ${{ inputs.node-version }}
           cache: pnpm
-      - run: pnpm i
+      - run: pnpm i --trust-lockfile
       - run: pnpm lint
 
   typecheck:
@@ -54,7 +54,7 @@ jobs:
         with:
           node-version: ${{ inputs.node-version }}
           cache: pnpm
-      - run: pnpm i
+      - run: pnpm i --trust-lockfile
       - run: ${{ inputs.prepare-command }}
       - run: ${{ inputs.typecheck-command }}
       - run: pnpm run --if-present test:attw
@@ -68,7 +68,7 @@ jobs:
         with:
           node-version: ${{ inputs.node-version }}
           cache: pnpm
-      - run: pnpm i
+      - run: pnpm i --trust-lockfile
       - run: ${{ inputs.prepare-command }}
       - run: pnpm build
 
@@ -82,7 +82,7 @@ jobs:
         with:
           node-version: ${{ inputs.node-version }}
           cache: pnpm
-      - run: pnpm i
+      - run: pnpm i --trust-lockfile
       - run: ${{ inputs.prepare-command }}
 
       - name: Cache Playwright browsers
@@ -134,7 +134,7 @@ jobs:
         with:
           node-version: ${{ inputs.node-version }}
           cache: pnpm
-      - run: pnpm i
+      - run: pnpm i --trust-lockfile
       - run: ${{ inputs.prepare-command }}
 
       - name: Cache Playwright browsers

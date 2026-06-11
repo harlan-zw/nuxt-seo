@@ -44,7 +44,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - run: pnpm i
+      - run: pnpm i --trust-lockfile
 
       - if: ${{ inputs.pre-build-command != '' }}
         run: ${{ inputs.pre-build-command }}

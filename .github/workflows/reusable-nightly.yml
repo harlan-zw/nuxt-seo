@@ -41,7 +41,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: pnpm
 
-      - run: pnpm i
+      - run: pnpm i --trust-lockfile
       - run: ${{ inputs.prepare-command }}
 
       - if: ${{ inputs.pre-build-command != '' }}
