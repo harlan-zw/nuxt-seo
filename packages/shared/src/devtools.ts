@@ -5,6 +5,7 @@ import { spawn } from 'node:child_process'
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
+import process from 'node:process'
 import { addCustomTab, extendServerRpc, onDevToolsInitialized } from '@nuxt/devtools-kit'
 import { useNuxt } from '@nuxt/kit'
 import sirv from 'sirv'
@@ -54,9 +55,23 @@ const hashSet = (arr: string[]): string => [...JSON.stringify(arr)].reduce((h, c
 
 function placeholderHtml(): string {
   return `<!doctype html><html><head><meta charset="utf-8"><title>Nuxt SEO DevTools</title>
-<style>html,body{margin:0;height:100%;font-family:'Hubot Sans',system-ui,sans-serif;background:oklch(98.4% 0.005 292);color:oklch(16% 0.036 292)}@media(prefers-color-scheme:dark){html,body{background:oklch(11% 0.029 292);color:oklch(96.8% 0.009 292)}}.wrap{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px}.spin{width:34px;height:34px;border-radius:50%;border:3px solid color-mix(in oklab,oklch(54% 0.225 292) 25%,transparent);border-top-color:oklch(54% 0.225 292);animation:s .8s linear infinite}@keyframes s{to{transform:rotate(360deg)}}h1{font-size:15px;font-weight:600;margin:0}p{font-size:13px;opacity:.6;margin:0}</style></head>
-<body><div class="wrap"><div class="spin"></div><h1>Building Nuxt SEO DevTools…</h1><p>Assembling panels for your installed modules. This runs once.</p></div>
-<script>setInterval(async()=>{try{const r=await fetch('${UNIFIED_CLIENT_ROUTE}/__status');const j=await r.json();if(j.ready)location.reload()}catch{}},1000)</script></body></html>`
+<style>html,body{margin:0;height:100%;font-family:'Hubot Sans',system-ui,sans-serif;background:oklch(98.4% 0.005 292);color:oklch(16% 0.036 292)}@media(prefers-color-scheme:dark){html,body{background:oklch(11% 0.029 292);color:oklch(96.8% 0.009 292)}}.wrap{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}.spin{width:34px;height:34px;border-radius:50%;border:3px solid color-mix(in oklab,oklch(54% 0.225 292) 25%,transparent);border-top-color:oklch(54% 0.225 292);animation:s .8s linear infinite}@keyframes s{to{transform:rotate(360deg)}}h1{font-size:15px;font-weight:600;margin:0}p{font-size:13px;opacity:.6;margin:0}.mods{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:420px}.chip{font-size:11px;padding:2px 9px;border-radius:999px;background:color-mix(in oklab,oklch(54% 0.225 292) 14%,transparent);color:oklch(54% 0.225 292)}.step{font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;opacity:.55;max-width:520px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:16px}.t{font-variant-numeric:tabular-nums;opacity:.85}.err .spin{border-top-color:oklch(60% 0.2 25);border-color:color-mix(in oklab,oklch(60% 0.2 25) 25%,transparent);animation:none}</style></head>
+<body><div class="wrap" id="wrap"><div class="spin"></div><h1 id="title">Building Nuxt SEO DevTools…</h1><div class="mods" id="mods"></div><p>Assembling panels for your installed modules. This runs once.</p><div class="step" id="step"></div></div>
+<script>
+const $=id=>document.getElementById(id)
+let mods=false
+async function poll(){
+  try{
+    const j=await (await fetch('${UNIFIED_CLIENT_ROUTE}/__status')).json()
+    if(j.ready){location.reload();return}
+    if(!mods&&Array.isArray(j.modules)&&j.modules.length){mods=true;$('mods').innerHTML=j.modules.map(m=>'<span class="chip">'+m+'</span>').join('')}
+    if(j.failed){$('wrap').classList.add('err');$('title').textContent='DevTools build failed';$('step').textContent=j.step||'';return}
+    const t=j.elapsed?' · <span class="t">'+Math.round(j.elapsed/1000)+'s</span>':''
+    $('step').innerHTML=(j.step?j.step.replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c])):'')+t
+  }catch{}
+}
+setInterval(poll,800);poll()
+</script></body></html>`
 }
 
 function deriveRoutes(layerDir: string, slug: string): string[] {
@@ -120,7 +135,56 @@ function resolveBaseLayer(installed: SeoDevtoolsEntry[]): string {
   return 'nuxtseo-layer-devtools'
 }
 
-function generateAndBuild(cacheDir: string, installed: SeoDevtoolsEntry[], onReady: () => void): void {
+/**
+ * Resolve the Nuxt CLI entry so we can run the build with the current Node executable.
+ * Relying on a bare `npx` spawn fails with ENOENT in any dev server whose process PATH
+ * doesn't include npx (IDE-launched servers, some Node version managers, certain pnpm
+ * layouts), and Nuxt 4 dropped the standalone `nuxi` package entirely (the `nuxi`/`nuxt`
+ * bins now live in `nuxt` and `@nuxt/cli`), so `npx nuxi` would try to fetch a stale
+ * package.
+ *
+ * We resolve relative to `process.argv[1]` first — that's the CLI entry the running dev
+ * server was launched from, so it pins the build to the exact same Nuxt/CLI install —
+ * then fall back to the project root. Each `bin/nuxt.mjs` / `bin/nuxi.mjs` dispatcher
+ * accepts the `build` subcommand. Returns null when nothing resolves.
+ */
+function resolveNuxtCli(rootDir: string): string | null {
+  const bases = [process.argv[1], join(rootDir, 'index.js')].filter(Boolean) as string[]
+  for (const base of bases) {
+    let req: NodeRequire
+    try {
+      req = createRequire(base)
+    }
+    catch {
+      continue
+    }
+    for (const spec of ['nuxi', 'nuxt', '@nuxt/cli']) {
+      try {
+        const pkgPath = req.resolve(`${spec}/package.json`)
+        const bin = JSON.parse(readFileSync(pkgPath, 'utf8')).bin
+        const rel = typeof bin === 'string' ? bin : (bin?.nuxi ?? bin?.nuxt)
+        if (rel)
+          return join(dirname(pkgPath), rel)
+      }
+      catch {
+        // expected when this CLI package isn't reachable from this base — keep trying
+      }
+    }
+  }
+  return null
+}
+
+/** Strip ANSI colour codes so a build log line is readable in the placeholder UI. */
+const stripAnsi = (s: string): string => s.replace(new RegExp(`${String.fromCharCode(27)}\\[[0-9;]*m`, 'g'), '')
+
+interface BuildHooks {
+  /** Latest human-readable build step (most recent consola/Nuxt status line). */
+  onProgress: (step: string) => void
+  onReady: () => void
+  onError: () => void
+}
+
+function generateAndBuild(cacheDir: string, rootDir: string, installed: SeoDevtoolsEntry[], hooks: BuildHooks): void {
   const routes = ['/', ...installed.flatMap(m => deriveRoutes(m.layerDir, m.slug))]
   const extendsList = [resolveBaseLayer(installed), ...installed.map(m => m.layerDir)]
   mkdirSync(join(cacheDir, 'pages'), { recursive: true })
@@ -141,13 +205,45 @@ export default defineNuxtConfig({
 
   // eslint-disable-next-line no-console
   console.log(`[nuxt-seo] building devtools client for: ${installed.map(m => m.slug).join(', ')}`)
-  const child = spawn('npx', ['nuxi', 'build'], { cwd: cacheDir, stdio: 'inherit' })
+  const cliBin = resolveNuxtCli(rootDir)
+  // Pipe stdout/stderr (instead of inherit) so we can surface the latest build step to
+  // the panel's placeholder, while still forwarding the raw output to the dev terminal.
+  const child = cliBin
+    ? spawn(process.execPath, [cliBin, 'build'], { cwd: cacheDir, stdio: ['inherit', 'pipe', 'pipe'] })
+    : spawn('npx', ['nuxi', 'build'], { cwd: cacheDir, stdio: ['inherit', 'pipe', 'pipe'], shell: true })
+  // Match consola/Nuxt status lines (leading glyph like ℹ ✔ ✨ ⚠ ✖ ● ➜, or a `[scope]`
+  // tag such as `[nitro]`). Whitelisting these keeps the surfaced step readable and skips
+  // the code-frames, carets and box-drawing the build tooling interleaves.
+  const statusLine = /^(?:[ℹ✔✓✨⚠✖✗●➜√]|\[\w)/
+  const forward = (chunk: Buffer, sink: NodeJS.WriteStream): void => {
+    sink.write(chunk)
+    const step = stripAnsi(chunk.toString())
+      .split('\n')
+      .map(l => l.trim())
+      .filter(l => statusLine.test(l))
+      .pop()
+    if (step)
+      hooks.onProgress(step)
+  }
+  child.stdout?.on('data', c => forward(c, process.stdout))
+  child.stderr?.on('data', c => forward(c, process.stderr))
+  // Without an error handler, a spawn failure (e.g. ENOENT) surfaces as an
+  // uncaughtException and takes the whole dev server down with it. Swallow it here and
+  // leave the panel in its "Building…" placeholder instead.
+  child.on('error', (err) => {
+    console.error(`[nuxt-seo] could not build devtools client, the panel will stay unavailable: ${err.message}`)
+    hooks.onError()
+  })
   child.on('exit', (code) => {
     if (code === 0) {
       writeFileSync(join(cacheDir, '.installed-hash'), hashSet(installed.map(m => m.slug).sort()))
-      onReady()
+      hooks.onReady()
       // eslint-disable-next-line no-console
       console.log('[nuxt-seo] devtools client ready')
+    }
+    else {
+      console.error(`[nuxt-seo] devtools client build exited with code ${code}, the panel will stay unavailable`)
+      hooks.onError()
     }
   })
 }
@@ -175,24 +271,58 @@ function setupLayerModule(config: DevToolsUIConfig, layerDir: string, nuxt: Nuxt
 
   const cacheDir = join(nuxt.options.rootDir, 'node_modules/.cache/nuxt-seo-devtools')
   const dist = join(cacheDir, 'dist/devtools')
-  const state = { ready: false }
+  const state = { ready: false, building: false, failed: false, startedAt: 0, step: '', modules: [] as string[] }
+
+  // Build lazily: only the first request to the client route (i.e. when the user actually
+  // opens a devtools panel) kicks off the build, so we never spend time assembling a
+  // client nobody opens during the dev session.
+  function ensureBuilt(): void {
+    if (state.ready || state.building)
+      return
+    state.building = true
+    state.failed = false
+    state.startedAt = Date.now()
+    state.step = 'Starting build…'
+    const installed: SeoDevtoolsEntry[] = (nuxt as any)._seoDevtoolsLayers
+    state.modules = installed.map(m => m.title)
+    generateAndBuild(cacheDir, nuxt.options.rootDir, installed, {
+      onProgress: (step) => {
+        state.step = step
+      },
+      onReady: () => {
+        state.ready = true
+        state.building = false
+      },
+      onError: () => {
+        state.building = false
+        state.failed = true
+        state.step = 'Build failed, see the dev server logs'
+      },
+    })
+  }
 
   nuxt.hook('modules:done', () => {
     const installed: SeoDevtoolsEntry[] = (nuxt as any)._seoDevtoolsLayers
     const key = hashSet(installed.map(m => m.slug).sort())
     state.ready = existsSync(join(cacheDir, '.installed-hash')) && readFileSync(join(cacheDir, '.installed-hash'), 'utf8') === key && existsSync(dist)
-    if (!state.ready)
-      generateAndBuild(cacheDir, installed, () => { state.ready = true })
   })
 
   nuxt.hook('vite:serverCreated', (server) => {
     const serve = sirv(dist, { dev: true, single: '200.html' })
     server.middlewares.use(UNIFIED_CLIENT_ROUTE, (req, res, next) => {
       if ((req.url || '/').startsWith('/__status')) {
+        ensureBuilt()
         res.setHeader('content-type', 'application/json')
-        return res.end(JSON.stringify({ ready: state.ready }))
+        return res.end(JSON.stringify({
+          ready: state.ready,
+          failed: state.failed,
+          step: state.step,
+          modules: state.modules,
+          elapsed: state.startedAt ? Date.now() - state.startedAt : 0,
+        }))
       }
       if (!state.ready) {
+        ensureBuilt()
         res.setHeader('content-type', 'text/html')
         return res.end(placeholderHtml())
       }
