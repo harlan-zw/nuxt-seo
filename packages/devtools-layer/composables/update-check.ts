@@ -1,5 +1,5 @@
-import type { ComputedRef } from 'vue'
-import { computed, ref } from 'vue'
+import type { ComputedRef, MaybeRefOrGetter } from 'vue'
+import { computed, ref, toValue, watch } from 'vue'
 
 export interface ModuleUpdateInfo {
   currentVersion: string
@@ -29,36 +29,42 @@ function isNewerVersion(latest: string, current: string): boolean {
 
 const updateCache = ref<Record<string, ModuleUpdateInfo>>({})
 
-export function useModuleUpdate(npmPackage: string | undefined, currentVersion: string | undefined): { hasUpdate: ComputedRef<boolean>, latestVersion: ComputedRef<string | undefined>, info: ComputedRef<ModuleUpdateInfo | undefined> } {
-  const cacheKey = npmPackage && currentVersion ? `${npmPackage}@${currentVersion}` : undefined
-
-  const info = computed(() => {
-    if (!cacheKey)
-      return undefined
-    return updateCache.value[cacheKey]
+export function useModuleUpdate(npmPackage: MaybeRefOrGetter<string | undefined>, currentVersion: MaybeRefOrGetter<string | undefined>): { hasUpdate: ComputedRef<boolean>, latestVersion: ComputedRef<string | undefined>, info: ComputedRef<ModuleUpdateInfo | undefined> } {
+  // npmPackage/currentVersion are reactive: the version arrives asynchronously from the
+  // host debug data, so resolve them in a watcher rather than reading a setup-time snapshot
+  // (the previous bug — the check ran against an empty version and never updated).
+  const cacheKey = computed(() => {
+    const pkg = toValue(npmPackage)
+    const ver = toValue(currentVersion)
+    return pkg && ver ? `${pkg}@${ver}` : undefined
   })
 
+  const info = computed(() => (cacheKey.value ? updateCache.value[cacheKey.value] : undefined))
   const hasUpdate = computed(() => info.value?.hasUpdate ?? false)
   const latestVersion = computed(() => info.value?.latestVersion)
 
-  if (cacheKey && !updateCache.value[cacheKey]) {
-    fetch(`https://registry.npmjs.org/${npmPackage}/latest`)
+  watch(cacheKey, (key) => {
+    const pkg = toValue(npmPackage)
+    const ver = toValue(currentVersion)
+    if (!key || !pkg || !ver || updateCache.value[key])
+      return
+    fetch(`https://registry.npmjs.org/${pkg}/latest`)
       .then(r => r.json())
       .then((data) => {
         const latest = data.version as string
         if (!latest)
           return
-        updateCache.value[cacheKey] = {
-          currentVersion: currentVersion!,
+        updateCache.value[key] = {
+          currentVersion: ver,
           latestVersion: latest,
-          hasUpdate: isNewerVersion(latest, currentVersion!),
+          hasUpdate: isNewerVersion(latest, ver),
         }
       })
       .catch(() => {
         // Registry checks are advisory; a failed request means no update badge.
         return undefined
       })
-  }
+  }, { immediate: true })
 
   return { hasUpdate, latestVersion, info }
 }
