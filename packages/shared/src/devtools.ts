@@ -8,6 +8,13 @@ import { dirname, join } from 'node:path'
 import { addCustomTab, extendServerRpc, onDevToolsInitialized } from '@nuxt/devtools-kit'
 import { useNuxt } from '@nuxt/kit'
 import sirv from 'sirv'
+import { modules as seoModules } from './const'
+import { detectNuxtSeoModules } from './kit'
+
+/** Resolve a module's npm package name from its devtools slug. */
+function npmForSlug(slug: string): string | undefined {
+  return seoModules.find(m => m.slug === slug)?.npm
+}
 
 export type { BirpcGroup } from 'birpc'
 
@@ -28,6 +35,8 @@ export interface DevToolsUIConfig {
 
 export interface SeoModuleInfo {
   name: string
+  /** npm package name — the stable identifier the client matches installed state on. */
+  npm?: string
   title: string
   icon: string
   route: string
@@ -69,7 +78,24 @@ function registerSharedRpcOnce(nuxt: Nuxt): void {
   (nuxt as any)._seoDevtoolsRpcRegistered = true
   onDevToolsInitialized(() => {
     extendServerRpc('nuxt-seo-modules', {
-      getInstalledSeoModules: (): SeoModuleInfo[] => (nuxt as any)._seoDevtoolsModules || [],
+      // Registered modules (those that shipped a devtools panel) carry the iframe route.
+      // detectNuxtSeoModules adds every *installed* SEO module from nuxt's module list —
+      // independent of whether it self-registered a panel or which shared version it ships —
+      // so the picker reflects the full install (e.g. site-config, which has no panel).
+      getInstalledSeoModules: (): SeoModuleInfo[] => {
+        const byNpm = new Map<string, SeoModuleInfo>()
+        for (const m of ((nuxt as any)._seoDevtoolsModules || []) as SeoModuleInfo[]) {
+          if (m.npm)
+            byNpm.set(m.npm, m)
+        }
+        for (const det of detectNuxtSeoModules(nuxt)) {
+          if (!byNpm.has(det.name)) {
+            const meta = seoModules.find(s => s.npm === det.name)
+            byNpm.set(det.name, { name: meta?.slug ?? det.name, npm: det.name, title: meta?.label ?? det.name, icon: meta?.icon ?? '', route: '' })
+          }
+        }
+        return [...byNpm.values()]
+      },
     }, nuxt)
   }, nuxt)
 }
@@ -136,7 +162,7 @@ function setupLayerModule(config: DevToolsUIConfig, layerDir: string, nuxt: Nuxt
   const clientRoute = `${UNIFIED_CLIENT_ROUTE}/${slug}`
 
   const modules: SeoModuleInfo[] = (nuxt as any)._seoDevtoolsModules ??= []
-  modules.push({ name: config.name, title: config.title, icon: config.icon, route: clientRoute })
+  modules.push({ name: config.name, npm: npmForSlug(slug), title: config.title, icon: config.icon, route: clientRoute })
 
   const layers: SeoDevtoolsEntry[] = (nuxt as any)._seoDevtoolsLayers ??= []
   layers.push({ slug, name: config.name, title: config.title, icon: config.icon, layerDir })
@@ -182,10 +208,11 @@ function setupLayerModule(config: DevToolsUIConfig, layerDir: string, nuxt: Nuxt
  */
 function setupLegacyModule(config: DevToolsUIConfig, clientPath: string, nuxt: Nuxt): void {
   const { name, title, icon, devPort = 3030 } = config
-  const route = config.route ?? `/__${name.replace(/^nuxt-/, '')}`
+  const slug = config.slug ?? name.replace(/^nuxt-/, '')
+  const route = config.route ?? `/__${slug}`
 
   const modules: SeoModuleInfo[] = (nuxt as any)._seoDevtoolsModules ??= []
-  modules.push({ name, title, icon, route })
+  modules.push({ name, npm: npmForSlug(slug), title, icon, route })
 
   const isProductionBuild = existsSync(clientPath) && readdirSync(clientPath).length > 0
   if (isProductionBuild) {

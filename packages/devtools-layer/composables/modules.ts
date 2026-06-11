@@ -7,6 +7,8 @@ import { isConnected } from './state'
 
 export interface SeoModuleInfo {
   name: string
+  /** npm package name — stable identifier used to match installed state. */
+  npm?: string
   title: string
   icon: string
   route: string
@@ -68,11 +70,13 @@ export const showModuleSplash = ref(false)
 
 export const moduleCatalog = computed<SeoModuleCatalogEntry[]>(() => {
   return MODULE_CATALOG.map((entry) => {
-    const installed = installedModules.value.find(m => m.name === entry.name)
+    // Match on npm (stable, returned for every installed module) and fall back to the
+    // devtools name for older servers that only sent self-registered panels.
+    const installed = installedModules.value.find(m => (m.npm && m.npm === entry.npm) || m.name === entry.name)
     return {
       ...entry,
       installed: !!installed,
-      route: installed?.route,
+      route: installed?.route || undefined,
     }
   })
 })
