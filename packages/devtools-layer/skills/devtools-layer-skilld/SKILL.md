@@ -13,106 +13,155 @@ Shared Nuxt layer providing components, composables, and a design system for all
 
 The layer registers these Nuxt modules, so all consumers have them available without extra config:
 
-- **`@nuxt/ui`** (v4): Full component library. Use `UButton`, `UBadge`, `UIcon`, `UInput`, `UTooltip`, `UApp`, etc. freely in devtools clients. Default variants configured via `app.config.ts` (primary: green, buttons: ghost/neutral/sm, badges: subtle/neutral/xs, tooltips: zero delay).
+- **`@nuxt/ui`** (v4): Full component library. Use `UButton`, `UBadge`, `UIcon`, `UInput`, `UTooltip`, `UApp`, etc. freely. Default variants via `app.config.ts` (primary green, buttons ghost/neutral/sm, badges subtle/neutral/xs, tooltips zero delay).
 - **`@vueuse/nuxt`**: All VueUse composables auto imported.
 - **Shiki**: Syntax highlighting via the layer's `loadShiki` / `useRenderCodeHighlight` composables.
 
-## Architecture
+## Architecture (Model C — source layer, assembled)
 
-1. **nuxtseo-shared/devtools** (`packages/shared/src/devtools.ts`): `setupDevToolsUI()` registers iframe tab, handles dev proxy + production sirv
-2. **nuxtseo-layer-devtools** (`packages/devtools-layer/`): Nuxt layer with shared UI, composables, CSS
-3. **Module client** (`<module>/client/`): Extends the layer, adds module specific UI and debug routes
+Each module ships its devtools panel as a **source layer** under `devtools/`. It is NOT a standalone app the module builds itself.
+
+1. **nuxtseo-shared/devtools** (`packages/shared/src/devtools.ts`): `setupDevToolsUI()` registers the Nuxt DevTools iframe tab. In dev it **assembles every installed SEO module's `devtools/` layer + the base layer into one unified client**, builds it once, and serves it at `/__nuxt-seo-devtools/<slug>` (one route per module). The module never extends the layer itself — the assembler writes the extending config.
+2. **nuxtseo-layer-devtools** (`packages/devtools-layer/`): the base layer — shared components, composables, CSS, fonts.
+3. **Module client** (`<module>/devtools/`): pages + lib for that module's panel. Extended by the assembler; renders at `/__nuxt-seo-devtools/<slug>`.
 
 ## Rules
 
-1. ALWAYS extend `nuxtseo-layer-devtools` in client/nuxt.config.ts
-2. ALWAYS create `client/composables/rpc.ts` that calls `useDevtoolsConnection()`
-3. ALWAYS use layer components over custom HTML: `DevtoolsSection` not custom details, `DevtoolsKeyValue` not custom tables, `DevtoolsSnippet` not custom code blocks. Use `KeyValueItem.code` for inline code rendering instead of separate snippets
-4. ALWAYS use `@nuxt/ui` components (`UButton`, `UInput`, `UBadge`, `UIcon`, `UTooltip`, etc.) for interactive elements. Never add a custom button, input, badge, or tooltip when a Nuxt UI component exists.
-5. NEVER add custom CSS that duplicates what the layer or Nuxt UI provides
-6. NEVER enable SSR in the client (it runs in an iframe)
-7. ALWAYS disable the module itself in the client nuxt config (e.g. `robots: false`)
-8. ALWAYS guard devtools setup with `if (nuxt.options.dev)` in module.ts
-9. ALWAYS use `useAsyncData` with `watch: [refreshTime]` for reactive data fetching
-10. Use Carbon icons consistently (prefix: `carbon:`)
-11. Debug server routes ONLY registered in dev mode
+1. **Module `devtools/nuxt.config.ts` is empty** — `export default defineNuxtConfig({})`. The assembler wires the layer extension. Only add `components: [{ path: resolve(__dirname, './components'), pathPrefix: false }]` if the module ships its own `components/<mod>/` UI.
+2. **Use EXPLICIT imports for layer composables** — `import { useDevtoolsConnection } from 'nuxtseo-layer-devtools/composables/rpc'`, `import { appFetch } from '.../composables/rpc'`, `import { isProductionMode, path, refreshTime } from '.../composables/state'`, `import { loadShiki } from '.../composables/shiki'`. Do NOT rely on auto-imports / `#imports` for layer composables (`#imports` is fine for Nuxt built-ins like `navigateTo`, `useRoute`, `useAsyncData`).
+3. **The consuming module's root `tsconfig.json` MUST exclude both `dist` and `devtools`.** The devtools client is a separate layer-extended app, typechecked only when assembled — never at the module root. Omitting `dist` lets the `client:build` copy get typechecked in the wrong context (no layer auto-imports, drags the layer's raw `.ts` in) and breaks `nuxt typecheck`.
+4. ALWAYS use layer components over custom HTML: `DevtoolsSection` not custom details, `DevtoolsKeyValue` not custom tables, `DevtoolsSnippet`/`OCodeBlock` not custom code blocks, `DevtoolsPanel` not a custom card, `DevtoolsEmptyState`/`DevtoolsLoading`/`DevtoolsAlert` not custom equivalents. Use `KeyValueItem.code` for inline code instead of separate snippets.
+5. ALWAYS use `@nuxt/ui` components (`UButton`, `UInput`, `UBadge`, `UIcon`, `UTooltip`, etc.) for interactive elements. Never hand-roll a button/input/badge/tooltip.
+6. NEVER add custom CSS that duplicates what the layer or Nuxt UI provides.
+7. NEVER enable SSR in the client (it runs in an iframe) — the layer already sets `ssr: false`.
+8. ALWAYS disable the module itself in the assembled client (the base layer sets `robots: false`, `sitemap: false`, `content: false`).
+9. ALWAYS guard devtools setup with `if (nuxt.options.dev)` in `module.ts`; debug server routes are dev-only.
+10. Debug endpoint convention: `/__<module>__/debug.json` (og-image is the historical exception: `/_og/debug.json`).
+11. Use Carbon icons consistently (`carbon:` prefix). Give the debug tab `devOnly: true`; redirect dev-only tabs to the index in production via an `isProductionMode` watch.
 
 ## Required File Structure
 
 ```
-client/
-├── nuxt.config.ts          # extends nuxtseo-layer-devtools
-├── app.vue                 # OR pages/ directory
-├── composables/
-│   └── rpc.ts              # connection setup (REQUIRED)
+devtools/
+├── nuxt.config.ts              # empty defineNuxtConfig({}) (+ components reg only if components/ exists)
+├── pages/
+│   ├── <mod>.vue               # DevtoolsLayout shell + <NuxtPage/> (REQUIRED)
+│   └── <mod>/
+│       ├── index.vue           # overview tab
+│       ├── debug.vue           # devOnly tab
+│       ├── docs.vue            # <DevtoolsDocs url=.../>
+│       └── <other-tabs>.vue
+├── lib/<mod>/
+│   ├── state.ts                # data ref + refreshSources() + watch (REQUIRED)
+│   └── rpc.ts                  # useDevtoolsConnection() (REQUIRED)
+└── components/<mod>/           # OPTIONAL: module-specific UI only
 src/
-├── devtools.ts             # calls setupDevToolsUI from nuxtseo-shared/devtools
-├── module.ts               # calls setupDevToolsUI in dev, registers debug routes
+├── devtools.ts                 # wraps setupDevToolsUI from nuxtseo-shared/devtools
+├── module.ts                   # setupDevToolsUI(dev only) + registers debug route
 └── runtime/server/routes/__<module>__/
-    └── debug.ts            # JSON debug endpoint
+    └── debug.json.ts           # JSON debug endpoint
 ```
 
 ## Implementation Templates
 
 For full component/composable API reference, read [reference.md](./reference.md).
 
-### client/nuxt.config.ts
+### devtools/nuxt.config.ts
 
 ```ts
-export default defineNuxtConfig({
-  extends: ['nuxtseo-layer-devtools'],
-  // <moduleName>: false,
-  app: { baseURL: '/__<module-route>' },
-  nitro: { output: { publicDir: resolve('./dist/client') } },
+// Assembled by nuxtseo-shared in the user's project; this extends the base layer there.
+export default defineNuxtConfig({})
+```
+
+### devtools/lib/<mod>/rpc.ts
+
+```ts
+import { useDevtoolsConnection } from 'nuxtseo-layer-devtools/composables/rpc'
+
+// The layer's connection plugin already wires appFetch + route tracking and refreshes
+// on connect; state.ts watches refreshTime to reload data, so no module host access here.
+useDevtoolsConnection()
+```
+
+### devtools/lib/<mod>/state.ts
+
+```ts
+import type { DebugData } from './types'
+import { appFetch } from 'nuxtseo-layer-devtools/composables/rpc'
+import { path, productionUrl, refreshTime } from 'nuxtseo-layer-devtools/composables/state'
+import { ref, watch } from 'vue'
+
+export const data = ref<DebugData | null>(null)
+
+export async function refreshSources() {
+  if (!appFetch.value)
+    return
+  data.value = await appFetch.value('/__<mod>__/debug.json', { query: { path: path.value } }).catch(() => null)
+  if (data.value?.siteConfig?.url)
+    productionUrl.value = data.value.siteConfig.url
+}
+
+watch([path, appFetch, refreshTime], () => {
+  refreshSources()
 })
 ```
 
-### client/composables/rpc.ts
-
-```ts
-useDevtoolsConnection({
-  onConnected() { refreshSources() },
-  onRouteChange() { refreshSources() },
-})
-```
-
-### src/devtools.ts
-
-```ts
-import { setupDevToolsUI as _setup } from 'nuxtseo-shared/devtools'
-
-export function setupDevToolsUI(config: any, resolve: Resolver['resolve'], nuxt?: Nuxt) {
-  return _setup({ route: '/__<route>', name: '<name>', title: '<Title>', icon: 'carbon:<icon>' }, resolve, nuxt)
-}
-```
-
-### src/module.ts
-
-```ts
-if (nuxt.options.dev) {
-  addServerHandler({ route: '/__<module>__/debug', handler: resolve('./runtime/server/routes/__<module>__/debug') })
-  setupDevToolsUI(config, resolve)
-}
-```
-
-### app.vue pattern
+### devtools/pages/<mod>.vue (shell)
 
 ```vue
 <script setup lang="ts">
-const activeTab = ref('overview')
-const loading = ref(true)
-const { data } = await useAsyncData('debug', () => $fetch('/__<module>__/debug.json'), { watch: [refreshTime] })
-watch(data, () => {
-  loading.value = false
+import { isProductionMode } from 'nuxtseo-layer-devtools/composables/state'
+import { computed, watch } from 'vue'
+import { navigateTo, useRoute } from '#imports'
+import { data, refreshSources } from '../lib/<mod>/state'
+import '../lib/<mod>/rpc'
+
+const route = useRoute()
+const currentTab = computed(() => {
+  const p = route.path
+  if (p.startsWith('/<mod>/debug'))
+    return 'debug'
+  if (p.startsWith('/<mod>/docs'))
+    return 'docs'
+  return 'overview'
+})
+const navItems = [
+  { value: 'overview', to: '/<mod>', icon: 'carbon:dashboard', label: 'Overview', devOnly: false },
+  { value: 'debug', to: '/<mod>/debug', icon: 'carbon:debug', label: 'Debug', devOnly: true },
+  { value: 'docs', to: '/<mod>/docs', icon: 'carbon:book', label: 'Docs', devOnly: false },
+]
+const version = computed(() => data.value?.runtimeConfig?.version || '')
+
+watch(isProductionMode, (isProd) => {
+  if (isProd && currentTab.value === 'debug')
+    return navigateTo('/<mod>')
 })
 </script>
 
 <template>
-  <DevtoolsLayout v-model:active-tab="activeTab" title="Name" icon="carbon:icon" module-name="nuxt-<module>" :nav-items="navItems" github-url="..." :loading @refresh="refreshSources">
-    <DevtoolsLoading v-if="loading" />
-    <template v-else-if="activeTab === 'overview'">
-      <!-- content -->
-    </template>
+  <DevtoolsLayout
+    v-model:active-tab="currentTab"
+    module-name="nuxt-<module>"
+    title="Title"
+    icon="carbon:icon"
+    :version="version"
+    :nav-items="navItems"
+    github-url="https://github.com/..."
+    :loading="!data"
+    @refresh="refreshSources"
+  >
+    <NuxtPage />
   </DevtoolsLayout>
 </template>
+```
+
+`DevtoolsLayout` derives the npm package + update-check and renders `DevtoolsTroubleshooting` in the debug tab automatically from `module-name` — do not pass an `npmPackage` prop or hand-roll troubleshooting.
+
+### src/module.ts (dev only)
+
+```ts
+if (nuxt.options.dev) {
+  addServerHandler({ route: '/__<module>__/debug.json', handler: resolve('./runtime/server/routes/__<module>__/debug.json') })
+  setupDevToolsUI(config, resolve)
+}
 ```
