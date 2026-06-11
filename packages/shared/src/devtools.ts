@@ -3,7 +3,8 @@ import type { BirpcGroup } from 'birpc'
 import type { Nuxt } from 'nuxt/schema'
 import { spawn } from 'node:child_process'
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { createRequire } from 'node:module'
+import { dirname, join } from 'node:path'
 import { addCustomTab, extendServerRpc, onDevToolsInitialized } from '@nuxt/devtools-kit'
 import { useNuxt } from '@nuxt/kit'
 import sirv from 'sirv'
@@ -73,9 +74,29 @@ function registerSharedRpcOnce(nuxt: Nuxt): void {
   }, nuxt)
 }
 
+/**
+ * Resolve the base devtools layer to an absolute path from a module's own dependency
+ * context. A bare `extends: ['nuxtseo-layer-devtools']` only resolves when the user's
+ * app installs the layer directly — with pnpm's isolated layout, a module's transitive
+ * dep never lands in the app root node_modules, so the assembled client must extend an
+ * absolute path instead.
+ */
+function resolveBaseLayer(installed: SeoDevtoolsEntry[]): string {
+  for (const m of installed) {
+    try {
+      return dirname(createRequire(join(m.layerDir, 'index.js')).resolve('nuxtseo-layer-devtools'))
+    }
+    catch {
+      // expected when this module doesn't depend on the layer — try the next one
+    }
+  }
+  console.warn('[nuxt-seo] could not resolve nuxtseo-layer-devtools from any installed SEO module — add it to the module\'s dependencies. Falling back to a bare specifier, which only works when your app installs it directly.')
+  return 'nuxtseo-layer-devtools'
+}
+
 function generateAndBuild(cacheDir: string, installed: SeoDevtoolsEntry[], onReady: () => void): void {
   const routes = ['/', ...installed.flatMap(m => deriveRoutes(m.layerDir, m.slug))]
-  const extendsList = ['nuxtseo-layer-devtools', ...installed.map(m => m.layerDir)]
+  const extendsList = [resolveBaseLayer(installed), ...installed.map(m => m.layerDir)]
   mkdirSync(join(cacheDir, 'pages'), { recursive: true })
   writeFileSync(join(cacheDir, 'nuxt.config.ts'), `import { resolve } from 'pathe'
 export default defineNuxtConfig({
