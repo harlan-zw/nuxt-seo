@@ -303,26 +303,46 @@ export default defineNuxtConfig({
   // tag such as `[nitro]`). Whitelisting these keeps the surfaced step readable and skips
   // the code-frames, carets and box-drawing the build tooling interleaves.
   const statusLine = /^(?:[ℹ✔✓✨⚠✖✗●➜√]|\[\w)/
-  const forward = (chunk: Buffer, sink: NodeJS.WriteStream): void => {
-    sink.write(chunk)
+  // Buffer the raw build output instead of streaming it to the dev terminal: only the
+  // latest step is shown (surfaced to the panel via onProgress and echoed as a single
+  // `[nuxt-seo]` line), and the full log is dumped only if the build fails (see the exit
+  // handler), keeping the dev terminal quiet.
+  const buffered: Buffer[] = []
+  let drawing = false
+  const capture = (chunk: Buffer): void => {
+    buffered.push(chunk)
     const step = stripAnsi(chunk.toString())
       .split('\n')
       .map(l => l.trim())
       .filter(l => statusLine.test(l))
       .pop()
-    if (step)
+    if (step) {
       hooks.onProgress(step)
+      // Redraw the step in place (carriage return + clear-to-end) so the dev terminal
+      // shows a single updating line instead of one line per build step.
+      process.stdout.write(`\r\x1B[2K[nuxt-seo] ${step}`)
+      drawing = true
+    }
   }
-  child.stdout?.on('data', c => forward(c, process.stdout))
-  child.stderr?.on('data', c => forward(c, process.stderr))
+  // Terminate the in-place line so subsequent logs start on a fresh line.
+  const endLine = (): void => {
+    if (drawing) {
+      process.stdout.write('\n')
+      drawing = false
+    }
+  }
+  child.stdout?.on('data', capture)
+  child.stderr?.on('data', capture)
   // Without an error handler, a spawn failure (e.g. ENOENT) surfaces as an
   // uncaughtException and takes the whole dev server down with it. Swallow it here and
   // leave the panel in its "Building…" placeholder instead.
   child.on('error', (err) => {
+    endLine()
     console.error(`[nuxt-seo] could not build devtools client, the panel will stay unavailable: ${err.message}`)
     hooks.onError()
   })
   child.on('exit', (code) => {
+    endLine()
     if (code === 0) {
       writeFileSync(join(cacheDir, '.installed-hash'), hashSet(installed.map(m => m.slug).sort()))
       hooks.onReady()
@@ -330,6 +350,8 @@ export default defineNuxtConfig({
       console.log('[nuxt-seo] devtools client ready')
     }
     else {
+      // Dump the buffered build output so the failure is actually debuggable.
+      process.stderr.write(Buffer.concat(buffered))
       console.error(`[nuxt-seo] devtools client build exited with code ${code}, the panel will stay unavailable`)
       hooks.onError()
     }
