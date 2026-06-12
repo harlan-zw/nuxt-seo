@@ -44,6 +44,16 @@ minimumReleaseAgeExclude:
   - sharp@0.35.0
   - site-config-stack@4.1.0
   - nuxt-skew-protection@1.2.0
+  - '@vue/compiler-core@3.5.38'
+  - '@vue/compiler-dom@3.5.38'
+  - '@vue/compiler-sfc@3.5.38'
+  - '@vue/compiler-ssr@3.5.38'
+  - '@vue/reactivity@3.5.38'
+  - '@vue/runtime-core@3.5.38'
+  - '@vue/runtime-dom@3.5.38'
+  - '@vue/server-renderer@3.5.38'
+  - '@vue/shared@3.5.38'
+  - vue@3.5.38
 # pnpm 11 reads these from pnpm-workspace.yaml, not .npmrc.
 # @nuxtjs/i18n resolves its private @intlify/* + vue-i18n deps via @nuxt/kit's
 # resolveModule, which only searches root node_modules, so hoist just those
@@ -89,7 +99,7 @@ catalog:
   '@vue/test-utils': ^2.4.11
   '@vueuse/core': ^14.3.0
   '@vueuse/nuxt': ^14.3.0
-  better-sqlite3: ^12.8.0
+  better-sqlite3: ^12.10.0
   birpc: ^4.0.0
   bumpp: ^11.1.0
   consola: ^3.4.2
@@ -126,7 +136,7 @@ catalog:
   ufo: ^1.6.4
   unbuild: ^3.6.1
   vitest: ^4.1.8
-  vue: ^3.5.35
+  vue: ^3.5.38
   vue-tsc: ^3.3.4
   zod: ^4.4.3
 
