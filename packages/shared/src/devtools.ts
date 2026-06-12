@@ -6,8 +6,9 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 
 import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
 import process from 'node:process'
-import { addCustomTab, extendServerRpc, onDevToolsInitialized } from '@nuxt/devtools-kit'
+import { addCustomTab, extendServerRpc, onDevToolsInitialized, startSubprocess } from '@nuxt/devtools-kit'
 import { useNuxt } from '@nuxt/kit'
+import { detectPackageManager } from 'nypm'
 import sirv from 'sirv'
 import { modules as seoModules } from './const'
 import { detectNuxtSeoModules } from './kit'
@@ -21,6 +22,14 @@ export type { BirpcGroup } from 'birpc'
 
 /** Origin-root route the assembled (layer-mode) devtools client is served from. */
 export const UNIFIED_CLIENT_ROUTE = '/__nuxt-seo-devtools'
+
+/**
+ * The devtools layer carries the UI build toolchain (`@nuxt/ui`, shiki, tailwind, Carbon icons)
+ * as its own dependencies. SEO modules depend on it only as a `devDependency`, so a normal
+ * install never pulls it (or the toolchain) into production. It is added to the user's
+ * devDependencies on demand — with their consent — the first time a panel is opened.
+ */
+const TOOLCHAIN_PACKAGE = 'nuxtseo-layer-devtools'
 
 export interface DevToolsUIConfig {
   /** Per-module route used by the legacy prebuilt-client mode. */
@@ -55,19 +64,40 @@ const hashSet = (arr: string[]): string => [...JSON.stringify(arr)].reduce((h, c
 
 function placeholderHtml(): string {
   return `<!doctype html><html><head><meta charset="utf-8"><title>Nuxt SEO DevTools</title>
-<style>html,body{margin:0;height:100%;font-family:'Hubot Sans',system-ui,sans-serif;background:oklch(98.4% 0.005 292);color:oklch(16% 0.036 292)}@media(prefers-color-scheme:dark){html,body{background:oklch(11% 0.029 292);color:oklch(96.8% 0.009 292)}}.wrap{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}.spin{width:34px;height:34px;border-radius:50%;border:3px solid color-mix(in oklab,oklch(54% 0.225 292) 25%,transparent);border-top-color:oklch(54% 0.225 292);animation:s .8s linear infinite}@keyframes s{to{transform:rotate(360deg)}}h1{font-size:15px;font-weight:600;margin:0}p{font-size:13px;opacity:.6;margin:0}.mods{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:420px}.chip{font-size:11px;padding:2px 9px;border-radius:999px;background:color-mix(in oklab,oklch(54% 0.225 292) 14%,transparent);color:oklch(54% 0.225 292)}.step{font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;opacity:.55;max-width:520px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:16px}.t{font-variant-numeric:tabular-nums;opacity:.85}.err .spin{border-top-color:oklch(60% 0.2 25);border-color:color-mix(in oklab,oklch(60% 0.2 25) 25%,transparent);animation:none}</style></head>
-<body><div class="wrap" id="wrap"><div class="spin"></div><h1 id="title">Building Nuxt SEO DevTools…</h1><div class="mods" id="mods"></div><p>Assembling panels for your installed modules. This runs once.</p><div class="step" id="step"></div></div>
+<style>html,body{margin:0;height:100%;font-family:'Hubot Sans',system-ui,sans-serif;background:oklch(98.4% 0.005 292);color:oklch(16% 0.036 292)}@media(prefers-color-scheme:dark){html,body{background:oklch(11% 0.029 292);color:oklch(96.8% 0.009 292)}}.wrap{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;text-align:center}.spin{width:34px;height:34px;border-radius:50%;border:3px solid color-mix(in oklab,oklch(54% 0.225 292) 25%,transparent);border-top-color:oklch(54% 0.225 292);animation:s .8s linear infinite}@keyframes s{to{transform:rotate(360deg)}}h1{font-size:15px;font-weight:600;margin:0}p{font-size:13px;opacity:.6;margin:0;max-width:440px}.mods{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:420px}.chip{font-size:11px;padding:2px 9px;border-radius:999px;background:color-mix(in oklab,oklch(54% 0.225 292) 14%,transparent);color:oklch(54% 0.225 292)}.btn{font:inherit;font-size:13px;font-weight:600;padding:7px 16px;border-radius:8px;border:0;background:oklch(54% 0.225 292);color:#fff;cursor:pointer}.btn:hover{background:oklch(49% 0.225 292)}.btn:disabled{opacity:.6;cursor:default}.hide{display:none}.step{font-size:12px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;opacity:.55;max-width:520px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-height:16px}.t{font-variant-numeric:tabular-nums;opacity:.85}.err .spin{border-top-color:oklch(60% 0.2 25);border-color:color-mix(in oklab,oklch(60% 0.2 25) 25%,transparent);animation:none}</style></head>
+<body><div class="wrap" id="wrap"><div class="spin" id="spin"></div><h1 id="title">Nuxt SEO DevTools</h1><div class="mods" id="mods"></div><p id="desc">Starting…</p><button class="btn hide" id="install">Install</button><div class="step" id="step"></div></div>
 <script>
 const $=id=>document.getElementById(id)
-let mods=false
+const esc=s=>(s||'').replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]))
+let mods=false,clicked=false
+$('install').addEventListener('click',async()=>{
+  clicked=true
+  $('install').disabled=true;$('install').classList.add('hide')
+  $('spin').classList.remove('hide')
+  $('title').textContent='Installing…'
+  $('desc').textContent='Adding the dev-only DevTools UI to your project.'
+  try{await fetch('${UNIFIED_CLIENT_ROUTE}/__install')}catch{}
+})
 async function poll(){
   try{
     const j=await (await fetch('${UNIFIED_CLIENT_ROUTE}/__status')).json()
     if(j.ready){location.reload();return}
-    if(!mods&&Array.isArray(j.modules)&&j.modules.length){mods=true;$('mods').innerHTML=j.modules.map(m=>'<span class="chip">'+m+'</span>').join('')}
-    if(j.failed){$('wrap').classList.add('err');$('title').textContent='DevTools build failed';$('step').textContent=j.step||'';return}
+    if(!mods&&Array.isArray(j.modules)&&j.modules.length){mods=true;$('mods').innerHTML=j.modules.map(m=>'<span class="chip">'+esc(m)+'</span>').join('')}
+    if(j.failed){$('wrap').classList.add('err');$('spin').classList.remove('hide');$('install').classList.add('hide');$('title').textContent='DevTools unavailable';$('desc').textContent='';$('step').textContent=j.step||'';return}
+    if(j.needsInstall&&!clicked){
+      const pkg=j.packageName||'nuxtseo-devtools'
+      $('spin').classList.add('hide')
+      $('install').classList.remove('hide');$('install').disabled=false;$('install').textContent='Install '+pkg
+      $('title').textContent='Nuxt SEO DevTools'
+      $('desc').textContent='The panel needs '+pkg+' (dev only). Installing it adds the package to your devDependencies; nothing is changed until you choose to install.'
+      $('step').textContent=''
+      return
+    }
+    $('spin').classList.remove('hide');$('install').classList.add('hide')
+    $('title').textContent=j.installing?'Installing…':'Building Nuxt SEO DevTools…'
+    $('desc').textContent=j.installing?'Adding the dev-only DevTools UI to your project.':'Assembling panels for your installed modules. This runs once.'
     const t=j.elapsed?' · <span class="t">'+Math.round(j.elapsed/1000)+'s</span>':''
-    $('step').innerHTML=(j.step?j.step.replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c])):'')+t
+    $('step').innerHTML=esc(j.step)+t
   }catch{}
 }
 setInterval(poll,800);poll()
@@ -181,7 +211,65 @@ interface BuildHooks {
   /** Latest human-readable build step (most recent consola/Nuxt status line). */
   onProgress: (step: string) => void
   onReady: () => void
-  onError: () => void
+  onError: (message?: string) => void
+}
+
+/**
+ * Has the devtools layer (and its bundled toolchain) been provisioned? We resolve the layer's
+ * bare specifier rather than `<pkg>/package.json` — the layer's `exports` map doesn't expose
+ * `./package.json`, so the subpath would throw ERR_PACKAGE_PATH_NOT_EXPORTED even when installed.
+ */
+function toolchainInstalled(rootDir: string): boolean {
+  try {
+    createRequire(join(rootDir, 'index.js')).resolve(TOOLCHAIN_PACKAGE)
+    return true
+  }
+  catch {
+    return false
+  }
+}
+
+/** Build the per-package-manager `add devDependency` argv for the detected client. */
+async function devAddArgs(rootDir: string): Promise<{ command: string, args: string[] }> {
+  const pm = await detectPackageManager(rootDir).catch(() => null)
+  const name = pm?.name ?? 'npm'
+  if (name === 'npm')
+    return { command: 'npm', args: ['install', '--save-dev', TOOLCHAIN_PACKAGE] }
+  if (name === 'yarn')
+    return { command: 'yarn', args: ['add', '--dev', TOOLCHAIN_PACKAGE] }
+  // pnpm, bun, deno
+  return { command: name, args: ['add', '-D', TOOLCHAIN_PACKAGE] }
+}
+
+/**
+ * Install the DevTools UI toolchain into the user's devDependencies. Runs as a DevTools-tracked
+ * subprocess (`startSubprocess`) so the output streams into the DevTools terminal panel, and the
+ * package manager's own `add` updates `package.json` + the lockfile. Only ever called after the
+ * user opts in via the panel's Install button — never silently. Resolves to whether the toolchain
+ * is resolvable afterwards.
+ */
+async function installToolchain(rootDir: string, nuxt: Nuxt, onProgress: (step: string) => void): Promise<boolean> {
+  const { command, args } = await devAddArgs(rootDir)
+  onProgress(`Installing ${TOOLCHAIN_PACKAGE} with ${command}…`)
+  return await new Promise<boolean>((resolve) => {
+    // Pass `nuxt` explicitly: this runs inside a Vite middleware request, where `useNuxt()`
+    // (startSubprocess's default) has no active async context and would throw.
+    const { getProcess } = startSubprocess(
+      { command, args, cwd: rootDir },
+      { id: 'nuxt-seo:install-devtools', name: `Install ${TOOLCHAIN_PACKAGE}`, icon: 'carbon:download' },
+      nuxt,
+    )
+    const proc = getProcess()
+    if (!proc) {
+      resolve(false)
+      return
+    }
+    proc.on('exit', (code: number | null) => resolve(code === 0 && toolchainInstalled(rootDir)))
+    proc.on('error', (err: Error) => {
+      console.error(`[nuxt-seo] could not run "${command} ${args.join(' ')}": ${err.message}`)
+      resolve(false)
+    })
+  })
 }
 
 function generateAndBuild(cacheDir: string, rootDir: string, installed: SeoDevtoolsEntry[], hooks: BuildHooks): void {
@@ -271,7 +359,8 @@ function setupLayerModule(config: DevToolsUIConfig, layerDir: string, nuxt: Nuxt
 
   const cacheDir = join(nuxt.options.rootDir, 'node_modules/.cache/nuxt-seo-devtools')
   const dist = join(cacheDir, 'dist/devtools')
-  const state = { ready: false, building: false, failed: false, startedAt: 0, step: '', modules: [] as string[] }
+  const state = { ready: false, building: false, installing: false, needsInstall: false, failed: false, startedAt: 0, step: '', modules: [] as string[] }
+  const rootDir = nuxt.options.rootDir
 
   // Build lazily: only the first request to the client route (i.e. when the user actually
   // opens a devtools panel) kicks off the build, so we never spend time assembling a
@@ -285,7 +374,7 @@ function setupLayerModule(config: DevToolsUIConfig, layerDir: string, nuxt: Nuxt
     state.step = 'Starting build…'
     const installed: SeoDevtoolsEntry[] = (nuxt as any)._seoDevtoolsLayers
     state.modules = installed.map(m => m.title)
-    generateAndBuild(cacheDir, nuxt.options.rootDir, installed, {
+    generateAndBuild(cacheDir, rootDir, installed, {
       onProgress: (step) => {
         state.step = step
       },
@@ -293,11 +382,40 @@ function setupLayerModule(config: DevToolsUIConfig, layerDir: string, nuxt: Nuxt
         state.ready = true
         state.building = false
       },
-      onError: () => {
+      onError: (message) => {
         state.building = false
         state.failed = true
-        state.step = 'Build failed, see the dev server logs'
+        state.step = message ?? 'Build failed, see the dev server logs'
       },
+    })
+  }
+
+  // User opted in via the panel's Install button: add the dev-only toolchain, then build.
+  // Never runs without that explicit click — we don't mutate the user's package.json silently.
+  function startInstall(): void {
+    if (state.installing || state.building || state.ready)
+      return
+    state.installing = true
+    state.needsInstall = false
+    state.failed = false
+    state.startedAt = Date.now()
+    state.step = `Installing ${TOOLCHAIN_PACKAGE}…`
+    installToolchain(rootDir, nuxt, (step) => {
+      state.step = step
+    }).then((ok) => {
+      state.installing = false
+      if (ok) {
+        ensureBuilt()
+      }
+      else {
+        state.failed = true
+        state.step = `Could not install ${TOOLCHAIN_PACKAGE} — see the dev server logs`
+      }
+    }).catch((err) => {
+      state.installing = false
+      state.failed = true
+      state.step = `Could not install ${TOOLCHAIN_PACKAGE} — see the dev server logs`
+      console.error(`[nuxt-seo] devtools toolchain install failed: ${(err as Error).message}`)
     })
   }
 
@@ -310,19 +428,38 @@ function setupLayerModule(config: DevToolsUIConfig, layerDir: string, nuxt: Nuxt
   nuxt.hook('vite:serverCreated', (server) => {
     const serve = sirv(dist, { dev: true, single: '200.html' })
     server.middlewares.use(UNIFIED_CLIENT_ROUTE, (req, res, next) => {
-      if ((req.url || '/').startsWith('/__status')) {
-        ensureBuilt()
+      const url = req.url || '/'
+
+      // Triggered by the placeholder's Install button — the only path that mutates package.json.
+      if (url.startsWith('/__install')) {
+        startInstall()
+        res.setHeader('content-type', 'application/json')
+        return res.end(JSON.stringify({ installing: state.installing }))
+      }
+
+      if (url.startsWith('/__status')) {
+        // When the toolchain is already present, build straight away; otherwise wait for the
+        // user to opt in (surfaced as `needsInstall`) instead of installing unprompted.
+        if (!state.ready && !state.building && !state.installing) {
+          if (toolchainInstalled(rootDir))
+            ensureBuilt()
+          else
+            state.needsInstall = true
+        }
         res.setHeader('content-type', 'application/json')
         return res.end(JSON.stringify({
           ready: state.ready,
           failed: state.failed,
+          needsInstall: state.needsInstall,
+          installing: state.installing,
+          packageName: TOOLCHAIN_PACKAGE,
           step: state.step,
           modules: state.modules,
           elapsed: state.startedAt ? Date.now() - state.startedAt : 0,
         }))
       }
+
       if (!state.ready) {
-        ensureBuilt()
         res.setHeader('content-type', 'text/html')
         return res.end(placeholderHtml())
       }
