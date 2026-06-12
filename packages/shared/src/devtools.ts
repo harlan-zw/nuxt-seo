@@ -24,11 +24,12 @@ export type { BirpcGroup } from 'birpc'
 export const UNIFIED_CLIENT_ROUTE = '/__nuxt-seo-devtools'
 
 /**
- * The dev-only package that carries the DevTools UI build toolchain (`@nuxt/ui`, shiki,
- * tailwind, Carbon icons). It is NOT a runtime dependency of the SEO modules; it is added to
- * the user's devDependencies on demand (with their consent) the first time a panel is opened.
+ * The devtools layer carries the UI build toolchain (`@nuxt/ui`, shiki, tailwind, Carbon icons)
+ * as its own dependencies. SEO modules depend on it only as a `devDependency`, so a normal
+ * install never pulls it (or the toolchain) into production. It is added to the user's
+ * devDependencies on demand — with their consent — the first time a panel is opened.
  */
-const TOOLCHAIN_PACKAGE = 'nuxtseo-devtools'
+const TOOLCHAIN_PACKAGE = 'nuxtseo-layer-devtools'
 
 export interface DevToolsUIConfig {
   /** Per-module route used by the legacy prebuilt-client mode. */
@@ -214,14 +215,13 @@ interface BuildHooks {
 }
 
 /**
- * Has the DevTools UI toolchain been provisioned? We mark it by the presence of the
- * `nuxtseo-devtools` package (a direct, top-level dependency once added) rather than probing
- * `@nuxt/ui` directly — under pnpm a transitively-installed `@nuxt/ui` isn't linked into the
- * app's top-level `node_modules`, so a bare `resolve('@nuxt/ui')` from the root would miss it.
+ * Has the devtools layer (and its bundled toolchain) been provisioned? We resolve the layer's
+ * bare specifier rather than `<pkg>/package.json` — the layer's `exports` map doesn't expose
+ * `./package.json`, so the subpath would throw ERR_PACKAGE_PATH_NOT_EXPORTED even when installed.
  */
 function toolchainInstalled(rootDir: string): boolean {
   try {
-    createRequire(join(rootDir, 'index.js')).resolve(`${TOOLCHAIN_PACKAGE}/package.json`)
+    createRequire(join(rootDir, 'index.js')).resolve(TOOLCHAIN_PACKAGE)
     return true
   }
   catch {
