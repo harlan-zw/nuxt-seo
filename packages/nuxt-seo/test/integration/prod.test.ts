@@ -1,7 +1,7 @@
 import { createResolver } from '@nuxt/kit'
 import { $fetch, setup, url } from '@nuxt/test-utils/e2e'
 import { describe, expect, it } from 'vitest'
-import { extractOgImageUrl, extractSeoHead } from '../utils'
+import { extractOgImagePath, extractOgImageUrl, extractSeoHead } from '../utils'
 
 const { resolve } = createResolver(import.meta.url)
 
@@ -80,7 +80,9 @@ describe('dev', () => {
     expect(ogImageUrl).toMatchInlineSnapshot(`"https://local.nuxtseo.com/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png"`)
   })
   it('og-image - image snapshot', async () => {
-    const image = await fetch(url('/_og/d/default.png')).then(r => r.arrayBuffer())
+    const html = await $fetch('/') as string
+    const ogImagePath = extractOgImagePath(html)!
+    const image = await fetch(url(ogImagePath)).then(r => r.arrayBuffer())
     expect(Buffer.from(image)).toMatchImageSnapshot()
   })
   it('schema.org - default', async () => {
