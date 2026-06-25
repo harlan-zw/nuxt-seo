@@ -1,7 +1,7 @@
 ignoreWorkspaceRootCheck: true
 
 minimumReleaseAgeExclude:
-  - nuxt-schema-org@6.1.2
+  - nuxt-schema-org@6.1.2 || 6.2.1
   - '@img/sharp-darwin-arm64@0.35.0'
   - '@img/sharp-darwin-x64@0.35.0'
   - '@img/sharp-freebsd-wasm32@0.35.0'
@@ -32,15 +32,12 @@ minimumReleaseAgeExclude:
   - '@nuxtjs/sitemap@8.2.0'
   - nuxt-ai-ready@1.4.0
   - nuxt-link-checker@5.1.0
-  - nuxt-og-image@6.6.0
-  - nuxt-schema-org@6.2.1
+  - nuxt-og-image@6.6.0 || 6.7.0
   - nuxt-seo-utils@8.3.1
   - nuxt-site-config-kit@4.1.0
   - nuxt-site-config@4.1.0
-  - nuxtseo-layer-devtools@5.2.3
-  - nuxtseo-layer-devtools@5.2.6
-  - nuxtseo-shared@5.2.3
-  - nuxtseo-shared@5.2.6
+  - nuxtseo-layer-devtools@5.2.3 || 5.2.6
+  - nuxtseo-shared@5.2.3 || 5.2.6
   - sharp@0.35.0
   - site-config-stack@4.1.0
   - nuxt-skew-protection@1.2.0
@@ -75,11 +72,11 @@ packages:
   - '!**/.data/**'
 overrides:
   rollup-plugin-dts: ^6.4.1
-  semver: ^7.8.4
+  semver: ^7.8.5
 catalog:
-  '@antfu/eslint-config': ^9.0.0
-  '@arethetypeswrong/cli': ^0.18.3
-  '@clack/prompts': ^1.5.1
+  '@antfu/eslint-config': ^9.1.0
+  '@arethetypeswrong/cli': ^0.18.4
+  '@clack/prompts': ^1.6.0
   '@iconify-json/carbon': ^1.2.23
   '@nuxt/content': ^3.14.0
   '@nuxt/devtools-kit': 4.0.0-alpha.3
@@ -88,10 +85,10 @@ catalog:
   '@nuxt/module-builder': ^1.0.2
   '@nuxt/schema': ^4.4.8
   '@nuxt/test-utils': ^4.0.3
-  '@nuxt/ui': ^4.8.2
+  '@nuxt/ui': ^4.9.0
   '@nuxtjs/i18n': ^10.4.0
-  '@nuxtjs/robots': ^6.1.0
-  '@nuxtjs/sitemap': ^8.2.0
+  '@nuxtjs/robots': ^6.1.1
+  '@nuxtjs/sitemap': ^8.2.1
   '@resvg/resvg-js': ^2.6.2
   '@shikijs/langs': ^4.2.0
   '@shikijs/themes': ^4.2.0
@@ -99,27 +96,27 @@ catalog:
   '@vue/test-utils': ^2.4.11
   '@vueuse/core': ^14.3.0
   '@vueuse/nuxt': ^14.3.0
-  better-sqlite3: ^12.10.0
+  better-sqlite3: ^12.11.1
   birpc: ^4.0.0
   bumpp: ^11.1.0
   consola: ^3.4.2
   defu: ^6.1.7
-  eslint: ^10.4.1
+  eslint: ^10.5.0
   eslint-plugin-harlanzw: ^0.17.0
   execa: ^9.6.1
-  happy-dom: ^20.10.2
+  happy-dom: ^20.10.6
   jest-image-snapshot: ^6.5.2
-  lint-staged: ^17.0.7
+  lint-staged: ^17.0.8
   nitropack: ^2.13.4
   nuxt: ^4.4.8
   nuxt-ai-ready: ^1.4.0
-  nuxt-link-checker: ^5.1.0
-  nuxt-og-image: ^6.6.0
+  nuxt-link-checker: ^5.1.1
+  nuxt-og-image: ^6.7.0
   nuxt-schema-org: ^6.2.1
   nuxt-seo-utils: ^8.3.1
   nuxt-site-config: ^4.1.0
-  nuxt-skew-protection: ^1.2.0
-  nypm: ^0.6.6
+  nuxt-skew-protection: ^1.3.0
+  nypm: ^0.6.7
   ofetch: ^1.5.1
   pathe: ^2.0.3
   pkg-types: ^2.3.1
@@ -131,13 +128,13 @@ catalog:
   simple-git-hooks: ^2.13.1
   sirv: ^3.0.2
   std-env: ^4.1.0
-  tailwindcss: ^4.3.0
+  tailwindcss: ^4.3.1
   typescript: ^6.0.3
   ufo: ^1.6.4
   unbuild: ^3.6.1
-  vitest: ^4.1.8
+  vitest: ^4.1.9
   vue: ^3.5.38
-  vue-tsc: ^3.3.4
+  vue-tsc: ^3.3.5
   zod: ^4.4.3
 
 ignoredBuiltDependencies:
