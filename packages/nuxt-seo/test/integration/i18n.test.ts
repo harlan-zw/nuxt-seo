@@ -139,9 +139,6 @@ describe('i18n', () => {
             "url": "https://nuxtseo.com/",
             "workTranslation": [
               {
-                "@id": "https://nuxtseo.com/#website",
-              },
-              {
                 "@id": "https://nuxtseo.com/es#website",
               },
               {
