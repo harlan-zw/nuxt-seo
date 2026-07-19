@@ -25,9 +25,9 @@ describe('base url', () => {
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:image" content="https://local.nuxtseo.com/base/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
-      <meta name="twitter:image:src" content="https://local.nuxtseo.com/base/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
-      <meta property="og:image" content="https://local.nuxtseo.com/base/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png">
+      <meta name="twitter:image" content="https://local.nuxtseo.com/base/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_tjb25mqs8mf6.png">
+      <meta name="twitter:image:src" content="https://local.nuxtseo.com/base/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_tjb25mqs8mf6.png">
+      <meta property="og:image" content="https://local.nuxtseo.com/base/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_tjb25mqs8mf6.png">
       <meta property="og:image:type" content="image/png">
       <meta property="og:image:width" content="1200">
       <meta name="twitter:image:width" content="1200">
@@ -65,7 +65,7 @@ describe('base url', () => {
   it('og-image - url', async () => {
     const html = await $fetch('/base') as string
     const ogImageUrl = extractOgImageUrl(html)
-    expect(ogImageUrl).toMatchInlineSnapshot(`"https://local.nuxtseo.com/base/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png"`)
+    expect(ogImageUrl).toMatchInlineSnapshot(`"https://local.nuxtseo.com/base/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_tjb25mqs8mf6.png"`)
   })
   it('og-image - image snapshot', async () => {
     const html = await $fetch('/base') as string
@@ -85,7 +85,6 @@ describe('base url', () => {
             "@id": "https://local.nuxtseo.com/base/#website",
             "@type": "WebSite",
             "description": "Fully equipped Technical SEO for busy Nuxters.",
-            "inLanguage": "en",
             "name": "@nuxtjs/seo",
             "url": "https://local.nuxtseo.com/base/",
           },

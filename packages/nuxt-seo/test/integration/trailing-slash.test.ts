@@ -66,7 +66,7 @@ describe('trailing slash', () => {
   it('og-image - url', async () => {
     const html = await $fetch('/') as string
     const ogImageUrl = extractOgImageUrl(html)
-    expect(ogImageUrl).toMatchInlineSnapshot(`"https://local.nuxtseo.com/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_ZjvFJ2KntDorwN6ClhcPYXuPUAlcdoy82AUFvETmEHs.png"`)
+    expect(ogImageUrl).toMatchInlineSnapshot(`"https://local.nuxtseo.com/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_tjb25mqs8mf6.png"`)
   })
   it('og-image - image snapshot', async () => {
     const html = await $fetch('/') as string
@@ -87,7 +87,6 @@ describe('trailing slash', () => {
             "@id": "https://local.nuxtseo.com/#website",
             "@type": "WebSite",
             "description": "Fully equipped Technical SEO for busy Nuxters.",
-            "inLanguage": "en",
             "name": "@nuxtjs/seo",
             "url": "https://local.nuxtseo.com/",
           },
