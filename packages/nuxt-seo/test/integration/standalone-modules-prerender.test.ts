@@ -45,7 +45,7 @@ describe('standalone modules (prerendered)', () => {
     // LLM Resources section links out to the full content + robots
     expect(txt).toContain('## LLM Resources')
     expect(txt).toContain('- [Full Content](https://local.nuxtseo.com/llms-full.txt)')
-    expect(txt).toContain('- [robots.txt](/robots.txt)')
+    expect(txt).toContain('- [robots.txt](https://local.nuxtseo.com/robots.txt)')
 
     // Pages section: one entry per prerendered route, title templated by seo-utils
     expect(txt).toContain('## Pages')
