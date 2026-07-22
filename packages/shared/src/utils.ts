@@ -2,14 +2,69 @@ import type { ConsolaInstance } from 'consola'
 import { createConsola } from 'consola'
 import { createRouter, toRouteMatcher } from 'radix3'
 
+export interface SerializedRegExp {
+  regex: string
+}
+
+export interface SourceFlagsRegExp {
+  source: string
+  flags?: string
+}
+
+export type FilterEntry = string | RegExp
+export type SerializedFilterEntry = string | SerializedRegExp | SourceFlagsRegExp
+export type FilterEntryInput = FilterEntry | SerializedRegExp | SourceFlagsRegExp
+
+function parseSerializedRegExp(value: string): RegExp {
+  const lastSlash = value.lastIndexOf('/')
+  return new RegExp(value.slice(1, lastSlash), value.slice(lastSlash + 1))
+}
+
+export function serializeFilters(filters: unknown[], tag?: string): SerializedFilterEntry[] {
+  const prefix = tag ? `[${tag}] ` : ''
+  const result: SerializedFilterEntry[] = []
+  for (const filter of filters) {
+    if (filter instanceof RegExp) {
+      result.push({ regex: filter.toString() })
+      continue
+    }
+    if (typeof filter === 'string') {
+      result.push(filter)
+      continue
+    }
+    if (filter && typeof filter === 'object' && typeof (filter as SerializedRegExp).regex === 'string') {
+      result.push(filter as SerializedRegExp)
+      continue
+    }
+    if (filter && typeof filter === 'object' && typeof (filter as SourceFlagsRegExp).source === 'string') {
+      result.push(filter as SourceFlagsRegExp)
+      continue
+    }
+    console.warn(`${prefix}You have provided an invalid filter: ${filter}, ignoring.`)
+  }
+  return result
+}
+
+export function deserializeFilters(filters: FilterEntryInput[]): FilterEntry[] {
+  return filters.map((filter) => {
+    if (filter instanceof RegExp || typeof filter === 'string')
+      return filter
+    if (typeof (filter as SerializedRegExp).regex === 'string')
+      return parseSerializedRegExp((filter as SerializedRegExp).regex)
+    if (typeof (filter as SourceFlagsRegExp).source === 'string')
+      return new RegExp((filter as SourceFlagsRegExp).source, (filter as SourceFlagsRegExp).flags || '')
+    return filter as FilterEntry
+  })
+}
+
 export interface CreateFilterOptions {
-  include?: (string | RegExp)[]
-  exclude?: (string | RegExp)[]
+  include?: FilterEntryInput[]
+  exclude?: FilterEntryInput[]
 }
 
 export function createFilter(options: CreateFilterOptions = {}): (path: string) => boolean {
-  const include = options.include || []
-  const exclude = options.exclude || []
+  const include = deserializeFilters(options.include || [])
+  const exclude = deserializeFilters(options.exclude || [])
   if (include.length === 0 && exclude.length === 0)
     return () => true
 
