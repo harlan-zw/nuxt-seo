@@ -1,7 +1,6 @@
 import type { H3Event } from 'h3'
-import type { NitroRouteRules } from 'nitropack'
+import type { NitroRouteRules, NitroRuntimeConfig } from 'nitropack'
 import { defu } from 'defu'
-import { useRuntimeConfig } from 'nitropack/runtime'
 import { createRouter as createRadixRouter, toRouteMatcher } from 'radix3'
 import { parseURL, withoutBase, withoutTrailingSlash } from 'ufo'
 
@@ -12,11 +11,11 @@ export function withoutQuery(path: string): string {
 
 let cachedRouteRuleMatcher: ((pathOrUrl: string) => NitroRouteRules) | undefined
 
-export function createNitroRouteRuleMatcher(e?: H3Event): (pathOrUrl: string) => NitroRouteRules {
+export function createNitroRouteRuleMatcher(runtimeConfig: NitroRuntimeConfig, e?: H3Event): (pathOrUrl: string) => NitroRouteRules {
   if (!import.meta.dev && !e && cachedRouteRuleMatcher)
     return cachedRouteRuleMatcher
 
-  const { nitro, app } = useRuntimeConfig(e)
+  const { nitro, app } = runtimeConfig
   const _routeRulesMatcher = toRouteMatcher(
     createRadixRouter({
       routes: Object.fromEntries(

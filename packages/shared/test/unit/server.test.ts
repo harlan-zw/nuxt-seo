@@ -1,13 +1,7 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
-const useRuntimeConfigMock = vi.fn()
-
-vi.mock('nitropack/runtime', () => ({
-  useRuntimeConfig: (...args: any[]) => useRuntimeConfigMock(...args),
-}))
-
-function mockConfig(routeRules: Record<string, any>, baseURL = '/') {
-  useRuntimeConfigMock.mockReturnValue({ nitro: { routeRules }, app: { baseURL } })
+function rc(routeRules: Record<string, any>, baseURL = '/') {
+  return { nitro: { routeRules }, app: { baseURL } } as any
 }
 
 async function importMatcher() {
@@ -15,63 +9,51 @@ async function importMatcher() {
   return import('../../src/server')
 }
 
-beforeEach(() => {
-  useRuntimeConfigMock.mockReset()
-})
-
 describe('createNitroRouteRuleMatcher', () => {
   it('merges overlapping rules with defu precedence, more specific wins', async () => {
-    mockConfig({
+    const { createNitroRouteRuleMatcher } = await importMatcher()
+    const match = createNitroRouteRuleMatcher(rc({
       '/blog/**': { headers: { a: '1' }, redirect: '/generic' },
       '/blog/post/**': { headers: { a: '2', b: '3' } },
-    })
-    const { createNitroRouteRuleMatcher } = await importMatcher()
-    const match = createNitroRouteRuleMatcher()
+    }))
     expect(match('/blog/post/abc')).toEqual({ headers: { a: '2', b: '3' }, redirect: '/generic' })
   })
 
   it('strips the baseURL before matching', async () => {
-    mockConfig({ '/foo': { redirect: '/x' } }, '/base')
     const { createNitroRouteRuleMatcher } = await importMatcher()
-    const match = createNitroRouteRuleMatcher()
+    const match = createNitroRouteRuleMatcher(rc({ '/foo': { redirect: '/x' } }, '/base'))
     expect(match('/base/foo')).toEqual({ redirect: '/x' })
   })
 
   it('strips trailing slash and query string', async () => {
-    mockConfig({ '/foo': { redirect: '/x' } })
     const { createNitroRouteRuleMatcher } = await importMatcher()
-    const match = createNitroRouteRuleMatcher()
+    const match = createNitroRouteRuleMatcher(rc({ '/foo': { redirect: '/x' } }))
     expect(match('/foo/?a=1')).toEqual({ redirect: '/x' })
   })
 
   it('resolves a full URL input against the baseURL', async () => {
-    mockConfig({ '/foo': { redirect: '/x' } })
     const { createNitroRouteRuleMatcher } = await importMatcher()
-    const match = createNitroRouteRuleMatcher()
+    const match = createNitroRouteRuleMatcher(rc({ '/foo': { redirect: '/x' } }))
     expect(match('https://example.com/foo?x=1')).toEqual({ redirect: '/x' })
   })
 
-  it('caches the matcher across calls made without an event', async () => {
-    mockConfig({ '/foo': { redirect: '/x' } })
+  it('caches the matcher across calls made without an event, ignoring later config', async () => {
     const { createNitroRouteRuleMatcher } = await importMatcher()
-    createNitroRouteRuleMatcher()
-    createNitroRouteRuleMatcher()
-    createNitroRouteRuleMatcher()
-    expect(useRuntimeConfigMock).toHaveBeenCalledTimes(1)
+    const first = createNitroRouteRuleMatcher(rc({ '/foo': { redirect: '/x' } }))
+    const second = createNitroRouteRuleMatcher(rc({ '/bar': { redirect: '/y' } }))
+    expect(second).toBe(first)
+    expect(second('/bar')).toEqual({})
+    expect(second('/foo')).toEqual({ redirect: '/x' })
   })
 
   it('never uses or populates the cache when an event is passed', async () => {
-    mockConfig({ '/foo': { redirect: '/x' } })
     const { createNitroRouteRuleMatcher } = await importMatcher()
     const event = { context: {} } as any
-
-    createNitroRouteRuleMatcher()
-    createNitroRouteRuleMatcher(event)
-    createNitroRouteRuleMatcher(event)
-    createNitroRouteRuleMatcher()
-
-    expect(useRuntimeConfigMock).toHaveBeenCalledTimes(3)
-    expect(useRuntimeConfigMock).toHaveBeenNthCalledWith(2, event)
-    expect(useRuntimeConfigMock).toHaveBeenNthCalledWith(3, event)
+    const withEvent = createNitroRouteRuleMatcher(rc({ '/foo': { redirect: '/x' } }), event)
+    const withEvent2 = createNitroRouteRuleMatcher(rc({ '/bar': { redirect: '/y' } }), event)
+    expect(withEvent2).not.toBe(withEvent)
+    expect(withEvent2('/bar')).toEqual({ redirect: '/y' })
+    const globalMatch = createNitroRouteRuleMatcher(rc({ '/baz': { redirect: '/z' } }))
+    expect(globalMatch('/baz')).toEqual({ redirect: '/z' })
   })
 })
