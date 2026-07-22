@@ -52,6 +52,10 @@
       "types": "./dist/const.d.mts",
       "default": "./dist/const.mjs"
     },
+    "./server": {
+      "types": "./dist/server.d.mts",
+      "default": "./dist/server.mjs"
+    },
     "./package.json": "./package.json"
   },
   "main": "./dist/module.mjs",
@@ -104,6 +108,7 @@
     "@nuxt/module-builder": "catalog:",
     "@nuxt/schema": "catalog:",
     "@nuxtjs/i18n": "catalog:",
+    "h3": "catalog:",
     "nitropack": "catalog:",
     "nuxt": "catalog:",
     "nuxt-site-config": "catalog:",

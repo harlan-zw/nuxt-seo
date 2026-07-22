@@ -11,9 +11,11 @@ export default defineBuildConfig({
     { input: 'src/pro', name: 'pro' },
     { input: 'src/utils', name: 'utils' },
     { input: 'src/const', name: 'const' },
+    { input: 'src/server', name: 'server' },
   ],
   externals: [
     /^nitropack/,
+    /^h3/,
     /^@nuxtjs\/i18n/,
     /^@nuxt\/content/,
     /^@nuxt\/schema/,

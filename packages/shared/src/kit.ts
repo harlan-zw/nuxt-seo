@@ -3,7 +3,7 @@ import type { Nitro } from 'nitropack'
 import type { NitroConfig } from 'nitropack/types'
 import type { NuxtModule, NuxtPage } from 'nuxt/schema'
 import { pathToFileURL } from 'node:url'
-import { addTemplate, createResolver, hasNuxtModule, hasNuxtModuleCompatibility, loadNuxtModuleInstance, tryUseNuxt, useNuxt } from '@nuxt/kit'
+import { addTemplate, createResolver, hasNuxtModule, hasNuxtModuleCompatibility, loadNuxtModuleInstance, tryUseNuxt, useLogger, useNuxt } from '@nuxt/kit'
 import { dirname, relative } from 'pathe'
 import { readPackageJSON, resolvePackageJSON } from 'pkg-types'
 import { env, provider } from 'std-env'
@@ -46,6 +46,12 @@ export function detectNuxtSeoModules(nuxt: Nuxt = useNuxt()): NuxtSeoModuleDetec
       version: m.meta.version,
       entryPath: m.entryPath,
     }))
+}
+
+export function useModuleLogger(name: string, options: { debug?: boolean }, nuxt: Nuxt = useNuxt()): ReturnType<typeof useLogger> {
+  const logger = useLogger(name)
+  logger.level = (options.debug || nuxt.options.debug) ? 4 : 3
+  return logger
 }
 
 const autodetectableProviders: Record<string, string> = {
