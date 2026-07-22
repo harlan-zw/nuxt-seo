@@ -1,3 +1,5 @@
+import type { ConsolaInstance } from 'consola'
+import { createConsola } from 'consola'
 import { createRouter, toRouteMatcher } from 'radix3'
 
 export interface CreateFilterOptions {
@@ -53,4 +55,8 @@ export function createFilter(options: CreateFilterOptions = {}): (path: string) 
 
 export function withoutQuery(path: string): string {
   return path.split('?')[0]!
+}
+
+export function createModuleLogger(tag: string, debug?: boolean): ConsolaInstance {
+  return createConsola({ level: debug ? 4 : 3, defaults: { tag } })
 }

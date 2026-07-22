@@ -96,6 +96,9 @@ catalogs:
     execa:
       specifier: ^10.0.0
       version: 10.0.0
+    h3:
+      specifier: ^1.15.11
+      version: 1.15.11
     happy-dom:
       specifier: ^20.10.6
       version: 20.10.6
@@ -444,6 +447,9 @@ importers:
       '@nuxtjs/i18n':
         specifier: 'catalog:'
         version: 10.4.1(@vue/compiler-dom@3.5.40)(db0@0.3.4(better-sqlite3@12.11.1)(drizzle-orm@0.45.2(better-sqlite3@12.11.1)))(esbuild@0.28.0)(eslint@10.7.0(jiti@2.7.0)(supports-color@10.2.2))(ioredis@5.11.1(supports-color@10.2.2))(magicast@0.5.3)(rolldown@1.2.0)(rollup@4.62.2)(supports-color@10.2.2)(typescript@6.0.3)(vite@8.1.5(@types/node@26.0.0)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0))(vue@3.5.40(typescript@6.0.3))
+      h3:
+        specifier: 'catalog:'
+        version: 1.15.11
       nitropack:
         specifier: 'catalog:'
         version: 2.13.4(better-sqlite3@12.11.1)(drizzle-orm@0.45.2(better-sqlite3@12.11.1))(oxc-parser@0.140.0)(rolldown@1.2.0)(srvx@0.11.22)(supports-color@10.2.2)(vite@8.1.5(@types/node@26.0.0)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.0))
