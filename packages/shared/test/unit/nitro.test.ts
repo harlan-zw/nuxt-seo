@@ -108,6 +108,15 @@ describe('setupNitroRuntimeCompatibility', () => {
     await expect(template.getContents()).resolves.toContain('useRequest as useEvent')
   })
 
+  it('prevents an older helper from overwriting a newer runtime bridge', () => {
+    getNuxtVersionMock.mockReturnValue('5.0.0')
+    const nuxt = createNuxt() as Nuxt & { [key: symbol]: true | undefined }
+
+    setupNitroRuntimeCompatibility(nuxt)
+
+    expect(nuxt[Symbol.for('nuxtseo:nitro-runtime-compatibility')]).toBe(true)
+  })
+
   it('reasserts the runtime bridge after all modules finish setup', () => {
     getNuxtVersionMock.mockReturnValue('5.0.0')
     const nuxt = createNuxt()
@@ -161,6 +170,32 @@ declare module 'srvx' {
     })).toBe(`declare module 'nitropack' {
   interface NitroRuntimeHooks {
     'build:done': () => void
+  }
+}
+
+declare module 'nitropack/types' {
+  interface NitroRuntimeHooks {
+    'build:done': () => void
+  }
+}`)
+  })
+
+  it('renders module-specific Nitro interfaces and omits empty entries', () => {
+    getNuxtVersionMock.mockReturnValue('5.0.0')
+    const compatibility = setupNitroRuntimeCompatibility(createNuxt())
+
+    expect(renderNitroTypeAugmentations(compatibility, {
+      nitroInterfaces: {
+        NitroApp: '_robots?: RobotsState',
+        PrerenderRoute: '_sitemap?: SitemapUrl',
+        EmptyInterface: '  ',
+      },
+    })).toBe(`declare module 'nitro/types' {
+  interface NitroApp {
+    _robots?: RobotsState
+  }
+  interface PrerenderRoute {
+    _sitemap?: SitemapUrl
   }
 }`)
   })

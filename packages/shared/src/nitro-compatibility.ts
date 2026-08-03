@@ -19,6 +19,7 @@ export type NitroRuntimeCompatibility
 
 export interface NitroTypeAugmentations {
   eventContext?: string
+  nitroInterfaces?: Record<string, string>
   routeConfig?: string
   routeRules?: string
   runtimeHooks?: string
@@ -27,6 +28,7 @@ export interface NitroTypeAugmentations {
 const NITRO_RUNTIME_MODULE = '#nuxtseo/nitro'
 const H3_RUNTIME_MODULE = '#nuxtseo/h3'
 const TYPE_TEMPLATE_FILENAME = 'types/nuxtseo-nitro.d.ts'
+const legacySetupMarker = Symbol.for('nuxtseo:nitro-runtime-compatibility')
 const typeSetupMarker = Symbol.for('nuxtseo:nitro-runtime-compatibility:request-context-types')
 const runtimeSetupMarker = Symbol.for('nuxtseo:nitro-runtime-compatibility:request-context')
 
@@ -127,11 +129,15 @@ export function renderNitroTypeAugmentations(
     renderInterface('NitroRouteRules', augmentations.routeRules),
     renderInterface('NitroRouteConfig', augmentations.routeConfig),
     renderInterface('NitroRuntimeHooks', augmentations.runtimeHooks),
+    ...Object.entries(augmentations.nitroInterfaces || {}).map(([name, contents]) => renderInterface(name, contents)),
   ].filter((value): value is string => Boolean(value))
 
   const declarations: string[] = []
   if (nitroInterfaces.length) {
-    declarations.push(`declare module '${compatibility.nitroTypesModule}' {\n${nitroInterfaces.join('\n')}\n}`)
+    const nitroTypeModules = compatibility._tag === 'nitro-v2'
+      ? ['nitropack', 'nitropack/types']
+      : [compatibility.nitroTypesModule]
+    declarations.push(...nitroTypeModules.map(module => `declare module '${module}' {\n${nitroInterfaces.join('\n')}\n}`))
   }
   if (augmentations.eventContext?.trim()) {
     declarations.push(`declare module '${compatibility.eventContextModule}' {\n${renderInterface(compatibility.eventContextType, augmentations.eventContext)}\n}`)
@@ -143,6 +149,9 @@ export function setupNitroRuntimeCompatibility(nuxt: Nuxt = useNuxt()): NitroRun
   const major = Number.parseInt(getNuxtVersion(nuxt), 10)
   const compatibility = major >= 5 ? nitroV3Compatibility : nitroV2Compatibility
   applyNitroRuntimeCompatibility(nuxt, compatibility)
+
+  const nuxtWithLegacyMarker = nuxt as Nuxt & { [legacySetupMarker]?: true }
+  nuxtWithLegacyMarker[legacySetupMarker] = true
 
   const nuxtWithRuntimeMarker = nuxt as Nuxt & { [runtimeSetupMarker]?: true }
   if (!nuxtWithRuntimeMarker[runtimeSetupMarker]) {
