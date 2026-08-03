@@ -17,7 +17,7 @@ export function withoutQuery(path: string): string {
 }
 
 export function createNitroRouteRuleMatcher<TRouteRules extends object = Record<string, unknown>>(
-  runtimeConfig: NitroRouteRulesRuntimeConfig<TRouteRules>,
+  runtimeConfig: NitroRouteRulesRuntimeConfig<object>,
 ): (pathOrUrl: string) => TRouteRules {
   const { nitro, app } = runtimeConfig
   const baseURL = app?.baseURL || '/'
