@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createNitroRouteRuleMatcher } from '../../src/server'
+import { createNitroRouteRuleMatcher, normalizeNitroMatchedRouteRules } from '../../src/server'
 
 function rc(routeRules: Record<string, any>, baseURL = '/') {
   return { nitro: { routeRules }, app: { baseURL } } as any
@@ -41,5 +41,33 @@ describe('createNitroRouteRuleMatcher', () => {
     expect(first('/bar')).toEqual({})
     expect(second('/bar')).toEqual({ redirect: '/y' })
     expect(second('/foo')).toEqual({})
+  })
+
+  it('defaults to the root base URL when the runtime omits app config', () => {
+    const match = createNitroRouteRuleMatcher({
+      nitro: {
+        routeRules: {
+          '/foo': { redirect: '/x' },
+        },
+      },
+    })
+
+    expect(match('/foo')).toEqual({ redirect: '/x' })
+  })
+})
+
+describe('normalizeNitroMatchedRouteRules', () => {
+  it('unwraps Nitro 3 matched rule options', () => {
+    expect(normalizeNitroMatchedRouteRules({
+      robots: { options: false },
+      site: { options: { name: 'Route site' } },
+    })).toEqual({
+      robots: false,
+      site: { name: 'Route site' },
+    })
+  })
+
+  it('returns an empty object when no route rules matched', () => {
+    expect(normalizeNitroMatchedRouteRules()).toEqual({})
   })
 })

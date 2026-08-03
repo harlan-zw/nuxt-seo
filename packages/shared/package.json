@@ -68,13 +68,14 @@
     "dev:prepare": "nuxt-module-build prepare",
     "stub": "nuxt-module-build build --stub",
     "test": "vitest",
-    "test:run": "vitest run",
+    "test:run": "vitest run && pnpm test:nuxt5",
+    "test:nuxt5": "pnpm --dir test/fixtures/nitro-compat-nuxt5 install --frozen-lockfile && pnpm --dir test/fixtures/nitro-compat-nuxt5 test",
     "test:attw": "attw --pack --profile esm-only",
     "typecheck": "nuxt typecheck ."
   },
   "peerDependencies": {
-    "@nuxt/schema": "^3.16.0 || ^4.0.0",
-    "nuxt": "^3.16.0 || ^4.0.0",
+    "@nuxt/schema": "^3.16.0 || ^4.0.0 || ^5.0.0",
+    "nuxt": "^3.16.0 || ^4.0.0 || ^5.0.0",
     "nuxt-site-config": "^3.2.0 || ^4.0.0",
     "vue": "^3.5.0",
     "zod": "^3.23.0 || ^4.0.0"
@@ -107,6 +108,7 @@
     "@arethetypeswrong/cli": "catalog:",
     "@nuxt/module-builder": "catalog:",
     "@nuxt/schema": "catalog:",
+    "@nuxt/test-utils": "catalog:",
     "@nuxtjs/i18n": "catalog:",
     "h3": "catalog:",
     "nitropack": "catalog:",
