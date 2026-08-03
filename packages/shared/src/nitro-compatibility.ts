@@ -27,7 +27,7 @@ export interface NitroTypeAugmentations {
 const NITRO_RUNTIME_MODULE = '#nuxtseo/nitro'
 const H3_RUNTIME_MODULE = '#nuxtseo/h3'
 const TYPE_TEMPLATE_FILENAME = 'types/nuxtseo-nitro.d.ts'
-const setupMarker = Symbol.for('nuxtseo:nitro-runtime-compatibility')
+const typeSetupMarker = Symbol.for('nuxtseo:nitro-runtime-compatibility:request-context-types')
 const runtimeSetupMarker = Symbol.for('nuxtseo:nitro-runtime-compatibility:request-context')
 
 interface NuxtNitroCompatibilityOptions {
@@ -139,9 +139,9 @@ export function setupNitroRuntimeCompatibility(nuxt: Nuxt = useNuxt()): NitroRun
     nuxt.hooks.hookOnce('modules:done', () => applyNitroRuntimeCompatibility(nuxt, compatibility))
   }
 
-  const nuxtWithMarker = nuxt as Nuxt & { [setupMarker]?: true }
-  if (!nuxtWithMarker[setupMarker]) {
-    nuxtWithMarker[setupMarker] = true
+  const nuxtWithTypeMarker = nuxt as Nuxt & { [typeSetupMarker]?: true }
+  if (!nuxtWithTypeMarker[typeSetupMarker]) {
+    nuxtWithTypeMarker[typeSetupMarker] = true
     addTypeTemplate({
       filename: TYPE_TEMPLATE_FILENAME,
       getContents: async () => renderRuntimeDeclarations(compatibility),

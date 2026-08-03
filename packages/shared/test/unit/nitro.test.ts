@@ -92,6 +92,18 @@ describe('setupNitroRuntimeCompatibility', () => {
     expect(addTypeTemplateMock).toHaveBeenCalledOnce()
   })
 
+  it('registers the request context type bridge after an older helper ran', async () => {
+    getNuxtVersionMock.mockReturnValue('5.0.0')
+    const nuxt = createNuxt() as Nuxt & { [key: symbol]: true }
+    nuxt[Symbol.for('nuxtseo:nitro-runtime-compatibility')] = true
+
+    setupNitroRuntimeCompatibility(nuxt)
+
+    expect(addTypeTemplateMock).toHaveBeenCalledOnce()
+    const template = addTypeTemplateMock.mock.calls[0]![0]
+    await expect(template.getContents()).resolves.toContain('useRequest as useEvent')
+  })
+
   it('reasserts the runtime bridge after all modules finish setup', () => {
     getNuxtVersionMock.mockReturnValue('5.0.0')
     const nuxt = createNuxt()
