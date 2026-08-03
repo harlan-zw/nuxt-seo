@@ -20,6 +20,12 @@ export interface AutoI18nConfig {
   pages?: Record<string, Record<string, string | false>>
 }
 
+type I18nPages = NonNullable<AutoI18nConfig['pages']>
+
+interface NuxtI18nMicroOptions extends NuxtI18nOptions {
+  globalLocaleRoutes?: Record<string, I18nPages[string] | boolean>
+}
+
 export interface StrategyProps {
   localeCode: string
   pageLocales: string
@@ -187,6 +193,19 @@ export function resolveI18nModule(): false | I18nModuleResolution {
   }
 }
 
+function resolveI18nPages(config: NuxtI18nOptions, isMicro: boolean): I18nPages | undefined {
+  const routes = isMicro
+    ? (config as NuxtI18nMicroOptions).globalLocaleRoutes
+    : config.pages
+  if (!routes)
+    return undefined
+
+  return Object.fromEntries(
+    Object.entries(routes).filter((entry): entry is [string, I18nPages[string]] =>
+      typeof entry[1] === 'object' && entry[1] !== null && !Array.isArray(entry[1])),
+  )
+}
+
 export async function resolveI18nConfig(logger?: { warn: (msg: string) => void }): Promise<false | AutoI18nConfig> {
   const i18n = resolveI18nModule()
   if (!i18n)
@@ -201,7 +220,8 @@ export async function resolveI18nConfig(logger?: { warn: (msg: string) => void }
 
   const nuxtI18nConfig = (await getNuxtModuleOptions(i18n.module) || {}) as NuxtI18nOptions
   const normalisedLocales = normalizeLocales(nuxtI18nConfig)
-  const usingI18nPages = Object.keys(nuxtI18nConfig.pages || {}).length
+  const pages = resolveI18nPages(nuxtI18nConfig, i18n.isMicro)
+  const usingI18nPages = Object.keys(pages || {}).length
   const hasI18nConfigForAlternatives = nuxtI18nConfig.differentDomains || usingI18nPages || (nuxtI18nConfig.strategy !== 'no_prefix' && nuxtI18nConfig.locales)
   if (!hasI18nConfigForAlternatives)
     return false
@@ -211,7 +231,7 @@ export async function resolveI18nConfig(logger?: { warn: (msg: string) => void }
     defaultLocale: nuxtI18nConfig.defaultLocale!,
     locales: normalisedLocales,
     strategy: nuxtI18nConfig.strategy as Strategies,
-    pages: nuxtI18nConfig.pages as Record<string, Record<string, string | false>> | undefined,
+    pages,
   }
 }
 
