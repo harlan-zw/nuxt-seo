@@ -57,6 +57,7 @@ const nitroV2Runtime = `export {
   useEvent,
   useRuntimeConfig,
   defineCachedFunction,
+  defineCachedEventHandler,
   useStorage,
   defineTask,
   runTask,

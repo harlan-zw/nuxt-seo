@@ -48,6 +48,7 @@ describe('setupNitroRuntimeCompatibility', () => {
     })
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('from \'nitropack/runtime\'')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useEvent')
+    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('defineCachedEventHandler')
     expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('h3')
     expect(addTypeTemplateMock).toHaveBeenCalledOnce()
     expect(addTypeTemplateMock).toHaveBeenCalledWith(expect.any(Object), { nitro: true, nuxt: true })
