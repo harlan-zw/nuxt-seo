@@ -72,7 +72,7 @@ describe('setupNitroRuntimeCompatibility', () => {
       nitroTypesModule: 'nitro/types',
     })
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('definePlugin as defineNitroPlugin } from \'nitro\'')
-    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useRuntimeConfig } from \'nitro/runtime-config\'')
+    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useRuntimeConfig(_event)')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).not.toContain('getRouteRules')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useRequest as useEvent } from \'nitro/context\'')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('defineCachedHandler as defineCachedEventHandler')
@@ -80,7 +80,8 @@ describe('setupNitroRuntimeCompatibility', () => {
     expect(addTypeTemplateMock).toHaveBeenCalledWith(expect.any(Object), { nitro: true, nuxt: true })
 
     const template = addTypeTemplateMock.mock.calls[0]![0]
-    await expect(template.getContents()).resolves.toContain('from \'nitro/runtime-config\'')
+    await expect(template.getContents()).resolves.toContain('import(\'nitro/runtime-config\')')
+    await expect(template.getContents()).resolves.toContain('useRuntimeConfig(event?:')
     await expect(template.getContents()).resolves.toContain('defineCachedHandler as defineCachedEventHandler')
     await expect(template.getContents()).resolves.toContain('export * from \'nitro/h3\'')
   })

@@ -67,7 +67,17 @@ const nitroV2Runtime = `export {
 const nitroV3Runtime = `export { definePlugin as defineNitroPlugin } from 'nitro'
 export { useNitroApp } from 'nitro/app'
 export { useRequest as useEvent } from 'nitro/context'
-export { useRuntimeConfig } from 'nitro/runtime-config'
+import { useRuntimeConfig as _useRuntimeConfig } from 'nitro/runtime-config'
+export function useRuntimeConfig(_event) { return _useRuntimeConfig() }
+export { defineCachedFunction, defineCachedHandler as defineCachedEventHandler } from 'nitro/cache'
+export { useStorage } from 'nitro/storage'
+export { defineTask, runTask } from 'nitro/task'
+`
+
+const nitroV3RuntimeTypes = `export { definePlugin as defineNitroPlugin } from 'nitro'
+export { useNitroApp } from 'nitro/app'
+export { useRequest as useEvent } from 'nitro/context'
+export function useRuntimeConfig(event?: import('nitro/h3').H3Event): ReturnType<typeof import('nitro/runtime-config').useRuntimeConfig>
 export { defineCachedFunction, defineCachedHandler as defineCachedEventHandler } from 'nitro/cache'
 export { useStorage } from 'nitro/storage'
 export { defineTask, runTask } from 'nitro/task'
@@ -85,7 +95,7 @@ function renderInterface(name: string, contents?: string): string | undefined {
 }
 
 function renderRuntimeDeclarations(compatibility: NitroRuntimeCompatibility): string {
-  const nitroRuntime = compatibility._tag === 'nitro-v3' ? nitroV3Runtime : nitroV2Runtime
+  const nitroRuntime = compatibility._tag === 'nitro-v3' ? nitroV3RuntimeTypes : nitroV2Runtime
   const h3Runtime = compatibility._tag === 'nitro-v3'
     ? `export * from 'nitro/h3'\n`
     : `export * from 'h3'\n`
