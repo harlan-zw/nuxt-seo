@@ -5,31 +5,29 @@ description: "nuxtseo-layer-devtools shared devtools layer for Nuxt SEO modules.
 
 # nuxtseo-layer-devtools
 
-Shared Nuxt layer providing components, composables, and a design system for all Nuxt SEO module devtools clients.
-
-**Source:** `packages/devtools-layer/` (published as `nuxtseo-layer-devtools`)
+Shared components, composables, and design system for Nuxt SEO module devtools clients. Source: `packages/devtools-layer/`; package: `nuxtseo-layer-devtools`.
 
 ## Available Libraries
 
-The layer registers these Nuxt modules, so all consumers have them available without extra config:
+Consumers get these without extra config:
 
-- **`@nuxt/ui`** (v4): Full component library. Use `UButton`, `UBadge`, `UIcon`, `UInput`, `UTooltip`, `UApp`, etc. freely. Default variants via `app.config.ts` (primary green, buttons ghost/neutral/sm, badges subtle/neutral/xs, tooltips zero delay).
+- **`@nuxt/ui`** v4: `UButton`, `UBadge`, `UIcon`, `UInput`, `UTooltip`, `UApp`, and default variants from `app.config.ts`.
 - **`@vueuse/nuxt`**: All VueUse composables auto imported.
-- **Shiki**: Syntax highlighting via the layer's `loadShiki` / `useRenderCodeHighlight` composables.
+- **Shiki**: `loadShiki` and `useRenderCodeHighlight`.
 
 ## Architecture (Model C — source layer, assembled)
 
-Each module ships its devtools panel as a **source layer** under `devtools/`. It is NOT a standalone app the module builds itself.
+Each module ships a source layer under `devtools/`:
 
-1. **nuxtseo-shared/devtools** (`packages/shared/src/devtools.ts`): `setupDevToolsUI()` registers the Nuxt DevTools iframe tab. In dev it **assembles every installed SEO module's `devtools/` layer + the base layer into one unified client**, builds it once, and serves it at `/__nuxt-seo-devtools/<slug>` (one route per module). The module never extends the layer itself — the assembler writes the extending config.
-2. **nuxtseo-layer-devtools** (`packages/devtools-layer/`): the base layer — shared components, composables, CSS, fonts.
-3. **Module client** (`<module>/devtools/`): pages + lib for that module's panel. Extended by the assembler; renders at `/__nuxt-seo-devtools/<slug>`.
+1. `nuxtseo-shared/devtools` discovers module layers, assembles one client, then serves each module at `/__nuxt-seo-devtools/<slug>`.
+2. `nuxtseo-layer-devtools` supplies shared UI, composables, CSS, and fonts.
+3. `<module>/devtools/` supplies that module's pages and state. The assembler extends it with the base layer.
 
 ## Rules
 
-1. **Module `devtools/nuxt.config.ts` is empty** — `export default defineNuxtConfig({})`. The assembler wires the layer extension. Only add `components: [{ path: resolve(__dirname, './components'), pathPrefix: false }]` if the module ships its own `components/<mod>/` UI.
+1. Module `devtools/nuxt.config.ts` contains `export default defineNuxtConfig({})`. Only register components when the module ships `components/<mod>/`.
 2. **Use EXPLICIT imports for layer composables** — `import { useDevtoolsConnection } from 'nuxtseo-layer-devtools/composables/rpc'`, `import { appFetch } from '.../composables/rpc'`, `import { isProductionMode, path, refreshTime } from '.../composables/state'`, `import { loadShiki } from '.../composables/shiki'`. Do NOT rely on auto-imports / `#imports` for layer composables (`#imports` is fine for Nuxt built-ins like `navigateTo`, `useRoute`, `useAsyncData`).
-3. **The consuming module's root `tsconfig.json` MUST exclude both `dist` and `devtools`.** The devtools client is a separate layer-extended app, typechecked only when assembled — never at the module root. Omitting `dist` lets the `client:build` copy get typechecked in the wrong context (no layer auto-imports, drags the layer's raw `.ts` in) and breaks `nuxt typecheck`.
+3. The module root `tsconfig.json` MUST exclude `dist` and `devtools`. Typecheck the devtools client only when assembled.
 4. ALWAYS use layer components over custom HTML: `DevtoolsSection` not custom details, `DevtoolsKeyValue` not custom tables, `DevtoolsSnippet`/`OCodeBlock` not custom code blocks, `DevtoolsPanel` not a custom card, `DevtoolsEmptyState`/`DevtoolsLoading`/`DevtoolsAlert` not custom equivalents. Use `KeyValueItem.code` for inline code instead of separate snippets.
 5. ALWAYS use `@nuxt/ui` components (`UButton`, `UInput`, `UBadge`, `UIcon`, `UTooltip`, etc.) for interactive elements. Never hand-roll a button/input/badge/tooltip.
 6. NEVER add custom CSS that duplicates what the layer or Nuxt UI provides.
@@ -96,7 +94,10 @@ export const data = ref<DebugData | null>(null)
 export async function refreshSources() {
   if (!appFetch.value)
     return
-  data.value = await appFetch.value('/__<mod>__/debug.json', { query: { path: path.value } }).catch(() => null)
+  data.value = await appFetch.value('/__<mod>__/debug.json', { query: { path: path.value } }).catch((error) => {
+    console.warn('[nuxt-seo] failed to refresh debug data:', error)
+    return null
+  })
   if (data.value?.siteConfig?.url)
     productionUrl.value = data.value.siteConfig.url
 }
@@ -155,7 +156,7 @@ watch(isProductionMode, (isProd) => {
 </template>
 ```
 
-`DevtoolsLayout` derives the npm package + update-check and renders `DevtoolsTroubleshooting` in the debug tab automatically from `module-name` — do not pass an `npmPackage` prop or hand-roll troubleshooting.
+`DevtoolsLayout` derives package updates and debug troubleshooting from `module-name`. Do not pass `npmPackage` or recreate troubleshooting.
 
 ### src/module.ts (dev only)
 
@@ -165,3 +166,7 @@ if (nuxt.options.dev) {
   setupDevToolsUI(config, resolve)
 }
 ```
+
+## Example:
+
+For `nuxt-sitemap`, replace `<mod>` with `sitemap`; use `/sitemap` for the shell and `/__sitemap__/debug.json` for debug data.

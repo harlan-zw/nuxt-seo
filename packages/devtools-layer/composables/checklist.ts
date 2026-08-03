@@ -377,7 +377,10 @@ async function fetchDebugData(): Promise<void> {
   const fetches = Object.entries(DEBUG_ENDPOINTS)
     .filter(([slug]) => slugs.has(slug))
     .map(async ([slug, endpoint]) => {
-      const data = await fetch(endpoint!).catch(() => null)
+      const data = await fetch(endpoint!).catch((error) => {
+        console.warn(`[nuxt-seo] failed to load checklist data from "${endpoint}":`, error)
+        return null
+      })
       if (data)
         cache.set(slug, data)
     })

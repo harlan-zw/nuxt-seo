@@ -231,7 +231,10 @@ function toolchainInstalled(rootDir: string): boolean {
 
 /** Build the per-package-manager `add devDependency` argv for the detected client. */
 async function devAddArgs(rootDir: string): Promise<{ command: string, args: string[] }> {
-  const pm = await detectPackageManager(rootDir).catch(() => null)
+  const pm = await detectPackageManager(rootDir).catch((error) => {
+    console.warn(`[nuxt-seo] could not detect the package manager in "${rootDir}", falling back to npm:`, error)
+    return null
+  })
   const name = pm?.name ?? 'npm'
   if (name === 'npm')
     return { command: 'npm', args: ['install', '--save-dev', TOOLCHAIN_PACKAGE] }
