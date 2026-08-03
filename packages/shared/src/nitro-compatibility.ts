@@ -67,7 +67,7 @@ const nitroV3Runtime = `export { definePlugin as defineNitroPlugin } from 'nitro
 export { useNitroApp } from 'nitro/app'
 export { useRequest as useEvent } from 'nitro/context'
 export { useRuntimeConfig } from 'nitro/runtime-config'
-export { defineCachedFunction } from 'nitro/cache'
+export { defineCachedFunction, defineCachedHandler as defineCachedEventHandler } from 'nitro/cache'
 export { useStorage } from 'nitro/storage'
 export { defineTask, runTask } from 'nitro/task'
 `
