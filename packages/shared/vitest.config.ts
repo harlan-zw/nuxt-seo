@@ -17,6 +17,18 @@ export default defineConfig({
           ],
         },
       }),
+      defineProject({
+        test: {
+          name: 'integration',
+          environment: 'node',
+          include: [
+            './test/integration/**/*.test.ts',
+          ],
+          exclude: [
+            '**/node_modules/**',
+          ],
+        },
+      }),
     ],
   },
 })

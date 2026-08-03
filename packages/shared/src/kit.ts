@@ -8,6 +8,9 @@ import { dirname, relative } from 'pathe'
 import { readPackageJSON, resolvePackageJSON } from 'pkg-types'
 import { env, provider } from 'std-env'
 
+export type { NitroRuntimeCompatibility, NitroTypeAugmentations } from './nitro-compatibility'
+export { renderNitroTypeAugmentations, setupNitroRuntimeCompatibility } from './nitro-compatibility'
+
 export interface NuxtSeoModuleDetection {
   name: string
   version?: string

@@ -16,3 +16,5 @@ permissions:
 jobs:
   ci:
     uses: ./.github/workflows/reusable-ci.yml
+    with:
+      test-command: pnpm test:run
