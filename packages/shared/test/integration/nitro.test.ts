@@ -13,6 +13,7 @@ describe('nitro runtime compatibility', () => {
   it('serves a runtime handler through the shared virtual imports', async () => {
     await expect($fetch('/api/compat')).resolves.toEqual({
       marker: 'nuxt-4',
+      requestContextMarker: 'nuxt-4-context',
     })
   })
 })

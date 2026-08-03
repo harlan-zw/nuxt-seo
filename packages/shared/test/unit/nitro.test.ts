@@ -3,9 +3,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { renderNitroTypeAugmentations, setupNitroRuntimeCompatibility } from '../../src/kit'
 
-const { addTypeTemplateMock, getNuxtVersionMock } = vi.hoisted(() => ({
+const { addTypeTemplateMock, getNuxtVersionMock, hookOnceMock } = vi.hoisted(() => ({
   addTypeTemplateMock: vi.fn(),
   getNuxtVersionMock: vi.fn(),
+  hookOnceMock: vi.fn(),
 }))
 
 vi.mock('@nuxt/kit', async importOriginal => ({
@@ -16,6 +17,9 @@ vi.mock('@nuxt/kit', async importOriginal => ({
 
 function createNuxt(): Nuxt {
   return {
+    hooks: {
+      hookOnce: hookOnceMock,
+    },
     options: {
       nitro: {},
     },
@@ -26,6 +30,7 @@ describe('setupNitroRuntimeCompatibility', () => {
   beforeEach(() => {
     addTypeTemplateMock.mockReset()
     getNuxtVersionMock.mockReset()
+    hookOnceMock.mockReset()
   })
 
   it('registers Nitro 2 runtime virtual module and H3 alias', async () => {
@@ -42,6 +47,8 @@ describe('setupNitroRuntimeCompatibility', () => {
       nitroTypesModule: 'nitropack',
     })
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('from \'nitropack/runtime\'')
+    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useEvent')
+    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('defineCachedEventHandler')
     expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('h3')
     expect(addTypeTemplateMock).toHaveBeenCalledOnce()
     expect(addTypeTemplateMock).toHaveBeenCalledWith(expect.any(Object), { nitro: true, nuxt: true })
@@ -65,14 +72,17 @@ describe('setupNitroRuntimeCompatibility', () => {
       nitroTypesModule: 'nitro/types',
     })
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('definePlugin as defineNitroPlugin } from \'nitro\'')
-    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useRuntimeConfig } from \'nitro/runtime-config\'')
+    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useRuntimeConfig(_event)')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).not.toContain('getRouteRules')
-    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).not.toContain('useEvent')
+    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useRequest as useEvent } from \'nitro/context\'')
+    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('defineCachedHandler as defineCachedEventHandler')
     expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('nitro/h3')
     expect(addTypeTemplateMock).toHaveBeenCalledWith(expect.any(Object), { nitro: true, nuxt: true })
 
     const template = addTypeTemplateMock.mock.calls[0]![0]
-    await expect(template.getContents()).resolves.toContain('from \'nitro/runtime-config\'')
+    await expect(template.getContents()).resolves.toContain('import(\'nitro/runtime-config\')')
+    await expect(template.getContents()).resolves.toContain('useRuntimeConfig(event?:')
+    await expect(template.getContents()).resolves.toContain('defineCachedHandler as defineCachedEventHandler')
     await expect(template.getContents()).resolves.toContain('export * from \'nitro/h3\'')
   })
 
@@ -84,6 +94,41 @@ describe('setupNitroRuntimeCompatibility', () => {
     setupNitroRuntimeCompatibility(nuxt)
 
     expect(addTypeTemplateMock).toHaveBeenCalledOnce()
+  })
+
+  it('registers the request context type bridge after an older helper ran', async () => {
+    getNuxtVersionMock.mockReturnValue('5.0.0')
+    const nuxt = createNuxt() as Nuxt & { [key: symbol]: true }
+    nuxt[Symbol.for('nuxtseo:nitro-runtime-compatibility')] = true
+
+    setupNitroRuntimeCompatibility(nuxt)
+
+    expect(addTypeTemplateMock).toHaveBeenCalledOnce()
+    const template = addTypeTemplateMock.mock.calls[0]![0]
+    await expect(template.getContents()).resolves.toContain('useRequest as useEvent')
+  })
+
+  it('prevents an older helper from overwriting a newer runtime bridge', () => {
+    getNuxtVersionMock.mockReturnValue('5.0.0')
+    const nuxt = createNuxt() as Nuxt & { [key: symbol]: true | undefined }
+
+    setupNitroRuntimeCompatibility(nuxt)
+
+    expect(nuxt[Symbol.for('nuxtseo:nitro-runtime-compatibility')]).toBe(true)
+  })
+
+  it('reasserts the runtime bridge after all modules finish setup', () => {
+    getNuxtVersionMock.mockReturnValue('5.0.0')
+    const nuxt = createNuxt()
+
+    setupNitroRuntimeCompatibility(nuxt)
+    nuxt.options.nitro.virtual!['#nuxtseo/nitro'] = 'stale runtime bridge'
+
+    expect(hookOnceMock).toHaveBeenCalledOnce()
+    const applyCompatibility = hookOnceMock.mock.calls[0]![1]
+    applyCompatibility()
+
+    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useRequest as useEvent')
   })
 })
 
@@ -125,6 +170,32 @@ declare module 'srvx' {
     })).toBe(`declare module 'nitropack' {
   interface NitroRuntimeHooks {
     'build:done': () => void
+  }
+}
+
+declare module 'nitropack/types' {
+  interface NitroRuntimeHooks {
+    'build:done': () => void
+  }
+}`)
+  })
+
+  it('renders module-specific Nitro interfaces and omits empty entries', () => {
+    getNuxtVersionMock.mockReturnValue('5.0.0')
+    const compatibility = setupNitroRuntimeCompatibility(createNuxt())
+
+    expect(renderNitroTypeAugmentations(compatibility, {
+      nitroInterfaces: {
+        NitroApp: '_robots?: RobotsState',
+        PrerenderRoute: '_sitemap?: SitemapUrl',
+        EmptyInterface: '  ',
+      },
+    })).toBe(`declare module 'nitro/types' {
+  interface NitroApp {
+    _robots?: RobotsState
+  }
+  interface PrerenderRoute {
+    _sitemap?: SitemapUrl
   }
 }`)
   })

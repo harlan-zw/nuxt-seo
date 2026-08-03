@@ -2,7 +2,7 @@ import { defu } from 'defu'
 import { createRouter as createRadixRouter, toRouteMatcher } from 'radix3'
 import { parseURL, withoutBase, withoutTrailingSlash } from 'ufo'
 
-export interface NitroRouteRulesRuntimeConfig<TRouteRules extends Record<string, unknown>> {
+export interface NitroRouteRulesRuntimeConfig<TRouteRules extends object> {
   app?: {
     baseURL?: string
   }
@@ -16,8 +16,8 @@ export function withoutQuery(path: string): string {
   return queryIndex === -1 ? path : path.slice(0, queryIndex)
 }
 
-export function createNitroRouteRuleMatcher<TRouteRules extends Record<string, unknown> = Record<string, unknown>>(
-  runtimeConfig: NitroRouteRulesRuntimeConfig<TRouteRules>,
+export function createNitroRouteRuleMatcher<TRouteRules extends object = Record<string, unknown>>(
+  runtimeConfig: NitroRouteRulesRuntimeConfig<object>,
 ): (pathOrUrl: string) => TRouteRules {
   const { nitro, app } = runtimeConfig
   const baseURL = app?.baseURL || '/'

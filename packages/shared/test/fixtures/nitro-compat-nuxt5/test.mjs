@@ -45,6 +45,7 @@ try {
   const response = await waitForServer()
   assert.deepEqual(await response.json(), {
     marker: 'nuxt-5',
+    requestContextMarker: 'nuxt-5-context',
   })
 }
 finally {

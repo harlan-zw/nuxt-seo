@@ -1,4 +1,5 @@
-import { describe, expect, it } from 'vitest'
+import type { NitroRouteRulesRuntimeConfig } from '../../src/server'
+import { describe, expect, expectTypeOf, it } from 'vitest'
 import { createNitroRouteRuleMatcher, normalizeNitroMatchedRouteRules } from '../../src/server'
 
 function rc(routeRules: Record<string, any>, baseURL = '/') {
@@ -6,6 +7,43 @@ function rc(routeRules: Record<string, any>, baseURL = '/') {
 }
 
 describe('createNitroRouteRuleMatcher', () => {
+  it('accepts typed route rules without an index signature', () => {
+    interface RouteRules {
+      redirect?: string
+    }
+
+    const match = createNitroRouteRuleMatcher<RouteRules>({
+      nitro: {
+        routeRules: {
+          '/foo': { redirect: '/x' },
+        },
+      },
+    })
+
+    expectTypeOf(match).returns.toEqualTypeOf<RouteRules>()
+    expect(match('/foo')).toEqual({ redirect: '/x' })
+  })
+
+  it('decouples the runtime config rule type from the returned module rule view', () => {
+    interface RuntimeRouteRule {
+      redirect?: string
+    }
+    interface ModuleRouteRule {
+      ogImage?: false | { width: number }
+    }
+
+    const runtimeConfig = {
+      nitro: {
+        routeRules: {
+          '/foo': { redirect: '/x' },
+        },
+      },
+    } satisfies NitroRouteRulesRuntimeConfig<RuntimeRouteRule>
+    const match = createNitroRouteRuleMatcher<ModuleRouteRule>(runtimeConfig)
+
+    expectTypeOf(match).returns.toEqualTypeOf<ModuleRouteRule>()
+  })
+
   it('merges overlapping rules with defu precedence, more specific wins', () => {
     const match = createNitroRouteRuleMatcher(rc({
       '/blog/**': { headers: { a: '1' }, redirect: '/generic' },

@@ -7,5 +7,7 @@ export default defineNuxtModule({
   },
   setup(_options, nuxt) {
     setupNitroRuntimeCompatibility(nuxt)
+    nuxt.options.nitro.experimental ||= {}
+    nuxt.options.nitro.experimental.asyncContext = true
   },
 })
