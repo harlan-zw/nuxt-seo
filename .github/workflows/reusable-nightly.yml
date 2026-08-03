@@ -50,4 +50,4 @@ jobs:
       - run: pnpm build
 
       - name: Publish
-        run: pnpm dlx pkg-pr-new publish ${{ inputs.publish-packages }}
+        run: pnpm dlx pkg-pr-new publish --pnpm ${{ inputs.publish-packages }}
