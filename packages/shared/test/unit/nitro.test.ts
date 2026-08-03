@@ -42,6 +42,7 @@ describe('setupNitroRuntimeCompatibility', () => {
       nitroTypesModule: 'nitropack',
     })
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('from \'nitropack/runtime\'')
+    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useEvent')
     expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('h3')
     expect(addTypeTemplateMock).toHaveBeenCalledOnce()
     expect(addTypeTemplateMock).toHaveBeenCalledWith(expect.any(Object), { nitro: true, nuxt: true })
@@ -67,7 +68,7 @@ describe('setupNitroRuntimeCompatibility', () => {
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('definePlugin as defineNitroPlugin } from \'nitro\'')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useRuntimeConfig } from \'nitro/runtime-config\'')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).not.toContain('getRouteRules')
-    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).not.toContain('useEvent')
+    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useRequest as useEvent } from \'nitro/context\'')
     expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('nitro/h3')
     expect(addTypeTemplateMock).toHaveBeenCalledWith(expect.any(Object), { nitro: true, nuxt: true })
 

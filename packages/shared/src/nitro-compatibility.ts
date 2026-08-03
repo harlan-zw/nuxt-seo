@@ -53,6 +53,7 @@ const nitroV3Compatibility: NitroRuntimeCompatibility = {
 const nitroV2Runtime = `export {
   defineNitroPlugin,
   useNitroApp,
+  useEvent,
   useRuntimeConfig,
   defineCachedFunction,
   useStorage,
@@ -63,6 +64,7 @@ const nitroV2Runtime = `export {
 
 const nitroV3Runtime = `export { definePlugin as defineNitroPlugin } from 'nitro'
 export { useNitroApp } from 'nitro/app'
+export { useRequest as useEvent } from 'nitro/context'
 export { useRuntimeConfig } from 'nitro/runtime-config'
 export { defineCachedFunction } from 'nitro/cache'
 export { useStorage } from 'nitro/storage'
