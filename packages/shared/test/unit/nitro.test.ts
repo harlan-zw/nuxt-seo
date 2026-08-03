@@ -3,9 +3,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { renderNitroTypeAugmentations, setupNitroRuntimeCompatibility } from '../../src/kit'
 
-const { addTypeTemplateMock, getNuxtVersionMock } = vi.hoisted(() => ({
+const { addTypeTemplateMock, getNuxtVersionMock, hookOnceMock } = vi.hoisted(() => ({
   addTypeTemplateMock: vi.fn(),
   getNuxtVersionMock: vi.fn(),
+  hookOnceMock: vi.fn(),
 }))
 
 vi.mock('@nuxt/kit', async importOriginal => ({
@@ -16,6 +17,9 @@ vi.mock('@nuxt/kit', async importOriginal => ({
 
 function createNuxt(): Nuxt {
   return {
+    hooks: {
+      hookOnce: hookOnceMock,
+    },
     options: {
       nitro: {},
     },
@@ -26,6 +30,7 @@ describe('setupNitroRuntimeCompatibility', () => {
   beforeEach(() => {
     addTypeTemplateMock.mockReset()
     getNuxtVersionMock.mockReset()
+    hookOnceMock.mockReset()
   })
 
   it('registers Nitro 2 runtime virtual module and H3 alias', async () => {
@@ -85,6 +90,20 @@ describe('setupNitroRuntimeCompatibility', () => {
     setupNitroRuntimeCompatibility(nuxt)
 
     expect(addTypeTemplateMock).toHaveBeenCalledOnce()
+  })
+
+  it('reasserts the runtime bridge after all modules finish setup', () => {
+    getNuxtVersionMock.mockReturnValue('5.0.0')
+    const nuxt = createNuxt()
+
+    setupNitroRuntimeCompatibility(nuxt)
+    nuxt.options.nitro.virtual!['#nuxtseo/nitro'] = 'stale runtime bridge'
+
+    expect(hookOnceMock).toHaveBeenCalledOnce()
+    const applyCompatibility = hookOnceMock.mock.calls[0]![1]
+    applyCompatibility()
+
+    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useRequest as useEvent')
   })
 })
 
