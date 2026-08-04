@@ -1,0 +1,18 @@
+name: Package Size Analysis
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**/README.md'
+      - 'docs/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    uses: harlan-zw/nuxt-seo/.github/workflows/reusable-package-size.yml@main

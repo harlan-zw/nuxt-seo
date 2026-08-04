@@ -1,0 +1,34 @@
+name: Package Size Report
+description: Compare package exports, Nuxt runtime output, and marginal runtime dependencies between two builds
+
+inputs:
+  base-directory:
+    description: Repository root containing the base build
+    required: true
+  head-directory:
+    description: Repository root containing the pull request build
+    required: true
+  report-path:
+    description: Markdown report destination
+    required: true
+  base-available:
+    description: Whether the base build completed successfully
+    required: false
+    default: 'true'
+  base-label:
+    description: Human readable baseline label
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: Generate package size report
+      shell: bash
+      env:
+        PACKAGE_SIZE_BASE_AVAILABLE: ${{ inputs.base-available }}
+        PACKAGE_SIZE_BASE_DIRECTORY: ${{ inputs.base-directory }}
+        PACKAGE_SIZE_BASE_LABEL: ${{ inputs.base-label }}
+        PACKAGE_SIZE_HEAD_DIRECTORY: ${{ inputs.head-directory }}
+        PACKAGE_SIZE_REPORT_PATH: ${{ inputs.report-path }}
+      run: node "$GITHUB_ACTION_PATH/report.mjs"

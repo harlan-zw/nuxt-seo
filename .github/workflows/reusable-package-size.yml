@@ -1,0 +1,109 @@
+name: Reusable Package Size
+
+on:
+  workflow_call:
+    inputs:
+      runner:
+        description: Runner to use
+        type: string
+        default: ubuntu-24.04-arm
+      node-version:
+        description: Node.js version
+        type: string
+        default: 'lts/*'
+      install-command:
+        description: Dependency installation command
+        type: string
+        default: pnpm i --trust-lockfile
+      prepare-command:
+        description: Optional command to run before each build
+        type: string
+        default: pnpm dev:prepare
+      build-command:
+        description: Package build command
+        type: string
+        default: pnpm build
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ${{ inputs.runner }}
+    steps:
+      - name: Check out pull request
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check out base commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: .benchmark/base
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.base.sha }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+
+      - name: Use Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: pnpm
+
+      - name: Build base commit
+        id: base-build
+        continue-on-error: true
+        working-directory: .benchmark/base
+        run: |
+          ${{ inputs.install-command }}
+          ${{ inputs.prepare-command }}
+          ${{ inputs.build-command }}
+
+      - name: Warn when the base build is unavailable
+        if: ${{ steps.base-build.outcome != 'success' }}
+        run: echo "::warning::The base build failed; pull request output will be reported as new."
+
+      - name: Build pull request
+        run: |
+          ${{ inputs.install-command }}
+          ${{ inputs.prepare-command }}
+          ${{ inputs.build-command }}
+
+      - name: Resolve baseline label
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          short_sha=$(git rev-parse --short "$BASE_SHA")
+          date=$(git show -s --format=%cs "$BASE_SHA")
+          echo "BASE_LABEL=$BASE_REF @ $short_sha · $date" >> "$GITHUB_ENV"
+
+      - name: Generate package size report
+        uses: ./.github/actions/package-size-report
+        with:
+          base-available: ${{ steps.base-build.outcome == 'success' }}
+          base-directory: ${{ github.workspace }}/.benchmark/base
+          base-label: ${{ env.BASE_LABEL }}
+          head-directory: ${{ github.workspace }}
+          report-path: ${{ runner.temp }}/package-size-report/report.md
+
+      - name: Prepare package size artifact
+        env:
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPORT_DIR: ${{ runner.temp }}/package-size-report
+        run: |
+          cat "$REPORT_DIR/report.md" >> "$GITHUB_STEP_SUMMARY"
+          printf '%s\n' "$PR_NUMBER" > "$REPORT_DIR/pr-number.txt"
+          printf '%s\n' "$HEAD_SHA" > "$REPORT_DIR/head-sha.txt"
+
+      - name: Upload package size report
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: package-size-report
+          path: ${{ runner.temp }}/package-size-report
+          if-no-files-found: error
+          retention-days: 1
