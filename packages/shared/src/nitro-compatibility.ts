@@ -64,9 +64,28 @@ const nitroV2Runtime = `export {
   defineTask,
   runTask,
 } from 'nitropack/runtime'
+export function fetchWithEvent(event, request, options) {
+  return event.$fetch(request, options)
+}
 `
 
-const nitroV3Runtime = `export { definePlugin as defineNitroPlugin } from 'nitro'
+const nitroV2RuntimeTypes = `export {
+  defineNitroPlugin,
+  useNitroApp,
+  useEvent,
+  useRuntimeConfig,
+  defineCachedFunction,
+  defineCachedEventHandler,
+  useStorage,
+  defineTask,
+  runTask,
+} from 'nitropack/runtime'
+export function fetchWithEvent<T>(event: import('h3').H3Event, request: import('ofetch').FetchRequest, options?: import('ofetch').FetchOptions): Promise<T>
+`
+
+const nitroV3Runtime = `import { createFetch } from 'ofetch'
+import { fetchWithEvent as fetchRawWithEvent } from 'nitro/h3'
+export { definePlugin as defineNitroPlugin } from 'nitro'
 export { useNitroApp } from 'nitro/app'
 export { useRequest as useEvent } from 'nitro/context'
 import { useRuntimeConfig as _useRuntimeConfig } from 'nitro/runtime-config'
@@ -74,6 +93,12 @@ export function useRuntimeConfig(_event) { return _useRuntimeConfig() }
 export { defineCachedFunction, defineCachedHandler as defineCachedEventHandler } from 'nitro/cache'
 export { useStorage } from 'nitro/storage'
 export { defineTask, runTask } from 'nitro/task'
+export function fetchWithEvent(event, request, options) {
+  const localFetch = createFetch({
+    fetch: (input, init) => fetchRawWithEvent(event, input, init),
+  })
+  return localFetch(request, options)
+}
 `
 
 const nitroV3RuntimeTypes = `export { definePlugin as defineNitroPlugin } from 'nitro'
@@ -83,6 +108,7 @@ export function useRuntimeConfig(event?: import('nitro/h3').H3Event): ReturnType
 export { defineCachedFunction, defineCachedHandler as defineCachedEventHandler } from 'nitro/cache'
 export { useStorage } from 'nitro/storage'
 export { defineTask, runTask } from 'nitro/task'
+export function fetchWithEvent<T>(event: import('nitro/h3').H3Event, request: import('ofetch').FetchRequest, options?: import('ofetch').FetchOptions): Promise<T>
 `
 
 function indent(value: string, spaces: number): string {
@@ -97,7 +123,7 @@ function renderInterface(name: string, contents?: string): string | undefined {
 }
 
 function renderRuntimeDeclarations(compatibility: NitroRuntimeCompatibility): string {
-  const nitroRuntime = compatibility._tag === 'nitro-v3' ? nitroV3RuntimeTypes : nitroV2Runtime
+  const nitroRuntime = compatibility._tag === 'nitro-v3' ? nitroV3RuntimeTypes : nitroV2RuntimeTypes
   const h3Runtime = compatibility._tag === 'nitro-v3'
     ? `export * from 'nitro/h3'\n`
     : `export * from 'h3'\n`
