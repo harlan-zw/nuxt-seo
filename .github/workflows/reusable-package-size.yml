@@ -18,7 +18,7 @@ on:
       prepare-command:
         description: Optional command to run before each build
         type: string
-        default: ''
+        default: pnpm dev:prepare
       build-command:
         description: Package build command
         type: string
