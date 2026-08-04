@@ -4,7 +4,7 @@ import { useRequestHeader } from '#imports'
 withDefaults(defineProps<{
   title?: string
 }>(), {
-  title: 'Nuxt SEO Nitro 3',
+  title: 'Nuxt SEO compatibility',
 })
 
 if (useRequestHeader('x-og-image-test') !== 'forwarded')

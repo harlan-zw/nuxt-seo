@@ -6,7 +6,7 @@ import NuxtSkewProtection from 'nuxt-skew-protection'
 import { setupNitroRuntimeCompatibility } from 'nuxtseo-shared/kit'
 
 const NitroCompatibility = defineNuxtModule({
-  meta: { name: 'nitro3-fixture-compatibility' },
+  meta: { name: 'nitro2-fixture-compatibility' },
   setup(_options, nuxt) {
     setupNitroRuntimeCompatibility(nuxt)
   },
@@ -25,6 +25,6 @@ export default defineNuxtConfig({
   ],
 
   runtimeConfig: {
-    fixtureMarker: 'nitro-3',
+    fixtureMarker: 'nitro-2',
   },
 })

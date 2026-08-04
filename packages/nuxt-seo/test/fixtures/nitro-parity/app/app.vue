@@ -1,22 +1,22 @@
 <script setup lang="ts">
 useSeoMeta({
   title: 'Compatibility',
-  description: 'Nuxt SEO running on Nitro 3.',
+  description: 'Nuxt SEO compatibility fixture.',
 })
 
 defineOgImage('Default', {
-  title: 'Nuxt SEO on Nitro 3',
+  title: 'Nuxt SEO compatibility',
 })
 
 useSchemaOrg([
   defineWebSite({
-    name: 'Nuxt SEO Nitro 3',
+    name: 'Nuxt SEO Compatibility',
   }),
 ])
 </script>
 
 <template>
   <main>
-    <h1>Nuxt SEO Nitro 3 compatibility</h1>
+    <h1>Nuxt SEO compatibility</h1>
   </main>
 </template>
