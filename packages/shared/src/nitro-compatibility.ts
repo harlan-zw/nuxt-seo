@@ -1,5 +1,5 @@
 import type { Nuxt } from '@nuxt/schema'
-import { addTypeTemplate, getNuxtVersion, useNuxt } from '@nuxt/kit'
+import { addTypeTemplate, getNuxtVersion, resolveModule, useNuxt } from '@nuxt/kit'
 
 export type NitroRuntimeCompatibility
   = | {
@@ -27,6 +27,7 @@ export interface NitroTypeAugmentations {
 
 const NITRO_RUNTIME_MODULE = '#nuxtseo/nitro'
 const H3_RUNTIME_MODULE = '#nuxtseo/h3'
+const OFETCH_RUNTIME_MODULE = '#nuxtseo/ofetch'
 const TYPE_TEMPLATE_FILENAME = 'types/nuxtseo-nitro.d.ts'
 const legacySetupMarker = Symbol.for('nuxtseo:nitro-runtime-compatibility')
 const typeSetupMarker = Symbol.for('nuxtseo:nitro-runtime-compatibility:request-context-types')
@@ -83,7 +84,7 @@ const nitroV2RuntimeTypes = `export {
 export function fetchWithEvent<T>(event: import('h3').H3Event, request: import('ofetch').FetchRequest, options?: import('ofetch').FetchOptions): Promise<T>
 `
 
-const nitroV3Runtime = `import { createFetch } from 'ofetch'
+const nitroV3Runtime = `import { createFetch } from '${OFETCH_RUNTIME_MODULE}'
 import { fetchWithEvent as fetchRawWithEvent } from 'nitro/h3'
 export { definePlugin as defineNitroPlugin } from 'nitro'
 export { useNitroApp } from 'nitro/app'
@@ -144,6 +145,8 @@ function applyNitroRuntimeCompatibility(nuxt: Nuxt, compatibility: NitroRuntimeC
   nitroOptions.alias ||= {}
   nitroOptions.virtual ||= {}
   nitroOptions.alias[H3_RUNTIME_MODULE] = compatibility._tag === 'nitro-v3' ? 'nitro/h3' : 'h3'
+  if (compatibility._tag === 'nitro-v3')
+    nitroOptions.alias[OFETCH_RUNTIME_MODULE] = resolveModule('ofetch', { url: new URL(import.meta.url) })
   nitroOptions.virtual[NITRO_RUNTIME_MODULE] = compatibility._tag === 'nitro-v3' ? nitroV3Runtime : nitroV2Runtime
 }
 

@@ -3,16 +3,18 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { renderNitroTypeAugmentations, setupNitroRuntimeCompatibility } from '../../src/kit'
 
-const { addTypeTemplateMock, getNuxtVersionMock, hookOnceMock } = vi.hoisted(() => ({
+const { addTypeTemplateMock, getNuxtVersionMock, hookOnceMock, resolveModuleMock } = vi.hoisted(() => ({
   addTypeTemplateMock: vi.fn(),
   getNuxtVersionMock: vi.fn(),
   hookOnceMock: vi.fn(),
+  resolveModuleMock: vi.fn(),
 }))
 
 vi.mock('@nuxt/kit', async importOriginal => ({
   ...await importOriginal<typeof import('@nuxt/kit')>(),
   addTypeTemplate: addTypeTemplateMock,
   getNuxtVersion: getNuxtVersionMock,
+  resolveModule: resolveModuleMock,
 }))
 
 function createNuxt(): Nuxt {
@@ -31,6 +33,8 @@ describe('setupNitroRuntimeCompatibility', () => {
     addTypeTemplateMock.mockReset()
     getNuxtVersionMock.mockReset()
     hookOnceMock.mockReset()
+    resolveModuleMock.mockReset()
+    resolveModuleMock.mockReturnValue('/resolved/ofetch.mjs')
   })
 
   it('registers Nitro 2 runtime virtual module and H3 alias', async () => {
@@ -51,6 +55,8 @@ describe('setupNitroRuntimeCompatibility', () => {
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('defineCachedEventHandler')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('event.$fetch(request, options)')
     expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('h3')
+    expect(nuxt.options.nitro.alias?.['#nuxtseo/ofetch']).toBeUndefined()
+    expect(resolveModuleMock).not.toHaveBeenCalled()
     expect(addTypeTemplateMock).toHaveBeenCalledOnce()
     expect(addTypeTemplateMock).toHaveBeenCalledWith(expect.any(Object), { nitro: true, nuxt: true })
 
@@ -79,7 +85,10 @@ describe('setupNitroRuntimeCompatibility', () => {
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useRequest as useEvent } from \'nitro/context\'')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('defineCachedHandler as defineCachedEventHandler')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('fetchRawWithEvent(event, input, init)')
+    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('from \'#nuxtseo/ofetch\'')
     expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('nitro/h3')
+    expect(nuxt.options.nitro.alias?.['#nuxtseo/ofetch']).toBe('/resolved/ofetch.mjs')
+    expect(resolveModuleMock).toHaveBeenCalledWith('ofetch', { url: expect.any(URL) })
     expect(addTypeTemplateMock).toHaveBeenCalledWith(expect.any(Object), { nitro: true, nuxt: true })
 
     const template = addTypeTemplateMock.mock.calls[0]![0]
