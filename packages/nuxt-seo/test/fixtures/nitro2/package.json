@@ -1,0 +1,34 @@
+{
+  "name": "nuxt-seo-nitro2-fixture",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "typecheck": "nuxt prepare && vue-tsc --noEmit -p .nuxt/tsconfig.server.json"
+  },
+  "dependencies": {
+    "@nuxt/kit": "4.5.1",
+    "@nuxt/schema": "4.5.1",
+    "@takumi-rs/core": "2.5.4",
+    "@nuxtjs/seo": "file:../nitro-parity/nuxtjs-seo.tgz",
+    "@nuxtjs/robots": "https://pkg.pr.new/@nuxtjs/robots@86d7159",
+    "@nuxtjs/sitemap": "https://pkg.pr.new/@nuxtjs/sitemap@af1b858",
+    "mdream": "1.5.8",
+    "nitropack": "2.13.4",
+    "nuxt": "4.5.1",
+    "nuxt-ai-ready": "^1.7.3",
+    "nuxt-link-checker": "https://pkg.pr.new/nuxt-link-checker@7f45299",
+    "nuxt-og-image": "https://pkg.pr.new/nuxt-og-image@2f9c7c1",
+    "nuxt-schema-org": "https://pkg.pr.new/nuxt-schema-org@bccbc8e",
+    "nuxt-seo-utils": "https://pkg.pr.new/nuxt-seo-utils@b6069e8",
+    "nuxt-site-config": "https://pkg.pr.new/nuxt-site-config@d613bc6",
+    "nuxt-skew-protection": "https://pkg.pr.new/nuxt-skew-protection@03e61e0",
+    "nuxtseo-shared": "file:../nitro-parity/nuxtseo-shared.tgz",
+    "vue": "^3.5.40",
+    "vue-router": "^5.2.0"
+  },
+  "devDependencies": {
+    "typescript": "6.0.3",
+    "vue-tsc": "^3.3.9"
+  }
+}

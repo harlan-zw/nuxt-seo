@@ -1,7 +1,7 @@
 {
   "name": "@nuxtjs/seo",
   "type": "module",
-  "version": "5.3.9",
+  "version": "5.3.10",
   "description": "Fully equipped Technical SEO for busy Nuxters.",
   "author": {
     "name": "Harlan Wilton",
@@ -51,12 +51,13 @@
     "typecheck": "nuxt typecheck playground",
     "prepare:fixtures": "nuxt prepare test/fixtures/basic && nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/content",
     "test": "pnpm prepare:fixtures && vitest",
-    "test:run": "pnpm prepare:fixtures && vitest run",
+    "test:run": "pnpm prepare:fixtures && vitest run && pnpm test:nitro-parity",
+    "test:nitro-parity": "pnpm --dir ../shared build && pnpm --dir ../shared pack --out ../nuxt-seo/test/fixtures/nitro-parity/nuxtseo-shared.tgz && pnpm pack --out test/fixtures/nitro-parity/nuxtjs-seo.tgz && pnpm install --dir test/fixtures/nitro2 --no-frozen-lockfile --force --update-checksums && pnpm install --dir test/fixtures/nuxt5 --no-frozen-lockfile --force --update-checksums && node test/fixtures/nitro-parity/test.mjs",
     "test:attw": "attw --pack --profile esm-only",
     "prepack": "nuxt-module-build build"
   },
   "peerDependencies": {
-    "nuxt": "^3.16.0 || ^4.0.0"
+    "nuxt": "^3.16.0 || ^4.0.0 || ^5.0.0"
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",
