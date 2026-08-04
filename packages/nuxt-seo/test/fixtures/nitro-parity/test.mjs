@@ -8,10 +8,10 @@ import { resolve } from 'node:path'
 import process from 'node:process'
 
 const HEAD_REGEX = /<head>([\s\S]*)<\/head>/
-const STYLE_REGEX = /<style[\s\S]*?<\/style>/g
-const SCRIPT_REGEX = /<script[\s\S]*?<\/script>/g
-const LINK_REGEX = /<link[\s\S]*?>/g
-const TAG_GAP_REGEX = /></g
+const META_TAG_REGEX = /<meta\b[^>]*>/gi
+const TITLE_TAG_REGEX = /<title\b[^>]*>[^<]*<\/title>/gi
+const LINK_TAG_REGEX = /<link\b[^>]*>/gi
+const SEO_LINK_REL_REGEX = /\brel="(?:canonical|icon)"/i
 const OG_IMAGE_REGEX = /<meta property="og:image" content="([^"]+)">/
 const OG_SIGNATURE_REGEX = /,s_[\w-]+(?=\.(?:png|jpe?g|webp|svg|html|json))/g
 const fixtureRoot = resolve(import.meta.dirname, '..')
@@ -106,14 +106,11 @@ function stripOgSignature(value) {
 function extractSeoHead(html) {
   const head = stripOgSignature(html).match(HEAD_REGEX)?.[1]
   assert.ok(head, 'Rendered page is missing its head')
-  return head
-    .replace(STYLE_REGEX, '')
-    .replace(SCRIPT_REGEX, '')
-    .replace(LINK_REGEX, link => link.includes('rel="canonical"') || link.includes('rel="icon"') ? link : '')
-    .replace(TAG_GAP_REGEX, '>\n<')
-    .split('\n')
-    .map(line => line.trim())
-    .filter(Boolean)
+  return [META_TAG_REGEX, TITLE_TAG_REGEX, LINK_TAG_REGEX]
+    .flatMap(pattern => [...head.matchAll(pattern)])
+    .filter(match => !match[0].toLowerCase().startsWith('<link') || SEO_LINK_REL_REGEX.test(match[0]))
+    .sort((left, right) => left.index - right.index)
+    .map(match => match[0])
     .join('\n')
 }
 
