@@ -68,6 +68,9 @@ const nitroV2Runtime = `export {
 export function fetchWithEvent(event, request, options) {
   return event.$fetch(request, options)
 }
+export function fetchRawWithEvent(event, request, init) {
+  return event.fetch(request, init)
+}
 `
 
 const nitroV2RuntimeTypes = `export {
@@ -82,10 +85,12 @@ const nitroV2RuntimeTypes = `export {
   runTask,
 } from 'nitropack/runtime'
 export function fetchWithEvent<T>(event: import('h3').H3Event, request: import('ofetch').FetchRequest, options?: import('ofetch').FetchOptions): Promise<T>
+export function fetchRawWithEvent(event: import('h3').H3Event, request: RequestInfo | URL, init?: RequestInit): Promise<Response>
 `
 
 const nitroV3Runtime = `import { createFetch } from '${OFETCH_RUNTIME_MODULE}'
-import { fetchWithEvent as fetchRawWithEvent } from 'nitro/h3'
+import { fetchWithEvent as fetchH3WithEvent, getProxyRequestHeaders } from 'nitro/h3'
+import { useNitroApp as _useNitroApp } from 'nitro/app'
 export { definePlugin as defineNitroPlugin } from 'nitro'
 export { useNitroApp } from 'nitro/app'
 export { useRequest as useEvent } from 'nitro/context'
@@ -94,9 +99,24 @@ export function useRuntimeConfig(_event) { return _useRuntimeConfig() }
 export { defineCachedFunction, defineCachedHandler as defineCachedEventHandler } from 'nitro/cache'
 export { useStorage } from 'nitro/storage'
 export { defineTask, runTask } from 'nitro/task'
+function fetchRaw(event, input, init) {
+  if (typeof input !== 'string' || !input.startsWith('/'))
+    return fetchH3WithEvent(event, input, init)
+  const headers = new Headers(getProxyRequestHeaders(event, { host: true }))
+  for (const [name, value] of new Headers(init?.headers))
+    headers.set(name, value)
+  const request = new Request(new URL(input, event.url), { ...init, headers })
+  request.runtime = event.req.runtime
+  request.waitUntil = event.req.waitUntil
+  request.ip = event.req.ip
+  return _useNitroApp().fetch(request)
+}
+export function fetchRawWithEvent(event, request, init) {
+  return fetchRaw(event, request, init)
+}
 export function fetchWithEvent(event, request, options) {
   const localFetch = createFetch({
-    fetch: (input, init) => fetchRawWithEvent(event, input, init),
+    fetch: (input, init) => fetchRaw(event, input, init),
   })
   return localFetch(request, options)
 }
@@ -110,6 +130,7 @@ export { defineCachedFunction, defineCachedHandler as defineCachedEventHandler }
 export { useStorage } from 'nitro/storage'
 export { defineTask, runTask } from 'nitro/task'
 export function fetchWithEvent<T>(event: import('nitro/h3').H3Event, request: import('ofetch').FetchRequest, options?: import('ofetch').FetchOptions): Promise<T>
+export function fetchRawWithEvent(event: import('nitro/h3').H3Event, request: RequestInfo | URL, init?: RequestInit): Promise<Response>
 `
 
 function indent(value: string, spaces: number): string {
