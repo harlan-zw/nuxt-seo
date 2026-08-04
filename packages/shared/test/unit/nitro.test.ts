@@ -49,6 +49,7 @@ describe('setupNitroRuntimeCompatibility', () => {
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('from \'nitropack/runtime\'')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useEvent')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('defineCachedEventHandler')
+    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('event.$fetch(request, options)')
     expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('h3')
     expect(addTypeTemplateMock).toHaveBeenCalledOnce()
     expect(addTypeTemplateMock).toHaveBeenCalledWith(expect.any(Object), { nitro: true, nuxt: true })
@@ -56,6 +57,7 @@ describe('setupNitroRuntimeCompatibility', () => {
     const template = addTypeTemplateMock.mock.calls[0]![0]
     await expect(template.getContents()).resolves.toContain('declare module \'#nuxtseo/nitro\'')
     await expect(template.getContents()).resolves.toContain('from \'nitropack/runtime\'')
+    await expect(template.getContents()).resolves.toContain('export function fetchWithEvent<T>')
   })
 
   it('registers Nitro 3 runtime entrypoints and type targets', async () => {
@@ -76,6 +78,7 @@ describe('setupNitroRuntimeCompatibility', () => {
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).not.toContain('getRouteRules')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('useRequest as useEvent } from \'nitro/context\'')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('defineCachedHandler as defineCachedEventHandler')
+    expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('fetchRawWithEvent(event, input, init)')
     expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('nitro/h3')
     expect(addTypeTemplateMock).toHaveBeenCalledWith(expect.any(Object), { nitro: true, nuxt: true })
 
@@ -84,6 +87,7 @@ describe('setupNitroRuntimeCompatibility', () => {
     await expect(template.getContents()).resolves.toContain('useRuntimeConfig(event?:')
     await expect(template.getContents()).resolves.toContain('defineCachedHandler as defineCachedEventHandler')
     await expect(template.getContents()).resolves.toContain('export * from \'nitro/h3\'')
+    await expect(template.getContents()).resolves.toContain('export function fetchWithEvent<T>')
   })
 
   it('registers shared templates once when several modules call setup', () => {

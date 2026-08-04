@@ -11,7 +11,12 @@ await setup({
 
 describe('nitro runtime compatibility', () => {
   it('serves a runtime handler through the shared virtual imports', async () => {
-    await expect($fetch('/api/compat')).resolves.toEqual({
+    await expect($fetch('/api/compat', {
+      headers: {
+        'x-nuxtseo-test': 'nuxt-4-forwarded',
+      },
+    })).resolves.toEqual({
+      forwardedRequestHeader: 'nuxt-4-forwarded',
       marker: 'nuxt-4',
       requestContextMarker: 'nuxt-4-context',
     })
