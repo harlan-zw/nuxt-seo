@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 import { execSync } from 'node:child_process'
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import process from 'node:process'
 
 const HOME_RE = /^~/
 const ROOT = dirname(new URL(import.meta.url).pathname)
+const ACTIONS_DIR = resolve(ROOT, '..', '.github', 'actions')
 const WORKFLOWS_DIR = resolve(ROOT, 'workflows')
 
 // Module repos relative to ~/pkg
@@ -20,7 +21,14 @@ const MODULES = [
 ]
 
 // Files that are identical across all modules (synced as-is)
-const SHARED_FILES = ['test.yml', 'nightly.yml', 'deploy-docs.yml']
+const SHARED_FILES = [
+  'test.yml',
+  'nightly.yml',
+  'deploy-docs.yml',
+  'package-size.yml',
+  'package-size-comment.yml',
+]
+const SHARED_ACTIONS = ['package-size-report']
 
 // Release template, `{{MONOREPO_WITH}}` is replaced per module
 const RELEASE_TEMPLATE = `name: Release
@@ -65,6 +73,14 @@ function syncModule(mod) {
     console.log(`  ${file}`)
   }
 
+  for (const action of SHARED_ACTIONS) {
+    const src = resolve(ACTIONS_DIR, action)
+    const destination = resolve(target, '.github', 'actions', action)
+    mkdirSync(dirname(destination), { recursive: true })
+    cpSync(src, destination, { force: true, recursive: true })
+    console.log(`  actions/${action}`)
+  }
+
   // Generate release.yml
   const monorepoWith = mod.monorepo
     ? '\n    with:\n      monorepo: true'
@@ -77,7 +93,8 @@ function syncModule(mod) {
 // Shared workflow files that get copied to modules (not the reusable-* ones)
 // We need to create these canonical files in .github/workflows/ if they don't exist as sync sources
 const sharedSources = SHARED_FILES.map(f => resolve(WORKFLOWS_DIR, f))
-const missing = sharedSources.filter(f => !existsSync(f))
+const sharedActionSources = SHARED_ACTIONS.map(action => resolve(ACTIONS_DIR, action, 'action.yml'))
+const missing = [...sharedSources, ...sharedActionSources].filter(f => !existsSync(f))
 if (missing.length) {
   console.error('Missing source workflow files:', missing)
   process.exit(1)
