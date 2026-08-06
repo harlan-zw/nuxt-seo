@@ -23,9 +23,16 @@ function createNuxt(): Nuxt {
       hookOnce: hookOnceMock,
     },
     options: {
+      modulesDir: ['/project/node_modules'],
       nitro: {},
     },
-  } as Nuxt
+  } as unknown as Nuxt
+}
+
+function resolveSourcesFor(id: string): URL[] {
+  const call = resolveModuleMock.mock.calls.find(([calledId]) => calledId === id)
+  expect(call, `resolveModule was not called for '${id}'`).toBeDefined()
+  return call![1].url as URL[]
 }
 
 describe('setupNitroRuntimeCompatibility', () => {
@@ -34,7 +41,7 @@ describe('setupNitroRuntimeCompatibility', () => {
     getNuxtVersionMock.mockReset()
     hookOnceMock.mockReset()
     resolveModuleMock.mockReset()
-    resolveModuleMock.mockReturnValue('/resolved/ofetch.mjs')
+    resolveModuleMock.mockImplementation((id: string) => `/resolved/${id.replace(/\//g, '-')}.mjs`)
   })
 
   it('registers Nitro 2 runtime virtual module and H3 alias', async () => {
@@ -55,9 +62,12 @@ describe('setupNitroRuntimeCompatibility', () => {
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('defineCachedEventHandler')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('event.$fetch(request, options)')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('event.fetch(request, init)')
-    expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('h3')
+    expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('/resolved/h3.mjs')
     expect(nuxt.options.nitro.alias?.['#nuxtseo/ofetch']).toBeUndefined()
-    expect(resolveModuleMock).not.toHaveBeenCalled()
+    // resolution must start from the consuming project, not from this package
+    const h3Sources = resolveSourcesFor('h3')
+    expect(h3Sources[0]!.href).toContain('/project/node_modules')
+    expect(h3Sources.at(-1)!.href).toContain('nitro-compatibility')
     expect(addTypeTemplateMock).toHaveBeenCalledOnce()
     expect(addTypeTemplateMock).toHaveBeenCalledWith(expect.any(Object), { nitro: true, nuxt: true })
 
@@ -89,8 +99,10 @@ describe('setupNitroRuntimeCompatibility', () => {
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('return _useNitroApp().fetch(request)')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('export function fetchRawWithEvent(event, request, init)')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('from \'#nuxtseo/ofetch\'')
-    expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('nitro/h3')
+    expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('/resolved/nitro-h3.mjs')
     expect(nuxt.options.nitro.alias?.['#nuxtseo/ofetch']).toBe('/resolved/ofetch.mjs')
+    // `nitro/h3` only exists in the consuming project's dependency tree
+    expect(resolveSourcesFor('nitro/h3')[0]!.href).toContain('/project/node_modules')
     expect(resolveModuleMock).toHaveBeenCalledWith('ofetch', { url: expect.any(URL) })
     expect(addTypeTemplateMock).toHaveBeenCalledWith(expect.any(Object), { nitro: true, nuxt: true })
 
@@ -101,6 +113,32 @@ describe('setupNitroRuntimeCompatibility', () => {
     await expect(template.getContents()).resolves.toContain('export * from \'nitro/h3\'')
     await expect(template.getContents()).resolves.toContain('export function fetchWithEvent<T>')
     await expect(template.getContents()).resolves.toContain('export function fetchRawWithEvent(')
+  })
+
+  it('resolves the H3 alias when the Nuxt instance exposes no module directories', () => {
+    getNuxtVersionMock.mockReturnValue('4.5.1')
+    const nuxt = createNuxt()
+    // @ts-expect-error - an older or partially built Nuxt instance may not carry it
+    nuxt.options.modulesDir = undefined
+
+    expect(() => setupNitroRuntimeCompatibility(nuxt)).not.toThrow()
+
+    expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('/resolved/h3.mjs')
+  })
+
+  it('falls back to the bare specifier when the H3 runtime module cannot be resolved', () => {
+    getNuxtVersionMock.mockReturnValue('5.0.0-29762522.15e6ea5a')
+    resolveModuleMock.mockImplementation((id: string) => {
+      if (id === 'nitro/h3')
+        throw new Error('Cannot find module \'nitro/h3\'')
+      return `/resolved/${id}.mjs`
+    })
+    const nuxt = createNuxt()
+
+    setupNitroRuntimeCompatibility(nuxt)
+
+    expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('nitro/h3')
+    expect(nuxt.options.nitro.alias?.['#nuxtseo/ofetch']).toBe('/resolved/ofetch.mjs')
   })
 
   it('registers shared templates once when several modules call setup', () => {

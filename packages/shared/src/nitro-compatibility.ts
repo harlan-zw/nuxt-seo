@@ -1,5 +1,5 @@
 import type { Nuxt } from '@nuxt/schema'
-import { addTypeTemplate, getNuxtVersion, resolveModule, useNuxt } from '@nuxt/kit'
+import { addTypeTemplate, directoryToURL, getNuxtVersion, resolveModule, useNuxt } from '@nuxt/kit'
 
 export type NitroRuntimeCompatibility
   = | {
@@ -160,12 +160,31 @@ ${indent(h3Runtime.trim(), 2)}
 `
 }
 
+function resolveRuntimeModule(nuxt: Nuxt, id: string): string {
+  try {
+    // Resolve from the project first: `nitro/h3` only exists in the consuming app's
+    // dependency tree, and under a strict pnpm layout `h3` is not guaranteed to be
+    // reachable from this package either.
+    return resolveModule(id, {
+      url: [...(nuxt.options.modulesDir ?? []).map(directoryToURL), new URL(import.meta.url)],
+    })
+  }
+  catch {
+    // Fall back to the bare specifier: the bundler still resolves it, we only lose the
+    // absolute target in the generated `tsconfig.server.json` `paths` entry.
+    return id
+  }
+}
+
 function applyNitroRuntimeCompatibility(nuxt: Nuxt, compatibility: NitroRuntimeCompatibility): void {
   const nuxtOptions = nuxt.options as Nuxt['options'] & { nitro?: NuxtNitroCompatibilityOptions }
   const nitroOptions = nuxtOptions.nitro ||= {}
   nitroOptions.alias ||= {}
   nitroOptions.virtual ||= {}
-  nitroOptions.alias[H3_RUNTIME_MODULE] = compatibility._tag === 'nitro-v3' ? 'nitro/h3' : 'h3'
+  nitroOptions.alias[H3_RUNTIME_MODULE] = resolveRuntimeModule(
+    nuxt,
+    compatibility._tag === 'nitro-v3' ? 'nitro/h3' : 'h3',
+  )
   if (compatibility._tag === 'nitro-v3')
     nitroOptions.alias[OFETCH_RUNTIME_MODULE] = resolveModule('ofetch', { url: new URL(import.meta.url) })
   nitroOptions.virtual[NITRO_RUNTIME_MODULE] = compatibility._tag === 'nitro-v3' ? nitroV3Runtime : nitroV2Runtime
