@@ -10,7 +10,7 @@ on:
       node-version:
         description: Node.js version
         type: string
-        default: 'lts/*'
+        default: lts
       test-command:
         description: Test command
         type: string
@@ -28,7 +28,8 @@ on:
         type: boolean
         default: false
       playwright:
-        description: Install Playwright browsers before tests (disable for repos with no browser tests)
+        description: Install Playwright browsers before tests (disable for repos with no
+          browser tests)
         type: boolean
         default: true
 
@@ -36,25 +37,25 @@ jobs:
   lint:
     runs-on: ${{ inputs.runner }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v2
         with:
-          node-version: ${{ inputs.node-version }}
-          cache: pnpm
-      - run: pnpm i --trust-lockfile
+          runtime: node@${{ inputs.node-version }}
+          cache: true
+          install: false
+      - run: pnpm install --frozen-lockfile --trust-lockfile
       - run: pnpm lint
 
   typecheck:
     runs-on: ${{ inputs.runner }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v2
         with:
-          node-version: ${{ inputs.node-version }}
-          cache: pnpm
-      - run: pnpm i --trust-lockfile
+          runtime: node@${{ inputs.node-version }}
+          cache: true
+          install: false
+      - run: pnpm install --frozen-lockfile --trust-lockfile
       - run: ${{ inputs.prepare-command }}
       - run: ${{ inputs.typecheck-command }}
       - run: pnpm run --if-present test:attw
@@ -62,13 +63,13 @@ jobs:
   build:
     runs-on: ${{ inputs.runner }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v2
         with:
-          node-version: ${{ inputs.node-version }}
-          cache: pnpm
-      - run: pnpm i --trust-lockfile
+          runtime: node@${{ inputs.node-version }}
+          cache: true
+          install: false
+      - run: pnpm install --frozen-lockfile --trust-lockfile
       - run: ${{ inputs.prepare-command }}
       - run: pnpm build
 
@@ -76,25 +77,26 @@ jobs:
     if: ${{ !inputs.redis }}
     runs-on: ${{ inputs.runner }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v2
         with:
-          node-version: ${{ inputs.node-version }}
-          cache: pnpm
-      - run: pnpm i --trust-lockfile
+          runtime: node@${{ inputs.node-version }}
+          cache: true
+          install: false
+      - run: pnpm install --frozen-lockfile --trust-lockfile
       - run: ${{ inputs.prepare-command }}
 
       - name: Cache Playwright browsers
         id: playwright-cache
         if: ${{ inputs.playwright }}
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ inputs.runner }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Install Playwright browsers
-        if: ${{ inputs.playwright && steps.playwright-cache.outputs.cache-hit != 'true' }}
+        if: ${{ inputs.playwright && steps.playwright-cache.outputs.cache-hit != 'true'
+          }}
         # The arm64 chromium download from cdn.playwright.dev can stall indefinitely;
         # bound each attempt and retry so a flaky CDN doesn't wedge the job for hours.
         run: |
@@ -123,30 +125,29 @@ jobs:
         ports:
           - 6379:6379
         options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          --health-cmd "redis-cli ping" --health-interval 10s --health-timeout
+          5s --health-retries 5
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v2
         with:
-          node-version: ${{ inputs.node-version }}
-          cache: pnpm
-      - run: pnpm i --trust-lockfile
+          runtime: node@${{ inputs.node-version }}
+          cache: true
+          install: false
+      - run: pnpm install --frozen-lockfile --trust-lockfile
       - run: ${{ inputs.prepare-command }}
 
       - name: Cache Playwright browsers
         id: playwright-cache
         if: ${{ inputs.playwright }}
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ inputs.runner }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Install Playwright browsers
-        if: ${{ inputs.playwright && steps.playwright-cache.outputs.cache-hit != 'true' }}
+        if: ${{ inputs.playwright && steps.playwright-cache.outputs.cache-hit != 'true'
+          }}
         # The arm64 chromium download from cdn.playwright.dev can stall indefinitely;
         # bound each attempt and retry so a flaky CDN doesn't wedge the job for hours.
         run: |

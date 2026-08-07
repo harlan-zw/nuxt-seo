@@ -10,11 +10,11 @@ on:
       node-version:
         description: Node.js version
         type: string
-        default: 'lts/*'
+        default: lts
       install-command:
         description: Dependency installation command
         type: string
-        default: pnpm i --trust-lockfile
+        default: pnpm install --frozen-lockfile --trust-lockfile
       prepare-command:
         description: Optional command to run before each build
         type: string
@@ -44,14 +44,12 @@ jobs:
           persist-credentials: false
           ref: ${{ github.event.pull_request.base.sha }}
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
-
-      - name: Use Node.js
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      - name: Set up pnpm and Node.js
+        uses: pnpm/setup@c9883cc79df532ad1a7b81bf9ab944ceb090d65c # v2.0.0
         with:
-          node-version: ${{ inputs.node-version }}
-          cache: pnpm
+          runtime: node@${{ inputs.node-version }}
+          cache: true
+          install: false
 
       - name: Build base commit
         id: base-build
@@ -64,7 +62,8 @@ jobs:
 
       - name: Warn when the base build is unavailable
         if: ${{ steps.base-build.outcome != 'success' }}
-        run: echo "::warning::The base build failed; pull request output will be reported as new."
+        run: echo "::warning::The base build failed; pull request output will be
+          reported as new."
 
       - name: Build pull request
         run: |

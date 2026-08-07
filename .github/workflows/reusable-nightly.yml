@@ -10,7 +10,7 @@ on:
       node-version:
         description: Node.js version
         type: string
-        default: 'lts/*'
+        default: lts
       pre-build-command:
         description: Command to run before build
         type: string
@@ -20,7 +20,8 @@ on:
         type: string
         default: 'pnpm dev:prepare'
       publish-packages:
-        description: Space-separated list of package paths to publish (leave empty to publish all)
+        description: Space-separated list of package paths to publish (leave empty to
+          publish all)
         type: string
         default: ''
 
@@ -31,17 +32,15 @@ jobs:
   build:
     runs-on: ${{ inputs.runner }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v6
-
-      - uses: actions/setup-node@v6
+      - uses: pnpm/setup@v2
         with:
-          node-version: ${{ inputs.node-version }}
-          registry-url: https://registry.npmjs.org/
-          cache: pnpm
+          runtime: node@${{ inputs.node-version }}
+          cache: true
+          install: false
 
-      - run: pnpm i --trust-lockfile
+      - run: pnpm install --frozen-lockfile --trust-lockfile
       - run: ${{ inputs.prepare-command }}
 
       - if: ${{ inputs.pre-build-command != '' }}
