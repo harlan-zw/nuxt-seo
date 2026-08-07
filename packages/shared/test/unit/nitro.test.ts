@@ -65,7 +65,10 @@ describe('setupNitroRuntimeCompatibility', () => {
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('defineCachedEventHandler')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('event.$fetch(request, options)')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('event.fetch(request, init)')
-    expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('/resolved/h3.mjs')
+    expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('h3')
+    expect(nuxt.options.nitro.typescript?.tsConfig?.compilerOptions?.paths?.['#nuxtseo/h3']).toEqual([
+      '/resolved/h3.mjs',
+    ])
     expect(nuxt.options.nitro.alias?.['#nuxtseo/ofetch']).toBeUndefined()
     // resolution must start from the consuming project, not from this package
     const h3Sources = resolveSourcesFor('h3')
@@ -102,7 +105,10 @@ describe('setupNitroRuntimeCompatibility', () => {
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('return _useNitroApp().fetch(request)')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('export function fetchRawWithEvent(event, request, init)')
     expect(nuxt.options.nitro.virtual?.['#nuxtseo/nitro']).toContain('from \'#nuxtseo/ofetch\'')
-    expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('/resolved/nitro-h3.mjs')
+    expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('nitro/h3')
+    expect(nuxt.options.nitro.typescript?.tsConfig?.compilerOptions?.paths?.['#nuxtseo/h3']).toEqual([
+      '/resolved/nitro-h3.mjs',
+    ])
     expect(nuxt.options.nitro.alias?.['#nuxtseo/ofetch']).toBe('/resolved/ofetch.mjs')
     // `nitro/h3` only exists in the consuming project's dependency tree
     expect(resolveSourcesFor('nitro/h3')[0]!.href).toContain('/project/node_modules')
@@ -130,6 +136,7 @@ describe('setupNitroRuntimeCompatibility', () => {
     setupNitroRuntimeCompatibility(nuxt)
 
     expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('nitro/h3')
+    expect(nuxt.options.nitro.typescript?.tsConfig?.compilerOptions?.paths?.['#nuxtseo/h3']).toBeUndefined()
     expect(nuxt.options.nitro.alias?.['#nuxtseo/ofetch']).toBe('/resolved/ofetch.mjs')
     expect(warnMock).not.toHaveBeenCalled()
 

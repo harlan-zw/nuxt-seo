@@ -35,6 +35,13 @@ const runtimeSetupMarker = Symbol.for('nuxtseo:nitro-runtime-compatibility:reque
 
 interface NuxtNitroCompatibilityOptions {
   alias?: Record<string, string>
+  typescript?: {
+    tsConfig?: {
+      compilerOptions?: {
+        paths?: Record<string, string[]>
+      }
+    }
+  }
   virtual?: Record<string, string>
 }
 
@@ -191,11 +198,16 @@ function applyNitroRuntimeCompatibility(
   nitroOptions.alias ||= {}
   nitroOptions.virtual ||= {}
   const h3RuntimeModule = compatibility._tag === 'nitro-v3' ? 'nitro/h3' : 'h3'
+  nitroOptions.alias[H3_RUNTIME_MODULE] = h3RuntimeModule
   const h3Resolution = resolveRuntimeModule(nuxt, h3RuntimeModule)
-  nitroOptions.alias[H3_RUNTIME_MODULE] = h3Resolution._tag === 'resolved'
-    ? h3Resolution.path
-    : h3RuntimeModule
-  if (reportResolutionFailure && h3Resolution._tag === 'unresolved') {
+  if (h3Resolution._tag === 'resolved') {
+    nitroOptions.typescript ||= {}
+    nitroOptions.typescript.tsConfig ||= {}
+    nitroOptions.typescript.tsConfig.compilerOptions ||= {}
+    nitroOptions.typescript.tsConfig.compilerOptions.paths ||= {}
+    nitroOptions.typescript.tsConfig.compilerOptions.paths[H3_RUNTIME_MODULE] = [h3Resolution.path]
+  }
+  else if (reportResolutionFailure) {
     useLogger('nuxtseo-shared').warn(
       `Could not resolve Nitro runtime module '${h3RuntimeModule}'. Generated server types may be incomplete.`,
       h3Resolution.cause,
