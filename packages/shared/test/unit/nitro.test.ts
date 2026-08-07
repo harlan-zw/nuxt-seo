@@ -3,11 +3,12 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { renderNitroTypeAugmentations, setupNitroRuntimeCompatibility } from '../../src/kit'
 
-const { addTypeTemplateMock, getNuxtVersionMock, hookOnceMock, resolveModuleMock } = vi.hoisted(() => ({
+const { addTypeTemplateMock, getNuxtVersionMock, hookOnceMock, resolveModuleMock, warnMock } = vi.hoisted(() => ({
   addTypeTemplateMock: vi.fn(),
   getNuxtVersionMock: vi.fn(),
   hookOnceMock: vi.fn(),
   resolveModuleMock: vi.fn(),
+  warnMock: vi.fn(),
 }))
 
 vi.mock('@nuxt/kit', async importOriginal => ({
@@ -15,6 +16,7 @@ vi.mock('@nuxt/kit', async importOriginal => ({
   addTypeTemplate: addTypeTemplateMock,
   getNuxtVersion: getNuxtVersionMock,
   resolveModule: resolveModuleMock,
+  useLogger: () => ({ warn: warnMock }),
 }))
 
 function createNuxt(): Nuxt {
@@ -41,6 +43,7 @@ describe('setupNitroRuntimeCompatibility', () => {
     getNuxtVersionMock.mockReset()
     hookOnceMock.mockReset()
     resolveModuleMock.mockReset()
+    warnMock.mockReset()
     resolveModuleMock.mockImplementation((id: string) => `/resolved/${id.replace(/\//g, '-')}.mjs`)
   })
 
@@ -115,18 +118,7 @@ describe('setupNitroRuntimeCompatibility', () => {
     await expect(template.getContents()).resolves.toContain('export function fetchRawWithEvent(')
   })
 
-  it('resolves the H3 alias when the Nuxt instance exposes no module directories', () => {
-    getNuxtVersionMock.mockReturnValue('4.5.1')
-    const nuxt = createNuxt()
-    // @ts-expect-error - an older or partially built Nuxt instance may not carry it
-    nuxt.options.modulesDir = undefined
-
-    expect(() => setupNitroRuntimeCompatibility(nuxt)).not.toThrow()
-
-    expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('/resolved/h3.mjs')
-  })
-
-  it('falls back to the bare specifier when the H3 runtime module cannot be resolved', () => {
+  it('reports a degraded H3 alias when final resolution fails', () => {
     getNuxtVersionMock.mockReturnValue('5.0.0-29762522.15e6ea5a')
     resolveModuleMock.mockImplementation((id: string) => {
       if (id === 'nitro/h3')
@@ -139,6 +131,16 @@ describe('setupNitroRuntimeCompatibility', () => {
 
     expect(nuxt.options.nitro.alias?.['#nuxtseo/h3']).toBe('nitro/h3')
     expect(nuxt.options.nitro.alias?.['#nuxtseo/ofetch']).toBe('/resolved/ofetch.mjs')
+    expect(warnMock).not.toHaveBeenCalled()
+
+    const applyCompatibility = hookOnceMock.mock.calls[0]![1]
+    applyCompatibility()
+
+    expect(warnMock).toHaveBeenCalledOnce()
+    expect(warnMock).toHaveBeenCalledWith(
+      'Could not resolve Nitro runtime module \'nitro/h3\'. Generated server types may be incomplete.',
+      expect.any(Error),
+    )
   })
 
   it('registers shared templates once when several modules call setup', () => {

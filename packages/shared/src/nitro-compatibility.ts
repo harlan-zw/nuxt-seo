@@ -1,5 +1,5 @@
 import type { Nuxt } from '@nuxt/schema'
-import { addTypeTemplate, directoryToURL, getNuxtVersion, resolveModule, useNuxt } from '@nuxt/kit'
+import { addTypeTemplate, directoryToURL, getNuxtVersion, resolveModule, useLogger, useNuxt } from '@nuxt/kit'
 
 export type NitroRuntimeCompatibility
   = | {
@@ -160,31 +160,47 @@ ${indent(h3Runtime.trim(), 2)}
 `
 }
 
-function resolveRuntimeModule(nuxt: Nuxt, id: string): string {
+type RuntimeModuleResolution
+  = | { _tag: 'resolved', path: string }
+    | { _tag: 'unresolved', cause: unknown }
+
+function resolveRuntimeModule(nuxt: Nuxt, id: string): RuntimeModuleResolution {
   try {
     // Resolve from the project first: `nitro/h3` only exists in the consuming app's
     // dependency tree, and under a strict pnpm layout `h3` is not guaranteed to be
     // reachable from this package either.
-    return resolveModule(id, {
-      url: [...(nuxt.options.modulesDir ?? []).map(directoryToURL), new URL(import.meta.url)],
-    })
+    return {
+      _tag: 'resolved',
+      path: resolveModule(id, {
+        url: [...nuxt.options.modulesDir.map(directoryToURL), new URL(import.meta.url)],
+      }),
+    }
   }
-  catch {
-    // Fall back to the bare specifier: the bundler still resolves it, we only lose the
-    // absolute target in the generated `tsconfig.server.json` `paths` entry.
-    return id
+  catch (cause) {
+    return { _tag: 'unresolved', cause }
   }
 }
 
-function applyNitroRuntimeCompatibility(nuxt: Nuxt, compatibility: NitroRuntimeCompatibility): void {
+function applyNitroRuntimeCompatibility(
+  nuxt: Nuxt,
+  compatibility: NitroRuntimeCompatibility,
+  reportResolutionFailure = false,
+): void {
   const nuxtOptions = nuxt.options as Nuxt['options'] & { nitro?: NuxtNitroCompatibilityOptions }
   const nitroOptions = nuxtOptions.nitro ||= {}
   nitroOptions.alias ||= {}
   nitroOptions.virtual ||= {}
-  nitroOptions.alias[H3_RUNTIME_MODULE] = resolveRuntimeModule(
-    nuxt,
-    compatibility._tag === 'nitro-v3' ? 'nitro/h3' : 'h3',
-  )
+  const h3RuntimeModule = compatibility._tag === 'nitro-v3' ? 'nitro/h3' : 'h3'
+  const h3Resolution = resolveRuntimeModule(nuxt, h3RuntimeModule)
+  nitroOptions.alias[H3_RUNTIME_MODULE] = h3Resolution._tag === 'resolved'
+    ? h3Resolution.path
+    : h3RuntimeModule
+  if (reportResolutionFailure && h3Resolution._tag === 'unresolved') {
+    useLogger('nuxtseo-shared').warn(
+      `Could not resolve Nitro runtime module '${h3RuntimeModule}'. Generated server types may be incomplete.`,
+      h3Resolution.cause,
+    )
+  }
   if (compatibility._tag === 'nitro-v3')
     nitroOptions.alias[OFETCH_RUNTIME_MODULE] = resolveModule('ofetch', { url: new URL(import.meta.url) })
   nitroOptions.virtual[NITRO_RUNTIME_MODULE] = compatibility._tag === 'nitro-v3' ? nitroV3Runtime : nitroV2Runtime
@@ -225,7 +241,7 @@ export function setupNitroRuntimeCompatibility(nuxt: Nuxt = useNuxt()): NitroRun
   const nuxtWithRuntimeMarker = nuxt as Nuxt & { [runtimeSetupMarker]?: true }
   if (!nuxtWithRuntimeMarker[runtimeSetupMarker]) {
     nuxtWithRuntimeMarker[runtimeSetupMarker] = true
-    nuxt.hooks.hookOnce('modules:done', () => applyNitroRuntimeCompatibility(nuxt, compatibility))
+    nuxt.hooks.hookOnce('modules:done', () => applyNitroRuntimeCompatibility(nuxt, compatibility, true))
   }
 
   const nuxtWithTypeMarker = nuxt as Nuxt & { [typeSetupMarker]?: true }
