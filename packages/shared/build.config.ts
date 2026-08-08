@@ -8,6 +8,7 @@ export default defineBuildConfig({
     { input: 'src/kit', name: 'kit' },
     { input: 'src/devtools', name: 'devtools' },
     { input: 'src/i18n', name: 'i18n' },
+    { input: 'src/i18n-runtime', name: 'i18n-runtime' },
     { input: 'src/pro', name: 'pro' },
     { input: 'src/utils', name: 'utils' },
     { input: 'src/const', name: 'const' },

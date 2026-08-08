@@ -1,7 +1,10 @@
 import type { LocaleObject, NuxtI18nOptions } from '@nuxtjs/i18n'
+import type { RuntimeI18nConfig } from './i18n-runtime'
 import { getNuxtModuleVersion, hasNuxtModule, hasNuxtModuleCompatibility } from '@nuxt/kit'
 import { joinURL, withBase, withHttps, withLeadingSlash } from 'ufo'
 import { getNuxtModuleOptions } from './kit'
+
+export type { LocaleAlternate, LocalePages, RouteLocaleInfo, RuntimeI18nConfig } from './i18n-runtime'
 
 const I18N_MODULES = ['@nuxtjs/i18n', 'nuxt-i18n-micro'] as const
 type I18nModuleName = typeof I18N_MODULES[number]
@@ -232,6 +235,31 @@ export async function resolveI18nConfig(logger?: { warn: (msg: string) => void }
     locales: normalisedLocales,
     strategy: nuxtI18nConfig.strategy as Strategies,
     pages,
+  }
+}
+
+/**
+ * Strip a build-time i18n config down to what `./i18n-runtime` needs, dropping
+ * the non-serializable `LocaleObject` extras so it can be handed to the runtime
+ * through `runtimeConfig`.
+ */
+export function toRuntimeI18nConfig(auto: AutoI18nConfig): RuntimeI18nConfig {
+  return {
+    defaultLocale: auto.defaultLocale,
+    strategy: auto.strategy,
+    // Translated route paths. Without these the runtime can only guess
+    // alternates by adding/removing a locale prefix, which is wrong for every
+    // page whose slug differs per locale.
+    ...(auto.pages && Object.keys(auto.pages).length ? { pages: auto.pages } : {}),
+    locales: auto.locales.map((l) => {
+      const raw = l as typeof l & { name?: string, nativeName?: string, language?: string }
+      return {
+        code: l.code,
+        hreflang: l._hreflang || raw.language || l.code,
+        name: raw.name,
+        nativeName: raw.nativeName ?? raw.name,
+      }
+    }),
   }
 }
 
