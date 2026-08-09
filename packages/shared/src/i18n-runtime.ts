@@ -47,6 +47,10 @@ export interface LocaleAlternate {
   domain?: string
 }
 
+export type LocaleAlternateResolution
+  = | { _tag: 'pages', alternates: LocaleAlternate[] }
+    | { _tag: 'strategy', alternates: LocaleAlternate[] }
+
 export interface RouteLocaleInfo {
   /** Resolved locale code for this route */
   locale: string
@@ -57,6 +61,8 @@ export interface RouteLocaleInfo {
 export interface RuntimeRouteContext {
   /** Request host, used to resolve locales under domain-based strategies. */
   host?: string
+  /** Known current locale, required to translate no_prefix routes without a locale domain. */
+  locale?: string
 }
 
 function normalizeHost(value: string): string {
@@ -111,8 +117,11 @@ export function resolveLocaleFromRoute(route: string, i18n: RuntimeI18nConfig, c
     }
   }
 
+  const contextLocale = context.locale
+    ? i18n.locales.find(locale => locale.code === context.locale)
+    : undefined
   const domainLocale = resolveLocaleFromHost(context.host, i18n)
-  return { locale: domainLocale?.code || i18n.defaultLocale, basePath: `${pathname}${suffix}` }
+  return { locale: contextLocale?.code || domainLocale?.code || i18n.defaultLocale, basePath: `${pathname}${suffix}` }
 }
 
 /**
@@ -389,7 +398,8 @@ function alternatesFromPages(
 ): LocaleAlternate[] | null {
   const pages = i18n.pages
   const hasDomainLocales = i18n.differentDomains || i18n.multiDomainLocales
-  if (!pages || (i18n.strategy === 'no_prefix' && !hasDomainLocales))
+  const hasContextLocale = !!context.locale && i18n.locales.some(locale => locale.code === context.locale)
+  if (!pages || (i18n.strategy === 'no_prefix' && !hasDomainLocales && !hasContextLocale))
     return null
 
   const matches: Array<{ ranks: number[], localePaths: Record<string, string | false>, params: Record<string, string> }> = []
@@ -421,25 +431,40 @@ function alternatesFromPages(
  * locale prefix — `/about` and `/fr/a-propos` are the same page — so the route
  * table is consulted first and prefix arithmetic is the fallback.
  */
+export function resolveLocaleAlternates(
+  route: string,
+  i18n: RuntimeI18nConfig,
+  context: RuntimeRouteContext = {},
+): LocaleAlternateResolution {
+  const { locale, basePath } = resolveLocaleFromRoute(route, i18n, context)
+  const { pathname, suffix } = splitRouteSuffix(basePath)
+
+  const translated = alternatesFromPages(pathname, locale, i18n, context)
+  if (translated) {
+    return {
+      _tag: 'pages',
+      alternates: translated.map(alternate => ({ ...alternate, path: `${alternate.path}${suffix}` })),
+    }
+  }
+
+  return {
+    _tag: 'strategy',
+    alternates: i18n.locales.map((l) => {
+      const domain = resolveLocaleDomain(l)
+      return {
+        code: l.code,
+        hreflang: l.hreflang || l.code,
+        path: localePath(basePath, l.code, i18n, { host: domain || context.host }),
+        ...(domain ? { domain } : {}),
+      }
+    }),
+  }
+}
+
 export function computeLocaleAlternates(
   route: string,
   i18n: RuntimeI18nConfig,
   context: RuntimeRouteContext = {},
 ): LocaleAlternate[] {
-  const { locale, basePath } = resolveLocaleFromRoute(route, i18n, context)
-  const { pathname, suffix } = splitRouteSuffix(basePath)
-
-  const translated = alternatesFromPages(pathname, locale, i18n, context)
-  if (translated)
-    return translated.map(alternate => ({ ...alternate, path: `${alternate.path}${suffix}` }))
-
-  return i18n.locales.map((l) => {
-    const domain = resolveLocaleDomain(l)
-    return {
-      code: l.code,
-      hreflang: l.hreflang || l.code,
-      path: localePath(basePath, l.code, i18n, { host: domain || context.host }),
-      ...(domain ? { domain } : {}),
-    }
-  })
+  return resolveLocaleAlternates(route, i18n, context).alternates
 }

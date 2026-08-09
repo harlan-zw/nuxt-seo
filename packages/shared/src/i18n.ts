@@ -1,11 +1,13 @@
 import type { LocaleObject, NuxtI18nOptions } from '@nuxtjs/i18n'
 import type { RuntimeI18nConfig } from './i18n-runtime'
 import { getNuxtModuleVersion, hasNuxtModule, hasNuxtModuleCompatibility } from '@nuxt/kit'
-import { joinURL, withBase, withHttps, withLeadingSlash } from 'ufo'
+import { withBase, withHttps } from 'ufo'
+import { localePath, resolveLocaleAlternates, resolveLocaleFromRoute } from './i18n-runtime'
 import { getNuxtModuleOptions } from './kit'
 
 export type {
   LocaleAlternate,
+  LocaleAlternateResolution,
   LocalePages,
   RouteLocaleInfo,
   RuntimeI18nConfig,
@@ -15,8 +17,6 @@ export type {
 
 const I18N_MODULES = ['@nuxtjs/i18n', 'nuxt-i18n-micro'] as const
 type I18nModuleName = typeof I18N_MODULES[number]
-
-const SLASH_PATTERN = /^\/|\/$/g
 
 export type Strategies = 'no_prefix' | 'prefix_except_default' | 'prefix' | 'prefix_and_default'
 
@@ -48,32 +48,42 @@ export interface StrategyProps {
 export function generatePathForI18nPages(ctx: StrategyProps): string {
   const { localeCode, pageLocales, nuxtI18nConfig, forcedStrategy, normalisedLocales } = ctx
   const locale = normalisedLocales.find(l => l.code === localeCode)
-  let path = pageLocales
-  switch (forcedStrategy ?? nuxtI18nConfig.strategy) {
-    case 'prefix_except_default':
-    case 'prefix_and_default':
-      path = localeCode === nuxtI18nConfig.defaultLocale ? pageLocales : joinURL(localeCode, pageLocales)
-      break
-    case 'prefix':
-      path = joinURL(localeCode, pageLocales)
-      break
-  }
+  const strategy = forcedStrategy ?? nuxtI18nConfig.strategy as Strategies
+  const i18n = toRuntimeI18nConfig({
+    defaultLocale: nuxtI18nConfig.defaultLocale!,
+    locales: normalisedLocales,
+    strategy: strategy === 'prefix_and_default' ? 'prefix_except_default' : strategy,
+  })
+  const generated = localePath(pageLocales, localeCode, i18n)
+  const prefixed = generated === localePath(pageLocales, localeCode, { ...i18n, strategy: 'prefix' })
+  const path = prefixed ? generated.slice(1) : pageLocales
   return locale?.domain ? withHttps(withBase(path, locale.domain)) : path
 }
 
 export function splitPathForI18nLocales(path: string, autoI18n: AutoI18nConfig): string | string[] {
-  const locales = autoI18n.strategy === 'prefix_except_default'
+  const selectedLocales = autoI18n.strategy === 'prefix_except_default'
     ? autoI18n.locales.filter(l => l.code !== autoI18n.defaultLocale)
     : autoI18n.locales
   if (!path || path.startsWith('/_'))
     return path
 
-  const hasLocalePrefix = locales.some(l => path.startsWith(`/${l.code}/`) || path === `/${l.code}`)
+  const localeCodes = new Set(selectedLocales.map(locale => locale.code))
+  const runtimeI18n = toRuntimeI18nConfig(autoI18n)
+  const i18n = {
+    ...runtimeI18n,
+    strategy: 'prefix' as const,
+    locales: runtimeI18n.locales.filter(locale => localeCodes.has(locale.code)),
+  }
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+  const resolved = resolveLocaleFromRoute(normalizedPath, i18n)
+  const hasLocalePrefix = i18n.locales.some(l =>
+    l.code === resolved.locale && localePath(resolved.basePath, l.code, i18n) === normalizedPath,
+  )
   if (hasLocalePrefix)
     return path
   return [
     path,
-    ...locales.map(l => `/${l.code}${path}`),
+    ...i18n.locales.map(l => localePath(path, l.code, i18n)),
   ]
 }
 
@@ -144,44 +154,31 @@ export function mapPathForI18nPages(path: string, autoI18n: AutoI18nConfig): str
   if (!pages || !Object.keys(pages).length)
     return false
 
-  const withoutSlashes = path.replace(SLASH_PATTERN, '').replace('/index', '')
+  const materializedPages = Object.fromEntries(
+    Object.entries(pages).map(([pageName, pageLocales]) => [
+      pageName,
+      Object.fromEntries(autoI18n.locales.map(locale => [
+        locale.code,
+        locale.code in pageLocales ? pageLocales[locale.code] : `/${pageName}`,
+      ])),
+    ]),
+  )
+  const i18n = toRuntimeI18nConfig({
+    ...autoI18n,
+    strategy: autoI18n.strategy === 'prefix_and_default' ? 'prefix_except_default' : autoI18n.strategy,
+    pages: materializedPages,
+  })
+  const resolved = resolveLocaleAlternates(path, i18n, autoI18n.strategy === 'no_prefix'
+    ? { locale: autoI18n.defaultLocale }
+    : {})
+  if (resolved._tag === 'strategy')
+    return false
 
-  function resolveForAllLocales(pageName: string, pageLocales: Record<string, string | false>): string[] {
-    return autoI18n.locales
-      .filter((l) => {
-        if (l.code in pageLocales && pageLocales[l.code] === false)
-          return false
-        if (autoI18n.strategy === 'prefix_except_default' && l.code === autoI18n.defaultLocale)
-          return false
-        return true
-      })
-      .map((l) => {
-        const localePath = (l.code in pageLocales && pageLocales[l.code] !== false)
-          ? pageLocales[l.code] as string
-          : `/${pageName}`
-        return withLeadingSlash(generatePathForI18nPages({
-          localeCode: l.code,
-          pageLocales: localePath,
-          nuxtI18nConfig: { strategy: autoI18n.strategy, defaultLocale: autoI18n.defaultLocale } as NuxtI18nOptions,
-          normalisedLocales: autoI18n.locales,
-        }))
-      })
-  }
-
-  if (withoutSlashes in pages) {
-    const pageLocales = pages[withoutSlashes]
-    if (pageLocales)
-      return resolveForAllLocales(withoutSlashes, pageLocales)
-  }
-
-  for (const [pageName, pageLocales] of Object.entries(pages)) {
-    if (!pageLocales)
-      continue
-    if (autoI18n.defaultLocale in pageLocales && pageLocales[autoI18n.defaultLocale] === path)
-      return resolveForAllLocales(pageName, pageLocales)
-  }
-
-  return false
+  return resolved.alternates
+    .filter(alternate => autoI18n.strategy !== 'prefix_except_default' || alternate.code !== autoI18n.defaultLocale)
+    .map(alternate => alternate.domain
+      ? withHttps(withBase(alternate.path, alternate.domain))
+      : alternate.path)
 }
 
 export interface I18nModuleResolution {

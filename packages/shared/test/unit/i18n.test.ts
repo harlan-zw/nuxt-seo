@@ -226,6 +226,11 @@ describe('splitPathForI18nLocales', () => {
     expect(result).toEqual(['/about', '/fr/about', '/es/about'])
   })
 
+  it('normalizes locale variants when the input omits its leading slash', () => {
+    const config = makeAutoI18n()
+    expect(splitPathForI18nLocales('about', config)).toEqual(['about', '/fr/about', '/es/about'])
+  })
+
   it('returns path as-is when it already has a locale prefix', () => {
     const config = makeAutoI18n()
     const result = splitPathForI18nLocales('/fr/about', config)
@@ -377,5 +382,32 @@ describe('mapPathForI18nPages', () => {
     })
     const result = mapPathForI18nPages('/about/', config)
     expect(result).toBeInstanceOf(Array)
+  })
+
+  it('maps dynamic translated paths through the runtime route matcher', () => {
+    const config = makeAutoI18n({
+      pages: {
+        'posts-slug': {
+          en: '/posts/[slug]',
+          fr: '/articles/[slug]',
+          es: false,
+        },
+      },
+    })
+    expect(mapPathForI18nPages('/posts/hello', config)).toEqual(['/fr/articles/hello'])
+  })
+
+  it('preserves translated paths under no_prefix', () => {
+    const config = makeAutoI18n({
+      strategy: 'no_prefix',
+      pages: {
+        about: {
+          en: '/about',
+          fr: '/a-propos',
+          es: '/acerca',
+        },
+      },
+    })
+    expect(mapPathForI18nPages('/about', config)).toEqual(['/about', '/a-propos', '/acerca'])
   })
 })

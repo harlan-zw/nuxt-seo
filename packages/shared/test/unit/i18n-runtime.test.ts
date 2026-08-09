@@ -2,7 +2,7 @@ import type { AutoI18nConfig } from '../../src/i18n'
 import type { RuntimeI18nConfig } from '../../src/i18n-runtime'
 import { describe, expect, it } from 'vitest'
 import { toRuntimeI18nConfig } from '../../src/i18n'
-import { computeLocaleAlternates, localePath, resolveLocaleFromRoute } from '../../src/i18n-runtime'
+import { computeLocaleAlternates, localePath, resolveLocaleAlternates, resolveLocaleFromRoute } from '../../src/i18n-runtime'
 
 const en = { code: 'en', hreflang: 'en' }
 const fr = { code: 'fr', hreflang: 'fr-FR' }
@@ -86,6 +86,16 @@ describe('localePath', () => {
 })
 
 describe('computeLocaleAlternates', () => {
+  it('reports whether translated pages or strategy arithmetic resolved the route', () => {
+    expect(resolveLocaleAlternates('/about', prefixExceptDefault)._tag).toBe('strategy')
+    expect(resolveLocaleAlternates('/about', {
+      ...prefixExceptDefault,
+      pages: {
+        about: { en: '/about', fr: '/a-propos' },
+      },
+    })._tag).toBe('pages')
+  })
+
   it('prefixes when no route table is configured', () => {
     expect(paths('/about', prefixExceptDefault)).toEqual(['/about', '/fr/about'])
   })
@@ -313,6 +323,8 @@ describe('computeLocaleAlternates with translated routes', () => {
       pages: { about: { en: '/about', fr: '/a-propos' } },
     }
     expect(paths('/about', single)).toEqual(['/about', '/about'])
+    expect(computeLocaleAlternates('/about', single, { locale: 'en' }).map(alternate => alternate.path))
+      .toEqual(['/about', '/a-propos'])
   })
 })
 
