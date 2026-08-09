@@ -41,8 +41,10 @@ describe('resolveI18nConfig', () => {
     expect(config.pages).toEqual({
       checkout: { en: '/checkout', fr: '/paiement', de: '/kasse' },
       about: { en: '/about', fr: '/a-propos', de: '/ueber-uns' },
+      disabled: false,
     })
     expect(mapPathForI18nPages('/checkout', config)).toEqual([
+      '/checkout',
       '/fr/paiement',
       '/de/kasse',
     ])

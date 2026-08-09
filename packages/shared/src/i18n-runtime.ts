@@ -8,15 +8,28 @@
  */
 
 /**
- * Custom route paths keyed by route name, then locale code — i18n's `pages`
- * option (`globalLocaleRoutes` for nuxt-i18n-micro). `false` means the page is
- * disabled for that locale.
+ * Resolved route paths keyed by route name, then locale code. Per-locale
+ * `false` disables that locale. A tagged unlocalized entry represents i18n's
+ * whole-route `false` after build-time materialization.
  *
  * ```
- * { about: { en: '/about', fr: '/a-propos' } }
+ * { about: { en: '/about', fr: '/a-propos' }, admin: { _tag: 'unlocalized', path: '/admin' } }
  * ```
  */
-export type LocalePages = Record<string, Record<string, string | false> | undefined>
+export type LocalePagePaths = Record<string, string | false>
+
+export interface UnlocalizedLocalePage {
+  /** Route excluded from i18n localization by a whole-route `pages` false. */
+  _tag: 'unlocalized'
+  /** Original resolved Nuxt route pattern. */
+  path: string
+}
+
+export type LocalePages = Record<string, LocalePagePaths | UnlocalizedLocalePage | undefined>
+
+function isUnlocalizedLocalePage(page: LocalePagePaths | UnlocalizedLocalePage): page is UnlocalizedLocalePage {
+  return page._tag === 'unlocalized' && typeof page.path === 'string'
+}
 
 export interface RuntimeLocale {
   code: string
@@ -179,7 +192,7 @@ type PageToken = StaticPageToken | ParamPageToken
 
 // Nuxt bracket params plus the Vue Router forms i18n emits. Parsing tokens
 // instead of whole segments also covers paths such as `/archive/[year]-[slug]`.
-const PAGE_PARAM_PATTERN = /\[\[(\.\.\.)?([^[\]]+)\]\]|\[(\.\.\.)?([^[\]]+)\]|:(\w+)(?:\((\.\*)\))?([?*+]?)/g
+const PAGE_PARAM_PATTERN = /\[\[(\.\.\.)?([^[\]]+)\]\]|\[(\.\.\.)?([^[\]]+)\]|:(\w+)(?:\(((?:\\.|[^)])*)\))?([?*+]?)/g
 
 function parsePageSegment(segment: string): PageToken[] {
   const tokens: PageToken[] = []
@@ -198,11 +211,12 @@ function parsePageSegment(segment: string): PageToken[] {
     }
     else {
       const modifier = match[7]
+      const routePattern = match[6]
       tokens.push({
         _tag: 'param',
         param: {
           name: match[5]!,
-          catchAll: !!match[6] || modifier === '*' || modifier === '+',
+          catchAll: !!routePattern?.includes('.*') || modifier === '*' || modifier === '+',
           optional: modifier === '?' || modifier === '*',
         },
       })
@@ -395,26 +409,57 @@ function alternatesFromPages(
   locale: string,
   i18n: RuntimeI18nConfig,
   context: RuntimeRouteContext,
+  allowUnlocalized: boolean,
 ): LocaleAlternate[] | null {
   const pages = i18n.pages
   const hasDomainLocales = i18n.differentDomains || i18n.multiDomainLocales
   const hasContextLocale = !!context.locale && i18n.locales.some(locale => locale.code === context.locale)
-  if (!pages || (i18n.strategy === 'no_prefix' && !hasDomainLocales && !hasContextLocale))
+  if (!pages)
+    return null
+  const hasUnlocalizedPages = Object.values(pages).some(page => page && isUnlocalizedLocalePage(page))
+  if (i18n.strategy === 'no_prefix' && !hasDomainLocales && !hasContextLocale && !hasUnlocalizedPages)
     return null
 
-  const matches: Array<{ ranks: number[], localePaths: Record<string, string | false>, params: Record<string, string> }> = []
-  for (const localePaths of Object.values(pages)) {
-    const pattern = localePaths?.[locale]
+  type PageMatch
+    = | { _tag: 'localized', ranks: number[], localePaths: LocalePagePaths, params: Record<string, string> }
+      | { _tag: 'unlocalized', ranks: number[], page: UnlocalizedLocalePage, params: Record<string, string> }
+  const matches: PageMatch[] = []
+  for (const page of Object.values(pages)) {
+    if (!page)
+      continue
+    if (isUnlocalizedLocalePage(page)) {
+      if (!allowUnlocalized)
+        continue
+      const params = matchPagePattern(page.path, basePath)
+      if (params)
+        matches.push({ _tag: 'unlocalized', ranks: segmentRanks(page.path), page, params })
+      continue
+    }
+    const pattern = page[locale]
     if (!pattern)
       continue
     const params = matchPagePattern(pattern, basePath)
     if (params)
-      matches.push({ ranks: segmentRanks(pattern), localePaths, params })
+      matches.push({ _tag: 'localized', ranks: segmentRanks(pattern), localePaths: page, params })
   }
 
   matches.sort((a, b) => compareSpecificity(a.ranks, b.ranks))
 
   for (const match of matches) {
+    if (match._tag === 'unlocalized') {
+      const path = fillPagePattern(match.page.path, match.params)
+      const defaultLocale = i18n.locales.find(locale => locale.code === i18n.defaultLocale)
+      if (path && defaultLocale) {
+        const domain = resolveLocaleDomain(defaultLocale)
+        return [{
+          code: defaultLocale.code,
+          hreflang: defaultLocale.hreflang || defaultLocale.code,
+          path,
+          ...(domain ? { domain } : {}),
+        }]
+      }
+      continue
+    }
     const alternates = alternatesForEntry(match.localePaths, match.params, i18n, context)
     if (alternates)
       return alternates
@@ -438,8 +483,9 @@ export function resolveLocaleAlternates(
 ): LocaleAlternateResolution {
   const { locale, basePath } = resolveLocaleFromRoute(route, i18n, context)
   const { pathname, suffix } = splitRouteSuffix(basePath)
+  const { pathname: routePathname } = splitRouteSuffix(route)
 
-  const translated = alternatesFromPages(pathname, locale, i18n, context)
+  const translated = alternatesFromPages(pathname, locale, i18n, context, routePathname === pathname)
   if (translated) {
     return {
       _tag: 'pages',

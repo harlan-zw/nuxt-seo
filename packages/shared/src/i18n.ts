@@ -1,5 +1,5 @@
 import type { LocaleObject, NuxtI18nOptions } from '@nuxtjs/i18n'
-import type { RuntimeI18nConfig } from './i18n-runtime'
+import type { RuntimeI18nConfig, UnlocalizedLocalePage } from './i18n-runtime'
 import { getNuxtModuleVersion, hasNuxtModule, hasNuxtModuleCompatibility } from '@nuxt/kit'
 import { withBase, withHttps } from 'ufo'
 import { localePath, resolveLocaleAlternates, resolveLocaleFromRoute } from './i18n-runtime'
@@ -8,11 +8,13 @@ import { getNuxtModuleOptions } from './kit'
 export type {
   LocaleAlternate,
   LocaleAlternateResolution,
+  LocalePagePaths,
   LocalePages,
   RouteLocaleInfo,
   RuntimeI18nConfig,
   RuntimeLocale,
   RuntimeRouteContext,
+  UnlocalizedLocalePage,
 } from './i18n-runtime'
 
 const I18N_MODULES = ['@nuxtjs/i18n', 'nuxt-i18n-micro'] as const
@@ -28,10 +30,16 @@ export interface AutoI18nConfig {
   strategy: Strategies
   differentDomains?: boolean
   multiDomainLocales?: boolean
-  pages?: Record<string, Record<string, string | false>>
+  routesNameSeparator?: string
+  defaultLocaleRouteNameSuffix?: string
+  pages?: Record<string, Record<string, string | false> | UnlocalizedLocalePage | false>
 }
 
 type I18nPages = NonNullable<AutoI18nConfig['pages']>
+
+function isUnlocalizedLocalePage(page: Exclude<I18nPages[string], false | undefined>): page is UnlocalizedLocalePage {
+  return page._tag === 'unlocalized' && typeof page.path === 'string'
+}
 
 interface NuxtI18nMicroOptions extends NuxtI18nOptions {
   globalLocaleRoutes?: Record<string, I18nPages[string] | boolean>
@@ -149,24 +157,163 @@ export function normalizeLocales(nuxtI18nConfig: NuxtI18nOptions): AutoI18nConfi
   })
 }
 
-export function mapPathForI18nPages(path: string, autoI18n: AutoI18nConfig): string[] | false {
+export interface ResolvedI18nRoute {
+  name?: string
+  path: string
+  children?: ResolvedI18nRoute[]
+}
+
+interface FlatResolvedI18nRoute {
+  name?: string
+  locale?: string
+  path: string
+  isDefaultTree: boolean
+}
+
+function joinRoutePath(parentPath: string, path: string): string {
+  if (path.startsWith('/'))
+    return path
+  if (!path)
+    return parentPath || '/'
+  return `${parentPath === '/' ? '' : parentPath.replace(/\/$/, '')}/${path}`
+}
+
+function resolveLocalizedRouteName(
+  name: string | undefined,
+  autoI18n: AutoI18nConfig,
+): Pick<FlatResolvedI18nRoute, 'name' | 'locale' | 'isDefaultTree'> {
+  if (!name)
+    return { name, isDefaultTree: false }
+
+  const separator = autoI18n.routesNameSeparator || '___'
+  const defaultSuffix = autoI18n.defaultLocaleRouteNameSuffix || 'default'
+  const segments = name.split(separator)
+  const isDefaultTree = segments.at(-1) === defaultSuffix
+    && autoI18n.locales.some(locale => locale.code === segments.at(-2))
+  if (isDefaultTree)
+    segments.pop()
+  const locale = autoI18n.locales.find(locale => locale.code === segments.at(-1))?.code
+  if (locale)
+    segments.pop()
+  return {
+    name: segments.join(separator),
+    ...(locale ? { locale } : {}),
+    isDefaultTree,
+  }
+}
+
+function flattenResolvedI18nRoutes(
+  routes: readonly ResolvedI18nRoute[],
+  autoI18n: AutoI18nConfig,
+  parentPath = '',
+): FlatResolvedI18nRoute[] {
+  return routes.flatMap((route) => {
+    const path = joinRoutePath(parentPath, route.path)
+    return [
+      { ...resolveLocalizedRouteName(route.name, autoI18n), path },
+      ...flattenResolvedI18nRoutes(route.children || [], autoI18n, path),
+    ]
+  })
+}
+
+function routeKeyToName(key: string): string {
+  return key
+    .replace(/^\//, '')
+    .replace(/\/index$/, '')
+    .replace(/\[{1,2}(?:\.\.\.)?([^\]]+)\]{1,2}/g, '$1')
+    .split('/')
+    .filter(segment => !/^\([^)]+\)$/.test(segment))
+    .join('-')
+}
+
+function routeBasePath(route: FlatResolvedI18nRoute, autoI18n: AutoI18nConfig): string {
+  if (!route.locale || autoI18n.strategy === 'no_prefix')
+    return route.path
+  return resolveLocaleFromRoute(route.path, toRuntimeI18nConfig(autoI18n), { locale: route.locale }).basePath
+}
+
+/**
+ * Complete partial i18n `pages` entries from Nuxt's resolved route table.
+ *
+ * Route names are identifiers, not URL paths. The resolved route path is the
+ * only safe fallback for nested, dynamic, grouped, or custom Nuxt routes.
+ * Whole-route `false` becomes a tagged entry carrying that resolved path.
+ */
+export function materializeI18nPages(
+  autoI18n: AutoI18nConfig,
+  routes: readonly ResolvedI18nRoute[],
+): I18nPages | undefined {
+  const pages = autoI18n.pages
+  if (!pages)
+    return undefined
+
+  const resolvedRoutes = flattenResolvedI18nRoutes(routes, autoI18n)
+  return Object.fromEntries(Object.entries(pages).map(([pageName, pageLocales]) => {
+    const normalizedPageName = routeKeyToName(pageName)
+    const namedRoutes = resolvedRoutes.filter(route => route.name === pageName || route.name === normalizedPageName)
+    if (pageLocales === false) {
+      const route = namedRoutes.find(route => route.locale === autoI18n.defaultLocale)
+        || namedRoutes.find(route => !route.locale)
+        || namedRoutes[0]
+      return [pageName, route
+        ? { _tag: 'unlocalized', path: routeBasePath(route, autoI18n) }
+        : false]
+    }
+    if (isUnlocalizedLocalePage(pageLocales))
+      return [pageName, pageLocales]
+    const explicitlyMatchedRoute = resolvedRoutes.find(route => Object.values(pageLocales).some(configuredPath =>
+      typeof configuredPath === 'string' && routeBasePath(route, autoI18n) === configuredPath,
+    ))
+    const routeGroup = namedRoutes.length
+      ? namedRoutes
+      : explicitlyMatchedRoute?.name
+        ? resolvedRoutes.filter(route => route.name === explicitlyMatchedRoute.name)
+        : []
+    const defaultRoute = routeGroup.find(route => route.locale === autoI18n.defaultLocale && route.isDefaultTree)
+      || routeGroup.find(route => route.locale === autoI18n.defaultLocale)
+      || routeGroup.find(route => !route.locale)
+      || routeGroup.find(route => route.locale && pageLocales[route.locale] === undefined)
+    const originalPath = defaultRoute ? routeBasePath(defaultRoute, autoI18n) : undefined
+    const defaultPath = pageLocales[autoI18n.defaultLocale]
+    const fallbackPath = typeof defaultPath === 'string' ? defaultPath : originalPath
+
+    return [pageName, Object.fromEntries(autoI18n.locales.flatMap((locale) => {
+      const configuredPath = pageLocales[locale.code]
+      if (configuredPath !== undefined)
+        return [[locale.code, configuredPath]]
+      return fallbackPath === undefined ? [] : [[locale.code, fallbackPath]]
+    }))]
+  }))
+}
+
+export function mapPathForI18nPages(
+  path: string,
+  autoI18n: AutoI18nConfig,
+  routes: readonly ResolvedI18nRoute[] = [],
+): string[] | false {
   const pages = autoI18n.pages
   if (!pages || !Object.keys(pages).length)
     return false
 
-  const materializedPages = Object.fromEntries(
-    Object.entries(pages).map(([pageName, pageLocales]) => [
-      pageName,
-      Object.fromEntries(autoI18n.locales.map((locale) => {
-        const configuredPath = pageLocales[locale.code]
-        return [locale.code, configuredPath === undefined ? `/${pageName}` : configuredPath]
-      })),
-    ]),
-  )
+  const materializedPages = routes.length ? materializeI18nPages(autoI18n, routes) : pages
+  const resolvedRoutes = flattenResolvedI18nRoutes(routes, autoI18n)
+  const pagesForMapping = Object.fromEntries(Object.entries(materializedPages || {}).map(([pageName, pageLocales]) => {
+    if (pageLocales !== false)
+      return [pageName, pageLocales]
+    const normalizedPageName = routeKeyToName(pageName)
+    const route = resolvedRoutes.find(route => route.name === pageName || route.name === normalizedPageName)
+    if (!route)
+      return [pageName, false]
+    const originalPath = routeBasePath(route, autoI18n)
+    return [pageName, Object.fromEntries(autoI18n.locales.map(locale => [
+      locale.code,
+      locale.code === autoI18n.defaultLocale ? originalPath : false,
+    ]))]
+  }))
   const i18n = toRuntimeI18nConfig({
     ...autoI18n,
     strategy: autoI18n.strategy === 'prefix_and_default' ? 'prefix_except_default' : autoI18n.strategy,
-    pages: materializedPages,
+    pages: pagesForMapping,
   })
   const resolved = resolveLocaleAlternates(path, i18n, autoI18n.strategy === 'no_prefix'
     ? { locale: autoI18n.defaultLocale }
@@ -175,7 +322,6 @@ export function mapPathForI18nPages(path: string, autoI18n: AutoI18nConfig): str
     return false
 
   return resolved.alternates
-    .filter(alternate => autoI18n.strategy !== 'prefix_except_default' || alternate.code !== autoI18n.defaultLocale)
     .map(alternate => alternate.domain
       ? withHttps(withBase(alternate.path, alternate.domain))
       : alternate.path)
@@ -210,7 +356,7 @@ function resolveI18nPages(config: NuxtI18nOptions, isMicro: boolean): I18nPages 
 
   return Object.fromEntries(
     Object.entries(routes).filter((entry): entry is [string, I18nPages[string]] =>
-      typeof entry[1] === 'object' && entry[1] !== null && !Array.isArray(entry[1])),
+      entry[1] === false || (typeof entry[1] === 'object' && entry[1] !== null && !Array.isArray(entry[1]))),
   )
 }
 
@@ -240,6 +386,8 @@ export async function resolveI18nConfig(logger?: { warn: (msg: string) => void }
   return {
     differentDomains: nuxtI18nConfig.differentDomains,
     multiDomainLocales: nuxtI18nConfig.multiDomainLocales,
+    routesNameSeparator: nuxtI18nConfig.routesNameSeparator,
+    defaultLocaleRouteNameSuffix: nuxtI18nConfig.defaultLocaleRouteNameSuffix,
     defaultLocale: nuxtI18nConfig.defaultLocale!,
     locales: normalisedLocales,
     strategy: nuxtI18nConfig.strategy as Strategies,
@@ -250,9 +398,14 @@ export async function resolveI18nConfig(logger?: { warn: (msg: string) => void }
 /**
  * Strip a build-time i18n config down to what `./i18n-runtime` needs, dropping
  * the non-serializable `LocaleObject` extras so it can be handed to the runtime
- * through `runtimeConfig`.
+ * through `runtimeConfig`. Materialize partial and whole-route-false `pages`
+ * entries before calling this function; unresolved whole-route false entries
+ * are omitted instead of becoming fabricated runtime URLs.
  */
 export function toRuntimeI18nConfig(auto: AutoI18nConfig): RuntimeI18nConfig {
+  const pages = auto.pages && Object.fromEntries(
+    Object.entries(auto.pages).filter((entry): entry is [string, Exclude<I18nPages[string], false | undefined>] => entry[1] !== false),
+  )
   return {
     defaultLocale: auto.defaultLocale,
     strategy: auto.strategy,
@@ -261,7 +414,7 @@ export function toRuntimeI18nConfig(auto: AutoI18nConfig): RuntimeI18nConfig {
     // Translated route paths. Without these the runtime can only guess
     // alternates by adding/removing a locale prefix, which is wrong for every
     // page whose slug differs per locale.
-    ...(auto.pages && Object.keys(auto.pages).length ? { pages: auto.pages } : {}),
+    ...(pages && Object.keys(pages).length ? { pages } : {}),
     locales: auto.locales.map((l) => {
       const raw = l as typeof l & {
         name?: string

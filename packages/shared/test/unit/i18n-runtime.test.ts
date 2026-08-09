@@ -104,6 +104,27 @@ describe('computeLocaleAlternates', () => {
     const i18n: RuntimeI18nConfig = { ...prefixExceptDefault, pages: { about: { en: '/about', fr: '/a-propos' } } }
     expect(paths('/contact', i18n)).toEqual(['/contact', '/fr/contact'])
   })
+
+  it('does not localize a route disabled as an entire pages entry', () => {
+    const i18n: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      pages: {
+        unlocalized: { _tag: 'unlocalized', path: '/unlocalized' },
+      },
+    }
+    expect(resolveLocaleAlternates('/unlocalized', i18n)).toEqual({
+      _tag: 'pages',
+      alternates: [{ code: 'en', hreflang: 'en', path: '/unlocalized' }],
+    })
+    expect(resolveLocaleAlternates('/unlocalized', { ...i18n, strategy: 'prefix' })).toEqual({
+      _tag: 'pages',
+      alternates: [{ code: 'en', hreflang: 'en', path: '/unlocalized' }],
+    })
+    expect(resolveLocaleAlternates('/unlocalized', { ...i18n, strategy: 'no_prefix' })).toEqual({
+      _tag: 'pages',
+      alternates: [{ code: 'en', hreflang: 'en', path: '/unlocalized' }],
+    })
+  })
 })
 
 describe('computeLocaleAlternates with translated routes', () => {
@@ -137,6 +158,16 @@ describe('computeLocaleAlternates with translated routes', () => {
   it('carries dynamic params across locales in both directions', () => {
     expect(paths('/blog/hello-world', translated)).toEqual(['/blog/hello-world', '/fr/journal/hello-world'])
     expect(paths('/fr/journal/hello-world', translated)).toEqual(['/blog/hello-world', '/fr/journal/hello-world'])
+  })
+
+  it('matches dynamic patterns from resolved Nuxt routes', () => {
+    const resolved: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      pages: {
+        'blog-slug': { en: '/blog/:slug()', fr: '/articles/[slug]' },
+      },
+    }
+    expect(paths('/blog/hello-world', resolved)).toEqual(['/blog/hello-world', '/fr/articles/hello-world'])
   })
 
   it('carries catch-all params across locales', () => {
