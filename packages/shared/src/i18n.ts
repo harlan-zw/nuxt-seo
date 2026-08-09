@@ -216,7 +216,8 @@ function flattenResolvedI18nRoutes(
   })
 }
 
-function routeKeyToName(key: string): string {
+/** Normalize an i18n `pages` key to the corresponding resolved Nuxt route name. Build-time only. */
+export function normalizeI18nPageKey(key: string): string {
   return key
     .replace(/^\//, '')
     .replace(/\/index$/, '')
@@ -249,7 +250,7 @@ export function materializeI18nPages(
 
   const resolvedRoutes = flattenResolvedI18nRoutes(routes, autoI18n)
   return Object.fromEntries(Object.entries(pages).map(([pageName, pageLocales]) => {
-    const normalizedPageName = routeKeyToName(pageName)
+    const normalizedPageName = normalizeI18nPageKey(pageName)
     const namedRoutes = resolvedRoutes.filter(route => route.name === pageName || route.name === normalizedPageName)
     if (pageLocales === false) {
       const route = namedRoutes.find(route => route.locale === autoI18n.defaultLocale)
@@ -300,7 +301,7 @@ export function mapPathForI18nPages(
   const pagesForMapping = Object.fromEntries(Object.entries(materializedPages || {}).map(([pageName, pageLocales]) => {
     if (pageLocales !== false)
       return [pageName, pageLocales]
-    const normalizedPageName = routeKeyToName(pageName)
+    const normalizedPageName = normalizeI18nPageKey(pageName)
     const route = resolvedRoutes.find(route => route.name === pageName || route.name === normalizedPageName)
     if (!route)
       return [pageName, false]

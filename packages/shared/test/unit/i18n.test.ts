@@ -7,6 +7,7 @@ import {
   mapPathForI18nPages,
   materializeI18nPages,
   mergeOnKey,
+  normalizeI18nPageKey,
   normalizeLocales,
   splitPathForI18nLocales,
 } from '../../src/i18n'
@@ -553,5 +554,17 @@ describe('materializeI18nPages', () => {
     }), [])).toEqual({
       missing: { fr: '/manquant' },
     })
+  })
+})
+
+describe('normalizeI18nPageKey', () => {
+  it.each([
+    ['services/development/index', 'services-development'],
+    ['/blog/[slug]', 'blog-slug'],
+    ['docs/[...slug]', 'docs-slug'],
+    ['docs/[[...slug]]', 'docs-slug'],
+    ['(marketing)/about', 'about'],
+  ])('normalizes %s to the resolved route name %s', (key, expected) => {
+    expect(normalizeI18nPageKey(key)).toBe(expected)
   })
 })
