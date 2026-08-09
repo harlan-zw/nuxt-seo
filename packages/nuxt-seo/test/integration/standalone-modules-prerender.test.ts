@@ -59,27 +59,25 @@ describe('standalone modules (prerendered)', () => {
     // Same header as llms.txt
     expect(txt).toContain('# @nuxtjs/seo')
     expect(txt).toContain('Canonical Origin: https://local.nuxtseo.com')
-    expect(txt).toContain('## Pages')
+    expect(txt).toContain('## LLM Resources')
 
-    // Full per-page sections with source, description and the page's markdown
-    // body. Streaming order depends on prerender completion, so assert each
-    // block independently rather than the whole document.
+    // Full per-page records with source, description and the page's markdown
+    // body. Prerender completion controls record order, so assert each block
+    // independently rather than the whole document.
     expect(txt).toContain([
-      '### @nuxtjs&#x2F;seo',
+      '- **Page:** @nuxtjs&#x2F;seo',
+      '- **Source:** https://local.nuxtseo.com/',
+      '- **Description:** Fully equipped Technical SEO for busy Nuxters.',
       '',
-      'Source: https://local.nuxtseo.com/',
-      'Description: Fully equipped Technical SEO for busy Nuxters.',
-      '',
-      'h1. home',
+      '# home',
     ].join('\n'))
 
     expect(txt).toContain([
-      '### About | @nuxtjs&#x2F;seo',
+      '- **Page:** About | @nuxtjs&#x2F;seo',
+      '- **Source:** https://local.nuxtseo.com/about',
+      '- **Description:** Fully equipped Technical SEO for busy Nuxters.',
       '',
-      'Source: https://local.nuxtseo.com/about',
-      'Description: Fully equipped Technical SEO for busy Nuxters.',
-      '',
-      'h1. about',
+      '# about',
     ].join('\n'))
   })
 
