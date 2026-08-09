@@ -22,6 +22,8 @@ export default defineConfig({
         test: {
           name: 'integration',
           environment: 'node',
+          // Each file builds and starts a Nuxt fixture. Keep CI memory bounded.
+          maxWorkers: 2,
           setupFiles: ['./test/setup.ts'],
           include: [
             './test/integration/**/*.test.ts',

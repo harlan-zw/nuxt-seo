@@ -17,4 +17,5 @@ jobs:
   ci:
     uses: ./.github/workflows/reusable-ci.yml
     with:
+      playwright: false
       test-command: pnpm test:run
