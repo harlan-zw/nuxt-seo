@@ -192,7 +192,7 @@ type PageToken = StaticPageToken | ParamPageToken
 
 // Nuxt bracket params plus the Vue Router forms i18n emits. Parsing tokens
 // instead of whole segments also covers paths such as `/archive/[year]-[slug]`.
-const PAGE_PARAM_PATTERN = /\[\[(\.\.\.)?([^[\]]+)\]\]|\[(\.\.\.)?([^[\]]+)\]|:(\w+)(?:\(((?:\\.|[^)])*)\))?([?*+]?)/g
+const PAGE_PARAM_PATTERN = /\[\[(\.\.\.)?([^[\]]+)\]\]|\[(\.\.\.)?([^[\]]+)\]|:(\w+)(?:\((\.\*)?\))?([?*+]?)/g
 
 function parsePageSegment(segment: string): PageToken[] {
   const tokens: PageToken[] = []

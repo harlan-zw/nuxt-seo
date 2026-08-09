@@ -170,6 +170,19 @@ describe('computeLocaleAlternates with translated routes', () => {
     expect(paths('/blog/hello-world', resolved)).toEqual(['/blog/hello-world', '/fr/articles/hello-world'])
   })
 
+  it('does not backtrack on malformed Vue Router patterns', () => {
+    const malformed = `/blog/:slug(${'\\('.repeat(24)}`
+    const resolved: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      pages: {
+        'blog-slug': { en: malformed, fr: '/articles/[slug]' },
+      },
+    }
+    const startedAt = performance.now()
+    expect(paths('/blog/hello-world', resolved)).toEqual(['/blog/hello-world', '/fr/blog/hello-world'])
+    expect(performance.now() - startedAt).toBeLessThan(500)
+  })
+
   it('carries catch-all params across locales', () => {
     expect(paths('/docs/guide/getting-started', translated))
       .toEqual(['/docs/guide/getting-started', '/fr/documentation/guide/getting-started'])
