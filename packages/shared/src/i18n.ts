@@ -67,7 +67,7 @@ export function splitPathForI18nLocales(path: string, autoI18n: AutoI18nConfig):
   if (!path || path.startsWith('/_'))
     return path
 
-  const localeCodes = new Set(selectedLocales.map(locale => locale.code))
+  const localeCodes = new Set<string>(selectedLocales.map(locale => locale.code))
   const runtimeI18n = toRuntimeI18nConfig(autoI18n)
   const i18n = {
     ...runtimeI18n,
@@ -157,10 +157,10 @@ export function mapPathForI18nPages(path: string, autoI18n: AutoI18nConfig): str
   const materializedPages = Object.fromEntries(
     Object.entries(pages).map(([pageName, pageLocales]) => [
       pageName,
-      Object.fromEntries(autoI18n.locales.map(locale => [
-        locale.code,
-        locale.code in pageLocales ? pageLocales[locale.code] : `/${pageName}`,
-      ])),
+      Object.fromEntries(autoI18n.locales.map((locale) => {
+        const configuredPath = pageLocales[locale.code]
+        return [locale.code, configuredPath === undefined ? `/${pageName}` : configuredPath]
+      })),
     ]),
   )
   const i18n = toRuntimeI18nConfig({
