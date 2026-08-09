@@ -18,16 +18,24 @@
  */
 export type LocalePages = Record<string, Record<string, string | false> | undefined>
 
+export interface RuntimeLocale {
+  code: string
+  hreflang: string
+  name?: string
+  nativeName?: string
+  language?: string
+  domain?: string
+  domains?: string[]
+  defaultForDomains?: string[]
+}
+
 /** Runtime-safe subset of `AutoI18nConfig` used for route locale resolution. */
 export interface RuntimeI18nConfig {
   defaultLocale: string
   strategy: 'no_prefix' | 'prefix_except_default' | 'prefix' | 'prefix_and_default'
-  locales: Array<{
-    code: string
-    hreflang: string
-    name?: string
-    nativeName?: string
-  }>
+  locales: RuntimeLocale[]
+  differentDomains?: boolean
+  multiDomainLocales?: boolean
   /** Translated route paths, when i18n is configured with custom routes. */
   pages?: LocalePages
 }
@@ -36,6 +44,7 @@ export interface LocaleAlternate {
   code: string
   hreflang: string
   path: string
+  domain?: string
 }
 
 export interface RouteLocaleInfo {
@@ -45,40 +54,96 @@ export interface RouteLocaleInfo {
   basePath: string
 }
 
+export interface RuntimeRouteContext {
+  /** Request host, used to resolve locales under domain-based strategies. */
+  host?: string
+}
+
+function normalizeHost(value: string): string {
+  return value.trim().toLowerCase().replace(/^[a-z][a-z\d+.-]*:\/\//, '').split('/')[0]!
+}
+
+function localeDomains(locale: RuntimeLocale): string[] {
+  return locale.domains?.length ? locale.domains : locale.domain ? [locale.domain] : []
+}
+
+function resolveLocaleFromHost(host: string | undefined, i18n: RuntimeI18nConfig): RuntimeLocale | undefined {
+  if (!host)
+    return undefined
+  const normalizedHost = normalizeHost(host)
+  const domainDefault = i18n.locales.find(locale =>
+    locale.defaultForDomains?.some(domain => normalizeHost(domain) === normalizedHost),
+  )
+  if (domainDefault)
+    return domainDefault
+  const matches = i18n.locales.filter(locale =>
+    localeDomains(locale).some(domain => normalizeHost(domain) === normalizedHost),
+  )
+  return matches.length === 1 ? matches[0] : matches.find(locale => locale.code === i18n.defaultLocale)
+}
+
+function resolveLocaleDomain(locale: RuntimeLocale): string | undefined {
+  return locale.defaultForDomains?.[0] || locale.domain || locale.domains?.[0]
+}
+
+function splitRouteSuffix(route: string): { pathname: string, suffix: string } {
+  const suffixIndex = route.search(/[?#]/)
+  const rawPathname = suffixIndex === -1 ? route : route.slice(0, suffixIndex)
+  return {
+    pathname: rawPathname ? (rawPathname.startsWith('/') ? rawPathname : `/${rawPathname}`) : '/',
+    suffix: suffixIndex === -1 ? '' : route.slice(suffixIndex),
+  }
+}
+
 /**
  * Resolve which locale a route belongs to and the locale-stripped base path.
  */
-export function resolveLocaleFromRoute(route: string, i18n: RuntimeI18nConfig): RouteLocaleInfo {
-  if (i18n.strategy === 'no_prefix')
-    return { locale: i18n.defaultLocale, basePath: route }
+export function resolveLocaleFromRoute(route: string, i18n: RuntimeI18nConfig, context: RuntimeRouteContext = {}): RouteLocaleInfo {
+  const { pathname, suffix } = splitRouteSuffix(route)
+  if (i18n.strategy !== 'no_prefix') {
+    const segments = pathname.split('/').filter(Boolean)
+    const first = segments[0]
+    const matched = first ? i18n.locales.find(l => l.code === first) : undefined
 
-  const segments = route.split('/').filter(Boolean)
-  const first = segments[0]
-  const matched = first ? i18n.locales.find(l => l.code === first) : undefined
-
-  if (matched) {
-    const rest = segments.slice(1).join('/')
-    return { locale: matched.code, basePath: rest ? `/${rest}` : '/' }
+    if (matched) {
+      const rest = segments.slice(1).join('/')
+      return { locale: matched.code, basePath: `${rest ? `/${rest}` : '/'}${suffix}` }
+    }
   }
 
-  return { locale: i18n.defaultLocale, basePath: route }
+  const domainLocale = resolveLocaleFromHost(context.host, i18n)
+  return { locale: domainLocale?.code || i18n.defaultLocale, basePath: `${pathname}${suffix}` }
 }
 
 /**
  * Build the URL path for a base path under a given locale, honoring the i18n strategy.
  */
-export function localePath(basePath: string, locale: string, i18n: RuntimeI18nConfig): string {
+export function localePath(
+  basePath: string,
+  locale: string,
+  i18n: RuntimeI18nConfig,
+  context: RuntimeRouteContext = {},
+): string {
+  const { pathname, suffix } = splitRouteSuffix(basePath)
   if (i18n.strategy === 'no_prefix')
-    return basePath
+    return `${pathname}${suffix}`
 
   const isDefault = locale === i18n.defaultLocale
-  if (i18n.strategy === 'prefix_except_default' && isDefault)
-    return basePath
+  const localeConfig = i18n.locales.find(item => item.code === locale)
+  const normalizedHost = context.host ? normalizeHost(context.host) : undefined
+  const matchesDomainDefault = !!normalizedHost
+    && !!localeConfig?.defaultForDomains?.some(domain => normalizeHost(domain) === normalizedHost)
+  const isDomainDefault = i18n.differentDomains
+    || matchesDomainDefault
+  if (i18n.strategy === 'prefix_except_default' && (isDefault || isDomainDefault))
+    return `${pathname}${suffix}`
+  if (i18n.strategy === 'prefix_and_default' && isDomainDefault)
+    return `${pathname}${suffix}`
 
   // prefix, prefix_and_default, prefix_except_default (non-default)
-  if (basePath === '/' || basePath === '')
-    return `/${locale}`
-  return `/${locale}${basePath}`
+  if (pathname === '/')
+    return `/${locale}${suffix}`
+  return `/${locale}${pathname}${suffix}`
 }
 
 function toSegments(path: string): string[] {
@@ -91,30 +156,58 @@ interface PageParam {
   optional: boolean
 }
 
-/**
- * Read a dynamic segment: `[slug]`, `[[slug]]`, `[...slug]`, `[[...slug]]` and
- * the router equivalents `:slug`, `:slug?`, `:slug(.*)`.
- */
-function readParam(segment: string): PageParam | null {
-  if (segment.startsWith('[') && segment.endsWith(']')) {
-    let name = segment.slice(1, -1)
-    let optional = false
-    if (name.startsWith('[') && name.endsWith(']')) {
-      name = name.slice(1, -1)
-      optional = true
+interface StaticPageToken {
+  _tag: 'static'
+  value: string
+}
+
+interface ParamPageToken {
+  _tag: 'param'
+  param: PageParam
+}
+
+type PageToken = StaticPageToken | ParamPageToken
+
+// Nuxt bracket params plus the Vue Router forms i18n emits. Parsing tokens
+// instead of whole segments also covers paths such as `/archive/[year]-[slug]`.
+const PAGE_PARAM_PATTERN = /\[\[(\.\.\.)?([^[\]]+)\]\]|\[(\.\.\.)?([^[\]]+)\]|:(\w+)(?:\((\.\*)\))?([?*+]?)/g
+
+function parsePageSegment(segment: string): PageToken[] {
+  const tokens: PageToken[] = []
+  let offset = 0
+
+  for (const match of segment.matchAll(PAGE_PARAM_PATTERN)) {
+    const index = match.index
+    if (index > offset)
+      tokens.push({ _tag: 'static', value: segment.slice(offset, index) })
+
+    if (match[2]) {
+      tokens.push({ _tag: 'param', param: { name: match[2], catchAll: !!match[1], optional: true } })
     }
-    const catchAll = name.startsWith('...')
-    if (catchAll)
-      name = name.slice(3)
-    // Anything still carrying a bracket isn't a segment we understand.
-    if (!name || name.includes('[') || name.includes(']'))
-      return null
-    return { name, catchAll, optional }
+    else if (match[4]) {
+      tokens.push({ _tag: 'param', param: { name: match[4], catchAll: !!match[3], optional: false } })
+    }
+    else {
+      const modifier = match[7]
+      tokens.push({
+        _tag: 'param',
+        param: {
+          name: match[5]!,
+          catchAll: !!match[6] || modifier === '*' || modifier === '+',
+          optional: modifier === '?' || modifier === '*',
+        },
+      })
+    }
+    offset = index + match[0].length
   }
-  const colon = /^:([^(?*+]+)([?*+])?(\(\.\*\))?$/.exec(segment)
-  if (colon)
-    return { name: colon[1]!, catchAll: !!colon[3] || colon[2] === '*', optional: colon[2] === '?' || colon[2] === '*' }
-  return null
+
+  if (offset < segment.length)
+    tokens.push({ _tag: 'static', value: segment.slice(offset) })
+  return tokens.length ? tokens : [{ _tag: 'static', value: segment }]
+}
+
+function wholeSegmentParam(tokens: PageToken[]): PageParam | null {
+  return tokens.length === 1 && tokens[0]?._tag === 'param' ? tokens[0].param : null
 }
 
 /**
@@ -125,23 +218,57 @@ function readParam(segment: string): PageParam | null {
  */
 function segmentRanks(pattern: string): number[] {
   return toSegments(pattern).map((segment) => {
-    const param = readParam(segment)
-    if (!param)
-      return 2
-    return param.catchAll ? 0 : 1
+    const tokens = parsePageSegment(segment)
+    const params = tokens.filter((token): token is ParamPageToken => token._tag === 'param')
+    if (!params.length)
+      return 6
+    const hasStatic = tokens.some(token => token._tag === 'static')
+    if (hasStatic)
+      return params.some(token => token.param.optional) ? 3 : 4
+    const param = params[0]!.param
+    if (param.catchAll)
+      return param.optional ? -1 : 0
+    return param.optional ? 1 : 2
   })
 }
 
 /** Negative when `a` is more specific than `b`, for use as a sort comparator. */
 function compareSpecificity(a: number[], b: number[]): number {
-  const length = Math.max(a.length, b.length)
+  const length = Math.min(a.length, b.length)
   for (let i = 0; i < length; i++) {
-    // A pattern that ran out of segments is the less specific of the two.
-    const diff = (b[i] ?? -1) - (a[i] ?? -1)
+    const diff = b[i]! - a[i]!
     if (diff !== 0)
       return diff
   }
-  return 0
+  // When both patterns match, extra segments are optional. The exact, shorter
+  // route wins over a sibling such as `/blog/[[slug]]`.
+  return a.length - b.length
+}
+
+function matchSegmentTokens(tokens: PageToken[], path: string): Record<string, string> | null {
+  function visit(index: number, offset: number, params: Record<string, string>): Record<string, string> | null {
+    if (index === tokens.length)
+      return offset === path.length ? params : null
+
+    const token = tokens[index]!
+    if (token._tag === 'static') {
+      return path.startsWith(token.value, offset)
+        ? visit(index + 1, offset + token.value.length, params)
+        : null
+    }
+
+    const minimumEnd = token.param.optional ? offset : offset + 1
+    for (let end = minimumEnd; end <= path.length; end++) {
+      const value = path.slice(offset, end)
+      const nextParams = value ? { ...params, [token.param.name]: value } : params
+      const matched = visit(index + 1, end, nextParams)
+      if (matched)
+        return matched
+    }
+    return null
+  }
+
+  return visit(0, 0, {})
 }
 
 /**
@@ -151,64 +278,78 @@ function compareSpecificity(a: number[], b: number[]): number {
 function matchPagePattern(pattern: string, path: string): Record<string, string> | null {
   const patternSegments = toSegments(pattern)
   const pathSegments = toSegments(path)
-  const params: Record<string, string> = {}
 
-  for (let i = 0; i < patternSegments.length; i++) {
-    const param = readParam(patternSegments[i]!)
+  function visit(patternIndex: number, pathIndex: number, params: Record<string, string>): Record<string, string> | null {
+    if (patternIndex === patternSegments.length)
+      return pathIndex === pathSegments.length ? params : null
+
+    const tokens = parsePageSegment(patternSegments[patternIndex]!)
+    const param = wholeSegmentParam(tokens)
     if (param?.catchAll) {
-      const rest = pathSegments.slice(i)
-      if (!rest.length)
-        return param.optional ? params : null
-      params[param.name] = rest.join('/')
-      return params
-    }
-    const segment = pathSegments[i]
-    if (segment === undefined) {
-      // The path stopped early: fine only if every segment left is optional.
-      return patternSegments.slice(i).every(s => readParam(s)?.optional) ? params : null
-    }
-    if (param)
-      params[param.name] = segment
-    else if (patternSegments[i] !== segment)
+      const minimumEnd = param.optional ? pathIndex : pathIndex + 1
+      for (let end = pathSegments.length; end >= minimumEnd; end--) {
+        const value = pathSegments.slice(pathIndex, end).join('/')
+        const nextParams = value ? { ...params, [param.name]: value } : params
+        const matched = visit(patternIndex + 1, end, nextParams)
+        if (matched)
+          return matched
+      }
       return null
+    }
+
+    const segment = pathSegments[pathIndex]
+    if (segment !== undefined) {
+      const segmentParams = matchSegmentTokens(tokens, segment)
+      if (segmentParams) {
+        const matched = visit(patternIndex + 1, pathIndex + 1, { ...params, ...segmentParams })
+        if (matched)
+          return matched
+      }
+    }
+
+    return param?.optional ? visit(patternIndex + 1, pathIndex, params) : null
   }
 
-  return pathSegments.length === patternSegments.length ? params : null
+  return visit(0, 0, {})
 }
 
 /** Render a pattern with captured params. Null when a param has no value. */
 function fillPagePattern(pattern: string, params: Record<string, string>): string | null {
   const filled: string[] = []
   for (const segment of toSegments(pattern)) {
-    const param = readParam(segment)
-    if (!param) {
-      filled.push(segment)
-      continue
-    }
-    const value = params[param.name]
-    if (value === undefined) {
-      if (param.optional)
+    const tokens = parsePageSegment(segment)
+    let value = ''
+    for (const token of tokens) {
+      if (token._tag === 'static') {
+        value += token.value
         continue
-      return null
+      }
+      const paramValue = params[token.param.name]
+      if (paramValue === undefined) {
+        if (token.param.optional)
+          continue
+        return null
+      }
+      value += paramValue
     }
-    filled.push(value)
+    if (value)
+      filled.push(value)
   }
   return filled.length ? `/${filled.join('/')}` : '/'
 }
 
 /**
- * Build the alternates for one matched entry, or null when a locale the entry
- * does name can't be rendered from the captured params.
+ * Build the known alternates for one matched entry. Unknown paths are omitted
+ * instead of fabricating URLs from another locale's translated slug.
  */
 function alternatesForEntry(
   localePaths: Record<string, string | false>,
   params: Record<string, string>,
-  basePath: string,
   i18n: RuntimeI18nConfig,
+  context: RuntimeRouteContext,
 ): LocaleAlternate[] | null {
-  // Locales the entry doesn't name keep the untranslated route path, which the
-  // table doesn't record. The default locale's pattern is the closest thing to
-  // it we have; without one, fall back to the path that was requested.
+  // Locales the entry doesn't name use the default pattern when available.
+  // Without that pattern the original route is unknowable from i18n pages.
   const untranslated = localePaths[i18n.defaultLocale]
   const alternates: LocaleAlternate[] = []
 
@@ -217,17 +358,21 @@ function alternatesForEntry(
     // Disabled for this locale: no page, so no alternate.
     if (localePaths[l.code] === false)
       continue
-    const path = typeof pattern === 'string' ? fillPagePattern(pattern, params) : basePath
+    if (typeof pattern !== 'string')
+      continue
+    const path = fillPagePattern(pattern, params)
     if (path === null)
-      return null
+      continue
+    const domain = resolveLocaleDomain(l)
     alternates.push({
       code: l.code,
       hreflang: l.hreflang || l.code,
-      path: localePath(path, l.code, i18n),
+      path: localePath(path, l.code, i18n, { host: domain || context.host }),
+      ...(domain ? { domain } : {}),
     })
   }
 
-  return alternates
+  return alternates.length ? alternates : null
 }
 
 /**
@@ -236,11 +381,15 @@ function alternatesForEntry(
  * Returns null when the pages map can't answer for this route, in which case
  * the caller falls back to locale-prefix arithmetic.
  */
-function alternatesFromPages(basePath: string, locale: string, i18n: RuntimeI18nConfig): LocaleAlternate[] | null {
-  // no_prefix gives every locale the same single URL, so there is nothing to
-  // translate between.
+function alternatesFromPages(
+  basePath: string,
+  locale: string,
+  i18n: RuntimeI18nConfig,
+  context: RuntimeRouteContext,
+): LocaleAlternate[] | null {
   const pages = i18n.pages
-  if (!pages || i18n.strategy === 'no_prefix')
+  const hasDomainLocales = i18n.differentDomains || i18n.multiDomainLocales
+  if (!pages || (i18n.strategy === 'no_prefix' && !hasDomainLocales))
     return null
 
   const matches: Array<{ ranks: number[], localePaths: Record<string, string | false>, params: Record<string, string> }> = []
@@ -256,7 +405,7 @@ function alternatesFromPages(basePath: string, locale: string, i18n: RuntimeI18n
   matches.sort((a, b) => compareSpecificity(a.ranks, b.ranks))
 
   for (const match of matches) {
-    const alternates = alternatesForEntry(match.localePaths, match.params, basePath, i18n)
+    const alternates = alternatesForEntry(match.localePaths, match.params, i18n, context)
     if (alternates)
       return alternates
   }
@@ -272,16 +421,25 @@ function alternatesFromPages(basePath: string, locale: string, i18n: RuntimeI18n
  * locale prefix — `/about` and `/fr/a-propos` are the same page — so the route
  * table is consulted first and prefix arithmetic is the fallback.
  */
-export function computeLocaleAlternates(route: string, i18n: RuntimeI18nConfig): LocaleAlternate[] {
-  const { locale, basePath } = resolveLocaleFromRoute(route, i18n)
+export function computeLocaleAlternates(
+  route: string,
+  i18n: RuntimeI18nConfig,
+  context: RuntimeRouteContext = {},
+): LocaleAlternate[] {
+  const { locale, basePath } = resolveLocaleFromRoute(route, i18n, context)
+  const { pathname, suffix } = splitRouteSuffix(basePath)
 
-  const translated = alternatesFromPages(basePath, locale, i18n)
+  const translated = alternatesFromPages(pathname, locale, i18n, context)
   if (translated)
-    return translated
+    return translated.map(alternate => ({ ...alternate, path: `${alternate.path}${suffix}` }))
 
-  return i18n.locales.map(l => ({
-    code: l.code,
-    hreflang: l.hreflang || l.code,
-    path: localePath(basePath, l.code, i18n),
-  }))
+  return i18n.locales.map((l) => {
+    const domain = resolveLocaleDomain(l)
+    return {
+      code: l.code,
+      hreflang: l.hreflang || l.code,
+      path: localePath(basePath, l.code, i18n, { host: domain || context.host }),
+      ...(domain ? { domain } : {}),
+    }
+  })
 }

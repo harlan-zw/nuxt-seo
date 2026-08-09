@@ -4,7 +4,14 @@ import { getNuxtModuleVersion, hasNuxtModule, hasNuxtModuleCompatibility } from 
 import { joinURL, withBase, withHttps, withLeadingSlash } from 'ufo'
 import { getNuxtModuleOptions } from './kit'
 
-export type { LocaleAlternate, LocalePages, RouteLocaleInfo, RuntimeI18nConfig } from './i18n-runtime'
+export type {
+  LocaleAlternate,
+  LocalePages,
+  RouteLocaleInfo,
+  RuntimeI18nConfig,
+  RuntimeLocale,
+  RuntimeRouteContext,
+} from './i18n-runtime'
 
 const I18N_MODULES = ['@nuxtjs/i18n', 'nuxt-i18n-micro'] as const
 type I18nModuleName = typeof I18N_MODULES[number]
@@ -20,6 +27,7 @@ export interface AutoI18nConfig {
   defaultLocale: string
   strategy: Strategies
   differentDomains?: boolean
+  multiDomainLocales?: boolean
   pages?: Record<string, Record<string, string | false>>
 }
 
@@ -225,12 +233,16 @@ export async function resolveI18nConfig(logger?: { warn: (msg: string) => void }
   const normalisedLocales = normalizeLocales(nuxtI18nConfig)
   const pages = resolveI18nPages(nuxtI18nConfig, i18n.isMicro)
   const usingI18nPages = Object.keys(pages || {}).length
-  const hasI18nConfigForAlternatives = nuxtI18nConfig.differentDomains || usingI18nPages || (nuxtI18nConfig.strategy !== 'no_prefix' && nuxtI18nConfig.locales)
+  const hasI18nConfigForAlternatives = nuxtI18nConfig.differentDomains
+    || nuxtI18nConfig.multiDomainLocales
+    || usingI18nPages
+    || (nuxtI18nConfig.strategy !== 'no_prefix' && nuxtI18nConfig.locales)
   if (!hasI18nConfigForAlternatives)
     return false
 
   return {
     differentDomains: nuxtI18nConfig.differentDomains,
+    multiDomainLocales: nuxtI18nConfig.multiDomainLocales,
     defaultLocale: nuxtI18nConfig.defaultLocale!,
     locales: normalisedLocales,
     strategy: nuxtI18nConfig.strategy as Strategies,
@@ -247,17 +259,30 @@ export function toRuntimeI18nConfig(auto: AutoI18nConfig): RuntimeI18nConfig {
   return {
     defaultLocale: auto.defaultLocale,
     strategy: auto.strategy,
+    ...(auto.differentDomains ? { differentDomains: true } : {}),
+    ...(auto.multiDomainLocales ? { multiDomainLocales: true } : {}),
     // Translated route paths. Without these the runtime can only guess
     // alternates by adding/removing a locale prefix, which is wrong for every
     // page whose slug differs per locale.
     ...(auto.pages && Object.keys(auto.pages).length ? { pages: auto.pages } : {}),
     locales: auto.locales.map((l) => {
-      const raw = l as typeof l & { name?: string, nativeName?: string, language?: string }
+      const raw = l as typeof l & {
+        name?: string
+        nativeName?: string
+        language?: string
+        domain?: string
+        domains?: string[]
+        defaultForDomains?: string[]
+      }
       return {
         code: l.code,
         hreflang: l._hreflang || raw.language || l.code,
         name: raw.name,
         nativeName: raw.nativeName ?? raw.name,
+        ...(raw.language ? { language: raw.language } : {}),
+        ...(raw.domain ? { domain: raw.domain } : {}),
+        ...(raw.domains?.length ? { domains: [...raw.domains] } : {}),
+        ...(raw.defaultForDomains?.length ? { defaultForDomains: [...raw.defaultForDomains] } : {}),
       }
     }),
   }

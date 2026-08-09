@@ -29,9 +29,30 @@ describe('resolveLocaleFromRoute', () => {
     expect(resolveLocaleFromRoute('/fr', prefixExceptDefault)).toEqual({ locale: 'fr', basePath: '/' })
   })
 
+  it('resolves prefixes without treating query or hash text as route segments', () => {
+    expect(resolveLocaleFromRoute('/fr/about?preview=true#intro', prefixExceptDefault))
+      .toEqual({ locale: 'fr', basePath: '/about?preview=true#intro' })
+    expect(resolveLocaleFromRoute('/fr?preview=true', prefixExceptDefault))
+      .toEqual({ locale: 'fr', basePath: '/?preview=true' })
+  })
+
   it('never strips a prefix under no_prefix', () => {
     const i18n: RuntimeI18nConfig = { ...prefixExceptDefault, strategy: 'no_prefix' }
     expect(resolveLocaleFromRoute('/fr/about', i18n)).toEqual({ locale: 'en', basePath: '/fr/about' })
+  })
+
+  it('resolves no-prefix locales from their request host', () => {
+    const i18n: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      strategy: 'no_prefix',
+      differentDomains: true,
+      locales: [
+        { ...en, domain: 'https://example.com' },
+        { ...fr, domain: 'fr.example.com' },
+      ],
+    }
+    expect(resolveLocaleFromRoute('/about', i18n, { host: 'fr.example.com' }))
+      .toEqual({ locale: 'fr', basePath: '/about' })
   })
 })
 
@@ -41,10 +62,26 @@ describe('localePath', () => {
     expect(localePath('/about', 'fr', prefixExceptDefault)).toBe('/fr/about')
   })
 
+  it('normalizes paths without a leading slash', () => {
+    expect(localePath('about', 'fr', prefixExceptDefault)).toBe('/fr/about')
+  })
+
   it('prefixes every locale under prefix', () => {
     const i18n: RuntimeI18nConfig = { ...prefixExceptDefault, strategy: 'prefix' }
     expect(localePath('/about', 'en', i18n)).toBe('/en/about')
     expect(localePath('/', 'fr', i18n)).toBe('/fr')
+  })
+
+  it('leaves a domain default locale unprefixed', () => {
+    const i18n: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      multiDomainLocales: true,
+      locales: [
+        { ...en, domains: ['example.com'] },
+        { ...fr, domains: ['fr.example.com'], defaultForDomains: ['fr.example.com'] },
+      ],
+    }
+    expect(localePath('/about', 'fr', i18n, { host: 'fr.example.com' })).toBe('/about')
   })
 })
 
@@ -78,6 +115,11 @@ describe('computeLocaleAlternates with translated routes', () => {
     ])
   })
 
+  it('translates the pathname while preserving query and hash suffixes', () => {
+    expect(paths('/about?preview=true#intro', translated))
+      .toEqual(['/about?preview=true#intro', '/fr/a-propos?preview=true#intro'])
+  })
+
   it('resolves back from a translated route to the default one', () => {
     expect(paths('/fr/a-propos', translated)).toEqual(['/about', '/fr/a-propos'])
   })
@@ -109,6 +151,49 @@ describe('computeLocaleAlternates with translated routes', () => {
 
   it('does not confuse a listing route with its detail route', () => {
     expect(paths('/blog', translated)).toEqual(['/blog', '/fr/journal'])
+  })
+
+  it('prefers an exact route over an optional sibling', () => {
+    const shadowed: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      pages: {
+        'blog-slug': { en: '/blog/[[slug]]', fr: '/journal/[[slug]]' },
+        'blog': { en: '/blog', fr: '/articles' },
+      },
+    }
+    expect(paths('/blog', shadowed)).toEqual(['/blog', '/fr/articles'])
+  })
+
+  it('matches params embedded in static segments', () => {
+    const embedded: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      pages: {
+        'archive-entry': { en: '/archive/[year]-[slug]', fr: '/archives/[slug]-[year]' },
+      },
+    }
+    expect(paths('/archive/2026-release-notes', embedded))
+      .toEqual(['/archive/2026-release-notes', '/fr/archives/release-notes-2026'])
+  })
+
+  it('backtracks over an omitted optional segment', () => {
+    const optional: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      pages: {
+        editor: { en: '/articles/[[slug]]/edit', fr: '/articles/[[slug]]/modifier' },
+      },
+    }
+    expect(paths('/articles/edit', optional)).toEqual(['/articles/edit', '/fr/articles/modifier'])
+  })
+
+  it('supports Vue Router catch-all syntax', () => {
+    const catchAll: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      pages: {
+        docs: { en: '/docs/:path(.*)*', fr: '/documentation/:path(.*)*' },
+      },
+    }
+    expect(paths('/docs/guide/getting-started', catchAll))
+      .toEqual(['/docs/guide/getting-started', '/fr/documentation/guide/getting-started'])
   })
 
   it('prefers a static entry over a dynamic one declared before it', () => {
@@ -156,12 +241,60 @@ describe('computeLocaleAlternates with translated routes', () => {
     expect(paths('/fr/a-propos', partial)).toEqual(['/about', '/fr/a-propos', '/de/about'])
   })
 
-  it('falls back to prefixing when an entry names no default locale', () => {
+  it('omits unknown locale paths when an entry names no default locale', () => {
     const partial: RuntimeI18nConfig = {
       ...prefixExceptDefault,
       pages: { about: { fr: '/a-propos' } },
     }
-    expect(paths('/fr/a-propos', partial)).toEqual(['/a-propos', '/fr/a-propos'])
+    expect(paths('/fr/a-propos', partial)).toEqual(['/fr/a-propos'])
+  })
+
+  it('exposes locale domains with alternates', () => {
+    const domains: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      strategy: 'no_prefix',
+      differentDomains: true,
+      locales: [
+        { ...en, domain: 'example.com' },
+        { ...fr, domain: 'fr.example.com' },
+      ],
+    }
+    expect(computeLocaleAlternates('/about', domains)).toEqual([
+      { code: 'en', hreflang: 'en', path: '/about', domain: 'example.com' },
+      { code: 'fr', hreflang: 'fr-FR', path: '/about', domain: 'fr.example.com' },
+    ])
+  })
+
+  it('uses each locale default domain as its canonical alternate domain', () => {
+    const domains: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      strategy: 'no_prefix',
+      multiDomainLocales: true,
+      locales: [
+        { ...en, domains: ['example.test', 'example.com'], defaultForDomains: ['example.com'] },
+        { ...fr, domains: ['example.test'], defaultForDomains: ['example.test'] },
+      ],
+    }
+    expect(computeLocaleAlternates('/about', domains, { host: 'example.test' })).toEqual([
+      { code: 'en', hreflang: 'en', path: '/about', domain: 'example.com' },
+      { code: 'fr', hreflang: 'fr-FR', path: '/about', domain: 'example.test' },
+    ])
+  })
+
+  it('translates routes across locale domains', () => {
+    const domains: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      differentDomains: true,
+      locales: [
+        { ...en, domain: 'example.com' },
+        { ...fr, domain: 'fr.example.com' },
+      ],
+      pages: { about: { en: '/about', fr: '/a-propos' } },
+    }
+    expect(computeLocaleAlternates('/a-propos', domains, { host: 'fr.example.com' })).toEqual([
+      { code: 'en', hreflang: 'en', path: '/about', domain: 'example.com' },
+      { code: 'fr', hreflang: 'fr-FR', path: '/a-propos', domain: 'fr.example.com' },
+    ])
   })
 
   it('prefixes every locale under the prefix strategy', () => {
@@ -208,5 +341,36 @@ describe('toRuntimeI18nConfig', () => {
   it('carries the route table through when present', () => {
     const pages = { about: { en: '/about', fr: '/a-propos' } }
     expect(toRuntimeI18nConfig({ ...auto, pages }).pages).toEqual(pages)
+  })
+
+  it('carries serializable domain locale metadata through', () => {
+    const config = toRuntimeI18nConfig({
+      ...auto,
+      differentDomains: true,
+      multiDomainLocales: true,
+      locales: [
+        {
+          code: 'en',
+          _hreflang: 'en-US',
+          _sitemap: 'en-US',
+          language: 'en-US',
+          domain: 'example.com',
+          domains: ['example.com', 'example.test'],
+          defaultForDomains: ['example.com'],
+        },
+      ],
+    })
+    expect(config).toMatchObject({
+      differentDomains: true,
+      multiDomainLocales: true,
+      locales: [{
+        code: 'en',
+        hreflang: 'en-US',
+        language: 'en-US',
+        domain: 'example.com',
+        domains: ['example.com', 'example.test'],
+        defaultForDomains: ['example.com'],
+      }],
+    })
   })
 })
