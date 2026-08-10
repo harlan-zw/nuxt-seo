@@ -2,7 +2,7 @@ import type { AutoI18nConfig } from '../../src/i18n'
 import type { RuntimeI18nConfig } from '../../src/i18n-runtime'
 import { describe, expect, it } from 'vitest'
 import { toRuntimeI18nConfig } from '../../src/i18n'
-import { computeLocaleAlternates, localePath, resolveLocaleAlternates, resolveLocaleFromRoute } from '../../src/i18n-runtime'
+import { computeLocaleAlternates, localePath, resolveCanonicalLocaleDomain, resolveLocaleAlternates, resolveLocaleFromRoute } from '../../src/i18n-runtime'
 
 const en = { code: 'en', hreflang: 'en' }
 const fr = { code: 'fr', hreflang: 'fr-FR' }
@@ -15,6 +15,24 @@ const prefixExceptDefault: RuntimeI18nConfig = {
 }
 
 const paths = (route: string, i18n: RuntimeI18nConfig) => computeLocaleAlternates(route, i18n).map(a => a.path)
+
+describe('resolveCanonicalLocaleDomain', () => {
+  it('prefers the configured canonical domain', () => {
+    expect(resolveCanonicalLocaleDomain({
+      ...en,
+      domain: 'legacy.example.com',
+      domains: ['alias.example.com'],
+      defaultForDomains: ['canonical.example.com'],
+    })).toBe('canonical.example.com')
+  })
+
+  it('falls back to the default locale domain for a domainless locale', () => {
+    expect(resolveCanonicalLocaleDomain(fr, {
+      ...en,
+      domain: 'example.com',
+    })).toBe('example.com')
+  })
+})
 
 describe('resolveLocaleFromRoute', () => {
   it('strips the prefix to find the locale', () => {
