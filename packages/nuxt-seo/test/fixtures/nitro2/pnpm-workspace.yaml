@@ -1,11 +1,11 @@
 linkWorkspacePackages: false
 preferWorkspacePackages: false
-# pkg.pr.new monorepo previews reference their sibling preview tarballs.
+# Unreleased Nitro 3 compatibility previews reference sibling preview tarballs.
 blockExoticSubdeps: false
 
 minimumReleaseAgeExclude:
   - nuxt-ai-ready@1.7.3
-  - nuxtseo-shared@5.3.10
+  - nuxtseo-shared@5.3.10 || 5.3.11
   - '@rolldown/binding-android-arm64@1.2.2'
   - nuxt-site-config-kit@4.1.4
   - nuxt-site-config@4.1.4
