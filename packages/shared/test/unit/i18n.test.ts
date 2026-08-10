@@ -493,6 +493,19 @@ describe('materializeI18nPages', () => {
     expect(mapPathForI18nPages('/about', config, routes)).toEqual(['/about'])
   })
 
+  it('marks an entirely unlocalized route tree', () => {
+    expect(materializeI18nPages(makeAutoI18n({
+      locales: [makeLocale('en'), makeLocale('fr')],
+      pages: { admin: false },
+    }), [{
+      name: 'admin',
+      path: '/admin',
+      children: [{ name: 'admin-users', path: 'users' }],
+    }])).toEqual({
+      admin: { _tag: 'unlocalized', path: '/admin', subtree: true },
+    })
+  })
+
   it('uses the resolved route for locales omitted beside a disabled default', () => {
     expect(materializeI18nPages(makeAutoI18n({
       locales: [makeLocale('en'), makeLocale('fr')],

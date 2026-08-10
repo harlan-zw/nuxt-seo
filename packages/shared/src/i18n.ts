@@ -168,6 +168,7 @@ interface FlatResolvedI18nRoute {
   locale?: string
   path: string
   isDefaultTree: boolean
+  hasChildren: boolean
 }
 
 function joinRoutePath(parentPath: string, path: string): string {
@@ -210,7 +211,7 @@ function flattenResolvedI18nRoutes(
   return routes.flatMap((route) => {
     const path = joinRoutePath(parentPath, route.path)
     return [
-      { ...resolveLocalizedRouteName(route.name, autoI18n), path },
+      { ...resolveLocalizedRouteName(route.name, autoI18n), path, hasChildren: !!route.children?.length },
       ...flattenResolvedI18nRoutes(route.children || [], autoI18n, path),
     ]
   })
@@ -257,7 +258,11 @@ export function materializeI18nPages(
         || namedRoutes.find(route => !route.locale)
         || namedRoutes[0]
       return [pageName, route
-        ? { _tag: 'unlocalized', path: routeBasePath(route, autoI18n) }
+        ? {
+            _tag: 'unlocalized',
+            path: routeBasePath(route, autoI18n),
+            ...(route.hasChildren ? { subtree: true } : {}),
+          }
         : false]
     }
     if (isUnlocalizedLocalePage(pageLocales))

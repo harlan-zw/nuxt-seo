@@ -28,5 +28,7 @@ describe('@nuxtjs/i18n partial pages', () => {
   it('leaves a route unlocalized when its entire pages entry is false', async () => {
     await expect($fetch('/unlocalized')).resolves.toContain('unlocalized')
     await expect($fetch('/fr/unlocalized')).rejects.toThrow()
+    await expect($fetch('/unlocalized/child')).resolves.toContain('child')
+    await expect($fetch('/fr/unlocalized/child')).rejects.toThrow()
   })
 })
