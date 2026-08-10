@@ -497,7 +497,7 @@ function alternatesFromPages(
     if (match._tag === 'unlocalized') {
       const defaultLocale = i18n.locales.find(locale => locale.code === i18n.defaultLocale)
       if (defaultLocale) {
-        const domain = resolveLocaleDomain(defaultLocale)
+        const domain = resolveCanonicalLocaleDomain(defaultLocale)
         return [{
           code: defaultLocale.code,
           hreflang: defaultLocale.hreflang || defaultLocale.code,
