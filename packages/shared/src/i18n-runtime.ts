@@ -112,8 +112,19 @@ function resolveLocaleFromHost(host: string | undefined, i18n: RuntimeI18nConfig
   return matches.length === 1 ? matches[0] : matches.find(locale => locale.code === i18n.defaultLocale)
 }
 
-function resolveLocaleDomain(locale: RuntimeLocale): string | undefined {
-  return locale.defaultForDomains?.[0] || locale.domain || locale.domains?.[0]
+function firstLocaleDomain(locale: RuntimeLocale | undefined): string | undefined {
+  return locale?.defaultForDomains?.[0] || locale?.domain || locale?.domains?.[0]
+}
+
+/**
+ * Resolve the canonical domain for a locale. Domainless locales are served on
+ * every domain, so their stable canonical is the default locale's domain.
+ */
+export function resolveCanonicalLocaleDomain(
+  locale: RuntimeLocale | undefined,
+  defaultLocale?: RuntimeLocale,
+): string | undefined {
+  return firstLocaleDomain(locale) || firstLocaleDomain(defaultLocale)
 }
 
 function splitRouteSuffix(route: string): { pathname: string, suffix: string } {
@@ -414,6 +425,7 @@ function alternatesForEntry(
   // Without that pattern the original route is unknowable from i18n pages.
   const untranslated = localePaths[i18n.defaultLocale]
   const alternates: LocaleAlternate[] = []
+  const defaultLocale = i18n.locales.find(locale => locale.code === i18n.defaultLocale)
 
   for (const l of i18n.locales) {
     const pattern = localePaths[l.code] ?? untranslated
@@ -425,7 +437,7 @@ function alternatesForEntry(
     const path = fillPagePattern(pattern, params)
     if (path === null)
       continue
-    const domain = resolveLocaleDomain(l)
+    const domain = resolveCanonicalLocaleDomain(l, defaultLocale)
     alternates.push({
       code: l.code,
       hreflang: l.hreflang || l.code,
@@ -530,10 +542,11 @@ export function resolveLocaleAlternates(
     }
   }
 
+  const defaultLocale = i18n.locales.find(locale => locale.code === i18n.defaultLocale)
   return {
     _tag: 'strategy',
     alternates: i18n.locales.map((l) => {
-      const domain = resolveLocaleDomain(l)
+      const domain = resolveCanonicalLocaleDomain(l, defaultLocale)
       return {
         code: l.code,
         hreflang: l.hreflang || l.code,
