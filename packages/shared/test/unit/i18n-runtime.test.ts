@@ -29,6 +29,11 @@ describe('resolveLocaleFromRoute', () => {
     expect(resolveLocaleFromRoute('/fr', prefixExceptDefault)).toEqual({ locale: 'fr', basePath: '/' })
   })
 
+  it('preserves trailing slashes while stripping a locale prefix', () => {
+    expect(resolveLocaleFromRoute('/fr/about/?preview=true', prefixExceptDefault))
+      .toEqual({ locale: 'fr', basePath: '/about/?preview=true' })
+  })
+
   it('resolves prefixes without treating query or hash text as route segments', () => {
     expect(resolveLocaleFromRoute('/fr/about?preview=true#intro', prefixExceptDefault))
       .toEqual({ locale: 'fr', basePath: '/about?preview=true#intro' })
@@ -104,6 +109,68 @@ describe('computeLocaleAlternates', () => {
     const i18n: RuntimeI18nConfig = { ...prefixExceptDefault, pages: { about: { en: '/about', fr: '/a-propos' } } }
     expect(paths('/contact', i18n)).toEqual(['/contact', '/fr/contact'])
   })
+
+  it('does not localize a route disabled as an entire pages entry', () => {
+    const i18n: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      pages: {
+        unlocalized: { _tag: 'unlocalized', path: '/unlocalized' },
+      },
+    }
+    expect(resolveLocaleAlternates('/unlocalized', i18n)).toEqual({
+      _tag: 'pages',
+      alternates: [{ code: 'en', hreflang: 'en', path: '/unlocalized' }],
+    })
+    expect(resolveLocaleAlternates('/unlocalized', { ...i18n, strategy: 'prefix' })).toEqual({
+      _tag: 'pages',
+      alternates: [{ code: 'en', hreflang: 'en', path: '/unlocalized' }],
+    })
+    expect(resolveLocaleAlternates('/unlocalized', { ...i18n, strategy: 'no_prefix' })).toEqual({
+      _tag: 'pages',
+      alternates: [{ code: 'en', hreflang: 'en', path: '/unlocalized' }],
+    })
+  })
+
+  it('does not localize descendants of an unlocalized route tree', () => {
+    const i18n: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      pages: {
+        admin: { _tag: 'unlocalized', path: '/admin', subtree: true },
+      },
+    }
+    expect(resolveLocaleAlternates('/admin/users', i18n)).toEqual({
+      _tag: 'pages',
+      alternates: [{ code: 'en', hreflang: 'en', path: '/admin/users' }],
+    })
+  })
+
+  it('does not treat an unlocalized leading locale segment as a prefix', () => {
+    const i18n: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      pages: {
+        frenchLegal: { _tag: 'unlocalized', path: '/fr/legal' },
+      },
+    }
+    expect(resolveLocaleAlternates('/fr/legal', i18n)).toEqual({
+      _tag: 'pages',
+      alternates: [{ code: 'en', hreflang: 'en', path: '/fr/legal' }],
+    })
+  })
+
+  it('does not let an unlocalized entry enable unrelated no-prefix translations', () => {
+    const i18n: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      strategy: 'no_prefix',
+      pages: {
+        about: { en: '/about', fr: '/a-propos' },
+        unlocalized: { _tag: 'unlocalized', path: '/unlocalized' },
+      },
+    }
+
+    expect(paths('/about', i18n)).toEqual(['/about', '/about'])
+    expect(computeLocaleAlternates('/about', i18n, { locale: 'en' }).map(alternate => alternate.path))
+      .toEqual(['/about', '/a-propos'])
+  })
 })
 
 describe('computeLocaleAlternates with translated routes', () => {
@@ -130,6 +197,14 @@ describe('computeLocaleAlternates with translated routes', () => {
       .toEqual(['/about?preview=true#intro', '/fr/a-propos?preview=true#intro'])
   })
 
+  it('preserves trailing slashes from resolved route patterns', () => {
+    const trailingSlash: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      pages: { about: { en: '/about/', fr: '/a-propos/' } },
+    }
+    expect(paths('/about/', trailingSlash)).toEqual(['/about/', '/fr/a-propos/'])
+  })
+
   it('resolves back from a translated route to the default one', () => {
     expect(paths('/fr/a-propos', translated)).toEqual(['/about', '/fr/a-propos'])
   })
@@ -137,6 +212,45 @@ describe('computeLocaleAlternates with translated routes', () => {
   it('carries dynamic params across locales in both directions', () => {
     expect(paths('/blog/hello-world', translated)).toEqual(['/blog/hello-world', '/fr/journal/hello-world'])
     expect(paths('/fr/journal/hello-world', translated)).toEqual(['/blog/hello-world', '/fr/journal/hello-world'])
+  })
+
+  it('matches dynamic patterns from resolved Nuxt routes', () => {
+    const resolved: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      pages: {
+        'blog-slug': { en: '/blog/:slug()', fr: '/articles/[slug]' },
+      },
+    }
+    expect(paths('/blog/hello-world', resolved)).toEqual(['/blog/hello-world', '/fr/articles/hello-world'])
+  })
+
+  it('does not backtrack on malformed Vue Router patterns', () => {
+    const malformed = `/blog/:slug(${'\\('.repeat(24)}`
+    const resolved: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      pages: {
+        'blog-slug': { en: malformed, fr: '/articles/[slug]' },
+      },
+    }
+    const startedAt = performance.now()
+    expect(paths('/blog/hello-world', resolved)).toEqual(['/blog/hello-world', '/fr/blog/hello-world'])
+    expect(performance.now() - startedAt).toBeLessThan(500)
+  })
+
+  it('bounds backtracking across adjacent embedded params', () => {
+    const params = Array.from({ length: 9 }, (_, index) => `:p${index}()`).join('')
+    const resolved: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      pages: {
+        adversarial: { en: `/${params}Z`, fr: '/articles/[p0]' },
+      },
+    }
+    const startedAt = performance.now()
+    expect(paths(`/${'a'.repeat(25)}`, resolved)).toEqual([
+      `/${'a'.repeat(25)}`,
+      `/fr/${'a'.repeat(25)}`,
+    ])
+    expect(performance.now() - startedAt).toBeLessThan(500)
   })
 
   it('carries catch-all params across locales', () => {

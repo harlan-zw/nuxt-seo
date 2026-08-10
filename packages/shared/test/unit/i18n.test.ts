@@ -5,7 +5,9 @@ import {
   generatePathForI18nPages,
   isCompactLocaleRoute,
   mapPathForI18nPages,
+  materializeI18nPages,
   mergeOnKey,
+  normalizeI18nPageKey,
   normalizeLocales,
   splitPathForI18nLocales,
 } from '../../src/i18n'
@@ -326,6 +328,14 @@ describe('mapPathForI18nPages', () => {
     expect(mapPathForI18nPages('/about', config)).toBe(false)
   })
 
+  it('does not invent a path for an unmaterialized partial entry', () => {
+    const config = makeAutoI18n({
+      locales: [makeLocale('en'), makeLocale('fr')],
+      pages: { about: { fr: '/a-propos' } },
+    })
+    expect(mapPathForI18nPages('/about', config)).toBe(false)
+  })
+
   it('maps a page with custom locale paths', () => {
     const config = makeAutoI18n({
       pages: {
@@ -335,8 +345,9 @@ describe('mapPathForI18nPages', () => {
         },
       },
     })
-    const result = mapPathForI18nPages('/about', config)
+    const result = mapPathForI18nPages('/about', config, [{ name: 'about___en', path: '/about' }])
     expect(result).toBeInstanceOf(Array)
+    expect(result).toContain('/about')
     expect(result).toContain('/fr/a-propos')
     expect(result).toContain('/es/acerca')
   })
@@ -350,7 +361,7 @@ describe('mapPathForI18nPages', () => {
         },
       },
     })
-    const result = mapPathForI18nPages('/about', config)
+    const result = mapPathForI18nPages('/about', config, [{ name: 'about___en', path: '/about' }])
     expect(result).toBeInstanceOf(Array)
     const paths = result as string[]
     expect(paths.some(p => p.includes('/fr'))).toBe(false)
@@ -380,7 +391,7 @@ describe('mapPathForI18nPages', () => {
         },
       },
     })
-    const result = mapPathForI18nPages('/about/', config)
+    const result = mapPathForI18nPages('/about/', config, [{ name: 'about___en', path: '/about' }])
     expect(result).toBeInstanceOf(Array)
   })
 
@@ -394,7 +405,7 @@ describe('mapPathForI18nPages', () => {
         },
       },
     })
-    expect(mapPathForI18nPages('/posts/hello', config)).toEqual(['/fr/articles/hello'])
+    expect(mapPathForI18nPages('/posts/hello', config)).toEqual(['/posts/hello', '/fr/articles/hello'])
   })
 
   it('preserves translated paths under no_prefix', () => {
@@ -409,5 +420,164 @@ describe('mapPathForI18nPages', () => {
       },
     })
     expect(mapPathForI18nPages('/about', config)).toEqual(['/about', '/a-propos', '/acerca'])
+  })
+})
+
+describe('materializeI18nPages', () => {
+  it('uses the configured default path for omitted locales', () => {
+    expect(materializeI18nPages(makeAutoI18n({
+      locales: [makeLocale('en'), makeLocale('fr')],
+      pages: { about: { en: '/about-us' } },
+    }), [
+      { name: 'about___en', path: '/about-us' },
+      { name: 'about___fr', path: '/fr/about-us' },
+    ])).toEqual({
+      about: { en: '/about-us', fr: '/about-us' },
+    })
+  })
+
+  it('uses the resolved nested route path when the default locale is omitted', () => {
+    expect(materializeI18nPages(makeAutoI18n({
+      locales: [makeLocale('en'), makeLocale('fr')],
+      pages: { 'services-development': { fr: '/offres/developpement' } },
+    }), [
+      {
+        name: 'services___en',
+        path: '/services',
+        children: [
+          { name: 'services-development___en', path: 'development' },
+        ],
+      },
+    ])).toEqual({
+      'services-development': {
+        en: '/services/development',
+        fr: '/offres/developpement',
+      },
+    })
+  })
+
+  it('uses the resolved dynamic route pattern when the default locale is omitted', () => {
+    expect(materializeI18nPages(makeAutoI18n({
+      locales: [makeLocale('en'), makeLocale('fr')],
+      pages: { 'blog-slug': { fr: '/articles/[slug]' } },
+    }), [
+      { name: 'blog-slug___en', path: '/blog/:slug()' },
+    ])).toEqual({
+      'blog-slug': {
+        en: '/blog/:slug()',
+        fr: '/articles/[slug]',
+      },
+    })
+  })
+
+  it('preserves disabled locale routes', () => {
+    expect(materializeI18nPages(makeAutoI18n({
+      locales: [makeLocale('en'), makeLocale('fr')],
+      pages: { about: { fr: false } },
+    }), [
+      { name: 'about___en', path: '/about' },
+    ])).toEqual({
+      about: { en: '/about', fr: false },
+    })
+  })
+
+  it('preserves an entirely unlocalized route', () => {
+    const config = makeAutoI18n({
+      locales: [makeLocale('en'), makeLocale('fr')],
+      pages: { about: false },
+    })
+    const routes = [{ name: 'about', path: '/about' }]
+    expect(materializeI18nPages(config, routes)).toEqual({
+      about: { _tag: 'unlocalized', path: '/about' },
+    })
+    expect(mapPathForI18nPages('/about', config, routes)).toEqual(['/about'])
+  })
+
+  it('marks an entirely unlocalized route tree', () => {
+    expect(materializeI18nPages(makeAutoI18n({
+      locales: [makeLocale('en'), makeLocale('fr')],
+      pages: { admin: false },
+    }), [{
+      name: 'admin',
+      path: '/admin',
+      children: [{ name: 'admin-users', path: 'users' }],
+    }])).toEqual({
+      admin: { _tag: 'unlocalized', path: '/admin', subtree: true },
+    })
+  })
+
+  it('uses the resolved route for locales omitted beside a disabled default', () => {
+    expect(materializeI18nPages(makeAutoI18n({
+      locales: [makeLocale('en'), makeLocale('fr')],
+      pages: { about: { en: false } },
+    }), [{ name: 'about___fr', path: '/fr/about' }])).toEqual({
+      about: { en: false, fr: '/about' },
+    })
+  })
+
+  it('does not reuse an explicit translation when the original route is unavailable', () => {
+    expect(materializeI18nPages(makeAutoI18n({
+      locales: [makeLocale('en'), makeLocale('fr'), makeLocale('de')],
+      pages: { about: { en: false, fr: '/a-propos' } },
+    }), [{ name: 'about___fr', path: '/fr/a-propos' }])).toEqual({
+      about: { en: false, fr: '/a-propos' },
+    })
+  })
+
+  it.each([
+    ['prefix_except_default', '/about', 'about___en'],
+    ['prefix', '/en/about', 'about___en'],
+    ['prefix_and_default', '/about', 'about___en___default'],
+    ['no_prefix', '/about', 'about___en'],
+  ] as const)('strips the generated prefix under %s', (strategy, path, name) => {
+    expect(materializeI18nPages(makeAutoI18n({
+      strategy,
+      locales: [makeLocale('en'), makeLocale('fr')],
+      pages: { about: { fr: '/a-propos' } },
+    }), [{ name, path }])).toEqual({
+      about: { en: '/about', fr: '/a-propos' },
+    })
+  })
+
+  it('uses custom localized route name separators and default suffixes', () => {
+    expect(materializeI18nPages(makeAutoI18n({
+      strategy: 'prefix_and_default',
+      locales: [makeLocale('en'), makeLocale('fr')],
+      routesNameSeparator: '--',
+      defaultLocaleRouteNameSuffix: 'base',
+      pages: { about: { fr: '/a-propos' } },
+    }), [{ name: 'about--en--base', path: '/about' }])).toEqual({
+      about: { en: '/about', fr: '/a-propos' },
+    })
+  })
+
+  it('matches legacy path keys to resolved route names', () => {
+    expect(materializeI18nPages(makeAutoI18n({
+      locales: [makeLocale('en'), makeLocale('fr')],
+      pages: { 'services/development/index': { fr: '/offres/developpement' } },
+    }), [{ name: 'services-development___en', path: '/services/development' }])).toEqual({
+      'services/development/index': { en: '/services/development', fr: '/offres/developpement' },
+    })
+  })
+
+  it('never fabricates a path for an unresolved route', () => {
+    expect(materializeI18nPages(makeAutoI18n({
+      locales: [makeLocale('en'), makeLocale('fr')],
+      pages: { missing: { fr: '/manquant' } },
+    }), [])).toEqual({
+      missing: { fr: '/manquant' },
+    })
+  })
+})
+
+describe('normalizeI18nPageKey', () => {
+  it.each([
+    ['services/development/index', 'services-development'],
+    ['/blog/[slug]', 'blog-slug'],
+    ['docs/[...slug]', 'docs-slug'],
+    ['docs/[[...slug]]', 'docs-slug'],
+    ['(marketing)/about', 'about'],
+  ])('normalizes %s to the resolved route name %s', (key, expected) => {
+    expect(normalizeI18nPageKey(key)).toBe(expected)
   })
 })

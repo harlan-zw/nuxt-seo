@@ -8,15 +8,39 @@
  */
 
 /**
- * Custom route paths keyed by route name, then locale code — i18n's `pages`
- * option (`globalLocaleRoutes` for nuxt-i18n-micro). `false` means the page is
- * disabled for that locale.
+ * Resolved route paths keyed by route name, then locale code. Per-locale
+ * `false` disables that locale. A tagged unlocalized entry represents i18n's
+ * whole-route `false` after build-time materialization.
  *
  * ```
- * { about: { en: '/about', fr: '/a-propos' } }
+ * { about: { en: '/about', fr: '/a-propos' }, admin: { _tag: 'unlocalized', path: '/admin' } }
  * ```
  */
-export type LocalePages = Record<string, Record<string, string | false> | undefined>
+export type LocalePagePaths = Record<string, string | false>
+
+export interface UnlocalizedLocalePage {
+  /** Route excluded from i18n localization by a whole-route `pages` false. */
+  _tag: 'unlocalized'
+  /** Original resolved Nuxt route pattern. */
+  path: string
+  /** The route has children, which i18n also leaves unlocalized. */
+  subtree?: true
+}
+
+export type LocalePages = Record<string, LocalePagePaths | UnlocalizedLocalePage | undefined>
+
+function isUnlocalizedLocalePage(page: LocalePagePaths | UnlocalizedLocalePage): page is UnlocalizedLocalePage {
+  return page._tag === 'unlocalized' && typeof page.path === 'string'
+}
+
+function matchesUnlocalizedLocalePage(page: UnlocalizedLocalePage, path: string): boolean {
+  if (matchPagePattern(page.path, path))
+    return true
+  if (!page.subtree)
+    return false
+  const subtreePattern = `${page.path === '/' ? '' : page.path.replace(/\/$/, '')}/[...__nuxtSeoSubtree]`
+  return !!matchPagePattern(subtreePattern, path)
+}
 
 export interface RuntimeLocale {
   code: string
@@ -113,7 +137,8 @@ export function resolveLocaleFromRoute(route: string, i18n: RuntimeI18nConfig, c
 
     if (matched) {
       const rest = segments.slice(1).join('/')
-      return { locale: matched.code, basePath: `${rest ? `/${rest}` : '/'}${suffix}` }
+      const trailingSlash = rest && pathname.endsWith('/') ? '/' : ''
+      return { locale: matched.code, basePath: `${rest ? `/${rest}${trailingSlash}` : '/'}${suffix}` }
     }
   }
 
@@ -179,7 +204,7 @@ type PageToken = StaticPageToken | ParamPageToken
 
 // Nuxt bracket params plus the Vue Router forms i18n emits. Parsing tokens
 // instead of whole segments also covers paths such as `/archive/[year]-[slug]`.
-const PAGE_PARAM_PATTERN = /\[\[(\.\.\.)?([^[\]]+)\]\]|\[(\.\.\.)?([^[\]]+)\]|:(\w+)(?:\((\.\*)\))?([?*+]?)/g
+const PAGE_PARAM_PATTERN = /\[\[(\.\.\.)?([^[\]]+)\]\]|\[(\.\.\.)?([^[\]]+)\]|:(\w+)(?:\((\.\*)?\))?([?*+]?)/g
 
 function parsePageSegment(segment: string): PageToken[] {
   const tokens: PageToken[] = []
@@ -198,11 +223,12 @@ function parsePageSegment(segment: string): PageToken[] {
     }
     else {
       const modifier = match[7]
+      const routePattern = match[6]
       tokens.push({
         _tag: 'param',
         param: {
           name: match[5]!,
-          catchAll: !!match[6] || modifier === '*' || modifier === '+',
+          catchAll: !!routePattern?.includes('.*') || modifier === '*' || modifier === '+',
           optional: modifier === '?' || modifier === '*',
         },
       })
@@ -255,15 +281,27 @@ function compareSpecificity(a: number[], b: number[]): number {
 }
 
 function matchSegmentTokens(tokens: PageToken[], path: string): Record<string, string> | null {
+  const failedStates = new Set<number>()
+
   function visit(index: number, offset: number, params: Record<string, string>): Record<string, string> | null {
-    if (index === tokens.length)
-      return offset === path.length ? params : null
+    const state = index * (path.length + 1) + offset
+    if (failedStates.has(state))
+      return null
+    if (index === tokens.length) {
+      if (offset === path.length)
+        return params
+      failedStates.add(state)
+      return null
+    }
 
     const token = tokens[index]!
     if (token._tag === 'static') {
-      return path.startsWith(token.value, offset)
+      const matched = path.startsWith(token.value, offset)
         ? visit(index + 1, offset + token.value.length, params)
         : null
+      if (!matched)
+        failedStates.add(state)
+      return matched
     }
 
     const minimumEnd = token.param.optional ? offset : offset + 1
@@ -274,6 +312,7 @@ function matchSegmentTokens(tokens: PageToken[], path: string): Record<string, s
       if (matched)
         return matched
     }
+    failedStates.add(state)
     return null
   }
 
@@ -287,10 +326,18 @@ function matchSegmentTokens(tokens: PageToken[], path: string): Record<string, s
 function matchPagePattern(pattern: string, path: string): Record<string, string> | null {
   const patternSegments = toSegments(pattern)
   const pathSegments = toSegments(path)
+  const failedStates = new Set<number>()
 
   function visit(patternIndex: number, pathIndex: number, params: Record<string, string>): Record<string, string> | null {
-    if (patternIndex === patternSegments.length)
-      return pathIndex === pathSegments.length ? params : null
+    const state = patternIndex * (pathSegments.length + 1) + pathIndex
+    if (failedStates.has(state))
+      return null
+    if (patternIndex === patternSegments.length) {
+      if (pathIndex === pathSegments.length)
+        return params
+      failedStates.add(state)
+      return null
+    }
 
     const tokens = parsePageSegment(patternSegments[patternIndex]!)
     const param = wholeSegmentParam(tokens)
@@ -303,6 +350,7 @@ function matchPagePattern(pattern: string, path: string): Record<string, string>
         if (matched)
           return matched
       }
+      failedStates.add(state)
       return null
     }
 
@@ -316,7 +364,10 @@ function matchPagePattern(pattern: string, path: string): Record<string, string>
       }
     }
 
-    return param?.optional ? visit(patternIndex + 1, pathIndex, params) : null
+    const matched = param?.optional ? visit(patternIndex + 1, pathIndex, params) : null
+    if (!matched)
+      failedStates.add(state)
+    return matched
   }
 
   return visit(0, 0, {})
@@ -344,7 +395,9 @@ function fillPagePattern(pattern: string, params: Record<string, string>): strin
     if (value)
       filled.push(value)
   }
-  return filled.length ? `/${filled.join('/')}` : '/'
+  if (!filled.length)
+    return '/'
+  return `/${filled.join('/')}${pattern.endsWith('/') ? '/' : ''}`
 }
 
 /**
@@ -392,6 +445,7 @@ function alternatesForEntry(
  */
 function alternatesFromPages(
   basePath: string,
+  routePath: string,
   locale: string,
   i18n: RuntimeI18nConfig,
   context: RuntimeRouteContext,
@@ -399,22 +453,48 @@ function alternatesFromPages(
   const pages = i18n.pages
   const hasDomainLocales = i18n.differentDomains || i18n.multiDomainLocales
   const hasContextLocale = !!context.locale && i18n.locales.some(locale => locale.code === context.locale)
-  if (!pages || (i18n.strategy === 'no_prefix' && !hasDomainLocales && !hasContextLocale))
+  if (!pages)
     return null
+  const allowLocalized = i18n.strategy !== 'no_prefix' || hasDomainLocales || hasContextLocale
 
-  const matches: Array<{ ranks: number[], localePaths: Record<string, string | false>, params: Record<string, string> }> = []
-  for (const localePaths of Object.values(pages)) {
-    const pattern = localePaths?.[locale]
+  type PageMatch
+    = | { _tag: 'localized', ranks: number[], localePaths: LocalePagePaths, params: Record<string, string> }
+      | { _tag: 'unlocalized', ranks: number[] }
+  const matches: PageMatch[] = []
+  for (const page of Object.values(pages)) {
+    if (!page)
+      continue
+    if (isUnlocalizedLocalePage(page)) {
+      if (matchesUnlocalizedLocalePage(page, routePath))
+        matches.push({ _tag: 'unlocalized', ranks: segmentRanks(page.path) })
+      continue
+    }
+    if (!allowLocalized)
+      continue
+    const pattern = page[locale]
     if (!pattern)
       continue
     const params = matchPagePattern(pattern, basePath)
     if (params)
-      matches.push({ ranks: segmentRanks(pattern), localePaths, params })
+      matches.push({ _tag: 'localized', ranks: segmentRanks(pattern), localePaths: page, params })
   }
 
   matches.sort((a, b) => compareSpecificity(a.ranks, b.ranks))
 
   for (const match of matches) {
+    if (match._tag === 'unlocalized') {
+      const defaultLocale = i18n.locales.find(locale => locale.code === i18n.defaultLocale)
+      if (defaultLocale) {
+        const domain = resolveLocaleDomain(defaultLocale)
+        return [{
+          code: defaultLocale.code,
+          hreflang: defaultLocale.hreflang || defaultLocale.code,
+          path: routePath,
+          ...(domain ? { domain } : {}),
+        }]
+      }
+      continue
+    }
     const alternates = alternatesForEntry(match.localePaths, match.params, i18n, context)
     if (alternates)
       return alternates
@@ -438,8 +518,11 @@ export function resolveLocaleAlternates(
 ): LocaleAlternateResolution {
   const { locale, basePath } = resolveLocaleFromRoute(route, i18n, context)
   const { pathname, suffix } = splitRouteSuffix(basePath)
+  const { pathname: routePathname } = splitRouteSuffix(route)
 
-  const translated = alternatesFromPages(pathname, locale, i18n, context)
+  // Whole-route false entries were never localized, so match their raw route
+  // before locale-prefix stripping. `/fr/legal` may itself be unlocalized.
+  const translated = alternatesFromPages(pathname, routePathname, locale, i18n, context)
   if (translated) {
     return {
       _tag: 'pages',
