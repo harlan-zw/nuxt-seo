@@ -192,10 +192,30 @@ it('renders a decision-first workload summary', () => {
   assert.match(report, /SSR page CPU regressed by 2\.00 ms per request \(20\.0%\)/)
   assert.match(report, /\| Workload \| CPU \/ request \| Wall \/ request \| Allocation \/ request \|/)
   assert.match(report, /\| \*\*SSR page\*\* \| 12\.00 ms<br>🔴 20\.0% slower \| 13\.10 ms<br>no clear change \| 98\.6 KiB<br>no clear change \|/)
-  assert.match(report, /Allocation is temporary V8 heap churn per request, not retained memory/)
+  assert.match(report, /Allocation is sampled V8 heap churn per request, not retained memory/)
   assert.match(report, /<details><summary>Current SSR hotspots<\/summary>/)
   assert.match(report, /\| Function \| Module \| Total \/ request \| Self \/ request \|/)
   assert.match(report, /renderSSRHead.+unhead.+0\.15 ms \(15\.0%\).+0\.05 ms/)
+})
+
+it('uses sampled allocation churn when profiles are available', () => {
+  function run(total) {
+    return {
+      benches: [{ id: 'ssr-alloc', kind: 'memory', name: 'SSR page allocated', value: 100_000 }],
+      profiles: {
+        ssr: {
+          cpu: { modules: [], paths: [] },
+          memory: { modules: [], paths: [], total },
+          requests: 10,
+        },
+      },
+    }
+  }
+
+  const report = renderReport(run(1_024_000), run(819_200))
+
+  assert.match(report, /SSR page allocation fell by 20\.0 KiB per request \(20\.0%\)/)
+  assert.match(report, /\| \*\*SSR page\*\* \| — \| — \| 80\.0 KiB<br>🟢 20\.0% less \|/)
 })
 
 it('explains when hotspot attribution falls back to generic functions', () => {

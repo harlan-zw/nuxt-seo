@@ -35,6 +35,27 @@ function profileWorkloads(profiles) {
   return Object.entries(profiles).filter(([, profile]) => profile?.cpu && profile?.memory)
 }
 
+function profileForBench(run, bench) {
+  if (!run?.profiles || !bench.id.endsWith('-alloc'))
+    return
+  const workload = bench.id.slice(0, -'-alloc'.length)
+  if (run.profiles.cpu && workload === 'ssr')
+    return run.profiles
+  const key = workload === 'ai-ready' ? 'aiReady' : workload
+  return run.profiles[key]
+}
+
+function reportBenches(run) {
+  return (run?.benches || []).map((bench) => {
+    const profile = profileForBench(run, bench)
+    const requests = profile?.requests || profile?.memory?.requests
+    const total = profile?.memory?.total
+    if (!requests || !Number.isFinite(total))
+      return bench
+    return { ...bench, value: total / requests }
+  })
+}
+
 function profileDelta(base, head) {
   if (!base)
     return 'new'
@@ -234,7 +255,8 @@ function renderHotspots(profiles) {
 }
 
 export function renderReport(baseRun, headRun, baseLabel = '') {
-  const rows = headRun.benches.map(head => classify(head, baseRun?.benches.find(base => base.id === head.id)))
+  const baseBenches = new Map(reportBenches(baseRun).map(bench => [bench.id, bench]))
+  const rows = reportBenches(headRun).map(head => classify(head, baseBenches.get(head.id)))
   const significant = rows.filter(row => !row.head.informational && ['Slower', 'Faster'].includes(row._tag))
   const output = ['### ⚡ SSR Performance', '', renderOutcome(significant), '', ...renderBenchmarkSummary(rows)]
   output.push(
@@ -242,7 +264,7 @@ export function renderReport(baseRun, headRun, baseLabel = '') {
     '<details><summary>How to read this report</summary>',
     '',
     '- CPU and wall values are averages for one request.',
-    '- Allocation is temporary V8 heap churn per request, not retained memory.',
+    '- Allocation is sampled V8 heap churn per request, not retained memory.',
     '- “No clear change” means the result stayed inside expected CI noise.',
     '- Green or red needs more than 5% plus uncertainty for time, or 3% and 16 KiB for allocation.',
     '',
