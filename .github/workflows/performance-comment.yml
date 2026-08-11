@@ -1,0 +1,128 @@
+name: SSR Performance Comment
+
+on:
+  workflow_run:
+    workflows:
+      - SSR Performance Analysis
+    types:
+      - completed
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.head_repository.id }}-${{ github.event.workflow_run.head_branch }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  comment:
+    if: >-
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
+    permissions:
+      actions: read
+      pull-requests: write
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Resolve pull request
+        id: pull-request
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const run = context.payload.workflow_run
+            const headOwner = run.head_repository?.owner?.login
+            if (!headOwner || !run.head_branch) {
+              core.setFailed('The workflow run is missing its head repository or branch')
+              return
+            }
+
+            const { data: pullRequests } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              head: `${headOwner}:${run.head_branch}`,
+              per_page: 100,
+            })
+            const expectedHeadRepository = run.head_repository.full_name
+            const expectedBaseRepository = `${context.repo.owner}/${context.repo.repo}`
+            const matches = pullRequests.filter(pullRequest =>
+              pullRequest.state === 'open'
+              && pullRequest.head.sha === run.head_sha
+              && pullRequest.head.repo?.full_name === expectedHeadRepository
+              && pullRequest.base.repo.full_name === expectedBaseRepository,
+            )
+
+            if (matches.length !== 1) {
+              core.setFailed(`Expected one open pull request for ${run.head_sha}, found ${matches.length}`)
+              return
+            }
+
+            core.setOutput('number', matches[0].number)
+
+      - name: Download performance report
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: ssr-performance-report
+          path: ${{ runner.temp }}/performance-report
+          github-token: ${{ github.token }}
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: Validate performance report
+        env:
+          COMMENT_PATH: ${{ runner.temp }}/performance-comment.md
+          EXPECTED_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          EXPECTED_PR_NUMBER: ${{ steps.pull-request.outputs.number }}
+          REPORT_DIR: ${{ runner.temp }}/performance-report
+        run: |
+          report="$REPORT_DIR/report.md"
+          pr_number="$REPORT_DIR/pr-number.txt"
+          head_sha="$REPORT_DIR/head-sha.txt"
+
+          for file in "$report" "$pr_number" "$head_sha"; do
+            if [ ! -f "$file" ] || [ -L "$file" ]; then
+              echo "::error::Missing or invalid report file: $file"
+              exit 1
+            fi
+          done
+
+          if [ "$(wc -c < "$pr_number")" -gt 16 ] || [ "$(wc -c < "$head_sha")" -gt 64 ]; then
+            echo "::error::Artifact metadata is too large"
+            exit 1
+          fi
+
+          artifact_pr_number=$(tr -d '\r\n' < "$pr_number")
+          if ! echo "$artifact_pr_number" | grep -Eq '^[0-9]+$' \
+            || [ "$artifact_pr_number" != "$EXPECTED_PR_NUMBER" ]; then
+            echo "::error::Artifact pull request number does not match the workflow run"
+            exit 1
+          fi
+
+          if [ "$(tr -d '\r\n' < "$head_sha")" != "$EXPECTED_HEAD_SHA" ]; then
+            echo "::error::Artifact head SHA does not match the workflow run"
+            exit 1
+          fi
+
+          report_size=$(wc -c < "$report")
+          if [ "$report_size" -lt 1 ] || [ "$report_size" -gt 131072 ]; then
+            echo "::error::Performance report must be between 1 byte and 128 KiB"
+            exit 1
+          fi
+
+          if [ "$(head -n 1 "$report")" != '### ⚡ SSR Performance' ]; then
+            echo "::error::Performance report has an unexpected format"
+            exit 1
+          fi
+
+          if [ -e "$COMMENT_PATH" ] || [ -L "$COMMENT_PATH" ]; then
+            echo "::error::Refusing to overwrite the validated comment path"
+            exit 1
+          fi
+          sed 's/@/@<!-- -->/g' "$report" > "$COMMENT_PATH"
+
+      - name: Post comment on pull request
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+        with:
+          GITHUB_TOKEN: ${{ github.token }}
+          header: SSR Performance Analysis
+          number: ${{ steps.pull-request.outputs.number }}
+          path: ${{ runner.temp }}/performance-comment.md
+          skip_unchanged: true

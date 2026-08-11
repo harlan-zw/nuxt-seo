@@ -18,6 +18,9 @@ catalogs:
     '@iconify-json/carbon':
       specifier: ^1.2.25
       version: 1.2.25
+    '@jridgewell/trace-mapping':
+      specifier: ^0.3.31
+      version: 0.3.31
     '@nuxt/content':
       specifier: ^3.15.2
       version: 3.15.2
@@ -207,6 +210,9 @@ importers:
       '@arethetypeswrong/cli':
         specifier: 'catalog:'
         version: 0.18.5
+      '@jridgewell/trace-mapping':
+        specifier: 'catalog:'
+        version: 0.3.31
       bumpp:
         specifier: 'catalog:'
         version: 12.2.0

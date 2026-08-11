@@ -1,0 +1,115 @@
+name: SSR Performance Analysis
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**/README.md'
+      - 'docs/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Check out pull request
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check out base commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: .benchmark/base
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.base.sha }}
+
+      - name: Set up pnpm and Node.js
+        uses: pnpm/setup@4700d737c3d7a2e7199f3d42a920f0bf7f34e411 # v2.0.1
+        with:
+          runtime: node@24
+          cache: true
+          install: false
+
+      - name: Build base fixture
+        id: base-build
+        continue-on-error: true
+        env:
+          FIXTURE_SOURCE: ${{ github.workspace }}/packages/nuxt-seo/test/fixtures/performance
+        working-directory: .benchmark/base
+        run: |
+          mkdir -p packages/nuxt-seo/test/fixtures/performance
+          cp -R "$FIXTURE_SOURCE/." packages/nuxt-seo/test/fixtures/performance/
+          pnpm install --frozen-lockfile --trust-lockfile
+          pnpm dev:prepare
+          pnpm --filter @nuxtjs/seo exec nuxi build test/fixtures/performance
+
+      - name: Warn when the base build is unavailable
+        if: ${{ steps.base-build.outcome != 'success' }}
+        run: echo "::warning::The base build failed; pull request metrics will be reported as new."
+
+      - name: Build pull request fixture
+        run: |
+          pnpm install --frozen-lockfile --trust-lockfile
+          pnpm dev:prepare
+          pnpm benchmark:build
+
+      - name: Benchmark base fixture
+        id: base-benchmark
+        if: ${{ steps.base-build.outcome == 'success' }}
+        continue-on-error: true
+        run: >-
+          node bench/performance/run.mjs
+          --server .benchmark/base/packages/nuxt-seo/test/fixtures/performance/.output/server/index.mjs
+          --output ${{ runner.temp }}/performance-report/base-performance.json
+          --profiles ${{ runner.temp }}/performance-report/profiles/base
+
+      - name: Warn when the base benchmark is unavailable
+        if: >-
+          steps.base-build.outcome == 'success' &&
+          steps.base-benchmark.outcome != 'success'
+        run: echo "::warning::The base benchmark failed; pull request metrics will be reported as new."
+
+      - name: Benchmark pull request fixture
+        run: >-
+          node bench/performance/run.mjs
+          --server packages/nuxt-seo/test/fixtures/performance/.output/server/index.mjs
+          --output ${{ runner.temp }}/performance-report/head-performance.json
+          --profiles ${{ runner.temp }}/performance-report/profiles/head
+
+      - name: Resolve baseline label
+        env:
+          BASE_REF: ${{ github.base_ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          short_sha=$(git rev-parse --short "$BASE_SHA")
+          date=$(git show -s --format=%cs "$BASE_SHA")
+          echo "BASE_LABEL=$BASE_REF @ $short_sha · $date" >> "$GITHUB_ENV"
+
+      - name: Generate performance report
+        env:
+          BASE_LABEL: ${{ env.BASE_LABEL }}
+          BASE_PERF: ${{ runner.temp }}/performance-report/base-performance.json
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_PERF: ${{ runner.temp }}/performance-report/head-performance.json
+          REPORT_DIR: ${{ runner.temp }}/performance-report
+        run: |
+          node bench/performance/report.mjs | tee "$REPORT_DIR/report.md"
+          cat "$REPORT_DIR/report.md" >> "$GITHUB_STEP_SUMMARY"
+          printf '%s\n' "$PR_NUMBER" > "$REPORT_DIR/pr-number.txt"
+          printf '%s\n' "$HEAD_SHA" > "$REPORT_DIR/head-sha.txt"
+
+      - name: Upload performance report
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ssr-performance-report
+          path: ${{ runner.temp }}/performance-report
+          if-no-files-found: error
+          retention-days: 14
