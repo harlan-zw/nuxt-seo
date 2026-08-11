@@ -53,6 +53,9 @@ export default defineNuxtConfig({
   },
 
   nitro: {
+    externals: {
+      inline: ['nuxtseo-shared'],
+    },
     minify: false,
     sourceMap: true,
   },
