@@ -24,4 +24,4 @@ The result is `bench/performance/result.json`. Profile artifacts are in `bench/p
 - each `*-flamegraph.speedscope.json` opens at <https://www.speedscope.app/>;
 - each raw `.cpuprofile` and `.heapprofile` contains the V8 data.
 
-The pull request workflow builds the base and head commits. It runs both on one runner, then posts noise-gated changes. CPU changes need 5% plus measured uncertainty. Memory changes need both 3% and 16 KiB. The PR comment compares inclusive module costs for every workload. It also shows SSR caller paths. The artifact preserves both result sets and all raw profiles.
+The pull request workflow builds the base and head commits on one runner. Its comment leads with a compact workload comparison. Allocation values come from the sampled heap profiles. Module costs and current SSR hotspots stay collapsed until needed. CPU changes need 5% plus measured uncertainty. Memory changes need both 2.5% and 16 KiB. The artifact preserves both result sets, full caller paths, and all raw profiles.
