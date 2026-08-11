@@ -218,6 +218,25 @@ it('uses sampled allocation churn when profiles are available', () => {
   assert.match(report, /\| \*\*SSR page\*\* \| — \| — \| 80\.0 KiB<br>🟢 20\.0% less \|/)
 })
 
+it('reports sampled allocation changes above the guarded noise floor', () => {
+  function run(total) {
+    return {
+      benches: [{ id: 'ssr-alloc', kind: 'memory', name: 'SSR page allocated', value: 100_000 }],
+      profiles: {
+        ssr: {
+          cpu: { modules: [], paths: [] },
+          memory: { modules: [], paths: [], total },
+          requests: 10,
+        },
+      },
+    }
+  }
+
+  const report = renderReport(run(10_000_000), run(9_740_000))
+
+  assert.match(report, /SSR page allocation fell by 25\.4 KiB per request \(2\.6%\)/)
+})
+
 it('explains when hotspot attribution falls back to generic functions', () => {
   const head = {
     benches: [],

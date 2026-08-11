@@ -5,7 +5,7 @@ import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 
 const TIME_FLOOR_PERCENT = 5
-const MEMORY_FLOOR_PERCENT = 3
+const MEMORY_FLOOR_PERCENT = 2.5
 const MEMORY_FLOOR_BYTES = 16 * 1024
 
 function formatBytes(bytes) {
@@ -266,7 +266,7 @@ export function renderReport(baseRun, headRun, baseLabel = '') {
     '- CPU and wall values are averages for one request.',
     '- Allocation is sampled V8 heap churn per request, not retained memory.',
     '- “No clear change” means the result stayed inside expected CI noise.',
-    '- Green or red needs more than 5% plus uncertainty for time, or 3% and 16 KiB for allocation.',
+    `- Green or red needs more than ${TIME_FLOOR_PERCENT}% plus uncertainty for time, or ${MEMORY_FLOOR_PERCENT}% and 16 KiB for allocation.`,
     '',
     '</details>',
     '',
