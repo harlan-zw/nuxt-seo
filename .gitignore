@@ -7,6 +7,9 @@ dist
 .DS_Store
 *.log
 coverage
+bench/performance/baseline-*.json
+bench/performance/profiles*
+bench/performance/result*.json
 .env
 .env.*
 !.env.example
