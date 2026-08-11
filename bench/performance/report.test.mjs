@@ -162,21 +162,23 @@ it('keeps SEO frames below the global hotspot cutoff', () => {
   assert.equal(cpu.self.find(row => row.name === 'function102').group, 'seo')
 })
 
-it('reports significant regressions and filtered SEO hotspots', () => {
+it('renders a decision-first workload summary', () => {
   const base = {
     benches: [
       { id: 'ssr-cpu', kind: 'time', name: 'SSR page CPU', rme: 0.5, value: 10 },
+      { id: 'ssr-wall', informational: true, kind: 'time', name: 'SSR page wall', rme: 0.5, value: 13 },
       { id: 'ssr-alloc', kind: 'memory', name: 'SSR page allocated', value: 100_000 },
     ],
   }
   const head = {
     benches: [
       { id: 'ssr-cpu', kind: 'time', name: 'SSR page CPU', rme: 0.5, value: 12 },
+      { id: 'ssr-wall', informational: true, kind: 'time', name: 'SSR page wall', rme: 0.5, value: 13.1 },
       { id: 'ssr-alloc', kind: 'memory', name: 'SSR page allocated', value: 101_000 },
     ],
     profiles: {
       cpu: {
-        paths: [{ group: 'seo', inclusive: 150, line: 10, name: 'renderSSRHead', path: [{ name: 'renderSSRHead' }], percent: 15, self: 50, source: '@unhead/vue' }],
+        paths: [{ group: 'seo', inclusive: 150, line: 10, module: 'unhead', name: 'renderSSRHead', path: [{ name: 'renderSSRHead' }], percent: 15, self: 50, source: '@unhead/vue' }],
       },
       memory: {
         paths: [{ group: 'generic', inclusive: 8192, line: 20, name: 'renderToString', path: [{ name: 'renderToString' }], percent: 8, self: 4096, source: '@vue/server-renderer' }],
@@ -187,14 +189,16 @@ it('reports significant regressions and filtered SEO hotspots', () => {
   const report = renderReport(base, head, 'main @ abc123')
 
   assert.match(report, /^### ⚡ SSR Performance/)
-  assert.match(report, /1 slower metric/)
-  assert.match(report, /SSR page CPU.+10\.00 ms → 12\.00 ms.+\+20\.0%/)
-  assert.match(report, /SSR page allocated.+~ noise/)
-  assert.match(report, /Filtered to Unhead and Nuxt SEO module frames/)
-  assert.match(report, /renderSSRHead.+renderSSRHead/)
+  assert.match(report, /SSR page CPU regressed by 2\.00 ms per request \(20\.0%\)/)
+  assert.match(report, /\| Workload \| CPU \/ request \| Wall \/ request \| Allocation \/ request \|/)
+  assert.match(report, /\| \*\*SSR page\*\* \| 12\.00 ms<br>🔴 20\.0% slower \| 13\.10 ms<br>no clear change \| 98\.6 KiB<br>no clear change \|/)
+  assert.match(report, /Allocation is temporary V8 heap churn per request, not retained memory/)
+  assert.match(report, /<details><summary>Current SSR hotspots<\/summary>/)
+  assert.match(report, /\| Function \| Module \| Total \/ request \| Self \/ request \|/)
+  assert.match(report, /renderSSRHead.+unhead.+0\.15 ms \(15\.0%\).+0\.05 ms/)
 })
 
-it('falls back to generic profile frames when no SEO frames resolve', () => {
+it('explains when hotspot attribution falls back to generic functions', () => {
   const head = {
     benches: [],
     profiles: {
@@ -207,8 +211,8 @@ it('falls back to generic profile frames when no SEO frames resolve', () => {
 
   const report = renderReport(null, head)
 
-  assert.match(report, /No named Unhead or Nuxt SEO frames were resolved/)
-  assert.match(report, /renderToString.+renderToString/)
+  assert.match(report, /No named Unhead or Nuxt SEO functions were resolved/)
+  assert.match(report, /renderToString.+0\.08 ms \(8\.0%\).+0\.08 ms/)
 })
 
 it('renders full and SEO focused profile analysis', () => {
@@ -236,7 +240,7 @@ it('renders full and SEO focused profile analysis', () => {
   assert.match(report, /## Nuxt SEO CPU caller paths/)
 })
 
-it('compares sampled module costs for every profiled workload', () => {
+it('combines sampled module costs by workload', () => {
   function workload(cpu, memory) {
     const module = (inclusive, unit) => ({
       group: 'seo',
@@ -259,7 +263,7 @@ it('compares sampled module costs for every profiled workload', () => {
 
   const report = renderReport(base, head)
 
-  assert.match(report, /Sampled Nuxt SEO module costs/)
-  assert.match(report, /nuxt-seo-utils.+1\.000 ms.+1\.200 ms.+\+20\.0%/)
-  assert.match(report, /nuxt-seo-utils.+10\.0 KiB.+20\.0 KiB.+\+100\.0%/)
+  assert.match(report, /<details><summary>Nuxt SEO module breakdown<\/summary>/)
+  assert.match(report, /\| Module \| CPU \/ request \| Change \| Allocation \/ request \| Change \|/)
+  assert.match(report, /nuxt-seo-utils.+1\.200 ms.+\+20\.0%.+20\.0 KiB.+\+100\.0%/)
 })
