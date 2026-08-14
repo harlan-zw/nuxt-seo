@@ -2,7 +2,7 @@
   "name": "nuxtseo-shared-nitro-compat-nuxt5-fixture",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@11.19.0",
+  "packageManager": "pnpm@11.20.0",
   "scripts": {
     "test": "nuxt prepare && vue-tsc --noEmit -p .nuxt/tsconfig.server.json && node test.mjs"
   },

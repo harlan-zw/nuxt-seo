@@ -57,5 +57,11 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {
     enabled: true,
   },
-  async setup() {},
+  setup(_options, nuxt) {
+    nuxt.hook('nitro:config', (config) => {
+      config.externals ||= {}
+      config.externals.inline ||= []
+      config.externals.inline.push('nuxtseo-shared', 'vue/server-renderer')
+    })
+  },
 })
