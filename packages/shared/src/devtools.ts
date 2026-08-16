@@ -279,14 +279,13 @@ function generateAndBuild(cacheDir: string, rootDir: string, installed: SeoDevto
   const routes = ['/', ...installed.flatMap(m => deriveRoutes(m.layerDir, m.slug))]
   const extendsList = [resolveBaseLayer(installed), ...installed.map(m => m.layerDir)]
   mkdirSync(join(cacheDir, 'pages'), { recursive: true })
-  writeFileSync(join(cacheDir, 'nuxt.config.ts'), `import { resolve } from 'pathe'
-export default defineNuxtConfig({
+  writeFileSync(join(cacheDir, 'nuxt.config.ts'), `export default defineNuxtConfig({
   extends: ${JSON.stringify(extendsList, null, 2)},
   ssr: false,
   robots: false,
   content: false,
   sitemap: false,
-  nitro: { prerender: { routes: ${JSON.stringify(routes)} }, output: { publicDir: resolve(__dirname, './dist/devtools') } },
+  nitro: { prerender: { routes: ${JSON.stringify(routes)} }, output: { publicDir: ${JSON.stringify(join(cacheDir, 'dist/devtools'))} } },
   app: { baseURL: '${UNIFIED_CLIENT_ROUTE}' },
   compatibilityDate: '2026-03-13',
 })
