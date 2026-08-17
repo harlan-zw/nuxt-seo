@@ -7,8 +7,7 @@ export default antfu(
     vue: true,
   },
   ...harlanzw({
-    // base only ignores a root-level `playground/`, and this repo has one per package
-    base: { ignores: ['**/playground/**'] },
+    base: true,
     link: true,
     nuxt: true,
     vue: true,
