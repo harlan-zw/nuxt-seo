@@ -11,9 +11,7 @@ export function hookNuxtSeoProDataUpload(): void {
   const isBuild = !nuxt.options.dev && !nuxt.options._prepare
   // @ts-expect-error untyped
   if (isBuild && !nuxt._isNuxtSeoProUploading) {
-    // eslint-disable-next-line node/prefer-global/process
     const license = nuxt.options.runtimeConfig.seoProKey || process.env.NUXT_SEO_PRO_KEY
-    // eslint-disable-next-line node/prefer-global/process
     if (isTest || process.env.VITEST || !license) {
       return
     }

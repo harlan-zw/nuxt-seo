@@ -91,8 +91,8 @@ catalogs:
       specifier: ^10.8.1
       version: 10.8.1
     eslint-plugin-harlanzw:
-      specifier: ^0.17.1
-      version: 0.17.1
+      specifier: ^0.18.0
+      version: 0.18.0
     execa:
       specifier: ^10.0.1
       version: 10.0.1
@@ -215,7 +215,7 @@ importers:
         version: 10.8.1(jiti@2.7.0)(supports-color@10.2.2)
       eslint-plugin-harlanzw:
         specifier: 'catalog:'
-        version: 0.17.1(eslint@10.8.1(jiti@2.7.0)(supports-color@10.2.2))
+        version: 0.18.0(eslint@10.8.1(jiti@2.7.0)(supports-color@10.2.2))
       lint-staged:
         specifier: 'catalog:'
         version: 17.3.0
@@ -5466,8 +5466,8 @@ packages:
     peerDependencies:
       eslint: '>=8'
 
-  eslint-plugin-harlanzw@0.17.1:
-    resolution: {integrity: sha512-JTqWyTYDdMGvo5RDQ1ugq8Y2hGhcSL432WZX3ls52Ie5e+L2MncacI5OrArWB6/8pO7pK3qdm+hgiaFVXmmHxw==}
+  eslint-plugin-harlanzw@0.18.0:
+    resolution: {integrity: sha512-SX83tlR7KMCeovEWsTqMY4uUCCcaFk7zM15GuEcBWSzteqYv4Fq9ojDxlLTieO4A+5uj1O+uL6UzHzWgsBcpIw==}
     peerDependencies:
       eslint: '>=9.0.0'
 
@@ -15949,7 +15949,7 @@ snapshots:
       eslint: 10.8.1(jiti@2.7.0)(supports-color@10.2.2)
       eslint-compat-utils: 0.5.1(eslint@10.8.1(jiti@2.7.0)(supports-color@10.2.2))
 
-  eslint-plugin-harlanzw@0.17.1(eslint@10.8.1(jiti@2.7.0)(supports-color@10.2.2)):
+  eslint-plugin-harlanzw@0.18.0(eslint@10.8.1(jiti@2.7.0)(supports-color@10.2.2)):
     dependencies:
       '@eslint/plugin-kit': 0.7.2
       eslint: 10.8.1(jiti@2.7.0)(supports-color@10.2.2)
