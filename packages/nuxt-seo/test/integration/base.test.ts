@@ -10,6 +10,7 @@ process.env.NODE_ENV = 'production'
 await setup({
   rootDir: resolve('../fixtures/basic'),
   server: true,
+  captureServerLogs: false,
   nuxtConfig: {
     app: {
       baseURL: '/base',
