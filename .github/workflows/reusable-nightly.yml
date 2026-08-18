@@ -28,6 +28,12 @@ on:
 permissions:
   contents: read
 
+env:
+  # Retry registry requests instead of failing the job on a transient 5xx.
+  NPM_CONFIG_FETCH_RETRIES: '5'
+  NPM_CONFIG_FETCH_RETRY_MINTIMEOUT: '20000'
+  NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT: '120000'
+
 jobs:
   build:
     runs-on: ${{ inputs.runner }}
@@ -48,5 +54,24 @@ jobs:
 
       - run: pnpm build
 
+      # pkg.pr.new is a third party service. It returns transient 5xx errors
+      # that survive the publisher's own retries. Retry here so an outage does
+      # not fail the default branch build.
       - name: Publish
-        run: pnpm dlx pkg-pr-new publish --pnpm ${{ inputs.publish-packages }}
+        env:
+          PUBLISH_PACKAGES: ${{ inputs.publish-packages }}
+        run: |
+          for attempt in 1 2 3 4 5; do
+            echo "::group::pkg-pr-new publish attempt $attempt"
+            if pnpm dlx pkg-pr-new publish --pnpm $PUBLISH_PACKAGES; then
+              echo "::endgroup::"
+              exit 0
+            fi
+            echo "::endgroup::"
+            echo "::warning::pkg-pr-new publish failed on attempt $attempt"
+            if [ "$attempt" -lt 5 ]; then
+              sleep 30
+            fi
+          done
+          echo "::error::pkg-pr-new publish failed after 5 attempts"
+          exit 1

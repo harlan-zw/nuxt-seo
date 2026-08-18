@@ -24,6 +24,12 @@ permissions:
   contents: write
   id-token: write
 
+env:
+  # Retry registry requests instead of failing the job on a transient 5xx.
+  NPM_CONFIG_FETCH_RETRIES: '5'
+  NPM_CONFIG_FETCH_RETRY_MINTIMEOUT: '20000'
+  NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT: '120000'
+
 jobs:
   release:
     runs-on: ${{ inputs.runner }}
@@ -38,9 +44,23 @@ jobs:
           cache: true
           install: false
 
-      - run: npx changelogithub
+      # A transient GitHub API error here must not abort a release that has
+      # already been tagged.
+      - name: Publish release notes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          for attempt in 1 2 3; do
+            if npx changelogithub; then
+              exit 0
+            fi
+            echo "::warning::changelogithub failed on attempt $attempt"
+            if [ "$attempt" -lt 3 ]; then
+              sleep 15
+            fi
+          done
+          echo "::error::changelogithub failed after 3 attempts"
+          exit 1
 
       - run: pnpm install --frozen-lockfile --trust-lockfile
 

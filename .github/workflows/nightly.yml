@@ -13,23 +13,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v7
-
-      - name: Set up pnpm and Node.js
-        uses: pnpm/setup@v2
-        with:
-          runtime: node@lts
-          cache: true
-          install: false
-
-      - run: pnpm install --frozen-lockfile --trust-lockfile
-      - run: pnpm dev:prepare
-
-      - name: Build
-        run: pnpm run build
-
-      - name: Publish
-        run: pnpm dlx pkg-pr-new publish --pnpm ./packages/nuxt-seo ./packages/shared
+    uses: ./.github/workflows/reusable-nightly.yml
+    with:
+      runner: ubuntu-latest
+      publish-packages: ./packages/nuxt-seo ./packages/shared
