@@ -5,29 +5,16 @@ export default antfu(
   {
     type: 'lib',
     vue: true,
-    ignores: [
-      'CLAUDE.md',
-      'test/fixtures/**',
-      'playground/**',
-      '**/test/fixtures/**',
-      '**/playground/**',
-      '.claude',
-    ],
-    rules: {
-      'node/prefer-global/buffer': 'off',
-    },
   },
-  ...harlanzw({ link: true, nuxt: true, vue: true }),
+  ...harlanzw({
+    base: true,
+    link: true,
+    nuxt: true,
+    vue: true,
+  }),
   {
     rules: {
       'harlanzw/prompt-mixed-conventions': 'off',
-    },
-  },
-  {
-    files: ['examples/*/package.json'],
-    rules: {
-      'pnpm/json-enforce-catalog': 'off',
-      'pnpm/json-prefer-workspace-settings': 'off',
     },
   },
 )

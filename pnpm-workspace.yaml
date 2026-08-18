@@ -60,6 +60,7 @@ minimumReleaseAgeExclude:
   - unhead@3.2.1
   - '@unhead/vue@3.2.1'
   - '@mdream/rust-wasm32-wasi@1.5.12'
+  - eslint-plugin-harlanzw@0.19.1
 # pnpm 11 reads these from pnpm-workspace.yaml, not .npmrc.
 # @nuxtjs/i18n resolves its private @intlify/* + vue-i18n deps via @nuxt/kit's
 # resolveModule, which only searches root node_modules, so hoist just those
@@ -112,7 +113,7 @@ catalog:
   consola: ^3.4.2
   defu: ^6.1.7
   eslint: ^10.8.1
-  eslint-plugin-harlanzw: ^0.17.1
+  eslint-plugin-harlanzw: ^0.19.1
   execa: ^10.0.1
   h3: ^1.15.11
   happy-dom: ^20.11.2

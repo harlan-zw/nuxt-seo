@@ -482,7 +482,6 @@ export async function evaluate(): Promise<void> {
   loading.value = false
 }
 
-// eslint-disable-next-line ts/explicit-function-return-type
 export function getSetupChecklist() {
   return {
     results,
