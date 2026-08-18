@@ -81,6 +81,12 @@ packages:
   - packages/*/playground
   - '!**/.data/**'
 overrides:
+  # Each bundled module ships its own nuxtseo-shared range, so the workspace
+  # installs four copies. Nitro flattens them all into one
+  # .output/server/node_modules/nuxtseo-shared, files from the losing copies are
+  # dropped, and the built server exits on boot with ERR_MODULE_NOT_FOUND. Pin
+  # every module to the workspace copy so there is one instance to trace.
+  nuxtseo-shared: workspace:*
   rollup-plugin-dts: ^6.5.1
   semver: ^7.8.5
 catalog:
