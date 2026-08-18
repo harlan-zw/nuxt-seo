@@ -27,6 +27,12 @@ on:
 permissions:
   contents: read
 
+env:
+  # Retry registry requests instead of failing the job on a transient 5xx.
+  NPM_CONFIG_FETCH_RETRIES: '5'
+  NPM_CONFIG_FETCH_RETRY_MINTIMEOUT: '20000'
+  NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT: '120000'
+
 jobs:
   analyze:
     runs-on: ${{ inputs.runner }}
