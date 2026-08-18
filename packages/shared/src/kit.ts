@@ -314,3 +314,35 @@ export async function resolveContentProvider(nuxt: Nuxt = useNuxt()): Promise<Co
 export function hasContentFileHooks(provider: ContentProvider): boolean {
   return provider._tag === 'Comark' || (provider._tag === 'NuxtContent' && provider.version === 3)
 }
+
+/**
+ * Alias `#nuxtseo/content` to the shim for the detected provider.
+ *
+ * Consumers import collection enumeration and page queries from that one
+ * specifier instead of naming `@nuxt/content/server` or
+ * `@harlan-zw/comark-content/server`. Naming a package directly would put it in
+ * every build, and a build without that package installed fails to bundle.
+ *
+ * Nuxt Content v2 has no collection model, so it resolves to the empty shim.
+ * A module that supports v2 keeps its own v2 path.
+ */
+export function setupContentRuntime(provider: ContentProvider, nuxt: Nuxt = useNuxt()): void {
+  const shim = provider._tag === 'Comark'
+    ? 'comark'
+    : provider._tag === 'NuxtContent' && provider.version === 3
+      ? 'nuxt-content-v3'
+      : 'none'
+  const resolver = createResolver(import.meta.url)
+  // This package does not depend on nitro's option types, so narrow the two fields
+  // it touches rather than pulling the whole NitroConfig augmentation in.
+  const nitro = (nuxt.options as { nitro?: { alias?: Record<string, string>, externals?: { inline?: string[] } } }).nitro ??= {}
+  nitro.alias ??= {}
+  nitro.alias['#nuxtseo/content'] = resolver.resolve(`./runtime/content/${shim}`)
+  // The shim ships inside this package, so Nitro treats it as an external dependency
+  // and leaves its `@nuxt/content/server` import for Node to resolve at runtime.
+  // `#content/manifest` is a build-time alias, so that import then fails to load.
+  // Inline the shim directory to get it bundled with the aliases applied.
+  nitro.externals ??= {}
+  nitro.externals.inline ??= []
+  nitro.externals.inline.push(resolver.resolve('./runtime/content/'))
+}
