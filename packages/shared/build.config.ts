@@ -5,6 +5,7 @@ export default defineBuildConfig({
   failOnWarn: false,
   entries: [
     { input: 'src/content', name: 'content' },
+    { input: 'src/content-runtime', name: 'content-runtime' },
     { input: 'src/kit', name: 'kit' },
     { input: 'src/devtools', name: 'devtools' },
     { input: 'src/i18n', name: 'i18n' },
@@ -19,6 +20,7 @@ export default defineBuildConfig({
     /^h3/,
     /^@nuxtjs\/i18n/,
     /^@nuxt\/content/,
+    /^@harlan-zw\/comark-content/,
     /^@nuxt\/schema/,
     /^@nuxt\/devtools-kit/,
     /^@nuxt\/kit/,

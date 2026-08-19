@@ -28,6 +28,10 @@
       "types": "./dist/content.d.mts",
       "default": "./dist/content.mjs"
     },
+    "./content-runtime": {
+      "types": "./dist/content-runtime.d.mts",
+      "default": "./dist/content-runtime.mjs"
+    },
     "./kit": {
       "types": "./dist/kit.d.mts",
       "default": "./dist/kit.mjs"
@@ -110,6 +114,8 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "catalog:",
+    "@harlan-zw/comark-content": "catalog:",
+    "@nuxt/content": "catalog:",
     "@nuxt/module-builder": "catalog:",
     "@nuxt/schema": "catalog:",
     "@nuxt/test-utils": "catalog:",

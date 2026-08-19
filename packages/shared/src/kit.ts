@@ -248,3 +248,101 @@ export async function resolveHostUnheadMajor(rootDir: string): Promise<UnheadMaj
   }
   return 3
 }
+
+export const COMARK_CONTENT_MODULE = '@harlan-zw/comark-content'
+
+/**
+ * The lowest comark-content that exposes `queryCollectionManifest` from
+ * `@harlan-zw/comark-content/server`. Every integration here walks collections
+ * through that manifest, so an older build has no first-party path.
+ */
+const COMARK_CONTENT_MINIMUM = [0, 1, 2] as const
+
+/**
+ * The Markdown content module backing this app, if any.
+ *
+ * `@nuxt/content` and `comark-content` both fire the `content:file:beforeParse`
+ * and `content:file:afterParse` build hooks with the same context shape, so a
+ * module's frontmatter handling is written once. They differ at runtime:
+ * `@nuxt/content` queries a SQL database, comark reads Nitro server assets.
+ */
+export type ContentProvider
+  = | { _tag: 'None' }
+    | { _tag: 'NuxtContent', version: 2 | 3 }
+    | { _tag: 'Comark' }
+
+/**
+ * comark declares no `version` in its module meta, so
+ * `hasNuxtModuleCompatibility` reports false for every release. Read the
+ * installed package instead.
+ */
+async function comarkSatisfiesMinimum(nuxt: Nuxt): Promise<boolean> {
+  const pkg = await readPackageJSON(COMARK_CONTENT_MODULE, { url: normalizePackageUrl(nuxt.options.rootDir) }).catch(() => {
+    // Registered as a module but not resolvable from the app. Treat it as absent
+    // rather than failing the build; the integration is optional either way.
+    return null
+  })
+  const parts = pkg?.version?.split('.').map(part => Number.parseInt(part, 10))
+  if (!parts || parts.length < 3 || parts.some(part => !Number.isFinite(part)))
+    return false
+  for (const [index, minimum] of COMARK_CONTENT_MINIMUM.entries()) {
+    if (parts[index]! !== minimum)
+      return parts[index]! > minimum
+  }
+  return true
+}
+
+/**
+ * Detect which Markdown content module is installed.
+ *
+ * `@nuxt/content` wins when both are present: it owns the `content` config key
+ * and its runtime is the one the app's pages query.
+ */
+export async function resolveContentProvider(nuxt: Nuxt = useNuxt()): Promise<ContentProvider> {
+  const nuxtContent = await resolveNuxtContentVersion()
+  if (nuxtContent)
+    return { _tag: 'NuxtContent', version: nuxtContent.version }
+  if (hasNuxtModule(COMARK_CONTENT_MODULE, nuxt) && await comarkSatisfiesMinimum(nuxt))
+    return { _tag: 'Comark' }
+  return { _tag: 'None' }
+}
+
+/**
+ * Whether the provider fires the `content:file:*` build hooks, which is where
+ * every module maps its frontmatter field onto the parsed page.
+ */
+export function hasContentFileHooks(provider: ContentProvider): boolean {
+  return provider._tag === 'Comark' || (provider._tag === 'NuxtContent' && provider.version === 3)
+}
+
+/**
+ * Alias `#nuxtseo/content` to the shim for the detected provider.
+ *
+ * Consumers import collection enumeration and page queries from that one
+ * specifier instead of naming `@nuxt/content/server` or
+ * `@harlan-zw/comark-content/server`. Naming a package directly would put it in
+ * every build, and a build without that package installed fails to bundle.
+ *
+ * Nuxt Content v2 has no collection model, so it resolves to the empty shim.
+ * A module that supports v2 keeps its own v2 path.
+ */
+export function setupContentRuntime(provider: ContentProvider, nuxt: Nuxt = useNuxt()): void {
+  const shim = provider._tag === 'Comark'
+    ? 'comark'
+    : provider._tag === 'NuxtContent' && provider.version === 3
+      ? 'nuxt-content-v3'
+      : 'none'
+  const resolver = createResolver(import.meta.url)
+  // This package does not depend on nitro's option types, so narrow the two fields
+  // it touches rather than pulling the whole NitroConfig augmentation in.
+  const nitro = (nuxt.options as { nitro?: { alias?: Record<string, string>, externals?: { inline?: string[] } } }).nitro ??= {}
+  nitro.alias ??= {}
+  nitro.alias['#nuxtseo/content'] = resolver.resolve(`./runtime/content/${shim}`)
+  // The shim ships inside this package, so Nitro treats it as an external dependency
+  // and leaves its `@nuxt/content/server` import for Node to resolve at runtime.
+  // `#content/manifest` is a build-time alias, so that import then fails to load.
+  // Inline the shim directory to get it bundled with the aliases applied.
+  nitro.externals ??= {}
+  nitro.externals.inline ??= []
+  nitro.externals.inline.push(resolver.resolve('./runtime/content/'))
+}
