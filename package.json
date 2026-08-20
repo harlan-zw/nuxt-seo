@@ -13,7 +13,7 @@
   "scripts": {
     "build": "pnpm --filter './packages/*' build",
     "benchmark": "node bench/performance/run.mjs --server packages/nuxt-seo/test/fixtures/performance/.output/server/index.mjs --output bench/performance/result.json --profiles bench/performance/profiles",
-    "benchmark:build": "pnpm --filter @nuxtjs/seo exec nuxi build test/fixtures/performance",
+    "benchmark:build": "pnpm --dir packages/shared build && pnpm --filter @nuxtjs/seo exec nuxi build test/fixtures/performance",
     "benchmark:test": "node --test bench/performance/*.test.mjs",
     "dev": "pnpm --filter @nuxtjs/seo dev",
     "dev:prepare": "pnpm --filter './packages/**' stub && pnpm --filter @nuxtjs/seo dev:prepare",

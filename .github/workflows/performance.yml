@@ -48,6 +48,7 @@ jobs:
           cp -R "$FIXTURE_SOURCE/." packages/nuxt-seo/test/fixtures/performance/
           pnpm install --frozen-lockfile --trust-lockfile
           pnpm dev:prepare
+          pnpm --dir packages/shared build
           pnpm --filter @nuxtjs/seo exec nuxi build test/fixtures/performance
 
       - name: Warn when the base build is unavailable
