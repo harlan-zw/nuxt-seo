@@ -150,7 +150,7 @@ describe('setupNitroRuntimeCompatibility', () => {
     )
   })
 
-  it('registers shared templates once when several modules call setup', () => {
+  it('registers shared compatibility once when several modules call setup', () => {
     getNuxtVersionMock.mockReturnValue('4.5.1')
     const nuxt = createNuxt()
 
@@ -158,6 +158,7 @@ describe('setupNitroRuntimeCompatibility', () => {
     setupNitroRuntimeCompatibility(nuxt)
 
     expect(addTypeTemplateMock).toHaveBeenCalledOnce()
+    expect(nuxt.options.nitro.externals?.inline).toEqual(['nuxtseo-shared'])
   })
 
   it('registers the request context type bridge after an older helper ran', async () => {
