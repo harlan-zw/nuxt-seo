@@ -619,6 +619,15 @@ describe('resolveI18nDomain', () => {
     expect(resolveI18nDomain('example.com', { defaultLocale: 'en', locales }).defaultLocale).toBe('fr')
   })
 
+  it('detects an unrestricted locale with an explicit domain default', () => {
+    const config: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      multiDomainLocales: true,
+      locales: [en, { ...fr, defaultForDomains: ['example.com'] }, { ...de, domains: ['example.com'] }],
+    }
+    expect(resolveLocaleFromRoute('/about', config, { host: 'example.com' }).locale).toBe('fr')
+  })
+
   it('keeps an unlocalized route on the requested domain default', () => {
     const config: RuntimeI18nConfig = {
       ...prefixExceptDefault,

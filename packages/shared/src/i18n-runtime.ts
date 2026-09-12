@@ -173,7 +173,7 @@ export function resolveLocaleFromRoute(route: string, i18n: RuntimeI18nConfig, c
     : undefined
   const domain = resolveI18nDomain(context.host, i18n)
   const hostLocales = domain._tag === 'known'
-    ? domain.locales.filter(locale => localeDomains(locale).some(host => normalizeHost(host) === normalizeHost(context.host!)))
+    ? domain.locales.filter(locale => [...localeDomains(locale), ...locale.defaultForDomains || []].some(host => normalizeHost(host) === normalizeHost(context.host!)))
     : []
   const hostLocale = hostLocales.find(locale => locale.code === domain.defaultLocale) || hostLocales[0]
   return { locale: contextLocale?.code || hostLocale?.code || domain.defaultLocale, basePath: `${pathname}${suffix}` }
