@@ -119,10 +119,10 @@ export function resolveI18nDomain<T extends LocaleDomainConfig>(
     return { _tag: 'unknown' as const, defaultLocale: i18n.defaultLocale, locales: i18n.locales }
 
   const defaultLocale = matches.find(entry => entry.defaults.includes(normalizedHost))?.locale
-    || matches[0]!.locale
+    || (matches.length === 1 ? matches[0]!.locale : undefined)
   return {
     _tag: 'known' as const,
-    defaultLocale: defaultLocale.code,
+    defaultLocale: defaultLocale?.code || i18n.defaultLocale,
     locales: domains.filter(entry => !entry.hosts.length || entry.hosts.includes(normalizedHost)).map(entry => entry.locale),
   }
 }
@@ -172,7 +172,11 @@ export function resolveLocaleFromRoute(route: string, i18n: RuntimeI18nConfig, c
     ? i18n.locales.find(locale => locale.code === context.locale)
     : undefined
   const domain = resolveI18nDomain(context.host, i18n)
-  return { locale: contextLocale?.code || domain.defaultLocale, basePath: `${pathname}${suffix}` }
+  const hostLocales = domain._tag === 'known'
+    ? domain.locales.filter(locale => localeDomains(locale).some(host => normalizeHost(host) === normalizeHost(context.host!)))
+    : []
+  const hostLocale = hostLocales.find(locale => locale.code === domain.defaultLocale) || hostLocales[0]
+  return { locale: contextLocale?.code || hostLocale?.code || domain.defaultLocale, basePath: `${pathname}${suffix}` }
 }
 
 /**

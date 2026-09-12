@@ -546,6 +546,26 @@ describe('request domain routes', () => {
     expect(resolveLocaleFromRoute('/about', { ...config, locales }, { host: 'de.example' }).locale).toBe('de')
   })
 
+  it.each(['prefix_except_default', 'prefix_and_default'] as const)('preserves prefixes on shared hosts without a default under %s', (strategy) => {
+    const ambiguous: RuntimeI18nConfig = {
+      ...config,
+      strategy,
+      locales: [
+        { ...en, domains: ['en.example'] },
+        { ...de, domains: ['shared.example'] },
+        { ...fr, domains: ['shared.example'] },
+      ],
+    }
+    expect(localePath('/about', 'de', ambiguous, { host: 'shared.example' })).toBe('/de/about')
+    expect(computeLocaleAlternates('/de/about', ambiguous, { host: 'shared.example', domainMode: 'request' }))
+      .toEqual([
+        { code: 'de', hreflang: 'de-DE', path: '/de/about' },
+        { code: 'fr', hreflang: 'fr-FR', path: '/fr/about' },
+      ])
+    expect(resolveI18nDomain('shared.example', ambiguous).defaultLocale).toBe('en')
+    expect(resolveLocaleFromRoute('/about', ambiguous, { host: 'shared.example' }).locale).toBe('de')
+  })
+
   it.each(['https://DE.example/path?query=value', 'DE.example?query=value', '//DE.example/path'])('normalizes host URL %s', (host) => {
     expect(resolveLocaleFromRoute('/about', config, { host }).locale).toBe('de')
   })
