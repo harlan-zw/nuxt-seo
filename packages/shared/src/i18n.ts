@@ -2,7 +2,7 @@ import type { LocaleObject, NuxtI18nOptions } from '@nuxtjs/i18n'
 import type { RuntimeI18nConfig, UnlocalizedLocalePage } from './i18n-runtime'
 import { getNuxtModuleVersion, hasNuxtModule, hasNuxtModuleCompatibility } from '@nuxt/kit'
 import { withBase, withHttps } from 'ufo'
-import { localePath, resolveLocaleAlternates, resolveLocaleFromRoute } from './i18n-runtime'
+import { localePath, resolveI18nDomain, resolveLocaleAlternates, resolveLocaleFromRoute } from './i18n-runtime'
 import { getNuxtModuleOptions } from './kit'
 
 export type {
@@ -69,6 +69,28 @@ export function generatePathForI18nPages(ctx: StrategyProps): string {
 }
 
 export function splitPathForI18nLocales(path: string, autoI18n: AutoI18nConfig): string | string[] {
+  if (autoI18n.multiDomainLocales && path && !path.startsWith('/_')) {
+    const i18n = toRuntimeI18nConfig(autoI18n)
+    const hosts = [...new Set(i18n.locales.flatMap(locale => [
+      ...locale.domains || [],
+      ...locale.defaultForDomains || [],
+      ...locale.domain ? [locale.domain] : [],
+    ]))]
+    if (hosts.length) {
+      const normalizedPath = path.startsWith('/') ? path : `/${path}`
+      if (i18n.locales.some(locale => normalizedPath === `/${locale.code}` || normalizedPath.startsWith(`/${locale.code}/`)))
+        return path
+      const paths = new Set([path])
+      for (const host of hosts) {
+        for (const locale of resolveI18nDomain(host, i18n).locales) {
+          paths.add(localePath(path, locale.code, i18n, { host }))
+          if (i18n.strategy === 'prefix_and_default')
+            paths.add(localePath(path, locale.code, { ...i18n, strategy: 'prefix' }, { host }))
+        }
+      }
+      return [...paths]
+    }
+  }
   const selectedLocales = autoI18n.strategy === 'prefix_except_default'
     ? autoI18n.locales.filter(l => l.code !== autoI18n.defaultLocale)
     : autoI18n.locales

@@ -228,6 +228,52 @@ describe('splitPathForI18nLocales', () => {
     expect(result).toEqual(['/about', '/fr/about', '/es/about'])
   })
 
+  it.each(['prefix_except_default', 'prefix_and_default'] as const)('expands rules across host defaults with %s', (strategy) => {
+    const config = makeAutoI18n({
+      strategy,
+      multiDomainLocales: true,
+      locales: [
+        makeLocale('en', { domains: ['en.example', 'de.example'], defaultForDomains: ['en.example'] }),
+        makeLocale('de', { domains: ['de.example'], defaultForDomains: ['de.example'] }),
+        makeLocale('fr'),
+      ],
+    })
+    expect(new Set(splitPathForI18nLocales('/private', config)))
+      .toEqual(new Set(strategy === 'prefix_and_default'
+        ? ['/private', '/en/private', '/de/private', '/fr/private']
+        : ['/private', '/en/private', '/fr/private']))
+  })
+
+  it('keeps prefixes for ambiguous hosts without inventing restricted locale variants', () => {
+    const config = makeAutoI18n({
+      multiDomainLocales: true,
+      locales: [
+        makeLocale('en', { domains: ['en.example'] }),
+        makeLocale('de', { domains: ['shared.example'] }),
+        makeLocale('fr', { domains: ['shared.example'] }),
+      ],
+    })
+    expect(splitPathForI18nLocales('/private', config)).toEqual(['/private', '/de/private', '/fr/private'])
+  })
+
+  it.each([
+    ['prefix_except_default', '/fr/private', '/fr/private'],
+    ['no_prefix', '/private', ['/private']],
+  ] as const)('preserves explicit paths under %s', (strategy, path, expected) => {
+    expect(splitPathForI18nLocales(path, makeAutoI18n({
+      strategy,
+      multiDomainLocales: true,
+      locales: [makeLocale('en', { domains: ['example.com'] }), makeLocale('fr')],
+    }))).toEqual(expected)
+  })
+
+  it('includes domains named only by an unrestricted locale default', () => {
+    expect(splitPathForI18nLocales('/private', makeAutoI18n({
+      multiDomainLocales: true,
+      locales: [makeLocale('en'), makeLocale('fr', { defaultForDomains: ['fr.example'] })],
+    }))).toEqual(['/private', '/en/private'])
+  })
+
   it('normalizes locale variants when the input omits its leading slash', () => {
     const config = makeAutoI18n()
     expect(splitPathForI18nLocales('about', config)).toEqual(['about', '/fr/about', '/es/about'])
