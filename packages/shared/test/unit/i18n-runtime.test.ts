@@ -2,7 +2,7 @@ import type { AutoI18nConfig } from '../../src/i18n'
 import type { RuntimeI18nConfig } from '../../src/i18n-runtime'
 import { describe, expect, it } from 'vitest'
 import { toRuntimeI18nConfig } from '../../src/i18n'
-import { computeLocaleAlternates, localePath, resolveCanonicalLocaleDomain, resolveLocaleAlternates, resolveLocaleFromRoute } from '../../src/i18n-runtime'
+import { computeLocaleAlternates, localePath, resolveCanonicalLocaleDomain, resolveI18nDomain, resolveLocaleAlternates, resolveLocaleFromRoute } from '../../src/i18n-runtime'
 
 const en = { code: 'en', hreflang: 'en' }
 const fr = { code: 'fr', hreflang: 'fr-FR' }
@@ -517,4 +517,107 @@ describe('toRuntimeI18nConfig', () => {
       }],
     })
   })
+})
+
+describe('request domain routes', () => {
+  const config: RuntimeI18nConfig = {
+    defaultLocale: 'en',
+    strategy: 'prefix_except_default',
+    multiDomainLocales: true,
+    locales: [
+      { ...en, domains: ['en.example', 'de.example'], defaultForDomains: ['en.example'] },
+      { ...de, domains: ['en.example', 'de.example'], defaultForDomains: ['de.example'] },
+      { code: 'it', hreflang: 'it', domains: ['it.example'], defaultForDomains: ['it.example'] },
+      fr,
+    ],
+  }
+
+  it('prefixes the global default on another locale default host', () => {
+    expect(localePath('/about', 'en', config, { host: 'de.example' })).toBe('/en/about')
+    expect(localePath('/about', 'de', config, { host: 'de.example' })).toBe('/about')
+  })
+
+  it('falls back to the first locale served on a known host', () => {
+    const locales = [
+      { ...en, domains: ['en.example'] },
+      { ...de, domains: ['de.example'] },
+      { ...fr, domains: ['de.example'] },
+    ]
+    expect(resolveLocaleFromRoute('/about', { ...config, locales }, { host: 'de.example' }).locale).toBe('de')
+  })
+
+  it.each(['https://DE.example/path?query=value', 'DE.example?query=value', '//DE.example/path'])('normalizes host URL %s', (host) => {
+    expect(resolveLocaleFromRoute('/about', config, { host }).locale).toBe('de')
+  })
+
+  it('generates request-host alternates while preserving unrestricted locales', () => {
+    expect(computeLocaleAlternates('/about', config, { host: 'de.example', domainMode: 'request' })).toEqual([
+      { code: 'en', hreflang: 'en', path: '/en/about' },
+      { code: 'de', hreflang: 'de-DE', path: '/about' },
+      { code: 'fr', hreflang: 'fr-FR', path: '/fr/about' },
+    ])
+  })
+
+  it('translates custom paths on the request host', () => {
+    const pages = { about: { en: '/about', de: '/ueber', fr: '/a-propos', it: '/informazioni' } }
+    expect(computeLocaleAlternates('/ueber?preview=1', { ...config, pages }, { host: 'de.example', domainMode: 'request' })).toEqual([
+      { code: 'en', hreflang: 'en', path: '/en/about?preview=1' },
+      { code: 'de', hreflang: 'de-DE', path: '/ueber?preview=1' },
+      { code: 'fr', hreflang: 'fr-FR', path: '/fr/a-propos?preview=1' },
+    ])
+  })
+
+  it('preserves canonical domains without request mode', () => {
+    expect(computeLocaleAlternates('/about', config, { host: 'de.example' }).map(a => a.domain))
+      .toEqual(['en.example', 'de.example', 'it.example', 'en.example'])
+  })
+
+  it('preserves all locales on an unknown host', () => {
+    expect(computeLocaleAlternates('/about', config, { host: 'localhost:3000', domainMode: 'request' }).map(a => a.path))
+      .toEqual(['/about', '/de/about', '/it/about', '/fr/about'])
+  })
+})
+
+describe('resolveI18nDomain', () => {
+  it.each([
+    ['https://EXAMPLE.com:8443/path?query=1', 'example.com:8443'],
+    ['//[::1]:3000/path', '[::1]:3000'],
+    ['https://example.com?query=1', 'EXAMPLE.COM'],
+  ])('matches configured %s against host %s', (domain, host) => {
+    const locales = [{ ...en, domains: ['other.example'] }, { ...fr, domains: [domain] }, de]
+    const result = resolveI18nDomain(host, { defaultLocale: 'en', locales })
+    expect(result).toEqual({ _tag: 'known', defaultLocale: 'fr', locales: [locales[1], de] })
+  })
+
+  it('does not conflate hosts with different ports', () => {
+    const config = { defaultLocale: 'en', locales: [{ ...fr, domains: ['example.com:8443'] }] }
+    expect(resolveI18nDomain('example.com:443', config)).toEqual({ _tag: 'unknown', ...config })
+  })
+
+  it('prefers an explicit domain default over the first matching locale', () => {
+    const locales = [{ ...en, domains: ['example.com'] }, { ...fr, domains: ['example.com'], defaultForDomains: ['example.com'] }]
+    expect(resolveI18nDomain('example.com', { defaultLocale: 'en', locales }).defaultLocale).toBe('fr')
+  })
+
+  it('keeps an unlocalized route on the requested domain default', () => {
+    const config: RuntimeI18nConfig = {
+      ...prefixExceptDefault,
+      multiDomainLocales: true,
+      locales: [{ ...en, domains: ['en.example'] }, { ...fr, domains: ['fr.example'] }],
+      pages: { legal: { _tag: 'unlocalized', path: '/legal' } },
+    }
+    expect(computeLocaleAlternates('/legal', config, { host: 'fr.example', domainMode: 'request' }))
+      .toEqual([{ code: 'fr', hreflang: 'fr-FR', path: '/legal' }])
+  })
+})
+
+it('does not invent request-host routes when the matched page is unavailable there', () => {
+  const config: RuntimeI18nConfig = {
+    defaultLocale: 'en',
+    strategy: 'prefix_except_default',
+    multiDomainLocales: true,
+    locales: [{ ...en, domains: ['en.example'] }, { ...fr, domains: ['fr.example'] }],
+    pages: { about: { en: false, fr: '/a-propos' } },
+  }
+  expect(computeLocaleAlternates('/fr/a-propos', config, { host: 'en.example', domainMode: 'request' })).toEqual([])
 })

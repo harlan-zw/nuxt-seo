@@ -1,3 +1,5 @@
+import { parseURL } from 'ufo'
+
 /**
  * Runtime-safe i18n route resolution.
  *
@@ -82,34 +84,47 @@ export interface RouteLocaleInfo {
   basePath: string
 }
 
-export interface RuntimeRouteContext {
-  /** Request host, used to resolve locales under domain-based strategies. */
-  host?: string
-  /** Known current locale, required to translate no_prefix routes without a locale domain. */
+export type RuntimeRouteContext = {
+  /** Known current locale, required for no-prefix routes without a locale domain. */
   locale?: string
-}
+} & (
+  | { host?: string, domainMode?: 'canonical' }
+  | { host: string, domainMode: 'request' }
+)
 
 function normalizeHost(value: string): string {
-  return value.trim().toLowerCase().replace(/^[a-z][a-z\d+.-]*:\/\//, '').split('/')[0]!
+  const input = value.trim()
+  return parseURL(input.startsWith('//') ? `https:${input}` : input.includes('://') ? input : `https://${input}`).host?.toLowerCase() || ''
 }
 
-function localeDomains(locale: RuntimeLocale): string[] {
-  return locale.domains?.length ? locale.domains : locale.domain ? [locale.domain] : []
+type LocaleDomainConfig = Pick<RuntimeLocale, 'code' | 'domain' | 'domains' | 'defaultForDomains'>
+
+function localeDomains(locale: LocaleDomainConfig): string[] {
+  return [...locale.domains || [], ...locale.domain ? [locale.domain] : []]
 }
 
-function resolveLocaleFromHost(host: string | undefined, i18n: RuntimeI18nConfig): RuntimeLocale | undefined {
-  if (!host)
-    return undefined
-  const normalizedHost = normalizeHost(host)
-  const domainDefault = i18n.locales.find(locale =>
-    locale.defaultForDomains?.some(domain => normalizeHost(domain) === normalizedHost),
-  )
-  if (domainDefault)
-    return domainDefault
-  const matches = i18n.locales.filter(locale =>
-    localeDomains(locale).some(domain => normalizeHost(domain) === normalizedHost),
-  )
-  return matches.length === 1 ? matches[0] : matches.find(locale => locale.code === i18n.defaultLocale)
+/** Resolve the host default and available locales. Unknown hosts keep the configured fallback. */
+export function resolveI18nDomain<T extends LocaleDomainConfig>(
+  host: string | undefined,
+  i18n: { defaultLocale: string, locales: T[] },
+) {
+  const normalizedHost = host ? normalizeHost(host) : ''
+  const domains = i18n.locales.map(locale => ({
+    locale,
+    hosts: localeDomains(locale).map(normalizeHost),
+    defaults: locale.defaultForDomains?.map(normalizeHost) || [],
+  }))
+  const matches = normalizedHost ? domains.filter(entry => entry.hosts.includes(normalizedHost) || entry.defaults.includes(normalizedHost)) : []
+  if (!matches.length)
+    return { _tag: 'unknown' as const, defaultLocale: i18n.defaultLocale, locales: i18n.locales }
+
+  const defaultLocale = matches.find(entry => entry.defaults.includes(normalizedHost))?.locale
+    || matches[0]!.locale
+  return {
+    _tag: 'known' as const,
+    defaultLocale: defaultLocale.code,
+    locales: domains.filter(entry => !entry.hosts.length || entry.hosts.includes(normalizedHost)).map(entry => entry.locale),
+  }
 }
 
 function firstLocaleDomain(locale: RuntimeLocale | undefined): string | undefined {
@@ -156,8 +171,8 @@ export function resolveLocaleFromRoute(route: string, i18n: RuntimeI18nConfig, c
   const contextLocale = context.locale
     ? i18n.locales.find(locale => locale.code === context.locale)
     : undefined
-  const domainLocale = resolveLocaleFromHost(context.host, i18n)
-  return { locale: contextLocale?.code || domainLocale?.code || i18n.defaultLocale, basePath: `${pathname}${suffix}` }
+  const domain = resolveI18nDomain(context.host, i18n)
+  return { locale: contextLocale?.code || domain.defaultLocale, basePath: `${pathname}${suffix}` }
 }
 
 /**
@@ -173,14 +188,10 @@ export function localePath(
   if (i18n.strategy === 'no_prefix')
     return `${pathname}${suffix}`
 
-  const isDefault = locale === i18n.defaultLocale
-  const localeConfig = i18n.locales.find(item => item.code === locale)
-  const normalizedHost = context.host ? normalizeHost(context.host) : undefined
-  const matchesDomainDefault = !!normalizedHost
-    && !!localeConfig?.defaultForDomains?.some(domain => normalizeHost(domain) === normalizedHost)
-  const isDomainDefault = i18n.differentDomains
-    || matchesDomainDefault
-  if (i18n.strategy === 'prefix_except_default' && (isDefault || isDomainDefault))
+  const domain = resolveI18nDomain(context.host, i18n)
+  const isDefault = locale === domain.defaultLocale
+  const isDomainDefault = i18n.differentDomains || (domain._tag === 'known' && isDefault)
+  if (i18n.strategy === 'prefix_except_default' && (isDefault || i18n.differentDomains))
     return `${pathname}${suffix}`
   if (i18n.strategy === 'prefix_and_default' && isDomainDefault)
     return `${pathname}${suffix}`
@@ -420,14 +431,15 @@ function alternatesForEntry(
   params: Record<string, string>,
   i18n: RuntimeI18nConfig,
   context: RuntimeRouteContext,
-): LocaleAlternate[] | null {
+): LocaleAlternate[] {
   // Locales the entry doesn't name use the default pattern when available.
   // Without that pattern the original route is unknowable from i18n pages.
   const untranslated = localePaths[i18n.defaultLocale]
   const alternates: LocaleAlternate[] = []
   const defaultLocale = i18n.locales.find(locale => locale.code === i18n.defaultLocale)
 
-  for (const l of i18n.locales) {
+  const locales = context.domainMode === 'request' ? resolveI18nDomain(context.host, i18n).locales : i18n.locales
+  for (const l of locales) {
     const pattern = localePaths[l.code] ?? untranslated
     // Disabled for this locale: no page, so no alternate.
     if (localePaths[l.code] === false)
@@ -437,7 +449,7 @@ function alternatesForEntry(
     const path = fillPagePattern(pattern, params)
     if (path === null)
       continue
-    const domain = resolveCanonicalLocaleDomain(l, defaultLocale)
+    const domain = context.domainMode === 'request' ? undefined : resolveCanonicalLocaleDomain(l, defaultLocale)
     alternates.push({
       code: l.code,
       hreflang: l.hreflang || l.code,
@@ -446,7 +458,7 @@ function alternatesForEntry(
     })
   }
 
-  return alternates.length ? alternates : null
+  return alternates
 }
 
 /**
@@ -495,9 +507,10 @@ function alternatesFromPages(
 
   for (const match of matches) {
     if (match._tag === 'unlocalized') {
-      const defaultLocale = i18n.locales.find(locale => locale.code === i18n.defaultLocale)
+      const defaultCode = context.domainMode === 'request' ? resolveI18nDomain(context.host, i18n).defaultLocale : i18n.defaultLocale
+      const defaultLocale = i18n.locales.find(locale => locale.code === defaultCode)
       if (defaultLocale) {
-        const domain = resolveCanonicalLocaleDomain(defaultLocale)
+        const domain = context.domainMode === 'request' ? undefined : resolveCanonicalLocaleDomain(defaultLocale)
         return [{
           code: defaultLocale.code,
           hreflang: defaultLocale.hreflang || defaultLocale.code,
@@ -507,9 +520,7 @@ function alternatesFromPages(
       }
       continue
     }
-    const alternates = alternatesForEntry(match.localePaths, match.params, i18n, context)
-    if (alternates)
-      return alternates
+    return alternatesForEntry(match.localePaths, match.params, i18n, context)
   }
 
   return null
@@ -545,8 +556,8 @@ export function resolveLocaleAlternates(
   const defaultLocale = i18n.locales.find(locale => locale.code === i18n.defaultLocale)
   return {
     _tag: 'strategy',
-    alternates: i18n.locales.map((l) => {
-      const domain = resolveCanonicalLocaleDomain(l, defaultLocale)
+    alternates: (context.domainMode === 'request' ? resolveI18nDomain(context.host, i18n).locales : i18n.locales).map((l) => {
+      const domain = context.domainMode === 'request' ? undefined : resolveCanonicalLocaleDomain(l, defaultLocale)
       return {
         code: l.code,
         hreflang: l.hreflang || l.code,
