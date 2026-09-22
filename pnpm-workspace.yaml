@@ -82,6 +82,11 @@ packages:
   - packages/*/playground
   - '!**/.data/**'
 overrides:
+  # Two better-sqlite3 instances exist (12.11.1 + 13.0.3); the 12.11.1
+  # instance ships no native binding, so a content fixture build that traces
+  # it fails every content query with "Could not locate the bindings file".
+  # Pin one instance so nitro always traces the working prebuilds.
+  better-sqlite3: ^13.0.3
   # Each bundled module ships its own nuxtseo-shared range, so the workspace
   # installs four copies. Nitro flattens them all into one
   # .output/server/node_modules/nuxtseo-shared, files from the losing copies are
@@ -90,6 +95,12 @@ overrides:
   nuxtseo-shared: workspace:*
   rollup-plugin-dts: ^6.5.1
   semver: ^7.8.5
+  # Same failure mode as nuxtseo-shared above: the lockfile resolves two vue
+  # instances (3.5.40 + 3.5.41). Nitro traces both and symlinks
+  # node_modules/vue at whichever sorts first, which can be the instance
+  # traced without its server-renderer subpath, so the built server exits on
+  # boot with ERR_MODULE_NOT_FOUND for vue/server-renderer. Pin one version.
+  vue: ^3.5.41
 catalog:
   '@antfu/eslint-config': ^9.3.0
   '@arethetypeswrong/cli': ^0.18.5
