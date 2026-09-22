@@ -137,7 +137,7 @@ export const SchemaOrgModule: NuxtSEOModule = {
 export const SkewProtectionModule: NuxtSEOModule = {
   slug: 'skew-protection',
   npm: 'nuxt-skew-protection',
-  repo: 'nuxt-seo-pro/nuxt-skew-protection',
+  repo: 'harlan-zw/nuxt-skew-protection',
   description: 'Solve Nuxt version skews with persistent assets and instant updates.',
   label: 'Skew Protection',
   icon: 'i-carbon-version',
@@ -146,7 +146,7 @@ export const SkewProtectionModule: NuxtSEOModule = {
 export const AiReadyModule: NuxtSEOModule = {
   slug: 'ai-ready',
   npm: 'nuxt-ai-ready',
-  repo: 'nuxt-seo-pro/nuxt-ai-ready',
+  repo: 'harlan-zw/nuxt-ai-ready',
   description: 'Best practice AI & LLM discoverability for Nuxt sites.',
   label: 'AI Ready',
   icon: 'i-carbon-ai-label',
@@ -181,5 +181,3 @@ export const standaloneModules = [
 
 /** @deprecated Use `bundledModules` */
 export const normalModules = bundledModules
-/** @deprecated Use `standaloneModules` */
-export const proModules = standaloneModules
