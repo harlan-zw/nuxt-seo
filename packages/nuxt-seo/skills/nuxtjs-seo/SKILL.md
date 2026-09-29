@@ -1,5 +1,5 @@
 ---
-name: nuxt-seo
+name: nuxtjs-seo
 description: Install, configure, and debug the @nuxtjs/seo meta module, which installs robots, sitemap, OG image, Schema.org, SEO utils, link checker, and site config in one Nuxt module. Use when a task mentions @nuxtjs/seo, Nuxt SEO, `nuxt module add seo`, disabling one SEO submodule, which config key owns an option, @nuxtjs/seo/content, a "takumi renderer missing dependencies" build error, or missing robots.txt and sitemap.xml after install.
 ---
 
