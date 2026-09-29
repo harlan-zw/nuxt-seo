@@ -38,8 +38,8 @@ function createNuxt(version: string, packages: Record<string, string> = {}) {
   }
 }
 
-async function install(nuxt: ReturnType<typeof createNuxt>, installed: InstalledModule[] = []) {
-  await NuxtSEO({ enabled: true }, nuxt as unknown as Nuxt)
+async function install(nuxt: ReturnType<typeof createNuxt>, installed: InstalledModule[] = [], enabled = true) {
+  await NuxtSEO({ enabled }, nuxt as unknown as Nuxt)
   nuxt.options._installedModules.push(...installed)
   await nuxt.callHook('modules:done')
 }
@@ -87,5 +87,14 @@ describe('loaded submodule version', () => {
     await expect(install(createNuxt('4.5.2', { 'nuxt-og-image': '6.4.0' }), [
       { meta: { name: 'nuxt-og-image', version: '6.4.0', disabled: true } },
     ])).resolves.toBeUndefined()
+  })
+})
+
+describe('disabled', () => {
+  it('skips the version checks with enabled: false', async () => {
+    await expect(install(createNuxt('4.0.3'), [], false)).resolves.toBeUndefined()
+    await expect(install(createNuxt('4.5.2', { '@nuxtjs/sitemap': '7.3.1' }), [
+      { meta: { name: '@nuxtjs/sitemap', version: '7.3.1' } },
+    ], false)).resolves.toBeUndefined()
   })
 })
