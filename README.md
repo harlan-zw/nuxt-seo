@@ -43,7 +43,8 @@ npx @vercel/agent-readability audit https://your-site.com
 The `@nuxtjs/seo` package is a simple alias for installing all of the modules in one go.
 
 ```ts
-// This is all it does!
+// This is almost all it does. Setup also fails the build on an unsupported
+// Nuxt version, or when a loaded module is older than its version below.
 export default defineNuxtModule<ModuleOptions>({
   moduleDependencies: {
     '@nuxtjs/robots': { version: '>=5.5' },

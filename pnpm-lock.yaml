@@ -69,6 +69,9 @@ catalogs:
     '@types/jest-image-snapshot':
       specifier: ^6.4.1
       version: 6.4.1
+    '@types/semver':
+      specifier: ^7.7.1
+      version: 7.8.0
     '@vue/test-utils':
       specifier: ^2.4.11
       version: 2.4.11
@@ -322,6 +325,12 @@ importers:
       nuxtseo-shared:
         specifier: workspace:*
         version: link:../shared
+      pkg-types:
+        specifier: 'catalog:'
+        version: 2.3.1
+      semver:
+        specifier: ^7.8.5
+        version: 7.8.5
     devDependencies:
       '@arethetypeswrong/cli':
         specifier: 'catalog:'
@@ -347,6 +356,9 @@ importers:
       '@types/jest-image-snapshot':
         specifier: 'catalog:'
         version: 6.4.1
+      '@types/semver':
+        specifier: 'catalog:'
+        version: 7.8.0
       '@vue/test-utils':
         specifier: 'catalog:'
         version: 2.4.11(@vue/compiler-dom@3.5.40)(@vue/server-renderer@3.5.41)(vue@3.5.41(typescript@6.0.3))
@@ -3910,6 +3922,9 @@ packages:
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
+
+  '@types/semver@7.8.0':
+    resolution: {integrity: sha512-1mAINjtQCXXeLkJ9ehXkwOcBpqtLxiVtKhpUf83DdRNdQKV0iXZpaHYqRr7nj+wvxuJzoAmAwXI+sCNMv1CzLQ==}
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -13902,6 +13917,8 @@ snapshots:
 
   '@types/resolve@1.20.2': {}
 
+  '@types/semver@7.8.0': {}
+
   '@types/stack-utils@2.0.3': {}
 
   '@types/unist@2.0.11': {}
@@ -18982,7 +18999,7 @@ snapshots:
   pkg-types@2.3.1:
     dependencies:
       confbox: 0.2.4
-      exsolve: 1.1.0
+      exsolve: 1.1.1
       pathe: 2.0.3
 
   pluralize@8.0.0: {}
