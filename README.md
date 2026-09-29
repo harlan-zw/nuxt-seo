@@ -50,16 +50,21 @@ npx @vercel/agent-readability audit https://your-site.com
 The `@nuxtjs/seo` package is a simple alias for installing all of the modules in one go.
 
 ```ts
-// This is all it does!
+// This is almost all it does. Setup also fails the build on an unsupported
+// Nuxt version, or when a loaded module is older than its version below.
 export default defineNuxtModule<ModuleOptions>({
   moduleDependencies: {
-    '@nuxtjs/robots': { version: '>=6.0' },
-    '@nuxtjs/sitemap': { version: '>=8.0' },
-    'nuxt-link-checker': { version: '>=5.0' },
-    'nuxt-og-image': { version: '>=6.2' },
-    'nuxt-schema-org': { version: '>=6.0' },
-    'nuxt-seo-utils': { version: '>=8.1' },
-    'nuxt-site-config': { version: '>=4.0' },
+    '@nuxtjs/robots': { version: '>=5.5' },
+    '@nuxtjs/sitemap': { version: '>=7.4' },
+    'nuxt-link-checker': { version: '>=4.3' },
+    'nuxt-og-image': { version: '>=6.4.4' },
+    'nuxt-schema-org': { version: '>=5.0' },
+    'nuxt-seo-utils': { version: '>=7.0' },
+    'nuxt-site-config': { version: '>=3.2' },
+    // Version checks only. These install only when you add them to `modules`.
+    'nuxt-skew-protection': { version: '>=1.0', optional: true },
+    'nuxt-ai-ready': { version: '>=1.0', optional: true },
+    '@nuxtjs/i18n': { version: '>=10.0', optional: true },
   },
 })
 ```

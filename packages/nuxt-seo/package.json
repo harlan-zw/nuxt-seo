@@ -58,7 +58,7 @@
     "prepack": "nuxt-module-build build"
   },
   "peerDependencies": {
-    "nuxt": "^3.16.0 || ^4.0.0 || ^5.0.0"
+    "nuxt": "^3.19.0 || ^4.1.0 || ^5.0.0"
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",
@@ -69,7 +69,9 @@
     "nuxt-schema-org": "catalog:",
     "nuxt-seo-utils": "catalog:",
     "nuxt-site-config": "catalog:",
-    "nuxtseo-shared": "workspace:*"
+    "nuxtseo-shared": "workspace:*",
+    "pkg-types": "catalog:",
+    "semver": "catalog:"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "catalog:",
@@ -80,6 +82,7 @@
     "@nuxtjs/i18n": "catalog:",
     "@resvg/resvg-js": "catalog:",
     "@types/jest-image-snapshot": "catalog:",
+    "@types/semver": "catalog:",
     "@vue/test-utils": "catalog:",
     "better-sqlite3": "catalog:",
     "execa": "catalog:",
