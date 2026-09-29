@@ -24,6 +24,8 @@ export default defineConfig({
           environment: 'node',
           // Each file builds and starts a Nuxt fixture. Keep CI memory bounded.
           maxWorkers: 2,
+          // Vitest groups projects by groupOrder and rejects mixed maxWorkers within one group.
+          sequence: { groupOrder: 1 },
           setupFiles: ['./test/setup.ts'],
           include: [
             './test/integration/**/*.test.ts',
