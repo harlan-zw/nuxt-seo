@@ -10,8 +10,10 @@ import { satisfies } from 'semver'
 
 export interface ModuleOptions {
   /**
-   * Whether the module should be loaded.
-   * @deprecated Does not do anything
+   * Install the bundled Nuxt SEO modules. Set to `false` to install none of them, the same as
+   * `nuxtseo: false`. A module you add to `modules` yourself still installs.
+   *
+   * @default true
    */
   enabled: boolean
 }
@@ -65,11 +67,22 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxtseo',
   },
-  moduleDependencies,
+  moduleDependencies(nuxt) {
+    // Nuxt installs dependencies before it checks whether this module is disabled, so a
+    // disabled Nuxt SEO must return none.
+    const options = (nuxt.options as { nuxtseo?: Partial<ModuleOptions> | false }).nuxtseo
+    if (options === false || options?.enabled === false)
+      return {}
+    return moduleDependencies
+  },
   defaults: {
     enabled: true,
   },
-  async setup(_options, nuxt) {
+  async setup(options, nuxt) {
+    // `nuxtseo: false` never reaches setup. `enabled: false` installs no module, so there is
+    // nothing to check.
+    if (!options.enabled)
+      return
     if (!await hasNuxtCompatibility({ nuxt: NUXT_COMPATIBILITY }, nuxt)) {
       throw new Error(`[@nuxtjs/seo] Nuxt ${getNuxtVersion(nuxt)} does not install module dependencies, so no Nuxt SEO module would load. Upgrade Nuxt to \`${NUXT_COMPATIBILITY}\`.`)
     }
