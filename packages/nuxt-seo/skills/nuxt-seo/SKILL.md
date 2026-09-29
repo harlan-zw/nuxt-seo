@@ -5,7 +5,7 @@ description: Install, configure, and debug the @nuxtjs/seo meta module, which in
 
 # @nuxtjs/seo
 
-Tested against `@nuxtjs/seo` 5.3.16 plus the version checks from harlan-zw/nuxt-seo#633, on Nuxt 4.5.2.
+Tested against `@nuxtjs/seo` 5.3.16 plus the fixes from harlan-zw/nuxt-seo#633 and #634, on Nuxt 4.5.2.
 The package declares Nuxt `moduleDependencies`, and Nuxt installs each submodule. Its only runtime code checks the Nuxt version and the version of each loaded submodule.
 Every option, composable, and component comes from a submodule. Docs: https://nuxtseo.com/docs/nuxt-seo
 
@@ -29,7 +29,7 @@ export default defineNuxtConfig({
 
 ## Which module owns which option
 
-The meta module has no options of its own. Each top level key belongs to one submodule.
+The meta module has one option, `nuxtseo.enabled`. Every other top level key belongs to one submodule.
 
 | Key | Package | Reference |
 |---|---|---|
@@ -42,7 +42,7 @@ The meta module has no options of its own. Each top level key belongs to one sub
 | `linkChecker` | `nuxt-link-checker` | [skilld.dev/gh/harlan-zw/nuxt-link-checker](https://skilld.dev/gh/harlan-zw/nuxt-link-checker) |
 
 The `seo` key configures `nuxt-seo-utils`, not the bundle.
-The `nuxtseo` key type checks but does nothing. `nuxtseo: { enabled: false }` and `nuxtseo: false` still install every submodule.
+`nuxtseo: false` or `nuxtseo: { enabled: false }` installs no bundled submodule. See "Disable a submodule".
 
 ## Automatic behaviour
 
@@ -70,7 +70,7 @@ export default defineNuxtConfig({
 
 `false` skips the module setup. `enabled: false` runs a setup that registers nothing. Both remove the routes, tags, and output of that module.
 You cannot disable `site`. The other submodules need it.
-To drop the whole bundle, remove `@nuxtjs/seo` from `modules`.
+To drop the whole bundle, set `nuxtseo: false`, or remove `@nuxtjs/seo` from `modules`. A submodule that you list in `modules` yourself still installs.
 
 ## Add a standalone module
 
