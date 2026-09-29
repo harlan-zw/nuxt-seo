@@ -4,6 +4,13 @@
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
+<a href="https://skilld.dev/gh/harlan-zw/nuxt-seo/nuxt-seo">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://skilld.dev/b/harlan-zw/nuxt-seo/nuxt-seo?theme=dark">
+    <source media="(prefers-color-scheme: light)" srcset="https://skilld.dev/b/harlan-zw/nuxt-seo/nuxt-seo?theme=light">
+    <img alt="Skill repository on skilld.dev" src="https://skilld.dev/b/harlan-zw/nuxt-seo/nuxt-seo?theme=light">
+  </picture>
+</a>
 
 > Fully equipped Technical SEO & AEO for busy Nuxters.
 
@@ -104,10 +111,7 @@ npx nuxt module add seo ai-ready
 ```
 
 > [!TIP]
-> Generate an Agent Skill for this package using [skilld](https://github.com/harlan-zw/skilld):
-> ```bash
-> npx skilld add @nuxtjs/seo
-> ```
+> Using an AI agent? Get the @nuxtjs/seo Skill on [skilld.dev/gh/harlan-zw/nuxt-seo/nuxt-seo](https://skilld.dev/gh/harlan-zw/nuxt-seo/nuxt-seo).
 
 Once installed, check the [Using the Modules](https://nuxtseo.com/docs/nuxt-seo/guides/using-the-modules) guide to get started.
 
