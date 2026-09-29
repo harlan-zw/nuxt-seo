@@ -1,7 +1,12 @@
 import type { ModuleDependencies } from '@nuxt/schema'
 import {
   defineNuxtModule,
+  getNuxtVersion,
+  hasNuxtCompatibility,
+  normalizeSemanticVersion,
 } from '@nuxt/kit'
+import { readPackageJSON } from 'pkg-types'
+import { satisfies } from 'semver'
 
 export interface ModuleOptions {
   /**
@@ -12,6 +17,13 @@ export interface ModuleOptions {
    */
   enabled: boolean
 }
+
+/**
+ * `moduleDependencies` arrived in Nuxt 3.19 and 4.1. Older versions ignore it, so no submodule
+ * installs. This range is enforced in `setup()` instead of `meta.compatibility`, because an
+ * incompatible `meta.compatibility` only logs a warning and skips the module.
+ */
+const NUXT_COMPATIBILITY = '^3.19.0 || >=4.1.0'
 
 const moduleDependencies = {
   '@nuxtjs/robots': {
@@ -54,9 +66,6 @@ const moduleDependencies = {
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxtseo',
-    compatibility: {
-      nuxt: '>=3.16.0',
-    },
   },
   moduleDependencies(nuxt) {
     // Nuxt installs dependencies before it checks whether this module is disabled, so a
@@ -69,5 +78,36 @@ export default defineNuxtModule<ModuleOptions>({
   defaults: {
     enabled: true,
   },
-  async setup() {},
+  async setup(options, nuxt) {
+    // `nuxtseo: false` never reaches setup. `enabled: false` installs no module, so there is
+    // nothing to check.
+    if (!options.enabled)
+      return
+    if (!await hasNuxtCompatibility({ nuxt: NUXT_COMPATIBILITY }, nuxt)) {
+      throw new Error(`[@nuxtjs/seo] Nuxt ${getNuxtVersion(nuxt)} does not install module dependencies, so no Nuxt SEO module would load. Upgrade Nuxt to \`${NUXT_COMPATIBILITY}\`.`)
+    }
+    // Nuxt checks each dependency version against the copy nested in @nuxtjs/seo, but loads the
+    // copy the app resolves. Check the modules that actually installed. Read package.json from the
+    // app's module directories first, as Nuxt does when it loads a module: a module.json version
+    // can lag one release behind.
+    nuxt.hook('modules:done', async () => {
+      const issues: string[] = []
+      for (const { meta } of nuxt.options._installedModules) {
+        const requirement = moduleDependencies[meta?.name as keyof typeof moduleDependencies]
+        if (!requirement || meta.disabled)
+          continue
+        const pkg = await readPackageJSON(meta.name!, { from: nuxt.options.modulesDir })
+          .catch(() => {
+            // Safe to ignore: an inline or aliased module has no package.json the app resolves,
+            // so the version the module reports is the best source.
+            return undefined
+          })
+        const version = pkg?.version || meta.version
+        if (version && !satisfies(normalizeSemanticVersion(version), requirement.version, { includePrerelease: true }))
+          issues.push(`Module \`${meta.name}\` version (\`${version}\`) does not satisfy \`${requirement.version}\` (requested by \`@nuxtjs/seo\`).`)
+      }
+      if (issues.length)
+        throw new Error(`[@nuxtjs/seo] ${issues.join('\n')}`)
+    })
+  },
 })
