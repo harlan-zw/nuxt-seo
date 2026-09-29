@@ -5,8 +5,8 @@ description: Install, configure, and debug the @nuxtjs/seo meta module, which in
 
 # @nuxtjs/seo
 
-Tested against `@nuxtjs/seo` 5.3.16 on Nuxt 4.5.2.
-The package has no runtime code. It declares Nuxt `moduleDependencies`, and Nuxt installs each submodule.
+Tested against `@nuxtjs/seo` 5.3.16 plus the version checks from harlan-zw/nuxt-seo#633, on Nuxt 4.5.2.
+The package declares Nuxt `moduleDependencies`, and Nuxt installs each submodule. Its only runtime code checks the Nuxt version and the version of each loaded submodule.
 Every option, composable, and component comes from a submodule. Docs: https://nuxtseo.com/docs/nuxt-seo
 
 This Skill covers only what the bundle adds. For one module, use its own Skill or docs (table below).
@@ -128,15 +128,15 @@ Breaking change in v5: `asSeoCollection()` is deprecated and warns at build. Old
 
 - **In an Agent shell, a fresh install fails `nuxt build`.** `nuxt-og-image` defaults to the takumi renderer and throws `takumi renderer missing dependencies: @takumi-rs/core`. It detects the Agent from environment variables such as `CLAUDECODE` and `AI_AGENT`. Outside an Agent it only logs the error, and the build passes. Fix: add `@takumi-rs/core` to the app, or set `ogImage: false`.
 - **In an Agent shell, `nuxt dev` tries to install `@takumi-rs/core` into the app.** If the install fails, the dev server exits. Decide on OG images before the first dev run.
-- **A submodule in the app `package.json` replaces the bundled copy.** Nuxt loads the app copy, even when it is older than the bundle requires, and prints no warning. Pin a submodule only on purpose, and remove the pin after the fix ships.
+- **A submodule in the app `package.json` replaces the bundled copy.** Nuxt loads the app copy. If it is older than the bundle requires, the build stops with `[@nuxtjs/seo] Module @nuxtjs/sitemap version (7.3.1) does not satisfy >=7.4 (requested by @nuxtjs/seo).` Upgrade the pin or remove it.
 - **`@nuxtjs/i18n` below v10 fails every build.** The error is `Module @nuxtjs/i18n version (9.x) does not satisfy >=10.0 (requested by @nuxtjs/seo)`. Upgrade i18n.
 - **Content `robots: 'noindex'` keeps the page in the sitemap.** Only `robots: false` removes it from `/sitemap.xml`. Both render `noindex, nofollow`.
 
 ## Version limits
 
-- Nuxt 3.19 or later, or Nuxt 4.1 or later. Earlier Nuxt ignores `moduleDependencies`. The build passes, and no submodule installs: `/robots.txt` and `/sitemap.xml` return 404, and pages get no JSON-LD. The module still claims `>=3.16.0`.
+- Nuxt 3.19 or later, or Nuxt 4.1 or later. Earlier Nuxt ignores `moduleDependencies`, so the build stops with `[@nuxtjs/seo] Nuxt 4.0.3 does not install module dependencies, so no Nuxt SEO module would load. Upgrade Nuxt to ^3.19.0 || >=4.1.0.` Upgrade Nuxt.
 - v5 moved every submodule up one major, except OG image. Migration: https://nuxtseo.com/docs/nuxt-seo/migration-guide/v4-to-v5
 
 ## Debug
 
-- If a submodule seems absent, run `pnpm why <package>` and look for a second version in the app.
+- If a version error names a submodule, run `pnpm why <package>` to find what pins the older copy.
