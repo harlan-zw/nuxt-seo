@@ -1,6 +1,12 @@
+import type { ModuleDependencies } from '@nuxt/schema'
 import {
   defineNuxtModule,
+  getNuxtVersion,
+  hasNuxtCompatibility,
+  normalizeSemanticVersion,
 } from '@nuxt/kit'
+import { readPackageJSON } from 'pkg-types'
+import { satisfies } from 'semver'
 
 export interface ModuleOptions {
   /**
@@ -10,52 +16,85 @@ export interface ModuleOptions {
   enabled: boolean
 }
 
+/**
+ * `moduleDependencies` arrived in Nuxt 3.19 and 4.1. Older versions ignore it, so no submodule
+ * installs. This range is enforced in `setup()` instead of `meta.compatibility`, because an
+ * incompatible `meta.compatibility` only logs a warning and skips the module.
+ */
+const NUXT_COMPATIBILITY = '^3.19.0 || >=4.1.0'
+
+const moduleDependencies = {
+  '@nuxtjs/robots': {
+    version: '>=5.5',
+  },
+  '@nuxtjs/sitemap': {
+    version: '>=7.4',
+  },
+  'nuxt-link-checker': {
+    version: '>=4.3',
+  },
+  'nuxt-og-image': {
+    // 6.4.3 could fail to load a native transitive binding (oxc-parser/lightningcss)
+    // in some environments, surfacing as a cryptic "Could not load nuxt-og-image".
+    version: '>=6.4.4',
+  },
+  'nuxt-schema-org': {
+    version: '>=5.0',
+  },
+  'nuxt-seo-utils': {
+    version: '>=7.0',
+  },
+  'nuxt-site-config': {
+    version: '>=3.2',
+  },
+  'nuxt-skew-protection': {
+    version: '>=1.0',
+    optional: true,
+  },
+  'nuxt-ai-ready': {
+    version: '>=1.0',
+    optional: true,
+  },
+  '@nuxtjs/i18n': {
+    version: '>=10.0',
+    optional: true,
+  },
+} satisfies ModuleDependencies
+
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxtseo',
-    compatibility: {
-      nuxt: '>=3.16.0',
-    },
   },
-  moduleDependencies: {
-    '@nuxtjs/robots': {
-      version: '>=5.5',
-    },
-    '@nuxtjs/sitemap': {
-      version: '>=7.4',
-    },
-    'nuxt-link-checker': {
-      version: '>=4.3',
-    },
-    'nuxt-og-image': {
-      // 6.4.3 could fail to load a native transitive binding (oxc-parser/lightningcss)
-      // in some environments, surfacing as a cryptic "Could not load nuxt-og-image".
-      version: '>=6.4.4',
-    },
-    'nuxt-schema-org': {
-      version: '>=5.0',
-    },
-    'nuxt-seo-utils': {
-      version: '>=7.0',
-    },
-    'nuxt-site-config': {
-      version: '>=3.2',
-    },
-    'nuxt-skew-protection': {
-      version: '>=1.0',
-      optional: true,
-    },
-    'nuxt-ai-ready': {
-      version: '>=1.0',
-      optional: true,
-    },
-    '@nuxtjs/i18n': {
-      version: '>=10.0',
-      optional: true,
-    },
-  },
+  moduleDependencies,
   defaults: {
     enabled: true,
   },
-  async setup() {},
+  async setup(_options, nuxt) {
+    if (!await hasNuxtCompatibility({ nuxt: NUXT_COMPATIBILITY }, nuxt)) {
+      throw new Error(`[@nuxtjs/seo] Nuxt ${getNuxtVersion(nuxt)} does not install module dependencies, so no Nuxt SEO module would load. Upgrade Nuxt to \`${NUXT_COMPATIBILITY}\`.`)
+    }
+    // Nuxt checks each dependency version against the copy nested in @nuxtjs/seo, but loads the
+    // copy the app resolves. Check the modules that actually installed. Read package.json from the
+    // app's module directories first, as Nuxt does when it loads a module: a module.json version
+    // can lag one release behind.
+    nuxt.hook('modules:done', async () => {
+      const issues: string[] = []
+      for (const { meta } of nuxt.options._installedModules) {
+        const requirement = moduleDependencies[meta?.name as keyof typeof moduleDependencies]
+        if (!requirement || meta.disabled)
+          continue
+        const pkg = await readPackageJSON(meta.name!, { from: nuxt.options.modulesDir })
+          .catch(() => {
+            // Safe to ignore: an inline or aliased module has no package.json the app resolves,
+            // so the version the module reports is the best source.
+            return undefined
+          })
+        const version = pkg?.version || meta.version
+        if (version && !satisfies(normalizeSemanticVersion(version), requirement.version, { includePrerelease: true }))
+          issues.push(`Module \`${meta.name}\` version (\`${version}\`) does not satisfy \`${requirement.version}\` (requested by \`@nuxtjs/seo\`).`)
+      }
+      if (issues.length)
+        throw new Error(`[@nuxtjs/seo] ${issues.join('\n')}`)
+    })
+  },
 })
