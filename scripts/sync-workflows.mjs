@@ -24,7 +24,6 @@ const MODULES = [
 const SHARED_FILES = [
   'test.yml',
   'nightly.yml',
-  'deploy-docs.yml',
   'package-size.yml',
   'package-size-comment.yml',
 ]
