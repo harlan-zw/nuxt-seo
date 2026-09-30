@@ -2,67 +2,10 @@ ignoreWorkspaceRootCheck: true
 
 minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
-  - nuxt-schema-org@6.1.2 || 6.2.1 || 6.2.6 || 6.2.7 || 6.2.9
-  - '@img/sharp-darwin-arm64@0.35.0'
-  - '@img/sharp-darwin-x64@0.35.0'
-  - '@img/sharp-freebsd-wasm32@0.35.0'
-  - '@img/sharp-libvips-darwin-arm64@1.3.0'
-  - '@img/sharp-libvips-darwin-x64@1.3.0'
-  - '@img/sharp-libvips-linux-arm64@1.3.0'
-  - '@img/sharp-libvips-linux-arm@1.3.0'
-  - '@img/sharp-libvips-linux-ppc64@1.3.0'
-  - '@img/sharp-libvips-linux-riscv64@1.3.0'
-  - '@img/sharp-libvips-linux-s390x@1.3.0'
-  - '@img/sharp-libvips-linux-x64@1.3.0'
-  - '@img/sharp-libvips-linuxmusl-arm64@1.3.0'
-  - '@img/sharp-libvips-linuxmusl-x64@1.3.0'
-  - '@img/sharp-linux-arm64@0.35.0'
-  - '@img/sharp-linux-arm@0.35.0'
-  - '@img/sharp-linux-ppc64@0.35.0'
-  - '@img/sharp-linux-riscv64@0.35.0'
-  - '@img/sharp-linux-s390x@0.35.0'
-  - '@img/sharp-linux-x64@0.35.0'
-  - '@img/sharp-linuxmusl-arm64@0.35.0'
-  - '@img/sharp-linuxmusl-x64@0.35.0'
-  - '@img/sharp-wasm32@0.35.0'
-  - '@img/sharp-webcontainers-wasm32@0.35.0'
-  - '@img/sharp-win32-arm64@0.35.0'
-  - '@img/sharp-win32-ia32@0.35.0'
-  - '@img/sharp-win32-x64@0.35.0'
-  - '@nuxtjs/robots@6.1.0 || 6.1.3 || 6.1.5'
-  - '@nuxtjs/sitemap@8.2.0 || 8.2.3 || 8.3.0 || 8.3.4'
-  - nuxt-ai-ready@1.4.0 || 2.0.0
-  - nuxt-link-checker@5.1.0 || 5.1.3 || 5.2.0
-  - nuxt-og-image@6.6.0 || 6.7.0 || 6.7.3 || 6.7.4 || 6.7.8
-  - nuxt-seo-utils@8.3.1 || 8.3.2 || 8.4.1 || 8.4.2
-  - nuxt-site-config-kit@4.1.0 || 4.1.2 || 4.2.2 || 4.2.3
-  - nuxt-site-config@4.1.0 || 4.1.2 || 4.2.2 || 4.2.3
-  - nuxtseo-layer-devtools@5.2.3 || 5.2.6
-  - nuxtseo-shared@5.2.3 || 5.2.6
-  - sharp@0.35.0
-  - site-config-stack@4.1.0 || 4.1.2 || 4.2.2 || 4.2.3
-  - nuxt-skew-protection@1.2.0 || 1.5.1
-  - '@vue/compiler-core@3.5.38'
-  - '@vue/compiler-dom@3.5.38'
-  - '@vue/compiler-sfc@3.5.38'
-  - '@vue/compiler-ssr@3.5.38'
-  - '@vue/reactivity@3.5.38'
-  - '@vue/runtime-core@3.5.38'
-  - '@vue/runtime-dom@3.5.38'
-  - '@vue/server-renderer@3.5.38'
-  - '@vue/shared@3.5.38'
-  - vue@3.5.38
-  - '@nuxt/kit@4.5.0'
-  - '@nuxt/nitro-server@4.5.0'
-  - '@nuxt/schema@4.5.0'
-  - '@nuxt/vite-builder@4.5.0'
-  - nuxt@4.5.0
-  - '@unhead/bundler@3.2.1'
-  - unhead@3.2.1
-  - '@unhead/vue@3.2.1'
-  - '@mdream/rust-wasm32-wasi@1.5.12'
-  - eslint-plugin-harlanzw@0.19.1
-  - '@harlan-zw/comark-content@0.1.3'
+  - nuxt-ai-ready@2.5.0
+  - nuxt-site-config-kit@4.2.3
+  - nuxt-site-config@4.2.3
+  - site-config-stack@4.2.3
 
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 262800
@@ -171,7 +114,7 @@ catalog:
   lint-staged: ^17.6.0
   nitropack: ^2.13.4
   nuxt: ^4.5.2
-  nuxt-ai-ready: ^2.4.0
+  nuxt-ai-ready: ^2.5.0
   nuxt-link-checker: ^5.3.0
   nuxt-og-image: ^6.9.1
   nuxt-schema-org: ^6.3.2
