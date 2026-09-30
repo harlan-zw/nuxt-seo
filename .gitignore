@@ -28,3 +28,6 @@ test/fixtures/**/.output
 
 # Skilld references (recreated by `skilld install`)
 .skilld
+
+# PR Lens writes its previews here. They are rebuilt on demand.
+.pr-lens/
