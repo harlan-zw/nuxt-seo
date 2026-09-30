@@ -19,11 +19,11 @@ export interface ModuleOptions {
 }
 
 /**
- * `moduleDependencies` arrived in Nuxt 3.19 and 4.1. Older versions ignore it, so no submodule
- * installs. This range is enforced in `setup()` instead of `meta.compatibility`, because an
- * incompatible `meta.compatibility` only logs a warning and skips the module.
+ * `moduleDependencies` arrived in Nuxt 3.19 and 4.1. Nuxt 3.19 fails the current dev and
+ * typecheck fixture, so the supported Nuxt 3 range starts at 3.21.11. Enforce this range in
+ * `setup()` because incompatible `meta.compatibility` only logs a warning and skips the module.
  */
-const NUXT_COMPATIBILITY = '^3.19.0 || >=4.1.0'
+const NUXT_COMPATIBILITY = '^3.21.11 || >=4.1.0'
 
 const moduleDependencies = {
   '@nuxtjs/robots': {
@@ -84,7 +84,7 @@ export default defineNuxtModule<ModuleOptions>({
     if (!options.enabled)
       return
     if (!await hasNuxtCompatibility({ nuxt: NUXT_COMPATIBILITY }, nuxt)) {
-      throw new Error(`[@nuxtjs/seo] Nuxt ${getNuxtVersion(nuxt)} does not install module dependencies, so no Nuxt SEO module would load. Upgrade Nuxt to \`${NUXT_COMPATIBILITY}\`.`)
+      throw new Error(`[@nuxtjs/seo] Nuxt ${getNuxtVersion(nuxt)} is unsupported. Upgrade Nuxt to \`${NUXT_COMPATIBILITY}\`.`)
     }
     // Nuxt checks each dependency version against the copy nested in @nuxtjs/seo, but loads the
     // copy the app resolves. Check the modules that actually installed. Read package.json from the

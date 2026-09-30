@@ -45,11 +45,11 @@ async function install(nuxt: ReturnType<typeof createNuxt>, installed: Installed
 }
 
 describe('nuxt version', () => {
-  it.each(['3.16.2', '3.18.1', '4.0.3'])('fails on Nuxt %s, which ignores moduleDependencies', async (version) => {
+  it.each(['3.16.2', '3.18.1', '3.19.0', '4.0.3'])('fails on unsupported Nuxt %s', async (version) => {
     await expect(install(createNuxt(version))).rejects.toThrow(`Nuxt ${version}`)
   })
 
-  it.each(['3.19.0', '4.1.0', '4.5.2', '5.0.0-alpha.1'])('installs on Nuxt %s', async (version) => {
+  it.each(['3.21.11', '4.1.0', '4.5.2', '5.0.0-alpha.1'])('installs on Nuxt %s', async (version) => {
     await expect(install(createNuxt(version))).resolves.toBeUndefined()
   })
 })

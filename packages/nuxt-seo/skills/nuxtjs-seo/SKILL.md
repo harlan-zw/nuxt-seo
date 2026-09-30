@@ -134,7 +134,7 @@ Breaking change in v5: `asSeoCollection()` is deprecated and warns at build. Old
 
 ## Version limits
 
-- Nuxt 3.19 or later, or Nuxt 4.1 or later. Earlier Nuxt ignores `moduleDependencies`, so the build stops with `[@nuxtjs/seo] Nuxt 4.0.3 does not install module dependencies, so no Nuxt SEO module would load. Upgrade Nuxt to ^3.19.0 || >=4.1.0.` Upgrade Nuxt.
+- Nuxt 3.21.11 or later, or Nuxt 4.1 or later. Earlier versions fail with `[@nuxtjs/seo] Nuxt 4.0.3 is unsupported. Upgrade Nuxt to ^3.21.11 || >=4.1.0.` Upgrade Nuxt.
 - v5 moved every submodule up one major, except OG image. Migration: https://nuxtseo.com/docs/nuxt-seo/migration-guide/v4-to-v5
 
 ## Debug
