@@ -1,10 +1,12 @@
+import type { Nuxt } from '@nuxt/schema'
 import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
-
 import { tmpdir } from 'node:os'
+
 import { join } from 'node:path'
+import { getNuxtVersion } from '@nuxt/kit'
 import * as stdEnv from 'std-env'
 import { describe, expect, it, vi } from 'vitest'
-import { detectTarget, resolveHostUnheadMajor, resolveNitroPreset } from '../../src/kit'
+import { detectTarget, resolveHostUnheadMajor, resolveNitroPreset, setupContentRuntime } from '../../src/kit'
 
 // Mock std-env before importing kit
 vi.mock('std-env', () => ({
@@ -18,6 +20,7 @@ vi.mock('@nuxt/kit', () => ({
   useNuxt: () => { throw new Error('no nuxt context') },
   addTemplate: vi.fn(),
   createResolver: () => ({ resolve: (...args: string[]) => args.join('/') }),
+  getNuxtVersion: vi.fn(),
   hasNuxtModule: vi.fn(() => false),
   hasNuxtModuleCompatibility: vi.fn(() => false),
   loadNuxtModuleInstance: vi.fn(),
@@ -29,6 +32,26 @@ function writePackage(root: string, id: string, version: string) {
   writeFileSync(join(packageDir, 'index.js'), '')
   writeFileSync(join(packageDir, 'package.json'), JSON.stringify({ name: id, version, main: './index.js' }))
 }
+
+describe('setupContentRuntime', () => {
+  it('inlines the content shim for Nitro 2', () => {
+    vi.mocked(getNuxtVersion).mockReturnValue('4.5.2')
+    const nuxt = { options: { nitro: {} } } as Nuxt
+
+    setupContentRuntime({ _tag: 'None' }, nuxt)
+
+    expect(nuxt.options.nitro.externals?.inline).toContain('./runtime/content/')
+  })
+
+  it('leaves unsupported externals out of Nitro 3 config', () => {
+    vi.mocked(getNuxtVersion).mockReturnValue('5.0.0')
+    const nuxt = { options: { nitro: {} } } as Nuxt
+
+    setupContentRuntime({ _tag: 'None' }, nuxt)
+
+    expect(nuxt.options.nitro.externals).toBeUndefined()
+  })
+})
 
 // -------------------------------------------------------------------
 // detectTarget

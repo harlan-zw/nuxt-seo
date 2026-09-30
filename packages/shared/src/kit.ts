@@ -3,7 +3,7 @@ import type { Nitro } from 'nitropack'
 import type { NitroConfig } from 'nitropack/types'
 import type { NuxtModule, NuxtPage } from 'nuxt/schema'
 import { pathToFileURL } from 'node:url'
-import { addTemplate, createResolver, hasNuxtModule, hasNuxtModuleCompatibility, loadNuxtModuleInstance, tryUseNuxt, useLogger, useNuxt } from '@nuxt/kit'
+import { addTemplate, createResolver, getNuxtVersion, hasNuxtModule, hasNuxtModuleCompatibility, loadNuxtModuleInstance, tryUseNuxt, useLogger, useNuxt } from '@nuxt/kit'
 import { dirname, relative } from 'pathe'
 import { readPackageJSON, resolvePackageJSON } from 'pkg-types'
 import { env, provider } from 'std-env'
@@ -338,11 +338,11 @@ export function setupContentRuntime(provider: ContentProvider, nuxt: Nuxt = useN
   const nitro = (nuxt.options as { nitro?: { alias?: Record<string, string>, externals?: { inline?: string[] } } }).nitro ??= {}
   nitro.alias ??= {}
   nitro.alias['#nuxtseo/content'] = resolver.resolve(`./runtime/content/${shim}`)
-  // The shim ships inside this package, so Nitro treats it as an external dependency
-  // and leaves its `@nuxt/content/server` import for Node to resolve at runtime.
-  // `#content/manifest` is a build-time alias, so that import then fails to load.
-  // Inline the shim directory to get it bundled with the aliases applied.
-  nitro.externals ??= {}
-  nitro.externals.inline ??= []
-  nitro.externals.inline.push(resolver.resolve('./runtime/content/'))
+  if (Number.parseInt(getNuxtVersion(nuxt), 10) < 5) {
+    // Nitro 2 needs the shim bundled so its build-time aliases resolve.
+    // Nitro 3 bundles it without externals, which it no longer supports.
+    nitro.externals ??= {}
+    nitro.externals.inline ??= []
+    nitro.externals.inline.push(resolver.resolve('./runtime/content/'))
+  }
 }

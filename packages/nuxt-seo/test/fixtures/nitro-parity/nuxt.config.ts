@@ -11,7 +11,7 @@ export default defineNuxtConfig({
 
   ogImage: {
     security: {
-      secret: false,
+      secret: 'nuxtseo-compatibility-fixture-secret',
     },
   },
 

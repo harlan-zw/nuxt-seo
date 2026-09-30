@@ -199,12 +199,14 @@ function applyNitroRuntimeCompatibility(
   const nuxtOptions = nuxt.options as Nuxt['options'] & { nitro?: NuxtNitroCompatibilityOptions }
   const nitroOptions = nuxtOptions.nitro ||= {}
   nitroOptions.alias ||= {}
-  nitroOptions.externals ||= {}
-  nitroOptions.externals.inline ||= []
   nitroOptions.virtual ||= {}
-  // Vercel can omit traced shared subpaths from deployed functions: https://github.com/harlan-zw/nuxt-seo/issues/623
-  if (!nitroOptions.externals.inline.includes('nuxtseo-shared'))
-    nitroOptions.externals.inline.push('nuxtseo-shared')
+  if (compatibility._tag === 'nitro-v2') {
+    nitroOptions.externals ||= {}
+    nitroOptions.externals.inline ||= []
+    // Vercel can omit traced shared subpaths from deployed functions: https://github.com/harlan-zw/nuxt-seo/issues/623
+    if (!nitroOptions.externals.inline.includes('nuxtseo-shared'))
+      nitroOptions.externals.inline.push('nuxtseo-shared')
+  }
   const h3RuntimeModule = compatibility._tag === 'nitro-v3' ? 'nitro/h3' : 'h3'
   nitroOptions.alias[H3_RUNTIME_MODULE] = h3RuntimeModule
   const h3Resolution = resolveRuntimeModule(nuxt, h3RuntimeModule)
