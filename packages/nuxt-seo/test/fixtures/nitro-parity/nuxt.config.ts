@@ -10,7 +10,6 @@ export default defineNuxtConfig({
   },
 
   ogImage: {
-    debug: true,
     security: {
       secret: false,
     },
