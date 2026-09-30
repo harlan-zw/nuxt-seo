@@ -2,34 +2,35 @@
   "name": "nuxt-seo-nitro3-fixture",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@11.19.0",
+  "packageManager": "pnpm@12.8.1",
   "scripts": {
     "typecheck": "nuxt prepare && vue-tsc --noEmit -p .nuxt/tsconfig.server.json"
   },
   "dependencies": {
-    "@nuxt/kit": "npm:@nuxt/kit-nightly@5.0.0-29762711.192612c7",
-    "@nuxt/schema": "npm:@nuxt/schema-nightly@5.0.0-29762711.192612c7",
-    "@takumi-rs/core": "2.5.4",
+    "@nuxt/kit": "npm:@nuxt/kit-nightly@5.0.0-29844772.97ae4fa8",
+    "@nuxt/schema": "npm:@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8",
+    "@takumi-rs/core": "2.14.0",
     "@nuxtjs/seo": "file:../nitro-parity/nuxtjs-seo.tgz",
-    "@nuxtjs/robots": "6.1.4",
-    "@nuxtjs/sitemap": "8.3.3",
-    "mdream": "1.5.8",
-    "nitro": "3.0.260610-beta",
-    "nitropack": "npm:nitro@3.0.260610-beta",
-    "nuxt": "npm:nuxt-nightly@5.0.0-29762711.192612c7",
-    "nuxt-ai-ready": "^1.7.3",
+    "@nuxtjs/robots": "6.2.3",
+    "@nuxtjs/sitemap": "8.5.1",
+    "mdream": "1.7.2",
+    "nitro": "3.0.260903-beta",
+    "nitropack": "npm:nitro@3.0.260903-beta",
+    "nuxt": "npm:nuxt-nightly@5.0.0-29844772.97ae4fa8",
+    "nuxt-ai-ready": "^2.4.0",
     "nuxt-link-checker": "https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@7f45299",
     "nuxt-og-image": "https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@2f9c7c1",
     "nuxt-schema-org": "https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@bccbc8e",
     "nuxt-seo-utils": "https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@b6069e8",
-    "nuxt-site-config": "4.2.0",
-    "nuxt-skew-protection": "1.4.0",
+    "nuxt-site-config": "4.2.3",
+    "nuxt-skew-protection": "1.5.4",
     "nuxtseo-shared": "file:../nitro-parity/nuxtseo-shared.tgz",
-    "vue": "^3.5.40",
-    "vue-router": "^5.2.0"
+    "vue": "^3.5.43",
+    "vue-router": "^5.3.1"
   },
   "devDependencies": {
+    "chokidar": "5.0.0",
     "typescript": "6.0.3",
-    "vue-tsc": "^3.3.9"
+    "vue-tsc": "^3.3.11"
   }
 }

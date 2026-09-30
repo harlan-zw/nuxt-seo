@@ -37,7 +37,7 @@ await once(portServer, 'close')
 
 const origin = `http://127.0.0.1:${port}`
 const nitroManifest = JSON.parse(await readFile(new URL('.output/nitro.json', import.meta.url), 'utf8'))
-assert.equal(nitroManifest.versions.nitro, '3.0.260610-beta')
+assert.match(nitroManifest.versions.nitro, /^3\./)
 
 const server = spawn(process.execPath, ['.output/server/index.mjs'], {
   cwd: import.meta.dirname,

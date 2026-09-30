@@ -70,6 +70,7 @@ describe('setupNitroRuntimeCompatibility', () => {
       '/resolved/h3.mjs',
     ])
     expect(nuxt.options.nitro.alias?.['#nuxtseo/ofetch']).toBeUndefined()
+    expect(nuxt.options.nitro.externals?.inline).toContain('nuxtseo-shared')
     // resolution must start from the consuming project, not from this package
     const h3Sources = resolveSourcesFor('h3')
     expect(h3Sources[0]!.href).toContain('/project/node_modules')
@@ -110,6 +111,7 @@ describe('setupNitroRuntimeCompatibility', () => {
       '/resolved/nitro-h3.mjs',
     ])
     expect(nuxt.options.nitro.alias?.['#nuxtseo/ofetch']).toBe('/resolved/ofetch.mjs')
+    expect(nuxt.options.nitro.externals).toBeUndefined()
     // `nitro/h3` only exists in the consuming project's dependency tree
     expect(resolveSourcesFor('nitro/h3')[0]!.href).toContain('/project/node_modules')
     expect(resolveModuleMock).toHaveBeenCalledWith('ofetch', { url: expect.any(URL) })

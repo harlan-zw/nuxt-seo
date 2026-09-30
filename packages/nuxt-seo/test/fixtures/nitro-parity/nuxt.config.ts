@@ -10,9 +10,8 @@ export default defineNuxtConfig({
   },
 
   ogImage: {
-    debug: true,
     security: {
-      secret: false,
+      secret: 'nuxtseo-compatibility-fixture-secret',
     },
   },
 
