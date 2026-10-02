@@ -11,8 +11,25 @@ minimumReleaseAgeExclude:
   - nuxt-site-config@4.1.4
   - site-config-stack@4.1.4
   - sitemapd@0.2.1
+  - '@mdream/rust-android-arm-eabi@2.0.0-beta.1'
+  - '@mdream/rust-android-arm64@2.0.0-beta.1'
+  - '@mdream/rust-darwin-arm64@2.0.0-beta.1'
+  - '@mdream/rust-darwin-x64@2.0.0-beta.1'
+  - '@mdream/rust-freebsd-x64@2.0.0-beta.1'
+  - '@mdream/rust-linux-arm-gnueabihf@2.0.0-beta.1'
+  - '@mdream/rust-linux-arm64-gnu@2.0.0-beta.1'
+  - '@mdream/rust-linux-arm64-musl@2.0.0-beta.1'
+  - '@mdream/rust-linux-x64-gnu@2.0.0-beta.1'
+  - '@mdream/rust-linux-x64-musl@2.0.0-beta.1'
+  - '@mdream/rust-wasm32-wasi@2.0.0-beta.1'
+  - '@mdream/rust-win32-arm64-msvc@2.0.0-beta.1'
+  - '@mdream/rust-win32-x64-msvc@2.0.0-beta.1'
+  - mdream@2.0.0-beta.1
+  - '@mdream/js@2.0.0-beta.1'
 
 overrides:
+  '@mdream/js': 2.0.0-beta.1
+  mdream: 2.0.0-beta.1
   '@nuxt/kit': 4.5.2
   '@nuxt/nitro-server': 4.5.2
   '@nuxt/schema': 4.5.2
