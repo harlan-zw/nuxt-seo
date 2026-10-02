@@ -163,6 +163,8 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
+  '@mdream/js': 2.0.0-beta.1
+  mdream: 2.0.0-beta.1
   '@nuxt/kit': npm:@nuxt/kit-nightly@5.0.0-29844772.97ae4fa8
   '@nuxt/nitro-server': npm:@nuxt/nitro-server-nightly@5.0.0-29844772.97ae4fa8
   '@nuxt/schema': npm:@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8
@@ -632,26 +634,14 @@ packages:
     peerDependencies:
       zod: ^4.0.0
 
-  '@mdream/js@1.7.2':
-    resolution: {integrity: sha512-NiihQ8D6btMFN03ZRHdev/zXAQvyjf9joQsZRjwu3Z2nS9Dm03sofPWhHB5CiwKw2Z6bHdx5I9ShAgyUU6yElA==}
+  '@mdream/js@2.0.0-beta.1':
+    resolution: {integrity: sha512-vvG3oUa47oKx2zCk0j48nRiIlZ+taRaQYkTdWALO+QNGMEZ1bgzTn7J4yd+B44MLFa4GxAQE0QNT9Jd1bj+y9Q==}
     hasBin: true
-
-  '@mdream/rust-android-arm-eabi@1.7.2':
-    resolution: {integrity: sha512-tMBfSk8EqrDaJ+pN9mmiQfEUTOFYe6zQ2f9LWlLaKULmStoYS+gFzet0kteoU61M8s34IvYTKiWxSMpIpKQQNg==}
-    engines: {node: '>= 22.0.0'}
-    cpu: [arm]
-    os: [android]
 
   '@mdream/rust-android-arm-eabi@2.0.0-beta.1':
     resolution: {integrity: sha512-Ci/61mjkJz3JHvnh1EKt7LOviqSTi6MHSpG7Wj0v3Dxxp78D+U5Q/Nujl2cQTQ1j72Y95FECEOK8sDbgWPU07w==}
     engines: {node: '>= 22.0.0'}
     cpu: [arm]
-    os: [android]
-
-  '@mdream/rust-android-arm64@1.7.2':
-    resolution: {integrity: sha512-0d5qkx1NiQG1oD3Oq2Gx/8k3rQj4x6QF+LXAMyARVpCzyON5JgWwKxeqViky6GfXG42XhsYslZbSJ4cu+1H6KA==}
-    engines: {node: '>= 22.0.0'}
-    cpu: [arm64]
     os: [android]
 
   '@mdream/rust-android-arm64@2.0.0-beta.1':
@@ -660,22 +650,10 @@ packages:
     cpu: [arm64]
     os: [android]
 
-  '@mdream/rust-darwin-arm64@1.7.2':
-    resolution: {integrity: sha512-BdkFikEblaoJnghm8C525UR7b8TsjXDNOp1Cns9xWJS8VeDruxDdkCm/o86bLT86S6iELiMmY14cshRgui8yyA==}
-    engines: {node: '>= 22.0.0'}
-    cpu: [arm64]
-    os: [darwin]
-
   '@mdream/rust-darwin-arm64@2.0.0-beta.1':
     resolution: {integrity: sha512-lelvPPp3D/k7UmuSH7PzypzhY7v2bWI0ix3WC/jAjjlbOWooj7O9NZ5jCes0Pt3mYZY9XdgcIqQbTkXgGMbJrA==}
     engines: {node: '>= 22.0.0'}
     cpu: [arm64]
-    os: [darwin]
-
-  '@mdream/rust-darwin-x64@1.7.2':
-    resolution: {integrity: sha512-juV8Sl/+Q4/3divH9+PBEHBX/BWjl4nmeYB54OXPfp8tA//1zEG4PFIQLN1c6HG0wr0u3rCzvLboLBbD0QR/Pw==}
-    engines: {node: '>= 22.0.0'}
-    cpu: [x64]
     os: [darwin]
 
   '@mdream/rust-darwin-x64@2.0.0-beta.1':
@@ -684,36 +662,17 @@ packages:
     cpu: [x64]
     os: [darwin]
 
-  '@mdream/rust-freebsd-x64@1.7.2':
-    resolution: {integrity: sha512-WWFNP0kQB634SCchzTOhmyVPRXFQP6UjAMQGVDZ86+L6yAQ21fjOI2PpCfdc8UqcDxhH0t1FNfcA4yY3v2hd2g==}
-    engines: {node: '>= 22.0.0'}
-    cpu: [x64]
-    os: [freebsd]
-
   '@mdream/rust-freebsd-x64@2.0.0-beta.1':
     resolution: {integrity: sha512-e3fXlNngUWCZWkCBl6O/udiuntuyulmUp2WudS0j+l1ewpBrBWbJpB1ov0DlvQSMJPbcija0px9sE/W8LaFNNQ==}
     engines: {node: '>= 22.0.0'}
     cpu: [x64]
     os: [freebsd]
 
-  '@mdream/rust-linux-arm-gnueabihf@1.7.2':
-    resolution: {integrity: sha512-8cuTU4D9buahI8npETi51jBTJ3OYoVD8/PmZQRWWWaEBXhUpSdNLW8pVRoRiY+kg4/RGvwgXQC0e0QRG7T7HOw==}
-    engines: {node: '>= 22.0.0'}
-    cpu: [arm]
-    os: [linux]
-
   '@mdream/rust-linux-arm-gnueabihf@2.0.0-beta.1':
     resolution: {integrity: sha512-bdeJjOo8wD4h/JFfsQnFDVFeyQMH/pvVM8Bo4IbaR0AQVY3rg801GclwH+DXlubBHYPjLuhAM8lDkbxqkX71kA==}
     engines: {node: '>= 22.0.0'}
     cpu: [arm]
     os: [linux]
-
-  '@mdream/rust-linux-arm64-gnu@1.7.2':
-    resolution: {integrity: sha512-b4nrAmyeXvVdW0iw0wkuSzSho0EtNvtIrJ9neKD1h+CDm/qflOWRVl5P05fe2RbI/evWMmApM2pkhfBhRGuXjA==}
-    engines: {node: '>= 22.0.0'}
-    cpu: [arm64]
-    os: [linux]
-    libc: [glibc]
 
   '@mdream/rust-linux-arm64-gnu@2.0.0-beta.1':
     resolution: {integrity: sha512-fmZ4TO804kIo1K1OKLhk6m/gAGe92fhlwZanMauvJZnbNJG+aXmmF+votYMMNvbPctf9PjIOkww1bU34j/8COg==}
@@ -722,26 +681,12 @@ packages:
     os: [linux]
     libc: [glibc]
 
-  '@mdream/rust-linux-arm64-musl@1.7.2':
-    resolution: {integrity: sha512-Ui+2S8P//Dv2fYTXrwySPLxvvthyU8SFSwarSN0KH6hqv7PTiKmUeg1Q3AX3r5m3MU/1wdkccoVlgCZXBgPiUQ==}
-    engines: {node: '>= 22.0.0'}
-    cpu: [arm64]
-    os: [linux]
-    libc: [musl]
-
   '@mdream/rust-linux-arm64-musl@2.0.0-beta.1':
     resolution: {integrity: sha512-FrwWlktBG25DvyulondcOxMeItixkn4F/jvW56TYcLEVdPkVLYlA5mboff2P62wci1+OVHx/MJbvHzmlIUR1pw==}
     engines: {node: '>= 22.0.0'}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
-
-  '@mdream/rust-linux-x64-gnu@1.7.2':
-    resolution: {integrity: sha512-eUu1P5dJLAba8P3pjfGLWk/fzFfyQZjimSurKHHu5XuSrpCGwIov38ure4dZYEANy2LFSeG1FGCQQlAfz4mi/w==}
-    engines: {node: '>= 22.0.0'}
-    cpu: [x64]
-    os: [linux]
-    libc: [glibc]
 
   '@mdream/rust-linux-x64-gnu@2.0.0-beta.1':
     resolution: {integrity: sha512-u8xGQENq2xh50kaLt9yapIAeQ1Q1o3O4gfDkaozxHYG8pO/Q3Wfl4WZLTuxM+eTm/9FQsmSO39nRPiXoVcjLiA==}
@@ -750,31 +695,12 @@ packages:
     os: [linux]
     libc: [glibc]
 
-  '@mdream/rust-linux-x64-musl@1.7.2':
-    resolution: {integrity: sha512-pTAlHifHWWsT3xaPCcLF+hcbx+vnCo0CagzWUg0QmCqG7VppcIccJx0NArwHXuXYhJ4m7P9/5FgyrVlvEv7Zfg==}
-    engines: {node: '>= 22.0.0'}
-    cpu: [x64]
-    os: [linux]
-    libc: [musl]
-
   '@mdream/rust-linux-x64-musl@2.0.0-beta.1':
     resolution: {integrity: sha512-TlQOLLI48RHAQssEg/2VCXisVSAl14R7IFLsEVlQ1Kypk6pzajJrXuFELLIsKiVkTpvDyE4+Z67MkgO+0lwJMw==}
     engines: {node: '>= 22.0.0'}
     cpu: [x64]
     os: [linux]
     libc: [musl]
-
-  '@mdream/rust-wasm32-wasi@1.7.2':
-    resolution: {integrity: sha512-a4o7ne98w43UiH5shc8lu382kVrjzds3Mk6p5PDn8zKEmrnewGpOGWhoxQ8iC2ifszyLPMxcrCdX0KolTOiFaA==}
-    engines: {node: '>= 22.0.0'}
-    cpu: [wasm32]
-    bundledDependencies:
-      - '@napi-rs/wasm-runtime'
-      - '@emnapi/core'
-      - '@emnapi/runtime'
-      - '@tybys/wasm-util'
-      - '@emnapi/wasi-threads'
-      - tslib
 
   '@mdream/rust-wasm32-wasi@2.0.0-beta.1':
     resolution: {integrity: sha512-Z+QFUQm/hpe2r2hksBmMksIw+is+i0NM6U3RKdovCeIbX/iX8vZlNlBs6fDjxmNXJPwm+qqANHGDMeO8V+PahQ==}
@@ -788,22 +714,10 @@ packages:
       - '@emnapi/wasi-threads'
       - tslib
 
-  '@mdream/rust-win32-arm64-msvc@1.7.2':
-    resolution: {integrity: sha512-NrcmXQlWApsJNaeh+cXWceEgShD4xDU0hLHvQmnHFn1oWPG8mVMPq5ZpjkL2bnPmXP35g9QaiSst/ruM4zW04g==}
-    engines: {node: '>= 22.0.0'}
-    cpu: [arm64]
-    os: [win32]
-
   '@mdream/rust-win32-arm64-msvc@2.0.0-beta.1':
     resolution: {integrity: sha512-9wQXQ7W+wdaIFzGRJGO5ZjN0qGaJhwMqmz2aGrwOFuLpnEqeRWpigiWbVHr5ndKsTUcVELZ0SM3hvIruki4VyA==}
     engines: {node: '>= 22.0.0'}
     cpu: [arm64]
-    os: [win32]
-
-  '@mdream/rust-win32-x64-msvc@1.7.2':
-    resolution: {integrity: sha512-EImOvcWaJljn1BqJr8FiXNoqWftlyEmy7JBDIdUMdcoZ51q2CrRgQfNJrviVehcaVsylBvBjTlpRLhRrhAMlCQ==}
-    engines: {node: '>= 22.0.0'}
-    cpu: [x64]
     os: [win32]
 
   '@mdream/rust-win32-x64-msvc@2.0.0-beta.1':
@@ -2392,10 +2306,6 @@ packages:
   marky@1.3.0:
     resolution: {integrity: sha512-ocnPZQLNpvbedwTy9kNrQEsknEfgvcLMvOtz3sFeWApDq1MXH1TqkCIx58xlpESsfwQOnuBO9beyQuNGzVvuhQ==}
 
-  mdream@1.7.2:
-    resolution: {integrity: sha512-0cXfvkNSZVF0sd4emNC30kxQarb7/0Ib8xm0iL9Y5RGXuBBDCDPJDpWpSnUO6HBin7GMGOvrXP5IWdf/BOkLyQ==}
-    hasBin: true
-
   mdream@2.0.0-beta.1:
     resolution: {integrity: sha512-4yALjWMPL+MNYLZhG+bxs/6XdSDMRXGgywjTJfvN5JSUiygoXPKnAxootJ1289YCkTBmAUyOZVP8gY3HUP9U+g==}
     hasBin: true
@@ -3718,84 +3628,45 @@ snapshots:
     dependencies:
       zod: 4.6.5
 
-  '@mdream/js@1.7.2':
+  '@mdream/js@2.0.0-beta.1':
     dependencies:
       cac: 7.0.0
       pathe: 2.0.3
 
-  '@mdream/rust-android-arm-eabi@1.7.2':
-    optional: true
-
   '@mdream/rust-android-arm-eabi@2.0.0-beta.1':
-    optional: true
-
-  '@mdream/rust-android-arm64@1.7.2':
     optional: true
 
   '@mdream/rust-android-arm64@2.0.0-beta.1':
     optional: true
 
-  '@mdream/rust-darwin-arm64@1.7.2':
-    optional: true
-
   '@mdream/rust-darwin-arm64@2.0.0-beta.1':
-    optional: true
-
-  '@mdream/rust-darwin-x64@1.7.2':
     optional: true
 
   '@mdream/rust-darwin-x64@2.0.0-beta.1':
     optional: true
 
-  '@mdream/rust-freebsd-x64@1.7.2':
-    optional: true
-
   '@mdream/rust-freebsd-x64@2.0.0-beta.1':
-    optional: true
-
-  '@mdream/rust-linux-arm-gnueabihf@1.7.2':
     optional: true
 
   '@mdream/rust-linux-arm-gnueabihf@2.0.0-beta.1':
     optional: true
 
-  '@mdream/rust-linux-arm64-gnu@1.7.2':
-    optional: true
-
   '@mdream/rust-linux-arm64-gnu@2.0.0-beta.1':
-    optional: true
-
-  '@mdream/rust-linux-arm64-musl@1.7.2':
     optional: true
 
   '@mdream/rust-linux-arm64-musl@2.0.0-beta.1':
     optional: true
 
-  '@mdream/rust-linux-x64-gnu@1.7.2':
-    optional: true
-
   '@mdream/rust-linux-x64-gnu@2.0.0-beta.1':
-    optional: true
-
-  '@mdream/rust-linux-x64-musl@1.7.2':
     optional: true
 
   '@mdream/rust-linux-x64-musl@2.0.0-beta.1':
     optional: true
 
-  '@mdream/rust-wasm32-wasi@1.7.2':
-    optional: true
-
   '@mdream/rust-wasm32-wasi@2.0.0-beta.1':
     optional: true
 
-  '@mdream/rust-win32-arm64-msvc@1.7.2':
-    optional: true
-
   '@mdream/rust-win32-arm64-msvc@2.0.0-beta.1':
-    optional: true
-
-  '@mdream/rust-win32-x64-msvc@1.7.2':
     optional: true
 
   '@mdream/rust-win32-x64-msvc@2.0.0-beta.1':
@@ -5301,22 +5172,6 @@ snapshots:
 
   marky@1.3.0: {}
 
-  mdream@1.7.2:
-    optionalDependencies:
-      '@mdream/rust-android-arm-eabi': 1.7.2
-      '@mdream/rust-android-arm64': 1.7.2
-      '@mdream/rust-darwin-arm64': 1.7.2
-      '@mdream/rust-darwin-x64': 1.7.2
-      '@mdream/rust-freebsd-x64': 1.7.2
-      '@mdream/rust-linux-arm-gnueabihf': 1.7.2
-      '@mdream/rust-linux-arm64-gnu': 1.7.2
-      '@mdream/rust-linux-arm64-musl': 1.7.2
-      '@mdream/rust-linux-x64-gnu': 1.7.2
-      '@mdream/rust-linux-x64-musl': 1.7.2
-      '@mdream/rust-wasm32-wasi': 1.7.2
-      '@mdream/rust-win32-arm64-msvc': 1.7.2
-      '@mdream/rust-win32-x64-msvc': 1.7.2
-
   mdream@2.0.0-beta.1:
     optionalDependencies:
       '@mdream/rust-android-arm-eabi': 2.0.0-beta.1
@@ -5397,7 +5252,7 @@ snapshots:
 
   nuxt-ai-ready@2.5.0(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(nuxt-nightly@5.0.0-29844772.97ae4fa8(3ee4562dd68795cf00469fcbe6b7212e))(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))(valibot@1.4.2(typescript@6.0.3))(vite@8.3.1)(vue@3.5.43(typescript@6.0.3))(zod@4.4.3):
     dependencies:
-      '@mdream/js': 1.7.2
+      '@mdream/js': 2.0.0-beta.1
       '@nuxt/kit': '@nuxt/kit-nightly@5.0.0-29844772.97ae4fa8(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))'
       '@nuxtjs/robots': 6.2.3(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(nuxt-nightly@5.0.0-29844772.97ae4fa8(3ee4562dd68795cf00469fcbe6b7212e))(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))(vite@8.3.1)(vue@3.5.43(typescript@6.0.3))(zod@4.4.3)
       '@nuxtjs/sitemap': 8.5.1(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(nuxt-nightly@5.0.0-29844772.97ae4fa8(3ee4562dd68795cf00469fcbe6b7212e))(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))(vite@8.3.1)(vue@3.5.43(typescript@6.0.3))(zod@4.4.3)
@@ -5405,7 +5260,7 @@ snapshots:
       consola: 3.4.2
       defu: 6.1.7
       drizzle-orm: 1.0.0-rc.4(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      mdream: 1.7.2
+      mdream: 2.0.0-beta.1
       nuxt-site-config: 4.2.3(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(nuxt-nightly@5.0.0-29844772.97ae4fa8(3ee4562dd68795cf00469fcbe6b7212e))(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))(vite@8.3.1)(vue@3.5.43(typescript@6.0.3))(zod@4.4.3)
       nuxtseo-shared: 5.3.16(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(nuxt-nightly@5.0.0-29844772.97ae4fa8(3ee4562dd68795cf00469fcbe6b7212e))(nuxt-site-config@4.2.3(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(nuxt-nightly@5.0.0-29844772.97ae4fa8(3ee4562dd68795cf00469fcbe6b7212e))(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))(vite@8.3.1)(vue@3.5.43(typescript@6.0.3))(zod@4.4.3))(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))(vite@8.3.1)(vue@3.5.43(typescript@6.0.3))(zod@4.4.3)
       pathe: 2.0.3

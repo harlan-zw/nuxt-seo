@@ -25,8 +25,11 @@ minimumReleaseAgeExclude:
   - '@mdream/rust-win32-arm64-msvc@2.0.0-beta.1'
   - '@mdream/rust-win32-x64-msvc@2.0.0-beta.1'
   - mdream@2.0.0-beta.1
+  - '@mdream/js@2.0.0-beta.1'
 
 overrides:
+  '@mdream/js': 2.0.0-beta.1
+  mdream: 2.0.0-beta.1
   '@nuxt/kit': 4.5.2
   '@nuxt/nitro-server': 4.5.2
   '@nuxt/schema': 4.5.2
