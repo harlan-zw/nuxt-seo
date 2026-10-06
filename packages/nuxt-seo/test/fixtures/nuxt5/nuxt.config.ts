@@ -30,6 +30,7 @@ export default defineNuxtConfig({
   extends: ['../nitro-parity'],
   workspaceDir: import.meta.dirname,
   modulesDir: [resolve(import.meta.dirname, 'node_modules')],
+  nitro: { traceDeps: ['@takumi-rs/core*'] },
 
   modules: [
     NitroCompatibility,

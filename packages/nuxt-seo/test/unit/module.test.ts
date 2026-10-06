@@ -62,7 +62,7 @@ describe('loaded submodule version', () => {
     const nuxt = createNuxt('4.6.0', { [name]: oldVersion })
     await expect(install(nuxt, [{ meta: { name, version: fixedVersion } }]))
       .rejects
-      .toThrow(`\`${name}\` version (\`${oldVersion}\`) does not satisfy \`^${fixedVersion}\``)
+      .toThrow(`\`${name}\` version (\`${oldVersion}\`) does not satisfy \`>=${fixedVersion}\``)
   })
   it('checks custom module directories in the configured search order', async () => {
     const nuxt = createNuxt('4.6.0', { '@nuxtjs/sitemap': '9.0.0' }, 'custom_modules')
@@ -91,7 +91,7 @@ describe('loaded submodule version', () => {
     await expect(install(nuxt, [
       { meta: { name: '@nuxtjs/sitemap', version: '7.3.0' } },
       { meta: { name: '@nuxtjs/robots', version: '6.1.5' } },
-    ])).rejects.toThrow('`@nuxtjs/sitemap` version (`7.3.1`) does not satisfy `^9.0.0`')
+    ])).rejects.toThrow('`@nuxtjs/sitemap` version (`7.3.1`) does not satisfy `>=9.0.0`')
   })
 
   it('reads the package version, not a lagging module.json version', async () => {
@@ -104,7 +104,7 @@ describe('loaded submodule version', () => {
   it('falls back to the reported version when the app cannot resolve the package', async () => {
     await expect(install(createNuxt('4.6.0'), [
       { meta: { name: 'nuxt-schema-org', version: '4.9.0' } },
-    ])).rejects.toThrow('`nuxt-schema-org` version (`4.9.0`) does not satisfy `^7.0.0`')
+    ])).rejects.toThrow('`nuxt-schema-org` version (`4.9.0`) does not satisfy `>=7.0.0`')
   })
 
   it('checks optional modules only when the app installs them', async () => {

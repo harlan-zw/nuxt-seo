@@ -30,13 +30,10 @@ describe('i18n', () => {
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:image" content="https://nuxtseo.com/_og/d/description_en+description,ch_tjb25mqs8mf6.png">
-      <meta name="twitter:image:src" content="https://nuxtseo.com/_og/d/description_en+description,ch_tjb25mqs8mf6.png">
       <meta property="og:image" content="https://nuxtseo.com/_og/d/description_en+description,ch_tjb25mqs8mf6.png">
       <meta property="og:image:type" content="image/png">
       <meta property="og:image:width" content="1200">
-      <meta name="twitter:image:width" content="1200">
       <meta property="og:image:height" content="600">
-      <meta name="twitter:image:height" content="600">
       <meta property="og:type" content="website">
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>@nuxtjs&#x2F;seo</title>
@@ -45,8 +42,8 @@ describe('i18n', () => {
       <link rel="canonical" href="https://nuxtseo.com/">
       <meta property="og:locale" content="en_US">
       <meta name="description" content="en description">
-      <meta property="og:url" content="https://nuxtseo.com/">
-      <meta property="og:site_name" content="@nuxtjs/seo">"
+      <meta property="og:site_name" content="@nuxtjs/seo">
+      <meta property="og:url" content="https://nuxtseo.com/">"
     `)
   })
   it('seo utils - default - fr', async () => {
@@ -58,13 +55,10 @@ describe('i18n', () => {
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:image" content="https://nuxtseo.com/_og/d/description_fr+description,p_Ii9mciI,ch_tjb25mqs8mf6.png">
-      <meta name="twitter:image:src" content="https://nuxtseo.com/_og/d/description_fr+description,p_Ii9mciI,ch_tjb25mqs8mf6.png">
       <meta property="og:image" content="https://nuxtseo.com/_og/d/description_fr+description,p_Ii9mciI,ch_tjb25mqs8mf6.png">
       <meta property="og:image:type" content="image/png">
       <meta property="og:image:width" content="1200">
-      <meta name="twitter:image:width" content="1200">
       <meta property="og:image:height" content="600">
-      <meta name="twitter:image:height" content="600">
       <meta property="og:type" content="website">
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>Fr | fr name</title>
@@ -73,8 +67,8 @@ describe('i18n', () => {
       <link rel="canonical" href="https://nuxtseo.com/fr">
       <meta property="og:locale" content="fr_FR">
       <meta name="description" content="fr description">
-      <meta property="og:url" content="https://nuxtseo.com/fr">
-      <meta property="og:site_name" content="fr name">"
+      <meta property="og:site_name" content="fr name">
+      <meta property="og:url" content="https://nuxtseo.com/fr">"
     `)
   })
   it('sitemap - default', async () => {
