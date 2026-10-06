@@ -10,7 +10,6 @@ await setup({
   rootDir: resolve('../fixtures/basic'),
   server: true,
   nuxtConfig: {
-    modules: ['nuxt-skew-protection', 'nuxt-ai-ready'],
     site: {
       url: 'https://local.nuxtseo.com',
     },
@@ -20,7 +19,7 @@ await setup({
   },
 })
 
-describe('standalone modules', () => {
+describe('bundled modules', () => {
   it('nuxt-skew-protection registers as installed module', () => {
     const ctx = useTestContext()
     const installedNames = ctx.nuxt!.options._installedModules.map(m => m.meta?.name)
@@ -57,14 +56,31 @@ describe('standalone modules', () => {
     expect(typeof health.uptime).toBe('number')
   })
 
-  it('skew-protection sets the version cookie on document requests', async () => {
-    // The cookie is only set when the request looks like a navigation
-    // (`sec-fetch-dest: document`), matching real browser document loads.
+  it('serves documents without a skew-protection cookie', async () => {
     const res = await fetch('/', { headers: { 'sec-fetch-dest': 'document' } })
-    expect(res.headers.get('set-cookie')).toContain('__nkpv')
+    expect(res.status).toBe(200)
+    expect(res.headers.get('set-cookie') || '').not.toContain('__nkpv')
   })
 
-  it('core modules still work alongside standalone modules', async () => {
+  it('does not open a live update endpoint by default', async () => {
+    const res = await fetch('/__skew/sse')
+    expect(res.status).toBe(404)
+  })
+
+  it('does not publish project instructions or an API catalog by default', async () => {
+    expect((await fetch('/SKILL.md')).status).toBe(404)
+    expect((await fetch('/.well-known/agent-skills/index.json')).status).toBe(404)
+    expect((await fetch('/.well-known/api-catalog')).status).toBe(404)
+  })
+
+  it('serves markdown without a runtime database', async () => {
+    const res = await fetch('/about.md')
+    expect(res.status).toBe(200)
+    expect(res.headers.get('content-type')).toContain('text/markdown')
+    expect(await res.text()).toContain('about')
+  })
+
+  it('core modules still work alongside the new bundled modules', async () => {
     const robots = await $fetch('/robots.txt') as string
     expect(robots).toContain('User-agent')
 

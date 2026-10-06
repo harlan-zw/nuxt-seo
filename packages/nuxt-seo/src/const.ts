@@ -1,5 +1,6 @@
 export {
   AiReadyModule,
+  bundledModules,
   LinkCheckerModule,
   modules,
   normalModules,

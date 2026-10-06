@@ -185,7 +185,7 @@ async function captureRuntime(runtime) {
     const documentResponse = await fetch(origin, {
       headers: { 'sec-fetch-dest': 'document' },
     })
-    assert.match(documentResponse.headers.get('set-cookie') ?? '', /__nkpv=/)
+    assert.doesNotMatch(documentResponse.headers.get('set-cookie') ?? '', /__nkpv=/)
 
     const imageUrl = new URL(extractImageUrl(html))
     const imageResponse = await fetch(`${origin}${imageUrl.pathname}${imageUrl.search}`, {

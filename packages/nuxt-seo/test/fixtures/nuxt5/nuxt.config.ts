@@ -1,8 +1,5 @@
 import { resolve } from 'node:path'
 import { defineNuxtModule } from '@nuxt/kit'
-import NuxtSEO from '@nuxtjs/seo'
-import NuxtAiReady from 'nuxt-ai-ready'
-import NuxtSkewProtection from 'nuxt-skew-protection'
 import { setupNitroRuntimeCompatibility } from 'nuxtseo-shared/kit'
 
 const NitroCompatibility = defineNuxtModule({
@@ -19,9 +16,7 @@ export default defineNuxtConfig({
 
   modules: [
     NitroCompatibility,
-    NuxtSEO,
-    NuxtAiReady,
-    NuxtSkewProtection,
+    '@nuxtjs/seo',
   ],
 
   runtimeConfig: {
