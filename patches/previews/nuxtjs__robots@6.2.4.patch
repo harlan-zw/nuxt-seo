@@ -1,0 +1,26 @@
+diff --git a/package.json b/package.json
+index 0d49e7b..97c4430 100644
+--- a/package.json
++++ b/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "@nuxtjs/robots",
+   "type": "module",
+-  "version": "6.2.4",
++  "version": "7.0.0",
+   "description": "Tame the robots crawling and indexing your Nuxt site with ease.",
+   "author": {
+     "name": "Harlan Wilton",
+diff --git a/dist/module.json b/dist/module.json
+index 4c44daf..ccb48d8 100644
+--- a/dist/module.json
++++ b/dist/module.json
+@@ -4,7 +4,7 @@
+     "nuxt": "^4.6.0 || ^5.0.0"
+   },
+   "configKey": "robots",
+-  "version": "6.2.4",
++  "version": "7.0.0",
+   "builder": {
+     "@nuxt/module-builder": "1.0.3",
+     "unbuild": "3.6.1"

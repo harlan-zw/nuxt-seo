@@ -1,0 +1,26 @@
+diff --git a/package.json b/package.json
+index a35eaa4..359109f 100644
+--- a/package.json
++++ b/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "nuxtseo-shared",
+   "type": "module",
+-  "version": "5.3.16",
++  "version": "6.0.0",
+   "description": "Shared utilities for Nuxt SEO modules.",
+   "author": {
+     "name": "Harlan Wilton",
+diff --git a/dist/module.json b/dist/module.json
+index 5904668..dc4f31c 100644
+--- a/dist/module.json
++++ b/dist/module.json
+@@ -4,7 +4,7 @@
+   "compatibility": {
+     "nuxt": "^4.6.0 || ^5.0.0"
+   },
+-  "version": "5.3.16",
++  "version": "6.0.0",
+   "builder": {
+     "@nuxt/module-builder": "1.0.3",
+     "unbuild": "3.6.1"

@@ -1,0 +1,26 @@
+diff --git a/package.json b/package.json
+index a96fb17..d03d38e 100644
+--- a/package.json
++++ b/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "nuxt-og-image",
+   "type": "module",
+-  "version": "6.10.3",
++  "version": "7.0.0",
+   "description": "Enlightened OG Image generation for Nuxt.",
+   "author": {
+     "website": "https://harlanzw.com",
+diff --git a/dist/module.json b/dist/module.json
+index 566ade1..7b11b66 100644
+--- a/dist/module.json
++++ b/dist/module.json
+@@ -4,7 +4,7 @@
+     "nuxt": "^4.6.0 || ^5.0.0"
+   },
+   "configKey": "ogImage",
+-  "version": "6.10.3",
++  "version": "7.0.0",
+   "builder": {
+     "@nuxt/module-builder": "1.0.3",
+     "unbuild": "3.6.1"
