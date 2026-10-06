@@ -366,6 +366,36 @@ export function faviconDrawing({ product = 'free', size = 32 }: FaviconOptions =
   }
 }
 
+/** The icon fills this share of its plate. */
+const PLATE_ICON_SHARE = 44 / 64
+
+export interface IconPlateOptions {
+  landing?: BrandLanding
+  /** Rendered size of the plate in pixels; the icon inside picks its cut from its own size. */
+  size?: number
+}
+
+/**
+ * A module icon on the dark favicon plate. It reads on light and dark grounds
+ * alike, so one image serves places that cannot swap by theme, such as READMEs.
+ */
+export function iconPlateDrawing(name: BrandIconName, { landing = 'free', size = 64 }: IconPlateOptions = {}): BrandDrawing {
+  const icon = iconDrawing(name, { landing, size: size * PLATE_ICON_SHARE })
+  const inset = 64 * (1 - PLATE_ICON_SHARE) / 2
+  const scale = 64 * PLATE_ICON_SHARE / 32
+  return {
+    viewBox: '0 0 64 64',
+    label: icon.label,
+    groups: [
+      { shapes: [{ _tag: 'Tile', size: 64, radius: 14, paint: 'tile' }] },
+      ...icon.groups.map(group => ({
+        transform: [`translate(${inset} ${inset}) scale(${scale})`, group.transform].filter(Boolean).join(' '),
+        shapes: group.shapes.map((shape): BrandShape => 'paint' in shape && shape.paint === 'ink' ? { ...shape, paint: 'tile-ink' } : shape),
+      })),
+    ],
+  }
+}
+
 // ---------------------------------------------------------------------------
 // "Pro", lettered with a heavier icon pen and underlined with one quick swipe.
 
