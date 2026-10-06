@@ -4,7 +4,8 @@ preferWorkspacePackages: false
 blockExoticSubdeps: false
 
 minimumReleaseAgeExclude:
-  - nuxt-ai-ready@1.7.3 || 2.5.0
+  - nuxt-ai-ready@1.7.3 || 2.5.0 || 2.5.2
+  - nuxt-skew-protection@1.6.1
   - nuxtseo-shared@5.3.10 || 5.3.11
   - '@rolldown/binding-android-arm64@1.2.2'
   - nuxt-site-config-kit@4.1.4

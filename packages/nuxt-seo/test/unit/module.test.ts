@@ -45,28 +45,28 @@ async function install(nuxt: ReturnType<typeof createNuxt>, installed: Installed
 }
 
 describe('nuxt version', () => {
-  it.each(['3.16.2', '3.18.1', '3.19.0', '4.0.3'])('fails on unsupported Nuxt %s', async (version) => {
+  it.each(['3.16.2', '3.18.1', '3.19.0', '3.21.11', '4.0.3'])('fails on unsupported Nuxt %s', async (version) => {
     await expect(install(createNuxt(version))).rejects.toThrow(`Nuxt ${version}`)
   })
 
-  it.each(['3.21.11', '4.1.0', '4.5.2', '5.0.0-alpha.1'])('installs on Nuxt %s', async (version) => {
+  it.each(['4.1.0', '4.5.2', '5.0.0-alpha.1'])('installs on Nuxt %s', async (version) => {
     await expect(install(createNuxt(version))).resolves.toBeUndefined()
   })
 })
 
 describe('loaded submodule version', () => {
   it('fails when the copy the app loads is older than the requirement', async () => {
-    const nuxt = createNuxt('4.5.2', { '@nuxtjs/sitemap': '7.3.1', '@nuxtjs/robots': '6.1.5' })
+    const nuxt = createNuxt('4.5.2', { '@nuxtjs/sitemap': '8.2.1', '@nuxtjs/robots': '6.1.5' })
     await expect(install(nuxt, [
-      { meta: { name: '@nuxtjs/sitemap', version: '7.3.0' } },
+      { meta: { name: '@nuxtjs/sitemap', version: '8.2.0' } },
       { meta: { name: '@nuxtjs/robots', version: '6.1.5' } },
-    ])).rejects.toThrow('`@nuxtjs/sitemap` version (`7.3.1`) does not satisfy `>=7.4`')
+    ])).rejects.toThrow('`@nuxtjs/sitemap` version (`8.2.1`) does not satisfy `>=8.3`')
   })
 
   it('reads the package version, not a lagging module.json version', async () => {
-    const nuxt = createNuxt('4.5.2', { '@nuxtjs/sitemap': '7.4.0' })
+    const nuxt = createNuxt('4.5.2', { '@nuxtjs/sitemap': '8.3.0' })
     await expect(install(nuxt, [
-      { meta: { name: '@nuxtjs/sitemap', version: '7.3.9' } },
+      { meta: { name: '@nuxtjs/sitemap', version: '8.2.9' } },
     ])).resolves.toBeUndefined()
   })
 

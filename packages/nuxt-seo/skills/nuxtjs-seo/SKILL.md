@@ -1,11 +1,11 @@
 ---
 name: nuxtjs-seo
-description: Install, configure, and debug the @nuxtjs/seo meta module, which installs robots, sitemap, OG image, Schema.org, SEO utils, link checker, and site config in one Nuxt module. Use when a task mentions @nuxtjs/seo, Nuxt SEO, `nuxt module add seo`, disabling one SEO submodule, which config key owns an option, @nuxtjs/seo/content, a "takumi renderer missing dependencies" build error, or missing robots.txt and sitemap.xml after install.
+description: Install, configure, and debug the @nuxtjs/seo meta module, which installs robots, sitemap, OG image, Schema.org, SEO utils, link checker, site config, AI Ready, and Skew Protection. Use when a task mentions @nuxtjs/seo, Nuxt SEO, `nuxt module add seo`, disabling one SEO submodule, which config key owns an option, @nuxtjs/seo/content, a "takumi renderer missing dependencies" build error, or missing robots.txt and sitemap.xml after install.
 ---
 
 # @nuxtjs/seo
 
-Tested against `@nuxtjs/seo` 5.3.16 plus the fixes from harlan-zw/nuxt-seo#633 and #634, on Nuxt 4.5.2.
+Nuxt SEO v6 requires Nuxt 4.1 or later.
 The package declares Nuxt `moduleDependencies`, and Nuxt installs each submodule. Its only runtime code checks the Nuxt version and the version of each loaded submodule.
 Every option, composable, and component comes from a submodule. Docs: https://nuxtseo.com/docs/nuxt-seo
 
@@ -40,6 +40,8 @@ The meta module has one option, `nuxtseo.enabled`. Every other top level key bel
 | `schemaOrg` | `nuxt-schema-org` | [skilld.dev/gh/harlan-zw/nuxt-schema-org](https://skilld.dev/gh/harlan-zw/nuxt-schema-org) |
 | `seo` | `nuxt-seo-utils` | [skilld.dev/gh/harlan-zw/nuxt-seo-utils](https://skilld.dev/gh/harlan-zw/nuxt-seo-utils) |
 | `linkChecker` | `nuxt-link-checker` | [skilld.dev/gh/harlan-zw/nuxt-link-checker](https://skilld.dev/gh/harlan-zw/nuxt-link-checker) |
+| `aiReady` | `nuxt-ai-ready` | https://nuxtseo.com/docs/ai-ready |
+| `skewProtection` | `nuxt-skew-protection` | https://nuxtseo.com/docs/skew-protection |
 
 The `seo` key configures `nuxt-seo-utils`, not the bundle.
 `nuxtseo: false` or `nuxtseo: { enabled: false }` installs no bundled submodule. See "Disable a submodule".
@@ -72,15 +74,18 @@ export default defineNuxtConfig({
 You cannot disable `site`. The other submodules need it.
 To drop the whole bundle, set `nuxtseo: false`, or remove `@nuxtjs/seo` from `modules`. A submodule that you list in `modules` yourself still installs.
 
-## Add a standalone module
+## AI Ready and Skew Protection
 
-`nuxt-ai-ready` and `nuxt-skew-protection` are optional dependencies of the bundle. Installing the package is not enough; add it to `modules`:
+Both modules install automatically. Remove duplicate entries from `modules` when upgrading from v5.
+Keep their existing `aiReady` and `skewProtection` options.
 
-```ts
-export default defineNuxtConfig({
-  modules: ['@nuxtjs/seo', 'nuxt-ai-ready'],
-})
-```
+- AI Ready serves Markdown and `llms.txt`. Prerendering also generates `llms-full.txt`.
+- Databases, background indexing, and cron remain opt-in.
+- The bundle disables project agent skills and API catalogs. Configure them explicitly to publish them.
+- Skew Protection uses native polling and disables version cookies. Explicit site options take precedence.
+- Retained assets need persistent build storage. Preserve `node_modules/.cache/nuxt-seo/skew-protection` in CI or configure shared storage.
+- If server handlers use `isClientOutdated`, opt into `skewProtection.cookie` with a configuration object.
+- Set `aiReady: false` or `skewProtection: false` to disable either module.
 
 ## Nuxt Content v3
 
@@ -134,7 +139,7 @@ Breaking change in v5: `asSeoCollection()` is deprecated and warns at build. Old
 
 ## Version limits
 
-- Nuxt 3.21.11 or later, or Nuxt 4.1 or later. Earlier versions fail with `[@nuxtjs/seo] Nuxt 4.0.3 is unsupported. Upgrade Nuxt to ^3.21.11 || >=4.1.0.` Upgrade Nuxt.
+- Nuxt 4.1 or later. Nuxt 3 sites must upgrade Nuxt before upgrading the bundle to v6.
 - v5 moved every submodule up one major, except OG image. Migration: https://nuxtseo.com/docs/nuxt-seo/migration-guide/v4-to-v5
 
 ## Debug

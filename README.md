@@ -37,10 +37,10 @@
 
 ### Made for the age of AI answers
 
-Traditional SEO signals (clean HTML, structured data, crawlable sitemaps, valid meta) are the same signals AI crawlers use to decide what to cite. Nuxt SEO gives you all of them by default. Pair it with [`nuxt-ai-ready`](https://github.com/harlan-zw/nuxt-ai-ready) for `llms.txt`, on-demand markdown endpoints, and an MCP server, and you get a **100/100 score on `@vercel/agent-readability`** by default.
+Traditional SEO signals (clean HTML, structured data, crawlable sitemaps, valid meta) are the same signals AI crawlers use to decide what to cite. Nuxt SEO also includes [`nuxt-ai-ready`](https://github.com/harlan-zw/nuxt-ai-ready) for `llms.txt` and on-demand Markdown endpoints. MCP tools require a separate opt-in.
 
 ```sh
-npx nuxt module add seo nuxt-ai-ready
+npx nuxt module add seo
 # then verify:
 npx @vercel/agent-readability audit https://your-site.com
 ```
@@ -54,22 +54,27 @@ The `@nuxtjs/seo` package is a simple alias for installing all of the modules in
 // Nuxt version, or when a loaded module is older than its version below.
 export default defineNuxtModule<ModuleOptions>({
   moduleDependencies: {
-    '@nuxtjs/robots': { version: '>=5.5' },
-    '@nuxtjs/sitemap': { version: '>=7.4' },
+    '@nuxtjs/robots': { version: '>=6.0' },
+    '@nuxtjs/sitemap': { version: '>=8.3' },
     'nuxt-link-checker': { version: '>=4.3' },
     'nuxt-og-image': { version: '>=6.4.4' },
     'nuxt-schema-org': { version: '>=5.0' },
     'nuxt-seo-utils': { version: '>=7.0' },
-    'nuxt-site-config': { version: '>=3.2' },
-    // Version checks only. These install only when you add them to `modules`.
-    'nuxt-skew-protection': { version: '>=1.0', optional: true },
-    'nuxt-ai-ready': { version: '>=1.0', optional: true },
+    'nuxt-site-config': { version: '>=4.0' },
+    'nuxt-skew-protection': {
+      version: '>=1.6.1',
+      defaults: { updateStrategy: 'polling', cookie: false },
+    },
+    'nuxt-ai-ready': {
+      version: '>=2.5.2',
+      defaults: { agentSkills: false, apiCatalog: false },
+    },
     '@nuxtjs/i18n': { version: '>=10.0', optional: true },
   },
 })
 ```
 
-Every module works standalone. Install `@nuxtjs/seo` to get everything at once, or pick only what you need (e.g. Sitemap and Robots). Configuration, composables, and features are identical either way.
+Every module works standalone. Install `@nuxtjs/seo` to get everything at once, or pick only what you need. The bundle defaults to polling, disables version cookies, and keeps agent skills and API catalogs opt-in. Your module configuration takes precedence.
 
 ### Modules
 
@@ -83,13 +88,7 @@ Every module works standalone. Install `@nuxtjs/seo` to get everything at once, 
 | Link Checker | [nuxt-link-checker](https://github.com/harlan-zw/nuxt-link-checker) | Broken links harm SEO, confuse AI crawlers, and hurt UX |
 | Site Config | [nuxt-site-config](https://github.com/harlan-zw/nuxt-site-config) | Unified site URL, name, and locale config shared across every module |
 
-### Companion modules
-
-Not bundled by default, but highly recommended to round out your AEO stack:
-
-| Module | Package | What it solves |
-|--------|---------|----------------|
-| AI Ready | [nuxt-ai-ready](https://github.com/harlan-zw/nuxt-ai-ready) | `llms.txt`, on-demand `.md` route variants, MCP server, IndexNow, RAG-ready output |
+| AI Ready | [nuxt-ai-ready](https://github.com/harlan-zw/nuxt-ai-ready) | `llms.txt` and on-demand `.md` route variants |
 | Skew Protection | [nuxt-skew-protection](https://github.com/harlan-zw/nuxt-skew-protection) | Persistent assets and instant updates across deployments |
 
 > [!NOTE]
@@ -109,11 +108,7 @@ Or pick only what you need:
 npx nuxt module add sitemap robots
 ```
 
-Going all-in on AEO? Add `nuxt-ai-ready` alongside:
-
-```sh
-npx nuxt module add seo ai-ready
-```
+Nuxt SEO v6 requires Nuxt 4.1 or later. See the [v5 migration steps](packages/nuxt-seo/README.md#migrate-from-v5).
 
 > [!TIP]
 > Using an AI agent? Get the @nuxtjs/seo Skill on [skilld.dev/gh/harlan-zw/nuxt-seo/nuxtjs-seo](https://skilld.dev/gh/harlan-zw/nuxt-seo/nuxtjs-seo).

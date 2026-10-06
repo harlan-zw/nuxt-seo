@@ -1,7 +1,7 @@
 {
   "name": "@nuxtjs/seo",
   "type": "module",
-  "version": "5.3.16",
+  "version": "6.0.0",
   "description": "Fully equipped Technical SEO for busy Nuxters.",
   "author": {
     "name": "Harlan Wilton",
@@ -52,24 +52,25 @@
     "typecheck": "nuxt typecheck playground",
     "prepare:fixtures": "pnpm --dir ../shared build && nuxt prepare test/fixtures/basic && nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/content",
     "test": "pnpm prepare:fixtures && vitest",
-    "test:run": "pnpm prepare:fixtures && vitest run && pnpm test:nitro-parity && pnpm test:nuxt3",
+    "test:run": "pnpm prepare:fixtures && vitest run && pnpm test:nitro-parity",
     "test:nitro-parity": "pnpm --dir ../shared build && pnpm --dir ../shared pack --out ../nuxt-seo/test/fixtures/nitro-parity/nuxtseo-shared.tgz && pnpm pack --out test/fixtures/nitro-parity/nuxtjs-seo.tgz && pnpm install --dir test/fixtures/nitro2 --no-frozen-lockfile --force --update-checksums && pnpm install --dir test/fixtures/nuxt5 --no-frozen-lockfile --force --update-checksums && node test/fixtures/nitro-parity/test.mjs",
-    "test:nuxt3": "pnpm --dir ../shared build && pnpm --dir ../shared pack --out ../nuxt-seo/test/fixtures/nitro-parity/nuxtseo-shared.tgz && pnpm pack --out test/fixtures/nitro-parity/nuxtjs-seo.tgz && pnpm install --dir test/fixtures/nuxt3 --no-frozen-lockfile --force --update-checksums && pnpm --dir test/fixtures/nuxt3 run typecheck && pnpm --dir test/fixtures/nuxt3 exec nuxt build && node test/fixtures/nuxt3/test.mjs",
     "test:attw": "attw --pack --profile esm-only",
     "prepack": "nuxt-module-build build"
   },
   "peerDependencies": {
-    "nuxt": "^3.21.11 || ^4.1.0 || ^5.0.0"
+    "nuxt": "^4.1.0 || ^5.0.0"
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",
     "@nuxtjs/robots": "catalog:",
     "@nuxtjs/sitemap": "catalog:",
+    "nuxt-ai-ready": "catalog:",
     "nuxt-link-checker": "catalog:",
     "nuxt-og-image": "catalog:",
     "nuxt-schema-org": "catalog:",
     "nuxt-seo-utils": "catalog:",
     "nuxt-site-config": "catalog:",
+    "nuxt-skew-protection": "catalog:",
     "nuxtseo-shared": "workspace:*",
     "pkg-types": "catalog:",
     "semver": "catalog:"
@@ -91,8 +92,6 @@
     "jest-image-snapshot": "catalog:",
     "nitropack": "catalog:",
     "nuxt": "catalog:",
-    "nuxt-ai-ready": "catalog:",
-    "nuxt-skew-protection": "catalog:",
     "satori": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
