@@ -18,7 +18,7 @@ onClickOutside(panelRef, () => {
 
 const allModules = computed(() => moduleCatalog.value)
 
-// Trusted static markup from the brand module: the summit with Pro's ringed violet dot.
+// Trusted static markup from the brand module: the summit with Pro's gradient climb and violet dot.
 const proMark = drawingToSvg(markDrawing({ product: 'pro', size: 20 }), { width: 20, height: 20 })
 
 const selectedForInstall = ref(new Set<string>())

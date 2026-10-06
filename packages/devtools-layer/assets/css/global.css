@@ -58,6 +58,9 @@
   /* Brand landing dots (nuxtseo-shared/brand): green = a module shipped it, violet = Pro read it back. */
   --nuxtseo-brand-free: oklch(62.7% 0.194 149.2);
   --nuxtseo-brand-pro: oklch(54% 0.225 292);
+  /* The Pro climb. Deeper on light ground, where the pale end would disappear. */
+  --nuxtseo-brand-gradient-from: #5b21b6;
+  --nuxtseo-brand-gradient-to: #a68af7;
 
   /* Semantic colors */
   --color-surface: var(--color-neutral-50);
@@ -98,6 +101,8 @@
 .dark {
   --nuxtseo-brand-free: oklch(79.2% 0.209 151.7);
   --nuxtseo-brand-pro: oklch(68% 0.17 292);
+  --nuxtseo-brand-gradient-from: #6925d5;
+  --nuxtseo-brand-gradient-to: #ddcfff;
   --color-surface: var(--color-neutral-950);
   --color-surface-elevated: var(--color-neutral-900);
   --color-surface-sunken: oklch(7% 0.018 292);

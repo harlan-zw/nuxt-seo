@@ -5,6 +5,7 @@ import type { NuxtSEOModule } from './const'
  *
  * One pen draws every mark. Only the landing dot carries colour:
  * green means a free module shipped it, violet means Pro read it back.
+ * Pro marks also draw the climb in a violet gradient.
  * nuxtseo.com, the devtools client, READMEs and favicons all draw from here.
  */
 
@@ -16,13 +17,15 @@ export type BrandIconName = ModuleIconName | 'mcp'
 export type BrandLanding = 'free' | 'pro' | 'ink' | 'none'
 export type BrandProduct = 'free' | 'pro'
 
-export type BrandPaint = 'ink' | 'free' | 'pro' | 'pro-gradient' | 'tile' | 'tile-ink'
+export type BrandColor = 'ink' | 'free' | 'pro' | 'tile' | 'tile-ink'
+/** `pro-gradient` sits on the page ground and follows its theme. `tile-gradient` sits on the dark plate. */
+export type BrandGradient = 'pro-gradient' | 'tile-gradient'
+export type BrandPaint = BrandColor | BrandGradient
 
 export type BrandShape
   = | { _tag: 'Line', d: string, width: number, paint: BrandPaint, opacity?: number, dash?: string }
     | { _tag: 'Area', d: string, paint: BrandPaint }
     | { _tag: 'Dot', cx: number, cy: number, r: number, paint: BrandPaint }
-    | { _tag: 'Ring', cx: number, cy: number, r: number, width: number, paint: BrandPaint }
     | { _tag: 'Tile', size: number, radius: number, paint: BrandPaint }
 
 export interface BrandGroup {
@@ -36,25 +39,35 @@ export interface BrandDrawing {
   groups: BrandGroup[]
 }
 
+export interface GradientStops {
+  from: string
+  to: string
+}
+
 export interface BrandPalette {
   ink: string
   free: string
   pro: string
-  gradientFrom: string
-  gradientTo: string
+  /** The Pro climb on this palette's ground. */
+  gradient: GradientStops
   tile: string
   tileInk: string
+  /** The Pro climb on the plate. The plate is dark in every theme, so this never changes. */
+  tileGradient: GradientStops
 }
+
+const TILE_GRADIENT: GradientStops = { from: '#6925d5', to: '#ddcfff' }
 
 /** Static palettes for contexts without CSS: README images, favicons, emails. */
 export const BRAND_PALETTE_LIGHT: BrandPalette = {
   ink: '#16152b',
   free: '#00a63e',
   pro: '#7844e3',
-  gradientFrom: '#6925d5',
-  gradientTo: '#ddcfff',
+  // Deeper than the plate gradient, whose pale end disappears on white.
+  gradient: { from: '#5b21b6', to: '#a68af7' },
   tile: '#16152b',
   tileInk: '#faf9fd',
+  tileGradient: TILE_GRADIENT,
 }
 
 export const BRAND_PALETTE_DARK: BrandPalette = {
@@ -62,27 +75,37 @@ export const BRAND_PALETTE_DARK: BrandPalette = {
   ink: '#f4f3fa',
   free: '#05df72',
   pro: '#9c81f7',
+  gradient: TILE_GRADIENT,
 }
 
 /**
  * Paints for inline SVG in a themed page. Ink follows the text colour; the
- * dots read CSS variables so each app can theme them, with static fallbacks.
+ * rest read CSS variables so each app can theme them, with static fallbacks.
  */
-export const BRAND_CSS_PAINTS: Record<BrandPaint, string> = {
+const CSS_COLORS: Record<BrandColor, string> = {
   'ink': 'currentColor',
   'free': `var(--nuxtseo-brand-free, ${BRAND_PALETTE_LIGHT.free})`,
   'pro': `var(--nuxtseo-brand-pro, ${BRAND_PALETTE_LIGHT.pro})`,
-  'pro-gradient': '',
   'tile': `var(--nuxtseo-brand-tile, ${BRAND_PALETTE_LIGHT.tile})`,
   'tile-ink': `var(--nuxtseo-brand-tile-ink, ${BRAND_PALETTE_LIGHT.tileInk})`,
 }
 
-export function paletteToPaints(palette: BrandPalette): Record<BrandPaint, string> {
+const CSS_GRADIENTS: Record<BrandGradient, GradientStops> = {
+  'pro-gradient': {
+    from: `var(--nuxtseo-brand-gradient-from, ${BRAND_PALETTE_LIGHT.gradient.from})`,
+    to: `var(--nuxtseo-brand-gradient-to, ${BRAND_PALETTE_LIGHT.gradient.to})`,
+  },
+  'tile-gradient': {
+    from: `var(--nuxtseo-brand-tile-gradient-from, ${TILE_GRADIENT.from})`,
+    to: `var(--nuxtseo-brand-tile-gradient-to, ${TILE_GRADIENT.to})`,
+  },
+}
+
+function paletteColors(palette: BrandPalette): Record<BrandColor, string> {
   return {
     'ink': palette.ink,
     'free': palette.free,
     'pro': palette.pro,
-    'pro-gradient': '',
     'tile': palette.tile,
     'tile-ink': palette.tileInk,
   }
@@ -279,21 +302,14 @@ interface SummitCut {
   pen: number
   climb: string
   flank: string
-  /** Pro lockups pull both flanks back so the ring keeps clear air. */
-  climbRinged: string
-  flankRinged: string
   dot: { cx: number, cy: number, r: number }
-  ring: { r: number, width: number, dotR: number }
 }
 
 const SUMMIT_REGULAR: SummitCut = {
   pen: 5.4,
   climb: 'M5 54 L18.4 37.4 Q21 34.4 23.6 37.4 L27.6 42.4 L39.4 19.6',
   flank: 'M48.4 19.6 L60 54',
-  climbRinged: 'M5 54 L18.4 37.4 Q21 34.4 23.6 37.4 L27.6 42.4 L37.4 23.4',
-  flankRinged: 'M50 23.6 L60 54',
   dot: { cx: 44, cy: 11.6, r: 6.2 },
-  ring: { r: 8.2, width: 2, dotR: 4.6 },
 }
 
 /** The 16px cut: fewer bends, a heavier line, a bigger dot. */
@@ -301,10 +317,7 @@ const SUMMIT_SMALL: SummitCut = {
   pen: 8,
   climb: 'M6 54 L20 36 L27 43 L38 21',
   flank: 'M47 21 L59 54',
-  climbRinged: 'M6 54 L20 36 L27 43 L35.2 26.6',
-  flankRinged: 'M49.6 27 L59 54',
   dot: { cx: 44, cy: 12.5, r: 8.4 },
-  ring: { r: 9, width: 3, dotR: 5.2 },
 }
 
 /** The far flank sits in shadow behind the climb. */
@@ -317,21 +330,16 @@ export interface MarkOptions {
 }
 
 function summitShapes(cut: SummitCut, product: BrandProduct, ink: BrandPaint, style: 'lockup' | 'favicon'): BrandShape[] {
-  // Pro lockups ring the dot. Pro favicons keep the plain dot and carry the original gradient instead.
-  if (product === 'pro' && style === 'lockup') {
-    const { cx, cy } = cut.dot
-    return [
-      { _tag: 'Line', d: cut.flankRinged, width: cut.pen, paint: ink, opacity: FLANK_OPACITY },
-      { _tag: 'Line', d: cut.climbRinged, width: cut.pen, paint: ink },
-      { _tag: 'Ring', cx, cy, r: cut.ring.r, width: cut.ring.width, paint: ink },
-      { _tag: 'Dot', cx, cy, r: cut.ring.dotR, paint: 'pro' },
-    ]
-  }
-  const gradient = product === 'pro'
+  const flank: BrandShape = { _tag: 'Line', d: cut.flank, width: cut.pen, paint: ink, opacity: FLANK_OPACITY }
+  if (product === 'free')
+    return [flank, { _tag: 'Line', d: cut.climb, width: cut.pen, paint: ink }, { _tag: 'Dot', ...cut.dot, paint: 'free' }]
+  // Pro climbs in the violet gradient. The lockup lands on the solid violet of the lettering;
+  // the favicon carries the gradient through the dot.
+  const gradient: BrandGradient = style === 'lockup' ? 'pro-gradient' : 'tile-gradient'
   return [
-    { _tag: 'Line', d: cut.flank, width: cut.pen, paint: ink, opacity: FLANK_OPACITY },
-    { _tag: 'Line', d: cut.climb, width: cut.pen, paint: gradient ? 'pro-gradient' : ink },
-    { _tag: 'Dot', ...cut.dot, paint: gradient ? 'pro-gradient' : 'free' },
+    flank,
+    { _tag: 'Line', d: cut.climb, width: cut.pen, paint: gradient },
+    { _tag: 'Dot', ...cut.dot, paint: style === 'lockup' ? 'pro' : gradient },
   ]
 }
 
@@ -473,11 +481,9 @@ export function proLetteringDrawing(): BrandDrawing {
 // Rendering
 
 export interface SvgOptions {
-  /** CSS value per paint. Use `BRAND_CSS_PAINTS` inline in a themed page, `paletteToPaints()` for static files. */
-  paints?: Record<BrandPaint, string>
-  /** Gradient colours for `pro-gradient`. */
-  gradient?: { from: string, to: string }
-  /** Prefix for the gradient id. Pass a unique value when several marks share one page. */
+  /** Static colours for files without CSS: READMEs, favicons, emails. Omit it to theme through CSS variables. */
+  palette?: BrandPalette
+  /** Prefix for gradient ids. Pass a unique value when several marks share one page. */
   idPrefix?: string
   width?: number | string
   height?: number | string
@@ -487,16 +493,21 @@ export interface SvgOptions {
 
 const escapeAttr = (value: string) => value.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;')
 
+const isGradient = (paint: BrandPaint): paint is BrandGradient => paint === 'pro-gradient' || paint === 'tile-gradient'
+
 export function drawingToSvg(drawing: BrandDrawing, options: SvgOptions = {}): string {
-  const paints = options.paints ?? BRAND_CSS_PAINTS
-  const gradientId = `${options.idPrefix ?? 'nuxtseo'}-pro-gradient`
-  const gradient = options.gradient ?? { from: BRAND_PALETTE_LIGHT.gradientFrom, to: BRAND_PALETTE_LIGHT.gradientTo }
-  let usesGradient = false
+  const { palette } = options
+  const colors = palette ? paletteColors(palette) : CSS_COLORS
+  const gradients: Record<BrandGradient, GradientStops> = palette
+    ? { 'pro-gradient': palette.gradient, 'tile-gradient': palette.tileGradient }
+    : CSS_GRADIENTS
+  const gradientId = (gradient: BrandGradient) => `${options.idPrefix ?? 'nuxtseo'}-${gradient}`
+  const used = new Set<BrandGradient>()
   const paint = (p: BrandPaint) => {
-    if (p !== 'pro-gradient')
-      return paints[p]
-    usesGradient = true
-    return `url(#${gradientId})`
+    if (!isGradient(p))
+      return colors[p]
+    used.add(p)
+    return `url(#${gradientId(p)})`
   }
   const shape = (s: BrandShape): string => {
     switch (s._tag) {
@@ -506,8 +517,6 @@ export function drawingToSvg(drawing: BrandDrawing, options: SvgOptions = {}): s
         return `<path d="${s.d}" fill="${paint(s.paint)}"/>`
       case 'Dot':
         return `<circle cx="${s.cx}" cy="${s.cy}" r="${+s.r.toFixed(2)}" fill="${paint(s.paint)}"/>`
-      case 'Ring':
-        return `<circle cx="${s.cx}" cy="${s.cy}" r="${s.r}" fill="none" stroke="${paint(s.paint)}" stroke-width="${s.width}"/>`
       case 'Tile':
         return `<rect width="${s.size}" height="${s.size}" rx="${s.radius}" fill="${paint(s.paint)}"/>`
     }
@@ -516,8 +525,9 @@ export function drawingToSvg(drawing: BrandDrawing, options: SvgOptions = {}): s
     const inner = group.shapes.map(shape).join('')
     return group.transform ? `<g transform="${group.transform}">${inner}</g>` : inner
   }).join('')
-  const defs = usesGradient
-    ? `<defs><linearGradient id="${gradientId}" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="${gradient.from}"/><stop offset="1" stop-color="${gradient.to}"/></linearGradient></defs>`
+  // Stops go in `style`: a presentation attribute cannot read a CSS variable.
+  const defs = used.size
+    ? `<defs>${[...used].map(g => `<linearGradient id="${gradientId(g)}" x1="0" y1="1" x2="1" y2="0"><stop offset="0" style="stop-color:${gradients[g].from}"/><stop offset="1" style="stop-color:${gradients[g].to}"/></linearGradient>`).join('')}</defs>`
     : ''
   const size = [
     options.width === undefined ? '' : ` width="${options.width}"`,
