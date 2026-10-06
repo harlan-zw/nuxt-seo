@@ -5,6 +5,7 @@ import { afterEach, expect, it, vi } from 'vitest'
 import { setupDevelopmentChecks } from '../../src/setup'
 
 const adapters = vi.hoisted(() => ({ plugin: vi.fn(), template: vi.fn(), handler: vi.fn(), compatibility: vi.fn() }))
+const automation = vi.hoisted(() => ({ agent: false, ci: false }))
 
 vi.mock('@nuxt/kit', async importOriginal => ({
   ...await importOriginal<typeof import('@nuxt/kit')>(),
@@ -15,15 +16,29 @@ vi.mock('@nuxt/kit', async importOriginal => ({
   getNuxtVersion: () => '4.5.2',
 }))
 
-vi.mock('nuxtseo-shared/kit', () => ({ setupNitroRuntimeCompatibility: adapters.compatibility, resolveNitroPreset: (config: any) => config.preset || 'node-server' }))
+vi.mock('nuxtseo-shared/kit', () => ({
+  setupNitroRuntimeCompatibility: adapters.compatibility,
+  resolveNitroPreset: (config: any) => config.preset || 'node-server',
+  get isAgent() {
+    return automation.agent
+  },
+  get isCI() {
+    return automation.ci
+  },
+}))
 
-afterEach(() => vi.clearAllMocks())
+afterEach(() => {
+  vi.clearAllMocks()
+  automation.agent = false
+  automation.ci = false
+})
 
 function fixture(dev: boolean) {
   const hooks = new Map<string, (...args: any[]) => unknown>()
   const nuxt = {
     options: {
       dev,
+      buildDir: '/project/.nuxt',
       ssr: false,
       app: { baseURL: '/app/' },
       nitro: { preset: 'static' },
@@ -54,6 +69,25 @@ it('keeps runtime setup checks out of production', async () => {
   expect(adapters.handler).not.toHaveBeenCalled()
 })
 
+it.each(['agent', 'ci'] as const)('keeps DevTools metadata available but skips terminal checks for %s sessions', async (environment) => {
+  automation[environment] = true
+  const { nuxt, hooks } = fixture(true)
+  setupDevelopmentChecks(nuxt)
+  await hooks.get('modules:done')?.()
+  expect(adapters.plugin).not.toHaveBeenCalled()
+  expect(adapters.handler).toHaveBeenCalledOnce()
+})
+
+it('passes the tips opt-out to shared metadata without removing required checks', async () => {
+  const { nuxt, hooks } = fixture(true)
+  setupDevelopmentChecks(nuxt, { tips: false })
+  await hooks.get('modules:done')?.()
+  const metadata = JSON.parse(adapters.template.mock.calls[0]![0].getContents().slice('export default '.length))
+  expect(metadata.context.tipsEnabled).toBe(false)
+  const results = evaluateSetupChecklist({ installedModuleSlugs: new Set(metadata.installedModuleSlugs), context: metadata.context, debugData: new Map([['site-config', { config: { url: '', name: '' } }]]) })
+  expect(results.find(result => result.moduleSlug === 'site-config')?.requiredPending).toBe(2)
+})
+
 it('captures active modules, disabled configuration and dynamic nested pages without private options', async () => {
   const { nuxt, hooks } = fixture(true)
   setupDevelopmentChecks(nuxt)
@@ -64,6 +98,7 @@ it('captures active modules, disabled configuration and dynamic nested pages wit
   expect(new Set(config.installedModuleSlugs)).toEqual(new Set(['site-config', 'sitemap']))
   expect(config.disabledModuleSlugs).toEqual(expect.arrayContaining(['og-image', 'schema-org', 'robots']))
   expect(config.context).toEqual({
+    tipsEnabled: true,
     ssr: false,
     hasI18n: true,
     hasDynamicRoutes: true,

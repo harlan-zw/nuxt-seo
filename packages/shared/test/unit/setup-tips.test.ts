@@ -8,6 +8,36 @@ function tips(input: SetupChecklistInput) {
 }
 
 describe('config-based optimization tips', () => {
+  it('disables optional tips through parsed config while preserving required setup', () => {
+    const input: SetupChecklistInput = {
+      installedModuleSlugs: new Set(['site-config', 'ai-ready']),
+      debugData: new Map([['site-config', { config: { name: 'Example' } }]]),
+      context: parseSetupChecklistContext({ ...app, tipsEnabled: false, moduleOptions: { 'ai-ready': { contentNegotiation: false, llmsTxt: { markdownLinks: false } } } }),
+    }
+    const results = evaluateSetupChecklist(input)
+    expect(tips(input)).toEqual([])
+    expect(results.find(result => result.moduleSlug === 'site-config')?.requiredPending).toBe(1)
+    expect(formatSetupReport(results)).toContain('Set site.url to your production URL')
+    expect(formatSetupReport(results)).not.toContain('Optional tips:')
+    expect(tips({ ...input, context: { ...input.context!, tipsEnabled: true } }).some(item => item.id === 'markdown-links')).toBe(true)
+  })
+
+  it('can hide terminal tips without changing required warnings or module states', () => {
+    const results = evaluateSetupChecklist({
+      installedModuleSlugs: new Set(['site-config', 'ai-ready']),
+      debugData: new Map([['site-config', { config: { name: 'Example' } }]]),
+      context: { ...app, moduleOptions: { 'ai-ready': { contentNegotiation: false, llmsTxt: { markdownLinks: false } } } },
+    })
+    expect(formatSetupReport(results)).toContain('Optional tips:')
+    const report = formatSetupReport(results, { showTips: false })
+    expect(report).toContain('Site Config: Needs setup')
+    expect(report).toContain('AI Ready: Automatic')
+    expect(report).toContain('Required setup:')
+    expect(report).toContain('Set site.url to your production URL')
+    expect(report).not.toContain('Optional tips:')
+    expect(report).not.toContain('markdownLinks')
+  })
+
   it('offers build reuse for prerendered OG images and respects enabled caches and explicit opt-outs', () => {
     const debugData = new Map([['og-image' as const, { compatibility: { takumi: true }, componentNames: [{ category: 'app' }] }]])
     for (const [buildCache, optOuts, expected] of [[false, [], true], [true, [], false], [false, ['buildCache'], false]] as const) {
@@ -95,5 +125,6 @@ describe('config-based optimization tips', () => {
   it('keeps the terminal concise while pointing to remaining DevTools tips', () => {
     const results = evaluateSetupChecklist({ installedModuleSlugs: new Set(['seo-utils', 'link-checker', 'ai-ready']), debugData: new Map(), context: { ...app, hasDynamicRoutes: true, hasPrerenderedRoutes: true, devtoolsEnabled: true, moduleOptions: { 'seo-utils': { minify: { build: true, runtime: false } }, 'link-checker': { showLiveInspections: false, runOnBuild: true, failOnError: false }, 'ai-ready': { contentNegotiation: false, llmsTxt: { markdownLinks: false }, runtimeSync: false, cron: false, database: { type: 'postgres' } } } } })
     expect(formatSetupReport(results)).toContain('More optional tips: 1. Open DevTools to see all tips.')
+    expect(formatSetupReport(results, { showTips: false })).not.toContain('More optional tips:')
   })
 })

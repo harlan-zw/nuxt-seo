@@ -1,12 +1,13 @@
 import type { NuxtSEOModule } from 'nuxtseo-shared/const'
 import type { HomepageResponse } from '../utils/setup'
-import { evaluateSetupChecklist, formatSetupReport } from 'nuxtseo-shared/checklist'
+import { evaluateSetupChecklist } from 'nuxtseo-shared/checklist'
 import { createModuleLogger } from 'nuxtseo-shared/utils'
 import setup from '#nuxt-seo/setup.mjs'
 import { getRequestURL } from '#nuxtseo/h3'
 import { defineNitroPlugin, fetchWithEvent } from '#nuxtseo/nitro'
 import { getSiteConfig } from '#site-config/server/composables/getSiteConfig'
-import { collectSetupDebugData, createHomepageSetupCheck } from '../utils/setup'
+import { collectSetupDebugData, createHomepageSetupCheck, reportSetupChecklist } from '../utils/setup'
+import { claimSetupTips } from '../utils/setup-report'
 
 export default defineNitroPlugin((nitroApp) => {
   const logger = createModuleLogger('Nuxt SEO')
@@ -25,11 +26,12 @@ export default defineNitroPlugin((nitroApp) => {
     if (debugData.has('sitemap'))
       debugData.get('sitemap')!.siteConfig = siteConfig
     const results = evaluateSetupChecklist({ installedModuleSlugs, disabledModuleSlugs, debugData, context: setup.context })
-    const report = formatSetupReport(results)
-    if (results.some(result => result.requiredPending > 0))
-      logger.warn(report)
-    else
-      logger.info(report)
+    await reportSetupChecklist(results, {
+      // Optional tips stay quiet when storage is unavailable. Required warnings remain visible.
+      allowTips: async () => (await claimSetupTips({ stateDirectory: setup.stateDirectory }))._tag === 'Allowed',
+      warn: message => logger.warn(message),
+      info: message => logger.info(message),
+    })
   }, (cause) => {
     logger.warn('Setup checks could not complete:', cause)
   }, setup.homepagePaths)

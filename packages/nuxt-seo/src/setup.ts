@@ -1,9 +1,10 @@
 import type { Nuxt } from '@nuxt/schema'
 import type { NuxtSEOModule } from 'nuxtseo-shared/const'
+import { join } from 'node:path'
 import { addServerHandler, addServerPlugin, addServerTemplate, createResolver, getNuxtVersion } from '@nuxt/kit'
 import { getSetupTipOptOuts, parseSetupChecklistContext } from 'nuxtseo-shared/checklist'
 import { modules } from 'nuxtseo-shared/const'
-import { resolveNitroPreset, setupNitroRuntimeCompatibility } from 'nuxtseo-shared/kit'
+import { isAgent, isCI, resolveNitroPreset, setupNitroRuntimeCompatibility } from 'nuxtseo-shared/kit'
 
 const CONFIG_KEYS: Partial<Record<NuxtSEOModule['slug'], string>> = {
   'site-config': 'site',
@@ -39,7 +40,7 @@ function mergeUserChoices(config: unknown, inline: unknown): Record<string, unkn
   }))
 }
 
-export function setupDevelopmentChecks(nuxt: Nuxt): void {
+export function setupDevelopmentChecks(nuxt: Nuxt, options: { tips: boolean } = { tips: true }): void {
   if (!nuxt.options.dev)
     return
 
@@ -49,6 +50,7 @@ export function setupDevelopmentChecks(nuxt: Nuxt): void {
   nuxt.options.nitro.externals.inline ||= []
   nuxt.options.nitro.externals.inline.push(resolve('./runtime'))
   const context = {
+    tipsEnabled: options.tips !== false,
     ssr: nuxt.options.ssr !== false,
     hasI18n: false,
     hasDynamicRoutes: false,
@@ -116,9 +118,10 @@ export function setupDevelopmentChecks(nuxt: Nuxt): void {
     setupNitroRuntimeCompatibility(nuxt)
     addServerTemplate({
       filename: '#nuxt-seo/setup.mjs',
-      getContents: () => `export default ${JSON.stringify({ installedModuleSlugs, disabledModuleSlugs, baseURL: nuxt.options.app.baseURL, homepagePaths, context: parseSetupChecklistContext(context) })}`,
+      getContents: () => `export default ${JSON.stringify({ installedModuleSlugs, disabledModuleSlugs, baseURL: nuxt.options.app.baseURL, homepagePaths, stateDirectory: join(nuxt.options.buildDir, 'cache/nuxt-seo'), context: parseSetupChecklistContext(context) })}`,
     })
-    addServerPlugin(resolve('./runtime/server/plugins/setup'))
+    if (!isAgent && !isCI)
+      addServerPlugin(resolve('./runtime/server/plugins/setup'))
     addServerHandler({ route: '/__nuxt-seo__/setup.json', handler: resolve('./runtime/server/routes/setup.json') })
   })
 }

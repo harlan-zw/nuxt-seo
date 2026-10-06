@@ -17,6 +17,12 @@ export interface ModuleOptions {
    * @default true
    */
   enabled: boolean
+  /**
+   * Show optional configuration tips in development. Required setup checks stay active.
+   *
+   * @default true
+   */
+  tips: boolean
 }
 
 /**
@@ -78,6 +84,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults: {
     enabled: true,
+    tips: true,
   },
   async setup(options, nuxt) {
     // `nuxtseo: false` never reaches setup. `enabled: false` installs no module, so there is
@@ -87,7 +94,7 @@ export default defineNuxtModule<ModuleOptions>({
     if (!await hasNuxtCompatibility({ nuxt: NUXT_COMPATIBILITY }, nuxt)) {
       throw new Error(`[@nuxtjs/seo] Nuxt ${getNuxtVersion(nuxt)} is unsupported. Upgrade Nuxt to \`${NUXT_COMPATIBILITY}\`.`)
     }
-    setupDevelopmentChecks(nuxt)
+    setupDevelopmentChecks(nuxt, { tips: options.tips })
     // Nuxt checks each dependency version against the copy nested in @nuxtjs/seo, but loads the
     // copy the app resolves. Check the modules that actually installed. Read package.json from the
     // app's module directories first, as Nuxt does when it loads a module: a module.json version

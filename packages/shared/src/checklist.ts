@@ -195,6 +195,7 @@ const CHECKLIST_DEFINITIONS: Partial<Record<NuxtSEOModule['slug'], ChecklistItem
 }
 
 export interface SetupChecklistContext {
+  tipsEnabled?: boolean
   ssr: boolean
   hasI18n: boolean
   hasDynamicRoutes: boolean
@@ -281,12 +282,14 @@ export function evaluateSetupChecklist(input: SetupChecklistInput): ModuleCheckl
 }
 
 /** Terminal output uses the same evidence and severity as the DevTools checklist. */
-export function formatSetupReport(results: ModuleChecklistResult[]): string {
+export function formatSetupReport(results: ModuleChecklistResult[], options: { showTips?: boolean } = {}): string {
   const labels: Record<ModuleChecklistStatus, string> = { 'configured': 'Configured', 'needs-setup': 'Needs setup', 'disabled': 'Disabled', 'unavailable': 'Not checked', 'automatic': 'Automatic' }
   const lines = ['Nuxt SEO setup', ...results.map(result => `  ${result.moduleLabel}: ${labels[result.status]}`)]
   if (results.some(result => result.status === 'unavailable'))
     lines.push('', 'Some module data was unavailable. Open DevTools to retry setup checks.')
   for (const [level, heading] of [['required', 'Required setup:'], ['recommended', 'Optional tips:']] as const) {
+    if (level === 'recommended' && options.showTips === false)
+      continue
     const candidates = results.flatMap(result => result.items.filter(item => item.status === 'failed' && item.level === level).map(item => ({ moduleLabel: result.moduleLabel, item })))
     const hasSiteUrlFailure = candidates.some(({ item }) => item.id === 'site-url')
     const eligible = candidates.filter(({ item }) => item.id !== 'site-url-set' || !hasSiteUrlFailure)

@@ -4,6 +4,7 @@ declare module '#nuxt-seo/setup.mjs' {
     disabledModuleSlugs: import('nuxtseo-shared/const').NuxtSEOModule['slug'][]
     baseURL: string
     homepagePaths: string[]
+    stateDirectory: string
     context: import('nuxtseo-shared/checklist').SetupChecklistContext
   }
   export default config

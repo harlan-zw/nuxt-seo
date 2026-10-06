@@ -40,7 +40,7 @@ export function parseSetupChecklistContext(value: unknown): SetupChecklistContex
     moduleOptions: {},
     optOuts: {},
   }
-  for (const key of ['isPrerendered', 'hasPrerenderedRoutes', 'devtoolsEnabled', 'sitemapPrerendered', 'hasSitemapOutputHook'] as const) {
+  for (const key of ['tipsEnabled', 'isPrerendered', 'hasPrerenderedRoutes', 'devtoolsEnabled', 'sitemapPrerendered', 'hasSitemapOutputHook'] as const) {
     if (typeof data[key] === 'boolean')
       context[key] = data[key]
   }
@@ -105,7 +105,7 @@ function sourceUrls(data: Record<string, any> | undefined): Set<string> | undefi
 /** Optional tips require positive app evidence. Absence is never an optimization deficit. */
 export function evaluateSetupTips(slug: NuxtSEOModule['slug'], input: SetupChecklistInput): ChecklistItemResult[] {
   const context = input.context
-  if (!context || input.disabledModuleSlugs?.has(slug))
+  if (!context || context.tipsEnabled === false || input.disabledModuleSlugs?.has(slug))
     return []
   const options = context.moduleOptions?.[slug]
   if (!options || options.enabled === false)

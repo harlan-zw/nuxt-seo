@@ -1,5 +1,45 @@
+import { evaluateSetupChecklist } from 'nuxtseo-shared/checklist'
 import { describe, expect, it, vi } from 'vitest'
-import { collectSetupDebugData, createHomepageSetupCheck } from '../../src/runtime/server/utils/setup'
+import { collectSetupDebugData, createHomepageSetupCheck, reportSetupChecklist } from '../../src/runtime/server/utils/setup'
+
+describe('quiet terminal reporting', () => {
+  function results(missing: boolean, tipsEnabled = true) {
+    return evaluateSetupChecklist({
+      installedModuleSlugs: new Set(['site-config', 'ai-ready']),
+      debugData: new Map([['site-config', { config: { name: 'Example', url: missing ? '' : 'https://example.com' } }]]),
+      context: { ssr: true, hasI18n: false, hasDynamicRoutes: false, hasContent: false, isPrerendered: false, tipsEnabled, moduleOptions: { 'ai-ready': { contentNegotiation: false } } },
+    })
+  }
+
+  it('warns on missing settings across sessions even while tips are on cooldown', async () => {
+    const dependencies = { allowTips: vi.fn(async () => false), warn: vi.fn<(message: string) => void>(), info: vi.fn<(message: string) => void>() }
+    await reportSetupChecklist(results(true), dependencies)
+    await reportSetupChecklist(results(true), dependencies)
+    expect(dependencies.warn).toHaveBeenCalledTimes(2)
+    expect(dependencies.warn.mock.calls[0]![0]).toContain('Set site.url')
+    expect(dependencies.warn.mock.calls[0]![0]).not.toContain('Optional tips:')
+    expect(dependencies.info).not.toHaveBeenCalled()
+  })
+
+  it('stays quiet for healthy apps during cooldown and prints available tips as information', async () => {
+    const dependencies = { allowTips: vi.fn(async () => false), warn: vi.fn<(message: string) => void>(), info: vi.fn<(message: string) => void>() }
+    await reportSetupChecklist(results(false), dependencies)
+    expect(dependencies.info).not.toHaveBeenCalled()
+    dependencies.allowTips.mockResolvedValue(true)
+    await reportSetupChecklist(results(false), dependencies)
+    expect(dependencies.info).toHaveBeenCalledWith(expect.stringContaining('aiReady: { llmsTxt: { markdownLinks: true } }'))
+    expect(dependencies.warn).not.toHaveBeenCalled()
+  })
+
+  it('does not touch cooldown storage when configuration disables tips', async () => {
+    const dependencies = { allowTips: vi.fn(async () => true), warn: vi.fn<(message: string) => void>(), info: vi.fn<(message: string) => void>() }
+    await reportSetupChecklist(results(true, false), dependencies)
+    expect(dependencies.allowTips).not.toHaveBeenCalled()
+    expect(dependencies.warn).toHaveBeenCalledOnce()
+    await reportSetupChecklist(results(false, false), dependencies)
+    expect(dependencies.info).not.toHaveBeenCalled()
+  })
+})
 
 describe('homepage setup check', () => {
   it('checks a configured localized home after a root redirect, but skips other pages', () => {

@@ -10,6 +10,7 @@ import { env, provider } from 'std-env'
 
 export type { NitroRuntimeCompatibility, NitroTypeAugmentations } from './nitro-compatibility'
 export { renderNitroTypeAugmentations, setupNitroRuntimeCompatibility } from './nitro-compatibility'
+export { isAgent, isCI } from 'std-env'
 
 export interface NuxtSeoModuleDetection {
   name: string

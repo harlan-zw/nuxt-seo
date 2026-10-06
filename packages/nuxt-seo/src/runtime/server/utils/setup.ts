@@ -1,7 +1,25 @@
+import type { ModuleChecklistResult } from 'nuxtseo-shared/checklist'
 import type { NuxtSEOModule } from 'nuxtseo-shared/const'
-import { DEBUG_ENDPOINTS } from 'nuxtseo-shared/checklist'
+import { DEBUG_ENDPOINTS, formatSetupReport } from 'nuxtseo-shared/checklist'
 
 type ModuleSlug = NuxtSEOModule['slug']
+
+/** Required settings bypass the tips cooldown. Healthy apps stay quiet without eligible tips. */
+export async function reportSetupChecklist(results: ModuleChecklistResult[], dependencies: {
+  allowTips: () => Promise<boolean>
+  warn: (message: string) => void
+  info: (message: string) => void
+}): Promise<void> {
+  const requiredMissing = results.some(result => result.requiredPending > 0)
+  const showTips = results.some(result => result.recommendedPending > 0) && await dependencies.allowTips()
+  if (!requiredMissing && !showTips)
+    return
+  const report = formatSetupReport(results, { showTips })
+  if (requiredMissing)
+    dependencies.warn(report)
+  else
+    dependencies.info(report)
+}
 
 export interface HomepageResponse {
   path: string
