@@ -1,0 +1,134 @@
+name: Prepare migration CI
+description: Build pinned module sources using the target frozen CI lock.
+
+outputs:
+  workspace:
+    description: Isolated target workspace for the existing CI commands.
+    value: ${{ steps.bootstrap.outputs.workspace }}
+
+runs:
+  using: composite
+  steps:
+    - name: Check out core migration source
+      if: github.repository != 'harlan-zw/nuxt-seo'
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        repository: harlan-zw/nuxt-seo
+        ref: 5a92e29163bbede0c64929e603fd3151ec35b92e
+        path: .migration-checkouts/core
+        persist-credentials: false
+
+    - name: Check out site migration source
+      if: github.repository != 'harlan-zw/nuxt-site-config'
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        repository: harlan-zw/nuxt-site-config
+        ref: 235a0808bcc419ab4b7f15be4708e7251bab003d
+        path: .migration-checkouts/site
+        persist-credentials: false
+
+    - name: Check out robots migration source
+      if: github.repository != 'nuxt-modules/robots'
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        repository: nuxt-modules/robots
+        ref: 6eea1c784101c3b747e3024a80c92bb837755437
+        path: .migration-checkouts/robots
+        persist-credentials: false
+
+    - name: Check out sitemap migration source
+      if: github.repository != 'nuxt-modules/sitemap'
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        repository: nuxt-modules/sitemap
+        ref: f50ca2da362e4ee5ca5d6b9c21152bde73c05a5d
+        path: .migration-checkouts/sitemap
+        persist-credentials: false
+
+    - name: Check out og migration source
+      if: github.repository != 'nuxt-modules/og-image'
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        repository: nuxt-modules/og-image
+        ref: dc59e941aa9d996659bc69fc712c5223982774c8
+        path: .migration-checkouts/og
+        persist-credentials: false
+
+    - name: Check out schema migration source
+      if: github.repository != 'harlan-zw/nuxt-schema-org'
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        repository: harlan-zw/nuxt-schema-org
+        ref: 187c8f8cbb554df64470282b24c1d07dde2b8177
+        path: .migration-checkouts/schema
+        persist-credentials: false
+
+    - name: Check out utils migration source
+      if: github.repository != 'harlan-zw/nuxt-seo-utils'
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        repository: harlan-zw/nuxt-seo-utils
+        ref: 037ec41a2cea68adc3f1d028ff94b4122965fea1
+        path: .migration-checkouts/utils
+        persist-credentials: false
+
+    - name: Check out link migration source
+      if: github.repository != 'harlan-zw/nuxt-link-checker'
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        repository: harlan-zw/nuxt-link-checker
+        ref: 681e9bf44fc336a40e18a1131205ff141a93b0b5
+        path: .migration-checkouts/link
+        persist-credentials: false
+
+    - name: Check out ai migration source
+      if: github.repository != 'harlan-zw/nuxt-ai-ready'
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        repository: harlan-zw/nuxt-ai-ready
+        ref: 116ed6c2890f027309245d81318b2f167a180bb4
+        path: .migration-checkouts/ai
+        persist-credentials: false
+
+    - name: Check out skew migration source
+      if: github.repository != 'harlan-zw/nuxt-skew-protection'
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        repository: harlan-zw/nuxt-skew-protection
+        ref: 908632bbb7c7720b2499a4c272da7a84020b61dd
+        path: .migration-checkouts/skew
+        persist-credentials: false
+
+    - name: Install and build pinned migration sources
+      id: bootstrap
+      shell: bash
+      env:
+        HELPER_ROOT: ${{ github.action_path }}/../../..
+        TARGET_SOURCE: ${{ github.workspace }}
+        MIGRATION_SOURCES: ${{ github.workspace }}/.migration-checkouts
+        MIGRATION_OUTPUT: ${{ runner.temp }}/migration-workspace
+      run: |
+        node "$HELPER_ROOT/scripts/bootstrap-migration.ts" \
+          --target "$TARGET_SOURCE" \
+          --source-root "$MIGRATION_SOURCES" \
+          --output "$MIGRATION_OUTPUT" \
+          --lock-source "$TARGET_SOURCE/scripts/migration-lock.yaml" \
+          --mode pack
+        printf 'workspace=%s\n' "$MIGRATION_OUTPUT" >> "$GITHUB_OUTPUT"
+
+    - name: Lint the original dependency policy
+      shell: bash
+      env:
+        TARGET_SOURCE: ${{ github.workspace }}
+        MIGRATION_OUTPUT: ${{ steps.bootstrap.outputs.workspace }}
+      run: |
+        for config in eslint.config.ts eslint.config.mjs eslint.config.js eslint.config.cjs; do
+          if [ -f "$MIGRATION_OUTPUT/$config" ]; then
+            PATH="$MIGRATION_OUTPUT/node_modules/.bin:$PATH" \
+              pnpm --config.verify-deps-before-run=false --dir "$TARGET_SOURCE" \
+              exec eslint --config "$MIGRATION_OUTPUT/$config" pnpm-workspace.yaml
+            exit 0
+          fi
+        done
+        echo "::error::The target ESLint configuration is missing."
+        exit 1

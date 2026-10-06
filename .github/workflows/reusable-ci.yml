@@ -3,6 +3,10 @@ name: Reusable CI
 on:
   workflow_call:
     inputs:
+      migration:
+        description: Use the pinned migration source graph
+        type: boolean
+        default: false
       runner:
         description: Runner to use
         type: string
@@ -49,8 +53,13 @@ jobs:
           runtime: node@${{ inputs.node-version }}
           cache: true
           install: false
-      - run: pnpm install --frozen-lockfile --trust-lockfile
+      - uses: ./.github/actions/migration-ci
+        if: ${{ inputs.migration }}
+        id: migration
+      - if: ${{ !inputs.migration }}
+        run: pnpm install --frozen-lockfile --trust-lockfile
       - run: pnpm lint
+        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
 
   typecheck:
     runs-on: ${{ inputs.runner }}
@@ -61,10 +70,17 @@ jobs:
           runtime: node@${{ inputs.node-version }}
           cache: true
           install: false
-      - run: pnpm install --frozen-lockfile --trust-lockfile
+      - uses: ./.github/actions/migration-ci
+        if: ${{ inputs.migration }}
+        id: migration
+      - if: ${{ !inputs.migration }}
+        run: pnpm install --frozen-lockfile --trust-lockfile
       - run: ${{ inputs.prepare-command }}
+        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
       - run: ${{ inputs.typecheck-command }}
+        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
       - run: pnpm run --if-present test:attw
+        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
 
   build:
     runs-on: ${{ inputs.runner }}
@@ -75,9 +91,15 @@ jobs:
           runtime: node@${{ inputs.node-version }}
           cache: true
           install: false
-      - run: pnpm install --frozen-lockfile --trust-lockfile
+      - uses: ./.github/actions/migration-ci
+        if: ${{ inputs.migration }}
+        id: migration
+      - if: ${{ !inputs.migration }}
+        run: pnpm install --frozen-lockfile --trust-lockfile
       - run: ${{ inputs.prepare-command }}
+        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
       - run: pnpm build
+        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
 
   test:
     if: ${{ !inputs.redis }}
@@ -93,8 +115,13 @@ jobs:
           runtime: node@${{ matrix.node-version }}
           cache: true
           install: false
-      - run: pnpm install --frozen-lockfile --trust-lockfile
+      - uses: ./.github/actions/migration-ci
+        if: ${{ inputs.migration }}
+        id: migration
+      - if: ${{ !inputs.migration }}
+        run: pnpm install --frozen-lockfile --trust-lockfile
       - run: ${{ inputs.prepare-command }}
+        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
 
       - name: Cache Playwright browsers
         id: playwright-cache
@@ -120,11 +147,14 @@ jobs:
           done
           echo "Playwright install failed after 3 attempts"
           exit 1
+        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
         timeout-minutes: 18
         continue-on-error: true
 
       - run: pnpm run --if-present prepare:fixtures
+        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
       - run: ${{ inputs.test-command }}
+        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
 
   test-redis:
     if: ${{ inputs.redis }}
@@ -148,8 +178,13 @@ jobs:
           runtime: node@${{ matrix.node-version }}
           cache: true
           install: false
-      - run: pnpm install --frozen-lockfile --trust-lockfile
+      - uses: ./.github/actions/migration-ci
+        if: ${{ inputs.migration }}
+        id: migration
+      - if: ${{ !inputs.migration }}
+        run: pnpm install --frozen-lockfile --trust-lockfile
       - run: ${{ inputs.prepare-command }}
+        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
 
       - name: Cache Playwright browsers
         id: playwright-cache
@@ -175,8 +210,11 @@ jobs:
           done
           echo "Playwright install failed after 3 attempts"
           exit 1
+        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
         timeout-minutes: 18
         continue-on-error: true
 
       - run: pnpm run --if-present prepare:fixtures
+        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
       - run: ${{ inputs.test-command }}
+        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}

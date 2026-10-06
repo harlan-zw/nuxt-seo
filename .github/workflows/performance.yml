@@ -55,9 +55,12 @@ jobs:
         if: ${{ steps.base-build.outcome != 'success' }}
         run: echo "::warning::The base build failed; pull request metrics will be reported as new."
 
+      - uses: ./.github/actions/migration-ci
+        id: migration
+
       - name: Build pull request fixture
+        working-directory: ${{ steps.migration.outputs.workspace }}
         run: |
-          pnpm install --frozen-lockfile --trust-lockfile
           pnpm dev:prepare
           pnpm benchmark:build
 
@@ -78,6 +81,7 @@ jobs:
         run: echo "::warning::The base benchmark failed; pull request metrics will be reported as new."
 
       - name: Benchmark pull request fixture
+        working-directory: ${{ steps.migration.outputs.workspace }}
         run: >-
           node bench/performance/run.mjs
           --server packages/nuxt-seo/test/fixtures/performance/.output/server/index.mjs

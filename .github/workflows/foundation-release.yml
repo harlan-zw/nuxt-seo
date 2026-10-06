@@ -29,7 +29,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           repository: harlan-zw/nuxt-site-config
-          ref: 94ad8f250336a66212b00c5a6af2654a1641dd76
+          ref: 235a0808bcc419ab4b7f15be4708e7251bab003d
           path: site-source
       - uses: pnpm/setup@v2
         with:

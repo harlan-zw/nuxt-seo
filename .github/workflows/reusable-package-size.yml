@@ -3,6 +3,10 @@ name: Reusable Package Size
 on:
   workflow_call:
     inputs:
+      migration:
+        description: Use the pinned migration source graph
+        type: boolean
+        default: false
       runner:
         description: Runner to use
         type: string
@@ -71,9 +75,15 @@ jobs:
         run: echo "::warning::The base build failed; pull request output will be
           reported as new."
 
+      - uses: ./.github/actions/migration-ci
+        if: ${{ inputs.migration }}
+        id: migration
+      - if: ${{ !inputs.migration }}
+        run: ${{ inputs.install-command }}
+
       - name: Build pull request
+        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
         run: |
-          ${{ inputs.install-command }}
           ${{ inputs.prepare-command }}
           ${{ inputs.build-command }}
 
@@ -92,7 +102,7 @@ jobs:
           base-available: ${{ steps.base-build.outcome == 'success' }}
           base-directory: ${{ github.workspace }}/.benchmark/base
           base-label: ${{ env.BASE_LABEL }}
-          head-directory: ${{ github.workspace }}
+          head-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
           report-path: ${{ runner.temp }}/package-size-report/report.md
 
       - name: Prepare package size artifact

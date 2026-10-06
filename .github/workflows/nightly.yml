@@ -15,5 +15,6 @@ jobs:
   build:
     uses: ./.github/workflows/reusable-nightly.yml
     with:
+      migration: true
       runner: ubuntu-latest
       publish-packages: ./packages/nuxt-seo ./packages/shared

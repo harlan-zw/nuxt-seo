@@ -127,12 +127,16 @@ overrides:
   vue: ^3.5.43
 
 allowBuilds:
+  '@firebase/util': false
   '@parcel/watcher': true
   better-sqlite3: true
   esbuild: true
+  protobufjs: false
   sharp: true
   simple-git-hooks: false
+  unrs-resolver: false
   vue-demi: true
+  workerd: false
 
 ignoredBuiltDependencies:
   - '@parcel/watcher'

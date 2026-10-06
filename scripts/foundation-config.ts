@@ -1,6 +1,6 @@
 import { basename } from 'node:path'
 
-export const siteConfigRef = '94ad8f250336a66212b00c5a6af2654a1641dd76'
+export const siteConfigRef = '235a0808bcc419ab4b7f15be4708e7251bab003d'
 
 export const foundationPackages = [
   { name: 'site-config-stack', version: '5.0.0', directory: 'site/packages/site-config', source: 'site', sourceDirectory: 'packages/site-config' },
