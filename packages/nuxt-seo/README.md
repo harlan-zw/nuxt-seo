@@ -1,8 +1,10 @@
 <h1><a href="https://nuxtseo.com"><img src="https://raw.githubusercontent.com/harlan-zw/nuxt-seo/main/.github/assets/logo.svg" width="40" height="40" alt="Nuxt SEO" align="top"></a> @nuxtjs/seo</h1>
 
-[![npm version](https://img.shields.io/npm/v/@nuxtjs/seo/latest.svg?style=flat&colorA=020420&colorB=00DC82)](https://npmx.dev/package/@nuxtjs/seo)
-[![npm downloads](https://img.shields.io/npm/dm/@nuxtjs/seo.svg?style=flat&colorA=020420&colorB=00DC82)](https://npmx.dev/package/@nuxtjs/seo)
-[![License](https://img.shields.io/github/license/harlan-zw/nuxt-seo.svg?style=flat&colorA=020420&colorB=00DC82)](https://github.com/harlan-zw/nuxt-seo/blob/main/LICENSE.md)
+[![npm version](https://img.shields.io/npm/v/@nuxtjs/seo/latest.svg?style=flat&labelColor=16152b&color=00a63e)](https://npmjs.com/package/@nuxtjs/seo)
+[![npm downloads](https://img.shields.io/npm/dm/@nuxtjs/seo.svg?style=flat&labelColor=16152b&color=00a63e)](https://npmjs.com/package/@nuxtjs/seo)
+[![License](https://img.shields.io/github/license/harlan-zw/nuxt-seo.svg?style=flat&labelColor=16152b&color=00a63e)](https://github.com/harlan-zw/nuxt-seo/blob/main/LICENSE.md)
+[![Nuxt](https://img.shields.io/badge/Nuxt-16152b?logo=nuxt&style=flat)](https://nuxt.com)
+[![Skill repository on skilld.dev](https://skilld.dev/b/harlan-zw/nuxt-seo?style=flat&labelColor=16152b&color=00a63e&logoColor=ffffff)](https://skilld.dev/gh/harlan-zw/nuxt-seo)
 
 > Fully equipped Technical SEO & AEO for busy Nuxters.
 

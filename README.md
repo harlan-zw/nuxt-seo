@@ -4,13 +4,7 @@
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
-<a href="https://skilld.dev/gh/harlan-zw/nuxt-seo/nuxtjs-seo">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://skilld.dev/b/harlan-zw/nuxt-seo/nuxtjs-seo?theme=dark">
-    <source media="(prefers-color-scheme: light)" srcset="https://skilld.dev/b/harlan-zw/nuxt-seo/nuxtjs-seo?theme=light">
-    <img alt="Skill repository on skilld.dev" src="https://skilld.dev/b/harlan-zw/nuxt-seo/nuxtjs-seo?theme=light">
-  </picture>
-</a>
+[![Skill repository on skilld.dev][skilld-src]][skilld-href]
 
 > Fully equipped Technical SEO & AEO for busy Nuxters.
 
@@ -149,14 +143,17 @@ Learn more about SEO and AEO:
 Licensed under the [MIT license](https://github.com/harlan-zw/nuxt-seo/blob/main/LICENSE.md).
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/@nuxtjs/seo/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-version-src]: https://img.shields.io/npm/v/@nuxtjs/seo/latest.svg?style=flat&labelColor=16152b&color=00a63e
 [npm-version-href]: https://npmjs.com/package/@nuxtjs/seo
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/@nuxtjs/seo.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-downloads-src]: https://img.shields.io/npm/dm/@nuxtjs/seo.svg?style=flat&labelColor=16152b&color=00a63e
 [npm-downloads-href]: https://npmjs.com/package/@nuxtjs/seo
 
-[license-src]: https://img.shields.io/github/license/harlan-zw/nuxt-seo.svg?style=flat&colorA=18181B&colorB=28CF8D
+[license-src]: https://img.shields.io/github/license/harlan-zw/nuxt-seo.svg?style=flat&labelColor=16152b&color=00a63e
 [license-href]: https://github.com/harlan-zw/nuxt-seo/blob/main/LICENSE.md
 
-[nuxt-src]: https://img.shields.io/badge/Nuxt-18181B?logo=nuxt
+[nuxt-src]: https://img.shields.io/badge/Nuxt-16152b?logo=nuxt&style=flat
 [nuxt-href]: https://nuxt.com
+
+[skilld-src]: https://skilld.dev/b/harlan-zw/nuxt-seo?style=flat&labelColor=16152b&color=00a63e&logoColor=ffffff
+[skilld-href]: https://skilld.dev/gh/harlan-zw/nuxt-seo
