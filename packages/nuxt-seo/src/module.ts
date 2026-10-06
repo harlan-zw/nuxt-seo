@@ -26,18 +26,18 @@ export interface ModuleOptions {
 }
 
 /**
- * `moduleDependencies` arrived in Nuxt 3.19 and 4.1. Nuxt 3.19 fails the current dev and
- * typecheck fixture, so the supported Nuxt 3 range starts at 3.21.11. Enforce this range in
- * `setup()` because incompatible `meta.compatibility` only logs a warning and skips the module.
+ * The bundled AI Ready and Skew Protection modules require Nuxt 4. Nuxt 4.1 adds
+ * `moduleDependencies`. Enforce the range because incompatible `meta.compatibility`
+ * only logs a warning and skips the module.
  */
-const NUXT_COMPATIBILITY = '^3.21.11 || >=4.1.0'
+const NUXT_COMPATIBILITY = '>=4.1.0'
 
 const moduleDependencies = {
   '@nuxtjs/robots': {
-    version: '>=5.5',
+    version: '>=6.0',
   },
   '@nuxtjs/sitemap': {
-    version: '>=7.4',
+    version: '>=8.3',
   },
   'nuxt-link-checker': {
     version: '>=4.3',
@@ -54,15 +54,24 @@ const moduleDependencies = {
     version: '>=7.0',
   },
   'nuxt-site-config': {
-    version: '>=3.2',
+    version: '>=4.0',
   },
   'nuxt-skew-protection': {
-    version: '>=1.0',
-    optional: true,
+    version: '>=1.6.2',
+    defaults: {
+      // Native manifest polling works on static, serverless, and Node deployments.
+      updateStrategy: 'polling',
+      // Asset retention works without adding cookies to every document response.
+      cookie: false,
+    },
   },
   'nuxt-ai-ready': {
-    version: '>=1.0',
-    optional: true,
+    version: '>=2.5.3',
+    defaults: {
+      // Publishing project instructions and server route catalogs requires opt-in.
+      agentSkills: false,
+      apiCatalog: false,
+    },
   },
   '@nuxtjs/i18n': {
     version: '>=10.0',
@@ -80,7 +89,19 @@ export default defineNuxtModule<ModuleOptions>({
     const options = (nuxt.options as { nuxtseo?: Partial<ModuleOptions> | false }).nuxtseo
     if (options === false || options?.enabled === false)
       return {}
-    return moduleDependencies
+    // Dependency defaults turn a false config key into an object in Nuxt.
+    // Omit defaults for disabled modules so their own disable switch still works.
+    return {
+      ...moduleDependencies,
+      'nuxt-ai-ready': {
+        ...moduleDependencies['nuxt-ai-ready'],
+        defaults: nuxt.options.aiReady === false ? undefined : moduleDependencies['nuxt-ai-ready'].defaults,
+      },
+      'nuxt-skew-protection': {
+        ...moduleDependencies['nuxt-skew-protection'],
+        defaults: nuxt.options.skewProtection === false ? undefined : moduleDependencies['nuxt-skew-protection'].defaults,
+      },
+    }
   },
   defaults: {
     enabled: true,

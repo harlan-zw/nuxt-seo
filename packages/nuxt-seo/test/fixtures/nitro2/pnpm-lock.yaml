@@ -187,7 +187,7 @@ importers:
         version: 6.2.3(eb066447ee413932384e00b2dec26426)
       '@nuxtjs/seo':
         specifier: file:../nitro-parity/nuxtjs-seo.tgz
-        version: file:../nitro-parity/nuxtjs-seo.tgz(19f81726cb9864ec96a842541f227629)
+        version: file:../nitro-parity/nuxtjs-seo.tgz(e7adb02041f0f456cdf6be11c5bc48f3)
       '@nuxtjs/sitemap':
         specifier: 8.6.1
         version: 8.6.1(2dca9f71ea60a2ca25b83ccabaffd891)
@@ -204,8 +204,8 @@ importers:
         specifier: 4.5.2
         version: 4.5.2(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.142.0)(@types/node@26.1.2)(@vitejs/devtools-kit@0.4.10(srvx@0.11.22)(typescript@6.0.3)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)))(@vue/compiler-sfc@3.5.40)(db0@0.3.4(drizzle-orm@0.45.2))(drizzle-orm@0.45.2)(esbuild@0.28.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(magicast@0.5.4)(oxc-parser@0.142.0)(rolldown@1.2.2)(rollup-plugin-visualizer@7.0.1(rolldown@1.2.2)(rollup@4.62.4))(rollup@4.62.4)(srvx@0.11.22)(supports-color@10.2.2)(terser@5.49.0)(typescript@6.0.3)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(vue-tsc@3.3.11(typescript@6.0.3))(yaml@2.9.0)
       nuxt-ai-ready:
-        specifier: ^2.5.0
-        version: 2.5.0(08b63063aff48c16057e85d784e71f04)
+        specifier: 2.5.3
+        version: 2.5.3(08b63063aff48c16057e85d784e71f04)
       nuxt-link-checker:
         specifier: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@7f45299
         version: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@7f45299(78d97cbd8be719f38eb9f9bafd556ab8)
@@ -222,8 +222,8 @@ importers:
         specifier: 4.2.3
         version: 4.2.3(eb066447ee413932384e00b2dec26426)
       nuxt-skew-protection:
-        specifier: 1.5.4
-        version: 1.5.4(d4ceedf063e0b023adad765099126da1)
+        specifier: 1.6.2
+        version: 1.6.2(d4ceedf063e0b023adad765099126da1)
       nuxtseo-shared:
         specifier: file:../nitro-parity/nuxtseo-shared.tgz
         version: file:../nitro-parity/nuxtseo-shared.tgz(11f82a97bd8a40ed3293ebb77e73a254)
@@ -792,10 +792,6 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@mdream/js@2.0.0-beta.1':
-    resolution: {integrity: sha512-vvG3oUa47oKx2zCk0j48nRiIlZ+taRaQYkTdWALO+QNGMEZ1bgzTn7J4yd+B44MLFa4GxAQE0QNT9Jd1bj+y9Q==}
-    hasBin: true
-
   '@mdream/rust-android-arm-eabi@2.0.0-beta.1':
     resolution: {integrity: sha512-Ci/61mjkJz3JHvnh1EKt7LOviqSTi6MHSpG7Wj0v3Dxxp78D+U5Q/Nujl2cQTQ1j72Y95FECEOK8sDbgWPU07w==}
     engines: {node: '>= 22.0.0'}
@@ -1018,7 +1014,7 @@ packages:
         optional: true
 
   '@nuxtjs/seo@file:../nitro-parity/nuxtjs-seo.tgz':
-    resolution: {integrity: sha512-bAbV8ihFDuo5yfrIbS5Fgke4Jod9ZAdnQUMj5vLuWYZlRKKcSWkmTTTUtllafjmmHwFVP7qL9RPh33do+l1Hbw==, tarball: file:../nitro-parity/nuxtjs-seo.tgz}
+    resolution: {integrity: sha512-xHXuuam5+l/QySQDFvNasMUQQmJkxsTRHfL7TU26o7ZQ1PXYZHrrPDbDTSC+kGhDAZOQj458k+QhCvIYhzcnUg==, tarball: file:../nitro-parity/nuxtjs-seo.tgz}
     version: 5.3.16
     peerDependencies:
       nuxt: 4.5.2
@@ -3427,8 +3423,8 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  nuxt-ai-ready@2.5.0:
-    resolution: {integrity: sha512-TsXQP6JWzdjPo4ooJcjf+f5e85tSuwL4cctRUJKZwC4xDlvFPF1WvVmWQLvpCss2Rqu/m5msdANwaX7aT0h0MQ==}
+  nuxt-ai-ready@2.5.3:
+    resolution: {integrity: sha512-oXI2ivFWcykpZPXXijrzemxZrsuKh+rDgMOTxeHuwm+fASopFs9jEUFrFxoGdVhBUKEh0GFn2gkKejFTa9b8xw==}
     hasBin: true
     peerDependencies:
       '@libsql/client': ^0.18.0
@@ -3444,6 +3440,9 @@ packages:
         optional: true
       postgres:
         optional: true
+    bundledDependencies:
+      - mdream
+      - '@mdream/js'
 
   nuxt-link-checker@5.3.0:
     resolution: {integrity: sha512-TIwN5LM85hwGI/kTHX3jcF/De+ae2DjmVs20KyyEQ6igBGNDQEnkBwMN+Eo+neK6Ihrffpm6DmjAc5UYthpwAg==}
@@ -3641,8 +3640,8 @@ packages:
     peerDependencies:
       vue: ^3.5.30
 
-  nuxt-skew-protection@1.5.4:
-    resolution: {integrity: sha512-UboiVCE1ERG8Vh5F7Mkko/DJsFo7UE11GTsFwnxk/6xq+lQBXUKyCHyxcTIDwaYU+Jo3mLD8gZg6jzsyqd2tMQ==}
+  nuxt-skew-protection@1.6.2:
+    resolution: {integrity: sha512-ZJ5FSC7xRUwLtDzWOuUcby4ZhpZWy+5BZDwfHNRpbyEuY+LCSvgj1Qg4LXtPNAvzi0wZVZBsiy1vmpC4NvHciA==}
     hasBin: true
     peerDependencies:
       '@nuxtjs/robots': '>=5.6.7'
@@ -3669,7 +3668,7 @@ packages:
         optional: true
 
   nuxtseo-shared@file:../nitro-parity/nuxtseo-shared.tgz:
-    resolution: {integrity: sha512-bivrwl+mGDEarQFkhQCOWASyCrWYRNN6yDBjbqk843JuYaGwjiPjJ7tah4DnqJvIj36yy+HgBF3PWrzOkSlBpg==, tarball: file:../nitro-parity/nuxtseo-shared.tgz}
+    resolution: {integrity: sha512-RsMci1j7ryUC/GF9xw3B5zTMgKTP8dXpXTec9UfYx+btE2waumL/BtVB+7GqYL0jJFqGDmFDVZqVtslCCKr/Sg==, tarball: file:../nitro-parity/nuxtseo-shared.tgz}
     version: 5.3.16
     peerDependencies:
       '@nuxt/schema': 4.5.2
@@ -5365,11 +5364,6 @@ snapshots:
       - encoding
       - supports-color
 
-  '@mdream/js@2.0.0-beta.1':
-    dependencies:
-      cac: 7.0.0
-      pathe: 2.0.3
-
   '@mdream/rust-android-arm-eabi@2.0.0-beta.1':
     optional: true
 
@@ -5893,21 +5887,24 @@ snapshots:
       - vite
       - vue
 
-  '@nuxtjs/seo@file:../nitro-parity/nuxtjs-seo.tgz(19f81726cb9864ec96a842541f227629)':
+  '@nuxtjs/seo@file:../nitro-parity/nuxtjs-seo.tgz(e7adb02041f0f456cdf6be11c5bc48f3)':
     dependencies:
       '@nuxt/kit': 4.5.2(magic-string@1.4.2)(magicast@0.5.4)(oxc-parser@0.142.0)(rolldown@1.2.2)(unplugin@3.4.0(esbuild@0.28.1)(rolldown@1.2.2)(rollup@4.62.4)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)))
       '@nuxtjs/robots': 6.2.3(eb066447ee413932384e00b2dec26426)
       '@nuxtjs/sitemap': 8.6.1(2dca9f71ea60a2ca25b83ccabaffd891)
       nuxt: 4.5.2(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.142.0)(@types/node@26.1.2)(@vitejs/devtools-kit@0.4.10(srvx@0.11.22)(typescript@6.0.3)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)))(@vue/compiler-sfc@3.5.40)(db0@0.3.4(drizzle-orm@0.45.2))(drizzle-orm@0.45.2)(esbuild@0.28.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(magicast@0.5.4)(oxc-parser@0.142.0)(rolldown@1.2.2)(rollup-plugin-visualizer@7.0.1(rolldown@1.2.2)(rollup@4.62.4))(rollup@4.62.4)(srvx@0.11.22)(supports-color@10.2.2)(terser@5.49.0)(typescript@6.0.3)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(vue-tsc@3.3.11(typescript@6.0.3))(yaml@2.9.0)
+      nuxt-ai-ready: 2.5.3(08b63063aff48c16057e85d784e71f04)
       nuxt-link-checker: 5.3.0(78d97cbd8be719f38eb9f9bafd556ab8)
       nuxt-og-image: 6.9.1(4f4059a2f079cb499010f207f0f5af56)
       nuxt-schema-org: 6.3.2(129f115225a80487bb087a5a3acf9320)
       nuxt-seo-utils: 8.5.2(574b7539966ac1ed55cd8c15d9a9acc3)
       nuxt-site-config: 4.2.3(eb066447ee413932384e00b2dec26426)
+      nuxt-skew-protection: 1.6.2(d4ceedf063e0b023adad765099126da1)
       nuxtseo-shared: file:../nitro-parity/nuxtseo-shared.tgz(11f82a97bd8a40ed3293ebb77e73a254)
       pkg-types: 2.3.3
       semver: 7.8.5
     transitivePeerDependencies:
+      - '@aws-sdk/client-rds-data'
       - '@azure/app-configuration'
       - '@azure/cosmos'
       - '@azure/data-tables'
@@ -5915,19 +5912,47 @@ snapshots:
       - '@azure/keyvault-secrets'
       - '@azure/storage-blob'
       - '@capacitor/preferences'
+      - '@cloudflare/workers-types'
       - '@deno/kv'
+      - '@effect/sql-d1'
+      - '@effect/sql-libsql'
+      - '@effect/sql-mysql2'
+      - '@effect/sql-pg'
+      - '@effect/sql-pglite'
+      - '@effect/sql-sqlite-bun'
+      - '@effect/sql-sqlite-do'
+      - '@effect/sql-sqlite-node'
+      - '@effect/sql-sqlite-wasm'
+      - '@electric-sql/pglite'
       - '@farmfe/core'
+      - '@libsql/client'
+      - '@libsql/client-wasm'
+      - '@neondatabase/serverless'
       - '@netlify/blobs'
       - '@nuxt/schema'
+      - '@op-engineering/op-sqlite'
+      - '@opentelemetry/api'
       - '@oxc-project/types'
       - '@planetscale/database'
       - '@resvg/resvg-js'
       - '@resvg/resvg-wasm'
       - '@rsbuild/core'
       - '@rspack/core'
+      - '@sinclair/typebox'
+      - '@sqlitecloud/drivers'
       - '@takumi-rs/core'
       - '@takumi-rs/wasm'
+      - '@tidbcloud/serverless'
+      - '@tursodatabase/database'
+      - '@tursodatabase/database-common'
+      - '@tursodatabase/database-wasm'
+      - '@tursodatabase/serverless'
+      - '@tursodatabase/sync'
+      - '@types/better-sqlite3'
+      - '@types/mssql'
       - '@types/node'
+      - '@types/pg'
+      - '@types/sql.js'
       - '@unhead/vue'
       - '@unocss/config'
       - '@unocss/core'
@@ -5935,32 +5960,49 @@ snapshots:
       - '@vercel/blob'
       - '@vercel/functions'
       - '@vercel/kv'
+      - '@vercel/postgres'
+      - '@xata.io/client'
+      - ably
+      - arktype
       - aws4fetch
+      - better-sqlite3
+      - bun-types
       - bun-types-no-globals
       - db0
+      - effect
       - esbuild
+      - expo-sqlite
       - fontless
       - idb-keyval
       - ioredis
       - lightningcss
       - magic-string
       - magicast
+      - mssql
+      - mysql2
       - nitro
       - nitropack
       - oxc-parser
+      - pg
       - playwright-core
+      - postgres
+      - pusher-js
       - rolldown
       - rollup
       - satori
       - sharp
+      - sql.js
+      - sqlite3
       - supports-color
       - tailwindcss
+      - typebox
       - unhead
       - unifont
       - unloader
       - unplugin
       - unstorage
       - uploadthing
+      - valibot
       - vite
       - vue
       - webpack
@@ -7971,9 +8013,8 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  nuxt-ai-ready@2.5.0(08b63063aff48c16057e85d784e71f04):
+  nuxt-ai-ready@2.5.3(08b63063aff48c16057e85d784e71f04):
     dependencies:
-      '@mdream/js': 2.0.0-beta.1
       '@nuxt/kit': 4.5.2(magic-string@1.4.2)(magicast@0.5.4)(oxc-parser@0.142.0)(rolldown@1.2.2)(unplugin@3.4.0(esbuild@0.28.1)(rolldown@1.2.2)(rollup@4.62.4)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)))
       '@nuxtjs/robots': 6.2.3(eb066447ee413932384e00b2dec26426)
       '@nuxtjs/sitemap': 8.6.1(2dca9f71ea60a2ca25b83ccabaffd891)
@@ -7981,7 +8022,6 @@ snapshots:
       consola: 3.4.2
       defu: 6.1.7
       drizzle-orm: 1.0.0-rc.4(valibot@1.4.2(typescript@6.0.3))(zod@4.4.3)
-      mdream: 2.0.0-beta.1
       nuxt-site-config: 4.2.3(eb066447ee413932384e00b2dec26426)
       nuxtseo-shared: file:../nitro-parity/nuxtseo-shared.tgz(11f82a97bd8a40ed3293ebb77e73a254)
       pathe: 2.0.3
@@ -8551,7 +8591,7 @@ snapshots:
       - vite
       - zod
 
-  nuxt-skew-protection@1.5.4(d4ceedf063e0b023adad765099126da1):
+  nuxt-skew-protection@1.6.2(d4ceedf063e0b023adad765099126da1):
     dependencies:
       '@nuxt/kit': 4.5.2(magic-string@1.4.2)(magicast@0.5.4)(oxc-parser@0.142.0)(rolldown@1.2.2)(unplugin@3.4.0(esbuild@0.28.1)(rolldown@1.2.2)(rollup@4.62.4)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)))
       '@nuxtjs/robots': 6.2.3(eb066447ee413932384e00b2dec26426)
