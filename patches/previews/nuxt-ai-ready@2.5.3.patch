@@ -1,0 +1,26 @@
+diff --git a/package.json b/package.json
+index eb66ea6..ca4ae7a 100644
+--- a/package.json
++++ b/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "nuxt-ai-ready",
+   "type": "module",
+-  "version": "2.5.3",
++  "version": "3.0.0",
+   "description": "Best practice AI & LLM discoverability for Nuxt sites.",
+   "author": {
+     "name": "Harlan Wilton",
+diff --git a/dist/module.json b/dist/module.json
+index 0893c2c..48af196 100644
+--- a/dist/module.json
++++ b/dist/module.json
+@@ -4,7 +4,7 @@
+     "nuxt": "^4.6.0 || ^5.0.0"
+   },
+   "configKey": "aiReady",
+-  "version": "2.5.3",
++  "version": "3.0.0",
+   "builder": {
+     "@nuxt/module-builder": "1.0.3",
+     "unbuild": "3.6.1"

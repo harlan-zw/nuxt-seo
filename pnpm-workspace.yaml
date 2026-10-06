@@ -118,6 +118,17 @@ overrides:
   unhead: ^3.4.1
   vue: ^3.5.43
 
+# Temporary metadata for immutable previews. Remove with the preview overrides.
+patchedDependencies:
+  '@nuxtjs/robots@6.2.4': patches/previews/nuxtjs__robots@6.2.4.patch
+  '@nuxtjs/sitemap@8.6.1': patches/previews/nuxtjs__sitemap@8.6.1.patch
+  nuxt-ai-ready@2.5.3: patches/previews/nuxt-ai-ready@2.5.3.patch
+  nuxt-og-image@6.10.3: patches/previews/nuxt-og-image@6.10.3.patch
+  nuxt-schema-org@6.4.3: patches/previews/nuxt-schema-org@6.4.3.patch
+  nuxt-seo-utils@8.6.1: patches/previews/nuxt-seo-utils@8.6.1.patch
+  nuxt-skew-protection@1.6.2: patches/previews/nuxt-skew-protection@1.6.2.patch
+  nuxtseo-shared@5.3.16: patches/previews/nuxtseo-shared@5.3.16.patch
+
 allowBuilds:
   '@firebase/util': false
   '@parcel/watcher': true

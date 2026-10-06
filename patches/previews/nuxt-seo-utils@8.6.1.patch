@@ -1,0 +1,26 @@
+diff --git a/package.json b/package.json
+index 533cfac..3ad214f 100644
+--- a/package.json
++++ b/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "nuxt-seo-utils",
+   "type": "module",
+-  "version": "8.6.1",
++  "version": "9.0.0",
+   "description": "SEO utilities to improve your Nuxt sites discoverability and shareability",
+   "license": "MIT",
+   "funding": "https://github.com/sponsors/harlan-zw",
+diff --git a/dist/module.json b/dist/module.json
+index 88e7d8e..62d9ede 100644
+--- a/dist/module.json
++++ b/dist/module.json
+@@ -4,7 +4,7 @@
+   "compatibility": {
+     "nuxt": "^4.6.0 || ^5.0.0"
+   },
+-  "version": "8.6.1",
++  "version": "9.0.0",
+   "builder": {
+     "@nuxt/module-builder": "1.0.3",
+     "unbuild": "3.6.1"

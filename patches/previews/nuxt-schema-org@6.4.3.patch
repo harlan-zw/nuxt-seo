@@ -1,0 +1,26 @@
+diff --git a/package.json b/package.json
+index 8249a8e..8f552eb 100644
+--- a/package.json
++++ b/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "nuxt-schema-org",
+   "type": "module",
+-  "version": "6.4.3",
++  "version": "7.0.0",
+   "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
+   "author": "Harlan Wilton <harlan@harlanzw.com>",
+   "license": "MIT",
+diff --git a/dist/module.json b/dist/module.json
+index ee0b0a1..9356d81 100644
+--- a/dist/module.json
++++ b/dist/module.json
+@@ -25,7 +25,7 @@
+       "optional": true
+     }
+   },
+-  "version": "6.4.3",
++  "version": "7.0.0",
+   "builder": {
+     "@nuxt/module-builder": "1.0.3",
+     "unbuild": "3.6.1"

@@ -1,0 +1,26 @@
+diff --git a/package.json b/package.json
+index 4ca4fea..78d55d2 100644
+--- a/package.json
++++ b/package.json
+@@ -1,7 +1,7 @@
+ {
+   "name": "@nuxtjs/sitemap",
+   "type": "module",
+-  "version": "8.6.1",
++  "version": "9.0.0",
+   "description": "Powerfully flexible XML Sitemaps that integrate seamlessly, for Nuxt.",
+   "author": {
+     "name": "Harlan Wilton",
+diff --git a/dist/module.json b/dist/module.json
+index 5cf98e5..03f5b9e 100644
+--- a/dist/module.json
++++ b/dist/module.json
+@@ -4,7 +4,7 @@
+     "nuxt": "^4.6.0 || ^5.0.0"
+   },
+   "configKey": "sitemap",
+-  "version": "8.6.1",
++  "version": "9.0.0",
+   "builder": {
+     "@nuxt/module-builder": "1.0.3",
+     "unbuild": "3.6.1"
