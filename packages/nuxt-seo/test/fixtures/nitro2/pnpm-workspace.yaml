@@ -1,49 +1,124 @@
-linkWorkspacePackages: false
-preferWorkspacePackages: false
-# Unreleased Nitro 3 compatibility previews reference sibling preview tarballs.
+ignoreWorkspaceRootCheck: true
 blockExoticSubdeps: false
-
+minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
-  - nuxt-ai-ready@1.7.3 || 2.5.0 || 2.5.2 || 2.5.3
-  - nuxt-skew-protection@1.6.1 || 1.6.2
-  - nuxtseo-shared@5.3.10 || 5.3.11
-  - '@rolldown/binding-android-arm64@1.2.2'
-  - nuxt-site-config-kit@4.1.4
-  - nuxt-site-config@4.1.4
-  - site-config-stack@4.1.4
-  - sitemapd@0.2.1
-  - '@mdream/rust-android-arm-eabi@2.0.0-beta.1'
-  - '@mdream/rust-android-arm64@2.0.0-beta.1'
-  - '@mdream/rust-darwin-arm64@2.0.0-beta.1'
-  - '@mdream/rust-darwin-x64@2.0.0-beta.1'
-  - '@mdream/rust-freebsd-x64@2.0.0-beta.1'
-  - '@mdream/rust-linux-arm-gnueabihf@2.0.0-beta.1'
-  - '@mdream/rust-linux-arm64-gnu@2.0.0-beta.1'
-  - '@mdream/rust-linux-arm64-musl@2.0.0-beta.1'
-  - '@mdream/rust-linux-x64-gnu@2.0.0-beta.1'
-  - '@mdream/rust-linux-x64-musl@2.0.0-beta.1'
-  - '@mdream/rust-wasm32-wasi@2.0.0-beta.1'
-  - '@mdream/rust-win32-arm64-msvc@2.0.0-beta.1'
-  - '@mdream/rust-win32-x64-msvc@2.0.0-beta.1'
-  - mdream@2.0.0-beta.1
-  - '@mdream/js@2.0.0-beta.1'
-
+  - "@nuxt/cli@4.0.0"
+  - "@nuxt/kit@4.6.0"
+  - "@nuxt/nitro-server@4.6.0"
+  - "@nuxt/schema@4.6.0"
+  - "@nuxt/vite-builder@4.6.0"
+  - "@nuxt/vite-server@4.6.0"
+  - nuxt@4.6.0
+trustPolicy: no-downgrade
+trustPolicyIgnoreAfter: 262800
+trustPolicyExclude:
+  - stylehacks@9.0.7
+  - postcss-unique-selectors@9.0.5
+  - postcss-svgo@9.0.4
+  - postcss-reduce-transforms@9.0.4
+  - postcss-reduce-initial@9.0.6
+  - postcss-ordered-values@9.0.6
+  - postcss-normalize-whitespace@9.0.5
+  - postcss-normalize-url@9.0.5
+  - postcss-normalize-unicode@9.0.5
+  - postcss-normalize-timing-functions@9.0.5
+  - postcss-normalize-string@9.0.5
+  - postcss-normalize-repeat-style@9.0.5
+  - postcss-normalize-positions@9.0.6
+  - postcss-normalize-display-values@9.0.5
+  - postcss-normalize-charset@9.0.5
+  - postcss-minify-selectors@9.0.6
+  - postcss-minify-params@9.0.6
+  - postcss-minify-gradients@9.0.6
+  - postcss-minify-font-values@9.0.7
+  - postcss-merge-rules@9.0.8
+  - postcss-merge-longhand@9.2.0
+  - postcss-discard-overridden@9.0.5
+  - postcss-discard-empty@9.0.5
+  - postcss-discard-duplicates@9.0.5
+  - postcss-discard-comments@9.0.6
+  - postcss-convert-values@9.0.7
+  - postcss-colormin@9.0.6
+  - cssnano-utils@8.1.0
+  - cssnano-preset-default@9.2.2
+  - cssnano@9.2.2
+strictPeerDependencies: false
+publicHoistPattern:
+  - "*eslint*"
+  - "*prettier*"
+  - "@intlify/*"
+  - vue-i18n
+shellEmulator: true
+packages:
+  - .
 overrides:
-  nuxtseo-shared: file:../nitro-parity/nuxtseo-shared.tgz
-  '@mdream/js': 2.0.0-beta.1
-  mdream: 2.0.0-beta.1
-  '@nuxt/kit': 4.5.2
-  '@nuxt/nitro-server': 4.5.2
-  '@nuxt/schema': 4.5.2
-  '@nuxt/vite-builder': 4.5.2
-  nuxt: 4.5.2
-
-onlyBuiltDependencies:
-  - better-sqlite3
-  - esbuild
-  - sharp
-
+  "@nuxtjs/robots": https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@24f4dcdbf3cd8d4c19a210b62eec8295eb4772a7
+  "@nuxtjs/sitemap": https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@7879681b68064274eea0be819003669b9422b60d
+  "@unhead/bundler": ^3.4.1
+  "@unhead/vue": ^3.4.1
+  better-sqlite3: ^13.0.3
+  cssnano: 9.2.2
+  cssnano-preset-default: 9.2.2
+  cssnano-utils: 8.1.0
+  nuxt-ai-ready: https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@9675a2c9d68ab1a4e6b9db1eb4a1f28f3249606e
+  nuxt-link-checker: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@31f8cc90882f6b5d01aec4461dede297816588fa
+  nuxt-og-image: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@42acd74449da9443bf2c3281588706db994115ad
+  nuxt-schema-org: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@92d351e5b56e8bbcfb20951947a3354ffdf720c8
+  nuxt-seo-utils: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@64c52852391ea05ebb34930714433177030d6663
+  nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104
+  nuxt-skew-protection: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@93541b1327fbd257fc19bb3152c02c62eb844dac
+  nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5
+  postcss-calc: 11.2.2
+  postcss-colormin: 9.0.6
+  postcss-convert-values: 9.0.7
+  postcss-discard-comments: 9.0.6
+  postcss-discard-duplicates: 9.0.5
+  postcss-discard-empty: 9.0.5
+  postcss-discard-overridden: 9.0.5
+  postcss-merge-longhand: 9.2.0
+  postcss-merge-rules: 9.0.8
+  postcss-minify-font-values: 9.0.7
+  postcss-minify-gradients: 9.0.6
+  postcss-minify-params: 9.0.6
+  postcss-minify-selectors: 9.0.6
+  postcss-normalize-charset: 9.0.5
+  postcss-normalize-display-values: 9.0.5
+  postcss-normalize-positions: 9.0.6
+  postcss-normalize-repeat-style: 9.0.5
+  postcss-normalize-string: 9.0.5
+  postcss-normalize-timing-functions: 9.0.5
+  postcss-normalize-unicode: 9.0.5
+  postcss-normalize-url: 9.0.5
+  postcss-normalize-whitespace: 9.0.5
+  postcss-ordered-values: 9.0.6
+  postcss-reduce-initial: 9.0.6
+  postcss-reduce-transforms: 9.0.4
+  postcss-svgo: 9.0.4
+  postcss-unique-selectors: 9.0.5
+  rollup-plugin-dts: ^6.5.1
+  semver: ^7.8.5
+  stylehacks: 9.0.7
+  unhead: ^3.4.1
+  vue: ^3.5.43
+  nuxt-site-config-kit: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@03e159ba633c883477bc93ed0590ff5ab3788104
+  site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@03e159ba633c883477bc93ed0590ff5ab3788104
 allowBuilds:
+  "@firebase/util": false
+  "@parcel/watcher": true
   better-sqlite3: true
   esbuild: true
+  protobufjs: false
   sharp: true
+  simple-git-hooks: false
+  unrs-resolver: false
+  vue-demi: true
+  workerd: false
+ignoredBuiltDependencies:
+  - "@parcel/watcher"
+  - esbuild
+  - maplibre-gl
+  - sharp
+  - vue-demi
+  - workerd
+onlyBuiltDependencies:
+  - better-sqlite3

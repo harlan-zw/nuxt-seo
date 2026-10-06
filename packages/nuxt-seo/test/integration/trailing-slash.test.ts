@@ -32,8 +32,8 @@ describe('trailing slash', () => {
       <meta property="og:title" data-infer="" content="About | @nuxtjs/seo">
       <meta property="og:description" data-infer="" content="Fully equipped Technical SEO for busy Nuxters.">
       <link rel="canonical" href="https://local.nuxtseo.com/about/">
-      <meta property="og:url" content="https://local.nuxtseo.com/about/">
-      <meta property="og:site_name" content="@nuxtjs/seo">"
+      <meta property="og:site_name" content="@nuxtjs/seo">
+      <meta property="og:url" content="https://local.nuxtseo.com/about/">"
     `)
   })
   it('sitemap - default', async () => {

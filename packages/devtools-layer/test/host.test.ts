@@ -21,6 +21,11 @@ describe('createDevtoolsHost', () => {
     expect(host.rpc('x', {})).toBeUndefined()
   })
 
+  it('rejects a non-callable host fetch', () => {
+    const host = createDevtoolsHost({ host: { app: { $fetch: 'unavailable' } } } as any)
+    expect(host.fetch).toBeUndefined()
+  })
+
   it('resolves provides from either the app context or the root instance', () => {
     const usehead = { resolveTags: () => [] }
     const fromContext = createDevtoolsHost({

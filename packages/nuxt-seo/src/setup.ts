@@ -115,10 +115,10 @@ export function setupDevelopmentChecks(nuxt: Nuxt, options: { tips: boolean } = 
       }
     }
     context.hasContent = nuxt.options._installedModules.some(item => item.meta?.name === '@nuxt/content' || item.meta?.name === '@harlan-zw/comark-content')
-    setupNitroRuntimeCompatibility(nuxt)
+    const compatibility = setupNitroRuntimeCompatibility(nuxt)
     addServerTemplate({
       filename: '#nuxt-seo/setup.mjs',
-      getContents: () => `export default ${JSON.stringify({ installedModuleSlugs, disabledModuleSlugs, baseURL: nuxt.options.app.baseURL, homepagePaths, stateDirectory: join(nuxt.options.buildDir, 'cache/nuxt-seo'), context: parseSetupChecklistContext(context) })}`,
+      getContents: () => `export default ${JSON.stringify({ nitroBuilder: compatibility._tag, installedModuleSlugs, disabledModuleSlugs, baseURL: nuxt.options.app.baseURL, homepagePaths, stateDirectory: join(nuxt.options.buildDir, 'cache/nuxt-seo'), context: parseSetupChecklistContext(context) })}`,
     })
     if (!isAgent && !isCI)
       addServerPlugin(resolve('./runtime/server/plugins/setup'))

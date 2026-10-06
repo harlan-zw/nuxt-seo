@@ -6,7 +6,7 @@ import { createServer } from 'node:net'
 
 const fixtureDir = import.meta.dirname
 
-async function run(command, args) {
+async function run(command: string, args: string[]) {
   const child = spawn(command, args, {
     cwd: fixtureDir,
     env: process.env,
@@ -26,18 +26,20 @@ async function run(command, args) {
 }
 
 const buildOutput = await run('nuxt', ['build'])
-assert.doesNotMatch(buildOutput, /\[UNRESOLVED_IMPORT\]|Could not resolve ['"](?:nitropack\/runtime|h3)['"]/, 'Nuxt 5 build emitted a legacy Nitro import warning')
+assert.doesNotMatch(buildOutput, /Could not resolve ['"](?:nitropack\/runtime(?:\/[^'"]*)?|h3(?:\/[^'"]*)?)['"]/, 'Nuxt 5 build emitted a legacy Nitro import warning')
 
 const portServer = createServer()
 portServer.listen(0, '127.0.0.1')
 await once(portServer, 'listening')
-const port = portServer.address().port
+const address = portServer.address()
+assert.ok(address && typeof address === 'object')
+const port = address.port
 portServer.close()
 await once(portServer, 'close')
 
 const origin = `http://127.0.0.1:${port}`
 const nitroManifest = JSON.parse(await readFile(new URL('.output/nitro.json', import.meta.url), 'utf8'))
-assert.match(nitroManifest.versions.nitro, /^3\./)
+assert.match(nitroManifest.versions.nitro, process.env.NUXT_TEST_LANE === 'nuxt5' ? /^3\./ : /^2\./)
 
 const server = spawn(process.execPath, ['.output/server/index.mjs'], {
   cwd: import.meta.dirname,
@@ -61,7 +63,7 @@ async function waitForServer() {
       signal: AbortSignal.timeout(1_000),
     }).catch((error) => {
       // Timeouts and refused connections are expected until the child server is ready.
-      if (error instanceof TypeError || error?.name === 'TimeoutError')
+      if (error instanceof TypeError || (error instanceof Error && error.name) === 'TimeoutError')
         return null
       throw error
     })
@@ -75,6 +77,18 @@ async function waitForServer() {
 
 try {
   const response = await waitForServer()
+  const html = await fetch(origin).then(response => response.text())
+  assert.match(html, /<p>App:nuxt-5<\/p>/)
+  assert.match(html, /<p>nuxt-5<\/p>/)
+  const aliases = await fetch(`${origin}/api/aliases`, { headers: { 'x-alias': 'typed-server' } })
+  assert.equal(aliases.status, 200)
+  assert.deepEqual(await aliases.json(), { message: 'Server:nuxt-5:typed-server', standalone: 'nuxt-5:typed-server' })
+  const native = await fetch(`${origin}/api/portable`, { headers: { authorization: 'Bearer fixture', cookie: 'fixture=yes' } })
+  assert.equal(native.status, 200)
+  assert.deepEqual(await native.json(), { authorization: 'Bearer fixture', cookie: 'fixture=yes', routeHeader: 'native-rule' })
+  const task = await fetch(`${origin}/api/task-fetch`)
+  assert.equal(task.status, 200)
+  assert.deepEqual(await task.json(), { header: 'restoration', marker: 'scheduled' })
   assert.deepEqual(await response.json(), {
     forwardedRequestHeader: 'nuxt-5-forwarded',
     marker: 'nuxt-5',

@@ -16,6 +16,8 @@ export default defineBuildConfig({
     { input: 'src/brand', name: 'brand' },
     { input: 'src/checklist', name: 'checklist' },
     { input: 'src/server', name: 'server' },
+    { input: 'src/fetch', name: 'fetch' },
+    { input: 'src/prerender', name: 'prerender' },
   ],
   externals: [
     /^nitropack/,

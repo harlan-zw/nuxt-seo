@@ -1,5 +1,6 @@
 import type { Nuxt } from '@nuxt/schema'
-import { addTypeTemplate, directoryToURL, getNuxtVersion, resolveModule, useLogger, useNuxt } from '@nuxt/kit'
+import { pathToFileURL } from 'node:url'
+import { addTypeTemplate, directoryToURL, getNitroVersion, resolveModule, useLogger, useNuxt } from '@nuxt/kit'
 
 export type NitroRuntimeCompatibility
   = | {
@@ -34,6 +35,7 @@ const typeSetupMarker = Symbol.for('nuxtseo:nitro-runtime-compatibility:request-
 const runtimeSetupMarker = Symbol.for('nuxtseo:nitro-runtime-compatibility:request-context')
 
 interface NuxtNitroCompatibilityOptions {
+  noExternals?: boolean | (string | RegExp)[]
   alias?: Record<string, string>
   externals?: {
     inline?: (string | RegExp)[]
@@ -64,7 +66,8 @@ const nitroV3Compatibility: NitroRuntimeCompatibility = {
   nitroTypesModule: 'nitro/types',
 }
 
-const nitroV2Runtime = `export {
+const nitroV2Runtime = `import { useNitroApp as _useNitroApp } from 'nitropack/runtime'
+export {
   defineNitroPlugin,
   useNitroApp,
   useEvent,
@@ -75,6 +78,9 @@ const nitroV2Runtime = `export {
   defineTask,
   runTask,
 } from 'nitropack/runtime'
+export function localFetch(request, init, context) {
+  return _useNitroApp().localFetch(request, { ...init, context: context ? { _platform: context } : undefined })
+}
 export function fetchWithEvent(event, request, options) {
   return event.$fetch(request, options)
 }
@@ -94,6 +100,7 @@ const nitroV2RuntimeTypes = `export {
   defineTask,
   runTask,
 } from 'nitropack/runtime'
+export function localFetch(request: string | URL | Request, init?: RequestInit, context?: Record<string, unknown>): Promise<Response>
 export function fetchWithEvent<T>(event: import('h3').H3Event, request: import('ofetch').FetchRequest, options?: import('ofetch').FetchOptions): Promise<T>
 export function fetchRawWithEvent(event: import('h3').H3Event, request: RequestInfo | URL, init?: RequestInit): Promise<Response>
 `
@@ -102,7 +109,7 @@ const nitroV3Runtime = `import { createFetch } from '${OFETCH_RUNTIME_MODULE}'
 import { fetchWithEvent as fetchH3WithEvent, getProxyRequestHeaders } from 'nitro/h3'
 import { useNitroApp as _useNitroApp } from 'nitro/app'
 export { definePlugin as defineNitroPlugin } from 'nitro'
-export { useNitroApp } from 'nitro/app'
+export { useNitroApp, fetch as localFetch } from 'nitro/app'
 export { useRequest as useEvent } from 'nitro/context'
 import { useRuntimeConfig as _useRuntimeConfig } from 'nitro/runtime-config'
 export function useRuntimeConfig(_event) { return _useRuntimeConfig() }
@@ -110,6 +117,8 @@ export { defineCachedFunction, defineCachedHandler as defineCachedEventHandler }
 export { useStorage } from 'nitro/storage'
 export { defineTask, runTask } from 'nitro/task'
 function fetchRaw(event, input, init) {
+  if (typeof input === 'string' && input.startsWith('//'))
+    return fetchH3WithEvent(event, new URL(input, event.url), init)
   if (typeof input !== 'string' || !input.startsWith('/'))
     return fetchH3WithEvent(event, input, init)
   const headers = new Headers(getProxyRequestHeaders(event, { host: true }))
@@ -133,7 +142,7 @@ export function fetchWithEvent(event, request, options) {
 `
 
 const nitroV3RuntimeTypes = `export { definePlugin as defineNitroPlugin } from 'nitro'
-export { useNitroApp } from 'nitro/app'
+export { useNitroApp, fetch as localFetch } from 'nitro/app'
 export { useRequest as useEvent } from 'nitro/context'
 export function useRuntimeConfig(event?: import('nitro/h3').H3Event): ReturnType<typeof import('nitro/runtime-config').useRuntimeConfig>
 export { defineCachedFunction, defineCachedHandler as defineCachedEventHandler } from 'nitro/cache'
@@ -174,7 +183,8 @@ type RuntimeModuleResolution
   = | { _tag: 'resolved', path: string }
     | { _tag: 'unresolved', cause: unknown }
 
-function resolveRuntimeModule(nuxt: Nuxt, id: string): RuntimeModuleResolution {
+function resolveRuntimeModule(nuxt: Nuxt, id: 'h3' | 'nitro/h3'): RuntimeModuleResolution {
+  const urls = [...nuxt.options.modulesDir.map(directoryToURL), new URL(import.meta.url)]
   try {
     // Resolve from the project first: `nitro/h3` only exists in the consuming app's
     // dependency tree, and under a strict pnpm layout `h3` is not guaranteed to be
@@ -182,12 +192,19 @@ function resolveRuntimeModule(nuxt: Nuxt, id: string): RuntimeModuleResolution {
     return {
       _tag: 'resolved',
       path: resolveModule(id, {
-        url: [...nuxt.options.modulesDir.map(directoryToURL), new URL(import.meta.url)],
+        url: urls,
       }),
     }
   }
   catch (cause) {
-    return { _tag: 'unresolved', cause }
+    try {
+      const nuxtEntry = resolveModule('nuxt', { url: urls })
+      const builder = resolveModule(id === 'h3' ? 'nitropack' : 'nitro', { url: [pathToFileURL(nuxtEntry), ...urls] })
+      return { _tag: 'resolved', path: resolveModule(id, { url: [pathToFileURL(builder), ...urls] }) }
+    }
+    catch (nativeCause) {
+      return { _tag: 'unresolved', cause: new AggregateError([cause, nativeCause], `Could not resolve the native server module '${id}'.`) }
+    }
   }
 }
 
@@ -196,7 +213,8 @@ function applyNitroRuntimeCompatibility(
   compatibility: NitroRuntimeCompatibility,
   reportResolutionFailure = false,
 ): void {
-  const nuxtOptions = nuxt.options as Nuxt['options'] & { nitro?: NuxtNitroCompatibilityOptions }
+  // Keep Nitro3 array options separate from Nuxt4's Nitro2 boolean types.
+  const nuxtOptions = nuxt.options as { nitro?: NuxtNitroCompatibilityOptions }
   const nitroOptions = nuxtOptions.nitro ||= {}
   nitroOptions.alias ||= {}
   nitroOptions.virtual ||= {}
@@ -206,6 +224,13 @@ function applyNitroRuntimeCompatibility(
     // Vercel can omit traced shared subpaths from deployed functions: https://github.com/harlan-zw/nuxt-seo/issues/623
     if (!nitroOptions.externals.inline.includes('nuxtseo-shared'))
       nitroOptions.externals.inline.push('nuxtseo-shared')
+  }
+  else if (nitroOptions.noExternals !== true) {
+    const inline = Array.isArray(nitroOptions.noExternals) ? nitroOptions.noExternals : []
+    // Nuxt server aliases must transform portable imports in the prerender bundle too.
+    if (!inline.includes('nuxtseo-shared'))
+      inline.push('nuxtseo-shared')
+    nitroOptions.noExternals = inline
   }
   const h3RuntimeModule = compatibility._tag === 'nitro-v3' ? 'nitro/h3' : 'h3'
   nitroOptions.alias[H3_RUNTIME_MODULE] = h3RuntimeModule
@@ -247,14 +272,17 @@ export function renderNitroTypeAugmentations(
     declarations.push(...nitroTypeModules.map(module => `declare module '${module}' {\n${nitroInterfaces.join('\n')}\n}`))
   }
   if (augmentations.eventContext?.trim()) {
+    declarations.push(`declare module '@nuxt/schema' {\n${renderInterface('RequestEventContext', augmentations.eventContext)}\n}`)
     declarations.push(`declare module '${compatibility.eventContextModule}' {\n${renderInterface(compatibility.eventContextType, augmentations.eventContext)}\n}`)
   }
   return declarations.join('\n\n')
 }
 
 export function setupNitroRuntimeCompatibility(nuxt: Nuxt = useNuxt()): NitroRuntimeCompatibility {
-  const major = Number.parseInt(getNuxtVersion(nuxt), 10)
-  const compatibility = major >= 5 ? nitroV3Compatibility : nitroV2Compatibility
+  const major = getNitroVersion(nuxt)
+  if (major !== 2 && major !== 3)
+    throw new Error('Nuxt SEO requires a Nitro 2 or Nitro 3 server builder.')
+  const compatibility = major === 3 ? nitroV3Compatibility : nitroV2Compatibility
   applyNitroRuntimeCompatibility(nuxt, compatibility)
 
   const nuxtWithLegacyMarker = nuxt as Nuxt & { [legacySetupMarker]?: true }

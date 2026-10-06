@@ -40,6 +40,7 @@ export interface DevtoolsHost {
  */
 export function createDevtoolsHost(client: NuxtDevtoolsIframeClient | undefined): DevtoolsHost {
   const nuxt: any = client?.host?.nuxt
+  const hostFetch: unknown = client?.host?.app?.$fetch
   const $router: any = nuxt?.$router
   const baseURL: string = nuxt?.$config?.app?.baseURL
     || $router?.options?.history?.base
@@ -48,8 +49,7 @@ export function createDevtoolsHost(client: NuxtDevtoolsIframeClient | undefined)
     || '/'
 
   return {
-    // @ts-expect-error host.app.$fetch is untyped on some versions
-    fetch: client?.host?.app?.$fetch,
+    fetch: typeof hostFetch === 'function' ? hostFetch as $Fetch : undefined,
     route: $router?.currentRoute,
     baseURL,
     inject<T>(key: string | symbol): T | undefined {

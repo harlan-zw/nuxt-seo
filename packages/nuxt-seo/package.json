@@ -45,20 +45,23 @@
     "dist",
     "skills"
   ],
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  },
   "scripts": {
     "build": "nuxt-module-build build",
     "dev": "nuxt dev playground",
     "dev:prepare": "nuxt-module-build prepare && nuxt prepare playground",
     "typecheck": "nuxt typecheck playground",
     "prepare:fixtures": "pnpm --dir ../shared build && nuxt prepare test/fixtures/basic && nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/content",
-    "test": "pnpm prepare:fixtures && vitest",
+    "test": "pnpm test:run",
     "test:run": "pnpm prepare:fixtures && vitest run && pnpm test:nitro-parity",
-    "test:nitro-parity": "pnpm --dir ../shared build && pnpm --dir ../shared pack --out ../nuxt-seo/test/fixtures/nitro-parity/nuxtseo-shared.tgz && pnpm pack --out test/fixtures/nitro-parity/nuxtjs-seo.tgz && pnpm install --dir test/fixtures/nitro2 --no-frozen-lockfile --force --update-checksums && pnpm install --dir test/fixtures/nuxt5 --no-frozen-lockfile --force --update-checksums && node test/fixtures/nitro-parity/test.mjs",
     "test:attw": "attw --pack --profile esm-only",
-    "prepack": "nuxt-module-build build"
+    "prepack": "nuxt-module-build build",
+    "test:nitro-parity": "pnpm build && pnpm --dir test/fixtures/nitro2 install --frozen-lockfile && pnpm --dir test/fixtures/nuxt5 install --frozen-lockfile && node test/fixtures/nitro-parity/test.mjs"
   },
   "peerDependencies": {
-    "nuxt": "^4.1.0 || ^5.0.0"
+    "nuxt": "^4.6.0 || ^5.0.0"
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",
@@ -72,7 +75,6 @@
     "nuxt-site-config": "catalog:",
     "nuxt-skew-protection": "catalog:",
     "nuxtseo-shared": "workspace:*",
-    "pkg-types": "catalog:",
     "semver": "catalog:"
   },
   "devDependencies": {
@@ -92,6 +94,8 @@
     "jest-image-snapshot": "catalog:",
     "nitropack": "catalog:",
     "nuxt": "catalog:",
+    "nuxt-ai-ready": "catalog:",
+    "nuxt-skew-protection": "catalog:",
     "satori": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"

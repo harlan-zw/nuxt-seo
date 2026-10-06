@@ -38,9 +38,15 @@
     "public",
     "skills"
   ],
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  },
   "scripts": {
     "test": "vitest",
     "test:run": "vitest run"
+  },
+  "peerDependencies": {
+    "nuxt": "^4.6.0 || ^5.0.0"
   },
   "dependencies": {
     "@iconify-json/carbon": "catalog:",
@@ -51,6 +57,7 @@
     "@shikijs/themes": "catalog:",
     "@vueuse/core": "catalog:",
     "@vueuse/nuxt": "catalog:",
+    "birpc": "catalog:",
     "nuxtseo-shared": "workspace:*",
     "ofetch": "catalog:",
     "shiki": "catalog:",

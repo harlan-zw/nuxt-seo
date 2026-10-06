@@ -5,7 +5,7 @@ description: Install, configure, and debug the @nuxtjs/seo meta module, which in
 
 # @nuxtjs/seo
 
-Nuxt SEO v6 requires Nuxt 4.1 or later.
+Requires Nuxt `^4.6.0 || ^5.0.0` and Node `^22.22.3 || ^24.15.0 || >=26.0.0`.
 The package declares Nuxt `moduleDependencies`, and Nuxt installs each submodule.
 Setup checks the Nuxt version and each loaded submodule version.
 In human development sessions, the first successful home page response starts background setup checks.
@@ -153,7 +153,7 @@ Breaking change in v5: `asSeoCollection()` is deprecated and warns at build. Old
 
 ## Version limits
 
-- Nuxt 4.1 or later. Nuxt 3 sites must upgrade Nuxt before upgrading the bundle to v6.
+- Nuxt `^4.6.0 || ^5.0.0`. Earlier versions fail Nuxt’s module compatibility check. Upgrade Nuxt.
 - v5 moved every submodule up one major, except OG image. Migration: https://nuxtseo.com/docs/nuxt-seo/migration-guide/v4-to-v5
 
 ## Debug

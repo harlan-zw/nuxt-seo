@@ -29,13 +29,10 @@ describe('dev', () => {
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:image" content="https://local.nuxtseo.com/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_tjb25mqs8mf6.png">
-      <meta name="twitter:image:src" content="https://local.nuxtseo.com/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_tjb25mqs8mf6.png">
       <meta property="og:image" content="https://local.nuxtseo.com/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_tjb25mqs8mf6.png">
       <meta property="og:image:type" content="image/png">
       <meta property="og:image:width" content="1200">
-      <meta name="twitter:image:width" content="1200">
       <meta property="og:image:height" content="600">
-      <meta name="twitter:image:height" content="600">
       <meta property="og:type" content="website">
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>@nuxtjs&#x2F;seo</title>
@@ -43,8 +40,8 @@ describe('dev', () => {
       <meta property="og:title" data-infer="" content="@nuxtjs/seo">
       <meta property="og:description" data-infer="" content="Fully equipped Technical SEO for busy Nuxters.">
       <link rel="canonical" href="https://local.nuxtseo.com/">
-      <meta property="og:url" content="https://local.nuxtseo.com/">
-      <meta property="og:site_name" content="@nuxtjs/seo">"
+      <meta property="og:site_name" content="@nuxtjs/seo">
+      <meta property="og:url" content="https://local.nuxtseo.com/">"
     `)
   })
   it('sitemap - default', async () => {

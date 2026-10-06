@@ -1,0 +1,59 @@
+{
+  "name": "nuxtseo-devtools-host",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Optional Nuxt SEO DevTools host integration.",
+  "author": {
+    "name": "Harlan Wilton",
+    "email": "harlan@harlanzw.com",
+    "url": "https://harlanzw.com/"
+  },
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/harlan-zw",
+  "homepage": "https://nuxtseo.com/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harlan-zw/nuxt-seo.git",
+    "directory": "packages/devtools-host"
+  },
+  "bugs": {
+    "url": "https://github.com/harlan-zw/nuxt-seo/issues"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  },
+  "scripts": {
+    "build": "unbuild",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
+  "peerDependencies": {
+    "nuxt": "^4.6.0 || ^5.0.0"
+  },
+  "dependencies": {
+    "@nuxt/devtools-kit": "catalog:",
+    "@nuxt/kit": "catalog:",
+    "birpc": "catalog:",
+    "nuxtseo-layer-devtools": "workspace:*",
+    "nuxtseo-shared": "workspace:*",
+    "sirv": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "unbuild": "catalog:",
+    "vitest": "catalog:"
+  }
+}

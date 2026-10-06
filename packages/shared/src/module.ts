@@ -15,7 +15,7 @@ export default defineNuxtModule({
     name: 'nuxtseo-shared',
     configKey: 'nuxtSeoShared',
     compatibility: {
-      nuxt: '>=3.16.0',
+      nuxt: '^4.6.0 || ^5.0.0',
     },
   },
   setup() {

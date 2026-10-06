@@ -68,6 +68,14 @@
       "types": "./dist/server.d.mts",
       "default": "./dist/server.mjs"
     },
+    "./fetch": {
+      "types": "./dist/fetch.d.mts",
+      "default": "./dist/fetch.mjs"
+    },
+    "./prerender": {
+      "types": "./dist/prerender.d.mts",
+      "default": "./dist/prerender.mjs"
+    },
     "./package.json": "./package.json",
     "./checklist": {
       "types": "./dist/checklist.d.mts",
@@ -79,20 +87,23 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  },
   "scripts": {
     "build": "nuxt-module-build build",
     "dev:prepare": "nuxt-module-build prepare",
     "stub": "nuxt-module-build build --stub",
     "test": "vitest",
     "test:run": "vitest run && pnpm test:nuxt5",
-    "test:nuxt5": "pnpm --dir test/fixtures/nitro-compat-nuxt5 install --frozen-lockfile && pnpm --dir test/fixtures/nitro-compat-nuxt5 test",
+    "test:nuxt5": "pnpm build && pnpm --dir test/fixtures/nitro-compat-nuxt5 install --frozen-lockfile && pnpm --dir test/fixtures/nitro-compat-nuxt5 test",
     "test:attw": "attw --pack --profile esm-only",
     "typecheck": "nuxt typecheck ."
   },
   "peerDependencies": {
-    "@nuxt/schema": "^3.16.0 || ^4.0.0 || ^5.0.0",
-    "nuxt": "^3.16.0 || ^4.0.0 || ^5.0.0",
-    "nuxt-site-config": "^3.2.0 || ^4.0.0",
+    "@nuxt/schema": "^4.6.0 || ^5.0.0",
+    "nuxt": "^4.6.0 || ^5.0.0",
+    "nuxt-site-config": "^5.0.0",
     "vue": "^3.5.0",
     "zod": "^3.23.0 || ^4.0.0"
   },
@@ -105,18 +116,11 @@
     }
   },
   "dependencies": {
-    "@clack/prompts": "catalog:",
-    "@nuxt/devtools-kit": "catalog:",
     "@nuxt/kit": "catalog:",
-    "birpc": "catalog:",
     "consola": "catalog:",
     "defu": "catalog:",
-    "nypm": "catalog:",
     "ofetch": "catalog:",
-    "pathe": "catalog:",
-    "pkg-types": "catalog:",
     "radix3": "catalog:",
-    "sirv": "catalog:",
     "std-env": "catalog:",
     "ufo": "catalog:"
   },

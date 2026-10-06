@@ -2,10 +2,28 @@ import type { Nuxt } from '@nuxt/schema'
 import { defineNuxtModule } from '@nuxt/kit'
 import { evaluateSetupChecklist } from 'nuxtseo-shared/checklist'
 import { afterEach, expect, it, vi } from 'vitest'
+import setupPlugin from '../../src/runtime/server/plugins/setup'
 import { setupDevelopmentChecks } from '../../src/setup'
 
-const adapters = vi.hoisted(() => ({ plugin: vi.fn(), template: vi.fn(), handler: vi.fn(), compatibility: vi.fn() }))
+const adapters = vi.hoisted(() => ({ plugin: vi.fn(), template: vi.fn(), handler: vi.fn(), compatibility: vi.fn(() => ({ _tag: 'nitro-v2' })) }))
 const automation = vi.hoisted(() => ({ agent: false, ci: false }))
+const runtime = vi.hoisted(() => ({
+  setup: { nitroBuilder: 'nitro-v2', baseURL: '/', homepagePaths: ['/'], installedModuleSlugs: [], disabledModuleSlugs: [], stateDirectory: '/state', context: {} },
+  report: vi.fn(),
+}))
+
+vi.mock('#nuxt-seo/setup.mjs', () => ({ default: runtime.setup }))
+vi.mock('#nuxtseo/h3', () => ({
+  getRequestURL: (event: { path: string }) => new URL(event.path, 'https://example.com'),
+  getResponseHeader: (event: { node: { res: { getHeader: (name: string) => string } } }, name: string) => event.node.res.getHeader(name),
+}))
+vi.mock('#nuxtseo/nitro', () => ({ defineNitroPlugin: (plugin: unknown) => plugin, fetchWithEvent: vi.fn() }))
+vi.mock('#site-config/server', () => ({ getSiteConfig: () => ({ url: 'https://example.com', name: 'Example' }) }))
+vi.mock('../../src/runtime/server/utils/setup-report', () => ({ claimSetupTips: async () => ({ _tag: 'Allowed' }) }))
+vi.mock('../../src/runtime/server/utils/setup', async importOriginal => ({
+  ...await importOriginal<typeof import('../../src/runtime/server/utils/setup')>(),
+  reportSetupChecklist: runtime.report,
+}))
 
 vi.mock('@nuxt/kit', async importOriginal => ({
   ...await importOriginal<typeof import('@nuxt/kit')>(),
@@ -29,8 +47,51 @@ vi.mock('nuxtseo-shared/kit', () => ({
 
 afterEach(() => {
   vi.clearAllMocks()
+  adapters.compatibility.mockReturnValue({ _tag: 'nitro-v2' })
   automation.agent = false
   automation.ci = false
+  runtime.setup.nitroBuilder = 'nitro-v2'
+})
+
+it.each(['nitro-v2', 'nitro-v3'])('checks only successful homepage responses through %s lifecycle', async (builder) => {
+  runtime.setup.nitroBuilder = builder
+  const hooks = new Map<string, (...args: any[]) => unknown>()
+  setupPlugin({ hooks: { hook: (name: string, callback: (...args: any[]) => unknown) => hooks.set(name, callback) } } as never)
+  const event = { path: '/', context: {} }
+  if (builder === 'nitro-v3') {
+    expect(hooks.has('render:response')).toBe(false)
+    const response = new Response('Missing', { status: 404, headers: { 'content-type': 'text/html' } })
+    hooks.get('response')!(response, event)
+    expect(response.status).toBe(404)
+    expect(runtime.report).not.toHaveBeenCalled()
+    hooks.get('response')!(new Response('Homepage', { headers: { 'content-type': 'text/html' } }), event)
+  }
+  else {
+    expect(hooks.has('response')).toBe(false)
+    hooks.get('render:response')!({ statusCode: 404, headers: { 'content-type': 'text/html' } }, { event })
+    expect(runtime.report).not.toHaveBeenCalled()
+    hooks.get('render:response')!({ statusCode: 200, headers: { 'content-type': 'text/html' } }, { event })
+  }
+  await vi.waitFor(() => expect(runtime.report).toHaveBeenCalledOnce())
+})
+
+it('reads Nitro 2 response headers only when the render response omits its headers', async () => {
+  const hooks = new Map<string, (...args: any[]) => unknown>()
+  setupPlugin({ hooks: { hook: (name: string, callback: (...args: any[]) => unknown) => hooks.set(name, callback) } } as never)
+  const event = { path: '/', context: {}, node: { res: { getHeader: (name: string) => name === 'content-type' ? 'text/html;charset=utf-8' : undefined } } }
+  hooks.get('render:response')!({ statusCode: 200, headers: { 'content-type': 'application/json' } }, { event })
+  expect(runtime.report).not.toHaveBeenCalled()
+  hooks.get('render:response')!({ statusCode: 200 }, { event })
+  await vi.waitFor(() => expect(runtime.report).toHaveBeenCalledOnce())
+})
+
+it.each(['nitro-v2', 'nitro-v3'])('selects the real %s builder for development response checks', async (builder) => {
+  adapters.compatibility.mockReturnValue({ _tag: builder })
+  const { nuxt, hooks } = fixture(true)
+  setupDevelopmentChecks(nuxt)
+  await hooks.get('modules:done')?.()
+  const metadata = JSON.parse(adapters.template.mock.calls[0]![0].getContents().slice('export default '.length))
+  expect(metadata.nitroBuilder).toBe(builder)
 })
 
 function fixture(dev: boolean) {
