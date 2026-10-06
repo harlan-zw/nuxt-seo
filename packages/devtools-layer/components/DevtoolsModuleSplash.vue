@@ -48,6 +48,8 @@ const healthBadge = computed(() => {
     return { label: `${summary.value.requiredPending}`, color: 'error' as const, variant: 'subtle' as const }
   if (summary.value.recommendedPending > 0)
     return { label: `${summary.value.recommendedPending}`, color: 'warning' as const, variant: 'subtle' as const }
+  if (summary.value.unavailable > 0)
+    return { label: 'Not checked', color: 'neutral' as const, variant: 'subtle' as const }
   return { label: '', icon: 'i-carbon-checkmark', color: 'success' as const, variant: 'subtle' as const }
 })
 
@@ -133,6 +135,7 @@ function handleModuleClick(mod: typeof moduleCatalog.value[0]) {
                   v-if="mod.installed && evaluated && getModuleResultByName(mod.name)"
                   :required-pending="getModuleResultByName(mod.name)!.requiredPending"
                   :recommended-pending="getModuleResultByName(mod.name)!.recommendedPending"
+                  :status="getModuleResultByName(mod.name)!.status"
                 />
                 <span v-else-if="mod.name === currentModule" class="splash-current-badge">Current</span>
                 <span v-else-if="!mod.installed" class="splash-not-installed">{{ selectedForInstall.has(mod.name) ? 'Selected' : 'Not installed' }}</span>

@@ -61,12 +61,16 @@ interface DevtoolsNavItem {
 
 ### Setup Checklist
 
-Centralized SEO setup checklist driven by `composables/checklist.ts`. The detection logic for every module lives in the layer (keyed by module slug) and reads each installed module's `/__<mod>__/debug.json`. Intended for the central/meta client overview, not per-module panels.
+The setup checklist fetches installed modules' debug data through `composables/checklist.ts`.
+The shared evaluator lives in `nuxtseo-shared/checklist` and also powers the development terminal report.
+Missing evidence stays unchecked. Disabled modules skip checks.
+Required fixes include an action, a reason, and a documentation link.
+Optional tips do not count as missing required setup.
 
 | Component | Props | Key Slots | Purpose |
 |---|---|---|---|
 | `DevtoolsSetupChecklist` | none | none | Renders the aggregated per-module checklist (required vs recommended, pass/fail + detail) from `getSetupChecklist()` |
-| `DevtoolsChecklistBadge` | `result: ModuleChecklistResult` | none | Compact pass/pending badge for a module's checklist summary |
+| `DevtoolsChecklistBadge` | `requiredPending?`, `recommendedPending?`, `status?` | none | Shows pending checks, unchecked data, automatic setup, or disabled modules |
 | `DevtoolsChecklistItem` | `item: ChecklistItemResult` | none | Single checklist row (icon, label, description, detail, docs link) |
 
 ### Module Navigation
@@ -184,7 +188,8 @@ function getSetupChecklist(): {
 }
 ```
 
-Detection rules for site-config / robots / sitemap / og-image / schema-org / seo-utils are defined in the layer, keyed by module slug, and read each installed module's `/__<mod>__/debug.json`. Surface via `DevtoolsSetupChecklist` (central/meta client).
+Detection rules live in `nuxtseo-shared/checklist`, keyed by module slug.
+The layer fetches resolved debug data and displays results through `DevtoolsSetupChecklist`.
 
 ### Package Manager (`composables/package-manager.ts`)
 

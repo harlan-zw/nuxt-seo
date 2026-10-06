@@ -1,13 +1,19 @@
 <script setup lang="ts">
-const { requiredPending = 0, recommendedPending = 0 } = defineProps<{
+import type { ModuleChecklistResult } from '../composables/checklist'
+
+const { requiredPending = 0, recommendedPending = 0, status } = defineProps<{
   requiredPending?: number
   recommendedPending?: number
+  status?: ModuleChecklistResult['status']
 }>()
 </script>
 
 <template>
+  <UBadge v-if="status === 'unavailable' || status === 'disabled' || status === 'automatic'" size="xs" color="neutral" variant="subtle">
+    {{ status === 'unavailable' ? 'Not checked' : status === 'disabled' ? 'Disabled' : 'Automatic' }}
+  </UBadge>
   <span
-    v-if="requiredPending > 0 || recommendedPending > 0"
+    v-else-if="requiredPending > 0 || recommendedPending > 0"
     class="checklist-badge"
     :class="requiredPending > 0 ? 'checklist-badge--required' : 'checklist-badge--recommended'"
   >

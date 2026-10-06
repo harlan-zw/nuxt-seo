@@ -64,7 +64,11 @@
       "types": "./dist/server.d.mts",
       "default": "./dist/server.mjs"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./checklist": {
+      "types": "./dist/checklist.d.mts",
+      "default": "./dist/checklist.mjs"
+    }
   },
   "main": "./dist/module.mjs",
   "types": "./dist/types.d.mts",

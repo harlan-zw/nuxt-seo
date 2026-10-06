@@ -7,10 +7,10 @@ const { item } = defineProps<{
 </script>
 
 <template>
-  <div class="checklist-item" :class="item.passed ? 'is-passed' : `is-pending-${item.level}`">
+  <div class="checklist-item" :class="item.status === 'unavailable' ? '' : item.passed ? 'is-passed' : `is-pending-${item.level}`">
     <div class="checklist-item-status">
       <UIcon
-        :name="item.passed ? 'carbon:checkmark-filled' : item.level === 'required' ? 'carbon:warning-alt-filled' : 'carbon:circle-dash'"
+        :name="item.status === 'unavailable' ? 'carbon:help' : item.passed ? 'carbon:checkmark-filled' : item.level === 'required' ? 'carbon:warning-alt-filled' : 'carbon:circle-dash'"
         class="checklist-item-icon"
       />
     </div>
@@ -20,12 +20,15 @@ const { item } = defineProps<{
         <UBadge
           v-if="!item.passed"
           size="xs"
-          :color="item.level === 'required' ? 'error' : 'warning'"
+          :color="item.status === 'unavailable' ? 'neutral' : item.level === 'required' ? 'error' : 'warning'"
           variant="subtle"
           class="checklist-item-level"
         >
-          {{ item.level === 'required' ? 'Required' : 'Tip' }}
+          {{ item.status === 'unavailable' ? 'Not checked' : item.level === 'required' ? 'Required' : 'Tip' }}
         </UBadge>
+      </div>
+      <div v-if="item.status === 'failed' && item.action" class="mt-1 text-xs leading-relaxed text-[var(--color-text)]">
+        {{ item.action }}
       </div>
       <div class="checklist-item-description">
         {{ item.description }}

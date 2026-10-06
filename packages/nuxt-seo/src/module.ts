@@ -7,6 +7,7 @@ import {
 } from '@nuxt/kit'
 import { readPackageJSON } from 'pkg-types'
 import { satisfies } from 'semver'
+import { setupDevelopmentChecks } from './setup'
 
 export interface ModuleOptions {
   /**
@@ -86,6 +87,7 @@ export default defineNuxtModule<ModuleOptions>({
     if (!await hasNuxtCompatibility({ nuxt: NUXT_COMPATIBILITY }, nuxt)) {
       throw new Error(`[@nuxtjs/seo] Nuxt ${getNuxtVersion(nuxt)} is unsupported. Upgrade Nuxt to \`${NUXT_COMPATIBILITY}\`.`)
     }
+    setupDevelopmentChecks(nuxt)
     // Nuxt checks each dependency version against the copy nested in @nuxtjs/seo, but loads the
     // copy the app resolves. Check the modules that actually installed. Read package.json from the
     // app's module directories first, as Nuxt does when it loads a module: a module.json version

@@ -6,7 +6,14 @@ description: Install, configure, and debug the @nuxtjs/seo meta module, which in
 # @nuxtjs/seo
 
 Tested against `@nuxtjs/seo` 5.3.16 plus the fixes from harlan-zw/nuxt-seo#633 and #634, on Nuxt 4.5.2.
-The package declares Nuxt `moduleDependencies`, and Nuxt installs each submodule. Its only runtime code checks the Nuxt version and the version of each loaded submodule.
+The package declares Nuxt `moduleDependencies`, and Nuxt installs each submodule.
+Setup checks the Nuxt version and each loaded submodule version.
+In development, the first successful home page response starts one background setup report.
+The report includes required fixes, optional tips, and enabled or disabled module states.
+It also supports locale prefixes and app base paths.
+Each Nitro server instance reports once. A server rebuild can report again.
+Unavailable module data stays unchecked. Open DevTools to retry.
+Production does not register this runtime check.
 Every option, composable, and component comes from a submodule. Docs: https://nuxtseo.com/docs/nuxt-seo
 
 This Skill covers only what the bundle adds. For one module, use its own Skill or docs (table below).
