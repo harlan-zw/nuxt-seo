@@ -35,13 +35,23 @@ async function freePort(): Promise<number> {
   return address.port
 }
 
+function fetchDevelopmentReady(origin: string): Promise<Response | null> {
+  return fetch(`${origin}/api/ready`).catch((error: unknown) => {
+    // The CLI can print its address before the listener accepts connections.
+    if (error instanceof TypeError && (error.cause as NodeJS.ErrnoException | undefined)?.code === 'ECONNREFUSED')
+      return null
+    throw error
+  })
+}
+
 for (const mode of selected ? selected as Case[] : cases) {
   const enabled = mode === 'enabled' || mode === 'overrides'
   const override = mode === 'overrides'
   const origin = override ? 'https://override.example.com' : 'https://combined.example.com'
   const aliasesEnabled = mode === 'enabled'
   const standalone = process.env.NUXT_TEST_STANDALONE !== '0'
-  const aliasScript = aliasesEnabled ? `import { useSiteConfig, withSiteUrl } from '#site-config/app'
+  const aliasScript = aliasesEnabled
+    ? `import { useSiteConfig, withSiteUrl } from '#site-config/app'
 import { useRobotsRule } from '#robots/app'
 import { defineOgImage } from '#og-image/app'
 import { defineWebPage, useSchemaOrg } from '#schema-org/app'
@@ -54,7 +64,8 @@ const aliasTitle = useFallbackTitle()
 const aliasLink = isNonFetchableLink('mailto:fixture@example.com')
 useSchemaOrg([defineWebPage({ name: 'Typed aliases' })])
 defineOgImage('Default', { title: 'Combined SEO' })
-` : ''
+`
+    : ''
   const script = `import { useSeoMeta } from 'nuxt/app'\nuseSeoMeta({ title: 'Combined fixture', description: 'Packed SEO integration' })\n${aliasScript}`
   const aliasMarkup = aliasesEnabled ? '<p>{{ aliasSite.name }} {{ aliasUrl }} {{ aliasRule }} {{ aliasTitle }} {{ aliasLink }}</p>' : ''
   await writeFile(new URL('app/pages/index.vue', import.meta.url), `<script setup lang="ts">\n${script}</script>\n\n<template>\n  <main>\n    <h1>Combined fixture</h1>\n    ${aliasMarkup}\n    <NuxtLink to="/missing">Broken local link</NuxtLink>\n    <NuxtLink to="/Target">Valid uppercase target</NuxtLink>\n  </main>\n</template>\n`)
@@ -66,7 +77,7 @@ import { getPathRobotConfig } from '#robots/server'
 import { asSitemapUrl } from '#sitemap/server'
 import { getOgImageUrl } from '#og-image/server'
 import { useSchemaOrgConfig } from '#schema-org/server'
-${standalone ? "import { countPages } from '#ai-ready/server'\n" : ''}
+${standalone ? 'import { countPages } from \'#ai-ready/server\'\n' : ''}
 export default defineEventHandler(async event => ({
   site: getSiteConfig(event).name,
   sitemap: asSitemapUrl({ loc: withSiteUrl(event, '/alias-proof') }),
@@ -138,7 +149,7 @@ export default defineEventHandler(async event => ({
         assert.equal(aliases.site, 'Combined SEO')
         assert.deepEqual(aliases.sitemap, { loc: `${origin}/alias-proof` })
         assert.equal(aliases.robots, true)
-        assert.ok(aliases.image.startsWith(`${origin}/__og-image__/`))
+        assert.ok(aliases.image.startsWith(`${origin}/_og/`))
         if (process.env.NUXT_TEST_STANDALONE !== '0')
           assert.ok(aliases.count > 0, 'AI Ready canonical server alias must query indexed SQLite pages.')
         assert.match(html, /application\/ld\+json/)
@@ -189,6 +200,63 @@ export default defineEventHandler(async event => ({
       const exited = once(server, 'exit')
       server.kill('SIGTERM')
       await exited
+    }
+  }
+  if (aliasesEnabled) {
+    const devPort = await freePort()
+    const devLocal = `http://127.0.0.1:${devPort}`
+    const dev = spawn(process.execPath, ['node_modules/nuxt/bin/nuxt.mjs', 'dev', '--host', '127.0.0.1', '--port', String(devPort)], {
+      cwd: import.meta.dirname,
+      env: { ...process.env, NUXT_TEST_CASE: mode },
+      stdio: ['ignore', 'pipe', 'pipe'],
+    })
+    let devOutput = ''
+    for (const stream of [dev.stdout, dev.stderr]) {
+      stream.setEncoding('utf8')
+      stream.on('data', (chunk) => {
+        devOutput += chunk
+        process.stdout.write(chunk)
+      })
+    }
+    try {
+      for (let attempt = 0; !/Local:.*http|Listening on/.test(devOutput); attempt++) {
+        if (attempt > 600 || dev.exitCode !== null)
+          throw new Error(`Packed development server did not start.\n${devOutput}`)
+        await delay(100)
+      }
+      let readyResponse = await fetchDevelopmentReady(devLocal)
+      // Nuxt exposes its listener before compiling the development server.
+      for (let attempt = 0; !readyResponse || readyResponse.status === 503; attempt++) {
+        if (attempt > 600 || dev.exitCode !== null)
+          throw new Error(`Packed development API did not become ready.\n${devOutput}`)
+        await readyResponse?.body?.cancel()
+        await delay(100)
+        readyResponse = await fetchDevelopmentReady(devLocal)
+      }
+      assert.equal(readyResponse.status, 200)
+      const ready = await readyResponse.json()
+      for (const name of ['@nuxtjs/robots', '@nuxtjs/sitemap', 'nuxt-og-image', 'nuxt-link-checker', 'nuxt-seo-utils', 'nuxt-site-config', 'nuxt-schema-org', ...(standalone ? ['nuxt-ai-ready', 'nuxt-skew-protection'] : [])])
+        assert.ok(ready.modules.includes(name), `Missing development producer: ${name}`)
+      const page = await fetch(devLocal)
+      assert.equal(page.status, 200)
+      assert.ok((await page.text()).includes(`${origin}/alias-proof`), 'Development SSR must execute the canonical app aliases.')
+      const aliasesResponse = await fetch(`${devLocal}/api/runtime-alias`)
+      assert.equal(aliasesResponse.status, 200)
+      const aliases = await aliasesResponse.json()
+      assert.equal(aliases.site, 'Combined SEO')
+      assert.deepEqual(aliases.sitemap, { loc: `${origin}/alias-proof` })
+      // Development pages use Site Config's non-indexable environment default.
+      assert.equal(aliases.robots, false)
+      if (standalone)
+        assert.equal(typeof aliases.count, 'number')
+      console.log(`Passed packed combined development SSR and API, Node ${process.version}`)
+    }
+    finally {
+      if (dev.exitCode === null && dev.signalCode === null) {
+        const exited = once(dev, 'exit')
+        dev.kill('SIGTERM')
+        await exited
+      }
     }
   }
 }

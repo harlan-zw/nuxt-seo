@@ -20,6 +20,9 @@ export function setupRuntimeAliases(options: RuntimeAliasOptions, nuxt: Nuxt = u
     const alias = `${options.namespace}/${runtime}`
     // Nuxt 4's app type context can include server files. Native aliases type both contexts.
     nuxt.options.alias[alias] = directory
+    // Packed app runtimes import Nuxt virtual modules that require Vite transformation.
+    if (runtime === 'app' && !nuxt.options.build.transpile.includes(directory))
+      nuxt.options.build.transpile.push(directory)
     if (runtime === 'server') {
       const options = nuxt.options as Nuxt['options'] & { nitro?: { alias?: Record<string, string> } }
       const nitro = options.nitro ||= {}
