@@ -81,4 +81,24 @@ describe('setupNitroRuntimeCompatibility', () => {
     hookOnce.mock.calls[0]![1]()
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('h3'), expect.any(Error))
   })
+  it.each([
+    [2, 'nitropack', 'h3'],
+    [3, 'nitro', 'nitro/h3'],
+  ])('resolves a nested Nitro %s runtime without hoisting', (major, builder, runtime) => {
+    getNitroVersion.mockReturnValue(major)
+    resolveModule.mockImplementation((id: string, options: { url: URL[] }) => {
+      if (id === 'ofetch')
+        return '/native/ofetch/index.mjs'
+      if (id === 'nuxt')
+        return '/native/nuxt/index.mjs'
+      if (id === builder && options.url.some(url => url.href === 'file:///native/nuxt/index.mjs'))
+        return `/native/${builder}/index.mjs`
+      if (id === runtime && options.url.some(url => url.href === `file:///native/${builder}/index.mjs`))
+        return '/native/server-runtime/index.mjs'
+      throw new Error('The dependency exists only inside its native package.')
+    })
+    const nuxt = createNuxt()
+    setupNitroRuntimeCompatibility(nuxt)
+    expect(nuxt.options.nitro.typescript?.tsConfig?.compilerOptions?.paths?.['#nuxtseo/h3']).toEqual(['/native/server-runtime/index.mjs'])
+  })
 })

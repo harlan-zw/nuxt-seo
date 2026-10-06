@@ -68,7 +68,7 @@ export function useDevtoolsConnection(options: DevtoolsConnectionOptions = {}): 
     }
     applyRoute(host.route?.value)
     const $router = client.host?.nuxt?.$router
-    if ($router) {
+    if (typeof $router?.afterEach === 'function') {
       const removeAfterEach = $router.afterEach((route: any) => applyRoute(route))
       // Clean up when devtools client disconnects
       // @ts-expect-error app:unmount exists at runtime but is not in RuntimeNuxtHooks

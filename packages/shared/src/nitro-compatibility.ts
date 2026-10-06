@@ -1,4 +1,5 @@
 import type { Nuxt } from '@nuxt/schema'
+import { pathToFileURL } from 'node:url'
 import { addTypeTemplate, directoryToURL, getNitroVersion, resolveModule, useLogger, useNuxt } from '@nuxt/kit'
 
 export type NitroRuntimeCompatibility
@@ -182,7 +183,8 @@ type RuntimeModuleResolution
   = | { _tag: 'resolved', path: string }
     | { _tag: 'unresolved', cause: unknown }
 
-function resolveRuntimeModule(nuxt: Nuxt, id: string): RuntimeModuleResolution {
+function resolveRuntimeModule(nuxt: Nuxt, id: 'h3' | 'nitro/h3'): RuntimeModuleResolution {
+  const urls = [...nuxt.options.modulesDir.map(directoryToURL), new URL(import.meta.url)]
   try {
     // Resolve from the project first: `nitro/h3` only exists in the consuming app's
     // dependency tree, and under a strict pnpm layout `h3` is not guaranteed to be
@@ -190,12 +192,19 @@ function resolveRuntimeModule(nuxt: Nuxt, id: string): RuntimeModuleResolution {
     return {
       _tag: 'resolved',
       path: resolveModule(id, {
-        url: [...nuxt.options.modulesDir.map(directoryToURL), new URL(import.meta.url)],
+        url: urls,
       }),
     }
   }
   catch (cause) {
-    return { _tag: 'unresolved', cause }
+    try {
+      const nuxtEntry = resolveModule('nuxt', { url: urls })
+      const builder = resolveModule(id === 'h3' ? 'nitropack' : 'nitro', { url: [pathToFileURL(nuxtEntry), ...urls] })
+      return { _tag: 'resolved', path: resolveModule(id, { url: [pathToFileURL(builder), ...urls] }) }
+    }
+    catch (nativeCause) {
+      return { _tag: 'unresolved', cause: new AggregateError([cause, nativeCause], `Could not resolve the native server module '${id}'.`) }
+    }
   }
 }
 
