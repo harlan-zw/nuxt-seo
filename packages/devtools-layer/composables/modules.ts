@@ -7,6 +7,7 @@ import { isConnected } from './state'
 
 export interface SeoModuleInfo {
   name: string
+  disabled?: boolean
   /** npm package name — stable identifier used to match installed state. */
   npm?: string
   title: string

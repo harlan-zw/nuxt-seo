@@ -9,6 +9,7 @@ minimumReleaseAgeExclude:
   - site-config-stack@4.2.3
 
 overrides:
+  nuxtseo-shared: file:../nitro-parity/nuxtseo-shared.tgz
   '@nuxt/kit': 3.21.11
   '@nuxt/nitro-server': 3.21.11
   '@nuxt/schema': 3.21.11
