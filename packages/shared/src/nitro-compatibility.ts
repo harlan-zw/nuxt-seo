@@ -213,7 +213,8 @@ function applyNitroRuntimeCompatibility(
   compatibility: NitroRuntimeCompatibility,
   reportResolutionFailure = false,
 ): void {
-  const nuxtOptions = nuxt.options as Nuxt['options'] & { nitro?: NuxtNitroCompatibilityOptions }
+  // Keep Nitro3 array options separate from Nuxt4's Nitro2 boolean types.
+  const nuxtOptions = nuxt.options as { nitro?: NuxtNitroCompatibilityOptions }
   const nitroOptions = nuxtOptions.nitro ||= {}
   nitroOptions.alias ||= {}
   nitroOptions.virtual ||= {}

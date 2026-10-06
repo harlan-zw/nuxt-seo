@@ -4,7 +4,7 @@ import { homedir } from 'node:os'
 import { basename, join, resolve } from 'node:path'
 
 type Lane = 'nuxt4' | 'future5' | 'nuxt5'
-const lanes: Lane[] = ['nuxt4', 'future5', 'nuxt5']
+const lanes = ['nuxt4', 'future5', 'nuxt5'] as const satisfies readonly Lane[]
 const root = resolve(import.meta.dirname, '..')
 const selected = process.argv[2]
 if (selected && !lanes.includes(selected as Lane))
@@ -22,10 +22,12 @@ function run(args: string[], cwd: string, lane: Lane): Promise<void> {
   })
 }
 
-// Required CI builds the package before this runner. Packs use that exact build.
 const packages = [{ directory: '.', name: '@nuxtjs/seo', artifact: 'module.tgz' }]
 const scratch = join(homedir(), 'scratch')
 await mkdir(scratch, { recursive: true })
+// Preparation can leave development stubs. Every consumer must receive a real build.
+await run(['build'], root, selected ? selected as Lane : lanes[0])
+
 for (const lane of selected ? [selected as Lane] : lanes) {
   const consumer = await mkdtemp(join(scratch, `${basename(root)}-${lane}-`))
   console.log(`Nuxt lane ${lane}: ${consumer}`)
