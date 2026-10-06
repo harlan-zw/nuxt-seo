@@ -1,0 +1,36 @@
+{
+  "name": "nuxt-seo-nitro3-fixture",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.8.1",
+  "scripts": {
+    "typecheck": "nuxt prepare && vue-tsc --noEmit -p .nuxt/tsconfig.server.json"
+  },
+  "dependencies": {
+    "@nuxt/kit": "npm:@nuxt/kit-nightly@5.0.0-2610061032-c7ad8cd",
+    "@nuxt/schema": "npm:@nuxt/schema-nightly@5.0.0-2610061032-c7ad8cd",
+    "@takumi-rs/core": "2.14.0",
+    "@nuxtjs/seo": "link:../../..",
+    "@nuxtjs/robots": "^7.0.0",
+    "@nuxtjs/sitemap": "^9.0.0",
+    "mdream": "2.0.0-beta.1",
+    "nitro": "3.0.260903-beta",
+    "nitropack": "npm:nitro@3.0.260903-beta",
+    "nuxt": "npm:nuxt-nightly@5.0.0-2610061032-c7ad8cd",
+    "nuxt-ai-ready": "^3.0.0",
+    "nuxt-link-checker": "^6.0.0",
+    "nuxt-og-image": "^7.0.0",
+    "nuxt-schema-org": "^7.0.0",
+    "nuxt-seo-utils": "^9.0.0",
+    "nuxt-site-config": "^5.0.0",
+    "nuxt-skew-protection": "^2.0.0",
+    "nuxtseo-shared": "link:../../../../shared",
+    "vue": "^3.5.43",
+    "vue-router": "^5.3.1"
+  },
+  "devDependencies": {
+    "chokidar": "5.0.0",
+    "typescript": "6.0.3",
+    "vue-tsc": "^3.3.12"
+  }
+}

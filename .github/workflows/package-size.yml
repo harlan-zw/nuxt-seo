@@ -16,5 +16,3 @@ permissions:
 jobs:
   analyze:
     uses: ./.github/workflows/reusable-package-size.yml
-    with:
-      migration: true

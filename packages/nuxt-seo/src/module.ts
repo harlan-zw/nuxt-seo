@@ -38,32 +38,32 @@ async function resolveInstalledVersion(name: string, modulesDirs: string[]): Pro
 
 const moduleDependencies = {
   '@nuxtjs/robots': {
-    version: '^7.0.0',
+    version: '>=7.0.0',
   },
   '@nuxtjs/sitemap': {
-    version: '^9.0.0',
+    version: '>=9.0.0',
   },
   'nuxt-link-checker': {
-    version: '^6.0.0',
+    version: '>=6.0.0',
   },
   'nuxt-og-image': {
-    version: '^7.0.0',
+    version: '>=7.0.0',
   },
   'nuxt-schema-org': {
-    version: '^7.0.0',
+    version: '>=7.0.0',
   },
   'nuxt-seo-utils': {
-    version: '^9.0.0',
+    version: '>=9.0.0',
   },
   'nuxt-site-config': {
-    version: '^5.0.0',
+    version: '>=5.0.0',
   },
   'nuxt-skew-protection': {
-    version: '^2.0.0',
+    version: '>=2.0.0',
     defaults: { updateStrategy: 'polling', cookie: false },
   },
   'nuxt-ai-ready': {
-    version: '^3.0.0',
+    version: '>=3.0.0',
     defaults: { agentSkills: false, apiCatalog: false },
   },
   '@nuxtjs/i18n': {

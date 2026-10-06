@@ -3,10 +3,6 @@ name: Reusable Nightly
 on:
   workflow_call:
     inputs:
-      migration:
-        description: Use the pinned migration source graph
-        type: boolean
-        default: false
       runner:
         description: Runner to use
         type: string
@@ -50,33 +46,24 @@ jobs:
           cache: true
           install: false
 
-      - uses: ./.github/actions/migration-ci
-        if: ${{ inputs.migration }}
-        id: migration
-      - if: ${{ !inputs.migration }}
-        run: pnpm install --frozen-lockfile --trust-lockfile
+      - run: pnpm install --frozen-lockfile --trust-lockfile
       - run: ${{ inputs.prepare-command }}
-        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
 
       - if: ${{ inputs.pre-build-command != '' }}
         run: ${{ inputs.pre-build-command }}
-        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
 
       - run: pnpm build
-        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
 
       # pkg.pr.new is a third party service. It returns transient 5xx errors
       # that survive the publisher's own retries. Retry here so an outage does
       # not fail the default branch build.
       - name: Publish
-        working-directory: ${{ steps.migration.outputs.workspace || github.workspace }}
         env:
           PUBLISH_PACKAGES: ${{ inputs.publish-packages }}
         run: |
-          read -r -a publish_packages <<< "$PUBLISH_PACKAGES"
           for attempt in 1 2 3 4 5; do
             echo "::group::pkg-pr-new publish attempt $attempt"
-            if pnpm dlx pkg-pr-new publish --pnpm "${publish_packages[@]}"; then
+            if pnpm dlx pkg-pr-new publish --pnpm $PUBLISH_PACKAGES; then
               echo "::endgroup::"
               exit 0
             fi

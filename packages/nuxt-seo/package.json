@@ -55,10 +55,10 @@
     "typecheck": "nuxt typecheck playground",
     "prepare:fixtures": "pnpm --dir ../shared build && nuxt prepare test/fixtures/basic && nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/content",
     "test": "pnpm test:run",
-    "test:run": "pnpm prepare:fixtures && vitest run && pnpm test:nuxt-lanes",
+    "test:run": "pnpm prepare:fixtures && vitest run && pnpm test:nitro-parity",
     "test:attw": "attw --pack --profile esm-only",
     "prepack": "nuxt-module-build build",
-    "test:nuxt-lanes": "node scripts/test-nuxt-lanes.ts"
+    "test:nitro-parity": "pnpm build && pnpm --dir test/fixtures/nitro2 install --frozen-lockfile && pnpm --dir test/fixtures/nuxt5 install --frozen-lockfile && node test/fixtures/nitro-parity/test.mjs"
   },
   "peerDependencies": {
     "nuxt": "^4.6.0 || ^5.0.0"
