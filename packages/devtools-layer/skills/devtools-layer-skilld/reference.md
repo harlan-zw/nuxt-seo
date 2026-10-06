@@ -66,11 +66,13 @@ The shared evaluator lives in `nuxtseo-shared/checklist` and also powers the dev
 Missing evidence stays unchecked. Disabled modules skip checks.
 Required fixes include an action, a reason, and a documentation link.
 Optional tips do not count as missing required setup.
+Health badges and completion scores count required checks only.
+Optional tips appear in a separate neutral section and badge.
 
 | Component | Props | Key Slots | Purpose |
 |---|---|---|---|
-| `DevtoolsSetupChecklist` | none | none | Renders the aggregated per-module checklist (required vs recommended, pass/fail + detail) from `getSetupChecklist()` |
-| `DevtoolsChecklistBadge` | `requiredPending?`, `recommendedPending?`, `status?` | none | Shows pending checks, unchecked data, automatic setup, or disabled modules |
+| `DevtoolsSetupChecklist` | none | none | Renders required checks and a separate optional tips section for each module |
+| `DevtoolsChecklistBadge` | `requiredPending?`, `recommendedPending?`, `status?` | none | Shows required pending checks or setup status, with a separate neutral tips count |
 | `DevtoolsChecklistItem` | `item: ChecklistItemResult` | none | Single checklist row (icon, label, description, detail, docs link) |
 
 ### Module Navigation

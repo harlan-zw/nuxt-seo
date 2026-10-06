@@ -10,6 +10,24 @@ vi.mock('../composables/rpc', () => ({ appFetch: ref(undefined) }))
 vi.mock('../composables/state', () => ({ base: ref('/') }))
 
 describe('setup checklist', () => {
+  it('keeps optimization tips out of required completion and preserves explicit choices from host metadata', async () => {
+    installedModules.value = [{ name: 'nuxt-seo-utils', npm: 'nuxt-seo-utils', title: 'SEO Utils', icon: '', route: '' }]
+    let optedOut = false
+    appFetch.value = vi.fn(async () => ({ installedModuleSlugs: ['seo-utils'], disabledModuleSlugs: [], context: { ssr: true, hasI18n: false, hasDynamicRoutes: true, hasContent: false, isPrerendered: false, moduleOptions: { 'seo-utils': { minify: { build: true, runtime: false } } }, optOuts: { 'seo-utils': optedOut ? ['minify.runtime'] : [] } } })) as any
+    await evaluate()
+    const before = getSetupChecklist().summary.value
+    expect(before.recommendedPending).toBe(1)
+    expect(before.total).toBe(0)
+    expect(before.requiredPending).toBe(0)
+    optedOut = true
+    await evaluate()
+    const after = getSetupChecklist().summary.value
+    expect(after.recommendedPending).toBe(0)
+    expect(after.total).toBe(before.total)
+    expect(after.passed).toBe(before.passed)
+    expect(after.unavailable).toBe(before.unavailable)
+  })
+
   it('uses app context for contextual tips and keeps requests inside the app base', async () => {
     installedModules.value = [{ name: 'sitemap', npm: '@nuxtjs/sitemap', title: 'Sitemap', icon: '', route: '' }]
     base.value = '/app/'

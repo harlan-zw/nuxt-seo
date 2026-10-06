@@ -10,6 +10,8 @@ The package declares Nuxt `moduleDependencies`, and Nuxt installs each submodule
 Setup checks the Nuxt version and each loaded submodule version.
 In development, the first successful home page response starts one background setup report.
 The report includes required fixes, optional tips, and enabled or disabled module states.
+Tips use resolved module defaults and app configuration. Explicit opt-outs suppress the related tip.
+Only required setup affects warning counts and completion. DevTools displays optional tips separately.
 It also supports locale prefixes and app base paths.
 Each Nitro server instance reports once. A server rebuild can report again.
 Unavailable module data stays unchecked. Open DevTools to retry.

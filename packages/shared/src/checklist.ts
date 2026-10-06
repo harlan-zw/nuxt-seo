@@ -1,4 +1,7 @@
 import type { ChecklistItemDefinition, NuxtSEOModule } from './const'
+import { evaluateSetupTips } from './setup-tips'
+
+export { getSetupTipOptOuts, parseSetupChecklistContext } from './setup-tips'
 
 export interface ChecklistDetectResult {
   passed: boolean
@@ -137,29 +140,6 @@ const CHECKLIST_DEFINITIONS: Partial<Record<NuxtSEOModule['slug'], ChecklistItem
         return { passed, detail: passed ? locale : 'Not set' }
       },
     },
-    {
-      id: 'trailing-slash',
-      label: 'Trailing slash preference set',
-      description: 'Prevents duplicate content from inconsistent URL formats. Set explicitly to true or false.',
-      level: 'recommended',
-      docsUrl: 'https://nuxtseo.com/docs/site-config/guides/setting-site-config',
-      detect: (data) => {
-        const trailingSlash = data?.config?.trailingSlash
-        const passed = typeof trailingSlash === 'boolean'
-        return { passed, detail: passed ? (trailingSlash ? 'Enabled' : 'Disabled') : 'Not explicitly set' }
-      },
-    },
-    {
-      id: 'robots-installed',
-      label: 'Robots module installed',
-      description: 'Controls crawling and indexing across all SEO modules. Strongly recommended.',
-      level: 'recommended',
-      docsUrl: 'https://nuxtseo.com/docs/robots/getting-started/installation',
-      detect: (_data, ctx) => {
-        const passed = ctx.installedModuleSlugs.has('robots')
-        return { passed, detail: passed ? 'Installed' : 'Not installed' }
-      },
-    },
   ],
   'robots': [
     {
@@ -172,34 +152,6 @@ const CHECKLIST_DEFINITIONS: Partial<Record<NuxtSEOModule['slug'], ChecklistItem
         const errors = data?.validation?.errors || []
         const passed = errors.length === 0
         return { passed, detail: passed ? 'No errors' : `${errors.length} error(s) found` }
-      },
-    },
-    {
-      id: 'ai-directives',
-      label: 'AI bot directives configured',
-      description: 'Configure how AI crawlers interact with your content using blockAiBots or content signal directives.',
-      level: 'recommended',
-      docsUrl: 'https://nuxtseo.com/docs/robots/guides/ai-bots',
-      detect: (data) => {
-        const groups = data?.runtimeConfig?.groups || []
-        const hasContentSignal = groups.some((g: any) => g.contentSignal?.length || g.contentUsage?.length)
-        const aiAgents = ['gptbot', 'chatgpt-user', 'anthropic-ai', 'claudebot', 'claude-web', 'google-extended', 'ccbot']
-        const hasAiAgent = groups.some((g: any) =>
-          (g.userAgent || []).some((ua: string) => aiAgents.includes(ua.toLowerCase())),
-        )
-        const passed = hasContentSignal || hasAiAgent
-        return { passed, detail: passed ? (hasContentSignal ? 'Content signals configured' : 'AI agent rules configured') : 'No AI bot directives found' }
-      },
-    },
-    {
-      id: 'bot-detection',
-      label: 'Bot detection enabled',
-      description: 'Classify bots via headers and fingerprinting to reduce server load from non-SEO crawlers.',
-      level: 'recommended',
-      docsUrl: 'https://nuxtseo.com/docs/robots/guides/bot-detection',
-      detect: (data) => {
-        const enabled = data?.runtimeConfig?.botDetection
-        return { passed: !!enabled, detail: enabled ? 'Enabled' : 'Disabled' }
       },
     },
     {
@@ -320,28 +272,6 @@ const CHECKLIST_DEFINITIONS: Partial<Record<NuxtSEOModule['slug'], ChecklistItem
     },
   ],
   'seo-utils': [
-    {
-      id: 'schema-org-installed',
-      label: 'Schema.org module installed',
-      description: 'Adds structured data to your pages, improving rich search results. Pairs well with SEO Utils.',
-      level: 'recommended',
-      docsUrl: 'https://nuxtseo.com/docs/schema-org/getting-started/installation',
-      detect: (_data, ctx) => {
-        const passed = ctx.installedModuleSlugs.has('schema-org')
-        return { passed, detail: passed ? 'Installed' : 'Not installed' }
-      },
-    },
-    {
-      id: 'sitemap-installed',
-      label: 'Sitemap module installed',
-      description: 'Generates XML sitemaps so search engines can discover all your pages efficiently.',
-      level: 'recommended',
-      docsUrl: 'https://nuxtseo.com/docs/sitemap/getting-started/installation',
-      detect: (_data, ctx) => {
-        const passed = ctx.installedModuleSlugs.has('sitemap')
-        return { passed, detail: passed ? 'Installed' : 'Not installed' }
-      },
-    },
   ],
   'schema-org': [
     {
@@ -360,17 +290,6 @@ const CHECKLIST_DEFINITIONS: Partial<Record<NuxtSEOModule['slug'], ChecklistItem
         return { passed: true, detail: name ? `${type}: ${name}` : type }
       },
     },
-    {
-      id: 'robots-companion',
-      label: 'Robots module installed',
-      description: 'Robots module auto-excludes non-indexable paths from Schema.org output.',
-      level: 'recommended',
-      docsUrl: 'https://nuxtseo.com/docs/schema-org/getting-started/installation',
-      detect: (_data, ctx) => {
-        const passed = ctx.installedModuleSlugs.has('robots')
-        return { passed, detail: passed ? 'Installed' : 'Not installed' }
-      },
-    },
   ],
 }
 
@@ -380,6 +299,13 @@ export interface SetupChecklistContext {
   hasDynamicRoutes: boolean
   hasContent: boolean
   isPrerendered?: boolean
+  hasPrerenderedRoutes?: boolean
+  devtoolsEnabled?: boolean
+  nuxtMajor?: number
+  nitroPreset?: string
+  sitemapPrerendered?: boolean
+  hasSitemapOutputHook?: boolean
+  optOuts?: Partial<Record<NuxtSEOModule['slug'], string[]>>
   moduleOptions?: Partial<Record<NuxtSEOModule['slug'], Record<string, unknown>>>
 }
 
@@ -396,8 +322,6 @@ const AUTOMATIC_MODULES: Record<string, { label: string, icon: string }> = {
   'skew-protection': { label: 'Skew Protection', icon: 'carbon:security' },
 }
 
-const OPTIONAL_CHOICES = new Set(['ai-directives', 'bot-detection', 'trailing-slash', 'robots-installed', 'schema-org-installed', 'sitemap-installed', 'robots-companion'])
-
 const SETUP_ACTIONS: Record<string, string> = {
   'site-url': 'Set site.url to your production URL, for example https://example.com.',
   'site-url-set': 'Set site.url to your production URL, for example https://example.com.',
@@ -408,8 +332,6 @@ const SETUP_ACTIONS: Record<string, string> = {
 }
 
 function applicable(item: ChecklistItemWithDetect, data: Record<string, any>, input: SetupChecklistInput): boolean {
-  if (OPTIONAL_CHOICES.has(item.id))
-    return false
   if (item.id === 'default-locale')
     return input.context?.hasI18n === true
   if (item.id === 'has-sources')
@@ -462,22 +384,11 @@ export function evaluateSetupChecklist(input: SetupChecklistInput): ModuleCheckl
       const result = detect(data, ctx)
       return { ...definition, ...result, status: result.passed ? 'passed' : 'failed', action: SETUP_ACTIONS[def.id] }
     })
-    if (slug === 'sitemap' && !disabled && input.context?.isPrerendered === true && !input.context.hasDynamicRoutes && input.context.moduleOptions?.sitemap?.zeroRuntime !== true && input.context.moduleOptions?.sitemap?.zeroPrerender !== true) {
-      items.push({
-        id: 'zero-runtime',
-        label: 'Prerender sitemaps without runtime handlers',
-        description: 'A fully prerendered app can serve sitemap files without sitemap runtime handlers.',
-        level: 'recommended',
-        docsUrl: 'https://nuxtseo.com/docs/sitemap/guides/zero-runtime',
-        status: 'failed',
-        passed: false,
-        detail: 'Your app uses static generation.',
-        action: 'Consider sitemap: { zeroRuntime: true } if all sitemap URLs are known at build time.',
-      })
-    }
     const requiredPending = items.filter(item => item.level === 'required' && item.status === 'failed').length
-    const recommendedPending = items.filter(item => item.level === 'recommended' && item.status === 'failed').length
     const status: ModuleChecklistStatus = disabled ? 'disabled' : requiredPending ? 'needs-setup' : items.some(item => item.status === 'unavailable') ? 'unavailable' : !items.length || items.every(item => item.status === 'not-applicable') ? 'automatic' : 'configured'
+    if (status === 'configured' || status === 'automatic')
+      items.push(...evaluateSetupTips(slug, input))
+    const recommendedPending = items.filter(item => item.level === 'recommended' && item.status === 'failed').length
     return { moduleSlug: slug, moduleLabel: meta.label, moduleIcon: meta.icon, items, requiredPending, recommendedPending, totalPending: requiredPending + recommendedPending, status }
   })
 }
@@ -491,12 +402,15 @@ export function formatSetupReport(results: ModuleChecklistResult[]): string {
   for (const [level, heading] of [['required', 'Required setup:'], ['recommended', 'Optional tips:']] as const) {
     const candidates = results.flatMap(result => result.items.filter(item => item.status === 'failed' && item.level === level).map(item => ({ moduleLabel: result.moduleLabel, item })))
     const hasSiteUrlFailure = candidates.some(({ item }) => item.id === 'site-url')
-    const failures = candidates.filter(({ item }) => item.id !== 'site-url-set' || !hasSiteUrlFailure).slice(0, level === 'recommended' ? 3 : undefined)
+    const eligible = candidates.filter(({ item }) => item.id !== 'site-url-set' || !hasSiteUrlFailure)
+    const failures = eligible.slice(0, level === 'recommended' ? 3 : undefined)
     if (!failures.length)
       continue
     lines.push('', heading)
     for (const { moduleLabel, item } of failures)
       lines.push(`  ${moduleLabel}: ${item.label}. ${item.detail || ''}`, `    ${item.action || item.description}`, ...(item.action ? [`    ${item.description}`] : []), `    ${item.docsUrl}`)
+    if (level === 'recommended' && eligible.length > failures.length)
+      lines.push(`  More optional tips: ${eligible.length - failures.length}. Open DevTools to see all tips.`)
   }
   return lines.join('\n')
 }

@@ -20,7 +20,7 @@ const { item } = defineProps<{
         <UBadge
           v-if="!item.passed"
           size="xs"
-          :color="item.status === 'unavailable' ? 'neutral' : item.level === 'required' ? 'error' : 'warning'"
+          :color="item.status === 'unavailable' || item.level === 'recommended' ? 'neutral' : 'error'"
           variant="subtle"
           class="checklist-item-level"
         >
@@ -97,11 +97,7 @@ const { item } = defineProps<{
 }
 
 .checklist-item.is-pending-recommended .checklist-item-icon {
-  color: oklch(52% 0.15 85);
-}
-
-.dark .checklist-item.is-pending-recommended .checklist-item-icon {
-  color: oklch(72% 0.12 85);
+  color: var(--color-text-muted);
 }
 
 .checklist-item-content {

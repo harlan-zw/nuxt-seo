@@ -1,9 +1,9 @@
-import type { SetupChecklistContext } from 'nuxtseo-shared/checklist'
 import type { NuxtSEOModule } from 'nuxtseo-shared/const'
 import {
   DEBUG_ENDPOINTS,
   DEVTOOLS_NAME_TO_SLUG,
   evaluateSetupChecklist,
+  parseSetupChecklistContext,
 } from 'nuxtseo-shared/checklist'
 import { modules as seoModules } from 'nuxtseo-shared/const'
 import { withBase } from 'ufo'
@@ -23,24 +23,13 @@ function parseSetupMetadata(value: unknown) {
   if (!value || typeof value !== 'object')
     return
   const data = value as Record<string, any>
-  const context = data.context
-  if (!context || typeof context !== 'object' || !['ssr', 'hasI18n', 'hasDynamicRoutes', 'hasContent'].every(key => typeof context[key] === 'boolean'))
+  const context = parseSetupChecklistContext(data.context)
+  if (!context)
     return
   const validSlugs = (value: unknown): value is NuxtSEOModule['slug'][] => Array.isArray(value) && value.every(slug => seoModules.some(module => module.slug === slug))
   if (!validSlugs(data.installedModuleSlugs) || !validSlugs(data.disabledModuleSlugs))
     return
-  const parsedContext: SetupChecklistContext = {
-    ssr: context.ssr,
-    hasI18n: context.hasI18n,
-    hasDynamicRoutes: context.hasDynamicRoutes,
-    hasContent: context.hasContent,
-    isPrerendered: context.isPrerendered === true,
-    moduleOptions: { sitemap: {
-      zeroRuntime: context.moduleOptions?.sitemap?.zeroRuntime === true,
-      zeroPrerender: context.moduleOptions?.sitemap?.zeroPrerender === true,
-    } },
-  }
-  return { context: parsedContext, installedModuleSlugs: new Set(data.installedModuleSlugs), disabledModuleSlugs: new Set(data.disabledModuleSlugs) }
+  return { context, installedModuleSlugs: new Set(data.installedModuleSlugs), disabledModuleSlugs: new Set(data.disabledModuleSlugs) }
 }
 
 function getInstalledSlugs() {
@@ -93,11 +82,11 @@ const summary = computed(() => {
   let recommendedPending = 0
   let unavailable = 0
   for (const result of results.value) {
-    total += result.items.filter(item => item.status !== 'not-applicable').length
-    passed += result.items.filter(item => item.status === 'passed').length
+    total += result.items.filter(item => item.level === 'required' && item.status !== 'not-applicable').length
+    passed += result.items.filter(item => item.level === 'required' && item.status === 'passed').length
     requiredPending += result.requiredPending
     recommendedPending += result.recommendedPending
-    unavailable += result.items.filter(item => item.status === 'unavailable').length
+    unavailable += result.items.filter(item => item.level === 'required' && item.status === 'unavailable').length
   }
   return { total, passed, requiredPending, recommendedPending, unavailable }
 })

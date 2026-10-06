@@ -40,9 +40,9 @@ describe('setup checklist', () => {
   })
 
   it('suggests zero runtime only for fully static apps that can prerender sitemaps', () => {
-    const debugData = new Map([['sitemap' as const, { siteConfig: { url: 'https://example.com' }, globalSources: [], sitemaps: {} }]])
+    const debugData = new Map([['sitemap' as const, { siteConfig: { url: 'https://example.com' }, globalSources: [{ sourceType: 'app', urls: ['https://example.com/'] }], sitemaps: {} }]])
     for (const [isPrerendered, hasDynamicRoutes, zeroPrerender, expected] of [[true, false, false, true], [false, false, false, false], [true, true, false, false], [true, false, true, false]] as const) {
-      const [result] = evaluateSetupChecklist({ installedModuleSlugs: new Set(['sitemap']), debugData, context: { ssr: true, hasI18n: false, hasContent: false, hasDynamicRoutes, isPrerendered, moduleOptions: { sitemap: { zeroPrerender } } } })
+      const [result] = evaluateSetupChecklist({ installedModuleSlugs: new Set(['sitemap']), debugData, context: { ssr: true, hasI18n: false, hasContent: false, hasDynamicRoutes, isPrerendered, moduleOptions: { sitemap: { zeroPrerender, zeroRuntime: false } } } })
       expect(result!.items.some(item => item.id === 'zero-runtime')).toBe(expected)
     }
   })

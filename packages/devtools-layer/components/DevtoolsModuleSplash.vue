@@ -46,8 +46,6 @@ const healthBadge = computed(() => {
     return undefined
   if (summary.value.requiredPending > 0)
     return { label: `${summary.value.requiredPending}`, color: 'error' as const, variant: 'subtle' as const }
-  if (summary.value.recommendedPending > 0)
-    return { label: `${summary.value.recommendedPending}`, color: 'warning' as const, variant: 'subtle' as const }
   if (summary.value.unavailable > 0)
     return { label: 'Not checked', color: 'neutral' as const, variant: 'subtle' as const }
   return { label: '', icon: 'i-carbon-checkmark', color: 'success' as const, variant: 'subtle' as const }
@@ -57,7 +55,7 @@ const tabs = computed<TabsItem[]>(() => {
   const items: TabsItem[] = [
     { label: 'Modules', value: 'modules', icon: 'i-carbon-grid' },
   ]
-  if (evaluated.value && summary.value.total > 0) {
+  if (evaluated.value && (summary.value.total > 0 || summary.value.recommendedPending > 0)) {
     items.push({
       label: 'Setup',
       value: 'setup',
@@ -162,7 +160,7 @@ function handleModuleClick(mod: typeof moduleCatalog.value[0]) {
               <span class="splash-health-bar">
                 <span
                   class="splash-health-bar-fill"
-                  :class="summary.requiredPending > 0 ? 'is-danger' : summary.recommendedPending > 0 ? 'is-warning' : 'is-complete'"
+                  :class="summary.requiredPending > 0 ? 'is-danger' : summary.unavailable > 0 ? 'is-neutral' : 'is-complete'"
                   :style="{ width: `${summary.total > 0 ? (summary.passed / summary.total) * 100 : 0}%` }"
                 />
               </span>
@@ -400,8 +398,8 @@ function handleModuleClick(mod: typeof moduleCatalog.value[0]) {
   background: oklch(65% 0.18 145);
 }
 
-.splash-health-bar-fill.is-warning {
-  background: oklch(65% 0.18 85);
+.splash-health-bar-fill.is-neutral {
+  background: var(--color-text-subtle);
 }
 
 .splash-health-bar-fill.is-danger {

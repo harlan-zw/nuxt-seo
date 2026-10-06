@@ -39,10 +39,20 @@ if (!evaluated.value)
         </template>
         <div class="setup-checklist-items">
           <DevtoolsChecklistItem
-            v-for="item of result.items.filter(item => item.status !== 'not-applicable')"
+            v-for="item of result.items.filter(item => item.status !== 'not-applicable' && (item.level === 'required' || item.status === 'passed'))"
             :key="item.id"
             :item="item"
           />
+          <template v-if="result.recommendedPending > 0">
+            <h3 class="px-2 pt-3 pb-1 text-xs font-medium text-[var(--color-text-muted)]">
+              Optional tips
+            </h3>
+            <DevtoolsChecklistItem
+              v-for="item of result.items.filter(item => item.level === 'recommended' && item.status === 'failed')"
+              :key="item.id"
+              :item="item"
+            />
+          </template>
         </div>
       </DevtoolsSection>
     </template>
