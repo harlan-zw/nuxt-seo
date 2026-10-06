@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { TabsItem } from '@nuxt/ui'
 import { onClickOutside, useClipboard } from '@vueuse/core'
+import { drawingToSvg, isBrandIconName, markDrawing } from 'nuxtseo-shared/brand'
 import { computed, ref, watch } from 'vue'
 import { getSetupChecklist } from '../composables/checklist'
 import { moduleCatalog, showModuleSplash, switchToModule } from '../composables/modules'
@@ -16,6 +17,9 @@ onClickOutside(panelRef, () => {
 })
 
 const allModules = computed(() => moduleCatalog.value)
+
+// Trusted static markup from the brand module: the summit with Pro's ringed violet dot.
+const proMark = drawingToSvg(markDrawing({ product: 'pro', size: 20 }), { width: 20, height: 20 })
 
 const selectedForInstall = ref(new Set<string>())
 
@@ -126,7 +130,8 @@ function handleModuleClick(mod: typeof moduleCatalog.value[0]) {
                 @click="handleModuleClick(mod)"
               >
                 <div class="splash-module-icon">
-                  <UIcon :name="mod.icon" class="text-base" />
+                  <DevtoolsModuleIcon v-if="isBrandIconName(mod.slug)" :name="mod.slug" :size="18" />
+                  <UIcon v-else :name="mod.icon" class="text-base" />
                 </div>
                 <span class="splash-module-title">{{ mod.title }}</span>
                 <DevtoolsChecklistBadge
@@ -172,7 +177,7 @@ function handleModuleClick(mod: typeof moduleCatalog.value[0]) {
           <!-- Pro ad -->
           <a href="https://nuxtseo.com/pro" target="_blank" rel="noopener" class="splash-pro-ad">
             <div class="splash-pro-ad-content">
-              <UIcon name="i-carbon-chart-line-data" class="w-4 h-4 text-violet-500" />
+              <span class="splash-pro-ad-mark" aria-hidden="true" v-html="proMark" />
               <div>
                 <span class="splash-pro-ad-title">Nuxt SEO Pro</span>
                 <span class="splash-pro-ad-desc">GSC analytics, indexing diagnostics, competitor tracking &amp; MCP server</span>
@@ -292,7 +297,7 @@ function handleModuleClick(mod: typeof moduleCatalog.value[0]) {
 }
 
 .splash-module.is-switchable:hover .splash-module-icon {
-  color: var(--seo-green);
+  color: var(--color-text);
   background: oklch(from var(--seo-green) l c h / 0.12);
 }
 
@@ -318,7 +323,7 @@ function handleModuleClick(mod: typeof moduleCatalog.value[0]) {
 
 .splash-module.is-selected-install .splash-module-icon {
   background: oklch(from var(--seo-green) l c h / 0.15);
-  color: var(--seo-green);
+  color: var(--color-text);
 }
 
 .splash-module.is-selected-install .splash-not-installed {
@@ -341,7 +346,13 @@ function handleModuleClick(mod: typeof moduleCatalog.value[0]) {
 
 .splash-module.is-current .splash-module-icon {
   background: oklch(from var(--seo-green) l c h / 0.15);
-  color: var(--seo-green);
+  color: var(--color-text);
+}
+
+.splash-pro-ad-mark {
+  display: inline-flex;
+  flex: none;
+  color: var(--color-text);
 }
 
 .splash-module-title {

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onClickOutside } from '@vueuse/core'
+import { isBrandIconName } from 'nuxtseo-shared/brand'
 import { computed, ref } from 'vue'
 import { getSetupChecklist } from '../composables/checklist'
 import { fetchInstalledModules, findModuleByName, showModuleSplash } from '../composables/modules'
@@ -38,6 +39,10 @@ const emit = defineEmits<{
 }>()
 
 const moduleInfo = computed(() => moduleName ? findModuleByName(moduleName) : undefined)
+const brandIcon = computed(() => {
+  const slug = moduleInfo.value?.slug
+  return slug && isBrandIconName(slug) ? slug : undefined
+})
 const npmPackage = computed(() => moduleInfo.value?.npm)
 const { hasUpdate, latestVersion } = useModuleUpdate(npmPackage, () => version)
 
@@ -133,7 +138,8 @@ function disconnectStandalone() {
                 @click="showModuleSplash = !showModuleSplash"
               >
                 <div class="devtools-brand-icon" aria-hidden="true">
-                  <UIcon :name="icon" class="text-base sm:text-lg" />
+                  <DevtoolsModuleIcon v-if="brandIcon" :name="brandIcon" :size="20" />
+                  <UIcon v-else :name="icon" class="text-base sm:text-lg" />
                 </div>
                 <span class="text-sm sm:text-base font-semibold tracking-tight text-[var(--color-text)]">
                   {{ title }}

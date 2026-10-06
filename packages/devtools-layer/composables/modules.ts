@@ -17,6 +17,8 @@ export interface SeoModuleInfo {
 
 export interface SeoModuleCatalogEntry {
   name: string
+  /** Module slug from nuxtseo-shared/const; picks the brand icon. */
+  slug: NuxtSEOModule['slug']
   title: string
   description: string
   icon: string
@@ -52,6 +54,7 @@ function toIconify(icon: string): string {
 function moduleToCatalogEntry(mod: NuxtSEOModule): Omit<SeoModuleCatalogEntry, 'installed' | 'route'> {
   return {
     name: SLUG_TO_MODULE_NAME[mod.slug] || mod.slug,
+    slug: mod.slug,
     title: mod.label,
     description: mod.description,
     icon: toIconify(mod.icon),
