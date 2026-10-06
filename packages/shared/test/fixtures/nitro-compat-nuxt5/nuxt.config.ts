@@ -1,7 +1,9 @@
 import NitroCompatibilityFixture from './module.ts'
 
 export default defineNuxtConfig({
-  future: { compatibilityVersion: process.env.NUXT_TEST_LANE === 'nuxt4' ? 4 : 5 },
+  workspaceDir: import.meta.dirname,
+  typescript: { appTsConfig: { exclude: ['../test.ts', '../module.ts'] } },
+  vite: { resolve: { dedupe: ['nuxt', 'vue', 'vue-router'] } },
   nitro: { prerender: { routes: ['/api/prerender-seed'] } },
   routeRules: { '/api/native-forwarded': { headers: { 'x-fixture-rule': 'native-rule' } } },
   modules: [NitroCompatibilityFixture],
