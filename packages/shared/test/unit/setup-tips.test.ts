@@ -23,12 +23,13 @@ describe('config-based optimization tips', () => {
     }
   })
 
-  it('offers runtime minification for dynamic SSR pages without changing required health', () => {
+  it('keeps runtime minification out of optional tips for dynamic SSR pages', () => {
     const input: SetupChecklistInput = { installedModuleSlugs: new Set(['seo-utils']), debugData: new Map(), context: { ...app, hasDynamicRoutes: true, moduleOptions: { 'seo-utils': { minify: { build: true, runtime: false } } } } }
     const [result] = evaluateSetupChecklist(input)
     expect(result!.status).toBe('automatic')
     expect(result!.requiredPending).toBe(0)
-    expect(formatSetupReport([result!])).toContain('seo: { minify: { build: true, runtime: true } }')
+    expect(tips(input)).toEqual([])
+    expect(formatSetupReport([result!])).not.toContain('runtime: true')
     expect(tips({ ...input, context: { ...input.context!, ssr: false } })).toEqual([])
     expect(tips({ ...input, context: { ...input.context!, moduleOptions: { 'seo-utils': { minify: true } } } })).toEqual([])
   })
@@ -47,12 +48,13 @@ describe('config-based optimization tips', () => {
   })
 
   it('parses safe configuration without exposing credentials or turning missing options into false', () => {
-    const context = parseSetupChecklistContext({ ...app, moduleOptions: { 'ai-ready': { database: { type: 'postgres', url: 'secret' }, secret: 'private', runtimeSync: { ttl: 60 } }, 'og-image': { buildCache: { base: '/private/cache' } }, 'seo-utils': { minify: { build: true, runtime: false } } } })!
+    const context = parseSetupChecklistContext({ ...app, moduleOptions: { 'ai-ready': { database: { type: 'postgres', url: 'secret' }, secret: 'private', runtimeSync: { ttl: 60 } }, 'og-image': { buildCache: { base: '/private/cache' } }, 'seo-utils': { enabled: true, minify: { build: true, runtime: false } } } })!
     expect(context.moduleOptions?.['ai-ready']).toEqual({ database: { type: 'postgres' }, runtimeSync: true })
     expect(context.moduleOptions?.['og-image']).toEqual({ buildCache: true })
+    expect(context.moduleOptions?.['seo-utils']).toEqual({ enabled: true })
     expect(context.moduleOptions?.sitemap).toBeUndefined()
     expect(parseSetupChecklistContext({ ...app, ssr: 'yes' })).toBeUndefined()
-    expect(getSetupTipOptOuts('seo-utils', { minify: false })).toContain('minify.runtime')
+    expect(getSetupTipOptOuts('ai-ready', { llmsTxt: false })).toContain('llmsTxt.markdownLinks')
     expect(parseSetupChecklistContext({ ...app, moduleOptions: { 'ai-ready': { runtimeSync: 'invalid', database: { type: 'postgres' } } } })?.moduleOptions?.['ai-ready']).toBeUndefined()
   })
 
@@ -92,6 +94,6 @@ describe('config-based optimization tips', () => {
 
   it('keeps the terminal concise while pointing to remaining DevTools tips', () => {
     const results = evaluateSetupChecklist({ installedModuleSlugs: new Set(['seo-utils', 'link-checker', 'ai-ready']), debugData: new Map(), context: { ...app, hasDynamicRoutes: true, hasPrerenderedRoutes: true, devtoolsEnabled: true, moduleOptions: { 'seo-utils': { minify: { build: true, runtime: false } }, 'link-checker': { showLiveInspections: false, runOnBuild: true, failOnError: false }, 'ai-ready': { contentNegotiation: false, llmsTxt: { markdownLinks: false }, runtimeSync: false, cron: false, database: { type: 'postgres' } } } } })
-    expect(formatSetupReport(results)).toContain('More optional tips: 2. Open DevTools to see all tips.')
+    expect(formatSetupReport(results)).toContain('More optional tips: 1. Open DevTools to see all tips.')
   })
 })

@@ -11,9 +11,9 @@ vi.mock('../composables/state', () => ({ base: ref('/') }))
 
 describe('setup checklist', () => {
   it('keeps optimization tips out of required completion and preserves explicit choices from host metadata', async () => {
-    installedModules.value = [{ name: 'nuxt-seo-utils', npm: 'nuxt-seo-utils', title: 'SEO Utils', icon: '', route: '' }]
+    installedModules.value = [{ name: 'nuxt-ai-ready', npm: 'nuxt-ai-ready', title: 'AI Ready', icon: '', route: '' }]
     let optedOut = false
-    appFetch.value = vi.fn(async () => ({ installedModuleSlugs: ['seo-utils'], disabledModuleSlugs: [], context: { ssr: true, hasI18n: false, hasDynamicRoutes: true, hasContent: false, isPrerendered: false, moduleOptions: { 'seo-utils': { minify: { build: true, runtime: false } } }, optOuts: { 'seo-utils': optedOut ? ['minify.runtime'] : [] } } })) as any
+    appFetch.value = vi.fn(async () => ({ installedModuleSlugs: ['ai-ready'], disabledModuleSlugs: [], context: { ssr: true, hasI18n: false, hasDynamicRoutes: true, hasContent: false, isPrerendered: false, moduleOptions: { 'ai-ready': { contentNegotiation: false } }, optOuts: { 'ai-ready': optedOut ? ['llmsTxt.markdownLinks'] : [] } } })) as any
     await evaluate()
     const before = getSetupChecklist().summary.value
     expect(before.recommendedPending).toBe(1)
@@ -32,12 +32,12 @@ describe('setup checklist', () => {
     installedModules.value = [{ name: 'sitemap', npm: '@nuxtjs/sitemap', title: 'Sitemap', icon: '', route: '' }]
     base.value = '/app/'
     const fetch = vi.fn(async (path: string) => path.endsWith('/setup.json')
-      ? { installedModuleSlugs: ['sitemap'], disabledModuleSlugs: [], context: { ssr: true, hasI18n: false, hasDynamicRoutes: true, hasContent: false } }
-      : { siteConfig: { url: 'https://example.com' }, globalSources: [], sitemaps: {} })
+      ? { installedModuleSlugs: ['sitemap'], disabledModuleSlugs: [], context: { ssr: true, hasI18n: false, hasDynamicRoutes: true, hasContent: false, moduleOptions: { sitemap: { minify: false } } } }
+      : { siteConfig: { url: 'https://example.com' }, globalSources: [{ urls: Array.from({ length: 1000 }, (_, index) => `/page/${index}`) }], sitemaps: {} })
     appFetch.value = fetch as any
     await evaluate()
     const result = getSetupChecklist().getModuleResult('sitemap')!
-    expect(result.items.find(item => item.id === 'has-sources')?.status).toBe('failed')
+    expect(result.items.find(item => item.id === 'sitemap-minify')?.status).toBe('failed')
     expect(fetch.mock.calls.map(call => call[0])).toEqual(['/app/__nuxt-seo__/setup.json', '/app/__sitemap__/debug.json'])
     base.value = '/'
   })

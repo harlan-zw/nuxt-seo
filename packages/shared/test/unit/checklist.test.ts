@@ -54,12 +54,36 @@ describe('setup checklist', () => {
   })
 
   it('separates required fixes from optional tips in terminal output', () => {
-    const results = evaluateSetupChecklist({ installedModuleSlugs: new Set(['site-config']), debugData: new Map([['site-config', { config: { name: 'Example', defaultLocale: '', trailingSlash: false } }]]), context: { ssr: true, hasI18n: true, hasDynamicRoutes: false, hasContent: false } })
+    const results = evaluateSetupChecklist({
+      installedModuleSlugs: new Set(['site-config', 'sitemap']),
+      debugData: new Map([
+        ['site-config', { config: { name: 'Example' } }],
+        ['sitemap', { siteConfig: { url: 'https://example.com' }, globalSources: [{ sourceType: 'app', urls: ['https://example.com/'] }], sitemaps: {} }],
+      ]),
+      context: { ssr: true, hasI18n: false, hasDynamicRoutes: false, hasContent: false, isPrerendered: true, moduleOptions: { sitemap: { zeroRuntime: false, zeroPrerender: false } } },
+    })
     const report = formatSetupReport(results)
     expect(report).toContain('Required setup:')
     expect(report).toContain('Optional tips:')
     expect(report).toContain('canonical URLs')
     expect(report).toContain('https://nuxtseo.com/docs/site-config/')
+  })
+
+  it('does not turn general SEO advice into optional feature tips', () => {
+    const results = evaluateSetupChecklist({
+      installedModuleSlugs: new Set(['site-config', 'robots', 'sitemap', 'og-image', 'schema-org']),
+      debugData: new Map([
+        ['site-config', { config: { name: 'Example', url: 'https://example.com' } }],
+        ['robots', { robotsTxt: 'User-agent: *\nAllow: /', validation: { errors: [], sitemaps: [] } }],
+        ['sitemap', { siteConfig: { url: 'https://example.com' }, globalSources: [{ sourceType: 'app', urls: ['https://example.com/'], _urlWarnings: [{ message: 'Use lowercase URLs' }] }], sitemaps: {} }],
+        ['og-image', { compatibility: { takumi: true }, componentNames: [{ category: 'community' }] }],
+        ['schema-org', { runtimeConfig: {} }],
+      ]),
+      context: { ssr: true, hasI18n: true, hasDynamicRoutes: true, hasContent: false },
+    })
+    expect(results.every(result => result.requiredPending === 0)).toBe(true)
+    expect(results.every(result => result.recommendedPending === 0)).toBe(true)
+    expect(formatSetupReport(results)).not.toContain('Optional tips:')
   })
 })
 

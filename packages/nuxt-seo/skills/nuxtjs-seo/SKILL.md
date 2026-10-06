@@ -11,6 +11,7 @@ Setup checks the Nuxt version and each loaded submodule version.
 In development, the first successful home page response starts one background setup report.
 The report includes required fixes, optional tips, and enabled or disabled module states.
 Tips use resolved module defaults and app configuration. Explicit opt-outs suppress the related tip.
+Optional tips expose opt-in module configuration features. They exclude runtime inline minification and general SEO advice.
 Only required setup affects warning counts and completion. DevTools displays optional tips separately.
 It also supports locale prefixes and app base paths.
 Each Nitro server instance reports once. A server rebuild can report again.

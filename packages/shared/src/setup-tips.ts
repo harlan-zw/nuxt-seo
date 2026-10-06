@@ -9,7 +9,7 @@ const OPTION_PATHS: Partial<Record<NuxtSEOModule['slug'], string[]>> = {
   'skew-protection': ['enabled'],
   'sitemap': ['enabled', 'zeroRuntime', 'zeroPrerender', 'minify', 'experimentalStreaming'],
   'og-image': ['enabled', 'zeroRuntime', 'buildCache'],
-  'seo-utils': ['enabled', 'minify', 'minify.build', 'minify.runtime'],
+  'seo-utils': ['enabled'],
   'ai-ready': ['enabled', 'contentNegotiation', 'llmsTxt.markdownLinks', 'runtimeSync', 'cron', 'database.type'],
   'link-checker': ['enabled', 'showLiveInspections', 'runOnBuild', 'failOnError'],
 }
@@ -55,8 +55,6 @@ export function parseSetupChecklistContext(value: unknown): SetupChecklistContex
     for (const path of paths) {
       let option = pathValue(options, path)
       if (option === undefined)
-        continue
-      if (path === 'minify' && record(option))
         continue
       // Both options accept an enabled configuration object. Keep only their effective switch.
       if ((path === 'buildCache' || path === 'runtimeSync') && record(option))
@@ -141,8 +139,6 @@ export function evaluateSetupTips(slug: NuxtSEOModule['slug'], input: SetupCheck
     if (context.ssr && (staticApp || context.hasPrerenderedRoutes === true) && hasAppTemplate && options.buildCache === false)
       add('buildCache', 'og-build-cache', 'Reuse OG images between builds', 'Your app prerenders pages and has a custom OG Image template.', 'Consider ogImage: { buildCache: true }.', 'The cache reuses unchanged images. Persist its directory in CI to reuse images between jobs.', 'og-image/guides/build-cache')
   }
-  if (slug === 'seo-utils' && runtimeApp && context.hasDynamicRoutes && record(options.minify)?.runtime === false && record(options.minify)?.build !== false)
-    add('minify.runtime', 'runtime-minify', 'Minify runtime inline scripts and styles', 'Your app serves dynamic pages through SSR.', 'For runtime inline scripts or styles, consider seo: { minify: { build: true, runtime: true } }.', 'Runtime minification reduces inline response bytes. It adds processing to each response.', 'seo-utils/api/config#minify-boolean--build-boolean-runtime-boolean')
   if (slug === 'link-checker') {
     if (context.devtoolsEnabled === true && options.showLiveInspections === false)
       add('showLiveInspections', 'live-inspections', 'Inspect links while browsing', 'Nuxt DevTools is enabled in your app.', 'Consider linkChecker: { showLiveInspections: true }.', 'Live inspections show link results while browsing. They add development checks and overlays.', 'link-checker/guides/live-inspections')

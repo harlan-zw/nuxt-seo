@@ -52,7 +52,6 @@ export const DEBUG_ENDPOINTS: Partial<Record<NuxtSEOModule['slug'], string>> = {
   'robots': '/__robots__/debug.json',
   'sitemap': '/__sitemap__/debug.json',
   'og-image': '/_og/debug.json',
-  'schema-org': '/__schema-org__/debug.json',
 }
 
 // Module slug used internally by devtools → catalog slug mapping
@@ -128,18 +127,6 @@ const CHECKLIST_DEFINITIONS: Partial<Record<NuxtSEOModule['slug'], ChecklistItem
         return { passed, detail: passed ? name : 'Not configured' }
       },
     },
-    {
-      id: 'default-locale',
-      label: 'Default locale configured',
-      description: 'Ensures correct hreflang tags and locale-aware sitemaps when using i18n.',
-      level: 'recommended',
-      docsUrl: 'https://nuxtseo.com/docs/site-config/guides/setting-site-config',
-      detect: (data) => {
-        const locale = data?.config?.defaultLocale
-        const passed = !!locale
-        return { passed, detail: passed ? locale : 'Not set' }
-      },
-    },
   ],
   'robots': [
     {
@@ -154,18 +141,6 @@ const CHECKLIST_DEFINITIONS: Partial<Record<NuxtSEOModule['slug'], ChecklistItem
         return { passed, detail: passed ? 'No errors' : `${errors.length} error(s) found` }
       },
     },
-    {
-      id: 'sitemap-reference',
-      label: 'Sitemap referenced in robots.txt',
-      description: 'Crawlers use the Sitemap directive in robots.txt to discover your sitemap URL.',
-      level: 'recommended',
-      docsUrl: 'https://nuxtseo.com/docs/robots/guides/robots-txt',
-      detect: (data) => {
-        const sitemaps = data?.validation?.sitemaps || []
-        const passed = sitemaps.length > 0
-        return { passed, detail: passed ? `${sitemaps.length} sitemap(s) referenced` : 'No sitemap directive found' }
-      },
-    },
   ],
   'sitemap': [
     {
@@ -178,24 +153,6 @@ const CHECKLIST_DEFINITIONS: Partial<Record<NuxtSEOModule['slug'], ChecklistItem
         const url = data?.siteConfig?.url || ''
         const passed = isConfiguredUrl(data?.siteConfig, ctx.debugData.get('site-config')?.stack)
         return { passed, detail: passed ? url : 'Site URL not configured' }
-      },
-    },
-    {
-      id: 'has-sources',
-      label: 'URL sources configured',
-      description: 'Add dynamic URL sources for CMS or database content so all pages appear in your sitemap.',
-      level: 'recommended',
-      docsUrl: 'https://nuxtseo.com/docs/sitemap/guides/dynamic-urls',
-      detect: (data) => {
-        const sources = data?.globalSources || []
-        const sitemaps = data?.sitemaps || {}
-        const userSources = sources.filter((s: any) => s.sourceType === 'user' || (s.context?.name && !s.context.name.startsWith('nuxt:')))
-        const sitemapUserSources = Object.values(sitemaps).flatMap((s: any) =>
-          (s.sources || []).filter((src: any) => src.sourceType === 'user'),
-        )
-        const totalUser = userSources.length + sitemapUserSources.length
-        const passed = totalUser > 0
-        return { passed, detail: passed ? `${totalUser} custom source(s)` : 'Only default app sources detected' }
       },
     },
     {
@@ -216,24 +173,6 @@ const CHECKLIST_DEFINITIONS: Partial<Record<NuxtSEOModule['slug'], ChecklistItem
         return { passed, detail: passed ? 'All sources OK' : `${failures.length} source(s) failing` }
       },
     },
-    {
-      id: 'url-warnings',
-      label: 'No URL validation warnings',
-      description: 'URLs in your sitemap should follow best practices (no whitespace, lowercase, etc).',
-      level: 'recommended',
-      docsUrl: 'https://nuxtseo.com/docs/sitemap/guides/best-practices',
-      detect: (data) => {
-        const sources = data?.globalSources || []
-        const sitemaps = data?.sitemaps || {}
-        const allSources = [
-          ...sources,
-          ...Object.values(sitemaps).flatMap((s: any) => s.sources || []),
-        ]
-        const warningCount = allSources.reduce((sum: number, s: any) => sum + (s._urlWarnings?.length || 0), 0)
-        const passed = warningCount === 0
-        return { passed, detail: passed ? 'No warnings' : `${warningCount} URL warning(s)` }
-      },
-    },
   ],
   'og-image': [
     {
@@ -250,44 +189,6 @@ const CHECKLIST_DEFINITIONS: Partial<Record<NuxtSEOModule['slug'], ChecklistItem
         const passed = hasTakumi || hasSatori || hasBrowser
         const renderers = [hasTakumi && 'takumi', hasSatori && 'satori', hasBrowser && 'browser'].filter(Boolean)
         return { passed, detail: passed ? `Available: ${renderers.join(', ')}` : 'No renderer installed' }
-      },
-    },
-    {
-      id: 'custom-template',
-      label: 'Custom OG template created',
-      description: 'Community templates are for development only. Create a custom template for production.',
-      level: 'recommended',
-      docsUrl: 'https://nuxtseo.com/docs/og-image/guides/templates',
-      detect: (data) => {
-        const components = data?.componentNames || []
-        const appTemplates = components.filter((c: any) => c.category === 'app')
-        const communityTemplates = components.filter((c: any) => c.category === 'community')
-        const passed = appTemplates.length > 0
-        if (passed)
-          return { passed, detail: `${appTemplates.length} custom template(s)` }
-        if (communityTemplates.length > 0)
-          return { passed: false, detail: `${communityTemplates.length} community template(s), eject before production` }
-        return { passed: false, detail: 'No templates found' }
-      },
-    },
-  ],
-  'seo-utils': [
-  ],
-  'schema-org': [
-    {
-      id: 'identity',
-      label: 'Identity configured',
-      description: 'Set up your Organization or Person identity for rich Schema.org knowledge graph results.',
-      level: 'recommended',
-      docsUrl: 'https://nuxtseo.com/docs/schema-org/guides/setup-identity',
-      detect: (data) => {
-        const config = data?.runtimeConfig || {}
-        const identity = config.identity
-        if (!identity)
-          return { passed: false, detail: 'No identity set' }
-        const type = typeof identity === 'string' ? identity : identity['@type'] || 'Unknown'
-        const name = typeof identity === 'object' ? (identity.name || '') : ''
-        return { passed: true, detail: name ? `${type}: ${name}` : type }
       },
     },
   ],
@@ -331,18 +232,6 @@ const SETUP_ACTIONS: Record<string, string> = {
   'no-source-errors': 'Correct the failing sitemap sources shown in DevTools.',
 }
 
-function applicable(item: ChecklistItemWithDetect, data: Record<string, any>, input: SetupChecklistInput): boolean {
-  if (item.id === 'default-locale')
-    return input.context?.hasI18n === true
-  if (item.id === 'has-sources')
-    return input.context?.hasDynamicRoutes === true && input.context.hasContent === false
-  if (item.id === 'sitemap-reference')
-    return input.installedModuleSlugs.has('sitemap') && !input.disabledModuleSlugs?.has('sitemap')
-  if (item.id === 'custom-template')
-    return Array.isArray(data.componentNames) && data.componentNames.some((component: any) => component.category === 'community' || component.category === 'app')
-  return true
-}
-
 function hasEvidence(slug: string, item: ChecklistItemWithDetect, data: Record<string, any> | undefined): data is Record<string, any> {
   if (!data)
     return false
@@ -362,8 +251,6 @@ function hasEvidence(slug: string, item: ChecklistItemWithDetect, data: Record<s
   }
   if (slug === 'og-image')
     return item.id === 'renderer' ? !!data.compatibility && typeof data.compatibility === 'object' : Array.isArray(data.componentNames)
-  if (slug === 'schema-org')
-    return !!data.runtimeConfig && typeof data.runtimeConfig === 'object'
   return true
 }
 
@@ -377,7 +264,7 @@ export function evaluateSetupChecklist(input: SetupChecklistInput): ModuleCheckl
     const disabled = input.disabledModuleSlugs?.has(slug) === true
     const items: ChecklistItemResult[] = (CHECKLIST_DEFINITIONS[slug] || []).map((def) => {
       const { detect, ...definition } = def
-      if (disabled || !applicable(def, data || {}, input))
+      if (disabled)
         return { ...definition, status: 'not-applicable', passed: false }
       if (!hasEvidence(slug, def, data))
         return { ...definition, status: 'unavailable', passed: false, detail: 'Setup could not be checked.' }

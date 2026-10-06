@@ -195,21 +195,21 @@ it('keeps a raw disabled module disabled despite inline options', async () => {
 })
 
 it.each([
-  [{ minify: { runtime: false } }, { minify: { build: true } }, false],
-  [{ minify: false }, { minify: { build: true } }, true],
-  [{ minify: { runtime: true } }, { minify: false }, false],
-  [{ minify: { runtime: false } }, { minify: { runtime: null, build: true } }, false],
+  [{ llmsTxt: { markdownLinks: false } }, { llmsTxt: { title: 'Guide' } }, false],
+  [{ llmsTxt: false }, { llmsTxt: { title: 'Guide' } }, true],
+  [{ llmsTxt: { markdownLinks: true } }, { llmsTxt: false }, false],
+  [{ llmsTxt: { markdownLinks: false } }, { llmsTxt: { markdownLinks: null, title: 'Guide' } }, false],
 ])('respects nested user choices %j with inline options %j', async (config, inline, shouldSuggest) => {
   const { nuxt, hooks } = fixture(true)
   const module = defineNuxtModule({
-    meta: { name: 'nuxt-seo-utils', configKey: 'seo' },
-    defaults: { enabled: true, minify: { build: true, runtime: false } },
+    meta: { name: 'nuxt-ai-ready', configKey: 'aiReady' },
+    defaults: { enabled: true, contentNegotiation: false, llmsTxt: { markdownLinks: false } },
   })
   Object.assign(nuxt.options, {
     ssr: true,
-    seo: config,
+    aiReady: config,
     modules: [[module, inline]],
-    _installedModules: [{ meta: { name: 'nuxt-seo-utils' }, module }],
+    _installedModules: [{ meta: { name: 'nuxt-ai-ready' }, module }],
   })
   Object.assign(nuxt.options.nitro, { preset: 'node-server' })
   setupDevelopmentChecks(nuxt)
@@ -217,9 +217,9 @@ it.each([
   await hooks.get('modules:done')?.()
   const metadata = JSON.parse(adapters.template.mock.calls[0]![0].getContents().slice('export default '.length))
   const [result] = evaluateSetupChecklist({
-    installedModuleSlugs: new Set(['seo-utils']),
+    installedModuleSlugs: new Set(['ai-ready']),
     context: metadata.context,
     debugData: new Map(),
   })
-  expect(result!.items.some(item => item.id === 'runtime-minify')).toBe(shouldSuggest)
+  expect(result!.items.some(item => item.id === 'markdown-links')).toBe(shouldSuggest)
 })

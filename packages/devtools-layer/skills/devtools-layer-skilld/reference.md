@@ -66,6 +66,7 @@ The shared evaluator lives in `nuxtseo-shared/checklist` and also powers the dev
 Missing evidence stays unchecked. Disabled modules skip checks.
 Required fixes include an action, a reason, and a documentation link.
 Optional tips do not count as missing required setup.
+Optional tips expose opt-in module configuration features. They exclude runtime inline minification and general SEO advice.
 Health badges and completion scores count required checks only.
 Optional tips appear in a separate neutral section and badge.
 
