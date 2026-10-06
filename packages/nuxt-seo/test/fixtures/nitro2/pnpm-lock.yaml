@@ -203,8 +203,8 @@ importers:
         specifier: 4.5.2
         version: 4.5.2(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.142.0)(@types/node@26.1.2)(@vitejs/devtools-kit@0.4.10(srvx@0.11.22)(typescript@6.0.3)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)))(@vue/compiler-sfc@3.5.40)(db0@0.3.4(drizzle-orm@0.45.2))(drizzle-orm@0.45.2)(esbuild@0.28.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(magicast@0.5.4)(oxc-parser@0.142.0)(rolldown@1.2.2)(rollup-plugin-visualizer@7.0.1(rolldown@1.2.2)(rollup@4.62.4))(rollup@4.62.4)(srvx@0.11.22)(supports-color@10.2.2)(terser@5.49.0)(typescript@6.0.3)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(vue-tsc@3.3.11(typescript@6.0.3))(yaml@2.9.0)
       nuxt-ai-ready:
-        specifier: 2.5.2
-        version: 2.5.2(42257dd1675a7093c11925a25510ac86)
+        specifier: 2.5.3
+        version: 2.5.3(42257dd1675a7093c11925a25510ac86)
       nuxt-link-checker:
         specifier: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@7f45299
         version: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@7f45299(b3d60e9a089c8d5d1eb9feb7b1408697)
@@ -221,8 +221,8 @@ importers:
         specifier: 4.2.3
         version: 4.2.3(43e48592d9c9a6dd166a3c026a8a6883)
       nuxt-skew-protection:
-        specifier: 1.6.1
-        version: 1.6.1(0d960e4c2dd771efa3f17f5b6faabdde)
+        specifier: 1.6.2
+        version: 1.6.2(0d960e4c2dd771efa3f17f5b6faabdde)
       nuxtseo-shared:
         specifier: file:../nitro-parity/nuxtseo-shared.tgz
         version: file:../nitro-parity/nuxtseo-shared.tgz(7ae1e97df3332887a2c7db58905a96ae)
@@ -1018,7 +1018,7 @@ packages:
         optional: true
 
   '@nuxtjs/seo@file:../nitro-parity/nuxtjs-seo.tgz':
-    resolution: {integrity: sha512-/BqKF+/rv4lNcVzRWAC5TuDz/fIRPdKtpfKVne+125RnQq+kQBbueazhjeaRWAQGWYI2ZZ4fxxJVt24jLDKtRw==, tarball: file:../nitro-parity/nuxtjs-seo.tgz}
+    resolution: {integrity: sha512-okNTutfyDVrmPzZ7gzZVLeFBt2jQNlyebOoHO1AMzYtAShw8WWYviqxCJjYnWRDYA8QUDfoFdln0zIAVAyhVfg==, tarball: file:../nitro-parity/nuxtjs-seo.tgz}
     version: 5.3.16
     peerDependencies:
       nuxt: 4.5.2
@@ -3297,8 +3297,8 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  nuxt-ai-ready@2.5.2:
-    resolution: {integrity: sha512-dabw3E2Yi4/nNsMGNGlgUGg5PAqUPXsScTxjUx+uOMLzDD5DhcbJxxmb0WUoMXv4PumjkSgJ2fB0cOzwe0PAhA==}
+  nuxt-ai-ready@2.5.3:
+    resolution: {integrity: sha512-oXI2ivFWcykpZPXXijrzemxZrsuKh+rDgMOTxeHuwm+fASopFs9jEUFrFxoGdVhBUKEh0GFn2gkKejFTa9b8xw==}
     hasBin: true
     peerDependencies:
       '@libsql/client': ^0.18.0
@@ -3514,8 +3514,8 @@ packages:
     peerDependencies:
       vue: ^3.5.30
 
-  nuxt-skew-protection@1.6.1:
-    resolution: {integrity: sha512-axlCJOhenKZbTDiD0viAX87ZyKzQqy9VGNuMOS0BoY13vtovS5LEk9E4VQZT1hLLetunKd9plSmaYTWWPKk+hQ==}
+  nuxt-skew-protection@1.6.2:
+    resolution: {integrity: sha512-ZJ5FSC7xRUwLtDzWOuUcby4ZhpZWy+5BZDwfHNRpbyEuY+LCSvgj1Qg4LXtPNAvzi0wZVZBsiy1vmpC4NvHciA==}
     hasBin: true
     peerDependencies:
       '@nuxtjs/robots': '>=5.6.7'
@@ -5781,13 +5781,13 @@ snapshots:
       '@nuxtjs/robots': 6.2.3(43e48592d9c9a6dd166a3c026a8a6883)
       '@nuxtjs/sitemap': 8.5.1(43e48592d9c9a6dd166a3c026a8a6883)
       nuxt: 4.5.2(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.142.0)(@types/node@26.1.2)(@vitejs/devtools-kit@0.4.10(srvx@0.11.22)(typescript@6.0.3)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)))(@vue/compiler-sfc@3.5.40)(db0@0.3.4(drizzle-orm@0.45.2))(drizzle-orm@0.45.2)(esbuild@0.28.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(magicast@0.5.4)(oxc-parser@0.142.0)(rolldown@1.2.2)(rollup-plugin-visualizer@7.0.1(rolldown@1.2.2)(rollup@4.62.4))(rollup@4.62.4)(srvx@0.11.22)(supports-color@10.2.2)(terser@5.49.0)(typescript@6.0.3)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(vue-tsc@3.3.11(typescript@6.0.3))(yaml@2.9.0)
-      nuxt-ai-ready: 2.5.2(42257dd1675a7093c11925a25510ac86)
+      nuxt-ai-ready: 2.5.3(42257dd1675a7093c11925a25510ac86)
       nuxt-link-checker: 5.3.0(b3d60e9a089c8d5d1eb9feb7b1408697)
       nuxt-og-image: 6.9.1(4f4059a2f079cb499010f207f0f5af56)
       nuxt-schema-org: 6.3.2(857aaa07ab7e043800e32c63db972d7a)
       nuxt-seo-utils: 8.5.2(b83c18b35a2f88b1d1dac34a96adad5b)
       nuxt-site-config: 4.2.3(43e48592d9c9a6dd166a3c026a8a6883)
-      nuxt-skew-protection: 1.6.1(0d960e4c2dd771efa3f17f5b6faabdde)
+      nuxt-skew-protection: 1.6.2(0d960e4c2dd771efa3f17f5b6faabdde)
       nuxtseo-shared: 5.3.16(9de73e9e08bca08b84e0ba4723dd1398)
       pkg-types: 2.3.3
       semver: 7.8.5
@@ -7830,7 +7830,7 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  nuxt-ai-ready@2.5.2(42257dd1675a7093c11925a25510ac86):
+  nuxt-ai-ready@2.5.3(42257dd1675a7093c11925a25510ac86):
     dependencies:
       '@nuxt/kit': 4.5.2(magic-string@1.4.2)(magicast@0.5.4)(oxc-parser@0.142.0)(rolldown@1.2.2)(unplugin@3.4.0(esbuild@0.28.1)(rolldown@1.2.2)(rollup@4.62.4)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)))
       '@nuxtjs/robots': 6.2.3(43e48592d9c9a6dd166a3c026a8a6883)
@@ -8344,7 +8344,7 @@ snapshots:
       - vite
       - zod
 
-  nuxt-skew-protection@1.6.1(0d960e4c2dd771efa3f17f5b6faabdde):
+  nuxt-skew-protection@1.6.2(0d960e4c2dd771efa3f17f5b6faabdde):
     dependencies:
       '@nuxt/kit': 4.5.2(magic-string@1.4.2)(magicast@0.5.4)(oxc-parser@0.142.0)(rolldown@1.2.2)(unplugin@3.4.0(esbuild@0.28.1)(rolldown@1.2.2)(rollup@4.62.4)(vite@8.2.0(@types/node@26.1.2)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)))
       '@nuxtjs/robots': 6.2.3(43e48592d9c9a6dd166a3c026a8a6883)

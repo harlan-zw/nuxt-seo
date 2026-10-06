@@ -15,13 +15,6 @@ All module repos live in `~/pkg`. The `@nuxtjs/seo` module bundles these:
 | SEO Utils            | `nuxt-seo-utils` | `~/pkg/nuxt-seo-utils` |
 | Link Checker         | `nuxt-link-checker` | `~/pkg/nuxt-link-checker` |
 | Site Config          | `nuxt-site-config` | `~/pkg/nuxt-site-config` |
-
-### Standalone Modules
-
-These modules are not bundled in `@nuxtjs/seo` but are available for installation separately.
-
-| Module               | Package | Path |
-|----------------------|---|---|
 | Skew Protection | `nuxt-skew-protection` | `~/pkg/nuxt-skew-protection` |
 | AI Ready        | `nuxt-ai-ready` | `~/pkg/nuxt-ai-ready` |
 

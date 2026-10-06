@@ -50,7 +50,7 @@ const moduleDependencies = {
     version: '>=4.0',
   },
   'nuxt-skew-protection': {
-    version: '>=1.6.1',
+    version: '>=1.6.2',
     defaults: {
       // Native manifest polling works on static, serverless, and Node deployments.
       updateStrategy: 'polling',
@@ -59,7 +59,7 @@ const moduleDependencies = {
     },
   },
   'nuxt-ai-ready': {
-    version: '>=2.5.2',
+    version: '>=2.5.3',
     defaults: {
       // Publishing project instructions and server route catalogs requires opt-in.
       agentSkills: false,

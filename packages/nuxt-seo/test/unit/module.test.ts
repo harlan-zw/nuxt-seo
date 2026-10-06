@@ -55,6 +55,16 @@ describe('nuxt version', () => {
 })
 
 describe('loaded submodule version', () => {
+  it.each([
+    ['nuxt-ai-ready', '2.5.2', '2.5.3'],
+    ['nuxt-skew-protection', '1.6.1', '1.6.2'],
+  ])('rejects %s before its required patch', async (name, oldVersion, fixedVersion) => {
+    const nuxt = createNuxt('4.5.2', { [name]: oldVersion })
+    await expect(install(nuxt, [
+      { meta: { name, version: fixedVersion } },
+    ])).rejects.toThrow(`\`${name}\` version (\`${oldVersion}\`) does not satisfy \`>=${fixedVersion}\``)
+  })
+
   it('fails when the copy the app loads is older than the requirement', async () => {
     const nuxt = createNuxt('4.5.2', { '@nuxtjs/sitemap': '8.2.1', '@nuxtjs/robots': '6.1.5' })
     await expect(install(nuxt, [
