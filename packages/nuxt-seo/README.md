@@ -1,9 +1,4 @@
-<a href="https://nuxtseo.com"><picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/harlan-zw/nuxt-seo/main/.github/assets/logo-dark.svg">
-  <img src="https://raw.githubusercontent.com/harlan-zw/nuxt-seo/main/.github/assets/logo-light.svg" width="64" height="64" alt="Nuxt SEO">
-</picture></a>
-
-# @nuxtjs/seo
+<h1><a href="https://nuxtseo.com"><img src="https://raw.githubusercontent.com/harlan-zw/nuxt-seo/main/.github/assets/logo.svg" width="40" height="40" alt="Nuxt SEO" align="top"></a> @nuxtjs/seo</h1>
 
 [![npm version](https://img.shields.io/npm/v/@nuxtjs/seo/latest.svg?style=flat&colorA=020420&colorB=00DC82)](https://npmx.dev/package/@nuxtjs/seo)
 [![npm downloads](https://img.shields.io/npm/dm/@nuxtjs/seo.svg?style=flat&colorA=020420&colorB=00DC82)](https://npmx.dev/package/@nuxtjs/seo)
