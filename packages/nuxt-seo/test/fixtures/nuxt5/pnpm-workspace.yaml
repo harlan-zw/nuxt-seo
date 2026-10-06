@@ -52,22 +52,22 @@ shellEmulator: true
 packages:
   - .
 overrides:
-  "@nuxtjs/robots": https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@24f4dcdbf3cd8d4c19a210b62eec8295eb4772a7
-  "@nuxtjs/sitemap": https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@7879681b68064274eea0be819003669b9422b60d
+  "@nuxtjs/robots": https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@41c661a085129be864fbcabf7327d4d816d491d0
+  "@nuxtjs/sitemap": https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@51930110ebfd51a58e593e4cf6eee8f03381baf1
   "@unhead/bundler": ^3.4.1
   "@unhead/vue": ^3.4.1
   better-sqlite3: ^13.0.3
   cssnano: 9.2.2
   cssnano-preset-default: 9.2.2
   cssnano-utils: 8.1.0
-  nuxt-ai-ready: https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@9675a2c9d68ab1a4e6b9db1eb4a1f28f3249606e
-  nuxt-link-checker: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@31f8cc90882f6b5d01aec4461dede297816588fa
-  nuxt-og-image: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@42acd74449da9443bf2c3281588706db994115ad
-  nuxt-schema-org: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@92d351e5b56e8bbcfb20951947a3354ffdf720c8
-  nuxt-seo-utils: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@64c52852391ea05ebb34930714433177030d6663
-  nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104
-  nuxt-skew-protection: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@93541b1327fbd257fc19bb3152c02c62eb844dac
-  nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5
+  nuxt-ai-ready: https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@0c95886a40f259679370fcebafded4175381fbba
+  nuxt-link-checker: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@3e992acc5abe59b88cfc5abc29b1f5473917e4e3
+  nuxt-og-image: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@64f1c40490d44b6f93f3d6c510232b331b1685a4
+  nuxt-schema-org: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@6b4a9047508c76cbada14ba3c17b4a17b9932f35
+  nuxt-seo-utils: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@ded24361e963be25c1a98cf8b37f1a2b7d0020dc
+  nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656
+  nuxt-skew-protection: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@f5085519f36492cfc47eb65062f3df81ce634102
+  nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164
   postcss-calc: 11.2.2
   postcss-colormin: 9.0.6
   postcss-convert-values: 9.0.7
@@ -100,8 +100,8 @@ overrides:
   stylehacks: 9.0.7
   unhead: ^3.4.1
   vue: ^3.5.43
-  nuxt-site-config-kit: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@03e159ba633c883477bc93ed0590ff5ab3788104
-  site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@03e159ba633c883477bc93ed0590ff5ab3788104
+  nuxt-site-config-kit: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@eefd7624648c1006395ddb5256ed90d821c7c656
+  site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@eefd7624648c1006395ddb5256ed90d821c7c656
 allowBuilds:
   "@firebase/util": false
   "@parcel/watcher": true

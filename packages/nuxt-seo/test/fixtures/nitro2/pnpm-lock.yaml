@@ -163,22 +163,22 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@24f4dcdbf3cd8d4c19a210b62eec8295eb4772a7
-  '@nuxtjs/sitemap': https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@7879681b68064274eea0be819003669b9422b60d
+  '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@41c661a085129be864fbcabf7327d4d816d491d0
+  '@nuxtjs/sitemap': https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@51930110ebfd51a58e593e4cf6eee8f03381baf1
   '@unhead/bundler': ^3.4.1
   '@unhead/vue': ^3.4.1
   better-sqlite3: ^13.0.3
   cssnano: 9.2.2
   cssnano-preset-default: 9.2.2
   cssnano-utils: 8.1.0
-  nuxt-ai-ready: https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@9675a2c9d68ab1a4e6b9db1eb4a1f28f3249606e
-  nuxt-link-checker: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@31f8cc90882f6b5d01aec4461dede297816588fa
-  nuxt-og-image: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@42acd74449da9443bf2c3281588706db994115ad
-  nuxt-schema-org: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@92d351e5b56e8bbcfb20951947a3354ffdf720c8
-  nuxt-seo-utils: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@64c52852391ea05ebb34930714433177030d6663
-  nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104
-  nuxt-skew-protection: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@93541b1327fbd257fc19bb3152c02c62eb844dac
-  nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5
+  nuxt-ai-ready: https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@0c95886a40f259679370fcebafded4175381fbba
+  nuxt-link-checker: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@3e992acc5abe59b88cfc5abc29b1f5473917e4e3
+  nuxt-og-image: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@64f1c40490d44b6f93f3d6c510232b331b1685a4
+  nuxt-schema-org: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@6b4a9047508c76cbada14ba3c17b4a17b9932f35
+  nuxt-seo-utils: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@ded24361e963be25c1a98cf8b37f1a2b7d0020dc
+  nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656
+  nuxt-skew-protection: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@f5085519f36492cfc47eb65062f3df81ce634102
+  nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164
   postcss-calc: 11.2.2
   postcss-colormin: 9.0.6
   postcss-convert-values: 9.0.7
@@ -211,8 +211,8 @@ overrides:
   stylehacks: 9.0.7
   unhead: ^3.4.1
   vue: ^3.5.43
-  nuxt-site-config-kit: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@03e159ba633c883477bc93ed0590ff5ab3788104
-  site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@03e159ba633c883477bc93ed0590ff5ab3788104
+  nuxt-site-config-kit: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@eefd7624648c1006395ddb5256ed90d821c7c656
+  site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@eefd7624648c1006395ddb5256ed90d821c7c656
 
 importers:
 
@@ -225,14 +225,14 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
       '@nuxtjs/robots':
-        specifier: https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@24f4dcdbf3cd8d4c19a210b62eec8295eb4772a7
-        version: https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@24f4dcdbf3cd8d4c19a210b62eec8295eb4772a7(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+        specifier: https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@41c661a085129be864fbcabf7327d4d816d491d0
+        version: https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@41c661a085129be864fbcabf7327d4d816d491d0(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
       '@nuxtjs/seo':
         specifier: link:../../..
         version: link:../../..
       '@nuxtjs/sitemap':
-        specifier: https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@7879681b68064274eea0be819003669b9422b60d
-        version: https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@7879681b68064274eea0be819003669b9422b60d(27b53a62e0ff13ba11cf749629e0775a)
+        specifier: https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@51930110ebfd51a58e593e4cf6eee8f03381baf1
+        version: https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@51930110ebfd51a58e593e4cf6eee8f03381baf1(27b53a62e0ff13ba11cf749629e0775a)
       '@takumi-rs/core':
         specifier: 2.14.0
         version: 2.14.0(csstype@3.2.3)
@@ -246,29 +246,29 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.153.0)(@types/node@26.6.4)(@vue/compiler-sfc@3.5.43)(acorn@8.18.0)(confbox@0.3.1)(db0@0.3.4)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.12)(rollup@4.64.0))(rollup@4.64.0)(srvx@1.0.5)(supports-color@10.2.2)(terser@5.51.2)(typescript@6.0.3)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue-tsc@3.3.12(typescript@6.0.3))(yaml@2.9.1)
       nuxt-ai-ready:
-        specifier: https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@9675a2c9d68ab1a4e6b9db1eb4a1f28f3249606e
-        version: https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@9675a2c9d68ab1a4e6b9db1eb4a1f28f3249606e(7b36421d6c7378d5e7d0a1f884e958a5)
+        specifier: https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@0c95886a40f259679370fcebafded4175381fbba
+        version: https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@0c95886a40f259679370fcebafded4175381fbba(7b36421d6c7378d5e7d0a1f884e958a5)
       nuxt-link-checker:
-        specifier: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@31f8cc90882f6b5d01aec4461dede297816588fa
-        version: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@31f8cc90882f6b5d01aec4461dede297816588fa(09fd2d2cb695f1a7c22fc72bdac92740)
+        specifier: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@3e992acc5abe59b88cfc5abc29b1f5473917e4e3
+        version: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@3e992acc5abe59b88cfc5abc29b1f5473917e4e3(09fd2d2cb695f1a7c22fc72bdac92740)
       nuxt-og-image:
-        specifier: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@42acd74449da9443bf2c3281588706db994115ad
-        version: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@42acd74449da9443bf2c3281588706db994115ad(df86eb3858736c5bbe1b9f1cb6843985)
+        specifier: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@64f1c40490d44b6f93f3d6c510232b331b1685a4
+        version: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@64f1c40490d44b6f93f3d6c510232b331b1685a4(df86eb3858736c5bbe1b9f1cb6843985)
       nuxt-schema-org:
-        specifier: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@92d351e5b56e8bbcfb20951947a3354ffdf720c8
-        version: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@92d351e5b56e8bbcfb20951947a3354ffdf720c8(30a9c686bdd62630a13be6805bbc32c4)
+        specifier: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@6b4a9047508c76cbada14ba3c17b4a17b9932f35
+        version: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@6b4a9047508c76cbada14ba3c17b4a17b9932f35(30a9c686bdd62630a13be6805bbc32c4)
       nuxt-seo-utils:
-        specifier: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@64c52852391ea05ebb34930714433177030d6663
-        version: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@64c52852391ea05ebb34930714433177030d6663(94d9d027a9ce6b1b436a4e218b616d96)
+        specifier: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@ded24361e963be25c1a98cf8b37f1a2b7d0020dc
+        version: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@ded24361e963be25c1a98cf8b37f1a2b7d0020dc(94d9d027a9ce6b1b436a4e218b616d96)
       nuxt-site-config:
-        specifier: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104
-        version: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+        specifier: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656
+        version: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
       nuxt-skew-protection:
-        specifier: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@93541b1327fbd257fc19bb3152c02c62eb844dac
-        version: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@93541b1327fbd257fc19bb3152c02c62eb844dac(79c3d25ff996b6fe883484f4230a0e68)
+        specifier: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@f5085519f36492cfc47eb65062f3df81ce634102
+        version: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@f5085519f36492cfc47eb65062f3df81ce634102(1e963ce0c884d2f2a9f2857b0121615f)
       nuxtseo-shared:
-        specifier: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5
-        version: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5(189fbba034e48bcdfdb6164a87180712)
+        specifier: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164
+        version: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164(8a8bf6617fa2decb9ac89d7ed9287f3c)
       vue:
         specifier: ^3.5.43
         version: 3.5.43(typescript@6.0.3)
@@ -427,17 +427,8 @@ packages:
   '@dxup/unimport@0.1.2':
     resolution: {integrity: sha512-/B8YJGPzaYq1NbsQmwgP8EZqg40NpTw4ZB3suuI0TplbxKHeK94jeaawLmVhCv+YwUnOpiWEz9U6SeThku/8JQ==}
 
-  '@emnapi/core@1.11.2':
-    resolution: {integrity: sha512-TC8MkTuZUtcTSiFeuC0ksCh9QIJ5+F21MvZ4Wn4ORfYaFJ/0dsiudv5tVkejgwZlwQ39jL9WWDe2lz8x0WglOA==}
-
-  '@emnapi/runtime@1.11.2':
-    resolution: {integrity: sha512-kyOl3X0DuTiT1h2ft8r2fYO8JYtU9a9Xis/zBSiGArNaagCOWx90N1k2wxp18czFDH+OgcWGb5ZP/XMt3dcyPA==}
-
   '@emnapi/runtime@1.11.3':
     resolution: {integrity: sha512-Xz4Tpyki7XyrpbUK1jR1AhdAdaXyhhY4lZ3neLodmhpuWfy2PAQN5B46sAiU4liOXGLkHypn/qU+jvfWSCYYLA==}
-
-  '@emnapi/wasi-threads@1.2.2':
-    resolution: {integrity: sha512-c95qOXkHdydNKhscBTebqEC1CVAZpyqOfVfBzQ1qgzyl3gfeldUjIggDbIZgDKsHLgnsM+igH7TJ/eAasaVuMA==}
 
   '@esbuild/aix-ppc64@0.28.2':
     resolution: {integrity: sha512-XExcO+dvLKvVtNTibSTBej1NCAbaGhWn9Ww1ZPx80qsahhPFe/8jgWP0IchNe0F3HwkU7n8ejhH8bjonqht8mQ==}
@@ -896,13 +887,6 @@ packages:
     os: [linux]
     libc: [glibc]
 
-  '@napi-rs/wasm-runtime@1.2.5':
-    resolution: {integrity: sha512-HshSvXzmBxNzqejd3k/KemgQ3hdREUYFRRrgxOZ+gPljDIsO2SDZrVZMd4Z/HsxudQbE62OVyVFE8z9BCurfjA==}
-    engines: {node: ^20.19.0 || ^22.13.0 || >=23.5.0}
-    peerDependencies:
-      '@emnapi/core': ^1.7.1 || ^2.0.0-alpha.4
-      '@emnapi/runtime': ^1.7.1 || ^2.0.0-alpha.4
-
   '@nodable/entities@3.1.0':
     resolution: {integrity: sha512-LsS/DjHr+uDM647Gru/cA8+J3a3HfhttwCKLyuoyN7yXTFCxKBtSgMQBvrW9yNPa2/zDRUNuGPaH5QUFoa4arQ==}
 
@@ -1049,44 +1033,32 @@ packages:
       nuxt: ^4.6.0
       vite: ^8.3.2
 
-  '@nuxtjs/robots@https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@24f4dcdbf3cd8d4c19a210b62eec8295eb4772a7':
-    resolution: {integrity: sha512-ZJY39ZRabWYZcYiM1NPU0Pqqx9JVQHnwGpn9qKfZP9GR4qx7f/36hccv2bsAlyJGbMwJLxcIBXYxiCQSVJeggw==, tarball: https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@24f4dcdbf3cd8d4c19a210b62eec8295eb4772a7}
-    version: 7.0.0
+  '@nuxtjs/robots@https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@41c661a085129be864fbcabf7327d4d816d491d0':
+    resolution: {integrity: sha512-weUubhn9EMxP0NA9iNBTDt3fY1yJoYjp53TRGdnbj6+cSZ4z+DSMnQeAKFmRZOOB4aI3u4Fb34aUnrQsIcNsLA==, tarball: https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@41c661a085129be864fbcabf7327d4d816d491d0}
+    version: 6.2.4
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
     peerDependencies:
       nuxt: ^4.6.0 || ^5.0.0
-      zod: ^4.4.3
+      zod: ^4.6.5
     peerDependenciesMeta:
       zod:
         optional: true
 
-  '@nuxtjs/sitemap@https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@7879681b68064274eea0be819003669b9422b60d':
-    resolution: {integrity: sha512-e9wXuS27SXA7lpw0G6a8KFcOaqYYurj+fWo6JRkXIZ7gdBb9bV3zPZljRrJX+gPG+nfFlSvHyCaFnqjCVzcSaQ==, tarball: https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@7879681b68064274eea0be819003669b9422b60d}
-    version: 9.0.0
+  '@nuxtjs/sitemap@https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@51930110ebfd51a58e593e4cf6eee8f03381baf1':
+    resolution: {integrity: sha512-sfZ8/rCN0PYgt0R65c1/7JOV+vcxdi0gWfdJuaW44kbx8dmUJU8RcJTsSSxMMFxdntCKk1yB/vo4adEyTQa1Cg==, tarball: https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@51930110ebfd51a58e593e4cf6eee8f03381baf1}
+    version: 8.6.1
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
     peerDependencies:
       nuxt: ^4.6.0 || ^5.0.0
-      zod: ^4.4.3
+      zod: ^4.6.5
     peerDependenciesMeta:
       zod:
         optional: true
-
-  '@oxc-parser/binding-android-arm-eabi@0.141.0':
-    resolution: {integrity: sha512-jk7086MFvR/T4DG9IY7MKBVt1PMxvSZoz/TvnifodvS0pjghVwJHRttnAExhlwdMOgHv1TmLdENnbNpYk2zjvA==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm]
-    os: [android]
 
   '@oxc-parser/binding-android-arm-eabi@0.153.0':
     resolution: {integrity: sha512-BcWu25dMwMjHpaDCEidmpAi7rGg1qZoihJeUUH9bD55pVZ0z4Wa5CQgqSTo0R41H81oozisQKW3WqvAN2m77IQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
-    os: [android]
-
-  '@oxc-parser/binding-android-arm64@0.141.0':
-    resolution: {integrity: sha512-a4XDQ27ZT7e7zwAlxJDTiCA7IBGWDuy2+MhFq85Of7XlBSmpkfcBFml11q0Zx6f7RMuI0B4xCtt2ytBS4yOptg==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm64]
     os: [android]
 
   '@oxc-parser/binding-android-arm64@0.153.0':
@@ -1095,22 +1067,10 @@ packages:
     cpu: [arm64]
     os: [android]
 
-  '@oxc-parser/binding-darwin-arm64@0.141.0':
-    resolution: {integrity: sha512-m/kVk6rzYmBeHYnz+1Y5fod00AVTTxMbC71azFfm/zjx1j9XxwKtA0+VfkKuVMC8rbghb9TtfevnuWZa9OuPEg==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm64]
-    os: [darwin]
-
   '@oxc-parser/binding-darwin-arm64@0.153.0':
     resolution: {integrity: sha512-EcpsyRXHhENDpekpG4QNaSZj2F/BAz4Gh4o89zZwNss86R8KyRSQ6sXbAj74Xyeb4z3j/yBZZ6joQZhraIWyfw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
-    os: [darwin]
-
-  '@oxc-parser/binding-darwin-x64@0.141.0':
-    resolution: {integrity: sha512-o0X+6KZlfucWU/v5oKRQPwdFXsXAjW8jmpo/Gpw/qyKsbKtlfkHoeH9Bjp/m13TwjewvJnCkwF0DWzgpC4HjTQ==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [x64]
     os: [darwin]
 
   '@oxc-parser/binding-darwin-x64@0.153.0':
@@ -1119,32 +1079,14 @@ packages:
     cpu: [x64]
     os: [darwin]
 
-  '@oxc-parser/binding-freebsd-x64@0.141.0':
-    resolution: {integrity: sha512-W5KbTnNkTMMMylqj6dYqnsXvkmESVPodPKYLJ5zdzIPdl9fUJtolkpUeSzYEbGGYB4a4A4avl3EePnZ/wLIdJg==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [x64]
-    os: [freebsd]
-
   '@oxc-parser/binding-freebsd-x64@0.153.0':
     resolution: {integrity: sha512-fWRcv2pMSh1qtez46MOu8vuUJ5fiaQZPHSphbWulbL7SHBMKfRgZl2PzjXZYQJbq7NEXyXbgIuIuUm+/Rmkv8w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [freebsd]
 
-  '@oxc-parser/binding-linux-arm-gnueabihf@0.141.0':
-    resolution: {integrity: sha512-g3dtbJa8zeOGK36Sr9cQavsdi5H/ie2hVjrSjIxsNAR1qZA40ZYVXnfdfoMAlq8CmB9qFL1yhsSCUHeNmdmt8w==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm]
-    os: [linux]
-
   '@oxc-parser/binding-linux-arm-gnueabihf@0.153.0':
     resolution: {integrity: sha512-paZeUK1GXShl/bOJQET1/8AQxayFeuN4SIWAkgTRxE7ZQwv9uYSB2n0648smygP22N7jcI3zxAm0Z+ALNiIKxg==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm]
-    os: [linux]
-
-  '@oxc-parser/binding-linux-arm-musleabihf@0.141.0':
-    resolution: {integrity: sha512-e6hwQqd+3lvP13G2jxvFpoA7dzHcFLN+Mq47JCVMtdNHbbyBRo756JCtbbJH6ca8inTfyqZoqBmS3vhQlzAK2w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
@@ -1155,26 +1097,12 @@ packages:
     cpu: [arm]
     os: [linux]
 
-  '@oxc-parser/binding-linux-arm64-gnu@0.141.0':
-    resolution: {integrity: sha512-vXz2BLAuypA+4MLyBg94pzEo6THVnzYnCtAjXoihIIQo0t2pnp/AmW+SH1EI+4VbuJnC//KplIJ5yyaCGua4jA==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm64]
-    os: [linux]
-    libc: [glibc]
-
   '@oxc-parser/binding-linux-arm64-gnu@0.153.0':
     resolution: {integrity: sha512-oufEhZCX7saeo27Logra8cvBR1jQ/yw2zUI2hHmWw3qA/XYqEW31FOvLQBv7DWN32NjVdlcaP11WBBZTJo4k9g==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
-
-  '@oxc-parser/binding-linux-arm64-musl@0.141.0':
-    resolution: {integrity: sha512-jMkS/EztNW34HKsXIaT/SoHcmtocq/vWhwFOVduF9kduuuRIVwfwQ6uxzIO+qPKSXdd2TXt54of0BJ2zFMXnmw==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm64]
-    os: [linux]
-    libc: [musl]
 
   '@oxc-parser/binding-linux-arm64-musl@0.153.0':
     resolution: {integrity: sha512-zXYzuAqng85h6+LI3iRm0zeMLX1/K2z41ZAMWxVRgt0D10VvZUaV5q+TEB46KDhoKBpdexoTLC6QoB/EiP2oqQ==}
@@ -1183,24 +1111,10 @@ packages:
     os: [linux]
     libc: [musl]
 
-  '@oxc-parser/binding-linux-ppc64-gnu@0.141.0':
-    resolution: {integrity: sha512-vo+MR+n3zQJ6Mq92hiP084NZcgDv5iJlVR02gMf28neMvVT1tKVm7VeiW/DxhdqOi3QLeaXIk9cUcLL1qrkngw==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [ppc64]
-    os: [linux]
-    libc: [glibc]
-
   '@oxc-parser/binding-linux-ppc64-gnu@0.153.0':
     resolution: {integrity: sha512-J7+NLwLEzdkKM9cKyPHH/AjXXstWOs98KYgLrPPnO4N9MO8EZRBfPNnBcS3S67uMOBkRpUmCl2FhRnWdQ5CbBA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ppc64]
-    os: [linux]
-    libc: [glibc]
-
-  '@oxc-parser/binding-linux-riscv64-gnu@0.141.0':
-    resolution: {integrity: sha512-oh80w+7RuiO5gBp9Jnoa/H8Qlt3JsHL2MkW+0dwEdlDMdslVZX/YsekSK6EeyEenY66/mhCfypsNATQ7Ph3qlQ==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [riscv64]
     os: [linux]
     libc: [glibc]
 
@@ -1211,13 +1125,6 @@ packages:
     os: [linux]
     libc: [glibc]
 
-  '@oxc-parser/binding-linux-riscv64-musl@0.141.0':
-    resolution: {integrity: sha512-LOyEmFA8sCnYbEXP1+iQvCC/P1YXHMA/t6x1Ksp0Y9VwhLFsiBJFzV1zIxrOIE2LKaGGhDjQ29xq9cbq6omDXA==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [riscv64]
-    os: [linux]
-    libc: [musl]
-
   '@oxc-parser/binding-linux-riscv64-musl@0.153.0':
     resolution: {integrity: sha512-7L66uql2BhvSz51LwfExjOdn6et/ydTiQxl23VApdKzJhTc3TczA1Qt6VR/UcvlQrL2ZbytIJb447vh7p5wmUw==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -1225,24 +1132,10 @@ packages:
     os: [linux]
     libc: [musl]
 
-  '@oxc-parser/binding-linux-s390x-gnu@0.141.0':
-    resolution: {integrity: sha512-3wnwk/l1CvszVE5TJR1wSl/zSEfydRqrNhn6s7Vr9IzSJpUQIroqVsIoPARHRFA+FQwkxAFDAHDAasa7v8OobQ==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [s390x]
-    os: [linux]
-    libc: [glibc]
-
   '@oxc-parser/binding-linux-s390x-gnu@0.153.0':
     resolution: {integrity: sha512-hXV3T7mNyrPR19rbPYkglkQJtoM/UNo/xwbZeeqdAxEg8PXgb4LXXuxPpGgI4bzRRCWwLUxdDSS58xIyC2u1TA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [s390x]
-    os: [linux]
-    libc: [glibc]
-
-  '@oxc-parser/binding-linux-x64-gnu@0.141.0':
-    resolution: {integrity: sha512-qtyQVAAebFq57B2tifTlel3TgGqUtsYNI/e+p6aya9rN9lOZVTDvr215fGYSA9XWooxzMxDiVxkBLk2jQHbsOQ==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [x64]
     os: [linux]
     libc: [glibc]
 
@@ -1253,13 +1146,6 @@ packages:
     os: [linux]
     libc: [glibc]
 
-  '@oxc-parser/binding-linux-x64-musl@0.141.0':
-    resolution: {integrity: sha512-SkGV1nKw40roEc94pv5EaaeH2ay14G6+roe8Q0wIUC1LcEKxzKW921h7+ZuZX0D3q2Mb/7aSFmxEVqnko3lPRw==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [x64]
-    os: [linux]
-    libc: [musl]
-
   '@oxc-parser/binding-linux-x64-musl@0.153.0':
     resolution: {integrity: sha512-zGAPxNTIIw6X5WyTRscIFE/oDjpdNtrrl32ing6NOXdGjzRucadnxBilexLdeYQ9YxixF93GujpXyQ0jw7ddSg==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -1267,39 +1153,16 @@ packages:
     os: [linux]
     libc: [musl]
 
-  '@oxc-parser/binding-openharmony-arm64@0.141.0':
-    resolution: {integrity: sha512-cVgDM7n8QziQqOaP5hNgUYfMG7S/ZeuPxFWXnnHRv7rh025COk0rfQ6eEdKG3j/GaUuyvNZN4ifF1J8KmuXLLA==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm64]
-    os: [openharmony]
-
   '@oxc-parser/binding-openharmony-arm64@0.153.0':
     resolution: {integrity: sha512-GoHzpqP5XyPIp9DHokoEdCp+K4UPl/h1neFj1uXnUB3pJYyOQ7NOhFVOttNUgCGcj2eywAvu5cRivTOSq4S10g==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [openharmony]
 
-  '@oxc-parser/binding-wasm32-wasi@0.141.0':
-    resolution: {integrity: sha512-HggH++Fkn3OilBn+bs3jpgIFQa34oMAyUUHy0vpGum+gt1Eb5nyLc8dNU/RAPSw6lsLrx7ncKtHSZE+3Sp0l2g==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [wasm32]
-
-  '@oxc-parser/binding-win32-arm64-msvc@0.141.0':
-    resolution: {integrity: sha512-KLSEH9GwgbrqbJOjtGHt9STw96s+78yDzp7IDN8Lno+7Ut9sNBfZ4jYZIz4mD50qmWUjoOI7i9I6UENbhNbMZQ==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [arm64]
-    os: [win32]
-
   '@oxc-parser/binding-win32-arm64-msvc@0.153.0':
     resolution: {integrity: sha512-xGcy12tO9k7zFbeyQzEuilfWfQpyRq23/fLPfN3wjSWuWv58k46fQT1hsO1KFNykZuVGW9xSJE/z592TmAoSDA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
-    os: [win32]
-
-  '@oxc-parser/binding-win32-ia32-msvc@0.141.0':
-    resolution: {integrity: sha512-9UVWUOOCI/1YkiSSNjg2zyBJYM9E/t1A/8GNobd48JDn/fQ6mzxcVO3H08jb3rAaW/B1VBf8eCORTvSsO9T08g==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [ia32]
     os: [win32]
 
   '@oxc-parser/binding-win32-ia32-msvc@0.153.0':
@@ -1308,20 +1171,11 @@ packages:
     cpu: [ia32]
     os: [win32]
 
-  '@oxc-parser/binding-win32-x64-msvc@0.141.0':
-    resolution: {integrity: sha512-HI/wsvbWT5RHHw5c37D0fEgeTd8/1Q4OJs5jUmEBc17VZFG6SsCIe4barq7NsAPPks/JW+3ayi3Rp+PQI5h4Kg==}
-    engines: {node: ^20.19.0 || >=22.12.0}
-    cpu: [x64]
-    os: [win32]
-
   '@oxc-parser/binding-win32-x64-msvc@0.153.0':
     resolution: {integrity: sha512-gxQz7G96Up136fd+2zWrP+o6FYGs9NO4Dyv55IoeJFJUDwLFHcLYY11hhA5wQKs0HoM57Q8esQ3nEVhnCdsjAQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
-
-  '@oxc-project/types@0.141.0':
-    resolution: {integrity: sha512-S4as7z0j0xQkXcJlyY5ehntwK8/wRkQb9Cyqw+J/N2rkWGQGK0SxD6X6DhQTc7qsxVTBxXbxZtBJh3mr3PtIzQ==}
 
   '@oxc-project/types@0.152.0':
     resolution: {integrity: sha512-oM/5rLBm2tPkg0iBgkH/FOeR3PCDpY19GTgAZjMFM8h9WI9VW7cLgzp6nwtarYKmovavIQZ+Fe/RKX/8C8O/Rw==}
@@ -1750,9 +1604,6 @@ packages:
       react:
         optional: true
 
-  '@tybys/wasm-util@0.10.4':
-    resolution: {integrity: sha512-W3c4gRigFS0T/Ma4qIYF3GDAc5AQdHb1yL5znJT1Zv1YaD9Kitx656wBjvr19qbiosmZT8lWDM5BEMynUqX65A==}
-
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
 
@@ -1909,28 +1760,15 @@ packages:
   '@vue/shared@3.5.43':
     resolution: {integrity: sha512-uksS7YGMR5NZyr4JNq0Rp+QyLns0ueaz20KwzIPW9R0LH1Vnt4E+XUM29PNseEbf1www2gOuhuDi5AKOIXag9Q==}
 
-  '@vueuse/core@14.4.0':
-    resolution: {integrity: sha512-X4WHz1HlCzCBoYXesUkifzzWBAcZgXG8Fi5iNPQg/epdzOB3gu8Fawj3hvuwYR1nGcXGnvxwYYcUC/71++svtQ==}
-    peerDependencies:
-      vue: ^3.5.43
-
   '@vueuse/core@15.0.0':
     resolution: {integrity: sha512-Zv67h5mrk7YHDJsRObx+DXaCBz6RKBUpxqLesJ+3xZNPG6yuQs7ja7kg3veFrrouYLWAqydQ7CwGEbLVxB43Ng==}
     engines: {node: '>=22'}
     peerDependencies:
       vue: ^3.5.43
 
-  '@vueuse/metadata@14.4.0':
-    resolution: {integrity: sha512-swx/255R6JyHZFJhx845iz5CRWDZdCfvkZOpACWc5+c5WHcG24mv8gUT1WIdFQaHt6dq79rvILd9QnCWiyVm9g==}
-
   '@vueuse/metadata@15.0.0':
     resolution: {integrity: sha512-sfWE5LADAKJ0KnjtGliMdSN8Ij/L7uP6rXIZlgPloAI4zvvefbw6H5Lt7KJA6RqQOYgVqWF5Guj50HHMIzygBg==}
     engines: {node: '>=22'}
-
-  '@vueuse/shared@14.4.0':
-    resolution: {integrity: sha512-JRgY90Sz8DDtPMsaDflvPMp9xYk69JZAmbuDvAquUVXKr2gEjqtzGNTTthLfckH0BzBqvnu31gb4a8TGLRe79g==}
-    peerDependencies:
-      vue: ^3.5.43
 
   '@vueuse/shared@15.0.0':
     resolution: {integrity: sha512-vbNXhGrbV53xPOMSyOzMHQRvhMgZf7oNDw2RChUetVxwTIEkInQ1joZ9JbT0G3z2n2AJNjvmCWeM9ySYrnvogA==}
@@ -3238,9 +3076,9 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  nuxt-ai-ready@https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@9675a2c9d68ab1a4e6b9db1eb4a1f28f3249606e:
-    resolution: {integrity: sha512-mJENhhB/EaskZhLnOLGZqXWiQuAQQAREIMmMprdjZZE8coNXDYNJd+E8LuhT53hUYHxYt5VZi8tlNMgH4Digvw==, tarball: https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@9675a2c9d68ab1a4e6b9db1eb4a1f28f3249606e}
-    version: 3.0.0
+  nuxt-ai-ready@https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@0c95886a40f259679370fcebafded4175381fbba:
+    resolution: {integrity: sha512-KyuTZiFMW7m2ulOrSQQqzmCmU6D1eFkUTw+VNau5dyZ7PMTMW1pvqybK//yK+2867TpC15lm2t2o99fOMrcVjQ==, tarball: https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@0c95886a40f259679370fcebafded4175381fbba}
+    version: 2.5.3
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
     hasBin: true
     peerDependencies:
@@ -3259,16 +3097,16 @@ packages:
       - mdream
       - '@mdream/js'
 
-  nuxt-link-checker@https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@31f8cc90882f6b5d01aec4461dede297816588fa:
-    resolution: {integrity: sha512-WW64A8R4OYzMaL2z/sdMW0dgINqig+oavXz7TuG5KUYgvT1TL3lI3hzy3nCxNXsHu6hg4chJN14AUPGbqYfZRg==, tarball: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@31f8cc90882f6b5d01aec4461dede297816588fa}
+  nuxt-link-checker@https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@3e992acc5abe59b88cfc5abc29b1f5473917e4e3:
+    resolution: {integrity: sha512-WW64A8R4OYzMaL2z/sdMW0dgINqig+oavXz7TuG5KUYgvT1TL3lI3hzy3nCxNXsHu6hg4chJN14AUPGbqYfZRg==, tarball: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@3e992acc5abe59b88cfc5abc29b1f5473917e4e3}
     version: 6.0.0
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
     peerDependencies:
       nuxt: ^4.6.0 || ^5.0.0
 
-  nuxt-og-image@https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@42acd74449da9443bf2c3281588706db994115ad:
-    resolution: {integrity: sha512-2Ukz41vFy6iyPvqyG0XsTWSzQ6KmzBTmETRN3YFBPzI7Cv0olFlC9ubdiA7yeUdKL5EWot8ZttmEgF+8YthLeA==, tarball: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@42acd74449da9443bf2c3281588706db994115ad}
-    version: 7.0.0
+  nuxt-og-image@https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@64f1c40490d44b6f93f3d6c510232b331b1685a4:
+    resolution: {integrity: sha512-BmxGysAsJecOVsfxdpsmROLeQ6R4uADwAiERbMQ3Gt6h6jYezkyoo4cEPhKaPpkOTUjuYlbW4uJS5tLwHYZNtw==, tarball: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@64f1c40490d44b6f93f3d6c510232b331b1685a4}
+    version: 6.10.3
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
     hasBin: true
     peerDependencies:
@@ -3319,9 +3157,9 @@ packages:
       zod:
         optional: true
 
-  nuxt-schema-org@https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@92d351e5b56e8bbcfb20951947a3354ffdf720c8:
-    resolution: {integrity: sha512-KOjJ83L/ZMhgfLlHRztSvLsCiQkQlt5VpD4HvKyduhPxHKAf1kr58v3AgkG5HUjR3d8KWiwVx0VEDUkKnfn11g==, tarball: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@92d351e5b56e8bbcfb20951947a3354ffdf720c8}
-    version: 7.0.0
+  nuxt-schema-org@https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@6b4a9047508c76cbada14ba3c17b4a17b9932f35:
+    resolution: {integrity: sha512-OzCrZqqqhvMIkWFD8k7MPELoI5d7TT8cye6AYRxXeLz2XZM+OICJJitZ9cIcZyzNDsG4AHntc6BlOGIWzoZvRA==, tarball: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@6b4a9047508c76cbada14ba3c17b4a17b9932f35}
+    version: 6.4.3
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
     peerDependencies:
       '@unhead/vue': ^3.4.1
@@ -3333,9 +3171,9 @@ packages:
       zod:
         optional: true
 
-  nuxt-seo-utils@https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@64c52852391ea05ebb34930714433177030d6663:
-    resolution: {integrity: sha512-JQh1DXHKMdCOnX8lgiA9uupYW602MOij7IvbWj9OPPx6aKmJHra1iU4CEU87LFfnMdHyeDVLD64LLDFwG3RN3Q==, tarball: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@64c52852391ea05ebb34930714433177030d6663}
-    version: 9.0.0
+  nuxt-seo-utils@https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@ded24361e963be25c1a98cf8b37f1a2b7d0020dc:
+    resolution: {integrity: sha512-Cnw6elC+8uePeuL++IeiHGx9y/DP4cXVgLdH3Vn5gtZbl4j/xZ04943kq9uj/K6JRuW0hwb8F+T9qACtnQqKwQ==, tarball: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@ded24361e963be25c1a98cf8b37f1a2b7d0020dc}
+    version: 8.6.1
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
     hasBin: true
     peerDependencies:
@@ -3357,22 +3195,22 @@ packages:
       unhead:
         optional: true
 
-  nuxt-site-config-kit@https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@03e159ba633c883477bc93ed0590ff5ab3788104:
-    resolution: {integrity: sha512-EcZ9yrqKdRpyTWsTtO+y5zaf7HilnaN23BLfTteah9zIV7484TVx5/bgmvviwyRTgpWwvxSfrWNXKNVNTgbjDg==, tarball: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@03e159ba633c883477bc93ed0590ff5ab3788104}
+  nuxt-site-config-kit@https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@eefd7624648c1006395ddb5256ed90d821c7c656:
+    resolution: {integrity: sha512-F7IqcDYHjmCDEzOj3WGiMG2TtizRCo6DEZV0uN8lbG5FPo96BU4Op4Jw94RYu14TZYiayrxyFTq5o+dMY/UJmQ==, tarball: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@eefd7624648c1006395ddb5256ed90d821c7c656}
     version: 5.0.0
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
 
-  nuxt-site-config@https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104:
-    resolution: {integrity: sha512-DTU/oyVkuvlt2qi/qHw84JlmUwaJN/CON4p4PJDr+2PGEvw1pt1EBY4II+OiUini8PJNbMPZL3WQdC2GTyhvkw==, tarball: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104}
+  nuxt-site-config@https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656:
+    resolution: {integrity: sha512-hIB8mEPVz84/NukZmHKKe/asEMYv2SyRQrNRRsD60rPz2/pXsxZGd2MxD1Rv5+7v3aOKBj214XE1OpdNm4TLXA==, tarball: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656}
     version: 5.0.0
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
     peerDependencies:
       nuxt: ^4.6.0 || ^5.0.0
       vue: ^3.5.43
 
-  nuxt-skew-protection@https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@93541b1327fbd257fc19bb3152c02c62eb844dac:
-    resolution: {integrity: sha512-HI8IP/go36FlNFzelHqXhiVivvy5BGJl6+Qv1Pm0rytWFoYeL1picjsmQSsrO6FMb8PUTKCgVVUTqig68G9pVA==, tarball: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@93541b1327fbd257fc19bb3152c02c62eb844dac}
-    version: 2.0.0
+  nuxt-skew-protection@https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@f5085519f36492cfc47eb65062f3df81ce634102:
+    resolution: {integrity: sha512-ngdSmXyYqY7YvmX8rL77ui6iUf/H0t/gz7VMy/xejYn41LZSrxsKkebZSlKtVxNrRUWR0tZlmwew3vpyNA175w==, tarball: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@f5085519f36492cfc47eb65062f3df81ce634102}
+    version: 1.6.2
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
     hasBin: true
     peerDependencies:
@@ -3405,9 +3243,9 @@ packages:
       '@types/node':
         optional: true
 
-  nuxtseo-shared@https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5:
-    resolution: {integrity: sha512-z27hJL9wFAXX3n/1MRo6L63RaipeRV08UOl0vSRLdmXGjVmbb12NM9ZuQrvuRO6B79iK3bvUZi7C5JZ8CLfDyg==, tarball: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5}
-    version: 6.0.0
+  nuxtseo-shared@https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164:
+    resolution: {integrity: sha512-uu4Tmm7XUst3AL90CTad+otQmq8f64wFXhlYtan51Y2vKBJwEVVxuPF0GX0yWrCX2vYSnSiDBFk0zyGafdVQIg==, tarball: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164}
+    version: 5.3.16
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
     peerDependencies:
       '@nuxt/schema': ^4.6.0 || ^5.0.0
@@ -3458,10 +3296,6 @@ packages:
   open@11.0.4:
     resolution: {integrity: sha512-++Zlftm0kVLPmzC06t6epuWmcRMDbI4z5P3NNX979WA/k23+NtSOynEGzsVfZwguKw2mi5umVgnBlJQMwRz4Pg==}
     engines: {node: '>=20'}
-
-  oxc-parser@0.141.0:
-    resolution: {integrity: sha512-uFkGGr1KMWd6aWv9UAqooYrN78trw8MWWmoPvgWokfBEUq1+eiIQ+qfj3wokhy0fxtZWZk+0dHoS7/yRTJtd6w==}
-    engines: {node: ^20.19.0 || >=22.12.0}
 
   oxc-parser@0.153.0:
     resolution: {integrity: sha512-cEnpyyV1OJRXv++SFNw0z8i+2o/cr88rVLaOYJafELDoHM5yHvCAbwGRLvxuany6SNLcbblSMUyZaGzH+quSYg==}
@@ -3902,8 +3736,8 @@ packages:
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
 
-  site-config-stack@https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@03e159ba633c883477bc93ed0590ff5ab3788104:
-    resolution: {integrity: sha512-o/I+vJEvqsY4Qc7Gu1vr9WcChGhmoajtO+DZNJCGs3Fvz34mMQLrzlrxNUjUQf5/UESifX9nLdxbad6w8Gltlw==, tarball: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@03e159ba633c883477bc93ed0590ff5ab3788104}
+  site-config-stack@https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@eefd7624648c1006395ddb5256ed90d821c7c656:
+    resolution: {integrity: sha512-o/I+vJEvqsY4Qc7Gu1vr9WcChGhmoajtO+DZNJCGs3Fvz34mMQLrzlrxNUjUQf5/UESifX9nLdxbad6w8Gltlw==, tarball: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@eefd7624648c1006395ddb5256ed90d821c7c656}
     version: 5.0.0
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
     peerDependencies:
@@ -4766,23 +4600,7 @@ snapshots:
 
   '@dxup/unimport@0.1.2': {}
 
-  '@emnapi/core@1.11.2':
-    dependencies:
-      '@emnapi/wasi-threads': 1.2.2
-      tslib: 2.8.1
-    optional: true
-
-  '@emnapi/runtime@1.11.2':
-    dependencies:
-      tslib: 2.8.1
-    optional: true
-
   '@emnapi/runtime@1.11.3':
-    dependencies:
-      tslib: 2.8.1
-    optional: true
-
-  '@emnapi/wasi-threads@1.2.2':
     dependencies:
       tslib: 2.8.1
     optional: true
@@ -5076,13 +4894,6 @@ snapshots:
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
     optional: true
 
-  '@napi-rs/wasm-runtime@1.2.5(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)':
-    dependencies:
-      '@emnapi/core': 1.11.2
-      '@emnapi/runtime': 1.11.2
-      '@tybys/wasm-util': 0.10.4
-    optional: true
-
   '@nodable/entities@3.1.0': {}
 
   '@nodelib/fs.scandir@2.1.5':
@@ -5230,39 +5041,6 @@ snapshots:
       - uploadthing
       - utf-8-validate
       - vue
-
-  '@nuxt/kit@4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.141.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))':
-    dependencies:
-      consola: 3.4.2
-      defu: 6.1.7
-      destr: 2.0.5
-      errx: 0.2.2
-      exsolve: 1.1.3
-      ignore: 7.0.12
-      klona: 2.0.6
-      microdiff: 1.6.0
-      nostics: 1.3.0
-      package-manager-detector: 1.9.0
-      pathe: 2.0.3
-      rc9: 3.1.0
-      scule: 1.3.0
-      std-env: 4.3.0
-      tinyexec: 1.3.1
-      tinyglobby: 0.2.17
-      unctx: 3.0.1(magic-string@1.4.3)(oxc-parser@0.141.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
-      verkit: 0.5.0
-    optionalDependencies:
-      '@nuxt/schema': 4.6.0
-      confbox: 0.3.1
-      dotenv: 17.4.2
-      giget: 3.3.1
-      jiti: 2.7.0
-      mlly: 1.8.2
-      oxc-parser: 0.141.0
-      rolldown: 1.2.12
-    transitivePeerDependencies:
-      - magic-string
-      - unplugin
 
   '@nuxt/kit@4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))':
     dependencies:
@@ -5507,16 +5285,16 @@ snapshots:
       - rolldown
       - unplugin
 
-  '@nuxtjs/robots@https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@24f4dcdbf3cd8d4c19a210b62eec8295eb4772a7(1bce8f1e1bb27e2a0e77da01cb8b6bb3)':
+  '@nuxtjs/robots@https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@41c661a085129be864fbcabf7327d4d816d491d0(1bce8f1e1bb27e2a0e77da01cb8b6bb3)':
     dependencies:
       '@fingerprintjs/botd': 2.0.0
       '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
-      '@vueuse/core': 14.4.0(vue@3.5.43(typescript@6.0.3))
+      '@vueuse/core': 15.0.0(vue@3.5.43(typescript@6.0.3))
       consola: 3.4.2
       defu: 6.1.7
       nuxt: 4.6.0(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.153.0)(@types/node@26.6.4)(@vue/compiler-sfc@3.5.43)(acorn@8.18.0)(confbox@0.3.1)(db0@0.3.4)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.12)(rollup@4.64.0))(rollup@4.64.0)(srvx@1.0.5)(supports-color@10.2.2)(terser@5.51.2)(typescript@6.0.3)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue-tsc@3.3.12(typescript@6.0.3))(yaml@2.9.1)
-      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
-      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5(189fbba034e48bcdfdb6164a87180712)
+      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164(8a8bf6617fa2decb9ac89d7ed9287f3c)
       ufo: 1.6.4
     optionalDependencies:
       zod: 4.6.5
@@ -5533,17 +5311,17 @@ snapshots:
       - unplugin
       - vue
 
-  '@nuxtjs/sitemap@https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@7879681b68064274eea0be819003669b9422b60d(27b53a62e0ff13ba11cf749629e0775a)':
+  '@nuxtjs/sitemap@https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@51930110ebfd51a58e593e4cf6eee8f03381baf1(27b53a62e0ff13ba11cf749629e0775a)':
     dependencies:
-      '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.141.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
+      '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
       consola: 3.4.2
       defu: 6.1.7
       nuxt: 4.6.0(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.153.0)(@types/node@26.6.4)(@vue/compiler-sfc@3.5.43)(acorn@8.18.0)(confbox@0.3.1)(db0@0.3.4)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.12)(rollup@4.64.0))(rollup@4.64.0)(srvx@1.0.5)(supports-color@10.2.2)(terser@5.51.2)(typescript@6.0.3)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue-tsc@3.3.12(typescript@6.0.3))(yaml@2.9.1)
-      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104(e561d202b72553db33f5ef22dcc0bd55)
-      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5(f1e6578691a97bb0c7d8e91bbd4cdfea)
+      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164(8a8bf6617fa2decb9ac89d7ed9287f3c)
       ofetch: 1.5.1
-      oxc-parser: 0.141.0
-      oxc-walker: 1.1.1(@oxc-project/types@0.153.0)(oxc-parser@0.141.0)(rolldown@1.2.12)
+      oxc-parser: 0.153.0
+      oxc-walker: 1.1.1(@oxc-project/types@0.153.0)(oxc-parser@0.153.0)(rolldown@1.2.12)
       radix3: 1.1.2
       sitemapd: 0.2.2
       ufo: 1.6.4
@@ -5563,128 +5341,62 @@ snapshots:
       - unplugin
       - vue
 
-  '@oxc-parser/binding-android-arm-eabi@0.141.0':
-    optional: true
-
   '@oxc-parser/binding-android-arm-eabi@0.153.0':
-    optional: true
-
-  '@oxc-parser/binding-android-arm64@0.141.0':
     optional: true
 
   '@oxc-parser/binding-android-arm64@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-darwin-arm64@0.141.0':
-    optional: true
-
   '@oxc-parser/binding-darwin-arm64@0.153.0':
-    optional: true
-
-  '@oxc-parser/binding-darwin-x64@0.141.0':
     optional: true
 
   '@oxc-parser/binding-darwin-x64@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-freebsd-x64@0.141.0':
-    optional: true
-
   '@oxc-parser/binding-freebsd-x64@0.153.0':
-    optional: true
-
-  '@oxc-parser/binding-linux-arm-gnueabihf@0.141.0':
     optional: true
 
   '@oxc-parser/binding-linux-arm-gnueabihf@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-linux-arm-musleabihf@0.141.0':
-    optional: true
-
   '@oxc-parser/binding-linux-arm-musleabihf@0.153.0':
-    optional: true
-
-  '@oxc-parser/binding-linux-arm64-gnu@0.141.0':
     optional: true
 
   '@oxc-parser/binding-linux-arm64-gnu@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-linux-arm64-musl@0.141.0':
-    optional: true
-
   '@oxc-parser/binding-linux-arm64-musl@0.153.0':
-    optional: true
-
-  '@oxc-parser/binding-linux-ppc64-gnu@0.141.0':
     optional: true
 
   '@oxc-parser/binding-linux-ppc64-gnu@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-linux-riscv64-gnu@0.141.0':
-    optional: true
-
   '@oxc-parser/binding-linux-riscv64-gnu@0.153.0':
-    optional: true
-
-  '@oxc-parser/binding-linux-riscv64-musl@0.141.0':
     optional: true
 
   '@oxc-parser/binding-linux-riscv64-musl@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-linux-s390x-gnu@0.141.0':
-    optional: true
-
   '@oxc-parser/binding-linux-s390x-gnu@0.153.0':
-    optional: true
-
-  '@oxc-parser/binding-linux-x64-gnu@0.141.0':
     optional: true
 
   '@oxc-parser/binding-linux-x64-gnu@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-linux-x64-musl@0.141.0':
-    optional: true
-
   '@oxc-parser/binding-linux-x64-musl@0.153.0':
-    optional: true
-
-  '@oxc-parser/binding-openharmony-arm64@0.141.0':
     optional: true
 
   '@oxc-parser/binding-openharmony-arm64@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-wasm32-wasi@0.141.0':
-    dependencies:
-      '@emnapi/core': 1.11.2
-      '@emnapi/runtime': 1.11.2
-      '@napi-rs/wasm-runtime': 1.2.5(@emnapi/core@1.11.2)(@emnapi/runtime@1.11.2)
-    optional: true
-
-  '@oxc-parser/binding-win32-arm64-msvc@0.141.0':
-    optional: true
-
   '@oxc-parser/binding-win32-arm64-msvc@0.153.0':
-    optional: true
-
-  '@oxc-parser/binding-win32-ia32-msvc@0.141.0':
     optional: true
 
   '@oxc-parser/binding-win32-ia32-msvc@0.153.0':
     optional: true
 
-  '@oxc-parser/binding-win32-x64-msvc@0.141.0':
-    optional: true
-
   '@oxc-parser/binding-win32-x64-msvc@0.153.0':
     optional: true
-
-  '@oxc-project/types@0.141.0': {}
 
   '@oxc-project/types@0.152.0': {}
 
@@ -5952,11 +5664,6 @@ snapshots:
 
   '@takumi-rs/helpers@2.14.0': {}
 
-  '@tybys/wasm-util@0.10.4':
-    dependencies:
-      tslib: 2.8.1
-    optional: true
-
   '@types/estree@1.0.9': {}
 
   '@types/node@26.6.4':
@@ -6185,13 +5892,6 @@ snapshots:
 
   '@vue/shared@3.5.43': {}
 
-  '@vueuse/core@14.4.0(vue@3.5.43(typescript@6.0.3))':
-    dependencies:
-      '@types/web-bluetooth': 0.0.21
-      '@vueuse/metadata': 14.4.0
-      '@vueuse/shared': 14.4.0(vue@3.5.43(typescript@6.0.3))
-      vue: 3.5.43(typescript@6.0.3)
-
   '@vueuse/core@15.0.0(vue@3.5.43(typescript@6.0.3))':
     dependencies:
       '@types/web-bluetooth': 0.0.21
@@ -6199,13 +5899,7 @@ snapshots:
       '@vueuse/shared': 15.0.0(vue@3.5.43(typescript@6.0.3))
       vue: 3.5.43(typescript@6.0.3)
 
-  '@vueuse/metadata@14.4.0': {}
-
   '@vueuse/metadata@15.0.0': {}
-
-  '@vueuse/shared@14.4.0(vue@3.5.43(typescript@6.0.3))':
-    dependencies:
-      vue: 3.5.43(typescript@6.0.3)
 
   '@vueuse/shared@15.0.0(vue@3.5.43(typescript@6.0.3))':
     dependencies:
@@ -7387,20 +7081,20 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  nuxt-ai-ready@https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@9675a2c9d68ab1a4e6b9db1eb4a1f28f3249606e(7b36421d6c7378d5e7d0a1f884e958a5):
+  nuxt-ai-ready@https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@0c95886a40f259679370fcebafded4175381fbba(7b36421d6c7378d5e7d0a1f884e958a5):
     dependencies:
       '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
-      '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@24f4dcdbf3cd8d4c19a210b62eec8295eb4772a7(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
-      '@nuxtjs/sitemap': https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@7879681b68064274eea0be819003669b9422b60d(27b53a62e0ff13ba11cf749629e0775a)
+      '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@41c661a085129be864fbcabf7327d4d816d491d0(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+      '@nuxtjs/sitemap': https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@51930110ebfd51a58e593e4cf6eee8f03381baf1(27b53a62e0ff13ba11cf749629e0775a)
       citty: 0.2.2
       consola: 3.4.2
       defu: 6.1.7
       drizzle-orm: 1.0.0-rc.4(zod@4.6.5)
       nuxt: 4.6.0(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.153.0)(@types/node@26.6.4)(@vue/compiler-sfc@3.5.43)(acorn@8.18.0)(confbox@0.3.1)(db0@0.3.4)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.12)(rollup@4.64.0))(rollup@4.64.0)(srvx@1.0.5)(supports-color@10.2.2)(terser@5.51.2)(typescript@6.0.3)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue-tsc@3.3.12(typescript@6.0.3))(yaml@2.9.1)
-      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
-      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5(189fbba034e48bcdfdb6164a87180712)
+      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164(8a8bf6617fa2decb9ac89d7ed9287f3c)
       pathe: 2.0.3
-      site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@03e159ba633c883477bc93ed0590ff5ab3788104(vue@3.5.43(typescript@6.0.3))
+      site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@eefd7624648c1006395ddb5256ed90d821c7c656(vue@3.5.43(typescript@6.0.3))
       sitemapd: 0.2.2
       ufo: 1.6.4
       yaml: 2.9.1
@@ -7462,7 +7156,7 @@ snapshots:
       - vue
       - zod
 
-  nuxt-link-checker@https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@31f8cc90882f6b5d01aec4461dede297816588fa(09fd2d2cb695f1a7c22fc72bdac92740):
+  nuxt-link-checker@https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@3e992acc5abe59b88cfc5abc29b1f5473917e4e3(09fd2d2cb695f1a7c22fc72bdac92740):
     dependencies:
       '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
       '@vueuse/core': 15.0.0(vue@3.5.43(typescript@6.0.3))
@@ -7472,12 +7166,12 @@ snapshots:
       fuse.js: 7.5.0
       magic-string: 1.4.3
       nuxt: 4.6.0(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.153.0)(@types/node@26.6.4)(@vue/compiler-sfc@3.5.43)(acorn@8.18.0)(confbox@0.3.1)(db0@0.3.4)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.12)(rollup@4.64.0))(rollup@4.64.0)(srvx@1.0.5)(supports-color@10.2.2)(terser@5.51.2)(typescript@6.0.3)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue-tsc@3.3.12(typescript@6.0.3))(yaml@2.9.1)
-      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
-      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5(189fbba034e48bcdfdb6164a87180712)
+      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164(8a8bf6617fa2decb9ac89d7ed9287f3c)
       ofetch: 1.5.1
       pathe: 2.0.3
       radix3: 1.1.2
-      site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@03e159ba633c883477bc93ed0590ff5ab3788104(vue@3.5.43(typescript@6.0.3))
+      site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@eefd7624648c1006395ddb5256ed90d821c7c656(vue@3.5.43(typescript@6.0.3))
       ufo: 1.6.4
       ultrahtml: 1.7.0
       unstorage: 1.17.5(db0@0.3.4)(ioredis@5.11.1(supports-color@10.2.2))
@@ -7513,7 +7207,7 @@ snapshots:
       - vue
       - zod
 
-  nuxt-og-image@https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@42acd74449da9443bf2c3281588706db994115ad(df86eb3858736c5bbe1b9f1cb6843985):
+  nuxt-og-image@https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@64f1c40490d44b6f93f3d6c510232b331b1685a4(df86eb3858736c5bbe1b9f1cb6843985):
     dependencies:
       '@clack/prompts': 1.8.1
       '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
@@ -7530,8 +7224,8 @@ snapshots:
       magicast: 0.5.5
       mocked-exports: 0.1.1
       nuxt: 4.6.0(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.153.0)(@types/node@26.6.4)(@vue/compiler-sfc@3.5.43)(acorn@8.18.0)(confbox@0.3.1)(db0@0.3.4)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.12)(rollup@4.64.0))(rollup@4.64.0)(srvx@1.0.5)(supports-color@10.2.2)(terser@5.51.2)(typescript@6.0.3)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue-tsc@3.3.12(typescript@6.0.3))(yaml@2.9.1)
-      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
-      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5(189fbba034e48bcdfdb6164a87180712)
+      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164(8a8bf6617fa2decb9ac89d7ed9287f3c)
       nypm: 0.6.10
       object-identity: 0.2.3
       ofetch: 1.5.1
@@ -7573,14 +7267,14 @@ snapshots:
       - vue
       - webpack
 
-  nuxt-schema-org@https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@92d351e5b56e8bbcfb20951947a3354ffdf720c8(30a9c686bdd62630a13be6805bbc32c4):
+  nuxt-schema-org@https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@6b4a9047508c76cbada14ba3c17b4a17b9932f35(30a9c686bdd62630a13be6805bbc32c4):
     dependencies:
       '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
       '@unhead/vue': 3.4.2(@oxc-project/types@0.153.0)(esbuild@0.28.2)(lightningcss@1.33.0)(oxc-parser@0.153.0)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue@3.5.43(typescript@6.0.3))
       defu: 6.1.7
       nuxt: 4.6.0(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.153.0)(@types/node@26.6.4)(@vue/compiler-sfc@3.5.43)(acorn@8.18.0)(confbox@0.3.1)(db0@0.3.4)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.12)(rollup@4.64.0))(rollup@4.64.0)(srvx@1.0.5)(supports-color@10.2.2)(terser@5.51.2)(typescript@6.0.3)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue-tsc@3.3.12(typescript@6.0.3))(yaml@2.9.1)
-      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
-      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5(189fbba034e48bcdfdb6164a87180712)
+      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164(8a8bf6617fa2decb9ac89d7ed9287f3c)
       ufo: 1.6.4
       unhead: 3.4.2(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
       vue: 3.5.43(typescript@6.0.3)
@@ -7598,7 +7292,7 @@ snapshots:
       - rolldown
       - unplugin
 
-  nuxt-seo-utils@https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@64c52852391ea05ebb34930714433177030d6663(94d9d027a9ce6b1b436a4e218b616d96):
+  nuxt-seo-utils@https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@ded24361e963be25c1a98cf8b37f1a2b7d0020dc(94d9d027a9ce6b1b436a4e218b616d96):
     dependencies:
       '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
       citty: 0.2.2
@@ -7607,8 +7301,8 @@ snapshots:
       escape-string-regexp: 5.0.0
       exsolve: 1.1.3
       nuxt: 4.6.0(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.153.0)(@types/node@26.6.4)(@vue/compiler-sfc@3.5.43)(acorn@8.18.0)(confbox@0.3.1)(db0@0.3.4)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.12)(rollup@4.64.0))(rollup@4.64.0)(srvx@1.0.5)(supports-color@10.2.2)(terser@5.51.2)(typescript@6.0.3)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue-tsc@3.3.12(typescript@6.0.3))(yaml@2.9.1)
-      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
-      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5(189fbba034e48bcdfdb6164a87180712)
+      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164(8a8bf6617fa2decb9ac89d7ed9287f3c)
       pathe: 2.0.3
       scule: 1.3.0
       tinyglobby: 0.2.17
@@ -7634,28 +7328,10 @@ snapshots:
       - vue
       - zod
 
-  nuxt-site-config-kit@https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@03e159ba633c883477bc93ed0590ff5ab3788104(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.141.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))(vue@3.5.43(typescript@6.0.3)):
-    dependencies:
-      '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.141.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
-      site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@03e159ba633c883477bc93ed0590ff5ab3788104(vue@3.5.43(typescript@6.0.3))
-      ufo: 1.6.4
-    transitivePeerDependencies:
-      - '@nuxt/schema'
-      - confbox
-      - dotenv
-      - giget
-      - jiti
-      - magic-string
-      - mlly
-      - oxc-parser
-      - rolldown
-      - unplugin
-      - vue
-
-  nuxt-site-config-kit@https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@03e159ba633c883477bc93ed0590ff5ab3788104(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))(vue@3.5.43(typescript@6.0.3)):
+  nuxt-site-config-kit@https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@eefd7624648c1006395ddb5256ed90d821c7c656(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))(vue@3.5.43(typescript@6.0.3)):
     dependencies:
       '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
-      site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@03e159ba633c883477bc93ed0590ff5ab3788104(vue@3.5.43(typescript@6.0.3))
+      site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@eefd7624648c1006395ddb5256ed90d821c7c656(vue@3.5.43(typescript@6.0.3))
       ufo: 1.6.4
     transitivePeerDependencies:
       - '@nuxt/schema'
@@ -7670,16 +7346,16 @@ snapshots:
       - unplugin
       - vue
 
-  nuxt-site-config@https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104(1bce8f1e1bb27e2a0e77da01cb8b6bb3):
+  nuxt-site-config@https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656(1bce8f1e1bb27e2a0e77da01cb8b6bb3):
     dependencies:
       '@nuxt/devalue': 2.0.2
       '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
       consola: 3.4.2
       defu: 6.1.7
       nuxt: 4.6.0(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.153.0)(@types/node@26.6.4)(@vue/compiler-sfc@3.5.43)(acorn@8.18.0)(confbox@0.3.1)(db0@0.3.4)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.12)(rollup@4.64.0))(rollup@4.64.0)(srvx@1.0.5)(supports-color@10.2.2)(terser@5.51.2)(typescript@6.0.3)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue-tsc@3.3.12(typescript@6.0.3))(yaml@2.9.1)
-      nuxt-site-config-kit: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@03e159ba633c883477bc93ed0590ff5ab3788104(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))(vue@3.5.43(typescript@6.0.3))
-      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5(189fbba034e48bcdfdb6164a87180712)
-      site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@03e159ba633c883477bc93ed0590ff5ab3788104(vue@3.5.43(typescript@6.0.3))
+      nuxt-site-config-kit: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@eefd7624648c1006395ddb5256ed90d821c7c656(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))(vue@3.5.43(typescript@6.0.3))
+      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164(8a8bf6617fa2decb9ac89d7ed9287f3c)
+      site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@eefd7624648c1006395ddb5256ed90d821c7c656(vue@3.5.43(typescript@6.0.3))
       ufo: 1.6.4
       vue: 3.5.43(typescript@6.0.3)
     transitivePeerDependencies:
@@ -7695,45 +7371,20 @@ snapshots:
       - unplugin
       - zod
 
-  nuxt-site-config@https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104(e561d202b72553db33f5ef22dcc0bd55):
-    dependencies:
-      '@nuxt/devalue': 2.0.2
-      '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.141.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
-      consola: 3.4.2
-      defu: 6.1.7
-      nuxt: 4.6.0(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.153.0)(@types/node@26.6.4)(@vue/compiler-sfc@3.5.43)(acorn@8.18.0)(confbox@0.3.1)(db0@0.3.4)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.12)(rollup@4.64.0))(rollup@4.64.0)(srvx@1.0.5)(supports-color@10.2.2)(terser@5.51.2)(typescript@6.0.3)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue-tsc@3.3.12(typescript@6.0.3))(yaml@2.9.1)
-      nuxt-site-config-kit: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@03e159ba633c883477bc93ed0590ff5ab3788104(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.141.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))(vue@3.5.43(typescript@6.0.3))
-      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5(f1e6578691a97bb0c7d8e91bbd4cdfea)
-      site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@03e159ba633c883477bc93ed0590ff5ab3788104(vue@3.5.43(typescript@6.0.3))
-      ufo: 1.6.4
-      vue: 3.5.43(typescript@6.0.3)
-    transitivePeerDependencies:
-      - '@nuxt/schema'
-      - confbox
-      - dotenv
-      - giget
-      - jiti
-      - magic-string
-      - mlly
-      - oxc-parser
-      - rolldown
-      - unplugin
-      - zod
-
-  nuxt-skew-protection@https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@93541b1327fbd257fc19bb3152c02c62eb844dac(79c3d25ff996b6fe883484f4230a0e68):
+  nuxt-skew-protection@https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@f5085519f36492cfc47eb65062f3df81ce634102(1e963ce0c884d2f2a9f2857b0121615f):
     dependencies:
       '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
-      '@vueuse/core': 14.4.0(vue@3.5.43(typescript@6.0.3))
+      '@vueuse/core': 15.0.0(vue@3.5.43(typescript@6.0.3))
       consola: 3.4.2
       cookie-es: 3.1.1
       nuxt: 4.6.0(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.153.0)(@types/node@26.6.4)(@vue/compiler-sfc@3.5.43)(acorn@8.18.0)(confbox@0.3.1)(db0@0.3.4)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.12)(rollup@4.64.0))(rollup@4.64.0)(srvx@1.0.5)(supports-color@10.2.2)(terser@5.51.2)(typescript@6.0.3)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue-tsc@3.3.12(typescript@6.0.3))(yaml@2.9.1)
-      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5(189fbba034e48bcdfdb6164a87180712)
+      nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164(8a8bf6617fa2decb9ac89d7ed9287f3c)
       pathe: 2.0.3
       unstorage: 1.17.5(db0@0.3.4)(ioredis@5.11.1(supports-color@10.2.2))
       zod: 4.6.5
     optionalDependencies:
-      '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@24f4dcdbf3cd8d4c19a210b62eec8295eb4772a7(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
-      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+      '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@41c661a085129be864fbcabf7327d4d816d491d0(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -7919,7 +7570,7 @@ snapshots:
       - xml2js
       - yaml
 
-  nuxtseo-shared@https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5(189fbba034e48bcdfdb6164a87180712):
+  nuxtseo-shared@https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@30e9bfb0baeb38583d1858402bca1f90815ed164(8a8bf6617fa2decb9ac89d7ed9287f3c):
     dependencies:
       '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
       '@nuxt/schema': 4.6.0
@@ -7932,33 +7583,7 @@ snapshots:
       ufo: 1.6.4
       vue: 3.5.43(typescript@6.0.3)
     optionalDependencies:
-      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
-      zod: 4.6.5
-    transitivePeerDependencies:
-      - confbox
-      - dotenv
-      - giget
-      - jiti
-      - magic-string
-      - mlly
-      - oxc-parser
-      - rolldown
-      - unplugin
-
-  nuxtseo-shared@https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5(f1e6578691a97bb0c7d8e91bbd4cdfea):
-    dependencies:
-      '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.141.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
-      '@nuxt/schema': 4.6.0
-      consola: 3.4.2
-      defu: 6.1.7
-      nuxt: 4.6.0(@babel/plugin-syntax-jsx@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@babel/plugin-syntax-typescript@7.29.7(@babel/core@7.29.7(supports-color@10.2.2)))(@oxc-project/types@0.153.0)(@types/node@26.6.4)(@vue/compiler-sfc@3.5.43)(acorn@8.18.0)(confbox@0.3.1)(db0@0.3.4)(dotenv@17.4.2)(esbuild@0.28.2)(giget@3.3.1)(ioredis@5.11.1(supports-color@10.2.2))(lightningcss@1.33.0)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(rollup-plugin-visualizer@7.1.1(rolldown@1.2.12)(rollup@4.64.0))(rollup@4.64.0)(srvx@1.0.5)(supports-color@10.2.2)(terser@5.51.2)(typescript@6.0.3)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))(vue-tsc@3.3.12(typescript@6.0.3))(yaml@2.9.1)
-      ofetch: 1.5.1
-      radix3: 1.1.2
-      std-env: 4.3.0
-      ufo: 1.6.4
-      vue: 3.5.43(typescript@6.0.3)
-    optionalDependencies:
-      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@03e159ba633c883477bc93ed0590ff5ab3788104(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+      nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@eefd7624648c1006395ddb5256ed90d821c7c656(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
       zod: 4.6.5
     transitivePeerDependencies:
       - confbox
@@ -8010,31 +7635,6 @@ snapshots:
       powershell-utils: 0.2.1
       wsl-utils: 1.0.1
 
-  oxc-parser@0.141.0:
-    dependencies:
-      '@oxc-project/types': 0.141.0
-    optionalDependencies:
-      '@oxc-parser/binding-android-arm-eabi': 0.141.0
-      '@oxc-parser/binding-android-arm64': 0.141.0
-      '@oxc-parser/binding-darwin-arm64': 0.141.0
-      '@oxc-parser/binding-darwin-x64': 0.141.0
-      '@oxc-parser/binding-freebsd-x64': 0.141.0
-      '@oxc-parser/binding-linux-arm-gnueabihf': 0.141.0
-      '@oxc-parser/binding-linux-arm-musleabihf': 0.141.0
-      '@oxc-parser/binding-linux-arm64-gnu': 0.141.0
-      '@oxc-parser/binding-linux-arm64-musl': 0.141.0
-      '@oxc-parser/binding-linux-ppc64-gnu': 0.141.0
-      '@oxc-parser/binding-linux-riscv64-gnu': 0.141.0
-      '@oxc-parser/binding-linux-riscv64-musl': 0.141.0
-      '@oxc-parser/binding-linux-s390x-gnu': 0.141.0
-      '@oxc-parser/binding-linux-x64-gnu': 0.141.0
-      '@oxc-parser/binding-linux-x64-musl': 0.141.0
-      '@oxc-parser/binding-openharmony-arm64': 0.141.0
-      '@oxc-parser/binding-wasm32-wasi': 0.141.0
-      '@oxc-parser/binding-win32-arm64-msvc': 0.141.0
-      '@oxc-parser/binding-win32-ia32-msvc': 0.141.0
-      '@oxc-parser/binding-win32-x64-msvc': 0.141.0
-
   oxc-parser@0.153.0:
     dependencies:
       '@oxc-project/types': 0.153.0
@@ -8058,12 +7658,6 @@ snapshots:
       '@oxc-parser/binding-win32-arm64-msvc': 0.153.0
       '@oxc-parser/binding-win32-ia32-msvc': 0.153.0
       '@oxc-parser/binding-win32-x64-msvc': 0.153.0
-
-  oxc-walker@1.1.1(@oxc-project/types@0.153.0)(oxc-parser@0.141.0)(rolldown@1.2.12):
-    optionalDependencies:
-      '@oxc-project/types': 0.153.0
-      oxc-parser: 0.141.0
-      rolldown: 1.2.12
 
   oxc-walker@1.1.1(@oxc-project/types@0.153.0)(oxc-parser@0.153.0)(rolldown@1.2.12):
     optionalDependencies:
@@ -8543,7 +8137,7 @@ snapshots:
 
   sisteransi@1.0.5: {}
 
-  site-config-stack@https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@03e159ba633c883477bc93ed0590ff5ab3788104(vue@3.5.43(typescript@6.0.3)):
+  site-config-stack@https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@eefd7624648c1006395ddb5256ed90d821c7c656(vue@3.5.43(typescript@6.0.3)):
     dependencies:
       ufo: 1.6.4
       vue: 3.5.43(typescript@6.0.3)
@@ -8744,13 +8338,6 @@ snapshots:
       estree-walker: 3.0.3
       magic-string: 0.30.21
       unplugin: 2.3.11
-
-  unctx@3.0.1(magic-string@1.4.3)(oxc-parser@0.141.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))):
-    optionalDependencies:
-      magic-string: 1.4.3
-      oxc-parser: 0.141.0
-      rolldown: 1.2.12
-      unplugin: 3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
 
   unctx@3.0.1(magic-string@1.4.3)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))):
     optionalDependencies:
