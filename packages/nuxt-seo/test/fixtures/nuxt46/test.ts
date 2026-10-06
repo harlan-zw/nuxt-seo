@@ -195,7 +195,11 @@ export default defineEventHandler(async event => ({
         assert.match(await markdown.text(), /# Combined fixture/)
         const llms = await fetch(`${local}/llms.txt`)
         assert.equal(llms.status, 200)
-        assert.ok((await llms.text()).includes(origin))
+        const pageLinks = [...(await llms.text()).matchAll(/\]\((https?:\/\/[^\s)]+)\)/g)]
+          .map(match => new URL(match[1]!))
+        assert.ok(pageLinks.length > 0, 'llms.txt must contain public page links.')
+        for (const pageLink of pageLinks)
+          assert.equal(pageLink.origin, origin)
         const health = await fetch(`${local}/__skew/health`).then(response => response.json())
         assert.equal(health.ok, true)
         assert.equal(typeof health.version, 'string')
