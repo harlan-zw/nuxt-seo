@@ -35,6 +35,7 @@ minimumReleaseAgeExclude:
   - '@mdream/js@2.0.0-beta.1'
 
 overrides:
+  nuxtseo-shared: file:../nitro-parity/nuxtseo-shared.tgz
   '@mdream/js': 2.0.0-beta.1
   mdream: 2.0.0-beta.1
   '@nuxt/kit': npm:@nuxt/kit-nightly@5.0.0-29844772.97ae4fa8

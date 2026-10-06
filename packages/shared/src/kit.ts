@@ -58,7 +58,8 @@ export function detectNuxtSeoModules(nuxt: Nuxt = useNuxt()): NuxtSeoModuleDetec
   return nuxt.options._installedModules
     .filter(m => m.meta?.name && NUXT_SEO_MODULES.has(m.meta.name))
     .map((m) => {
-      const config = (nuxt.options as unknown as Record<string, any>)[SEO_CONFIG_KEYS[m.meta.name!]]
+      const configKey = SEO_CONFIG_KEYS[m.meta.name!]
+      const config = configKey ? (nuxt.options as unknown as Record<string, any>)[configKey] : undefined
       return {
         name: m.meta.name!,
         disabled: m.meta.disabled || config === false || config?.enabled === false,

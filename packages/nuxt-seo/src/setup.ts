@@ -21,6 +21,10 @@ export function setupDevelopmentChecks(nuxt: Nuxt): void {
     return
 
   const resolve = createResolver(import.meta.url).resolve
+  // Runtime files import Nitro virtual modules and must be bundled, including packed installs.
+  nuxt.options.nitro.externals ||= {}
+  nuxt.options.nitro.externals.inline ||= []
+  nuxt.options.nitro.externals.inline.push(resolve('./runtime'))
   const context = {
     ssr: nuxt.options.ssr !== false,
     hasI18n: false,
