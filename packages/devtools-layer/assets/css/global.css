@@ -55,6 +55,10 @@
      component compatibility; all 30+ usages now read as brand violet. */
   --seo-green: var(--color-violet-500);
 
+  /* Brand landing dots (nuxtseo-shared/brand): green = a module shipped it, violet = Pro read it back. */
+  --nuxtseo-brand-free: oklch(62.7% 0.194 149.2);
+  --nuxtseo-brand-pro: oklch(54% 0.225 292);
+
   /* Semantic colors */
   --color-surface: var(--color-neutral-50);
   --color-surface-elevated: white;
@@ -92,6 +96,8 @@
 }
 
 .dark {
+  --nuxtseo-brand-free: oklch(79.2% 0.209 151.7);
+  --nuxtseo-brand-pro: oklch(68% 0.17 292);
   --color-surface: var(--color-neutral-950);
   --color-surface-elevated: var(--color-neutral-900);
   --color-surface-sunken: oklch(7% 0.018 292);
@@ -492,8 +498,8 @@ html.dark {
   width: 1.75rem;
   height: 1.75rem;
   border-radius: var(--radius-sm);
-  background: oklch(65% 0.2 145 / 0.12);
-  color: var(--seo-green);
+  background: var(--color-surface-sunken);
+  color: var(--color-text);
 }
 
 /* Navigation tabs */
