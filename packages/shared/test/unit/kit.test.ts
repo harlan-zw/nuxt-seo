@@ -3,10 +3,10 @@ import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 
 import { join } from 'node:path'
-import { getNuxtVersion } from '@nuxt/kit'
+import { getNitroVersion } from '@nuxt/kit'
 import * as stdEnv from 'std-env'
 import { describe, expect, it, vi } from 'vitest'
-import { detectTarget, resolveHostUnheadMajor, resolveNitroPreset, setupContentRuntime } from '../../src/kit'
+import { detectTarget, resolveNitroPreset, resolvePackageMajor, setupContentRuntime } from '../../src/kit'
 
 // Mock std-env before importing kit
 vi.mock('std-env', () => ({
@@ -20,7 +20,7 @@ vi.mock('@nuxt/kit', () => ({
   useNuxt: () => { throw new Error('no nuxt context') },
   addTemplate: vi.fn(),
   createResolver: () => ({ resolve: (...args: string[]) => args.join('/') }),
-  getNuxtVersion: vi.fn(),
+  getNitroVersion: vi.fn(),
   hasNuxtModule: vi.fn(() => false),
   hasNuxtModuleCompatibility: vi.fn(() => false),
   loadNuxtModuleInstance: vi.fn(),
@@ -35,7 +35,7 @@ function writePackage(root: string, id: string, version: string) {
 
 describe('setupContentRuntime', () => {
   it('inlines the content shim for Nitro 2', () => {
-    vi.mocked(getNuxtVersion).mockReturnValue('4.5.2')
+    vi.mocked(getNitroVersion).mockReturnValue(2)
     const nuxt = { options: { nitro: {} } } as Nuxt
 
     setupContentRuntime({ _tag: 'None' }, nuxt)
@@ -44,7 +44,7 @@ describe('setupContentRuntime', () => {
   })
 
   it('leaves unsupported externals out of Nitro 3 config', () => {
-    vi.mocked(getNuxtVersion).mockReturnValue('5.0.0')
+    vi.mocked(getNitroVersion).mockReturnValue(3)
     const nuxt = { options: { nitro: {} } } as Nuxt
 
     setupContentRuntime({ _tag: 'None' }, nuxt)
@@ -151,20 +151,28 @@ describe('resolveNitroPreset', () => {
 })
 
 // -------------------------------------------------------------------
-// resolveHostUnheadMajor
+// resolvePackageMajor
 // -------------------------------------------------------------------
-describe('resolveHostUnheadMajor', () => {
-  it('prefers Nuxt Nitro server unhead over root-level unhead', async () => {
-    const root = mkdtempSync(join(tmpdir(), 'nuxtseo-shared-unhead-'))
+describe('resolvePackageMajor', () => {
+  it('reads a package version from the consuming project', async () => {
+    const root = mkdtempSync(join(tmpdir(), 'nuxtseo-shared-version-'))
+    writePackage(root, '@example/module', '3.4.2')
+    await expect(resolvePackageMajor('@example/module', root)).resolves.toBe(3)
+  })
 
-    writePackage(root, '@unhead/vue', '3.1.3')
-    writePackage(root, 'unhead', '3.1.3')
-    writePackage(root, 'nuxt', '4.4.7')
-    writePackage(root, 'nuxt/node_modules/@unhead/vue', '2.1.15')
-    writePackage(root, '@nuxt/nitro-server', '4.4.7')
-    writePackage(root, '@nuxt/nitro-server/node_modules/@unhead/vue', '2.1.15')
-    writePackage(root, '@nuxt/nitro-server/node_modules/unhead', '2.1.15')
+  it('returns undefined for a missing optional package', async () => {
+    const root = mkdtempSync(join(tmpdir(), 'nuxtseo-shared-missing-'))
+    await expect(resolvePackageMajor('@example/missing', root)).resolves.toBeUndefined()
+  })
 
-    await expect(resolveHostUnheadMajor(root)).resolves.toBe(2)
+  it('reads metadata when the package manifest is not exported', async () => {
+    const root = mkdtempSync(join(tmpdir(), 'nuxtseo-shared-exports-'))
+    writePackage(root, '@example/private-manifest', '5.0.0')
+    writeFileSync(join(root, 'node_modules/@example/private-manifest/package.json'), JSON.stringify({
+      name: '@example/private-manifest',
+      version: '5.0.0',
+      exports: { '.': './index.js' },
+    }))
+    await expect(resolvePackageMajor('@example/private-manifest', root)).resolves.toBe(5)
   })
 })

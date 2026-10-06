@@ -1,7 +1,7 @@
 {
   "name": "nuxtseo-layer-devtools",
   "type": "module",
-  "version": "5.3.16",
+  "version": "6.0.0",
   "description": "Shared Nuxt layer for Nuxt SEO devtools clients.",
   "author": {
     "name": "Harlan Wilton",
@@ -38,9 +38,15 @@
     "public",
     "skills"
   ],
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  },
   "scripts": {
     "test": "vitest",
     "test:run": "vitest run"
+  },
+  "peerDependencies": {
+    "nuxt": "^4.6.0 || ^5.0.0"
   },
   "dependencies": {
     "@iconify-json/carbon": "catalog:",

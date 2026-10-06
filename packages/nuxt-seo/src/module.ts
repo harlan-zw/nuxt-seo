@@ -1,11 +1,7 @@
 import type { ModuleDependencies } from '@nuxt/schema'
-import {
-  defineNuxtModule,
-  getNuxtVersion,
-  hasNuxtCompatibility,
-  normalizeSemanticVersion,
-} from '@nuxt/kit'
-import { readPackageJSON } from 'pkg-types'
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
+import { defineNuxtModule, normalizeSemanticVersion } from '@nuxt/kit'
 import { satisfies } from 'semver'
 
 export interface ModuleOptions {
@@ -18,43 +14,53 @@ export interface ModuleOptions {
   enabled: boolean
 }
 
-/**
- * `moduleDependencies` arrived in Nuxt 3.19 and 4.1. Nuxt 3.19 fails the current dev and
- * typecheck fixture, so the supported Nuxt 3 range starts at 3.21.11. Enforce this range in
- * `setup()` because incompatible `meta.compatibility` only logs a warning and skips the module.
- */
-const NUXT_COMPATIBILITY = '^3.21.11 || >=4.1.0'
+const NUXT_COMPATIBILITY = '^4.6.0 || ^5.0.0'
+
+async function resolveInstalledVersion(name: string, modulesDirs: string[]): Promise<string | undefined> {
+  for (const dir of modulesDirs) {
+    const source = await readFile(join(dir, name, 'package.json'), 'utf8').catch((error: unknown) => {
+      if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT')
+        return undefined
+      throw error
+    })
+    if (source === undefined)
+      continue
+    const metadata: unknown = JSON.parse(source)
+    if (metadata && typeof metadata === 'object' && 'version' in metadata && typeof metadata.version === 'string')
+      return metadata.version
+    // This directory resolved the installed package. Later copies cannot supply its metadata.
+    return undefined
+  }
+}
 
 const moduleDependencies = {
   '@nuxtjs/robots': {
-    version: '>=5.5',
+    version: '^7.0.0',
   },
   '@nuxtjs/sitemap': {
-    version: '>=7.4',
+    version: '^9.0.0',
   },
   'nuxt-link-checker': {
-    version: '>=4.3',
+    version: '^6.0.0',
   },
   'nuxt-og-image': {
-    // 6.4.3 could fail to load a native transitive binding (oxc-parser/lightningcss)
-    // in some environments, surfacing as a cryptic "Could not load nuxt-og-image".
-    version: '>=6.4.4',
+    version: '^7.0.0',
   },
   'nuxt-schema-org': {
-    version: '>=5.0',
+    version: '^7.0.0',
   },
   'nuxt-seo-utils': {
-    version: '>=7.0',
+    version: '^9.0.0',
   },
   'nuxt-site-config': {
-    version: '>=3.2',
+    version: '^5.0.0',
   },
   'nuxt-skew-protection': {
-    version: '>=1.0',
+    version: '^2.0.0',
     optional: true,
   },
   'nuxt-ai-ready': {
-    version: '>=1.0',
+    version: '^3.0.0',
     optional: true,
   },
   '@nuxtjs/i18n': {
@@ -66,6 +72,7 @@ const moduleDependencies = {
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxtseo',
+    compatibility: { nuxt: NUXT_COMPATIBILITY },
   },
   moduleDependencies(nuxt) {
     // Nuxt installs dependencies before it checks whether this module is disabled, so a
@@ -83,9 +90,6 @@ export default defineNuxtModule<ModuleOptions>({
     // nothing to check.
     if (!options.enabled)
       return
-    if (!await hasNuxtCompatibility({ nuxt: NUXT_COMPATIBILITY }, nuxt)) {
-      throw new Error(`[@nuxtjs/seo] Nuxt ${getNuxtVersion(nuxt)} is unsupported. Upgrade Nuxt to \`${NUXT_COMPATIBILITY}\`.`)
-    }
     // Nuxt checks each dependency version against the copy nested in @nuxtjs/seo, but loads the
     // copy the app resolves. Check the modules that actually installed. Read package.json from the
     // app's module directories first, as Nuxt does when it loads a module: a module.json version
@@ -96,13 +100,7 @@ export default defineNuxtModule<ModuleOptions>({
         const requirement = moduleDependencies[meta?.name as keyof typeof moduleDependencies]
         if (!requirement || meta.disabled)
           continue
-        const pkg = await readPackageJSON(meta.name!, { from: nuxt.options.modulesDir })
-          .catch(() => {
-            // Safe to ignore: an inline or aliased module has no package.json the app resolves,
-            // so the version the module reports is the best source.
-            return undefined
-          })
-        const version = pkg?.version || meta.version
+        const version = await resolveInstalledVersion(meta.name!, nuxt.options.modulesDir) || meta.version
         if (version && !satisfies(normalizeSemanticVersion(version), requirement.version, { includePrerelease: true }))
           issues.push(`Module \`${meta.name}\` version (\`${version}\`) does not satisfy \`${requirement.version}\` (requested by \`@nuxtjs/seo\`).`)
       }

@@ -1,0 +1,92 @@
+packages: []
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - stylehacks@9.0.7
+  - postcss-normalize-timing-functions@9.0.5
+  - postcss-normalize-display-values@9.0.5
+  - postcss-normalize-repeat-style@9.0.5
+  - postcss-normalize-whitespace@9.0.5
+  - postcss-normalize-positions@9.0.6
+  - postcss-minify-font-values@9.0.7
+  - postcss-discard-overridden@9.0.5
+  - postcss-discard-duplicates@9.0.5
+  - postcss-reduce-transforms@9.0.4
+  - postcss-normalize-unicode@9.0.5
+  - postcss-normalize-charset@9.0.5
+  - postcss-unique-selectors@9.0.5
+  - postcss-normalize-string@9.0.5
+  - postcss-minify-selectors@9.0.6
+  - postcss-minify-gradients@9.0.6
+  - postcss-discard-comments@9.0.6
+  - postcss-reduce-initial@9.0.6
+  - postcss-merge-longhand@9.2.0
+  - postcss-ordered-values@9.0.6
+  - postcss-convert-values@9.0.7
+  - postcss-normalize-url@9.0.5
+  - postcss-minify-params@9.0.6
+  - postcss-discard-empty@9.0.5
+  - postcss-merge-rules@9.0.8
+  - postcss-colormin@9.0.6
+  - cssnano-utils@8.1.0
+  - postcss-svgo@9.0.4
+  - cssnano-preset-default@9.2.2
+  - cssnano@9.2.2
+overrides:
+  cssnano-preset-default: 9.2.2
+  cssnano-utils: 8.1.0
+  cssnano: 9.2.2
+  postcss-calc: 11.2.2
+  postcss-colormin: 9.0.6
+  postcss-convert-values: 9.0.7
+  postcss-discard-comments: 9.0.6
+  postcss-discard-duplicates: 9.0.5
+  postcss-discard-empty: 9.0.5
+  postcss-discard-overridden: 9.0.5
+  postcss-merge-longhand: 9.2.0
+  postcss-merge-rules: 9.0.8
+  postcss-minify-font-values: 9.0.7
+  postcss-minify-gradients: 9.0.6
+  postcss-minify-params: 9.0.6
+  postcss-minify-selectors: 9.0.6
+  postcss-normalize-charset: 9.0.5
+  postcss-normalize-display-values: 9.0.5
+  postcss-normalize-positions: 9.0.6
+  postcss-normalize-repeat-style: 9.0.5
+  postcss-normalize-string: 9.0.5
+  postcss-normalize-timing-functions: 9.0.5
+  postcss-normalize-unicode: 9.0.5
+  postcss-normalize-url: 9.0.5
+  postcss-normalize-whitespace: 9.0.5
+  postcss-ordered-values: 9.0.6
+  postcss-reduce-initial: 9.0.6
+  postcss-reduce-transforms: 9.0.4
+  postcss-svgo: 9.0.4
+  postcss-unique-selectors: 9.0.5
+  stylehacks: 9.0.7
+
+trustPolicyIgnoreAfter: 262800
+
+allowBuilds:
+  '@firebase/util': true
+  '@parcel/watcher': true
+  better-sqlite3: true
+  esbuild: true
+  protobufjs: true
+  vue-demi: true
+  sharp: true
+
+
+minimumReleaseAgeExclude:
+  - '@nuxt/cli@4.0.0'
+  - '@nuxt/kit@4.6.0'
+  - '@nuxt/nitro-server@4.6.0'
+  - '@nuxt/schema@4.6.0'
+  - '@nuxt/vite-builder@4.6.0'
+  - '@nuxt/vite-server@4.6.0'
+  - nuxt@4.6.0
+  - '@nuxt/kit-nightly@5.0.0-2610052343-36eafab'
+  - '@nuxt/schema-nightly@5.0.0-2610052343-36eafab'
+  - '@nuxt/nitro-server-nightly@5.0.0-2610052343-36eafab'
+  - '@nuxt/vite-builder-nightly@5.0.0-2610052343-36eafab'
+  - '@nuxt/vite-server-nightly@5.0.0-2610052343-36eafab'
+  - nuxt-nightly@5.0.0-2610052343-36eafab

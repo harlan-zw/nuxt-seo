@@ -1,0 +1,1 @@
+export { useAliasGreeting } from './greeting'

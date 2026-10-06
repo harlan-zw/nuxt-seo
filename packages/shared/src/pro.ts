@@ -1,6 +1,5 @@
 import type { NuxtSeoModuleDetection } from './kit'
-import { useLogger, useNuxt } from '@nuxt/kit'
-import { useSiteConfig } from 'nuxt-site-config/kit'
+import { hasNuxtModule, useLogger, useNuxt } from '@nuxt/kit'
 import { $fetch } from 'ofetch'
 import { isTest } from 'std-env'
 import { detectNuxtSeoModules } from './kit'
@@ -18,9 +17,11 @@ export function hookNuxtSeoProDataUpload(): void {
     // @ts-expect-error untyped
     nuxt._isNuxtSeoProUploading = true
     nuxt.hooks.hook('build:before', async () => {
-      const siteConfig = useSiteConfig()
-      const siteUrl = siteConfig.url?.startsWith('http') ? siteConfig.url : undefined
-      const siteName = siteConfig.name || undefined
+      // Standalone modules can register shared hooks without installing Site Config.
+      const siteConfigKit = hasNuxtModule('nuxt-site-config', nuxt) ? await import('nuxt-site-config/kit') : undefined
+      const resolvedSiteConfig = siteConfigKit ? nuxt.runWithContext(() => siteConfigKit.useSiteConfig()) : undefined
+      const siteUrl = resolvedSiteConfig?.url?.startsWith('http') ? resolvedSiteConfig.url : undefined
+      const siteName = resolvedSiteConfig?.name || undefined
       const modules: NuxtSeoModuleDetection[] = detectNuxtSeoModules(nuxt)
       await nuxt.hooks.callHook('nuxt-seo-pro:modules' as any, modules)
       await $fetch<{ ok: boolean }>('https://nuxtseo.com/api/pro/verify', {

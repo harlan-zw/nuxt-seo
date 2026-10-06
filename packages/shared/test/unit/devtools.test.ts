@@ -1,114 +1,105 @@
 import type { Nuxt } from 'nuxt/schema'
-import { execFileSync } from 'node:child_process'
-import { copyFileSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { EventEmitter } from 'node:events'
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { pathToFileURL } from 'node:url'
-import { afterEach, expect, it, vi } from 'vitest'
-import { setupDevToolsUI } from '../../src/devtools'
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import { setupDevToolsRpc, setupDevToolsUI } from '../../src/devtools'
 
-vi.mock('node:child_process', async (importOriginal) => {
-  const original = await importOriginal<typeof import('node:child_process')>()
-  return {
-    ...original,
-    spawn: vi.fn(() => ({
-      stdout: null,
-      stderr: null,
-      on() {
-        return this
-      },
-    })),
-  }
-})
-
-vi.mock('@nuxt/devtools-kit', () => ({
-  addCustomTab: vi.fn(),
-  extendServerRpc: vi.fn(),
-  onDevToolsInitialized: vi.fn(),
-  startSubprocess: vi.fn(),
-}))
-
-type Hook = (...args: unknown[]) => unknown
-type Middleware = (
-  request: { url?: string },
-  response: { setHeader: (name: string, value: string) => void, end: (body: string) => void },
-  next: () => void,
-) => unknown
-
-const temporaryRoots: string[] = []
-
+const roots: string[] = []
+const mocks = vi.hoisted(() => ({ spawn: vi.fn(), command: vi.fn(async () => 'pnpm add --save-dev nuxtseo-devtools-host@1.0.0') }))
+vi.mock('node:child_process', () => ({ spawn: mocks.spawn }))
+vi.mock('@nuxt/kit', async () => ({ ...await vi.importActual('@nuxt/kit'), getAddDependencyCommand: mocks.command }))
 afterEach(() => {
-  for (const root of temporaryRoots.splice(0))
+  for (const root of roots.splice(0))
     rmSync(root, { recursive: true, force: true })
+  mocks.spawn.mockReset()
+  mocks.command.mockClear()
 })
-
-function writePackage(root: string, name: string): void {
-  const packageDir = join(root, 'node_modules', name)
-  mkdirSync(packageDir, { recursive: true })
-  writeFileSync(join(packageDir, 'index.js'), '')
-  writeFileSync(join(packageDir, 'package.json'), JSON.stringify({ name, main: './index.js' }))
+function consumer(dev = true) {
+  const rootDir = mkdtempSync(join(tmpdir(), 'nuxtseo-devtools-'))
+  roots.push(rootDir)
+  const hooks = new Map<string, (...args: any[]) => unknown>()
+  const nuxt = { options: { dev, rootDir }, hook: (name: string, fn: (...args: any[]) => unknown) => {
+    hooks.set(name, fn)
+    return () => hooks.delete(name)
+  } } as unknown as Nuxt
+  return { nuxt, rootDir, hooks }
 }
-
-it('loads the generated client config with only the required layer installed', () => {
-  const root = mkdtempSync(join(tmpdir(), 'nuxtseo-devtools-consumer-'))
-  temporaryRoots.push(root)
-  writePackage(root, 'nuxtseo-layer-devtools')
-
-  const moduleDir = join(root, 'module')
-  mkdirSync(join(moduleDir, 'devtools'), { recursive: true })
-  writeFileSync(join(moduleDir, 'devtools/nuxt.config.ts'), 'export default defineNuxtConfig({})\n')
-
-  const hooks = new Map<string, Hook>()
-  const nuxt = {
-    options: { dev: true, rootDir: root },
-    hook(name: string, hook: Hook) {
-      hooks.set(name, hook)
-    },
-  } as unknown as Nuxt
-
-  setupDevToolsUI({
-    name: 'nuxt-fixture',
-    title: 'Fixture',
-    icon: 'carbon:test-tool',
-  }, path => join(moduleDir, path), nuxt)
-
-  let middleware: Middleware | undefined
-  hooks.get('vite:serverCreated')?.({
-    middlewares: {
-      use(_route: string, handler: Middleware) {
-        middleware = handler
-      },
-    },
+const panel = { name: 'nuxt-fixture', title: 'Fixture', icon: 'carbon:test-tool' }
+function writeHost(rootDir: string, source: string) {
+  const dir = join(rootDir, 'node_modules/nuxtseo-devtools-host')
+  mkdirSync(dir, { recursive: true })
+  writeFileSync(join(dir, 'package.json'), JSON.stringify({ type: 'module', version: '1.0.0', exports: { '.': './index.mjs', './package.json': './package.json' } }))
+  writeFileSync(join(dir, 'index.mjs'), source)
+}
+describe('optional DevTools host', () => {
+  it.each([false, { enabled: false }])('does not load a host when DevTools is disabled: %j', async (devtools) => {
+    const { nuxt, rootDir, hooks } = consumer()
+    nuxt.options.devtools = devtools
+    writeHost(rootDir, 'throw new Error("Host executed while DevTools disabled")')
+    setupDevToolsUI(panel, path => path, nuxt)
+    await expect(setupDevToolsRpc('fixture', {}, nuxt)).resolves.toBeUndefined()
+    expect(hooks.size).toBe(0)
   })
-  expect(middleware).toBeDefined()
-
-  const headers = new Map<string, string>()
-  middleware?.(
-    { url: '/__status' },
-    {
-      setHeader: (name, value) => headers.set(name, value),
-      end: () => {},
-    },
-    () => {},
-  )
-
-  const configPath = join(root, 'node_modules/.cache/nuxt-seo-devtools/nuxt.config.ts')
-  const importableConfigPath = join(root, 'node_modules/.cache/nuxt-seo-devtools/nuxt.config.mjs')
-  // Node does not type-strip TypeScript files under node_modules.
-  // The copy keeps dependency resolution rooted in the generated cache.
-  copyFileSync(configPath, importableConfigPath)
-  const output = execFileSync(process.execPath, ['--input-type=module', '--eval', `
-globalThis.defineNuxtConfig = config => config
-const { default: config } = await import(process.env.NUXTSEO_CONFIG_URL)
-process.stdout.write(JSON.stringify({ ssr: config.ssr }))
-`], {
-    cwd: root,
-    encoding: 'utf8',
-    env: {
-      ...process.env,
-      NUXTSEO_CONFIG_URL: pathToFileURL(importableConfigPath).href,
-    },
+  it('offers an explicit exact-version action without loading a missing host', async () => {
+    const { nuxt, hooks } = consumer()
+    setupDevToolsUI(panel, path => path, nuxt)
+    const tabs: any[] = []
+    hooks.get('devtools:customTabs')!(tabs)
+    expect(tabs[0].view.type).toBe('launch')
+    expect(tabs[0].view.actions[0].label).toBe('Install nuxtseo-devtools-host@1.0.0')
+    await expect(setupDevToolsRpc('fixture', {}, nuxt)).resolves.toBeUndefined()
+    expect(hooks.has('vite:serverCreated')).toBe(false)
+    expect(mocks.spawn).not.toHaveBeenCalled()
+    expect(mocks.command).not.toHaveBeenCalled()
   })
-
-  expect(JSON.parse(output)).toEqual({ ssr: false })
+  it('deduplicates explicit installation, surfaces failure and allows retry', async () => {
+    const { nuxt, hooks, rootDir } = consumer()
+    const children: (EventEmitter & { kill: ReturnType<typeof vi.fn> })[] = []
+    mocks.spawn.mockImplementation(() => {
+      const child = Object.assign(new EventEmitter(), { kill: vi.fn() })
+      children.push(child)
+      return child
+    })
+    setupDevToolsUI(panel, path => path, nuxt)
+    const tabs: any[] = []
+    hooks.get('devtools:customTabs')!(tabs)
+    const action = tabs[0].view.actions[0].handle
+    const failed = Promise.allSettled([action(), action()])
+    await vi.waitFor(() => expect(mocks.spawn).toHaveBeenCalledTimes(1))
+    children[0].emit('exit', 1)
+    children[0].emit('close', 1)
+    expect((await failed).map(result => result.status)).toEqual(['rejected', 'rejected'])
+    const failure: any[] = []
+    hooks.get('devtools:customTabs')!(failure)
+    expect(failure[0].view.description).toContain('Installation failed')
+    expect(failure[0].view.actions[0].pending).toBe(false)
+    expect(mocks.command).toHaveBeenCalledWith('nuxtseo-devtools-host@1.0.0', rootDir, { dev: true })
+    const retry = action()
+    await vi.waitFor(() => expect(mocks.spawn).toHaveBeenCalledTimes(2))
+    hooks.get('close')!()
+    expect(children[1].kill).toHaveBeenCalledTimes(1)
+    children[1].emit('exit', 0)
+    children[1].emit('close', 0)
+    await retry
+    const installed: any[] = []
+    hooks.get('devtools:customTabs')!(installed)
+    expect(installed[0].view.description).toContain('Restart')
+    expect(installed[0].view.actions).toEqual([])
+    expect(hooks.has('close')).toBe(false)
+  })
+  it('does not execute even an installed host in production', async () => {
+    const { nuxt, rootDir, hooks } = consumer(false)
+    writeHost(rootDir, 'throw new Error("Host executed during production")')
+    setupDevToolsUI(panel, path => path, nuxt)
+    await expect(setupDevToolsRpc('fixture', {}, nuxt)).resolves.toBeUndefined()
+    expect(hooks.size).toBe(0)
+  })
+  it('registers installed host hooks synchronously before setup returns', () => {
+    const { nuxt, rootDir, hooks } = consumer()
+    writeHost(rootDir, 'export function setupDevToolsUI(config, resolve, nuxt) { nuxt.hook("vite:serverCreated", () => config.title) }')
+    setupDevToolsUI(panel, path => path, nuxt)
+    expect(hooks.get('vite:serverCreated')!()).toBe('Fixture')
+  })
 })
