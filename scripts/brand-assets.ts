@@ -5,7 +5,7 @@ import type { BrandDrawing, BrandIconName } from '../packages/shared/src/brand.t
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import process from 'node:process'
-import { BRAND_ICONS, BRAND_PALETTE_DARK, drawingToSvg, faviconDrawing, iconPlateDrawing, paletteToPaints } from '../packages/shared/src/brand.ts'
+import { BRAND_ICONS, BRAND_PALETTE_DARK, drawingToSvg, faviconDrawing, iconPlateDrawing } from '../packages/shared/src/brand.ts'
 
 /** READMEs show the plate at this size inside the H1. */
 const README_SIZE = 40
@@ -35,5 +35,5 @@ const drawing: BrandDrawing = target._tag === 'Mark'
 
 mkdirSync(outDir, { recursive: true })
 const file = join(outDir, `${stem}.svg`)
-writeFileSync(file, `${drawingToSvg(drawing, { paints: paletteToPaints(BRAND_PALETTE_DARK), width: 64, height: 64 })}\n`)
+writeFileSync(file, `${drawingToSvg(drawing, { palette: BRAND_PALETTE_DARK, width: 64, height: 64 })}\n`)
 console.log(file)
