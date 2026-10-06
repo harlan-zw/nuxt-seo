@@ -163,6 +163,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
+  nuxtseo-shared: file:../nitro-parity/nuxtseo-shared.tgz
   '@mdream/js': 2.0.0-beta.1
   mdream: 2.0.0-beta.1
   '@nuxt/kit': npm:@nuxt/kit-nightly@5.0.0-29844772.97ae4fa8
@@ -784,11 +785,6 @@ packages:
         optional: true
       nitropack:
         optional: true
-
-  '@nuxt/devtools-kit@4.0.0-alpha.7':
-    resolution: {integrity: sha512-Tgh+tSejh1GnZjdjgWyc4qCxskeX08XuSQBYMn/4SIV5AubeqYeAOMBD2qSmHOXjMCUpgyzpEhODcP3sgdgGRA==}
-    peerDependencies:
-      vite: '>=6.0'
 
   '@nuxt/devtools-kit@4.0.0-beta.2':
     resolution: {integrity: sha512-QpKlfcWEVwbbmevyZKUSWtV7+APf33bsL5AejZEUy7vpA+9cqdRilUZDfSWoAj2eqROVi1xu6QFwa10NRljemw==}
@@ -2617,20 +2613,6 @@ packages:
       pusher-js:
         optional: true
 
-  nuxtseo-shared@5.3.16:
-    resolution: {integrity: sha512-0Ood/aB/6PtWHFx6JB4Ub/InEbilW29cvTFGX5pIWyGf9Wewyil0T4481F/IUhvabHUGssWqErmn+mKoY/z6qA==}
-    peerDependencies:
-      '@nuxt/schema': ^3.16.0 || ^4.0.0 || ^5.0.0
-      nuxt: ^3.16.0 || ^4.0.0 || ^5.0.0
-      nuxt-site-config: ^3.2.0 || ^4.0.0
-      vue: ^3.5.0
-      zod: ^3.23.0 || ^4.0.0
-    peerDependenciesMeta:
-      nuxt-site-config:
-        optional: true
-      zod:
-        optional: true
-
   nuxtseo-shared@file:../nitro-parity/nuxtseo-shared.tgz:
     resolution: {integrity: sha512-vP/AremTOVSE/pKnqTtgjOhQ07J02/bK2ynoDhbiJecn7wpJjEsRGbE9sFxt2m7lNq9ZVCqTxKpK0O+S+YnTrg==, tarball: file:../nitro-parity/nuxtseo-shared.tgz}
     version: 5.3.16
@@ -3736,40 +3718,6 @@ snapshots:
       nitro: 3.0.260903-beta
       nitropack: nitro@3.0.260903-beta
 
-  '@nuxt/devtools-kit@4.0.0-alpha.7(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))(vite@8.3.1)':
-    dependencies:
-      '@nuxt/kit': '@nuxt/kit-nightly@5.0.0-29844772.97ae4fa8(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))'
-      tinyexec: 1.3.1
-      vite: 8.3.1(@types/node@26.1.2)(@vitejs/devtools@0.7.6)(jiti@2.7.0)(yaml@2.9.0)
-    transitivePeerDependencies:
-      - '@nuxt/schema'
-      - confbox
-      - dotenv
-      - giget
-      - jiti
-      - magic-string
-      - mlly
-      - oxc-parser
-      - rolldown
-      - unplugin
-
-  '@nuxt/devtools-kit@4.0.0-alpha.7(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(oxc-parser@0.151.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))(vite@8.3.1)':
-    dependencies:
-      '@nuxt/kit': '@nuxt/kit-nightly@5.0.0-29844772.97ae4fa8(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(oxc-parser@0.151.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))'
-      tinyexec: 1.3.1
-      vite: 8.3.1(@types/node@26.1.2)(@vitejs/devtools@0.7.6)(jiti@2.7.0)(yaml@2.9.0)
-    transitivePeerDependencies:
-      - '@nuxt/schema'
-      - confbox
-      - dotenv
-      - giget
-      - jiti
-      - magic-string
-      - mlly
-      - oxc-parser
-      - rolldown
-      - unplugin
-
   '@nuxt/devtools-kit@4.0.0-beta.2(@nuxt/kit-nightly@5.0.0-29844772.97ae4fa8(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1)))(nitro@3.0.260903-beta)(nitro@3.0.260903-beta)(vite@8.3.1)':
     dependencies:
       '@nuxt/kit': '@nuxt/kit-nightly@5.0.0-29844772.97ae4fa8(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))'
@@ -4102,6 +4050,8 @@ snapshots:
       - jiti
       - magic-string
       - mlly
+      - nitro
+      - nitropack
       - nuxt
       - oxc-parser
       - rolldown
@@ -4257,6 +4207,8 @@ snapshots:
       - jiti
       - magic-string
       - mlly
+      - nitro
+      - nitropack
       - nuxt
       - oxc-parser
       - rolldown
@@ -5352,6 +5304,8 @@ snapshots:
       - mlly
       - mssql
       - mysql2
+      - nitro
+      - nitropack
       - nuxt
       - oxc-parser
       - pg
@@ -5411,6 +5365,8 @@ snapshots:
       - ioredis
       - jiti
       - mlly
+      - nitro
+      - nitropack
       - oxc-parser
       - rolldown
       - unplugin
@@ -5465,6 +5421,8 @@ snapshots:
       - ioredis
       - jiti
       - mlly
+      - nitro
+      - nitropack
       - oxc-parser
       - rolldown
       - unplugin
@@ -5684,6 +5642,7 @@ snapshots:
       - giget
       - jiti
       - mlly
+      - nitro
       - nuxt
       - rolldown
       - rollup
@@ -5744,6 +5703,7 @@ snapshots:
       - giget
       - jiti
       - mlly
+      - nitro
       - nuxt
       - rolldown
       - rollup
@@ -5773,6 +5733,8 @@ snapshots:
       - jiti
       - magic-string
       - mlly
+      - nitro
+      - nitropack
       - nuxt
       - oxc-parser
       - rolldown
@@ -5800,6 +5762,8 @@ snapshots:
       - jiti
       - magic-string
       - mlly
+      - nitro
+      - nitropack
       - nuxt
       - oxc-parser
       - rolldown
@@ -5838,6 +5802,8 @@ snapshots:
       - jiti
       - magic-string
       - mlly
+      - nitro
+      - nitropack
       - oxc-parser
       - unplugin
       - vite
@@ -5876,6 +5842,8 @@ snapshots:
       - jiti
       - magic-string
       - mlly
+      - nitro
+      - nitropack
       - oxc-parser
       - unplugin
       - vite
@@ -5942,6 +5910,8 @@ snapshots:
       - jiti
       - magic-string
       - mlly
+      - nitro
+      - nitropack
       - nuxt
       - oxc-parser
       - rolldown
@@ -5971,6 +5941,8 @@ snapshots:
       - jiti
       - magic-string
       - mlly
+      - nitro
+      - nitropack
       - nuxt
       - oxc-parser
       - rolldown
@@ -6019,6 +5991,8 @@ snapshots:
       - jiti
       - magic-string
       - mlly
+      - nitro
+      - nitropack
       - nuxt
       - oxc-parser
       - rolldown
@@ -6030,7 +6004,7 @@ snapshots:
   nuxtseo-shared@5.3.16(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(nuxt-nightly@5.0.0-29844772.97ae4fa8(3ee4562dd68795cf00469fcbe6b7212e))(nuxt-site-config@4.2.3(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(nuxt-nightly@5.0.0-29844772.97ae4fa8(3ee4562dd68795cf00469fcbe6b7212e))(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))(vite@8.3.1)(vue@3.5.43(typescript@6.0.3))(zod@4.6.5))(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))(vite@8.3.1)(vue@3.5.43(typescript@6.0.3))(zod@4.6.5):
     dependencies:
       '@clack/prompts': 1.8.1
-      '@nuxt/devtools-kit': 4.0.0-alpha.7(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))(vite@8.3.1)
+      '@nuxt/devtools-kit': 4.0.0-alpha.20(@nuxt/kit-nightly@5.0.0-29844772.97ae4fa8(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1)))(nitro@3.0.260903-beta)(nitro@3.0.260903-beta)(vite@8.3.1)
       '@nuxt/kit': '@nuxt/kit-nightly@5.0.0-29844772.97ae4fa8(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))'
       '@nuxt/schema': '@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8'
       birpc: 4.2.0
@@ -6064,7 +6038,7 @@ snapshots:
   nuxtseo-shared@5.3.16(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(nuxt-nightly@5.0.0-29844772.97ae4fa8(3ee4562dd68795cf00469fcbe6b7212e))(nuxt-site-config@4.2.3(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(nuxt-nightly@5.0.0-29844772.97ae4fa8(3ee4562dd68795cf00469fcbe6b7212e))(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))(vite@8.3.1)(vue@3.5.43(typescript@6.0.3))(zod@4.6.5))(oxc-parser@0.151.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))(vite@8.3.1)(vue@3.5.43(typescript@6.0.3))(zod@4.6.5):
     dependencies:
       '@clack/prompts': 1.8.1
-      '@nuxt/devtools-kit': 4.0.0-alpha.7(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(oxc-parser@0.151.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))(vite@8.3.1)
+      '@nuxt/devtools-kit': 4.0.0-alpha.20(@nuxt/kit-nightly@5.0.0-29844772.97ae4fa8(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(oxc-parser@0.142.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1)))(nitro@3.0.260903-beta)(nitro@3.0.260903-beta)(vite@8.3.1)
       '@nuxt/kit': '@nuxt/kit-nightly@5.0.0-29844772.97ae4fa8(@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.2)(mlly@1.8.2)(oxc-parser@0.151.0)(rolldown@1.2.11)(unplugin@3.4.0(rolldown@1.2.11)(vite@8.3.1))'
       '@nuxt/schema': '@nuxt/schema-nightly@5.0.0-29844772.97ae4fa8'
       birpc: 4.2.0

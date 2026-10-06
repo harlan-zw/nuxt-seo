@@ -45,6 +45,7 @@ export interface DevToolsUIConfig {
 
 export interface SeoModuleInfo {
   name: string
+  disabled?: boolean
   /** npm package name — the stable identifier the client matches installed state on. */
   npm?: string
   title: string
@@ -136,7 +137,10 @@ function registerSharedRpcOnce(nuxt: Nuxt): void {
         for (const det of detectNuxtSeoModules(nuxt)) {
           if (!byNpm.has(det.name)) {
             const meta = seoModules.find(s => s.npm === det.name)
-            byNpm.set(det.name, { name: meta?.slug ?? det.name, npm: det.name, title: meta?.label ?? det.name, icon: meta?.icon ?? '', route: '' })
+            byNpm.set(det.name, { name: meta?.slug ?? det.name, npm: det.name, title: meta?.label ?? det.name, icon: meta?.icon ?? '', route: '', disabled: det.disabled })
+          }
+          else {
+            byNpm.get(det.name)!.disabled = det.disabled
           }
         }
         return [...byNpm.values()]

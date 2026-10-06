@@ -6,7 +6,21 @@ description: Install, configure, and debug the @nuxtjs/seo meta module, which in
 # @nuxtjs/seo
 
 Nuxt SEO v6 requires Nuxt 4.1 or later.
-The package declares Nuxt `moduleDependencies`, and Nuxt installs each submodule. Its only runtime code checks the Nuxt version and the version of each loaded submodule.
+The package declares Nuxt `moduleDependencies`, and Nuxt installs each submodule.
+Setup checks the Nuxt version and each loaded submodule version.
+In human development sessions, the first successful home page response starts background setup checks.
+The report includes required fixes, optional tips, and enabled or disabled module states.
+Tips use resolved module defaults and app configuration. Explicit opt-outs suppress the related tip.
+Optional tips expose opt-in module configuration features. They exclude runtime inline minification and general SEO advice.
+Only required setup affects warning counts and completion. DevTools displays optional tips separately.
+It also supports locale prefixes and app base paths.
+Missing required settings report once per Nitro server instance. Agent and CI sessions skip terminal checks.
+Optional tips report at most once every seven days per project. State lives in the Nuxt build directory.
+The default state file is `.nuxt/cache/nuxt-seo/setup-tips.json`. Deleting the build directory resets the cooldown.
+Set `nuxtseo: { tips: false }` to disable optional tips in the terminal and DevTools.
+Required setup checks remain active. Healthy projects without eligible tips produce no terminal report.
+Unavailable module data stays unchecked. Open DevTools to retry.
+Production does not register this runtime check.
 Every option, composable, and component comes from a submodule. Docs: https://nuxtseo.com/docs/nuxt-seo
 
 This Skill covers only what the bundle adds. For one module, use its own Skill or docs (table below).
@@ -29,7 +43,7 @@ export default defineNuxtConfig({
 
 ## Which module owns which option
 
-The meta module has one option, `nuxtseo.enabled`. Every other top level key belongs to one submodule.
+The meta module has `nuxtseo.enabled` and `nuxtseo.tips`. Other top level keys belong to submodules.
 
 | Key | Package | Reference |
 |---|---|---|
