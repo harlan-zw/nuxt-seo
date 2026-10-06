@@ -1,6 +1,6 @@
 import type { BrandDrawing, BrandShape } from '../../src/brand'
 import { describe, expect, it } from 'vitest'
-import { drawingToSvg, faviconDrawing, iconDrawing, isBrandIconName, markDrawing } from '../../src/brand'
+import { drawingToSvg, faviconDrawing, iconDrawing, iconPlateDrawing, isBrandIconName, markDrawing } from '../../src/brand'
 
 const shapes = (drawing: BrandDrawing): BrandShape[] => drawing.groups.flatMap(group => group.shapes)
 
@@ -24,6 +24,20 @@ describe('iconDrawing', () => {
   it('draws no landing when asked for none', () => {
     const landings = shapes(iconDrawing('ai-ready', { landing: 'none' })).filter(shape => shape._tag !== 'Line')
     expect(landings).toEqual([])
+  })
+})
+
+describe('iconPlateDrawing', () => {
+  it('draws the icon in plate ink so it reads on the dark plate', () => {
+    const paints = shapes(iconPlateDrawing('robots')).map(shape => 'paint' in shape ? shape.paint : undefined)
+    expect(paints).toContain('tile')
+    expect(paints).toContain('tile-ink')
+    expect(paints).not.toContain('ink')
+  })
+
+  it('keeps the icon rotation inside the plate', () => {
+    const transforms = iconPlateDrawing('seo-utils').groups.map(group => group.transform ?? '')
+    expect(transforms.some(transform => transform.includes('rotate(-32 16 16)'))).toBe(true)
   })
 })
 
