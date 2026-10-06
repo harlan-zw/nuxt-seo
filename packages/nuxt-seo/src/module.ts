@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { defineNuxtModule, normalizeSemanticVersion } from '@nuxt/kit'
 import { satisfies } from 'semver'
+import { setupDevelopmentChecks } from './setup'
 
 export interface ModuleOptions {
   /**
@@ -12,6 +13,8 @@ export interface ModuleOptions {
    * @default true
    */
   enabled: boolean
+  /** Show optional configuration tips in development. Required checks stay active. */
+  tips: boolean
 }
 
 const NUXT_COMPATIBILITY = '^4.6.0 || ^5.0.0'
@@ -57,11 +60,11 @@ const moduleDependencies = {
   },
   'nuxt-skew-protection': {
     version: '^2.0.0',
-    optional: true,
+    defaults: { updateStrategy: 'polling', cookie: false },
   },
   'nuxt-ai-ready': {
     version: '^3.0.0',
-    optional: true,
+    defaults: { agentSkills: false, apiCatalog: false },
   },
   '@nuxtjs/i18n': {
     version: '>=10.0',
@@ -80,16 +83,28 @@ export default defineNuxtModule<ModuleOptions>({
     const options = (nuxt.options as { nuxtseo?: Partial<ModuleOptions> | false }).nuxtseo
     if (options === false || options?.enabled === false)
       return {}
-    return moduleDependencies
+    return {
+      ...moduleDependencies,
+      'nuxt-ai-ready': {
+        ...moduleDependencies['nuxt-ai-ready'],
+        defaults: nuxt.options.aiReady === false ? undefined : moduleDependencies['nuxt-ai-ready'].defaults,
+      },
+      'nuxt-skew-protection': {
+        ...moduleDependencies['nuxt-skew-protection'],
+        defaults: nuxt.options.skewProtection === false ? undefined : moduleDependencies['nuxt-skew-protection'].defaults,
+      },
+    }
   },
   defaults: {
     enabled: true,
+    tips: true,
   },
   async setup(options, nuxt) {
     // `nuxtseo: false` never reaches setup. `enabled: false` installs no module, so there is
     // nothing to check.
     if (!options.enabled)
       return
+    setupDevelopmentChecks(nuxt, { tips: options.tips })
     // Nuxt checks each dependency version against the copy nested in @nuxtjs/seo, but loads the
     // copy the app resolves. Check the modules that actually installed. Read package.json from the
     // app's module directories first, as Nuxt does when it loads a module: a module.json version

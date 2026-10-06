@@ -44,6 +44,13 @@ function fetchDevelopmentReady(origin: string): Promise<Response | null> {
   })
 }
 
+async function assertMissingEndpoint(origin: string, path: string): Promise<void> {
+  const response = await fetch(`${origin}${path}`, { signal: AbortSignal.timeout(5000) })
+  assert.doesNotMatch(response.headers.get('content-type') || '', /text\/event-stream/)
+  await response.body?.cancel()
+  assert.equal(response.status, 404, `${path} must have no registered endpoint.`)
+}
+
 for (const mode of selected ? selected as Case[] : cases) {
   const enabled = mode === 'enabled' || mode === 'overrides'
   const override = mode === 'overrides'
@@ -97,6 +104,8 @@ export default defineEventHandler(async event => ({
   await run(['exec', 'vue-tsc', '--noEmit', '-p', '.nuxt/tsconfig.app.json'], mode)
   await run(['exec', 'vue-tsc', '--noEmit', '-p', '.nuxt/tsconfig.server.json'], mode)
   await run(['exec', 'nuxt', 'build'], mode)
+  // The builder exposes this deployment metadata in its production output.
+  // eslint-disable-next-line harlanzw/no-test-file-reads
   const manifest = JSON.parse(await readFile(new URL('.output/nitro.json', import.meta.url), 'utf8'))
   assert.match(manifest.versions.nitro, process.env.NUXT_TEST_LANE === 'nuxt5' ? /^3\./ : /^2\./)
   const port = await freePort()
@@ -120,8 +129,15 @@ export default defineEventHandler(async event => ({
     const page = await fetch(local)
     assert.equal(page.status, 200)
     const html = await page.text()
+    if (process.env.NUXT_TEST_LANE === 'nuxt5') {
+      const control = await fetch(`${local}/unrelated-missing-route`)
+      const controlBody = await control.text()
+      assert.match(controlBody, /<title>404 - Page not found:/)
+      console.log(`Nightly missing-route control: ${mode}, HTTP ${control.status}, ${control.headers.get('content-type')}`)
+      await assertMissingEndpoint(local, '/unrelated-missing-route')
+    }
     if (enabled) {
-      for (const name of ['@nuxtjs/robots', '@nuxtjs/sitemap', 'nuxt-og-image', 'nuxt-link-checker', 'nuxt-seo-utils', 'nuxt-site-config', 'nuxt-schema-org']) {
+      for (const name of ['@nuxtjs/robots', '@nuxtjs/sitemap', 'nuxt-og-image', 'nuxt-link-checker', 'nuxt-seo-utils', 'nuxt-site-config', 'nuxt-schema-org', ...(standalone ? ['nuxt-ai-ready', 'nuxt-skew-protection'] : [])]) {
         if (override && ['nuxt-og-image', 'nuxt-schema-org', 'nuxt-link-checker'].includes(name))
           continue
         assert.ok(ready.modules.includes(name), `Missing enabled producer: ${name}`)
@@ -170,6 +186,8 @@ export default defineEventHandler(async event => ({
           .some((entry: { link: string, error: unknown[] }) => entry.link === '/missing' && entry.error.length > 0))
       }
       if (process.env.NUXT_TEST_STANDALONE !== '0') {
+        // Verify AI Ready's generated public Markdown, alongside its HTTP response below.
+        // eslint-disable-next-line harlanzw/no-test-file-reads
         const prerenderedMarkdown = await readFile(new URL('.output/public/index.md', import.meta.url), 'utf8')
         assert.match(prerenderedMarkdown, /# Combined fixture/)
         const markdown = await fetch(`${local}/index.md`)
@@ -182,7 +200,21 @@ export default defineEventHandler(async event => ({
         assert.equal(health.ok, true)
         assert.equal(typeof health.version, 'string')
         const navigation = await fetch(`${local}/about`, { headers: { 'sec-fetch-dest': 'document' } })
-        assert.match(navigation.headers.get('set-cookie') || '', /__nkpv=/)
+        if (override) {
+          assert.equal(ready.skewCookie.name, '__fixture_version')
+          assert.match(navigation.headers.get('set-cookie') || '', /__fixture_version=/)
+        }
+        else {
+          assert.equal(ready.skewCookie, false)
+          assert.equal(navigation.headers.get('set-cookie'), null)
+        }
+        await assertMissingEndpoint(local, '/__skew/sse')
+        for (const path of ['/.well-known/agent-skills/index.json', '/skills/internal/SKILL.md', '/.well-known/api-catalog'])
+          await assertMissingEndpoint(local, path)
+      }
+      else {
+        for (const path of ['/llms.txt', '/__skew/health'])
+          await assertMissingEndpoint(local, path)
       }
     }
     else {
@@ -190,6 +222,8 @@ export default defineEventHandler(async event => ({
       assert.equal(page.headers.get('x-robots-tag'), mode === 'explicit' ? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' : null)
       assert.equal((await fetch(`${local}/robots.txt`)).status, mode === 'explicit' ? 200 : 404)
       assert.equal((await fetch(`${local}/sitemap.xml`)).status, 404)
+      assert.equal((await fetch(`${local}/llms.txt`)).status, 404)
+      assert.equal((await fetch(`${local}/__skew/health`)).status, 404)
       if (mode === 'bundle-disabled' || mode === 'enabled-false')
         assert.ok(!ready.modules.some((name: string) => ['@nuxtjs/robots', '@nuxtjs/sitemap', 'nuxt-og-image'].includes(name)))
     }
@@ -202,12 +236,16 @@ export default defineEventHandler(async event => ({
       await exited
     }
   }
-  if (aliasesEnabled) {
+  if (aliasesEnabled && process.env.NUXT_TEST_DEV !== '0') {
     const devPort = await freePort()
     const devLocal = `http://127.0.0.1:${devPort}`
-    const dev = spawn(process.execPath, ['node_modules/nuxt/bin/nuxt.mjs', 'dev', '--host', '127.0.0.1', '--port', String(devPort)], {
+    // Exercise the human development setup plugin, which skips CI and agent sessions.
+    const humanEnv: NodeJS.ProcessEnv = { ...process.env, NUXT_TEST_CASE: mode }
+    for (const key of ['CI', 'CODEX_CI', 'GITHUB_ACTIONS', 'AI_AGENT', 'CODEX_THREAD_ID', 'CODEX_SANDBOX', 'CLAUDECODE', 'CLAUDE_CODE', 'GEMINI_CLI', 'OPENCODE', 'COPILOT_AGENT', 'COPILOT_CLI', 'CURSOR_AGENT'])
+      delete humanEnv[key]
+    const dev = spawn(process.execPath, ['node_modules/nuxt/bin/nuxt.mjs', 'dev', '--no-fork', '--host', '127.0.0.1', '--port', String(devPort)], {
       cwd: import.meta.dirname,
-      env: { ...process.env, NUXT_TEST_CASE: mode },
+      env: humanEnv,
       stdio: ['ignore', 'pipe', 'pipe'],
     })
     let devOutput = ''
@@ -235,11 +273,21 @@ export default defineEventHandler(async event => ({
       }
       assert.equal(readyResponse.status, 200)
       const ready = await readyResponse.json()
+      const setupResponse = await fetch(`${devLocal}/__nuxt-seo__/setup.json`)
+      assert.equal(setupResponse.status, 200)
+      const setup = await setupResponse.json()
+      assert.ok(setup.installedModuleSlugs.includes('site-config'))
+      assert.ok(!devOutput.includes('PACKED_SETUP_SITE_DEBUG_FETCH'), 'Setup metadata must not request runtime debug data.')
       for (const name of ['@nuxtjs/robots', '@nuxtjs/sitemap', 'nuxt-og-image', 'nuxt-link-checker', 'nuxt-seo-utils', 'nuxt-site-config', 'nuxt-schema-org', ...(standalone ? ['nuxt-ai-ready', 'nuxt-skew-protection'] : [])])
         assert.ok(ready.modules.includes(name), `Missing development producer: ${name}`)
       const page = await fetch(devLocal)
       assert.equal(page.status, 200)
       assert.ok((await page.text()).includes(`${origin}/alias-proof`), 'Development SSR must execute the canonical app aliases.')
+      for (let attempt = 0; !devOutput.includes('PACKED_SETUP_SITE_DEBUG_FETCH'); attempt++) {
+        if (attempt > 100 || dev.exitCode !== null)
+          throw new Error('The human development setup check did not fetch Site Config debug data.')
+        await delay(100)
+      }
       const aliasesResponse = await fetch(`${devLocal}/api/runtime-alias`)
       assert.equal(aliasesResponse.status, 200)
       const aliases = await aliasesResponse.json()
@@ -249,6 +297,11 @@ export default defineEventHandler(async event => ({
       assert.equal(aliases.robots, false)
       if (standalone)
         assert.equal(typeof aliases.count, 'number')
+      const missing = await fetch(`${devLocal}/unrelated-missing-route`, { headers: { accept: 'text/html' } })
+      assert.equal(missing.status, 404, 'Human development hooks must preserve missing-page status.')
+      assert.match(await missing.text(), /<title>404 - Page not found:/)
+      await delay(1000)
+      assert.doesNotMatch(devOutput, /Setup checks could not complete|Cannot resolve.*#site-config/)
       console.log(`Passed packed combined development SSR and API, Node ${process.version}`)
     }
     finally {

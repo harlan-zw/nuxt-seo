@@ -1,20 +1,27 @@
 <script setup lang="ts">
-const { requiredPending = 0, recommendedPending = 0 } = defineProps<{
+import type { ModuleChecklistResult } from '../composables/checklist'
+
+const { requiredPending = 0, recommendedPending = 0, status } = defineProps<{
   requiredPending?: number
   recommendedPending?: number
+  status?: ModuleChecklistResult['status']
 }>()
 </script>
 
 <template>
-  <span
-    v-if="requiredPending > 0 || recommendedPending > 0"
-    class="checklist-badge"
-    :class="requiredPending > 0 ? 'checklist-badge--required' : 'checklist-badge--recommended'"
-  >
-    {{ requiredPending + recommendedPending }}
-  </span>
-  <span v-else class="checklist-badge checklist-badge--complete">
-    <UIcon name="carbon:checkmark" class="w-2.5 h-2.5" />
+  <span class="inline-flex items-center gap-1">
+    <span v-if="requiredPending > 0" class="checklist-badge checklist-badge--required">
+      {{ requiredPending }}
+    </span>
+    <UBadge v-else-if="status === 'unavailable' || status === 'disabled' || status === 'automatic'" size="xs" color="neutral" variant="subtle">
+      {{ status === 'unavailable' ? 'Not checked' : status === 'disabled' ? 'Disabled' : 'Automatic' }}
+    </UBadge>
+    <span v-else class="checklist-badge checklist-badge--complete">
+      <UIcon name="carbon:checkmark" class="w-2.5 h-2.5" />
+    </span>
+    <UBadge v-if="recommendedPending > 0 && status !== 'disabled'" size="xs" color="neutral" variant="subtle">
+      {{ recommendedPending }} {{ recommendedPending === 1 ? 'tip' : 'tips' }}
+    </UBadge>
   </span>
 </template>
 
@@ -41,16 +48,6 @@ const { requiredPending = 0, recommendedPending = 0 } = defineProps<{
 .dark .checklist-badge--required {
   background: oklch(45% 0.14 25 / 0.2);
   color: oklch(72% 0.14 25);
-}
-
-.checklist-badge--recommended {
-  background: oklch(80% 0.12 85 / 0.15);
-  color: oklch(50% 0.15 85);
-}
-
-.dark .checklist-badge--recommended {
-  background: oklch(50% 0.12 85 / 0.2);
-  color: oklch(75% 0.12 85);
 }
 
 .checklist-badge--complete {

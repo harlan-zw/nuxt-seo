@@ -72,7 +72,11 @@
       "types": "./dist/prerender.d.mts",
       "default": "./dist/prerender.mjs"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./checklist": {
+      "types": "./dist/checklist.d.mts",
+      "default": "./dist/checklist.mjs"
+    }
   },
   "main": "./dist/module.mjs",
   "types": "./dist/types.d.mts",

@@ -42,10 +42,6 @@ for (const lane of selected ? [selected as Lane] : lanes) {
       manifest.dependencies.nitro = '3.0.260903-beta'
       manifest.dependencies.nitropack = 'npm:nitro@3.0.260903-beta'
     }
-    if (process.env.NUXT_TEST_STANDALONE === '0') {
-      delete manifest.dependencies['nuxt-ai-ready']
-      delete manifest.dependencies['nuxt-skew-protection']
-    }
     const tarballs: Record<string, string> = JSON.parse(process.env.NUXT_TEST_TARBALLS || '{}')
     let workspace = await readFile(join(consumer, 'pnpm-workspace.yaml'), 'utf8')
     const rootWorkspace = await readFile(join(root, '../../pnpm-workspace.yaml'), 'utf8')

@@ -172,12 +172,11 @@ export const bundledModules = [
   SchemaOrgModule,
   LinkCheckerModule,
   SeoUtilsModule,
-]
-
-export const standaloneModules = [
   SkewProtectionModule,
   AiReadyModule,
 ]
+
+export const standaloneModules: NuxtSEOModule[] = []
 
 /** @deprecated Use `bundledModules` */
 export const normalModules = bundledModules

@@ -13,6 +13,7 @@ export default defineBuildConfig({
     { input: 'src/pro', name: 'pro' },
     { input: 'src/utils', name: 'utils' },
     { input: 'src/const', name: 'const' },
+    { input: 'src/checklist', name: 'checklist' },
     { input: 'src/server', name: 'server' },
     { input: 'src/fetch', name: 'fetch' },
     { input: 'src/prerender', name: 'prerender' },

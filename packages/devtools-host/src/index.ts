@@ -8,7 +8,7 @@ import { createRequire, findPackageJSON } from 'node:module'
 import { dirname, join } from 'node:path'
 import process from 'node:process'
 import { pathToFileURL } from 'node:url'
-import { addCustomTab, extendServerRpc, onDevToolsInitialized } from '@nuxt/devtools-kit'
+import { extendServerRpc, NUXT_DEVTOOLS_GROUP_ID, onDevToolsInitialized, onDevtoolsReady } from '@nuxt/devtools-kit'
 import { useNuxt } from '@nuxt/kit'
 import { modules as seoModules } from 'nuxtseo-shared/const'
 import { detectNuxtSeoModules } from 'nuxtseo-shared/kit'
@@ -40,6 +40,7 @@ export interface DevToolsUIConfig {
 
 export interface SeoModuleInfo {
   name: string
+  disabled?: boolean
   /** npm package name — the stable identifier the client matches installed state on. */
   npm?: string
   title: string
@@ -162,7 +163,10 @@ function registerSharedRpcOnce(nuxt: Nuxt): void {
         for (const det of detectNuxtSeoModules(nuxt)) {
           if (!byNpm.has(det.name)) {
             const meta = seoModules.find(s => s.npm === det.name)
-            byNpm.set(det.name, { name: meta?.slug ?? det.name, npm: det.name, title: meta?.label ?? det.name, icon: meta?.icon ?? '', route: '' })
+            byNpm.set(det.name, { name: meta?.slug ?? det.name, npm: det.name, title: meta?.label ?? det.name, icon: meta?.icon ?? '', route: '', disabled: det.disabled })
+          }
+          else {
+            byNpm.get(det.name)!.disabled = det.disabled
           }
         }
         return [...byNpm.values()]
@@ -335,7 +339,24 @@ function setupLayerModule(config: DevToolsUIConfig, layerDir: string, nuxt: Nuxt
   const layers: SeoDevtoolsEntry[] = (nuxt as any)._seoDevtoolsLayers ??= []
   layers.push({ slug, name: config.name, title: config.title, icon: config.icon, layerDir })
 
-  addCustomTab({ name: `nuxt-seo-${slug}`, title: config.title, icon: config.icon, view: { type: 'iframe', src: clientRoute } }, nuxt)
+  let dockRegistered = false
+  onDevtoolsReady((ctx) => {
+    if (dockRegistered)
+      return
+    ctx.docks.register({ id: `nuxt-seo-${slug}`, title: config.title, icon: config.icon, type: 'iframe', url: clientRoute, groupId: NUXT_DEVTOOLS_GROUP_ID })
+    dockRegistered = true
+  }, nuxt)
+  let nativeTabRegistered = false
+  onDevToolsInitialized((info) => {
+    // DevTools 3 does not emit devtools:ready. Keep its native tab protocol.
+    if (!info.version.startsWith('3.') || nativeTabRegistered)
+      return
+    nativeTabRegistered = true
+    nuxt.hook('devtools:customTabs', (tabs) => {
+      tabs.push({ name: `nuxt-seo-${slug}`, title: config.title, icon: config.icon, view: { type: 'iframe', src: clientRoute } })
+    })
+    return nuxt.callHook('devtools:customTabs:refresh')
+  }, nuxt)
 
   if ((nuxt as any)._seoDevtoolsInit)
     return

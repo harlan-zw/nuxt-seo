@@ -39,7 +39,7 @@ function createNuxt(version: string, packages: Record<string, string> = {}, dire
 }
 
 async function install(nuxt: ReturnType<typeof createNuxt>, installed: InstalledModule[] = [], enabled = true) {
-  await NuxtSEO({ enabled }, nuxt as unknown as Nuxt)
+  await NuxtSEO({ enabled, tips: true }, nuxt as unknown as Nuxt)
   nuxt.options._installedModules.push(...installed)
   await nuxt.callHook('modules:done')
 }
@@ -55,6 +55,15 @@ describe('nuxt version', () => {
 })
 
 describe('loaded submodule version', () => {
+  it.each([
+    ['nuxt-ai-ready', '2.5.3', '3.0.0'],
+    ['nuxt-skew-protection', '1.6.2', '2.0.0'],
+  ])('rejects %s before its required major', async (name, oldVersion, fixedVersion) => {
+    const nuxt = createNuxt('4.6.0', { [name]: oldVersion })
+    await expect(install(nuxt, [{ meta: { name, version: fixedVersion } }]))
+      .rejects
+      .toThrow(`\`${name}\` version (\`${oldVersion}\`) does not satisfy \`^${fixedVersion}\``)
+  })
   it('checks custom module directories in the configured search order', async () => {
     const nuxt = createNuxt('4.6.0', { '@nuxtjs/sitemap': '9.0.0' }, 'custom_modules')
     const root = createNuxt('4.6.0', { '@nuxtjs/sitemap': '8.0.0' })

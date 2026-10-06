@@ -16,7 +16,6 @@ await setup({
   build: true,
   server: true,
   nuxtConfig: {
-    modules: ['nuxt-skew-protection', 'nuxt-ai-ready'],
     site: {
       url: 'https://local.nuxtseo.com',
     },
@@ -33,7 +32,7 @@ await setup({
   },
 })
 
-describe('standalone modules (prerendered)', () => {
+describe('bundled modules (prerendered)', () => {
   it('ai-ready generates the expected llms.txt', async () => {
     const txt = await $fetch('/llms.txt', { responseType: 'text' }) as string
 

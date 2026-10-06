@@ -139,9 +139,10 @@ function disconnectStandalone() {
                   {{ title }}
                 </span>
                 <DevtoolsChecklistBadge
-                  v-if="moduleChecklistResult?.totalPending"
+                  v-if="moduleChecklistResult && (moduleChecklistResult.totalPending || moduleChecklistResult.status === 'unavailable')"
                   :required-pending="moduleChecklistResult.requiredPending"
                   :recommended-pending="moduleChecklistResult.recommendedPending"
+                  :status="moduleChecklistResult.status"
                 />
                 <UIcon name="carbon:chevron-down" class="w-3 h-3 opacity-50 transition-transform" :class="showModuleSplash ? 'rotate-180' : ''" />
               </button>

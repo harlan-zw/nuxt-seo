@@ -13,9 +13,11 @@ export type { NitroRuntimeCompatibility, NitroTypeAugmentations } from './nitro-
 export { renderNitroTypeAugmentations, setupNitroRuntimeCompatibility } from './nitro-compatibility'
 export type { RuntimeAliasOptions } from './runtime-aliases'
 export { setupRuntimeAliases } from './runtime-aliases'
+export { isAgent, isCI } from 'std-env'
 
 export interface NuxtSeoModuleDetection {
   name: string
+  disabled?: boolean
   version?: string
   entryPath?: string
   features?: Record<string, boolean | string | number>
@@ -54,6 +56,18 @@ const NUXT_SEO_MODULES = new Set([
   'nuxt-ai-ready',
 ])
 
+const SEO_CONFIG_KEYS: Record<string, string> = {
+  '@nuxtjs/robots': 'robots',
+  '@nuxtjs/sitemap': 'sitemap',
+  'nuxt-og-image': 'ogImage',
+  'nuxt-schema-org': 'schemaOrg',
+  'nuxt-seo-utils': 'seo',
+  'nuxt-link-checker': 'linkChecker',
+  'nuxt-site-config': 'site',
+  'nuxt-skew-protection': 'skewProtection',
+  'nuxt-ai-ready': 'aiReady',
+}
+
 /**
  * Detect all installed Nuxt SEO modules from `nuxt.options._installedModules`.
  * No self-registration needed; modules are discovered automatically.
@@ -61,11 +75,16 @@ const NUXT_SEO_MODULES = new Set([
 export function detectNuxtSeoModules(nuxt: Nuxt = useNuxt()): NuxtSeoModuleDetection[] {
   return nuxt.options._installedModules
     .filter(m => m.meta?.name && NUXT_SEO_MODULES.has(m.meta.name))
-    .map(m => ({
-      name: m.meta.name!,
-      version: m.meta.version,
-      entryPath: m.entryPath,
-    }))
+    .map((m) => {
+      const configKey = SEO_CONFIG_KEYS[m.meta.name!]
+      const config = configKey ? (nuxt.options as unknown as Record<string, any>)[configKey] : undefined
+      return {
+        name: m.meta.name!,
+        disabled: m.meta.disabled || config === false || config?.enabled === false,
+        version: m.meta.version,
+        entryPath: m.entryPath,
+      }
+    })
 }
 
 export function useModuleLogger(name: string, options: { debug?: boolean }, nuxt: Nuxt = useNuxt()): ReturnType<typeof useLogger> {

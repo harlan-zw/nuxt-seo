@@ -1,12 +1,26 @@
 ---
 name: nuxtjs-seo
-description: Install, configure, and debug the @nuxtjs/seo meta module, which installs robots, sitemap, OG image, Schema.org, SEO utils, link checker, and site config in one Nuxt module. Use when a task mentions @nuxtjs/seo, Nuxt SEO, `nuxt module add seo`, disabling one SEO submodule, which config key owns an option, @nuxtjs/seo/content, a "takumi renderer missing dependencies" build error, or missing robots.txt and sitemap.xml after install.
+description: Install, configure, and debug the @nuxtjs/seo meta module, which installs robots, sitemap, OG image, Schema.org, SEO utils, link checker, site config, AI Ready, and Skew Protection. Use when a task mentions @nuxtjs/seo, Nuxt SEO, `nuxt module add seo`, disabling one SEO submodule, which config key owns an option, @nuxtjs/seo/content, a "takumi renderer missing dependencies" build error, or missing robots.txt and sitemap.xml after install.
 ---
 
 # @nuxtjs/seo
 
 Requires Nuxt `^4.6.0 || ^5.0.0` and Node `^22.22.3 || ^24.15.0 || >=26.0.0`.
-The package declares Nuxt `moduleDependencies`, and Nuxt installs each submodule. Its only runtime code checks the Nuxt version and the version of each loaded submodule.
+The package declares Nuxt `moduleDependencies`, and Nuxt installs each submodule.
+Setup checks the Nuxt version and each loaded submodule version.
+In human development sessions, the first successful home page response starts background setup checks.
+The report includes required fixes, optional tips, and enabled or disabled module states.
+Tips use resolved module defaults and app configuration. Explicit opt-outs suppress the related tip.
+Optional tips expose opt-in module configuration features. They exclude runtime inline minification and general SEO advice.
+Only required setup affects warning counts and completion. DevTools displays optional tips separately.
+It also supports locale prefixes and app base paths.
+Missing required settings report once per Nitro server instance. Agent and CI sessions skip terminal checks.
+Optional tips report at most once every seven days per project. State lives in the Nuxt build directory.
+The default state file is `.nuxt/cache/nuxt-seo/setup-tips.json`. Deleting the build directory resets the cooldown.
+Set `nuxtseo: { tips: false }` to disable optional tips in the terminal and DevTools.
+Required setup checks remain active. Healthy projects without eligible tips produce no terminal report.
+Unavailable module data stays unchecked. Open DevTools to retry.
+Production does not register this runtime check.
 Every option, composable, and component comes from a submodule. Docs: https://nuxtseo.com/docs/nuxt-seo
 
 This Skill covers only what the bundle adds. For one module, use its own Skill or docs (table below).
@@ -29,7 +43,7 @@ export default defineNuxtConfig({
 
 ## Which module owns which option
 
-The meta module has one option, `nuxtseo.enabled`. Every other top level key belongs to one submodule.
+The meta module has `nuxtseo.enabled` and `nuxtseo.tips`. Other top level keys belong to submodules.
 
 | Key | Package | Reference |
 |---|---|---|
@@ -40,6 +54,8 @@ The meta module has one option, `nuxtseo.enabled`. Every other top level key bel
 | `schemaOrg` | `nuxt-schema-org` | [skilld.dev/gh/harlan-zw/nuxt-schema-org](https://skilld.dev/gh/harlan-zw/nuxt-schema-org) |
 | `seo` | `nuxt-seo-utils` | [skilld.dev/gh/harlan-zw/nuxt-seo-utils](https://skilld.dev/gh/harlan-zw/nuxt-seo-utils) |
 | `linkChecker` | `nuxt-link-checker` | [skilld.dev/gh/harlan-zw/nuxt-link-checker](https://skilld.dev/gh/harlan-zw/nuxt-link-checker) |
+| `aiReady` | `nuxt-ai-ready` | https://nuxtseo.com/docs/ai-ready |
+| `skewProtection` | `nuxt-skew-protection` | https://nuxtseo.com/docs/skew-protection |
 
 The `seo` key configures `nuxt-seo-utils`, not the bundle.
 `nuxtseo: false` or `nuxtseo: { enabled: false }` installs no bundled submodule. See "Disable a submodule".
@@ -72,15 +88,18 @@ export default defineNuxtConfig({
 You cannot disable `site`. The other submodules need it.
 To drop the whole bundle, set `nuxtseo: false`, or remove `@nuxtjs/seo` from `modules`. A submodule that you list in `modules` yourself still installs.
 
-## Add a standalone module
+## AI Ready and Skew Protection
 
-`nuxt-ai-ready` and `nuxt-skew-protection` are optional dependencies of the bundle. Installing the package is not enough; add it to `modules`:
+Both modules install automatically. Remove duplicate entries from `modules` when upgrading from v5.
+Keep their existing `aiReady` and `skewProtection` options.
 
-```ts
-export default defineNuxtConfig({
-  modules: ['@nuxtjs/seo', 'nuxt-ai-ready'],
-})
-```
+- AI Ready serves Markdown and `llms.txt`. Prerendering also generates `llms-full.txt`.
+- Databases, background indexing, and cron remain opt-in.
+- The bundle disables project agent skills and API catalogs. Configure them explicitly to publish them.
+- Skew Protection uses native polling and disables version cookies. Explicit site options take precedence.
+- Retained assets need persistent build storage. Preserve `node_modules/.cache/nuxt-seo/skew-protection` in CI or configure shared storage.
+- If server handlers use `isClientOutdated`, opt into `skewProtection.cookie` with a configuration object.
+- Set `aiReady: false` or `skewProtection: false` to disable either module.
 
 ## Nuxt Content v3
 
@@ -128,13 +147,13 @@ Breaking change in v5: `asSeoCollection()` is deprecated and warns at build. Old
 
 - **In an Agent shell, a fresh install fails `nuxt build`.** `nuxt-og-image` defaults to the takumi renderer and throws `takumi renderer missing dependencies: @takumi-rs/core`. It detects the Agent from environment variables such as `CLAUDECODE` and `AI_AGENT`. Outside an Agent it only logs the error, and the build passes. Fix: add `@takumi-rs/core` to the app, or set `ogImage: false`.
 - **In an Agent shell, `nuxt dev` tries to install `@takumi-rs/core` into the app.** If the install fails, the dev server exits. Decide on OG images before the first dev run.
-- **A submodule in the app `package.json` replaces the bundled copy.** Nuxt loads the app copy. If it is older than the bundle requires, the build stops with `[@nuxtjs/seo] Module @nuxtjs/sitemap version (8.6.1) does not satisfy ^9.0.0 (requested by @nuxtjs/seo).` Upgrade the pin or remove it.
+- **A submodule in the app `package.json` replaces the bundled copy.** Nuxt loads the app copy. If it is older than the bundle requires, the build stops with `[@nuxtjs/seo] Module @nuxtjs/sitemap version (7.3.1) does not satisfy >=7.4 (requested by @nuxtjs/seo).` Upgrade the pin or remove it.
 - **`@nuxtjs/i18n` below v10 fails every build.** The error is `Module @nuxtjs/i18n version (9.x) does not satisfy >=10.0 (requested by @nuxtjs/seo)`. Upgrade i18n.
 - **Content `robots: 'noindex'` keeps the page in the sitemap.** Only `robots: false` removes it from `/sitemap.xml`. Both render `noindex, nofollow`.
 
 ## Version limits
 
-- Nuxt `^4.6.0 || ^5.0.0`. Earlier versions fail Nuxt's module compatibility check. Upgrade Nuxt.
+- Nuxt `^4.6.0 || ^5.0.0`. Earlier versions fail Nuxt’s module compatibility check. Upgrade Nuxt.
 - v5 moved every submodule up one major, except OG image. Migration: https://nuxtseo.com/docs/nuxt-seo/migration-guide/v4-to-v5
 
 ## Debug

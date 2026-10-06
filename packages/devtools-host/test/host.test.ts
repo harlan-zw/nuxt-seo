@@ -88,6 +88,35 @@ function built(child = children.at(-1)!) {
 }
 
 describe('optional DevTools host lifecycle', () => {
+  it('registers one native iframe dock when modern DevTools becomes ready', async () => {
+    const fixture = consumer()
+    Object.assign(fixture.nuxt, { devtools: { extendServerRpc: vi.fn() } })
+    setupDevToolsUI(panel, () => join(fixture.rootDir, 'panel'), fixture.nuxt)
+    const docks: unknown[] = []
+    const context = { docks: { register: (entry: unknown) => docks.push(entry) } }
+    await fixture.call('devtools:initialized', { version: '4.0.0-beta.3' })
+    await fixture.call('devtools:ready', context)
+    await fixture.call('devtools:ready', context)
+    expect(docks).toEqual([{ id: 'nuxt-seo-fixture', title: 'Fixture', icon: 'carbon:test-tool', type: 'iframe', url: '/__nuxt-seo-devtools/fixture', groupId: 'nuxt' }])
+    const legacyTabs: unknown[] = []
+    await fixture.call('devtools:customTabs', legacyTabs)
+    expect(legacyTabs).toEqual([])
+    expect(mocks.spawn).not.toHaveBeenCalled()
+  })
+  it('keeps one native DevTools 3 tab after initialization without the modern ready hook', async () => {
+    const fixture = consumer()
+    Object.assign(fixture.nuxt, { devtools: { extendServerRpc: vi.fn() }, callHook: fixture.call })
+    setupDevToolsUI(panel, () => join(fixture.rootDir, 'panel'), fixture.nuxt)
+    const before: unknown[] = []
+    await fixture.call('devtools:customTabs', before)
+    expect(before).toEqual([])
+    await fixture.call('devtools:initialized', { version: '3.4.2' })
+    await fixture.call('devtools:initialized', { version: '3.4.2' })
+    const tabs: unknown[] = []
+    await fixture.call('devtools:customTabs', tabs)
+    expect(tabs).toEqual([{ name: 'nuxt-seo-fixture', title: 'Fixture', icon: 'carbon:test-tool', view: { type: 'iframe', src: '/__nuxt-seo-devtools/fixture' } }])
+    expect(mocks.spawn).not.toHaveBeenCalled()
+  })
   it.each([false, { enabled: false }])('does not register disabled panels or RPC: %j', async (devtools) => {
     const fixture = consumer(devtools)
     setupDevToolsUI(panel, path => join(fixture.rootDir, 'panel', path), fixture.nuxt)

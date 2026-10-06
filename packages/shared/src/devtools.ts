@@ -17,7 +17,7 @@ export interface DevToolsUIConfig {
   slug?: string
   devPort?: number
 }
-export interface SeoModuleInfo { name: string, npm?: string, title: string, icon: string, route: string }
+export interface SeoModuleInfo { name: string, disabled?: boolean, npm?: string, title: string, icon: string, route: string }
 type Broadcast<F> = F extends (...args: infer A) => infer R
   ? ((...args: A) => Promise<Awaited<R>[]>) & { asEvent: (...args: A) => void }
   : never
