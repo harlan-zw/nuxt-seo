@@ -298,7 +298,7 @@ export function renderReport(base, head, baseLabel = '') {
     const changed = runtime.some(row => row.status !== 'same' && row.status !== 'unavailable')
     const missing = runtime.some(row => row.status === 'unavailable')
     output.push(changed ? '**Runtime size changed.**' : missing ? '**Runtime comparison unavailable.**' : '**No notable runtime size changes.**')
-    output.push('', 'Added by the module in a minimal Nuxt app.', '', '| Module | Client gzip | Server raw |', '|---|---:|---:|')
+    output.push('', '| Module | Client gzip | Server raw |', '|---|---:|---:|')
     const modules = new Map()
     for (const row of runtime) {
       const id = row.id.slice(0, row.id.lastIndexOf(':'))
