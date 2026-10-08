@@ -259,6 +259,18 @@ function deltaCell(base, head, status) {
   return `${markerOf(status)} ${formatDelta(difference)}${formatPercent(difference, comparisonSize(base))}`
 }
 
+function runtimeCell(row) {
+  if (!row?.head)
+    return 'unavailable'
+  const bytes = comparisonSize(row.head)
+  const value = bytes < 0 ? formatDelta(bytes) : formatSize(bytes)
+  if (row.status === 'unavailable')
+    return `${value}<br><sub>baseline unavailable</sub>`
+  if (row.status === 'same')
+    return value
+  return `${value}<br>${deltaCell(row.base, row.head, row.status)}`
+}
+
 export function renderReport(base, head, baseLabel = '') {
   const available = base !== null
   const baseline = base || new Map()
@@ -266,6 +278,7 @@ export function renderReport(base, head, baseLabel = '') {
   const rows = ids.map(id => ({
     base: baseline.get(id),
     head: head.get(id),
+    id,
     label: head.get(id)?.label || baseline.get(id)?.label || id,
     status: available && ((head.get(id) || baseline.get(id)).kind !== 'runtime' || (baseline.has(id) && head.has(id)))
       ? statusOf(baseline.get(id), head.get(id))
@@ -278,22 +291,27 @@ export function renderReport(base, head, baseLabel = '') {
     '<h3><img src="https://nuxt.com/assets/design-kit/icon-green.svg" alt="Nuxt logo" width="32" height="24"> Nuxt Module Size Analyzer</h3>',
     '',
   ]
-  if (!available)
-    output.push('⚠️ **Baseline unavailable. Size changes cannot be compared.**', '')
   if (!runtime.length) {
-    output.push('Runtime impact was not measured. Package files do not show deployed runtime cost.')
+    output.push('Runtime impact was not measured.')
   }
   else {
-    output.push('Nuxt production fixture: module enabled minus the same app without the module.', '', '| Module output | Base added | PR added | Δ |', '|---|---:|---:|---:|')
+    const changed = runtime.some(row => row.status !== 'same' && row.status !== 'unavailable')
+    const missing = runtime.some(row => row.status === 'unavailable')
+    output.push(changed ? '**Runtime size changed.**' : missing ? '**Runtime comparison unavailable.**' : '**No notable runtime size changes.**')
+    output.push('', 'Added by the module in a minimal Nuxt app.', '', '| Module | Client gzip | Server raw |', '|---|---:|---:|')
+    const modules = new Map()
     for (const row of runtime) {
-      const before = row.base ? formatDelta(comparisonSize(row.base)) : 'unavailable'
-      const after = row.head ? formatDelta(comparisonSize(row.head)) : 'unavailable'
-      const delta = row.status === 'unavailable' ? 'unavailable' : deltaCell(row.base, row.head, row.status)
-      output.push(`| ${row.label} | ${before} | ${after} | ${delta} |`)
+      const id = row.id.slice(0, row.id.lastIndexOf(':'))
+      const module = modules.get(id) || { name: row.label.replace(/ · (?:client|server) \(.*\)$/, '') }
+      module[(row.head || row.base).unit === 'raw' ? 'server' : 'client'] = row
+      modules.set(id, module)
     }
-    output.push('', 'Client: all emitted JS/CSS, summed per-file gzip. Server: deployed files, raw bytes.', 'This fixture measures build output. It does not measure memory, latency, or every configuration.')
+    for (const module of modules.values())
+      output.push(`| ${module.name} | ${runtimeCell(module.client)} | ${runtimeCell(module.server)} |`)
   }
-  output.push('', `<details><summary>Package file inventory (${inventory.length})</summary>`, '', 'These rows overlap. They exclude dependencies, types, source maps, and non-code assets.', 'Entry rows measure one file. Source rows include unused files. Totals are not npm tarball sizes.', '', '| Package files | Summed gzip | Raw | Δ gzip |', '|---|---:|---:|---:|')
+  if (!available)
+    output.push('', '⚠️ Base build failed. Comparison unavailable.')
+  output.push('', `<details><summary>Package files (${inventory.length})</summary>`, '', 'Rows overlap and include unused code. These totals do not measure deployed output or npm downloads.', 'Excludes dependency files, types, source maps, and other non-code files.', '', '| Package files | Summed gzip | Raw | Δ gzip |', '|---|---:|---:|---:|')
   for (const row of inventory) {
     const value = row.head || row.base
     const delta = row.status === 'unavailable' ? 'unavailable' : deltaCell(row.base, row.head, row.status)
@@ -301,13 +319,14 @@ export function renderReport(base, head, baseLabel = '') {
   }
   output.push('', '</details>')
   if (dependencies.length) {
-    output.push('', `<details><summary>Declared dependencies (${dependencies.length})</summary>`, '', 'Dependency declarations do not show which code reaches the client or server.', '', '| Package | Dependency | Requested |', '|---|---|---|')
+    output.push('', `<details><summary>Dependencies (${dependencies.length})</summary>`, '', 'Declared dependencies. Their installed size does not show runtime cost.', '', '| Package | Dependency | Requested |', '|---|---|---|')
     for (const row of dependencies)
       output.push(`| ${row.head.label.replace(' · dependency ', ' | ')} | ${row.head.range} |`)
     output.push('', '</details>')
   }
+  output.push('', '<details><summary>How this is measured</summary>', '', '- Compare the same app with and without the module.', '- Client: all emitted JS/CSS, summed per-file gzip. This includes lazy chunks.', '- Server: deployed files, including external dependencies. Source maps are excluded.', '- Default module settings, Node server preset. Memory and request speed are outside this report.', '', '</details>')
   if (baseLabel)
-    output.push('', `<sub>Baseline: ${cleanLabel(baseLabel)} · changes below ${GZIP_NOISE_BYTES} B are ignored</sub>`)
+    output.push('', `<sub>Base: ${cleanLabel(baseLabel)} · differences below ${GZIP_NOISE_BYTES} B are ignored</sub>`)
   return `${output.join('\n')}\n`
 }
 
