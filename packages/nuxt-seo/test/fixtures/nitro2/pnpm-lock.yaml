@@ -163,7 +163,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@cc31f79a659ffe78a56b12144d30d3c60544841e
+  '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@dd80a71bd9f111d1874df035fe1ecfce8a625269
   '@nuxtjs/sitemap': https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@d02de645f18ead8c72c0d57719a2c91fd9e376c2
   '@unhead/bundler': ^3.4.1
   '@unhead/vue': ^3.4.1
@@ -173,7 +173,7 @@ overrides:
   cssnano-utils: 8.1.0
   nuxt-ai-ready: https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@857be88bce4b618b19f86655e32cc20503c9ff6a
   nuxt-link-checker: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@94a17a0f1c8acfba804dd083c57e3b382da70ea0
-  nuxt-og-image: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@2cddf3b5929262362a1cf1db9d6484c88edb65eb
+  nuxt-og-image: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@67fd4ce0e90424be6506a2ee887160b2dc6d503e
   nuxt-schema-org: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@40000a6144751b065ede71004e864392931770be
   nuxt-seo-utils: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@1a536502294a541ea2d2f5a3ad4a980c5808ea47
   nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@071e66cafbd239c3fb4a3385d6b411acfa20bba0
@@ -235,8 +235,8 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
       '@nuxtjs/robots':
-        specifier: https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@cc31f79a659ffe78a56b12144d30d3c60544841e
-        version: https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@cc31f79a659ffe78a56b12144d30d3c60544841e(patch_hash=7d8614186c7e7246a06900e24ea94c668602a8395918b73f9352eb4f3a0fcb8b)(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+        specifier: https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@dd80a71bd9f111d1874df035fe1ecfce8a625269
+        version: https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@dd80a71bd9f111d1874df035fe1ecfce8a625269(patch_hash=7d8614186c7e7246a06900e24ea94c668602a8395918b73f9352eb4f3a0fcb8b)(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
       '@nuxtjs/seo':
         specifier: link:../../..
         version: link:../../..
@@ -262,8 +262,8 @@ importers:
         specifier: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@94a17a0f1c8acfba804dd083c57e3b382da70ea0
         version: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@94a17a0f1c8acfba804dd083c57e3b382da70ea0(09fd2d2cb695f1a7c22fc72bdac92740)
       nuxt-og-image:
-        specifier: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@2cddf3b5929262362a1cf1db9d6484c88edb65eb
-        version: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@2cddf3b5929262362a1cf1db9d6484c88edb65eb(patch_hash=4bcab252431e3990a3da01760902cd573483c10f470ab4a1e5bdccda916fb006)(df86eb3858736c5bbe1b9f1cb6843985)
+        specifier: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@67fd4ce0e90424be6506a2ee887160b2dc6d503e
+        version: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@67fd4ce0e90424be6506a2ee887160b2dc6d503e(patch_hash=4bcab252431e3990a3da01760902cd573483c10f470ab4a1e5bdccda916fb006)(df86eb3858736c5bbe1b9f1cb6843985)
       nuxt-schema-org:
         specifier: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@40000a6144751b065ede71004e864392931770be
         version: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@40000a6144751b065ede71004e864392931770be(patch_hash=faf10b92abd9bb0b90aa379fbb68e175bd7de5165576fb76b7b1fe5098e4e70f)(30a9c686bdd62630a13be6805bbc32c4)
@@ -275,7 +275,7 @@ importers:
         version: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@071e66cafbd239c3fb4a3385d6b411acfa20bba0(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
       nuxt-skew-protection:
         specifier: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@40277a13d40df3bdf52008ceef3de80bd0324bfd
-        version: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@40277a13d40df3bdf52008ceef3de80bd0324bfd(patch_hash=811b3217f2710f867a3fd3a4be69c728594e85609607f33f1925d08ef1df437d)(9d6f453e23f9deb015f9b08d980f8051)
+        version: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@40277a13d40df3bdf52008ceef3de80bd0324bfd(patch_hash=811b3217f2710f867a3fd3a4be69c728594e85609607f33f1925d08ef1df437d)(5ba09f0d7866aad7e325d2222af531b1)
       nuxtseo-shared:
         specifier: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@3d4bb9d8c5376ec7ea2286ec5250f1b13f0b0aec
         version: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@3d4bb9d8c5376ec7ea2286ec5250f1b13f0b0aec(patch_hash=26c3d634d170d24229e8c25a390544dfa24cd479442c60b60e0ef353b5ee1216)(11f3bd892f29f2488ff8da71f7909ae4)
@@ -1043,8 +1043,8 @@ packages:
       nuxt: ^4.6.0
       vite: ^8.3.2
 
-  '@nuxtjs/robots@https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@cc31f79a659ffe78a56b12144d30d3c60544841e':
-    resolution: {integrity: sha512-rnmg3AwC8Gv6O1O1kTj5KKgWnhJ6X/v0gMqSsxuuEJIjjMoT2AjGRyfk7YT0qL2Ncu+1hv8L4C7DSOiALrDxIw==, tarball: https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@cc31f79a659ffe78a56b12144d30d3c60544841e}
+  '@nuxtjs/robots@https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@dd80a71bd9f111d1874df035fe1ecfce8a625269':
+    resolution: {integrity: sha512-NJOGM3deZjtNiSZ3YWH9EJsXa4s0gYS6lrwuReYNbbZ/qQy+x9iSiRz4p6/PczhoQWabsCUveW6jq9ZpA6Ez/g==, tarball: https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@dd80a71bd9f111d1874df035fe1ecfce8a625269}
     version: 6.2.4
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
     peerDependencies:
@@ -3114,8 +3114,8 @@ packages:
     peerDependencies:
       nuxt: ^4.6.0 || ^5.0.0
 
-  nuxt-og-image@https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@2cddf3b5929262362a1cf1db9d6484c88edb65eb:
-    resolution: {integrity: sha512-NufeGqTLYS82/7vIKyWvOb8TK3ZR6PdZsC1TLdFCMcQZEnncqy1uWyBjeRQcN9W58nd0+0YoCjxJXSzKqqOFfg==, tarball: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@2cddf3b5929262362a1cf1db9d6484c88edb65eb}
+  nuxt-og-image@https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@67fd4ce0e90424be6506a2ee887160b2dc6d503e:
+    resolution: {integrity: sha512-G2qrdioMg6s7CXw9JcL+074ZUP+qL3VB6tS2MQA/yQilZdlPVRRuzovvrOkhupXfFd99zEXRSUi6N+zjIcypYw==, tarball: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@67fd4ce0e90424be6506a2ee887160b2dc6d503e}
     version: 6.10.3
     engines: {node: ^22.22.3 || ^24.15.0 || >=26.0.0}
     hasBin: true
@@ -5298,7 +5298,7 @@ snapshots:
       - rolldown
       - unplugin
 
-  '@nuxtjs/robots@https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@cc31f79a659ffe78a56b12144d30d3c60544841e(patch_hash=7d8614186c7e7246a06900e24ea94c668602a8395918b73f9352eb4f3a0fcb8b)(1bce8f1e1bb27e2a0e77da01cb8b6bb3)':
+  '@nuxtjs/robots@https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@dd80a71bd9f111d1874df035fe1ecfce8a625269(patch_hash=7d8614186c7e7246a06900e24ea94c668602a8395918b73f9352eb4f3a0fcb8b)(1bce8f1e1bb27e2a0e77da01cb8b6bb3)':
     dependencies:
       '@fingerprintjs/botd': 2.0.0
       '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
@@ -7097,7 +7097,7 @@ snapshots:
   nuxt-ai-ready@https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@857be88bce4b618b19f86655e32cc20503c9ff6a(patch_hash=fdd0b93cd96f33ca1b104280933fe8e2cb746cd470b4681a2cdf0e0ae21522b8)(7b36421d6c7378d5e7d0a1f884e958a5):
     dependencies:
       '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
-      '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@cc31f79a659ffe78a56b12144d30d3c60544841e(patch_hash=7d8614186c7e7246a06900e24ea94c668602a8395918b73f9352eb4f3a0fcb8b)(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+      '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@dd80a71bd9f111d1874df035fe1ecfce8a625269(patch_hash=7d8614186c7e7246a06900e24ea94c668602a8395918b73f9352eb4f3a0fcb8b)(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
       '@nuxtjs/sitemap': https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@d02de645f18ead8c72c0d57719a2c91fd9e376c2(patch_hash=eecde9683e76233f264ce97eec1d5418bbbe8adad54fac3e8cbe6c27bab55740)(27b53a62e0ff13ba11cf749629e0775a)
       citty: 0.2.2
       consola: 3.4.2
@@ -7220,7 +7220,7 @@ snapshots:
       - vue
       - zod
 
-  nuxt-og-image@https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@2cddf3b5929262362a1cf1db9d6484c88edb65eb(patch_hash=4bcab252431e3990a3da01760902cd573483c10f470ab4a1e5bdccda916fb006)(df86eb3858736c5bbe1b9f1cb6843985):
+  nuxt-og-image@https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@67fd4ce0e90424be6506a2ee887160b2dc6d503e(patch_hash=4bcab252431e3990a3da01760902cd573483c10f470ab4a1e5bdccda916fb006)(df86eb3858736c5bbe1b9f1cb6843985):
     dependencies:
       '@clack/prompts': 1.8.1
       '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
@@ -7384,7 +7384,7 @@ snapshots:
       - unplugin
       - zod
 
-  nuxt-skew-protection@https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@40277a13d40df3bdf52008ceef3de80bd0324bfd(patch_hash=811b3217f2710f867a3fd3a4be69c728594e85609607f33f1925d08ef1df437d)(9d6f453e23f9deb015f9b08d980f8051):
+  nuxt-skew-protection@https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@40277a13d40df3bdf52008ceef3de80bd0324bfd(patch_hash=811b3217f2710f867a3fd3a4be69c728594e85609607f33f1925d08ef1df437d)(5ba09f0d7866aad7e325d2222af531b1):
     dependencies:
       '@nuxt/kit': 4.6.0(@nuxt/schema@4.6.0)(confbox@0.3.1)(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(magic-string@1.4.3)(mlly@1.8.2)(oxc-parser@0.153.0)(rolldown@1.2.12)(unplugin@3.4.0(esbuild@0.28.2)(rolldown@1.2.12)(rollup@4.64.0)(vite@8.3.2(@types/node@26.6.4)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1)))
       '@vueuse/core': 15.0.0(vue@3.5.43(typescript@6.0.3))
@@ -7396,7 +7396,7 @@ snapshots:
       unstorage: 1.17.5(db0@0.3.4)(ioredis@5.11.1(supports-color@10.2.2))
       zod: 4.6.5
     optionalDependencies:
-      '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@cc31f79a659ffe78a56b12144d30d3c60544841e(patch_hash=7d8614186c7e7246a06900e24ea94c668602a8395918b73f9352eb4f3a0fcb8b)(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
+      '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@dd80a71bd9f111d1874df035fe1ecfce8a625269(patch_hash=7d8614186c7e7246a06900e24ea94c668602a8395918b73f9352eb4f3a0fcb8b)(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
       nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@071e66cafbd239c3fb4a3385d6b411acfa20bba0(1bce8f1e1bb27e2a0e77da01cb8b6bb3)
     transitivePeerDependencies:
       - '@azure/app-configuration'
