@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readdirSync, readFileSync, realpathSync, statSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, extname, relative, resolve, sep } from 'node:path'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
@@ -32,7 +32,7 @@ function readJson(path) {
 }
 
 function cleanLabel(value) {
-  return String(value).replace(/[^\w@/+.:-]/g, '_')
+  return String(value).replace(/[|<>&`\r\n]/g, '_')
 }
 
 function cleanRange(value) {
@@ -106,7 +106,7 @@ function referencesDist(packageJson) {
   }).some(path => typeof path === 'string' && /^\.?\/?dist\//.test(path))
 }
 
-function discoverPackages(root) {
+export function discoverPackages(root) {
   const packages = []
   walkDirectories(root, (directory) => {
     const packagePath = resolve(directory, 'package.json')
@@ -114,6 +114,8 @@ function discoverPackages(root) {
     if (!existsSync(packagePath) || !existsSync(distPath) || !referencesDist(readJson(packagePath)))
       return
     const packageJson = readJson(packagePath)
+    if (packageJson.private)
+      return
     packages.push({
       directory,
       distPath,
@@ -145,206 +147,6 @@ function addMetric(metrics, pkg, id, label, files) {
     kind: 'output',
     label: `${pkg.name} · ${label}`,
   })
-}
-
-function parseVersion(value) {
-  const match = String(value).trim().replace(/^v/, '').match(/^(\d+)(?:\.(\d+))?(?:\.(\d+))?(?:-([0-9a-z.-]+))?/i)
-  if (!match)
-    return null
-  return {
-    major: Number(match[1]),
-    minor: Number(match[2] || 0),
-    patch: Number(match[3] || 0),
-    prerelease: match[4] || '',
-  }
-}
-
-function compareVersions(left, right) {
-  for (const key of ['major', 'minor', 'patch']) {
-    if (left[key] !== right[key])
-      return left[key] > right[key] ? 1 : -1
-  }
-  if (left.prerelease === right.prerelease)
-    return 0
-  if (!left.prerelease)
-    return 1
-  if (!right.prerelease)
-    return -1
-  return left.prerelease.localeCompare(right.prerelease)
-}
-
-function testComparator(version, comparator) {
-  const match = comparator.match(/^(<=|>=|[<>=]|[~^]\s*)?v?(\d+|[x*])(?:\.(\d+|[x*]))?(?:\.(\d+|[x*]))?(?:-([0-9a-z.-]+))?$/i)
-  if (!match)
-    return false
-  const operator = (match[1] || '').trim()
-  const parts = [match[2], match[3], match[4]]
-  if (parts[0] === '*' || parts[0]?.toLowerCase() === 'x')
-    return true
-
-  const targetValue = `${parts.map(part => part && !['x', 'X', '*'].includes(part) ? part : '0').join('.')}${match[5] ? `-${match[5]}` : ''}`
-  const target = parseVersion(targetValue)
-  if (!target)
-    return false
-  const compared = compareVersions(version, target)
-  if (operator === '>=')
-    return compared >= 0
-  if (operator === '>')
-    return compared > 0
-  if (operator === '<=')
-    return compared <= 0
-  if (operator === '<')
-    return compared < 0
-
-  const hasWildcard = parts.some(part => !part || ['x', 'X', '*'].includes(part))
-  if (hasWildcard)
-    return version.major === target.major && (!parts[1] || ['x', 'X', '*'].includes(parts[1]) || version.minor === target.minor)
-  if (operator === '^') {
-    const upper = target.major > 0
-      ? { ...target, major: target.major + 1, minor: 0, patch: 0, prerelease: '' }
-      : target.minor > 0
-        ? { ...target, minor: target.minor + 1, patch: 0, prerelease: '' }
-        : { ...target, patch: target.patch + 1, prerelease: '' }
-    return compared >= 0 && compareVersions(version, upper) < 0
-  }
-  if (operator === '~') {
-    const upper = { ...target, minor: target.minor + 1, patch: 0, prerelease: '' }
-    return compared >= 0 && compareVersions(version, upper) < 0
-  }
-  return compared === 0
-}
-
-export function satisfiesVersion(versionValue, rangeValue) {
-  const version = parseVersion(versionValue)
-  const range = String(rangeValue || '').trim()
-  if (!version || !range || /^(?:catalog|workspace|file|link|npm):/.test(range))
-    return false
-  if (range === '*' || range === 'latest')
-    return true
-  return range.split('||').some((alternative) => {
-    const hyphen = alternative.trim().match(/^(\S+)\s+-\s+(\S+)$/)
-    if (hyphen)
-      return testComparator(version, `>=${hyphen[1]}`) && testComparator(version, `<=${hyphen[2]}`)
-    const comparators = alternative.trim().split(/\s+/).filter(Boolean)
-    return comparators.length > 0 && comparators.every(comparator => testComparator(version, comparator))
-  })
-}
-
-function readCatalog(root) {
-  const workspacePath = resolve(root, 'pnpm-workspace.yaml')
-  if (!existsSync(workspacePath))
-    return new Map()
-  const catalog = new Map()
-  let inCatalog = false
-  for (const line of readFileSync(workspacePath, 'utf8').split(/\r?\n/)) {
-    if (line === 'catalog:') {
-      inCatalog = true
-      continue
-    }
-    if (inCatalog && line && !/^\s/.test(line))
-      break
-    if (!inCatalog)
-      continue
-    if (!line.startsWith('  '))
-      continue
-    const entry = line.slice(2)
-    const separatorIndex = entry.indexOf(': ')
-    if (separatorIndex === -1)
-      continue
-    const rawName = entry.slice(0, separatorIndex)
-    const rawRange = entry.slice(separatorIndex + 2)
-    const name = rawName[0] === rawName.at(-1) && ['\'', '"'].includes(rawName[0])
-      ? rawName.slice(1, -1)
-      : rawName
-    const range = rawRange[0] === rawRange.at(-1) && ['\'', '"'].includes(rawRange[0])
-      ? rawRange.slice(1, -1)
-      : rawRange
-    catalog.set(name, range)
-  }
-  return catalog
-}
-
-function dependencyRange(name, range, catalog) {
-  if (range === 'catalog:')
-    return catalog.get(name) || range
-  return range
-}
-
-function packagePayloadFiles(directory, packageJson) {
-  const paths = []
-  const filePatterns = Array.isArray(packageJson.files) ? packageJson.files : []
-  for (const pattern of filePatterns) {
-    if (typeof pattern !== 'string' || pattern.includes('*'))
-      continue
-    const path = resolve(directory, pattern)
-    if (!existsSync(path))
-      continue
-    paths.push(...(statSync(path).isDirectory() ? walkFiles(path) : isPayloadFile(path) ? [path] : []))
-  }
-  if (paths.length)
-    return [...new Set(paths)]
-
-  const distPath = resolve(directory, 'dist')
-  if (existsSync(distPath))
-    return walkFiles(distPath)
-  return values({ exports: packageJson.exports, main: packageJson.main, module: packageJson.module })
-    .filter(path => typeof path === 'string' && !path.includes('*'))
-    .map(path => resolve(directory, path))
-    .filter(path => existsSync(path) && statSync(path).isFile() && isPayloadFile(path))
-}
-
-function dependencyPackage(pkg, name) {
-  const packagePath = resolve(pkg.directory, 'node_modules', name, 'package.json')
-  if (!existsSync(packagePath))
-    return null
-  const realPackagePath = realpathSync(packagePath)
-  return {
-    directory: dirname(realPackagePath),
-    packageJson: readJson(realPackagePath),
-  }
-}
-
-function nuxtProvider(pkg) {
-  const packagePath = resolve(pkg.directory, 'node_modules/nuxt/package.json')
-  if (!existsSync(packagePath))
-    return null
-  const realPackagePath = realpathSync(packagePath)
-  const packageJson = readJson(realPackagePath)
-  return {
-    dependenciesDirectory: dirname(dirname(realPackagePath)),
-    packageJson,
-  }
-}
-
-function nuxtDependencyVersion(provider, name) {
-  if (!provider?.packageJson.dependencies?.[name])
-    return null
-  const packagePath = resolve(provider.dependenciesDirectory, name, 'package.json')
-  return existsSync(packagePath) ? readJson(realpathSync(packagePath)).version : null
-}
-
-function collectDependencies(pkg, metrics, catalog) {
-  const provider = nuxtProvider(pkg)
-  for (const [name, declaredRange] of Object.entries(pkg.packageJson.dependencies || {}).sort()) {
-    const range = dependencyRange(name, declaredRange, catalog)
-    const dependency = dependencyPackage(pkg, name)
-    const providedVersion = nuxtDependencyVersion(provider, name)
-    const free = Boolean(providedVersion && satisfiesVersion(providedVersion, range))
-    const measured = free || !dependency
-      ? { gzipSize: 0, size: 0 }
-      : measure(packagePayloadFiles(dependency.directory, dependency.packageJson))
-    metrics.set(`${pkg.relativeDirectory}:dependency:${name}`, {
-      ...measured,
-      free,
-      id: `${pkg.relativeDirectory}:dependency:${name}`,
-      kind: 'dependency',
-      label: `${pkg.name} · dependency ${cleanLabel(name)}`,
-      nuxtVersion: provider?.packageJson.version || '',
-      providedVersion: providedVersion || '',
-      range: cleanRange(range),
-      resolvedVersion: dependency?.packageJson.version || '',
-    })
-  }
 }
 
 function exportEntries(packageJson) {
@@ -386,14 +188,14 @@ function collectPackageMetrics(pkg, metrics) {
   }
 
   const runtimeGroups = [
-    ['runtime:app', 'app runtime', resolve(pkg.distPath, 'runtime/app')],
-    ['runtime:server', 'server runtime', resolve(pkg.distPath, 'runtime/server')],
-    ['runtime:shared', 'shared runtime', resolve(pkg.distPath, 'runtime/shared')],
+    ['runtime:app', 'app source files', resolve(pkg.distPath, 'runtime/app')],
+    ['runtime:server', 'server source files', resolve(pkg.distPath, 'runtime/server')],
+    ['runtime:shared', 'shared source files', resolve(pkg.distPath, 'runtime/shared')],
   ]
   for (const [id, label, path] of runtimeGroups)
     addMetric(metrics, pkg, id, label, walkFiles(path))
 
-  addMetric(metrics, pkg, 'payload', 'published payload', walkFiles(pkg.distPath))
+  addMetric(metrics, pkg, 'payload', 'built code files', walkFiles(pkg.distPath))
 }
 
 export function collectSnapshot(root) {
@@ -401,24 +203,36 @@ export function collectSnapshot(root) {
   if (!existsSync(absoluteRoot))
     throw new Error(`Repository directory does not exist: ${absoluteRoot}`)
   const metrics = new Map()
-  const catalog = readCatalog(absoluteRoot)
   for (const pkg of discoverPackages(absoluteRoot)) {
     collectPackageMetrics(pkg, metrics)
-    collectDependencies(pkg, metrics, catalog)
+    for (const [name, range] of Object.entries(pkg.packageJson.dependencies || {}).sort()) {
+      metrics.set(`${pkg.relativeDirectory}:dependency:${name}`, {
+        kind: 'dependency',
+        label: `${pkg.name} · dependency ${cleanLabel(name)}`,
+        range: cleanRange(range),
+      })
+    }
+  }
+  const runtimePath = resolve(absoluteRoot, '.benchmark/runtime-size.json')
+  if (existsSync(runtimePath)) {
+    for (const metric of readJson(runtimePath))
+      metrics.set(metric.id, metric)
   }
   return metrics
 }
 
+function comparisonSize(metric) {
+  return metric.unit === 'raw' ? metric.size : metric.gzipSize
+}
+
 function statusOf(base, head) {
-  if (!base && head?.kind === 'dependency' && head.free)
+  if ((head || base).kind === 'dependency')
     return 'same'
   if (!base)
     return 'new'
-  if (!head && base.kind === 'dependency' && base.free)
-    return 'same'
   if (!head)
     return 'removed'
-  const difference = head.gzipSize - base.gzipSize
+  const difference = comparisonSize(head) - comparisonSize(base)
   if (Math.abs(difference) < GZIP_NOISE_BYTES)
     return 'same'
   return difference > 0 ? 'grew' : 'shrank'
@@ -441,82 +255,78 @@ function deltaCell(base, head, status) {
     return '🟢 removed'
   if (status === 'same')
     return '—'
-  const difference = head.gzipSize - base.gzipSize
-  return `${markerOf(status)} ${formatDelta(difference)}${formatPercent(difference, base.gzipSize)}`
+  const difference = comparisonSize(head) - comparisonSize(base)
+  return `${markerOf(status)} ${formatDelta(difference)}${formatPercent(difference, comparisonSize(base))}`
+}
+
+function runtimeCell(row) {
+  if (!row?.head)
+    return 'unavailable'
+  const bytes = comparisonSize(row.head)
+  const value = bytes < 0 ? formatDelta(bytes) : formatSize(bytes)
+  if (row.status === 'unavailable')
+    return `${value}<br><sub>baseline unavailable</sub>`
+  if (row.status === 'same')
+    return value
+  return `${value}<br>${deltaCell(row.base, row.head, row.status)}`
 }
 
 export function renderReport(base, head, baseLabel = '') {
-  const ids = [...new Set([...base.keys(), ...head.keys()])].sort()
+  const available = base !== null
+  const baseline = base || new Map()
+  const ids = [...new Set([...baseline.keys(), ...head.keys()])].sort()
   const rows = ids.map(id => ({
-    base: base.get(id),
+    base: baseline.get(id),
     head: head.get(id),
     id,
-    label: head.get(id)?.label || base.get(id)?.label || id,
-    status: statusOf(base.get(id), head.get(id)),
+    label: head.get(id)?.label || baseline.get(id)?.label || id,
+    status: available && ((head.get(id) || baseline.get(id)).kind !== 'runtime' || (baseline.has(id) && head.has(id)))
+      ? statusOf(baseline.get(id), head.get(id))
+      : 'unavailable',
   }))
-  const sizeRows = rows.filter(row => row.head?.kind !== 'dependency' || !row.head.free || (row.base && !row.base.free))
-  const changed = sizeRows.filter(row => row.status !== 'same')
-  const grew = changed.filter(row => row.status === 'grew')
-  const smaller = changed.filter(row => row.status === 'shrank' || row.status === 'removed')
-  const added = changed.filter(row => row.status === 'new')
-
-  const verdict = []
-  if (grew.length)
-    verdict.push(`⚠️ **${grew.length} size metric${grew.length === 1 ? '' : 's'} grew**`)
-  else if (smaller.length)
-    verdict.push(`🟢 **${smaller.length} size metric${smaller.length === 1 ? '' : 's'} smaller**`)
-  else
-    verdict.push('✅ **No notable size changes**')
-  if (added.length)
-    verdict.push(`🆕 ${added.length} new metric${added.length === 1 ? '' : 's'} tracked`)
-
-  const output = ['### 📦 Package Size', '', verdict.join(' · ')]
-  if (changed.length) {
-    output.push('', '| Package output | Gzipped | Δ |', '|---|---:|---:|')
-    for (const row of changed) {
-      const before = row.base ? formatSize(row.base.gzipSize) : '—'
-      const after = row.head ? formatSize(row.head.gzipSize) : '—'
-      output.push(`| **${row.label}** | ${before} → ${after} | ${deltaCell(row.base, row.head, row.status)} |`)
-    }
+  const runtime = rows.filter(row => (row.head || row.base).kind === 'runtime')
+  const inventory = rows.filter(row => (row.head || row.base).kind === 'output')
+  const dependencies = rows.filter(row => row.head?.kind === 'dependency')
+  const output = [
+    '<h3><img src="https://nuxt.com/assets/design-kit/icon-green.svg" alt="Nuxt logo" width="32" height="24"> Nuxt Module Size Analyzer</h3>',
+    '',
+  ]
+  if (!runtime.length) {
+    output.push('Runtime impact was not measured.')
   }
-
-  output.push(
-    '',
-    `<details><summary>All tracked output (${sizeRows.length})</summary>`,
-    '',
-    '| Package output | Gzipped | Raw | |',
-    '|---|---:|---:|---:|',
-  )
-  for (const row of sizeRows) {
+  else {
+    const changed = runtime.some(row => row.status !== 'same' && row.status !== 'unavailable')
+    const missing = runtime.some(row => row.status === 'unavailable')
+    output.push(changed ? '**Runtime size changed.**' : missing ? '**Runtime comparison unavailable.**' : '**No notable runtime size changes.**')
+    output.push('', '| Module | Client gzip | Server raw |', '|---|---:|---:|')
+    const modules = new Map()
+    for (const row of runtime) {
+      const id = row.id.slice(0, row.id.lastIndexOf(':'))
+      const module = modules.get(id) || { name: row.label.replace(/ · (?:client|server) \(.*\)$/, '') }
+      module[(row.head || row.base).unit === 'raw' ? 'server' : 'client'] = row
+      modules.set(id, module)
+    }
+    for (const module of modules.values())
+      output.push(`| ${module.name} | ${runtimeCell(module.client)} | ${runtimeCell(module.server)} |`)
+  }
+  if (!available)
+    output.push('', '⚠️ Base build failed. Comparison unavailable.')
+  output.push('', `<details><summary>Package files (${inventory.length})</summary>`, '', 'Rows overlap and include unused code. These totals do not measure deployed output or npm downloads.', 'Excludes dependency files, types, source maps, and other non-code files.', '', '| Package files | Summed gzip | Raw | Δ gzip |', '|---|---:|---:|---:|')
+  for (const row of inventory) {
     const value = row.head || row.base
-    output.push(`| ${row.label} | ${formatSize(value.gzipSize)} | ${formatSize(value.size)} | ${markerOf(row.status)} |`)
+    const delta = row.status === 'unavailable' ? 'unavailable' : deltaCell(row.base, row.head, row.status)
+    output.push(`| ${row.label} | ${formatSize(value.gzipSize)} | ${formatSize(value.size)} | ${delta} |`)
   }
   output.push('', '</details>')
-
-  const dependencies = rows.filter(row => row.head?.kind === 'dependency')
   if (dependencies.length) {
-    output.push(
-      '',
-      `<details><summary>Runtime dependencies (${dependencies.length})</summary>`,
-      '',
-      '| Package | Dependency | Requested | Resolved | Cost |',
-      '|---|---|---:|---:|---|',
-    )
-    for (const row of dependencies) {
-      const dependency = row.head
-      const name = dependency.label.replace(' · dependency ', ' | ')
-      const cost = dependency.free
-        ? `♻️ free via Nuxt ${cleanLabel(dependency.nuxtVersion)}`
-        : dependency.providedVersion
-          ? `📦 ${formatSize(dependency.gzipSize)} gzip, Nuxt has ${cleanLabel(dependency.providedVersion)}`
-          : `📦 ${formatSize(dependency.gzipSize)} gzip`
-      output.push(`| ${name} | ${dependency.range} | ${cleanLabel(dependency.resolvedVersion || 'unresolved')} | ${cost} |`)
-    }
+    output.push('', `<details><summary>Dependencies (${dependencies.length})</summary>`, '', 'Declared dependencies. Their installed size does not show runtime cost.', '', '| Package | Dependency | Requested |', '|---|---|---|')
+    for (const row of dependencies)
+      output.push(`| ${row.head.label.replace(' · dependency ', ' | ')} | ${row.head.range} |`)
     output.push('', '</details>')
   }
-
+  output.push('', '<details><summary>How this is measured</summary>', '', '- Compare the same app with and without the module.', '- Client: all emitted JS/CSS, summed per-file gzip. This includes lazy chunks.', '- Server: deployed files, including external dependencies. Source maps are excluded.', '- Default module settings, Node server preset. Memory and request speed are outside this report.', '', '</details>')
   if (baseLabel)
-    output.push('', `<sub>Baseline: ${cleanLabel(baseLabel)} · gzip is the comparison metric · changes below ${GZIP_NOISE_BYTES} B gzip are ignored</sub>`)
+    output.push('', `<sub>Base: ${cleanLabel(baseLabel)} · differences below ${GZIP_NOISE_BYTES} B are ignored</sub>`)
   return `${output.join('\n')}\n`
 }
 
@@ -528,7 +338,7 @@ function run() {
     throw new Error('PACKAGE_SIZE_BASE_DIRECTORY, PACKAGE_SIZE_HEAD_DIRECTORY, and PACKAGE_SIZE_REPORT_PATH are required')
 
   const base = process.env.PACKAGE_SIZE_BASE_AVAILABLE === 'false'
-    ? new Map()
+    ? null
     : collectSnapshot(baseDirectory)
   const head = collectSnapshot(headDirectory)
   if (!head.size)
@@ -536,7 +346,8 @@ function run() {
 
   const report = renderReport(base, head, process.env.PACKAGE_SIZE_BASE_LABEL)
   mkdirSync(dirname(resolve(reportPath)), { recursive: true })
-  writeFileSync(resolve(reportPath), report, 'utf8')
+  // Keep the artifact format signature separate from its visible heading.
+  writeFileSync(resolve(reportPath), `### 📦 Package Size\n\n${report}`, 'utf8')
   process.stdout.write(report)
 }
 

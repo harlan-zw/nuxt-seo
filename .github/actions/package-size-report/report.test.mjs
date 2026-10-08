@@ -5,7 +5,7 @@ import { resolve } from 'node:path'
 // This action must remain dependency-free so consumer repositories can run it.
 // eslint-disable-next-line test/no-import-node-test
 import { after, it } from 'node:test'
-import { collectSnapshot, renderReport, satisfiesVersion } from './report.mjs'
+import { collectSnapshot, renderReport } from './report.mjs'
 
 const temporaryDirectories = []
 
@@ -56,7 +56,7 @@ function makeRepository(files) {
   return root
 }
 
-it('collects exports, runtime groups, and published payload', () => {
+it('measures built code and labels dependency declarations separately', () => {
   const repository = makeRepository({
     'dist/module.mjs': 'export default 1\n',
     'dist/runtime/app/plugin.js': 'export const app = true\n',
@@ -64,16 +64,9 @@ it('collects exports, runtime groups, and published payload', () => {
   })
   const snapshot = collectSnapshot(repository)
 
-  assert.deepEqual([...snapshot.keys()], [
-    'packages/module:export:.',
-    'packages/module:runtime:app',
-    'packages/module:runtime:server',
-    'packages/module:payload',
-    'packages/module:dependency:ofetch',
-    'packages/module:dependency:paid-dep',
-  ])
-  assert.equal(snapshot.get('packages/module:dependency:ofetch').free, true)
-  assert.equal(snapshot.get('packages/module:dependency:paid-dep').free, false)
+  assert.equal(snapshot.get('packages/module:payload').size, 68)
+  assert.match(renderReport(snapshot, snapshot), /Declared dependencies/)
+  assert.doesNotMatch(renderReport(snapshot, snapshot), /free via Nuxt|Runtime dependencies/)
 })
 
 it('reports growth and removed output against the base build', () => {
@@ -95,28 +88,18 @@ it('reports growth and removed output against the base build', () => {
     'main @ abc123',
   )
 
-  assert.match(report, /^### 📦 Package Size/)
-  assert.match(report, /size metrics grew/)
-  assert.match(report, /server runtime.+removed/)
-  assert.match(report, /Baseline: main_@_abc123/)
-  assert.match(report, /free via Nuxt 4.5.1/)
-  assert.match(report, /paid-dep.+2.1.0.+📦/)
-})
-
-it('matches common Nuxt dependency semver ranges', () => {
-  assert.equal(satisfiesVersion('4.5.1', '^3.16.0 || ^4.0.0 || ^5.0.0'), true)
-  assert.equal(satisfiesVersion('1.5.1', '^1.5.0'), true)
-  assert.equal(satisfiesVersion('2.0.0', '^1.5.0'), false)
-  assert.equal(satisfiesVersion('3.5.40', '>=3.5.0 <4.0.0'), true)
-  assert.equal(satisfiesVersion('4.0.0-alpha.7', '4.0.0-alpha.7'), true)
-  assert.equal(satisfiesVersion('4.5.1', 'catalog:'), false)
+  assert.match(report, /Nuxt Module Size Analyzer<\/h3>/)
+  assert.match(report, /icon-green\.svg.+alt="Nuxt logo"/)
+  assert.match(report, /server source files.+removed/)
+  assert.match(report, /Base: main @ abc123/)
+  assert.match(report, /paid-dep.+\^2.0.0/)
 })
 
 it('ignores repositories without published dist metadata', () => {
   const root = mkdtempSync(resolve(tmpdir(), 'package-size-report-'))
   temporaryDirectories.push(root)
   mkdirSync(resolve(root, 'dist'), { recursive: true })
-  writeFileSync(resolve(root, 'package.json'), JSON.stringify({ private: true }))
+  writeFileSync(resolve(root, 'package.json'), JSON.stringify({ private: true, files: ['dist'] }))
   writeFileSync(resolve(root, 'dist/stale.mjs'), 'export {}\n')
 
   assert.equal(collectSnapshot(root).size, 0)

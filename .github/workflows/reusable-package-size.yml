@@ -50,6 +50,15 @@ jobs:
           persist-credentials: false
           ref: ${{ github.event.pull_request.base.sha }}
 
+      # Load the shared implementation. Consumer copies can become stale.
+      - name: Check out package size tooling
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: harlan-zw/nuxt-seo
+          ref: ${{ github.repository == 'harlan-zw/nuxt-seo' && github.sha || 'main' }}
+          path: .benchmark/report-source
+          persist-credentials: false
+
       - name: Set up pnpm and Node.js
         uses: pnpm/setup@4700d737c3d7a2e7199f3d42a920f0bf7f34e411 # v2.0.1
         with:
@@ -68,14 +77,26 @@ jobs:
 
       - name: Warn when the base build is unavailable
         if: ${{ steps.base-build.outcome != 'success' }}
-        run: echo "::warning::The base build failed; pull request output will be
-          reported as new."
+        run: echo "::warning::The base build failed. Size changes cannot be compared."
 
       - name: Build pull request
         run: |
           ${{ inputs.install-command }}
           ${{ inputs.prepare-command }}
           ${{ inputs.build-command }}
+
+      - name: Measure base runtime output
+        id: base-runtime
+        if: ${{ steps.base-build.outcome == 'success' }}
+        continue-on-error: true
+        run: node .benchmark/report-source/.github/actions/package-size-report/runtime.ts .benchmark/base
+
+      - name: Measure pull request runtime output
+        run: node .benchmark/report-source/.github/actions/package-size-report/runtime.ts .
+
+      - name: Warn when the runtime baseline is unavailable
+        if: ${{ steps.base-build.outcome == 'success' && steps.base-runtime.outcome != 'success' }}
+        run: echo "::warning::The base runtime build failed. Runtime changes cannot be compared."
 
       - name: Resolve baseline label
         env:
@@ -86,8 +107,8 @@ jobs:
           date=$(git show -s --format=%cs "$BASE_SHA")
           echo "BASE_LABEL=$BASE_REF @ $short_sha · $date" >> "$GITHUB_ENV"
 
-      - name: Generate package size report
-        uses: ./.github/actions/package-size-report
+      - name: Run Nuxt Module Size Analyzer
+        uses: ./.benchmark/report-source/.github/actions/package-size-report
         with:
           base-available: ${{ steps.base-build.outcome == 'success' }}
           base-directory: ${{ github.workspace }}/.benchmark/base
@@ -101,7 +122,8 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           REPORT_DIR: ${{ runner.temp }}/package-size-report
         run: |
-          cat "$REPORT_DIR/report.md" >> "$GITHUB_STEP_SUMMARY"
+          # The first two lines identify the artifact format, not the visible heading.
+          tail -n +3 "$REPORT_DIR/report.md" >> "$GITHUB_STEP_SUMMARY"
           printf '%s\n' "$PR_NUMBER" > "$REPORT_DIR/pr-number.txt"
           printf '%s\n' "$HEAD_SHA" > "$REPORT_DIR/head-sha.txt"
 
