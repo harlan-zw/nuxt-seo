@@ -274,7 +274,10 @@ export function renderReport(base, head, baseLabel = '') {
   const runtime = rows.filter(row => (row.head || row.base).kind === 'runtime')
   const inventory = rows.filter(row => (row.head || row.base).kind === 'output')
   const dependencies = rows.filter(row => row.head?.kind === 'dependency')
-  const output = ['### 📦 Package Size', '']
+  const output = [
+    '<h3><img src="https://nuxt.com/assets/design-kit/icon-green.svg" alt="Nuxt logo" width="32" height="24"> Nuxt Module Size Analyzer</h3>',
+    '',
+  ]
   if (!available)
     output.push('⚠️ **Baseline unavailable. Size changes cannot be compared.**', '')
   if (!runtime.length) {
@@ -324,7 +327,8 @@ function run() {
 
   const report = renderReport(base, head, process.env.PACKAGE_SIZE_BASE_LABEL)
   mkdirSync(dirname(resolve(reportPath)), { recursive: true })
-  writeFileSync(resolve(reportPath), report, 'utf8')
+  // Keep the artifact format signature separate from its visible heading.
+  writeFileSync(resolve(reportPath), `### 📦 Package Size\n\n${report}`, 'utf8')
   process.stdout.write(report)
 }
 

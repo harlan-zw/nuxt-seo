@@ -179,7 +179,8 @@ jobs:
               return
             }
             const marker = `<!-- Sticky Pull Request Comment${process.env.STICKY_HEADER} -->`
-            const body = `${readFileSync(process.env.COMMENT_PATH, 'utf8')}\n${marker}`
+            const report = readFileSync(process.env.COMMENT_PATH, 'utf8').replace(/^### 📦 Package Size\n\n/, '')
+            const body = `${report}\n${marker}`
 
             const comments = await withRetry('issues.listComments', () =>
               github.paginate(github.rest.issues.listComments, {

@@ -1,4 +1,4 @@
-name: Package Size Report
+name: Nuxt Module Size Analyzer
 description: Compare deployed Nuxt fixture output and package file inventories between two builds
 
 inputs:
@@ -23,7 +23,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Generate package size report
+    - name: Run Nuxt Module Size Analyzer
       shell: bash
       env:
         PACKAGE_SIZE_BASE_AVAILABLE: ${{ inputs.base-available }}

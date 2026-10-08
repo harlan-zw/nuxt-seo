@@ -88,7 +88,8 @@ it('reports growth and removed output against the base build', () => {
     'main @ abc123',
   )
 
-  assert.match(report, /^### 📦 Package Size/)
+  assert.match(report, /Nuxt Module Size Analyzer<\/h3>/)
+  assert.match(report, /icon-green\.svg.+alt="Nuxt logo"/)
   assert.match(report, /server source files.+removed/)
   assert.match(report, /Baseline: main @ abc123/)
   assert.match(report, /paid-dep.+\^2.0.0/)
