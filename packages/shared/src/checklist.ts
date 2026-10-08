@@ -54,7 +54,8 @@ export const DEBUG_ENDPOINTS: Partial<Record<NuxtSEOModule['slug'], string>> = {
   'og-image': '/_og/debug.json',
 }
 
-// Module slug used internally by devtools → catalog slug mapping
+// Module slug used internally by devtools → catalog slug mapping.
+// `satisfies` checks the literal keys; the annotation keeps the export indexable by runtime devtools module names.
 export const DEVTOOLS_NAME_TO_SLUG: Record<string, NuxtSEOModule['slug']> = {
   'nuxt-robots': 'robots',
   'sitemap': 'sitemap',
@@ -65,7 +66,7 @@ export const DEVTOOLS_NAME_TO_SLUG: Record<string, NuxtSEOModule['slug']> = {
   'nuxt-site-config': 'site-config',
   'nuxt-ai-ready': 'ai-ready',
   'nuxt-skew-protection': 'skew-protection',
-}
+} satisfies Record<string, NuxtSEOModule['slug']>
 
 const MODULE_META: Record<string, { label: string, icon: string }> = {
   'site-config': { label: 'Site Config', icon: 'carbon:settings-check' },
