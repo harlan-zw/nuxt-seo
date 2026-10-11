@@ -1,6 +1,8 @@
 ---
 name: devtools-layer-skilld
 description: "nuxtseo-layer-devtools shared devtools layer for Nuxt SEO modules. ALWAYS use when building, modifying, or reviewing devtools client code in any Nuxt SEO module. Consult for component API, composables, implementation patterns, or debugging devtools clients."
+license: MIT
+compatibility: "Requires Node.js ^22.22.3 || ^24.15.0 || >=26.0.0. Requires Nuxt ^4.6.0 || ^5.0.0."
 ---
 
 # nuxtseo-layer-devtools
