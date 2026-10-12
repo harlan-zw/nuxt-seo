@@ -1,6 +1,6 @@
 ---
 name: nuxtjs-seo
-description: Install, configure, and debug the @nuxtjs/seo meta module, which installs robots, sitemap, OG image, Schema.org, SEO utils, link checker, site config, AI Ready, and Skew Protection. Use when a task mentions @nuxtjs/seo, Nuxt SEO, `nuxt module add seo`, disabling one SEO submodule, which config key owns an option, @nuxtjs/seo/content, a "takumi renderer missing dependencies" build error, or missing robots.txt and sitemap.xml after install.
+description: Install, configure, and debug the @nuxtjs/seo meta module, which installs robots, sitemap, OG image, Schema.org, SEO utils, link checker, site config, AI Ready, and Skew Protection. Use when a task mentions @nuxtjs/seo, Nuxt SEO, `nuxt module add seo`, disabling one SEO submodule, which config key owns an option, @nuxtjs/seo/content, an OG image renderer or `NUXT_APP_SECRET` error, upgrading from Nuxt SEO v5, or missing robots.txt and sitemap.xml after install.
 license: MIT
 compatibility: "Requires Node.js ^22.22.3 || ^24.15.0 || >=26.0.0. Requires Nuxt ^4.6.0 || ^5.0.0."
 ---
@@ -19,6 +19,10 @@ Every option, composable, and component comes from a submodule. Docs: nuxtseo.co
 
 ## Setup
 
+```bash
+npx nuxt module add seo
+```
+
 ```ts
 export default defineNuxtConfig({
   modules: ['@nuxtjs/seo'],
@@ -28,7 +32,21 @@ export default defineNuxtConfig({
 
 - Add only `@nuxtjs/seo` to `modules`; do not also list submodules, Nuxt installs each once.
 - Set `site.url` and `site.name`; since v5, site config does not infer them from `package.json`.
-- If the app keeps OG images, install a renderer. See the first trap.
+- Set `NUXT_APP_SECRET` in production; see the `NUXT_APP_SECRET` trap.
+- If the app needs OG images, install a renderer: `npx nuxt-og-image enable takumi`. See the renderer traps.
+
+## Automatic behaviour
+
+With only `site.url` and `site.name` set, a production build gives, for example:
+
+- `/robots.txt` allowing all and linking the sitemap, plus `<meta name="robots">` per page (robots).
+- `/sitemap.xml` with every static route (sitemap).
+- Title template `%s | My Site`, canonical link, `og:url`, `og:site_name`, `og:title`/`og:description` inferred from the page (SEO utils).
+- A JSON-LD graph with `WebSite` and `WebPage` (Schema.org).
+- `/llms.txt` and a Markdown version of each page (AI Ready).
+- Old build assets kept after a deploy, with app manifest polling (Skew Protection).
+- In dev, `/robots.txt` disallows all crawlers; check indexing on a production build.
+- A link check on prerender (`nuxt generate` or prerendered routes); a plain `nuxt build` does not run it.
 
 ## Option ownership
 
@@ -45,17 +63,6 @@ The meta module owns only `nuxtseo.enabled` and `nuxtseo.tips`. Other top level 
 - `skewProtection`: `nuxt-skew-protection` (nuxtseo.com/docs/skew-protection)
 
 The `seo` key configures `nuxt-seo-utils`, not the bundle. `nuxtseo: false` or `nuxtseo: { enabled: false }` installs no bundled submodule (see "Disable a submodule").
-
-## Automatic behaviour
-
-With only `site.url` and `site.name` set, a production build gives, for example:
-
-- `/robots.txt` allowing all and linking the sitemap, plus `<meta name="robots">` per page (robots).
-- `/sitemap.xml` with every static route (sitemap).
-- Title template `%s | My Site`, canonical link, `og:url`, `og:site_name`, `og:title`/`og:description` inferred from the page (SEO utils).
-- A JSON-LD graph with `WebSite` and `WebPage` (Schema.org).
-- In dev, `/robots.txt` disallows all crawlers; check indexing on a production build.
-- A link check on prerender (`nuxt generate` or prerendered routes); a plain `nuxt build` does not run it.
 
 ## Disable a submodule
 
@@ -76,13 +83,13 @@ You cannot disable `site`; the other submodules need it. To drop the whole bundl
 
 Both install automatically. Remove duplicate `modules` entries when upgrading from v5; keep existing `aiReady` and `skewProtection` options.
 
-- AI Ready serves Markdown and `llms.txt`; prerendering also generates `llms-full.txt`. Databases, background indexing, and cron remain opt-in. The bundle disables project agent skills and API catalogs; configure them to publish.
-- Skew Protection uses native polling and disables version cookies. Explicit site options take precedence. Retained assets need persistent build storage: preserve `node_modules/.cache/nuxt-seo/skew-protection` in CI or configure shared storage. If server handlers use `isClientOutdated`, opt into `skewProtection.cookie` with a config object.
+- AI Ready uses its own defaults. It serves Markdown and `llms.txt`; prerendering also generates `llms-full.txt`. It publishes Agent Skills from `public/skills/<name>/SKILL.md` in the project and layers; root `skills/` stays private. With an MCP server and site URL configured, it generates an API catalog. Databases, background indexing, and cron remain opt-in. Set `aiReady.agentSkills: false` or `aiReady.apiCatalog: false` to turn those off.
+- The bundle sets Skew Protection to `updateStrategy: 'polling'` and `cookie: false`. Explicit site options take precedence. Retained assets need persistent build storage: Skew Protection stores them in `node_modules/.cache/nuxt-seo/skew-protection`; preserve it in CI or configure `skewProtection.storage`. If server handlers use `isClientOutdated`, opt into `skewProtection.cookie` with a config object.
 - Set `aiReady: false` or `skewProtection: false` to disable either module.
 
 ## Nuxt Content v3
 
-Import the four schema helpers from `@nuxtjs/seo/content`. With pnpm, importing from `@nuxtjs/robots/content` fails `ERR_MODULE_NOT_FOUND`: submodules are not top level dependencies. Add `zod` to the app dependencies; the helpers import it as an optional peer.
+Import the four schema helpers from `@nuxtjs/seo/content`. With pnpm, importing from `@nuxtjs/robots/content` fails `ERR_MODULE_NOT_FOUND`: submodules are not top level dependencies. Add `zod` 4 to the app dependencies; the helpers import it as an optional peer.
 
 ```ts
 import { defineCollection, defineContentConfig } from '@nuxt/content'
@@ -113,18 +120,36 @@ useSeoMeta(page.value?.seo || {})
 ```
 
 The `modules` order of `@nuxtjs/seo` and `@nuxt/content` does not change output.
-Breaking in v5: `asSeoCollection()` is deprecated and warns at build. Old: `defineCollection(asSeoCollection({ ... }))`. New: the `schema` above.
+Breaking in v6: `asSeoCollection()` is removed. Old: `defineCollection(asSeoCollection({ ... }))`. New: the `schema` above.
 
 ## Traps
 
-- **In an Agent shell, a fresh install fails `nuxt build`.** `nuxt-og-image` defaults to the takumi renderer and throws `takumi renderer missing dependencies: @takumi-rs/core`. Agent detection reads env vars such as `CLAUDECODE` and `AI_AGENT`; outside an Agent it only logs the error and the build passes. Fix: add `@takumi-rs/core`, or set `ogImage: false`.
-- **In an Agent shell, `nuxt dev` tries to install `@takumi-rs/core` into the app.** If it fails, the dev server exits; decide on OG images before the first dev run.
-- **A submodule in the app `package.json` replaces the bundled copy.** If older than the bundle requires, the build stops with `[@nuxtjs/seo] Module @nuxtjs/sitemap version (7.3.1) does not satisfy >=7.4 (requested by @nuxtjs/seo).` Upgrade the pin or remove it.
+- **Production SSR returns 500 on every request without `NUXT_APP_SECRET`.** OG Image signs runtime URLs from Nuxt's `appSecret`. Dev generates a temporary secret, so local runs pass; builds never generate one. Fix: run `npx nuxt-og-image generate-secret` and set `NUXT_APP_SECRET` (32 or more characters) in production. Static output and `ogImage: { zeroRuntime: true }` need no secret.
+- **A fresh install logs `No OG image renderer is installed, so OG images are off.`** With no OG Image template and no renderer, the module selects nothing and installs nothing. Fix: `npx nuxt-og-image enable takumi`, or set `ogImage: false`.
+- **A template whose renderer is missing.** Interactive `nuxt dev` asks before installing. CI and Agent shells only log the `npx nypm add` command and never edit `package.json`. A production build fails if a page or route rule uses that template.
+- **A submodule in the app `package.json` replaces the bundled copy.** If older than the bundle requires, the build stops with `[@nuxtjs/seo] Module @nuxtjs/sitemap version (8.6.1) does not satisfy >=9.0.0 (requested by @nuxtjs/seo).` Upgrade the pin or remove it.
 - **`@nuxtjs/i18n` below v10 fails every build** with `Module @nuxtjs/i18n version (9.x) does not satisfy >=10.0 (requested by @nuxtjs/seo)`. Upgrade i18n.
 - **Content `robots: 'noindex'` keeps the page in the sitemap.** Only `robots: false` removes it from `/sitemap.xml`. Both render `noindex, nofollow`.
 
 ## Version limits
 
-- Nuxt `^4.6.0 || ^5.0.0`; earlier versions fail Nuxt module compatibility.
-- v5 moved every submodule up one major, except OG image. Migration: nuxtseo.com/docs/nuxt-seo/migration-guide/v4-to-v5
+- Nuxt `^4.6.0 || ^5.0.0`; earlier versions fail Nuxt module compatibility. OG Image needs Nuxt 4.6.1. Nuxt 3 apps stay on `@nuxtjs/seo` v5.
+- Nuxt Content v2 is not supported; use Content v3 with Zod 4.
+- v6 moved every submodule up one major and bundles AI Ready and Skew Protection. Migration: nuxtseo.com/docs/nuxt-seo/migration-guide/v5-to-v6
+- Breaking in v6, each with its fix:
+  - `nuxt-ai-ready` or `nuxt-skew-protection` in `modules`: remove the entry and the dependency.
+  - A pinned submodule below the new major fails the build: update the pin or remove it.
+  - Production 500 without `NUXT_APP_SECRET`: see Traps. Remove string `ogImage.security.secret`.
+  - SEO DevTools panels show an install button: `pnpm add -D nuxtseo-devtools-host`, then restart Nuxt.
+  - `robots:*` and `sitemap:*` hook contexts carry a `RequestEvent`: replace `ctx.event.node.req.headers.authorization` with `ctx.event.req.headers.get('authorization')`.
+  - `#internal/nuxt-robots`, bare `#schema-org`, bare `#seo-utils`: import from `#robots/server`, `#schema-org/app`, `#seo-utils/app`.
+  - `nuxtseo: false` now installs no bundled module: remove it to keep the modules.
 - On a submodule version error, run `pnpm why <package>` to find the older pin.
+
+## Debug
+
+- Run `npx nuxt dev` and open the home page. The terminal lists required setup and tips; Agent and CI shells skip it.
+- `/__nuxt-seo__/setup.json` (dev only) returns the installed and disabled modules and the setup context.
+- Module data for the checks: `/__site-config__/debug.json`, `/__robots__/debug.json`, `/__sitemap__/debug.json`, `/_og/debug.json`.
+- The SEO DevTools panels need `nuxtseo-devtools-host` as a dev dependency. Without it, each panel shows an install button.
+- `npx nuxt info` lists the installed Nuxt and module versions.
