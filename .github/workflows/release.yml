@@ -5,6 +5,7 @@ on:
     tags:
       - 'v*'
       - 'shared-v*'
+      - 'devtools-v*'
 
 jobs:
   release:
@@ -45,3 +46,77 @@ jobs:
       - run: pnpm --filter nuxtseo-shared build
       - run: pnpm --filter nuxtseo-shared test:run
       - run: pnpm --filter nuxtseo-shared publish --access public --no-git-checks --provenance
+
+  devtools:
+    if: startsWith(github.ref, 'refs/tags/devtools-v')
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/setup@v2
+        with:
+          runtime: node@lts
+          cache: true
+          install: false
+      - name: Check release versions
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          node --input-type=module-typescript -e '
+            import { readFileSync } from "node:fs";
+            const layer = JSON.parse(readFileSync("packages/devtools-layer/package.json", "utf8")) as { version: string };
+            const host = JSON.parse(readFileSync("packages/devtools-host/package.json", "utf8")) as { version: string };
+            const shared = JSON.parse(readFileSync("packages/shared/package.json", "utf8")) as { version: string };
+            if (process.env.RELEASE_TAG !== "devtools-v" + layer.version) {
+              throw new Error("The DevTools release tag must match its layer version.");
+            }
+            if (!host.version.startsWith("1.") || !shared.version.startsWith("6.")) {
+              throw new Error("DevTools requires Host 1 and Shared 6.");
+            }
+          '
+      - run: pnpm install --frozen-lockfile --trust-lockfile
+      - run: pnpm --filter nuxtseo-shared build
+      - run: pnpm --filter nuxtseo-devtools-host build
+      - run: pnpm --filter nuxtseo-devtools-host typecheck
+      - run: pnpm --filter nuxtseo-devtools-host --filter nuxtseo-layer-devtools test:run
+      - name: Publish Layer, then Host
+        run: |
+          wait_for_package() {
+            node --input-type=module-typescript - "$1" <<'TS'
+          import { readFileSync } from "node:fs";
+          import { setTimeout } from "node:timers/promises";
+          const { name, version } = JSON.parse(readFileSync(process.argv[2], "utf8")) as { name: string; version: string };
+          const deadline = Date.now() + 300_000;
+          while (Date.now() < deadline) {
+            const available = await (async () => {
+              const response = await fetch("https://registry.npmjs.org/" + encodeURIComponent(name), {
+                headers: { accept: "application/vnd.npm.install-v1+json" },
+                signal: AbortSignal.timeout(10_000),
+              });
+              if (!response.ok) return false;
+              const metadata = await response.json() as { versions?: Record<string, { dist: { tarball: string } }> };
+              const tarball = metadata.versions?.[version]?.dist.tarball;
+              if (!tarball) return false;
+              const artifact = await fetch(tarball, { method: "HEAD", signal: AbortSignal.timeout(10_000) });
+              return artifact.ok;
+            })().catch((error: unknown) => {
+              console.warn("Registry check failed; retrying:", error);
+              return false;
+            });
+            if (available) {
+              console.log(name + "@" + version + " is available.");
+              process.exit(0);
+            }
+            await setTimeout(2_000);
+          }
+          throw new Error(name + "@" + version + " did not become available within five minutes.");
+          TS
+          }
+          # Recursive publish skips existing versions: https://pnpm.io/cli/publish
+          # Exact filters keep retries limited to these two packages.
+          pnpm -r --filter nuxtseo-layer-devtools publish --access public --no-git-checks --provenance
+          wait_for_package packages/devtools-layer/package.json
+          pnpm -r --filter nuxtseo-devtools-host publish --access public --no-git-checks --provenance
+          wait_for_package packages/devtools-host/package.json
