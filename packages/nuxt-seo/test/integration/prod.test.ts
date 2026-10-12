@@ -28,8 +28,8 @@ describe('dev', () => {
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:image" content="https://local.nuxtseo.com/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_tjb25mqs8mf6.png">
-      <meta property="og:image" content="https://local.nuxtseo.com/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_tjb25mqs8mf6.png">
+      <meta name="twitter:image" content="https://local.nuxtseo.com/_og/d/description_Fully%2Bequipped%2BTechnical%2BSEO%2Bfor%2Bbusy%2BNuxters.%2Cch_tjb25mqs8mf6%2Cs_fmC-ugHpdiLVBjvs.png">
+      <meta property="og:image" content="https://local.nuxtseo.com/_og/d/description_Fully%2Bequipped%2BTechnical%2BSEO%2Bfor%2Bbusy%2BNuxters.%2Cch_tjb25mqs8mf6%2Cs_fmC-ugHpdiLVBjvs.png">
       <meta property="og:image:type" content="image/png">
       <meta property="og:image:width" content="1200">
       <meta property="og:image:height" content="600">
@@ -74,7 +74,7 @@ describe('dev', () => {
   it('og-image - url', async () => {
     const html = await $fetch('/') as string
     const ogImageUrl = extractOgImageUrl(html)
-    expect(ogImageUrl).toMatchInlineSnapshot(`"https://local.nuxtseo.com/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_tjb25mqs8mf6.png"`)
+    expect(ogImageUrl).toMatchInlineSnapshot(`"https://local.nuxtseo.com/_og/d/description_Fully%2Bequipped%2BTechnical%2BSEO%2Bfor%2Bbusy%2BNuxters.%2Cch_tjb25mqs8mf6%2Cs_fmC-ugHpdiLVBjvs.png"`)
   })
   it('og-image - image snapshot', async () => {
     const html = await $fetch('/') as string
