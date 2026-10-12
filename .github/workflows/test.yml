@@ -27,3 +27,10 @@ jobs:
     with:
       playwright: false
       test-command: pnpm test:run
+      # Throwaway proof only. This branch also carries the unmerged workflow change from
+      # #675, so its diff against main ignores the workflow files as well.
+      paths-ignore: |
+        **/README.md
+        docs/**
+        .github/workflows/**
+        scripts/workflows/**
