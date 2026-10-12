@@ -133,7 +133,7 @@ Breaking in v6: `asSeoCollection()` is removed. Old: `defineCollection(asSeoColl
 
 ## Version limits
 
-- Nuxt `^4.6.0 || ^5.0.0`; earlier versions fail Nuxt module compatibility. OG Image needs Nuxt 4.6.1. Nuxt 3 apps stay on `@nuxtjs/seo` v5.
+- Nuxt `^4.6.0 || ^5.0.0`. An earlier Nuxt stops the build with `[@nuxtjs/seo] Nuxt 4.5.2 is not supported. @nuxtjs/seo requires Nuxt ^4.6.0 || ^5.0.0.` Fix: `npx nuxt upgrade`. OG Image needs Nuxt 4.6.1; on 4.6.0 the build stops with `Nuxt 4.6.0 skipped nuxt-og-image`. Nuxt 3 apps stay on `@nuxtjs/seo` v5.
 - Nuxt Content v2 is not supported; use Content v3 with Zod 4.
 - v6 moved every submodule up one major and bundles AI Ready and Skew Protection. Migration: nuxtseo.com/docs/nuxt-seo/migration-guide/v5-to-v6
 - Breaking in v6, each with its fix:
