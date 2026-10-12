@@ -17,6 +17,11 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   compatibilityDate: '2026-08-12',
 
+  // The benchmark runs outside Vitest and needs its own test-only signing key.
+  runtimeConfig: {
+    appSecret: 'nuxt-seo-performance-fixture-secret-32-characters',
+  },
+
   i18n: {
     defaultLocale: 'en',
     locales: [
