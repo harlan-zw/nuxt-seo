@@ -1,7 +1,7 @@
 import type { Nuxt } from '@nuxt/schema'
 import { defineNuxtModule } from '@nuxt/kit'
-import { evaluateSetupChecklist } from 'nuxtseo-shared/checklist'
-import { afterEach, expect, it, vi } from 'vitest'
+import { evaluateSetupChecklist, formatSetupReport, parseSetupChecklistContext } from 'nuxtseo-shared/checklist'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import setupPlugin from '../../src/runtime/server/plugins/setup'
 import { setupDevelopmentChecks } from '../../src/setup'
 
@@ -12,6 +12,8 @@ const runtime = vi.hoisted(() => ({
   report: vi.fn(),
 }))
 
+// The root override pins the published Shared 6.0.0. Test this checkout's checklist with its setup.
+vi.mock('nuxtseo-shared/checklist', () => import('../../../shared/src/checklist'))
 vi.mock('#nuxt-seo/setup.mjs', () => ({ default: runtime.setup }))
 vi.mock('#nuxtseo/h3', () => ({
   getRequestURL: (event: { path: string }) => new URL(event.path, 'https://example.com'),
@@ -318,4 +320,46 @@ it.each([
     debugData: new Map(),
   })
   expect(result!.items.some(item => item.id === 'markdown-links')).toBe(shouldSuggest)
+})
+
+describe('og Image signing secret', () => {
+  afterEach(() => {
+    vi.unstubAllEnvs()
+  })
+
+  async function signingCheck(options: { ogImage: Record<string, unknown>, env: Record<string, string>, preset?: string }) {
+    for (const name of ['NUXT_APP_SECRET', 'NITRO_APP_SECRET', 'NUXT_APP_SECRET_GENERATED', 'NUXT_OG_IMAGE_SECRET'])
+      vi.stubEnv(name, options.env[name])
+    const { nuxt, hooks } = fixture(true)
+    Object.assign(nuxt.options, { ssr: true, ogImage: options.ogImage, _installedModules: [{ meta: { name: 'nuxt-og-image' } }] })
+    Object.assign(nuxt.options.nitro, { preset: options.preset || 'node-server' })
+    const metadata = await readSetupMetadata(nuxt, hooks)
+    // DevTools reads the same metadata through the public parser.
+    const [result] = evaluateSetupChecklist({
+      installedModuleSlugs: new Set(metadata.installedModuleSlugs),
+      context: parseSetupChecklistContext(metadata.context),
+      debugData: new Map([['og-image', { compatibility: { takumi: 'node' } }]]),
+    })
+    return result!
+  }
+
+  it('requires a production secret when only Nuxt generated a development secret', async () => {
+    const result = await signingCheck({ ogImage: { enabled: true }, env: { NUXT_APP_SECRET_GENERATED: '1', NUXT_APP_SECRET: 'a'.repeat(64) } })
+    expect(result.status).toBe('needs-setup')
+    expect(result.requiredPending).toBe(1)
+    const report = formatSetupReport([result])
+    expect(report).toContain('npx nuxt-og-image generate-secret')
+    expect(report).toContain('NUXT_APP_SECRET')
+  })
+
+  it.each([
+    ['a configured app secret', { ogImage: { enabled: true }, env: { NUXT_APP_SECRET: 'a'.repeat(32) } }],
+    ['the deprecated OG Image secret', { ogImage: { enabled: true }, env: { NUXT_APP_SECRET_GENERATED: '1', NUXT_OG_IMAGE_SECRET: 'a'.repeat(32) } }],
+    ['signing disabled', { ogImage: { security: { secret: false } }, env: { NUXT_APP_SECRET_GENERATED: '1' } }],
+    ['zero runtime images', { ogImage: { zeroRuntime: true }, env: { NUXT_APP_SECRET_GENERATED: '1' } }],
+    ['a static app', { ogImage: { enabled: true }, env: { NUXT_APP_SECRET_GENERATED: '1' }, preset: 'static' }],
+  ])('does not require a secret with %s', async (_name, options) => {
+    const result = await signingCheck(options)
+    expect(result.requiredPending).toBe(0)
+  })
 })

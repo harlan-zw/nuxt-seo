@@ -1,4 +1,5 @@
 import type { Nuxt } from '@nuxt/schema'
+import type { SetupChecklistContext } from 'nuxtseo-shared/checklist'
 import type { NuxtSEOModule } from 'nuxtseo-shared/const'
 import { join } from 'node:path'
 import { addServerHandler, addServerPlugin, addServerTemplate, createResolver, getNuxtVersion } from '@nuxt/kit'
@@ -40,6 +41,16 @@ function mergeUserChoices(config: unknown, inline: unknown): Record<string, unkn
   }))
 }
 
+function hasProductionAppSecret(appSecret: unknown, env: Record<string, string | undefined>): boolean {
+  // OG Image still signs with its deprecated secret when no app secret reaches production.
+  if (env.NUXT_OG_IMAGE_SECRET)
+    return true
+  // Nuxt marks the development secret it generates, and copies it into these sources.
+  if (env.NUXT_APP_SECRET_GENERATED === '1')
+    return false
+  return [env.NUXT_APP_SECRET, env.NITRO_APP_SECRET, appSecret].some(value => typeof value === 'string' && value !== '')
+}
+
 export function setupDevelopmentChecks(nuxt: Nuxt, options: { tips: boolean } = { tips: true }): void {
   if (!nuxt.options.dev)
     return
@@ -62,6 +73,7 @@ export function setupDevelopmentChecks(nuxt: Nuxt, options: { tips: boolean } = 
     nitroPreset: resolveNitroPreset(nuxt.options.nitro),
     sitemapPrerendered: nuxt.options.nitro.prerender?.routes?.some(route => typeof route === 'string' && (route.endsWith('/sitemap.xml') || route === '/sitemap_index.xml')) === true,
     hasSitemapOutputHook: typeof (nuxt.options.nitro.hooks as Record<string, unknown> | undefined)?.['sitemap:output'] !== 'undefined',
+    ogImageSecret: undefined as SetupChecklistContext['ogImageSecret'],
     moduleOptions: {} as Partial<Record<NuxtSEOModule['slug'], Record<string, unknown>>>,
     optOuts: {} as Partial<Record<NuxtSEOModule['slug'], string[]>>,
   }
@@ -103,6 +115,11 @@ export function setupDevelopmentChecks(nuxt: Nuxt, options: { tips: boolean } = 
       else if (installed)
         installedModuleSlugs.push(module.slug)
     }
+    // OG Image signing middleware runs on every production server request. Without a secret,
+    // each request fails with a 500 error. Static output and zero runtime images run no server.
+    const ogImage = context.moduleOptions['og-image']
+    if (installedModuleSlugs.includes('og-image') && context.ssr && !context.isPrerendered && ogImage?.zeroRuntime !== true && optionRecord(ogImage?.security)?.secret !== false)
+      context.ogImageSecret = hasProductionAppSecret((nuxt.options.runtimeConfig as Record<string, unknown> | undefined)?.appSecret, process.env) ? 'configured' : 'missing'
     const i18n = (nuxt.options as unknown as Record<string, unknown>).i18n as { locales?: (string | { code?: string })[], strategy?: string } | undefined
     context.hasI18n = Array.isArray(i18n?.locales) && i18n.locales.length > 0
     const homepagePaths = [nuxt.options.app.baseURL]
