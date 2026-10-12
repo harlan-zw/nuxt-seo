@@ -54,13 +54,13 @@ const moduleDependencies = {
     version: '>=7.0.0',
   },
   '@nuxtjs/sitemap': {
-    version: '>=9.0.0',
+    version: '>=9.0.1',
   },
   'nuxt-link-checker': {
     version: '>=6.0.0',
   },
   'nuxt-og-image': {
-    version: '>=7.0.0',
+    version: '>=7.0.1',
   },
   'nuxt-schema-org': {
     version: '>=7.0.0',
@@ -72,11 +72,11 @@ const moduleDependencies = {
     version: '>=5.0.1',
   },
   'nuxt-skew-protection': {
-    version: '>=2.0.0',
+    version: '>=2.0.1',
     defaults: { updateStrategy: 'polling', cookie: false },
   },
   'nuxt-ai-ready': {
-    version: '>=3.0.0',
+    version: '>=3.0.1',
   },
   '@nuxtjs/i18n': {
     version: '>=10.0',
