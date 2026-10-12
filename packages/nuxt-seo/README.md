@@ -28,6 +28,8 @@
 npx nuxt module add seo
 ```
 
+> Using an AI agent? Get the @nuxtjs/seo Skill on [skilld.dev/gh/harlan-zw/nuxt-seo](https://skilld.dev/gh/harlan-zw/nuxt-seo).
+
 Then set your site URL and name:
 
 ```ts
@@ -54,7 +56,7 @@ Set `aiReady.apiCatalog: false` to disable the catalog, or configure `aiReady.ap
 
 Skew Protection retains old build assets and uses Nuxt's manifest polling.
 The bundle disables version cookies. Connection, route, and IP tracking remain off.
-Site configuration takes precedence over these defaults.
+Your `skewProtection` options take precedence over these defaults.
 
 If CI starts from a clean checkout, preserve `node_modules/.cache/nuxt-seo/skew-protection` between builds.
 You can also configure shared storage through `skewProtection.storage`.
@@ -62,8 +64,8 @@ Without build history, the module cannot retain previous deployments.
 
 ## Migrate from v5
 
-Nuxt SEO v6 requires Nuxt 4.1 or later.
-Nuxt 3 sites must upgrade Nuxt before upgrading the bundle.
+Nuxt SEO v6 requires Nuxt 4.6.1 or later, and Node `^22.22.3 || ^24.15.0 || >=26.0.0`.
+Nuxt 3 sites stay on Nuxt SEO v5.
 
 Remove AI Ready and Skew Protection from `modules` if you listed them separately.
 Keep their `aiReady` and `skewProtection` configuration.
@@ -79,11 +81,17 @@ export default defineNuxtConfig({
 
 If you need server checks through `isClientOutdated`, enable `skewProtection.cookie` with a cookie configuration object.
 
+If OG Image signs URLs, set `NUXT_APP_SECRET` in production, 32 characters or more.
+Run `npx nuxt-og-image generate-secret` to create one.
+
+The [v5 to v6 migration guide](https://nuxtseo.com/docs/nuxt-seo/migration-guide/v5-to-v6) covers every change.
+
 ## Documentation
 
 - [Introduction](https://nuxtseo.com/docs/nuxt-seo/getting-started/introduction)
 - [Using the modules](https://nuxtseo.com/docs/nuxt-seo/guides/using-the-modules)
 - [Nuxt Content](https://nuxtseo.com/docs/nuxt-seo/guides/nuxt-content)
+- [Migrate from v5](https://nuxtseo.com/docs/nuxt-seo/migration-guide/v5-to-v6)
 - [Troubleshooting](https://nuxtseo.com/docs/nuxt-seo/getting-started/troubleshooting)
 
 ## License
