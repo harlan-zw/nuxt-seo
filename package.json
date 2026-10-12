@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "version": "5.3.16",
+  "version": "6.0.0",
   "private": true,
   "packageManager": "pnpm@12.8.1",
   "description": "Nuxt SEO monorepo",
@@ -23,7 +23,7 @@
     "test": "pnpm --filter nuxtseo-shared --filter nuxtseo-devtools-host --filter nuxtseo-layer-devtools --filter @nuxtjs/seo test",
     "test:run": "pnpm --workspace-concurrency=1 --filter nuxtseo-shared --filter nuxtseo-devtools-host --filter nuxtseo-layer-devtools --filter @nuxtjs/seo test:run",
     "test:attw": "pnpm --filter './packages/**' test:attw",
-    "release": "pnpm build && bumpp -r --output=CHANGELOG.md",
+    "release": "pnpm build && bumpp package.json packages/nuxt-seo/package.json packages/telemetry/package.json --output=CHANGELOG.md",
     "sync:workflows": "node scripts/sync-workflows.mjs",
     "prepare": "skilld prepare || true"
   },

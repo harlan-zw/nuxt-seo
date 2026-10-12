@@ -69,7 +69,7 @@ const moduleDependencies = {
     version: '>=9.0.0',
   },
   'nuxt-site-config': {
-    version: '>=5.0.0',
+    version: '>=5.0.1',
   },
   'nuxt-skew-protection': {
     version: '>=2.0.0',
