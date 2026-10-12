@@ -23,6 +23,13 @@ body:
     validations:
       required: true
     attributes:
+      label: 🖥️ Environment
+      description: Run `npx nuxt info` in your project, then paste the output here.
+      render: shell
+  - type: textarea
+    validations:
+      required: true
+    attributes:
       label: 🌈 Expected behavior
       description: What did you expect to happen? Is there a section in the docs about this?
   - type: textarea
