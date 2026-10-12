@@ -52,7 +52,10 @@ describe('nuxt version', () => {
     )
   })
 
-  it.each(['4.6.1', '5.0.0', '5.0.0-2610061032-c7ad8cd'])('installs on Nuxt %s', async (version) => {
+  // This test runs @nuxt/kit 4.6.1, which strips a nightly suffix such as `-2610061032-c7ad8cd`
+  // before the range check. Nuxt 5 nightly kits keep it, so the nightly reaches the range as a
+  // prerelease. `5.0.0-rc.1` reaches the range as a prerelease on every kit.
+  it.each(['4.6.1', '5.0.0', '5.0.0-2610061032-c7ad8cd', '5.0.0-rc.1'])('installs on Nuxt %s', async (version) => {
     await expect(install(createNuxt(version))).resolves.toBeUndefined()
   })
 
