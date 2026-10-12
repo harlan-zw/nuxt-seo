@@ -1,5 +1,4 @@
 import type { Nuxt } from '@nuxt/schema'
-import type { SetupChecklistContext } from 'nuxtseo-shared/checklist'
 import type { NuxtSEOModule } from 'nuxtseo-shared/const'
 import { join } from 'node:path'
 import { addServerHandler, addServerPlugin, addServerTemplate, createResolver, getNuxtVersion } from '@nuxt/kit'
@@ -41,6 +40,9 @@ function mergeUserChoices(config: unknown, inline: unknown): Record<string, unkn
   }))
 }
 
+// Matches `SetupChecklistContext['ogImageSecret']` in Shared releases after 6.0.0.
+type OgImageSecret = 'configured' | 'missing'
+
 function hasProductionAppSecret(appSecret: unknown, env: Record<string, string | undefined>): boolean {
   // OG Image still signs with its deprecated secret when no app secret reaches production.
   if (env.NUXT_OG_IMAGE_SECRET)
@@ -73,7 +75,7 @@ export function setupDevelopmentChecks(nuxt: Nuxt, options: { tips: boolean } = 
     nitroPreset: resolveNitroPreset(nuxt.options.nitro),
     sitemapPrerendered: nuxt.options.nitro.prerender?.routes?.some(route => typeof route === 'string' && (route.endsWith('/sitemap.xml') || route === '/sitemap_index.xml')) === true,
     hasSitemapOutputHook: typeof (nuxt.options.nitro.hooks as Record<string, unknown> | undefined)?.['sitemap:output'] !== 'undefined',
-    ogImageSecret: undefined as SetupChecklistContext['ogImageSecret'],
+    ogImageSecret: undefined as OgImageSecret | undefined,
     moduleOptions: {} as Partial<Record<NuxtSEOModule['slug'], Record<string, unknown>>>,
     optOuts: {} as Partial<Record<NuxtSEOModule['slug'], string[]>>,
   }
