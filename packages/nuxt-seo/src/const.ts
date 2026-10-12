@@ -3,7 +3,6 @@ export {
   bundledModules,
   LinkCheckerModule,
   modules,
-  normalModules,
   NuxtSEO,
   OgImageModule,
   RobotsModule,
@@ -12,6 +11,5 @@ export {
   SiteConfigModule,
   SitemapModule,
   SkewProtectionModule,
-  standaloneModules,
 } from 'nuxtseo-shared/const'
 export type { NuxtSEOModule } from 'nuxtseo-shared/const'
