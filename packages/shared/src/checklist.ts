@@ -208,6 +208,11 @@ export interface SetupChecklistContext {
   nitroPreset?: string
   sitemapPrerendered?: boolean
   hasSitemapOutputHook?: boolean
+  /**
+   * OG Image signs runtime URLs with Nuxt's `appSecret`. `missing` means only Nuxt's generated
+   * development secret exists. Unset when production does not sign runtime URLs.
+   */
+  ogImageSecret?: 'configured' | 'missing'
   optOuts?: Partial<Record<NuxtSEOModule['slug'], string[]>>
   moduleOptions?: Partial<Record<NuxtSEOModule['slug'], Record<string, unknown>>>
 }
@@ -232,6 +237,25 @@ const SETUP_ACTIONS: Record<string, string> = {
   'renderer': 'Install your OG Image renderer dependencies, or set ogImage: false.',
   'no-validation-errors': 'Correct the robots.txt errors shown in DevTools.',
   'no-source-errors': 'Correct the failing sitemap sources shown in DevTools.',
+  'app-secret': 'Run npx nuxt-og-image generate-secret. Set NUXT_APP_SECRET in .env and in production, 32 characters or more.',
+}
+
+/** Required checks decided from build metadata. Debug endpoints cannot observe these settings. */
+function evaluateContextChecks(slug: NuxtSEOModule['slug'], context: SetupChecklistContext | undefined): ChecklistItemResult[] {
+  if (slug !== 'og-image' || !context?.ogImageSecret)
+    return []
+  const passed = context.ogImageSecret === 'configured'
+  return [{
+    id: 'app-secret',
+    label: 'Signing secret set',
+    description: 'OG Image signs runtime image URLs with NUXT_APP_SECRET. Without it, production pages return a 500 error.',
+    level: 'required',
+    docsUrl: 'https://nuxtseo.com/docs/og-image/guides/security#url-signing',
+    status: passed ? 'passed' : 'failed',
+    passed,
+    detail: passed ? 'Configured' : 'Nuxt generated a development secret. Production builds do not generate one.',
+    action: SETUP_ACTIONS['app-secret'],
+  }]
 }
 
 function hasEvidence(slug: string, item: ChecklistItemWithDetect, data: Record<string, any> | undefined): data is Record<string, any> {
@@ -273,6 +297,8 @@ export function evaluateSetupChecklist(input: SetupChecklistInput): ModuleCheckl
       const result = detect(data, ctx)
       return { ...definition, ...result, status: result.passed ? 'passed' : 'failed', action: SETUP_ACTIONS[def.id] }
     })
+    if (!disabled)
+      items.push(...evaluateContextChecks(slug, input.context))
     const requiredPending = items.filter(item => item.level === 'required' && item.status === 'failed').length
     const status: ModuleChecklistStatus = disabled ? 'disabled' : requiredPending ? 'needs-setup' : items.some(item => item.status === 'unavailable') ? 'unavailable' : !items.length || items.every(item => item.status === 'not-applicable') ? 'automatic' : 'configured'
     if (status === 'configured' || status === 'automatic')
