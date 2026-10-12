@@ -5,7 +5,7 @@ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import NuxtSEO from '../../src/module'
 
-interface InstalledModule { meta: { name: string, version?: string, disabled?: boolean } }
+interface InstalledModule { meta: { name: string, version?: string, disabled?: boolean, compatibility?: { nuxt: string } } }
 
 /**
  * A Nuxt stand-in whose module directory holds the given package versions, the copies the app
@@ -24,7 +24,8 @@ function createNuxt(version: string, packages: Record<string, string> = {}, dire
     options: {
       _requiredModules: {},
       _installedModules: [] as InstalledModule[],
-      experimental: { enforceModuleCompatibility: true },
+      // Nuxt's default. With it, an incompatible `meta.compatibility` only warns and skips.
+      experimental: { enforceModuleCompatibility: false },
       modulesDir: [modulesDir],
     },
     hook(name: string, fn: () => unknown) {
@@ -45,12 +46,26 @@ async function install(nuxt: ReturnType<typeof createNuxt>, installed: Installed
 }
 
 describe('nuxt version', () => {
-  it.each(['3.21.11', '4.0.3', '4.5.2'])('fails on unsupported Nuxt %s', async (version) => {
-    await expect(install(createNuxt(version))).rejects.toThrow('incompatibility issues')
+  it.each(['3.21.11', '4.0.3', '4.5.2'])('stops the build on unsupported Nuxt %s', async (version) => {
+    await expect(install(createNuxt(version))).rejects.toThrow(
+      `[@nuxtjs/seo] Nuxt ${version} is not supported. @nuxtjs/seo requires Nuxt \`^4.6.0 || ^5.0.0\`. To upgrade Nuxt, run \`npx nuxt upgrade\`.`,
+    )
   })
 
-  it.each(['4.6.0', '5.0.0'])('installs on Nuxt %s', async (version) => {
+  it.each(['4.6.0', '4.6.1', '5.0.0', '5.0.0-2610061032-c7ad8cd'])('installs on Nuxt %s', async (version) => {
     await expect(install(createNuxt(version))).resolves.toBeUndefined()
+  })
+
+  it('stops the build when Nuxt skips a bundled module for its own Nuxt range', async () => {
+    await expect(install(createNuxt('4.6.0'), [
+      { meta: { name: 'nuxt-og-image', version: '7.0.0', compatibility: { nuxt: '^4.6.1 || ^5.0.0' } } },
+    ])).rejects.toThrow('Nuxt 4.6.0 skipped `nuxt-og-image`, which requires Nuxt `^4.6.1 || ^5.0.0`. To upgrade Nuxt, run `npx nuxt upgrade`.')
+  })
+
+  it('accepts a bundled module whose Nuxt range matches', async () => {
+    await expect(install(createNuxt('4.6.1'), [
+      { meta: { name: 'nuxt-og-image', version: '7.0.0', compatibility: { nuxt: '^4.6.1 || ^5.0.0' } } },
+    ])).resolves.toBeUndefined()
   })
 })
 
@@ -116,14 +131,14 @@ describe('loaded submodule version', () => {
 
   it('skips a disabled submodule', async () => {
     await expect(install(createNuxt('4.6.0', { 'nuxt-og-image': '6.4.0' }), [
-      { meta: { name: 'nuxt-og-image', version: '6.4.0', disabled: true } },
+      { meta: { name: 'nuxt-og-image', version: '6.4.0', disabled: true, compatibility: { nuxt: '^4.6.1 || ^5.0.0' } } },
     ])).resolves.toBeUndefined()
   })
 })
 
 describe('disabled', () => {
   it('skips the version checks with enabled: false', async () => {
-    await expect(install(createNuxt('4.6.0'), [], false)).resolves.toBeUndefined()
+    await expect(install(createNuxt('4.5.2'), [], false)).resolves.toBeUndefined()
     await expect(install(createNuxt('4.6.0', { '@nuxtjs/sitemap': '7.3.1' }), [
       { meta: { name: '@nuxtjs/sitemap', version: '7.3.1' } },
     ], false)).resolves.toBeUndefined()

@@ -1,7 +1,7 @@
 import type { ModuleDependencies } from '@nuxt/schema'
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import { defineNuxtModule, normalizeSemanticVersion } from '@nuxt/kit'
+import { defineNuxtModule, getNuxtVersion, hasNuxtCompatibility, normalizeSemanticVersion } from '@nuxt/kit'
 import { satisfies } from 'semver'
 import { setupDevelopmentChecks } from './setup'
 
@@ -17,7 +17,14 @@ export interface ModuleOptions {
   tips: boolean
 }
 
+/**
+ * Enforced in `setup()`. Never move this range to `meta.compatibility`: on a failed check, Nuxt
+ * logs `NUXT_B8013`, skips the module and lets the build pass. Each bundled module declares its
+ * own range, so on an older Nuxt every one of them is skipped and no SEO route exists.
+ */
 const NUXT_COMPATIBILITY = '^4.6.0 || ^5.0.0'
+
+const UPGRADE_NUXT = 'To upgrade Nuxt, run `npx nuxt upgrade`.'
 
 async function resolveInstalledVersion(name: string, modulesDirs: string[]): Promise<string | undefined> {
   for (const dir of modulesDirs) {
@@ -74,7 +81,6 @@ const moduleDependencies = {
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxtseo',
-    compatibility: { nuxt: NUXT_COMPATIBILITY },
   },
   moduleDependencies(nuxt) {
     // Nuxt installs dependencies before it checks whether this module is disabled, so a
@@ -99,6 +105,8 @@ export default defineNuxtModule<ModuleOptions>({
     // nothing to check.
     if (!options.enabled)
       return
+    if (!await hasNuxtCompatibility({ nuxt: NUXT_COMPATIBILITY }, nuxt))
+      throw new Error(`[@nuxtjs/seo] Nuxt ${getNuxtVersion(nuxt)} is not supported. @nuxtjs/seo requires Nuxt \`${NUXT_COMPATIBILITY}\`. ${UPGRADE_NUXT}`)
     setupDevelopmentChecks(nuxt, { tips: options.tips })
     // Nuxt checks each dependency version against the copy nested in @nuxtjs/seo, but loads the
     // copy the app resolves. Check the modules that actually installed. Read package.json from the
@@ -110,6 +118,13 @@ export default defineNuxtModule<ModuleOptions>({
         const requirement = moduleDependencies[meta?.name as keyof typeof moduleDependencies]
         if (!requirement || meta.disabled)
           continue
+        // A bundled module can require a later Nuxt than @nuxtjs/seo. Nuxt then skips it with
+        // only a warning, so its routes are missing from a build that passes.
+        const nuxtRange = meta.compatibility?.nuxt
+        if (nuxtRange && !await hasNuxtCompatibility({ nuxt: nuxtRange }, nuxt)) {
+          issues.push(`Nuxt ${getNuxtVersion(nuxt)} skipped \`${meta.name}\`, which requires Nuxt \`${nuxtRange}\`. ${UPGRADE_NUXT}`)
+          continue
+        }
         const version = await resolveInstalledVersion(meta.name!, nuxt.options.modulesDir) || meta.version
         if (version && !satisfies(normalizeSemanticVersion(version), requirement.version, { includePrerelease: true }))
           issues.push(`Module \`${meta.name}\` version (\`${version}\`) does not satisfy \`${requirement.version}\` (requested by \`@nuxtjs/seo\`).`)
