@@ -48,8 +48,8 @@ describe('bundled modules (prerendered)', () => {
 
     // Pages section: one entry per prerendered route, title templated by seo-utils
     expect(txt).toContain('## Pages')
-    expect(txt).toContain('- [@nuxtjs&#x2F;seo](/): Fully equipped Technical SEO for busy Nuxters.')
-    expect(txt).toContain('- [About | @nuxtjs&#x2F;seo](/about): Fully equipped Technical SEO for busy Nuxters.')
+    expect(txt).toContain('- [@nuxtjs/seo](/): Fully equipped Technical SEO for busy Nuxters.')
+    expect(txt).toContain('- [About | @nuxtjs/seo](/about): Fully equipped Technical SEO for busy Nuxters.')
   })
 
   it('ai-ready prerenders full page content into llms-full.txt', async () => {
@@ -64,7 +64,7 @@ describe('bundled modules (prerendered)', () => {
     // body. Prerender completion controls record order, so assert each block
     // independently rather than the whole document.
     expect(txt).toContain([
-      '- **Page:** @nuxtjs&#x2F;seo',
+      '- **Page:** @nuxtjs/seo',
       '- **Source:** https://local.nuxtseo.com/',
       '- **Description:** Fully equipped Technical SEO for busy Nuxters.',
       '',
@@ -72,7 +72,7 @@ describe('bundled modules (prerendered)', () => {
     ].join('\n'))
 
     expect(txt).toContain([
-      '- **Page:** About | @nuxtjs&#x2F;seo',
+      '- **Page:** About | @nuxtjs/seo',
       '- **Source:** https://local.nuxtseo.com/about',
       '- **Description:** Fully equipped Technical SEO for busy Nuxters.',
       '',

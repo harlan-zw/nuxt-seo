@@ -3,9 +3,6 @@ blockExoticSubdeps: false
 
 minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
-  - nuxt-site-config@5.0.0
-  - nuxt-site-config-kit@5.0.0
-  - site-config-stack@5.0.0
   - '@nuxt/kit@4.6.1'
   - '@nuxt/nitro-server@4.6.1'
   - '@nuxt/schema@4.6.1'
@@ -14,7 +11,17 @@ minimumReleaseAgeExclude:
   - nuxt@4.6.1
   - '@harlan-zw/comark-content@0.2.0'
   - '@nuxt/devtools-kit@4.0.0-beta.4'
-  - nuxtseo-shared@6.0.0
+  - '@nuxtjs/robots@7.0.0'
+  - '@nuxtjs/sitemap@9.0.0'
+  - nuxt-ai-ready@3.0.0
+  - nuxt-link-checker@6.0.0
+  - nuxt-og-image@7.0.0
+  - nuxt-schema-org@7.0.0
+  - nuxt-seo-utils@9.0.0
+  - nuxt-site-config-kit@5.0.1
+  - nuxt-site-config@5.0.1
+  - nuxt-skew-protection@2.0.0
+  - site-config-stack@5.0.1
 
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 262800
@@ -71,23 +78,18 @@ packages:
 overrides:
   '@nuxt/kit': ^4.6.1
   '@nuxt/schema': ^4.6.1
-  '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@fab5a9e47eb5e80069eba7a287b1f0d8415bb96a
-  '@nuxtjs/sitemap': https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@16dcdbbbb358a448cd48a56d4427791cde450777
   '@unhead/bundler': ^3.4.1
   '@unhead/vue': ^3.4.1
   better-sqlite3: ^13.0.3
   cssnano: 9.2.2
   cssnano-preset-default: 9.2.2
   cssnano-utils: 8.1.0
-  nuxt-ai-ready: https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@289a8736bed45c791ae832aad6b7050037ffb7e7
-  nuxt-link-checker: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@8a68d8c2f66b077df94cce4f60a2721af8df8e22
-  nuxt-og-image: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@34ac6750637fba237c8c682157f522f20b36f9fc
-  nuxt-schema-org: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@7c93339a8cca4f7a4221e26127d8c281f47dd1b6
-  nuxt-seo-utils: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@e557ed52fde59ad694b5da0856b2f8c6bbf969e5
-  nuxt-site-config: 5.0.0
-  nuxt-site-config-kit: 5.0.0
-  nuxt-skew-protection: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@96c9b6a8ab2d2f5a0ca133ff4638c007ecba80af
-  nuxtseo-shared: 6.0.0
+  # Each bundled module ships its own nuxtseo-shared range, so the workspace
+  # installs several copies. Nitro flattens them all into one
+  # .output/server/node_modules/nuxtseo-shared, files from the losing copies are
+  # dropped, and the built server exits on boot with ERR_MODULE_NOT_FOUND. Pin
+  # every module to the workspace copy so there is one instance to trace.
+  nuxtseo-shared: workspace:*
   postcss-calc: 11.2.2
   postcss-colormin: 9.0.6
   postcss-convert-values: 9.0.7
@@ -117,19 +119,10 @@ overrides:
   postcss-unique-selectors: 9.0.5
   rollup-plugin-dts: ^6.5.1
   semver: ^7.8.5
-  site-config-stack: 5.0.0
 
   stylehacks: 9.0.7
   unhead: ^3.4.1
   vue: ^3.5.43
-
-# Temporary metadata for immutable previews. Remove with the preview overrides.
-patchedDependencies:
-  nuxt-ai-ready@2.5.3: patches/previews/nuxt-ai-ready@2.5.3.patch
-  nuxt-og-image@6.10.3: patches/previews/nuxt-og-image@6.10.3.patch
-  nuxt-schema-org@6.4.3: patches/previews/nuxt-schema-org@6.4.3.patch
-  nuxt-seo-utils@8.6.1: patches/previews/nuxt-seo-utils@8.6.1.patch
-  nuxt-skew-protection@1.6.2: patches/previews/nuxt-skew-protection@1.6.2.patch
 
 allowBuilds:
   '@firebase/util': false
@@ -198,7 +191,7 @@ catalog:
   nuxt-og-image: ^7.0.0
   nuxt-schema-org: ^7.0.0
   nuxt-seo-utils: ^9.0.0
-  nuxt-site-config: ^5.0.0
+  nuxt-site-config: ^5.0.1
   nuxt-skew-protection: ^2.0.0
   ofetch: ^1.5.1
   pathe: ^2.0.3
