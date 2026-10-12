@@ -1,7 +1,7 @@
 {
   "name": "nuxtseo-devtools-host",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Optional Nuxt SEO DevTools host integration.",
   "author": {
     "name": "Harlan Wilton",
@@ -48,7 +48,7 @@
     "@nuxt/kit": "catalog:",
     "birpc": "catalog:",
     "nuxtseo-layer-devtools": "workspace:*",
-    "nuxtseo-shared": "workspace:*",
+    "nuxtseo-shared": "workspace:^",
     "sirv": "catalog:"
   },
   "devDependencies": {
