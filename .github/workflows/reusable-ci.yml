@@ -65,7 +65,6 @@ jobs:
         env:
           PATHS_IGNORE: ${{ inputs.paths-ignore }}
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
-          PUSH_BEFORE: ${{ github.event.before }}
           PR_BASE: ${{ github.event.pull_request.base.sha }}
           PR_HEAD: ${{ github.event.pull_request.head.sha }}
         run: |
@@ -77,8 +76,11 @@ jobs:
             head=$PR_HEAD
           elif [ "$GITHUB_EVENT_NAME" = push ] && [ "$GITHUB_REF_TYPE" = branch ]; then
             if [ "$GITHUB_REF_NAME" = "$DEFAULT_BRANCH" ]; then
-              # Default branch: the commits in this push.
-              base=$PUSH_BEFORE
+              # Default branch: every job runs, docs-only pushes too. A skipped run on a
+              # docs commit would report main green while the code commit before it failed.
+              echo "Push to $DEFAULT_BRANCH. Every job runs."
+              echo "code=true" >> "$GITHUB_OUTPUT"
+              exit 0
             else
               # Other branch, new or not: everything it changes against the default branch.
               # A diff of this push alone would let a docs commit turn a red pull request green.
