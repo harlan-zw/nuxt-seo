@@ -19,6 +19,8 @@ await setup({
 describe('explicit site options', () => {
   it('can disable AI Ready while keeping the other bundled modules', async () => {
     expect((await fetch('/llms.txt')).status).toBe(404)
+    expect((await fetch('/.well-known/agent-skills/index.json')).status).toBe(404)
+    expect((await fetch('/.well-known/api-catalog')).status).toBe(404)
     expect((await fetch('/robots.txt')).status).toBe(200)
   })
 

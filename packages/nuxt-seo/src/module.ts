@@ -64,7 +64,6 @@ const moduleDependencies = {
   },
   'nuxt-ai-ready': {
     version: '>=3.0.0',
-    defaults: { agentSkills: false, apiCatalog: false },
   },
   '@nuxtjs/i18n': {
     version: '>=10.0',
@@ -85,10 +84,6 @@ export default defineNuxtModule<ModuleOptions>({
       return {}
     return {
       ...moduleDependencies,
-      'nuxt-ai-ready': {
-        ...moduleDependencies['nuxt-ai-ready'],
-        defaults: nuxt.options.aiReady === false ? undefined : moduleDependencies['nuxt-ai-ready'].defaults,
-      },
       'nuxt-skew-protection': {
         ...moduleDependencies['nuxt-skew-protection'],
         defaults: nuxt.options.skewProtection === false ? undefined : moduleDependencies['nuxt-skew-protection'].defaults,

@@ -46,8 +46,11 @@ You configure each module through its own key, for example `sitemap`, `robots`, 
 
 AI Ready serves `llms.txt` and Markdown versions of pages. Prerendering also generates `llms-full.txt`.
 Databases, background indexing, and cron remain opt-in.
-The bundle disables project agent skills and API catalogs by default.
-To publish them, configure `aiReady.agentSkills` or `aiReady.apiCatalog`.
+AI Ready discovers agent skills under `public/skills/<name>/SKILL.md` in your project and layers.
+Project instructions under `skills/` stay private unless you configure `aiReady.agentSkills.dir`.
+Set `aiReady.agentSkills: false` to disable discovery.
+If you configure an MCP server and site URL, AI Ready generates an API catalog.
+Set `aiReady.apiCatalog: false` to disable the catalog, or configure `aiReady.apiCatalog` to publish other API entries.
 
 Skew Protection retains old build assets and uses Nuxt's manifest polling.
 The bundle disables version cookies. Connection, route, and IP tracking remain off.
