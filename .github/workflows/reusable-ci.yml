@@ -32,6 +32,13 @@ on:
           browser tests)
         type: boolean
         default: true
+      paths-ignore:
+        description: Globs, one per line. If a change touches only matching paths, lint,
+          typecheck, build and test skip and their checks still pass.
+        type: string
+        default: |
+          **/README.md
+          docs/**
 
 env:
   # Retry registry requests instead of failing the job on a transient 5xx.
@@ -40,7 +47,76 @@ env:
   NPM_CONFIG_FETCH_RETRY_MAXTIMEOUT: '120000'
 
 jobs:
+  # Decides whether the other jobs run. A job skipped by `if:` still reports its
+  # `ci / <job>` check as passed, so a docs-only pull request can merge. An event-level
+  # `paths-ignore` skips the whole workflow instead, and the required checks never report.
+  changes:
+    runs-on: ${{ inputs.runner }}
+    outputs:
+      code: ${{ steps.diff.outputs.code }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # All commits and trees, for the merge base. The diff reads names only and
+          # skips rename detection, so it needs no blobs.
+          fetch-depth: 0
+          filter: blob:none
+      - id: diff
+        env:
+          PATHS_IGNORE: ${{ inputs.paths-ignore }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          PUSH_BEFORE: ${{ github.event.before }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          base=
+          head=$GITHUB_SHA
+          if [ -n "$PR_BASE" ]; then
+            # Pull request: the files the pull request changes.
+            base=$PR_BASE
+            head=$PR_HEAD
+          elif [ "$GITHUB_EVENT_NAME" = push ] && [ "$GITHUB_REF_TYPE" = branch ]; then
+            if [ "$GITHUB_REF_NAME" = "$DEFAULT_BRANCH" ]; then
+              # Default branch: the commits in this push.
+              base=$PUSH_BEFORE
+            else
+              # Other branch, new or not: everything it changes against the default branch.
+              # A diff of this push alone would let a docs commit turn a red pull request green.
+              base=origin/$DEFAULT_BRANCH
+            fi
+          fi
+
+          # A tag, a manual run, a new default branch: no base, so every job runs.
+          if [ -z "$base" ] || [ -z "${base//0/}" ]; then
+            echo "No diff base for this $GITHUB_EVENT_NAME event. Every job runs."
+            echo "code=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          pathspec=(.)
+          while read -r pattern; do
+            [ -n "$pattern" ] && pathspec+=(":(exclude,glob)$pattern")
+          done <<< "$PATHS_IGNORE"
+
+          if ! changed=$(git diff --no-renames --name-only "$base...$head" -- "${pathspec[@]}"); then
+            echo "::warning::Cannot diff $base...$head. Every job runs."
+            echo "code=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [ -z "$changed" ]; then
+            echo "code=false" >> "$GITHUB_OUTPUT"
+            echo "Only ignored paths changed in $base...$head. Lint, typecheck, build and test skip."
+          else
+            echo "code=true" >> "$GITHUB_OUTPUT"
+            echo "$(wc -l <<< "$changed") paths changed in $base...$head outside paths-ignore, for example:"
+            sed -n '1,20p' <<< "$changed"
+          fi
+
   lint:
+    needs: changes
+    # `!cancelled()` replaces the implicit `success()`: if `changes` fails, the job runs.
+    if: ${{ !cancelled() && needs.changes.outputs.code != 'false' }}
     runs-on: ${{ inputs.runner }}
     steps:
       - uses: actions/checkout@v7
@@ -53,6 +129,8 @@ jobs:
       - run: pnpm lint
 
   typecheck:
+    needs: changes
+    if: ${{ !cancelled() && needs.changes.outputs.code != 'false' }}
     runs-on: ${{ inputs.runner }}
     steps:
       - uses: actions/checkout@v7
@@ -67,6 +145,8 @@ jobs:
       - run: pnpm run --if-present test:attw
 
   build:
+    needs: changes
+    if: ${{ !cancelled() && needs.changes.outputs.code != 'false' }}
     runs-on: ${{ inputs.runner }}
     steps:
       - uses: actions/checkout@v7
@@ -80,7 +160,8 @@ jobs:
       - run: pnpm build
 
   test:
-    if: ${{ !inputs.redis }}
+    needs: changes
+    if: ${{ !cancelled() && !inputs.redis && needs.changes.outputs.code != 'false' }}
     runs-on: ${{ inputs.runner }}
     steps:
       - uses: actions/checkout@v7
@@ -123,7 +204,8 @@ jobs:
       - run: ${{ inputs.test-command }}
 
   test-redis:
-    if: ${{ inputs.redis }}
+    needs: changes
+    if: ${{ !cancelled() && inputs.redis && needs.changes.outputs.code != 'false' }}
     runs-on: ${{ inputs.runner }}
     services:
       redis:
