@@ -21,8 +21,14 @@ export interface ModuleOptions {
  * Enforced in `setup()`. Never move this range to `meta.compatibility`: on a failed check, Nuxt
  * logs `NUXT_B8013`, skips the module and lets the build pass. Each bundled module declares its
  * own range, so on an older Nuxt every one of them is skipped and no SEO route exists.
+ *
+ * `-0` admits Nuxt 5 prereleases and nightlies such as `5.0.0-2610061032-c7ad8cd`. A prerelease
+ * sorts below `5.0.0`, and Nuxt 5 nightly kits do not strip the nightly suffix before the check.
  */
-const NUXT_COMPATIBILITY = '^4.6.1 || ^5.0.0'
+const NUXT_COMPATIBILITY = '^4.6.1 || ^5.0.0-0'
+
+/** The supported range as `peerDependencies` and the docs state it, for the error message. */
+const SUPPORTED_NUXT = '^4.6.1 || ^5.0.0'
 
 const UPGRADE_NUXT = 'To upgrade Nuxt, run `npx nuxt upgrade`.'
 
@@ -106,7 +112,7 @@ export default defineNuxtModule<ModuleOptions>({
     if (!options.enabled)
       return
     if (!await hasNuxtCompatibility({ nuxt: NUXT_COMPATIBILITY }, nuxt))
-      throw new Error(`[@nuxtjs/seo] Nuxt ${getNuxtVersion(nuxt)} is not supported. @nuxtjs/seo requires Nuxt \`${NUXT_COMPATIBILITY}\`. ${UPGRADE_NUXT}`)
+      throw new Error(`[@nuxtjs/seo] Nuxt ${getNuxtVersion(nuxt)} is not supported. @nuxtjs/seo requires Nuxt \`${SUPPORTED_NUXT}\`. ${UPGRADE_NUXT}`)
     setupDevelopmentChecks(nuxt, { tips: options.tips })
     // Nuxt checks each dependency version against the copy nested in @nuxtjs/seo, but loads the
     // copy the app resolves. Check the modules that actually installed. Read package.json from the
