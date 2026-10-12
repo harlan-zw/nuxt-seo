@@ -61,7 +61,7 @@
     "test:nitro-parity": "pnpm build && pnpm --dir test/fixtures/nitro2 install --frozen-lockfile && pnpm --dir test/fixtures/nuxt5 install --frozen-lockfile && node test/fixtures/nitro-parity/test.mjs"
   },
   "peerDependencies": {
-    "nuxt": "^4.6.0 || ^5.0.0"
+    "nuxt": "^4.6.1 || ^5.0.0"
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",

@@ -22,7 +22,7 @@ export interface ModuleOptions {
  * logs `NUXT_B8013`, skips the module and lets the build pass. Each bundled module declares its
  * own range, so on an older Nuxt every one of them is skipped and no SEO route exists.
  */
-const NUXT_COMPATIBILITY = '^4.6.0 || ^5.0.0'
+const NUXT_COMPATIBILITY = '^4.6.1 || ^5.0.0'
 
 const UPGRADE_NUXT = 'To upgrade Nuxt, run `npx nuxt upgrade`.'
 

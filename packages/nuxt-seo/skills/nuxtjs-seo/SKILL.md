@@ -2,12 +2,12 @@
 name: nuxtjs-seo
 description: Install, configure, and debug the @nuxtjs/seo meta module, which installs robots, sitemap, OG image, Schema.org, SEO utils, link checker, site config, AI Ready, and Skew Protection. Use when a task mentions @nuxtjs/seo, Nuxt SEO, `nuxt module add seo`, disabling one SEO submodule, which config key owns an option, @nuxtjs/seo/content, an OG image renderer or `NUXT_APP_SECRET` error, upgrading from Nuxt SEO v5, or missing robots.txt and sitemap.xml after install.
 license: MIT
-compatibility: "Requires Node.js ^22.22.3 || ^24.15.0 || >=26.0.0. Requires Nuxt ^4.6.0 || ^5.0.0."
+compatibility: "Requires Node.js ^22.22.3 || ^24.15.0 || >=26.0.0. Requires Nuxt ^4.6.1 || ^5.0.0."
 ---
 
 # @nuxtjs/seo
 
-Requires Nuxt `^4.6.0 || ^5.0.0` and Node `^22.22.3 || ^24.15.0 || >=26.0.0`. The package declares Nuxt `moduleDependencies`; Nuxt installs each submodule, and setup checks versions.
+Requires Nuxt `^4.6.1 || ^5.0.0` and Node `^22.22.3 || ^24.15.0 || >=26.0.0`. The package declares Nuxt `moduleDependencies`; Nuxt installs each submodule, and setup checks versions.
 
 In human dev sessions, the first successful home page response starts background setup checks; the report lists required fixes, optional tips, and module states. Required findings report once per Nitro server instance; agent and CI sessions skip terminal checks; production registers no runtime check. Locale prefixes and app base paths are supported.
 
@@ -133,7 +133,7 @@ Breaking in v6: `asSeoCollection()` is removed. Old: `defineCollection(asSeoColl
 
 ## Version limits
 
-- Nuxt `^4.6.0 || ^5.0.0`. An earlier Nuxt stops the build with `[@nuxtjs/seo] Nuxt 4.5.2 is not supported. @nuxtjs/seo requires Nuxt ^4.6.0 || ^5.0.0.` Fix: `npx nuxt upgrade`. OG Image needs Nuxt 4.6.1; on 4.6.0 the build stops with `Nuxt 4.6.0 skipped nuxt-og-image`. Nuxt 3 apps stay on `@nuxtjs/seo` v5.
+- Nuxt `^4.6.1 || ^5.0.0`. An earlier Nuxt stops the build with `[@nuxtjs/seo] Nuxt 4.5.2 is not supported. @nuxtjs/seo requires Nuxt ^4.6.1 || ^5.0.0.` Fix: `npx nuxt upgrade`. Nuxt 3 apps stay on `@nuxtjs/seo` v5.
 - Nuxt Content v2 is not supported; use Content v3 with Zod 4.
 - v6 moved every submodule up one major and bundles AI Ready and Skew Protection. Migration: nuxtseo.com/docs/nuxt-seo/migration-guide/v5-to-v6
 - Breaking in v6, each with its fix:
