@@ -154,6 +154,7 @@ async function captureRuntime(runtime) {
     cwd: runtime.dir,
     env: {
       ...process.env,
+      NUXT_APP_SECRET: 'nuxt-seo-integration-test-secret-32-characters',
       HOST: '127.0.0.1',
       PORT: String(port),
     },

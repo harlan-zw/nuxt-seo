@@ -3,15 +3,18 @@ blockExoticSubdeps: false
 
 minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
-  - '@nuxt/cli@4.0.0'
-  - '@nuxt/kit@4.6.0'
-  - '@nuxt/nitro-server@4.6.0'
-  - '@nuxt/schema@4.6.0'
-  - '@nuxt/vite-builder@4.6.0'
-  - '@nuxt/vite-server@4.6.0'
-  - nuxt@4.6.0
+  - nuxt-site-config@5.0.0
+  - nuxt-site-config-kit@5.0.0
+  - site-config-stack@5.0.0
+  - '@nuxt/kit@4.6.1'
+  - '@nuxt/nitro-server@4.6.1'
+  - '@nuxt/schema@4.6.1'
+  - '@nuxt/vite-builder@4.6.1'
+  - '@nuxt/vite-server@4.6.1'
+  - nuxt@4.6.1
   - '@harlan-zw/comark-content@0.2.0'
   - '@nuxt/devtools-kit@4.0.0-beta.4'
+  - nuxtseo-shared@6.0.0
 
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 262800
@@ -66,23 +69,25 @@ packages:
   - '!**/.data/**'
 
 overrides:
-  '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@b1a71eb79e832ff0887698e1d1bb9fd0d00254a5
-  '@nuxtjs/sitemap': https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@475bcb078267cab7cfeed1c52724de818a9f943a
+  '@nuxt/kit': ^4.6.1
+  '@nuxt/schema': ^4.6.1
+  '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@fab5a9e47eb5e80069eba7a287b1f0d8415bb96a
+  '@nuxtjs/sitemap': https://pkg.pr.new/nuxt-modules/sitemap/@nuxtjs/sitemap@16dcdbbbb358a448cd48a56d4427791cde450777
   '@unhead/bundler': ^3.4.1
   '@unhead/vue': ^3.4.1
   better-sqlite3: ^13.0.3
   cssnano: 9.2.2
   cssnano-preset-default: 9.2.2
   cssnano-utils: 8.1.0
-  nuxt-ai-ready: https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@b63052dae52b1afa13fc8885c36bd6b1256afd17
-  nuxt-link-checker: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@7eebc81956aef32da2855d1b14137df4b4f5cd68
-  nuxt-og-image: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@a135aebb7447d8ceb3e16655a147ecd3e1e284cc
-  nuxt-schema-org: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@3e066f4f517045ba03e6885b7f3725c14d47b1ab
-  nuxt-seo-utils: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@3644935e5622b8cba60116f773541933f25179f0
-  nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@6e84299b298439bdf7e09cfee4cbc3352a5c7b8f
-  nuxt-site-config-kit: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@6e84299b298439bdf7e09cfee4cbc3352a5c7b8f
+  nuxt-ai-ready: https://pkg.pr.new/harlan-zw/nuxt-ai-ready/nuxt-ai-ready@c544eca5c260c3f7bf8833d794a8b7c172a7350a
+  nuxt-link-checker: https://pkg.pr.new/harlan-zw/nuxt-link-checker/nuxt-link-checker@8a68d8c2f66b077df94cce4f60a2721af8df8e22
+  nuxt-og-image: https://pkg.pr.new/nuxt-modules/og-image/nuxt-og-image@34ac6750637fba237c8c682157f522f20b36f9fc
+  nuxt-schema-org: https://pkg.pr.new/harlan-zw/nuxt-schema-org/nuxt-schema-org@7c93339a8cca4f7a4221e26127d8c281f47dd1b6
+  nuxt-seo-utils: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@e557ed52fde59ad694b5da0856b2f8c6bbf969e5
+  nuxt-site-config: 5.0.0
+  nuxt-site-config-kit: 5.0.0
   nuxt-skew-protection: https://pkg.pr.new/harlan-zw/nuxt-skew-protection/nuxt-skew-protection@96c9b6a8ab2d2f5a0ca133ff4638c007ecba80af
-  nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@c2595aee555338e96f4fbc4af2a2ac2b668e87ea
+  nuxtseo-shared: 6.0.0
   postcss-calc: 11.2.2
   postcss-colormin: 9.0.6
   postcss-convert-values: 9.0.7
@@ -112,7 +117,7 @@ overrides:
   postcss-unique-selectors: 9.0.5
   rollup-plugin-dts: ^6.5.1
   semver: ^7.8.5
-  site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@6e84299b298439bdf7e09cfee4cbc3352a5c7b8f
+  site-config-stack: 5.0.0
 
   stylehacks: 9.0.7
   unhead: ^3.4.1
@@ -120,14 +125,11 @@ overrides:
 
 # Temporary metadata for immutable previews. Remove with the preview overrides.
 patchedDependencies:
-  '@nuxtjs/robots@6.2.4': patches/previews/nuxtjs__robots@6.2.4.patch
-  '@nuxtjs/sitemap@8.6.1': patches/previews/nuxtjs__sitemap@8.6.1.patch
   nuxt-ai-ready@2.5.3: patches/previews/nuxt-ai-ready@2.5.3.patch
   nuxt-og-image@6.10.3: patches/previews/nuxt-og-image@6.10.3.patch
   nuxt-schema-org@6.4.3: patches/previews/nuxt-schema-org@6.4.3.patch
   nuxt-seo-utils@8.6.1: patches/previews/nuxt-seo-utils@8.6.1.patch
   nuxt-skew-protection@1.6.2: patches/previews/nuxt-skew-protection@1.6.2.patch
-  nuxtseo-shared@5.3.16: patches/previews/nuxtseo-shared@5.3.16.patch
 
 allowBuilds:
   '@firebase/util': false
@@ -161,9 +163,9 @@ catalog:
   '@nuxt/content': ^3.16.1
   '@nuxt/devtools-kit': 4.0.0-beta.4
   '@nuxt/fonts': ^0.14.0
-  '@nuxt/kit': ^4.6.0
+  '@nuxt/kit': ^4.6.1
   '@nuxt/module-builder': ^1.0.3
-  '@nuxt/schema': ^4.6.0
+  '@nuxt/schema': ^4.6.1
   '@nuxt/test-utils': ^4.3.3
   '@nuxt/ui': ^4.11.3
   '@nuxtjs/i18n': ^10.6.0
@@ -190,7 +192,7 @@ catalog:
   jest-image-snapshot: ^6.5.2
   lint-staged: ^17.6.0
   nitropack: ^2.13.4
-  nuxt: ^4.6.0
+  nuxt: ^4.6.1
   nuxt-ai-ready: ^3.0.0
   nuxt-link-checker: ^6.0.0
   nuxt-og-image: ^7.0.0
@@ -203,7 +205,7 @@ catalog:
   pkg-types: ^2.3.3
   radix3: ^1.1.2
   rc9: ^3.1.0
-  satori: ^0.35.0
+  satori: ^0.47.1
   semver: ^7.8.5
   shiki: ^4.5.0
   simple-git-hooks: ^2.14.0

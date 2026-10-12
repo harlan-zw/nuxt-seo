@@ -29,8 +29,8 @@ describe('i18n', () => {
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:image" content="https://nuxtseo.com/_og/d/description_en+description,ch_tjb25mqs8mf6.png">
-      <meta property="og:image" content="https://nuxtseo.com/_og/d/description_en+description,ch_tjb25mqs8mf6.png">
+      <meta name="twitter:image" content="https://nuxtseo.com/_og/d/description_en%2Bdescription%2Cch_tjb25mqs8mf6%2Cs_67_CZko6Lp_Fqjff.png">
+      <meta property="og:image" content="https://nuxtseo.com/_og/d/description_en%2Bdescription%2Cch_tjb25mqs8mf6%2Cs_67_CZko6Lp_Fqjff.png">
       <meta property="og:image:type" content="image/png">
       <meta property="og:image:width" content="1200">
       <meta property="og:image:height" content="600">
@@ -54,8 +54,8 @@ describe('i18n', () => {
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="twitter:card" content="summary_large_image">
-      <meta name="twitter:image" content="https://nuxtseo.com/_og/d/description_fr+description,p_Ii9mciI,ch_tjb25mqs8mf6.png">
-      <meta property="og:image" content="https://nuxtseo.com/_og/d/description_fr+description,p_Ii9mciI,ch_tjb25mqs8mf6.png">
+      <meta name="twitter:image" content="https://nuxtseo.com/_og/d/description_fr%2Bdescription%2Cp_Ii9mciI%2Cch_tjb25mqs8mf6%2Cs_WlxsI1JaYPkY-f39.png">
+      <meta property="og:image" content="https://nuxtseo.com/_og/d/description_fr%2Bdescription%2Cp_Ii9mciI%2Cch_tjb25mqs8mf6%2Cs_WlxsI1JaYPkY-f39.png">
       <meta property="og:image:type" content="image/png">
       <meta property="og:image:width" content="1200">
       <meta property="og:image:height" content="600">
@@ -107,7 +107,7 @@ describe('i18n', () => {
   it('og-image - url', async () => {
     const html = await $fetch('/') as string
     const ogImageUrl = extractOgImageUrl(html)
-    expect(ogImageUrl).toMatchInlineSnapshot(`"https://nuxtseo.com/_og/d/description_en+description,ch_tjb25mqs8mf6.png"`)
+    expect(ogImageUrl).toMatchInlineSnapshot(`"https://nuxtseo.com/_og/d/description_en%2Bdescription%2Cch_tjb25mqs8mf6%2Cs_67_CZko6Lp_Fqjff.png"`)
   })
   it('og-image - image snapshot', async () => {
     const html = await $fetch('/') as string

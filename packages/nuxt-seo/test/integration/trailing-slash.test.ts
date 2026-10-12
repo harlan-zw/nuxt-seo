@@ -66,7 +66,7 @@ describe('trailing slash', () => {
   it('og-image - url', async () => {
     const html = await $fetch('/') as string
     const ogImageUrl = extractOgImageUrl(html)
-    expect(ogImageUrl).toMatchInlineSnapshot(`"https://local.nuxtseo.com/_og/d/description_Fully+equipped+Technical+SEO+for+busy+Nuxters.,ch_tjb25mqs8mf6.png"`)
+    expect(ogImageUrl).toMatchInlineSnapshot(`"https://local.nuxtseo.com/_og/d/description_Fully%2Bequipped%2BTechnical%2BSEO%2Bfor%2Bbusy%2BNuxters.%2Cch_tjb25mqs8mf6%2Cs_fmC-ugHpdiLVBjvs.png"`)
   })
   it('og-image - image snapshot', async () => {
     const html = await $fetch('/') as string
