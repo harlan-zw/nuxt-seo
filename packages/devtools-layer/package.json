@@ -1,7 +1,7 @@
 {
   "name": "nuxtseo-layer-devtools",
   "type": "module",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "Shared Nuxt layer for Nuxt SEO devtools clients.",
   "author": {
     "name": "Harlan Wilton",
@@ -58,7 +58,7 @@
     "@vueuse/core": "catalog:",
     "@vueuse/nuxt": "catalog:",
     "birpc": "catalog:",
-    "nuxtseo-shared": "workspace:*",
+    "nuxtseo-shared": "workspace:^",
     "ofetch": "catalog:",
     "shiki": "catalog:",
     "tailwindcss": "catalog:",
