@@ -13,7 +13,7 @@ export interface ChecklistItemDefinition {
 }
 
 export interface NuxtSEOModule {
-  slug: 'nuxt-seo' | 'site-config' | 'robots' | 'sitemap' | 'og-image' | 'link-checker' | 'seo-utils' | 'schema-org' | 'skew-protection' | 'ai-ready' | 'ai-kit'
+  slug: 'nuxt-seo' | 'site-config' | 'robots' | 'sitemap' | 'og-image' | 'link-checker' | 'seo-utils' | 'schema-org' | 'skew-protection' | 'ai-ready'
   label: string
   icon: string
   description: string
@@ -141,6 +141,9 @@ export const SkewProtectionModule: NuxtSEOModule = {
   description: 'Solve Nuxt version skews with persistent assets and instant updates.',
   label: 'Skew Protection',
   icon: 'i-carbon-version',
+  playgrounds: {
+    basic: 'https://stackblitz.com/github/harlan-zw/nuxt-skew-protection/tree/main/examples/basic',
+  },
 }
 
 export const AiReadyModule: NuxtSEOModule = {
@@ -150,6 +153,9 @@ export const AiReadyModule: NuxtSEOModule = {
   description: 'Best practice AI & LLM discoverability for Nuxt sites.',
   label: 'AI Ready',
   icon: 'i-carbon-ai-label',
+  playgrounds: {
+    basic: 'https://stackblitz.com/github/harlan-zw/nuxt-ai-ready/tree/main/examples/basic',
+  },
 }
 
 export const modules: NuxtSEOModule[] = [
@@ -175,8 +181,3 @@ export const bundledModules = [
   SkewProtectionModule,
   AiReadyModule,
 ]
-
-export const standaloneModules: NuxtSEOModule[] = []
-
-/** @deprecated Use `bundledModules` */
-export const normalModules = bundledModules

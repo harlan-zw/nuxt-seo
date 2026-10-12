@@ -40,7 +40,6 @@ const SLUG_TO_MODULE_NAME: Record<string, string> = {
   'site-config': 'nuxt-site-config',
   'ai-ready': 'nuxt-ai-ready',
   'skew-protection': 'nuxt-skew-protection',
-  'ai-kit': 'nuxt-ai-kit',
   'nuxt-seo': 'nuxt-seo',
 }
 

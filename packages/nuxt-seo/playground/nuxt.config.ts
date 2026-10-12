@@ -5,8 +5,6 @@ export default defineNuxtConfig({
   modules: [
     NuxtSEO,
     '@nuxtjs/i18n',
-    '@nuxtjs/sitemap',
-    '@nuxtjs/robots',
   ],
 
   devtools: {

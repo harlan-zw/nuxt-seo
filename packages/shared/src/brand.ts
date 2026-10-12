@@ -10,7 +10,7 @@ import type { NuxtSEOModule } from './const'
  */
 
 /** Every module with a hand-drawn icon. The meta `nuxt-seo` module uses the summit mark instead. */
-export type ModuleIconName = Exclude<NuxtSEOModule['slug'], 'nuxt-seo' | 'ai-kit'>
+export type ModuleIconName = Exclude<NuxtSEOModule['slug'], 'nuxt-seo'>
 export type BrandIconName = ModuleIconName | 'mcp'
 
 /** Colour of the landing dot. `free`: a module shipped it. `pro`: Pro read it back. */
