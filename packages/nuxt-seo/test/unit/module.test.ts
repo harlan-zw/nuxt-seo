@@ -61,21 +61,21 @@ describe('nuxt version', () => {
 
   it('stops the build when Nuxt skips a bundled module for its own Nuxt range', async () => {
     await expect(install(createNuxt('4.6.1'), [
-      { meta: { name: 'nuxt-og-image', version: '7.0.0', compatibility: { nuxt: '^4.7.0 || ^5.0.0' } } },
+      { meta: { name: 'nuxt-og-image', version: '7.0.1', compatibility: { nuxt: '^4.7.0 || ^5.0.0' } } },
     ])).rejects.toThrow('Nuxt 4.6.1 skipped `nuxt-og-image`, which requires Nuxt `^4.7.0 || ^5.0.0`. To upgrade Nuxt, run `npx nuxt upgrade`.')
   })
 
   it('accepts a bundled module whose Nuxt range matches', async () => {
     await expect(install(createNuxt('4.6.1'), [
-      { meta: { name: 'nuxt-og-image', version: '7.0.0', compatibility: { nuxt: '^4.6.1 || ^5.0.0' } } },
+      { meta: { name: 'nuxt-og-image', version: '7.0.1', compatibility: { nuxt: '^4.6.1 || ^5.0.0' } } },
     ])).resolves.toBeUndefined()
   })
 })
 
 describe('loaded submodule version', () => {
   it.each([
-    ['nuxt-ai-ready', '2.5.3', '3.0.0'],
-    ['nuxt-skew-protection', '1.6.2', '2.0.0'],
+    ['nuxt-ai-ready', '2.5.3', '3.0.1'],
+    ['nuxt-skew-protection', '1.6.2', '2.0.1'],
   ])('rejects %s before its required major', async (name, oldVersion, fixedVersion) => {
     const nuxt = createNuxt('4.6.1', { [name]: oldVersion })
     await expect(install(nuxt, [{ meta: { name, version: fixedVersion } }]))
@@ -83,25 +83,25 @@ describe('loaded submodule version', () => {
       .toThrow(`\`${name}\` version (\`${oldVersion}\`) does not satisfy \`>=${fixedVersion}\``)
   })
   it('checks custom module directories in the configured search order', async () => {
-    const nuxt = createNuxt('4.6.1', { '@nuxtjs/sitemap': '9.0.0' }, 'custom_modules')
+    const nuxt = createNuxt('4.6.1', { '@nuxtjs/sitemap': '9.0.1' }, 'custom_modules')
     const root = createNuxt('4.6.1', { '@nuxtjs/sitemap': '8.0.0' })
     nuxt.options.modulesDir.push(...root.options.modulesDir)
     await expect(install(nuxt, [{ meta: { name: '@nuxtjs/sitemap', version: '8.9.9' } }])).resolves.toBeUndefined()
   })
 
   it('uses installed metadata when the first resolved package has no version', async () => {
-    const nuxt = createNuxt('4.6.1', { '@nuxtjs/sitemap': '9.0.0' }, 'custom_modules')
+    const nuxt = createNuxt('4.6.1', { '@nuxtjs/sitemap': '9.0.1' }, 'custom_modules')
     const root = createNuxt('4.6.1', { '@nuxtjs/sitemap': '8.0.0' })
     writeFileSync(join(nuxt.options.modulesDir[0]!, '@nuxtjs/sitemap/package.json'), JSON.stringify({ name: '@nuxtjs/sitemap' }))
     nuxt.options.modulesDir.push(...root.options.modulesDir)
-    await expect(install(nuxt, [{ meta: { name: '@nuxtjs/sitemap', version: '9.0.0' } }])).resolves.toBeUndefined()
+    await expect(install(nuxt, [{ meta: { name: '@nuxtjs/sitemap', version: '9.0.1' } }])).resolves.toBeUndefined()
   })
 
   it('skips missing custom directories and rejects malformed package metadata', async () => {
-    const nuxt = createNuxt('4.6.1', { '@nuxtjs/sitemap': '9.0.0' }, 'custom_modules')
+    const nuxt = createNuxt('4.6.1', { '@nuxtjs/sitemap': '9.0.1' }, 'custom_modules')
     nuxt.options.modulesDir.unshift(join(nuxt.options.modulesDir[0]!, 'missing'))
     writeFileSync(join(nuxt.options.modulesDir[1]!, '@nuxtjs/sitemap/package.json'), '{malformed')
-    await expect(install(nuxt, [{ meta: { name: '@nuxtjs/sitemap', version: '9.0.0' } }])).rejects.toThrow(/JSON/)
+    await expect(install(nuxt, [{ meta: { name: '@nuxtjs/sitemap', version: '9.0.1' } }])).rejects.toThrow(/JSON/)
   })
 
   it('fails when the copy the app loads is older than the requirement', async () => {
@@ -109,11 +109,11 @@ describe('loaded submodule version', () => {
     await expect(install(nuxt, [
       { meta: { name: '@nuxtjs/sitemap', version: '7.3.0' } },
       { meta: { name: '@nuxtjs/robots', version: '6.1.5' } },
-    ])).rejects.toThrow('`@nuxtjs/sitemap` version (`7.3.1`) does not satisfy `>=9.0.0`')
+    ])).rejects.toThrow('`@nuxtjs/sitemap` version (`7.3.1`) does not satisfy `>=9.0.1`')
   })
 
   it('reads the package version, not a lagging module.json version', async () => {
-    const nuxt = createNuxt('4.6.1', { '@nuxtjs/sitemap': '9.0.0' })
+    const nuxt = createNuxt('4.6.1', { '@nuxtjs/sitemap': '9.0.1' })
     await expect(install(nuxt, [
       { meta: { name: '@nuxtjs/sitemap', version: '8.9.9' } },
     ])).resolves.toBeUndefined()

@@ -1,7 +1,7 @@
 {
   "name": "@nuxtjs/seo",
   "type": "module",
-  "version": "6.0.0",
+  "version": "6.0.1",
   "description": "Fully equipped Technical SEO for busy Nuxters.",
   "author": {
     "name": "Harlan Wilton",
@@ -74,7 +74,7 @@
     "nuxt-seo-utils": "catalog:",
     "nuxt-site-config": "catalog:",
     "nuxt-skew-protection": "catalog:",
-    "nuxtseo-shared": "workspace:*",
+    "nuxtseo-shared": "workspace:^",
     "semver": "catalog:"
   },
   "devDependencies": {
