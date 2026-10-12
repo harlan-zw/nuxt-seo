@@ -21,5 +21,5 @@ export default defineNuxtConfig({
     ],
   },
 
-  compatibilityDate: '2024-08-07',
+  compatibilityDate: '2026-10-01',
 })

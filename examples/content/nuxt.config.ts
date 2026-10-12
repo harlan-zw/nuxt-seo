@@ -10,5 +10,5 @@ export default defineNuxtConfig({
     description: 'A blog powered by Nuxt Content and @nuxtjs/seo.',
   },
 
-  compatibilityDate: '2024-09-11',
+  compatibilityDate: '2026-10-01',
 })

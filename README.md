@@ -28,6 +28,8 @@
 - 🖼️ **OG Images**: Dynamic Open Graph image generation for every page, no manual design work needed.
 - △ **SEO Utils**: Clean titles, default meta, canonical URLs, breadcrumbs, favicons, and social share links, AEO fundamentals AI parsers rely on.
 - ✅ **Link Checking**: Broken link detection at build time with [ESLint](https://eslint.org) integration and DevTools support.
+- 🧠 **AI Discoverability**: `llms.txt` and a Markdown version of every page, so AI agents can read your site.
+- 🛡️ **Skew Protection**: Keeps the assets of earlier builds after a deploy, so open tabs stop failing on missing chunks.
 
 ### Made for the age of AI answers
 
@@ -41,34 +43,32 @@ npx @vercel/agent-readability audit https://your-site.com
 
 ## The `@nuxtjs/seo` Module
 
-The `@nuxtjs/seo` package is a simple alias for installing all of the modules in one go.
+The `@nuxtjs/seo` package installs all nine modules in one step. It also checks module versions at build time, and runs setup checks in development.
 
 ```ts
 // This is almost all it does. Setup also fails the build on an unsupported
 // Nuxt version, or when a loaded module is older than its version below.
+// In development, it also runs setup checks.
 export default defineNuxtModule<ModuleOptions>({
   moduleDependencies: {
-    '@nuxtjs/robots': { version: '>=6.0' },
-    '@nuxtjs/sitemap': { version: '>=8.3' },
-    'nuxt-link-checker': { version: '>=4.3' },
-    'nuxt-og-image': { version: '>=6.4.4' },
-    'nuxt-schema-org': { version: '>=5.0' },
-    'nuxt-seo-utils': { version: '>=7.0' },
-    'nuxt-site-config': { version: '>=4.0' },
+    '@nuxtjs/robots': { version: '>=7.0.0' },
+    '@nuxtjs/sitemap': { version: '>=9.0.0' },
+    'nuxt-link-checker': { version: '>=6.0.0' },
+    'nuxt-og-image': { version: '>=7.0.0' },
+    'nuxt-schema-org': { version: '>=7.0.0' },
+    'nuxt-seo-utils': { version: '>=9.0.0' },
+    'nuxt-site-config': { version: '>=5.0.0' },
     'nuxt-skew-protection': {
-      version: '>=1.6.1',
+      version: '>=2.0.0',
       defaults: { updateStrategy: 'polling', cookie: false },
     },
-    'nuxt-ai-ready': {
-      version: '>=2.5.2',
-      defaults: { agentSkills: false, apiCatalog: false },
-    },
+    'nuxt-ai-ready': { version: '>=3.0.0' },
     '@nuxtjs/i18n': { version: '>=10.0', optional: true },
   },
 })
 ```
 
-Every module works standalone. Install `@nuxtjs/seo` to get everything at once, or pick only what you need. The bundle defaults to polling, disables version cookies, and keeps agent skills and API catalogs opt-in. Your module configuration takes precedence.
+Every module works standalone. Install `@nuxtjs/seo` to get everything at once, or pick only what you need. The bundle sets Skew Protection to polling and disables its version cookie. AI Ready keeps its own defaults. Your module configuration takes precedence.
 
 ### Modules
 
@@ -81,7 +81,6 @@ Every module works standalone. Install `@nuxtjs/seo` to get everything at once, 
 | SEO Utils | [nuxt-seo-utils](https://github.com/harlan-zw/nuxt-seo-utils) | Favicons, canonicals, breadcrumbs, default meta, the AEO fundamentals |
 | Link Checker | [nuxt-link-checker](https://github.com/harlan-zw/nuxt-link-checker) | Broken links harm SEO, confuse AI crawlers, and hurt UX |
 | Site Config | [nuxt-site-config](https://github.com/harlan-zw/nuxt-site-config) | Unified site URL, name, and locale config shared across every module |
-
 | AI Ready | [nuxt-ai-ready](https://github.com/harlan-zw/nuxt-ai-ready) | `llms.txt` and on-demand `.md` route variants |
 | Skew Protection | [nuxt-skew-protection](https://github.com/harlan-zw/nuxt-skew-protection) | Persistent assets and instant updates across deployments |
 
@@ -102,10 +101,9 @@ Or pick only what you need:
 npx nuxt module add sitemap robots
 ```
 
-Nuxt SEO v6 requires Nuxt 4.1 or later. See the [v5 migration steps](packages/nuxt-seo/README.md#migrate-from-v5).
+> Using an AI agent? Get the @nuxtjs/seo Skill on [skilld.dev/gh/harlan-zw/nuxt-seo](https://skilld.dev/gh/harlan-zw/nuxt-seo).
 
-> [!TIP]
-> Using an AI agent? Get the @nuxtjs/seo Skill on [skilld.dev/gh/harlan-zw/nuxt-seo/nuxtjs-seo](https://skilld.dev/gh/harlan-zw/nuxt-seo/nuxtjs-seo).
+Nuxt SEO v6 requires Nuxt 4.6.1 or later, and Node `^22.22.3 || ^24.15.0 || >=26.0.0`. Nuxt 3 sites stay on Nuxt SEO v5. See the [v5 to v6 migration guide](https://nuxtseo.com/docs/nuxt-seo/migration-guide/v5-to-v6).
 
 Once installed, check the [Using the Modules](https://nuxtseo.com/docs/nuxt-seo/guides/using-the-modules) guide to get started.
 

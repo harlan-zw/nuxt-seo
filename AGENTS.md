@@ -20,7 +20,7 @@ All module repos live in `~/pkg`. The `@nuxtjs/seo` module bundles these:
 
 ## Website
 
-The nuxtseo.com website source lives at `~/sites/nuxtseo.com`. It is a Nuxt app deployed to Cloudflare Workers with D1 databases. The `nuxt-seo-pro` layer (`layers/nuxt-seo-pro/`) contains the Pro dashboard, telemetry API, and license verification endpoints.
+The nuxtseo.com website source lives at `~/sites/nuxtseo.com`. It is a Nuxt app deployed to Cloudflare Workers with D1 databases. The Pro dashboard is the `apps/pro` app. Its shared code lives in `layers/pro` and `layers/saas`.
 
 
 <!-- skilld -->
