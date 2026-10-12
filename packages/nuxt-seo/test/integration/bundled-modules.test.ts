@@ -67,9 +67,18 @@ describe('bundled modules', () => {
     expect(res.status).toBe(404)
   })
 
-  it('does not publish project instructions or an API catalog by default', async () => {
-    expect((await fetch('/SKILL.md')).status).toBe(404)
-    expect((await fetch('/.well-known/agent-skills/index.json')).status).toBe(404)
+  it('discovers public skills while keeping project instructions private', async () => {
+    const response = await fetch('/.well-known/agent-skills/index.json')
+    expect(response.status).toBe(200)
+    expect(await response.json()).toMatchObject({
+      skills: [{ name: 'documentation', description: 'Public documentation instructions for the test fixture.' }],
+    })
+    expect((await fetch('/.well-known/agent-skills/documentation/SKILL.md')).status).toBe(200)
+    expect((await fetch('/.well-known/agent-skills/internal/SKILL.md')).status).toBe(404)
+    expect((await fetch('/skills/internal/SKILL.md')).status).toBe(404)
+  })
+
+  it('omits an API catalog without an MCP server', async () => {
     expect((await fetch('/.well-known/api-catalog')).status).toBe(404)
   })
 
