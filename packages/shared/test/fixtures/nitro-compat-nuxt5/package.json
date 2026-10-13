@@ -4,7 +4,7 @@
   "type": "module",
   "packageManager": "pnpm@12.8.1",
   "scripts": {
-    "test": "NUXT_TEST_LANE=nuxt5 nuxt prepare && vue-tsc --noEmit -p .nuxt/tsconfig.app.json && vue-tsc --noEmit -p .nuxt/tsconfig.server.json && NUXT_TEST_LANE=nuxt5 node test.ts"
+    "test": "NUXT_TEST_LANE=nuxt5 nuxt prepare && vue-tsc --noEmit -p .nuxt/tsconfig.app.json && vue-tsc --noEmit -p .nuxt/tsconfig.server.json && vue-tsc --noEmit -p .nuxt/tsconfig.node.json && NUXT_TEST_LANE=nuxt5 node test.ts"
   },
   "dependencies": {
     "nitro": "^3.0.260903-beta",
@@ -15,6 +15,7 @@
     "vue-router": "^5.3.1"
   },
   "devDependencies": {
+    "@types/node": "^24.19.2",
     "typescript": "6.0.3",
     "vue-tsc": "^3.3.12"
   }

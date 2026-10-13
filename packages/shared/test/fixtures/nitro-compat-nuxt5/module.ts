@@ -1,5 +1,5 @@
-import { createResolver, defineNuxtModule, getNitroVersion } from 'nuxt/kit'
-import { setupNitroRuntimeCompatibility, setupRuntimeAliases } from 'nuxtseo-shared/kit'
+import { addTypeTemplate, createResolver, defineNuxtModule, getNitroVersion } from 'nuxt/kit'
+import { renderNitroTypeAugmentations, setupNitroRuntimeCompatibility, setupRuntimeAliases } from 'nuxtseo-shared/kit'
 import { createPrerenderFetch } from 'nuxtseo-shared/prerender'
 
 export default defineNuxtModule({
@@ -7,7 +7,18 @@ export default defineNuxtModule({
     name: 'nuxtseo-nitro-compat-nuxt5-fixture',
   },
   setup(_options, nuxt) {
-    setupNitroRuntimeCompatibility(nuxt)
+    const compatibility = setupNitroRuntimeCompatibility(nuxt)
+    const routeRuleTypes = `robots?: boolean
+sitemap?: boolean
+ogImage?: boolean
+site?: { name?: string }`
+    addTypeTemplate({
+      filename: 'types/fixture-route-rules.d.ts',
+      getContents: () => `import 'nitro/types'\n${renderNitroTypeAugmentations(compatibility, {
+        routeConfig: routeRuleTypes,
+        routeRules: routeRuleTypes,
+      })}\nexport {}\n`,
+    }, { nuxt: true, nitro: true, node: true })
     const { resolve } = createResolver(import.meta.url)
     nuxt.options.alias['#fixture'] = resolve('./runtime-fixture')
     setupRuntimeAliases({ namespace: '#fixture', app: resolve('./runtime-fixture/app'), server: resolve('./runtime-fixture/server') }, nuxt)

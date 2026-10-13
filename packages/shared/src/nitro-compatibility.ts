@@ -258,8 +258,8 @@ export function renderNitroTypeAugmentations(
   augmentations: NitroTypeAugmentations,
 ): string {
   const nitroInterfaces = [
-    renderInterface('NitroRouteRules', augmentations.routeRules),
-    renderInterface('NitroRouteConfig', augmentations.routeConfig),
+    renderInterface(compatibility._tag === 'nitro-v3' ? 'RouteRules' : 'NitroRouteRules', augmentations.routeRules),
+    renderInterface(compatibility._tag === 'nitro-v3' ? 'RouteRuleConfig' : 'NitroRouteConfig', augmentations.routeConfig),
     renderInterface('NitroRuntimeHooks', augmentations.runtimeHooks),
     ...Object.entries(augmentations.nitroInterfaces || {}).map(([name, contents]) => renderInterface(name, contents)),
   ].filter((value): value is string => Boolean(value))
