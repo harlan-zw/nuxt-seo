@@ -7,7 +7,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { setupDevToolsRpc, setupDevToolsUI } from '../../src/devtools'
 
 const roots: string[] = []
-const mocks = vi.hoisted(() => ({ spawn: vi.fn(), command: vi.fn(async () => 'pnpm add --save-dev nuxtseo-devtools-host@1.0.0') }))
+const mocks = vi.hoisted(() => ({ spawn: vi.fn(), command: vi.fn(async () => 'pnpm add --save-dev nuxtseo-devtools-host@^1.0.1') }))
 vi.mock('node:child_process', () => ({ spawn: mocks.spawn }))
 vi.mock('@nuxt/kit', async () => ({ ...await vi.importActual('@nuxt/kit'), getAddDependencyCommand: mocks.command }))
 afterEach(() => {
@@ -42,13 +42,13 @@ describe('optional DevTools host', () => {
     await expect(setupDevToolsRpc('fixture', {}, nuxt)).resolves.toBeUndefined()
     expect(hooks.size).toBe(0)
   })
-  it('offers an explicit exact-version action without loading a missing host', async () => {
+  it('offers an explicit version-range action without loading a missing host', async () => {
     const { nuxt, hooks } = consumer()
     setupDevToolsUI(panel, path => path, nuxt)
     const tabs: any[] = []
     hooks.get('devtools:customTabs')!(tabs)
     expect(tabs[0].view.type).toBe('launch')
-    expect(tabs[0].view.actions[0].label).toBe('Install nuxtseo-devtools-host@1.0.0')
+    expect(tabs[0].view.actions[0].label).toBe('Install nuxtseo-devtools-host@^1.0.1')
     await expect(setupDevToolsRpc('fixture', {}, nuxt)).resolves.toBeUndefined()
     expect(hooks.has('vite:serverCreated')).toBe(false)
     expect(mocks.spawn).not.toHaveBeenCalled()
@@ -75,7 +75,7 @@ describe('optional DevTools host', () => {
     hooks.get('devtools:customTabs')!(failure)
     expect(failure[0].view.description).toContain('Installation failed')
     expect(failure[0].view.actions[0].pending).toBe(false)
-    expect(mocks.command).toHaveBeenCalledWith('nuxtseo-devtools-host@1.0.0', rootDir, { dev: true })
+    expect(mocks.command).toHaveBeenCalledWith('nuxtseo-devtools-host@^1.0.1', rootDir, { dev: true })
     const retry = action()
     await vi.waitFor(() => expect(mocks.spawn).toHaveBeenCalledTimes(2))
     hooks.get('close')!()
