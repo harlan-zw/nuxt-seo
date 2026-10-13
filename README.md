@@ -6,9 +6,8 @@
 [![Nuxt][nuxt-src]][nuxt-href]
 [![Skill repository on skilld.dev][skilld-src]][skilld-href]
 
-> Fully equipped Technical SEO & AEO for busy Nuxters.
-
-[Nuxt SEO](https://nuxtseo.com) is an ecosystem of SEO modules, tools, and tutorials built with and for the Nuxt community. Search has changed: Google still matters, but [ChatGPT](https://chatgpt.com), Claude, [Perplexity](https://perplexity.ai), and AI Overviews now answer questions your site could answer, and they only cite sources they can parse. Nuxt SEO ships the full stack, robots.txt, sitemaps, Schema.org, OG images, meta tags, link checks, to make your Nuxt app discoverable by both search engines and answer engines.
+Nuxt SEO installs and configures nine SEO modules for Nuxt.
+Use the bundle, or install each module separately.
 
 <p align="center">
 <table>
@@ -22,111 +21,48 @@
 
 ## Features
 
-- 🤖 **Crawl Control**: Automatic `robots.txt` generation, `<meta name="robots">` tags, and `X-Robots-Tag` headers to manage how search engines and AI crawlers access your site.
-- 📄 **Sitemaps**: Auto-generated `sitemap.xml` from your app's data sources, with multi-sitemap support for i18n sites.
-- 🔎 **Structured Data**: Schema.org JSON-LD generated automatically, the single biggest lever for rich results, AI Overviews, and entity recognition.
-- 🖼️ **OG Images**: Dynamic Open Graph image generation for every page, no manual design work needed.
-- △ **SEO Utils**: Clean titles, default meta, canonical URLs, breadcrumbs, favicons, and social share links, AEO fundamentals AI parsers rely on.
-- ✅ **Link Checking**: Broken link detection at build time with [ESLint](https://eslint.org) integration and DevTools support.
-- 🧠 **AI Discoverability**: `llms.txt` and a Markdown version of every page, so AI agents can read your site.
-- 🛡️ **Skew Protection**: Keeps the assets of earlier builds after a deploy, so open tabs stop failing on missing chunks.
-
-### Made for the age of AI answers
-
-Traditional SEO signals (clean HTML, structured data, crawlable sitemaps, valid meta) are the same signals AI crawlers use to decide what to cite. Nuxt SEO also includes [`nuxt-ai-ready`](https://github.com/harlan-zw/nuxt-ai-ready) for `llms.txt` and on-demand Markdown endpoints. MCP tools require a separate opt-in.
-
-```sh
-npx nuxt module add seo
-# then verify:
-npx @vercel/agent-readability audit https://your-site.com
-```
-
-## The `@nuxtjs/seo` Module
-
-The `@nuxtjs/seo` package installs all nine modules in one step. It also checks module versions at build time, and runs setup checks in development.
-
-```ts
-// This is almost all it does. Setup also fails the build on an unsupported
-// Nuxt version, or when a loaded module is older than its version below.
-// In development, it also runs setup checks.
-export default defineNuxtModule<ModuleOptions>({
-  moduleDependencies: {
-    '@nuxtjs/robots': { version: '>=7.0.0' },
-    '@nuxtjs/sitemap': { version: '>=9.0.1' },
-    'nuxt-link-checker': { version: '>=6.0.0' },
-    'nuxt-og-image': { version: '>=7.0.1' },
-    'nuxt-schema-org': { version: '>=7.0.0' },
-    'nuxt-seo-utils': { version: '>=9.0.0' },
-    'nuxt-site-config': { version: '>=5.0.1' },
-    'nuxt-skew-protection': {
-      version: '>=2.0.1',
-      defaults: { updateStrategy: 'polling', cookie: false },
-    },
-    'nuxt-ai-ready': { version: '>=3.0.1' },
-    '@nuxtjs/i18n': { version: '>=10.0', optional: true },
-  },
-})
-```
-
-Every module works standalone. Install `@nuxtjs/seo` to get everything at once, or pick only what you need. The bundle sets Skew Protection to polling and disables its version cookie. AI Ready keeps its own defaults. Your module configuration takes precedence.
-
-### Modules
-
-| Module | Package | What it solves |
-|--------|---------|----------------|
-| Robots | [@nuxtjs/robots](https://github.com/nuxt-modules/robots) | Control which crawlers (Googlebot, GPTBot, ClaudeBot, PerplexityBot…) can access which pages |
-| Sitemap | [@nuxtjs/sitemap](https://github.com/nuxt-modules/sitemap) | Give every crawler, search and answer engine, a full index of your content |
-| Schema.org | [nuxt-schema-org](https://github.com/harlan-zw/nuxt-schema-org) | The structured data AI engines rely on to understand entities, authors, products, FAQs |
-| OG Image | [nuxt-og-image](https://github.com/nuxt-modules/og-image) | Preview images for social shares and chat-bot rich cards |
-| SEO Utils | [nuxt-seo-utils](https://github.com/harlan-zw/nuxt-seo-utils) | Favicons, canonicals, breadcrumbs, default meta, the AEO fundamentals |
-| Link Checker | [nuxt-link-checker](https://github.com/harlan-zw/nuxt-link-checker) | Broken links harm SEO, confuse AI crawlers, and hurt UX |
-| Site Config | [nuxt-site-config](https://github.com/harlan-zw/nuxt-site-config) | Unified site URL, name, and locale config shared across every module |
-| AI Ready | [nuxt-ai-ready](https://github.com/harlan-zw/nuxt-ai-ready) | `llms.txt` and on-demand `.md` route variants |
-| Skew Protection | [nuxt-skew-protection](https://github.com/harlan-zw/nuxt-skew-protection) | Persistent assets and instant updates across deployments |
-
-> [!NOTE]
-> Site Config installs automatically with any SEO module. It provides a unified configuration layer that works across all modules at both build time and runtime.
+- 🤖 **[Robots](https://github.com/nuxt-modules/robots):** Generate `robots.txt`, robots meta tags, and `X-Robots-Tag` headers.
+- 📄 **[Sitemap](https://github.com/nuxt-modules/sitemap):** Generate sitemaps from routes and data sources, with i18n support.
+- 🔎 **[Schema.org](https://github.com/harlan-zw/nuxt-schema-org):** Add JSON-LD structured data to your pages.
+- 🖼️ **[OG Image](https://github.com/nuxt-modules/og-image):** Generate Open Graph images from Vue components.
+- △ **[SEO Utils](https://github.com/harlan-zw/nuxt-seo-utils):** Manage titles, meta tags, canonical URLs, breadcrumbs, favicons, and social share links.
+- ✅ **[Link Checker](https://github.com/harlan-zw/nuxt-link-checker):** Find broken links during development and builds.
+- 🔧 **[Site Config](https://github.com/harlan-zw/nuxt-site-config):** Share site URLs, names, and locales across modules.
+- 🧠 **[AI Ready](https://github.com/harlan-zw/nuxt-ai-ready):** Provide `llms.txt` and Markdown versions of your pages.
+- 🛡️ **[Skew Protection](https://github.com/harlan-zw/nuxt-skew-protection):** Keep previous build assets available after deployment.
 
 ## Installation
 
-Install everything at once:
+Nuxt SEO v6 requires Nuxt `^4.6.1 || ^5.0.0` and Node `^22.22.3 || ^24.15.0 || >=26.0.0`.
+Nuxt 3 projects stay on Nuxt SEO v5.
+If you use v5, read the [migration guide](https://nuxtseo.com/docs/nuxt-seo/migration-guide/v5-to-v6).
 
-```sh
+From your Nuxt project, install all nine modules:
+
+```bash
 npx nuxt module add seo
 ```
 
-Or pick only what you need:
+Or install individual modules:
 
-```sh
+```bash
 npx nuxt module add sitemap robots
 ```
 
+Site Config installs automatically with any SEO module.
+The bundle checks module versions at build time and configuration during development.
+It uses polling for Skew Protection and disables its version cookie. Your module options take precedence.
+
+> [!TIP]
 > Using an AI agent? Get the @nuxtjs/seo Skill on [skilld.dev/gh/harlan-zw/nuxt-seo](https://skilld.dev/gh/harlan-zw/nuxt-seo).
-
-Nuxt SEO v6 requires Nuxt 4.6.1 or later, and Node `^22.22.3 || ^24.15.0 || >=26.0.0`. Nuxt 3 sites stay on Nuxt SEO v5. See the [v5 to v6 migration guide](https://nuxtseo.com/docs/nuxt-seo/migration-guide/v5-to-v6).
-
-Once installed, check the [Using the Modules](https://nuxtseo.com/docs/nuxt-seo/guides/using-the-modules) guide to get started.
-
-## Going Further
-
-Modules handle the technical foundation. Validating your live site is equally important:
-
-- [Meta Tag Checker](https://nuxtseo.com/tools/meta-tag-checker)
-- [Schema Validator](https://nuxtseo.com/tools/schema-validator)
-- [XML Sitemap Validator](https://nuxtseo.com/tools/xml-sitemap-validator)
-- [Robots.txt Validator](https://nuxtseo.com/tools/robots-txt-validator)
-- [Social Share Debugger](https://nuxtseo.com/tools/social-share-debugger)
-
-Learn more about SEO and AEO:
-
-- [SEO Checklist](https://nuxtseo.com/learn-seo/checklist)
-- [AI-Optimized Content](https://nuxtseo.com/learn-seo/nuxt/launch-and-listen/ai-optimized-content)
-- [llms.txt Guide](https://nuxtseo.com/learn-seo/nuxt/controlling-crawlers/llms-txt)
-- [Pre-Launch Warmup](https://nuxtseo.com/learn-seo/pre-launch-warmup)
 
 ## Documentation
 
-[Read the full documentation](https://nuxtseo.com/) for configuration options, guides, and examples.
+- [Using the modules](https://nuxtseo.com/docs/nuxt-seo/guides/using-the-modules)
+- [Disabling modules](https://nuxtseo.com/docs/nuxt-seo/guides/disabling-modules)
+- [Full documentation](https://nuxtseo.com/docs/nuxt-seo/getting-started/introduction)
+- [Free SEO tools](https://nuxtseo.com/tools)
+- [SEO guides](https://nuxtseo.com/learn-seo)
 
 ## Sponsors
 
