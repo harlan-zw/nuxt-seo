@@ -93,7 +93,7 @@ describe('optional DevTools host lifecycle', () => {
     Object.assign(fixture.nuxt, { devtools: { extendServerRpc: vi.fn() } })
     setupDevToolsUI(panel, () => join(fixture.rootDir, 'panel'), fixture.nuxt)
     const docks: unknown[] = []
-    const context = { docks: { register: (entry: unknown) => docks.push(entry) } }
+    const context = { docks: { register: (entry: unknown) => docks.push(entry) }, rpc: { register: vi.fn(), broadcast: vi.fn() } }
     await fixture.call('devtools:initialized', { version: '4.0.0-beta.3' })
     await fixture.call('devtools:ready', context)
     await fixture.call('devtools:ready', context)
@@ -116,6 +116,45 @@ describe('optional DevTools host lifecycle', () => {
     await fixture.call('devtools:customTabs', tabs)
     expect(tabs).toEqual([{ name: 'nuxt-seo-fixture', title: 'Fixture', icon: 'carbon:test-tool', view: { type: 'iframe', src: '/__nuxt-seo-devtools/fixture' } }])
     expect(mocks.spawn).not.toHaveBeenCalled()
+  })
+  it('registers server RPC on the DevTools 4 RPC host without the deprecated extendServerRpc', async () => {
+    const fixture = consumer()
+    const extendServerRpc = vi.fn()
+    Object.assign(fixture.nuxt, { devtools: { extendServerRpc } })
+    Object.assign(fixture.nuxt.options, { _installedModules: [{ meta: { name: '@nuxtjs/robots' } }] })
+    setupDevToolsUI(panel, () => join(fixture.rootDir, 'panel'), fixture.nuxt)
+    const rpc = setupDevToolsRpc<{ ping: (value: string) => string }, { refresh: (path: string) => void }>('fixture', { ping: value => `pong ${value}` }, fixture.nuxt)
+    const handlers = new Map<string, (...args: any[]) => unknown>()
+    const broadcast = vi.fn(async () => {})
+    const context = {
+      docks: { register: vi.fn() },
+      rpc: { register: ({ name, handler }: { name: string, handler: (...args: any[]) => unknown }) => handlers.set(name, handler), broadcast },
+    }
+    await fixture.call('devtools:initialized', { version: '4.0.0-beta.4' })
+    await fixture.call('devtools:ready', context)
+    expect(extendServerRpc).not.toHaveBeenCalled()
+    expect(handlers.get('fixture:ping')?.('a')).toBe('pong a')
+    expect(handlers.get('nuxt-seo-modules:getInstalledSeoModules')?.()).toEqual([expect.objectContaining({ npm: '@nuxtjs/robots', disabled: false })])
+    const group = await rpc
+    await group!.broadcast.refresh('/about')
+    await group!.broadcast.refresh.asEvent('/blog')
+    expect(broadcast.mock.calls).toEqual([
+      [{ method: 'fixture:refresh', args: ['/about'], event: true }],
+      [{ method: 'fixture:refresh', args: ['/blog'], event: true }],
+    ])
+  })
+  it('keeps extendServerRpc for DevTools 3, which has no RPC host', async () => {
+    const fixture = consumer()
+    const legacyGroup = { broadcast: {} }
+    const extendServerRpc = vi.fn(() => legacyGroup)
+    Object.assign(fixture.nuxt, { devtools: { extendServerRpc }, callHook: fixture.call })
+    setupDevToolsUI(panel, () => join(fixture.rootDir, 'panel'), fixture.nuxt)
+    const functions = { ping: () => 'pong' }
+    const rpc = setupDevToolsRpc('fixture', functions, fixture.nuxt)
+    await fixture.call('devtools:initialized', { version: '3.4.2' })
+    expect(extendServerRpc).toHaveBeenCalledWith('fixture', functions)
+    expect(extendServerRpc).toHaveBeenCalledWith('nuxt-seo-modules', expect.objectContaining({ getInstalledSeoModules: expect.any(Function) }))
+    await expect(rpc).resolves.toBe(legacyGroup)
   })
   it.each([false, { enabled: false }])('does not register disabled panels or RPC: %j', async (devtools) => {
     const fixture = consumer(devtools)

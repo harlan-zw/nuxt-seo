@@ -143,36 +143,95 @@ function deriveRoutes(layerDir: string, slug: string): string[] {
   return routes
 }
 
+/**
+ * DevTools 3 and older have no `devtools:ready` hook or RPC host. They keep the native tab
+ * protocol and `extendServerRpc`. DevTools 4 deprecates both (`NDT_DEP_0003`).
+ */
+function isLegacyDevtools(info: { version: string }): boolean {
+  return Number.parseInt(info.version, 10) < 4
+}
+
+interface DevtoolsRpcHost {
+  register: (definition: { name: string, handler: (...args: any[]) => unknown }) => void
+  broadcast: (options: { method: string, args: unknown[], event: boolean }) => Promise<void>
+}
+
+/**
+ * Broadcast through the DevTools 4 RPC host with the namespaced method names that
+ * `extendClientRpc` registers in the client, keeping the `BirpcGroup` shape callers use.
+ */
+function rpcHostGroup<ClientFunctions extends object, ServerFunctions extends object>(rpc: DevtoolsRpcHost, namespace: string, functions: ServerFunctions): BirpcGroup<ClientFunctions, ServerFunctions> {
+  const broadcast = new Proxy({}, {
+    get: (_, method) => {
+      if (typeof method !== 'string')
+        return undefined
+      const send = (...args: unknown[]): Promise<void> => rpc.broadcast({ method: `${namespace}:${method}`, args, event: true })
+      return Object.assign(send, { asEvent: send })
+    },
+  })
+  return { clients: [], functions, broadcast, updateChannels: () => [] } as unknown as BirpcGroup<ClientFunctions, ServerFunctions>
+}
+
+/**
+ * Register namespaced server RPC functions with the running DevTools. DevTools 4 takes them on
+ * its RPC host at `devtools:ready`. DevTools 3 never emits that hook, so it uses `extendServerRpc`.
+ */
+function registerServerRpc<ClientFunctions extends object, ServerFunctions extends object>(
+  namespace: string,
+  functions: ServerFunctions,
+  nuxt: Nuxt,
+  onRegistered: (group: BirpcGroup<ClientFunctions, ServerFunctions>) => void,
+): void {
+  let registered = false
+  onDevtoolsReady((ctx) => {
+    if (registered)
+      return
+    registered = true
+    // The host types `broadcast` against its augmented client registry. Module namespaces are
+    // only known at runtime, so read it through the untyped method-name shape it accepts.
+    const rpc = ctx.rpc as unknown as DevtoolsRpcHost
+    for (const [name, handler] of Object.entries(functions)) {
+      if (typeof handler === 'function')
+        rpc.register({ name: `${namespace}:${name}`, handler })
+    }
+    onRegistered(rpcHostGroup<ClientFunctions, ServerFunctions>(rpc, namespace, functions))
+  }, nuxt)
+  onDevToolsInitialized((info) => {
+    if (registered || !isLegacyDevtools(info))
+      return
+    registered = true
+    onRegistered(extendServerRpc<ClientFunctions, ServerFunctions>(namespace, functions, nuxt))
+  }, nuxt)
+}
+
 /** Register the shared `getInstalledSeoModules` RPC once (drives the module switcher). */
 function registerSharedRpcOnce(nuxt: Nuxt): void {
   if ((nuxt as any)._seoDevtoolsRpcRegistered)
     return
   (nuxt as any)._seoDevtoolsRpcRegistered = true
-  onDevToolsInitialized(() => {
-    extendServerRpc('nuxt-seo-modules', {
-      // Registered modules (those that shipped a devtools panel) carry the iframe route.
-      // detectNuxtSeoModules adds every *installed* SEO module from nuxt's module list —
-      // independent of whether it self-registered a panel or which shared version it ships —
-      // so the picker reflects the full install (e.g. site-config, which has no panel).
-      getInstalledSeoModules: (): SeoModuleInfo[] => {
-        const byNpm = new Map<string, SeoModuleInfo>()
-        for (const m of ((nuxt as any)._seoDevtoolsModules || []) as SeoModuleInfo[]) {
-          if (m.npm)
-            byNpm.set(m.npm, m)
+  registerServerRpc('nuxt-seo-modules', {
+    // Registered modules (those that shipped a devtools panel) carry the iframe route.
+    // detectNuxtSeoModules adds every *installed* SEO module from nuxt's module list —
+    // independent of whether it self-registered a panel or which shared version it ships —
+    // so the picker reflects the full install (e.g. site-config, which has no panel).
+    getInstalledSeoModules: (): SeoModuleInfo[] => {
+      const byNpm = new Map<string, SeoModuleInfo>()
+      for (const m of ((nuxt as any)._seoDevtoolsModules || []) as SeoModuleInfo[]) {
+        if (m.npm)
+          byNpm.set(m.npm, m)
+      }
+      for (const det of detectNuxtSeoModules(nuxt)) {
+        if (!byNpm.has(det.name)) {
+          const meta = seoModules.find(s => s.npm === det.name)
+          byNpm.set(det.name, { name: meta?.slug ?? det.name, npm: det.name, title: meta?.label ?? det.name, icon: meta?.icon ?? '', route: '', disabled: det.disabled })
         }
-        for (const det of detectNuxtSeoModules(nuxt)) {
-          if (!byNpm.has(det.name)) {
-            const meta = seoModules.find(s => s.npm === det.name)
-            byNpm.set(det.name, { name: meta?.slug ?? det.name, npm: det.name, title: meta?.label ?? det.name, icon: meta?.icon ?? '', route: '', disabled: det.disabled })
-          }
-          else {
-            byNpm.get(det.name)!.disabled = det.disabled
-          }
+        else {
+          byNpm.get(det.name)!.disabled = det.disabled
         }
-        return [...byNpm.values()]
-      },
-    }, nuxt)
-  }, nuxt)
+      }
+      return [...byNpm.values()]
+    },
+  }, nuxt, () => {})
 }
 
 /**
@@ -349,7 +408,7 @@ function setupLayerModule(config: DevToolsUIConfig, layerDir: string, nuxt: Nuxt
   let nativeTabRegistered = false
   onDevToolsInitialized((info) => {
     // DevTools 3 does not emit devtools:ready. Keep its native tab protocol.
-    if (!info.version.startsWith('3.') || nativeTabRegistered)
+    if (!isLegacyDevtools(info) || nativeTabRegistered)
       return
     nativeTabRegistered = true
     nuxt.hook('devtools:customTabs', (tabs) => {
@@ -491,8 +550,6 @@ export function setupDevToolsRpc<
   if (!nuxt.options.dev || nuxt.options.devtools === false || (typeof nuxt.options.devtools === 'object' && nuxt.options.devtools.enabled === false))
     return Promise.resolve(undefined)
   return new Promise((resolve) => {
-    onDevToolsInitialized(() => {
-      resolve(extendServerRpc<ClientFunctions, ServerFunctions>(namespace, serverFunctions, nuxt))
-    }, nuxt)
+    registerServerRpc<ClientFunctions, ServerFunctions>(namespace, serverFunctions, nuxt, resolve)
   })
 }

@@ -8,9 +8,14 @@ import { setupDevToolsUI } from '../src/index'
 const boundary = vi.hoisted(() => ({ rpc: undefined as undefined | { getInstalledSeoModules: () => { npm?: string, route: string, disabled?: boolean }[] }, disabled: true }))
 vi.mock('@nuxt/devtools-kit', () => ({
   NUXT_DEVTOOLS_GROUP_ID: 'nuxt',
-  onDevtoolsReady: vi.fn(),
-  onDevToolsInitialized: (callback: (info: { version: string }) => void) => callback({ version: '4.0.0-beta.3' }),
-  extendServerRpc: (_namespace: string, functions: typeof boundary.rpc) => { boundary.rpc = functions },
+  onDevtoolsReady: (callback: (ctx: unknown) => void) => callback({
+    docks: { register: () => {} },
+    rpc: { register: ({ name, handler }: { name: string, handler: () => [] }) => {
+      if (name === 'nuxt-seo-modules:getInstalledSeoModules')
+        boundary.rpc = { getInstalledSeoModules: handler }
+    } },
+  }),
+  onDevToolsInitialized: (callback: (info: { version: string }) => void) => callback({ version: '4.0.0-beta.4' }),
 }))
 vi.mock('nuxtseo-shared/kit', () => ({ detectNuxtSeoModules: () => [
   { name: 'nuxt-og-image', disabled: boundary.disabled },
