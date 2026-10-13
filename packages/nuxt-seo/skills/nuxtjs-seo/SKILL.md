@@ -124,7 +124,7 @@ Breaking in v6: `asSeoCollection()` is removed. Old: `defineCollection(asSeoColl
 
 ## Traps
 
-- **Production SSR returns 500 on every request without `NUXT_APP_SECRET`.** OG Image signs runtime URLs from Nuxt's `appSecret`. Dev generates a temporary secret, so local runs pass; builds never generate one. Fix: run `npx nuxt-og-image generate-secret` and set `NUXT_APP_SECRET` (32 or more characters) in production. Static output and `ogImage: { zeroRuntime: true }` need no secret.
+- **Production OG image requests return 500 without `NUXT_APP_SECRET`.** Only `/_og/` image requests fail; pages still render. The server logs `[nuxt-og-image] URL signing has no valid secret.` once. OG Image signs runtime URLs from Nuxt's `appSecret`. Dev generates a temporary secret, so local runs pass; builds never generate one. Fix: run `npx nuxt-og-image generate-secret` and set `NUXT_APP_SECRET` (32 or more characters) in production. Static output and `ogImage: { zeroRuntime: true }` need no secret.
 - **A fresh install logs `No OG image renderer is installed, so OG images are off.`** With no OG Image template and no renderer, the module selects nothing and installs nothing. Fix: `npx nuxt-og-image enable takumi`, or set `ogImage: false`.
 - **A template whose renderer is missing.** Interactive `nuxt dev` asks before installing. CI and Agent shells only log the `npx nypm add` command and never edit `package.json`. A production build fails if a page or route rule uses that template.
 - **A submodule in the app `package.json` replaces the bundled copy.** If older than the bundle requires, the build stops with `[@nuxtjs/seo] Module @nuxtjs/sitemap version (8.6.1) does not satisfy >=9.0.1 (requested by @nuxtjs/seo).` Upgrade the pin or remove it.
@@ -139,7 +139,7 @@ Breaking in v6: `asSeoCollection()` is removed. Old: `defineCollection(asSeoColl
 - Breaking in v6, each with its fix:
   - `nuxt-ai-ready` or `nuxt-skew-protection` in `modules`: remove the entry and the dependency.
   - A pinned submodule below the new major fails the build: update the pin or remove it.
-  - Production 500 without `NUXT_APP_SECRET`: see Traps. Remove string `ogImage.security.secret`.
+  - OG image requests return 500 without `NUXT_APP_SECRET`: see Traps. Remove string `ogImage.security.secret`.
   - SEO DevTools panels show an install button: `pnpm add -D nuxtseo-devtools-host`, then restart Nuxt.
   - `robots:*` and `sitemap:*` hook contexts carry a `RequestEvent`: replace `ctx.event.node.req.headers.authorization` with `ctx.event.req.headers.get('authorization')`.
   - `#internal/nuxt-robots`, bare `#schema-org`, bare `#seo-utils`: import from `#robots/server`, `#schema-org/app`, `#seo-utils/app`.

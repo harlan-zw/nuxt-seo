@@ -118,7 +118,8 @@ export function setupDevelopmentChecks(nuxt: Nuxt, options: { tips: boolean } = 
         installedModuleSlugs.push(module.slug)
     }
     // OG Image signing middleware runs on every production server request. Without a secret,
-    // each request fails with a 500 error. Static output and zero runtime images run no server.
+    // OG image requests fail with a 500 error and pages still render. Static output and zero
+    // runtime images run no server.
     const ogImage = context.moduleOptions['og-image']
     if (installedModuleSlugs.includes('og-image') && context.ssr && !context.isPrerendered && ogImage?.zeroRuntime !== true && optionRecord(ogImage?.security)?.secret !== false)
       context.ogImageSecret = hasProductionAppSecret((nuxt.options.runtimeConfig as Record<string, unknown> | undefined)?.appSecret, process.env) ? 'configured' : 'missing'
