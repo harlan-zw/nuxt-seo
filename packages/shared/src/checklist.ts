@@ -248,7 +248,7 @@ function evaluateContextChecks(slug: NuxtSEOModule['slug'], context: SetupCheckl
   return [{
     id: 'app-secret',
     label: 'Signing secret set',
-    description: 'OG Image signs runtime image URLs with NUXT_APP_SECRET. Without it, production pages return a 500 error.',
+    description: 'OG Image signs runtime image URLs with NUXT_APP_SECRET. Without it, production OG image requests return a 500 error. Pages still render.',
     level: 'required',
     docsUrl: 'https://nuxtseo.com/docs/og-image/guides/security#url-signing',
     status: passed ? 'passed' : 'failed',
