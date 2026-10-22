@@ -3,25 +3,25 @@ blockExoticSubdeps: false
 
 minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
-  - '@nuxt/kit@4.6.1'
-  - '@nuxt/nitro-server@4.6.1'
-  - '@nuxt/schema@4.6.1'
-  - '@nuxt/vite-builder@4.6.1'
-  - '@nuxt/vite-server@4.6.1'
-  - nuxt@4.6.1
-  - '@harlan-zw/comark-content@0.2.0'
-  - '@nuxt/devtools-kit@4.0.0-beta.4'
-  - '@nuxtjs/robots@7.0.0'
-  - '@nuxtjs/sitemap@9.0.1'
-  - nuxt-ai-ready@3.0.1
-  - nuxt-link-checker@6.0.0
-  - nuxt-og-image@7.0.1
-  - nuxt-schema-org@7.0.0
-  - nuxt-seo-utils@9.0.0
-  - nuxt-site-config-kit@5.0.1
-  - nuxt-site-config@5.0.1
-  - nuxt-skew-protection@2.0.1
-  - site-config-stack@5.0.1
+  - '@nuxt/kit@4.6.2'
+  - '@nuxt/nitro-server@4.6.2'
+  - '@nuxt/schema@4.6.2'
+  - '@nuxt/vite-builder@4.6.2'
+  - '@nuxt/vite-server@4.6.2'
+  - nuxt@4.6.2
+  - '@harlan-zw/comark-content@0.2.2'
+  - '@nuxt/devtools-kit@4.0.0-beta.7'
+  - '@nuxtjs/robots@7.0.2'
+  - '@nuxtjs/sitemap@9.1.0'
+  - nuxt-ai-ready@3.4.0
+  - nuxt-link-checker@6.0.1
+  - nuxt-og-image@7.0.7
+  - nuxt-schema-org@7.0.1
+  - nuxt-seo-utils@9.0.1
+  - nuxt-site-config-kit@5.0.3
+  - nuxt-site-config@5.0.3
+  - nuxt-skew-protection@2.0.3
+  - site-config-stack@5.0.3
   - sitemapd@0.2.3
 
 trustPolicy: no-downgrade
@@ -77,8 +77,8 @@ packages:
   - '!**/.data/**'
 
 overrides:
-  '@nuxt/kit': ^4.6.1
-  '@nuxt/schema': ^4.6.1
+  '@nuxt/kit': ^4.6.2
+  '@nuxt/schema': ^4.6.2
   '@unhead/bundler': ^3.4.1
   '@unhead/vue': ^3.4.1
   better-sqlite3: ^13.0.3
@@ -123,7 +123,7 @@ overrides:
 
   stylehacks: 9.0.7
   unhead: ^3.4.1
-  vue: ^3.5.43
+  vue: ^3.5.44
 
 allowBuilds:
   '@firebase/util': false
@@ -151,20 +151,20 @@ onlyBuiltDependencies:
 catalog:
   '@antfu/eslint-config': ^9.5.1
   '@arethetypeswrong/cli': ^0.18.5
-  '@harlan-zw/comark-content': ^0.2.0
+  '@harlan-zw/comark-content': ^0.2.2
   '@iconify-json/carbon': ^1.2.28
   '@jridgewell/trace-mapping': ^0.3.31
-  '@nuxt/content': ^3.16.1
-  '@nuxt/devtools-kit': 4.0.0-beta.4
-  '@nuxt/fonts': ^0.14.0
-  '@nuxt/kit': ^4.6.1
+  '@nuxt/content': ^3.16.2
+  '@nuxt/devtools-kit': 4.0.0-beta.7
+  '@nuxt/fonts': ^1.0.1
+  '@nuxt/kit': ^4.6.2
   '@nuxt/module-builder': ^1.0.3
-  '@nuxt/schema': ^4.6.1
-  '@nuxt/test-utils': ^4.3.3
-  '@nuxt/ui': ^4.11.3
+  '@nuxt/schema': ^4.6.2
+  '@nuxt/test-utils': ^4.3.4
+  '@nuxt/ui': ^4.12.0
   '@nuxtjs/i18n': ^10.6.0
-  '@nuxtjs/robots': ^7.0.0
-  '@nuxtjs/sitemap': ^9.0.1
+  '@nuxtjs/robots': ^7.0.2
+  '@nuxtjs/sitemap': ^9.1.0
   '@resvg/resvg-js': ^2.6.2
   '@shikijs/langs': ^4.5.0
   '@shikijs/themes': ^4.5.0
@@ -178,25 +178,25 @@ catalog:
   bumpp: ^12.3.0
   consola: ^3.4.2
   defu: ^6.1.7
-  eslint: ^10.12.0
+  eslint: ^10.13.0
   eslint-plugin-harlanzw: ^0.23.0
-  execa: ^10.0.1
-  h3: ^2.0.1
-  happy-dom: ^20.14.5
+  execa: ^10.2.0
+  h3: ^2.0.7
+  happy-dom: ^21.0.4
   jest-image-snapshot: ^6.5.2
   lint-staged: ^17.6.0
-  nitropack: ^2.13.4
-  nuxt: ^4.6.1
-  nuxt-ai-ready: ^3.0.1
-  nuxt-link-checker: ^6.0.0
-  nuxt-og-image: ^7.0.1
-  nuxt-schema-org: ^7.0.0
-  nuxt-seo-utils: ^9.0.0
-  nuxt-site-config: ^5.0.1
-  nuxt-skew-protection: ^2.0.1
+  nitropack: ^2.13.5
+  nuxt: ^4.6.2
+  nuxt-ai-ready: ^3.4.0
+  nuxt-link-checker: ^6.0.1
+  nuxt-og-image: ^7.0.7
+  nuxt-schema-org: ^7.0.1
+  nuxt-seo-utils: ^9.0.1
+  nuxt-site-config: ^5.0.3
+  nuxt-skew-protection: ^2.0.3
   ofetch: ^1.5.1
   pathe: ^2.0.3
-  pkg-types: ^2.3.3
+  pkg-types: ^2.4.0
   radix3: ^1.1.2
   rc9: ^3.1.0
   satori: ^0.47.1
@@ -209,7 +209,7 @@ catalog:
   typescript: 6.0.3
   ufo: ^1.6.4
   unbuild: ^3.6.1
-  vitest: ^5.0.3
-  vue: ^3.5.43
-  vue-tsc: ^3.3.12
-  zod: ^4.6.5
+  vitest: ^5.0.5
+  vue: ^3.5.44
+  vue-tsc: ^3.3.13
+  zod: ^4.6.7

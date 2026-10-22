@@ -58,6 +58,7 @@ describe('trailing slash', () => {
       "# START nuxt-robots (indexable)
       User-agent: *
       Disallow: 
+      Content-Signal: search=yes, ai-input=yes
 
       Sitemap: https://local.nuxtseo.com/sitemap.xml
       # END nuxt-robots"

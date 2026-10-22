@@ -28,7 +28,6 @@ describe('i18n', () => {
     expect(extractSeoHead(html)).toMatchInlineSnapshot(`
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:image" content="https://nuxtseo.com/_og/d/description_en%2Bdescription%2Cch_tjb25mqs8mf6%2Cs_67_CZko6Lp_Fqjff.png">
       <meta property="og:image" content="https://nuxtseo.com/_og/d/description_en%2Bdescription%2Cch_tjb25mqs8mf6%2Cs_67_CZko6Lp_Fqjff.png">
       <meta property="og:image:type" content="image/png">
@@ -37,6 +36,7 @@ describe('i18n', () => {
       <meta property="og:type" content="website">
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>@nuxtjs&#x2F;seo</title>
+      <meta name="twitter:card" content="summary_large_image">
       <meta property="og:title" data-infer="" content="@nuxtjs/seo">
       <meta property="og:description" data-infer="" content="en description">
       <link rel="canonical" href="https://nuxtseo.com/">
@@ -53,7 +53,6 @@ describe('i18n', () => {
     expect(extractSeoHead(html)).toMatchInlineSnapshot(`
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:image" content="https://nuxtseo.com/_og/d/description_fr%2Bdescription%2Cp_Ii9mciI%2Cch_tjb25mqs8mf6%2Cs_WlxsI1JaYPkY-f39.png">
       <meta property="og:image" content="https://nuxtseo.com/_og/d/description_fr%2Bdescription%2Cp_Ii9mciI%2Cch_tjb25mqs8mf6%2Cs_WlxsI1JaYPkY-f39.png">
       <meta property="og:image:type" content="image/png">
@@ -62,6 +61,7 @@ describe('i18n', () => {
       <meta property="og:type" content="website">
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>Fr | fr name</title>
+      <meta name="twitter:card" content="summary_large_image">
       <meta property="og:title" data-infer="" content="Fr | fr name">
       <meta property="og:description" data-infer="" content="fr description">
       <link rel="canonical" href="https://nuxtseo.com/fr">
@@ -98,6 +98,7 @@ describe('i18n', () => {
         "# START nuxt-robots (indexable)",
         "User-agent: *",
         "Disallow:",
+        "Content-Signal: search=yes, ai-input=yes",
         "",
         "Sitemap: https://nuxtseo.com/sitemap_index.xml",
         "# END nuxt-robots",

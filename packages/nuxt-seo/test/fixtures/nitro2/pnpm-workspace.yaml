@@ -2,24 +2,31 @@ ignoreWorkspaceRootCheck: true
 blockExoticSubdeps: false
 minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
-  - "@nuxt/schema@4.6.1"
   - "@nuxt/kit@4.6.1"
-  - "@nuxt/nitro-server@4.6.1"
-  - "@nuxt/vite-builder@4.6.1"
-  - "@nuxt/vite-server@4.6.1"
-  - nuxt@4.6.1
+  - "@nuxt/kit@4.6.2"
+  - "@nuxt/nitro-server@4.6.2"
+  - "@nuxt/schema@4.6.2"
+  - "@nuxt/vite-builder@4.6.2"
+  - "@nuxt/vite-server@4.6.2"
+  - nuxt@4.6.2
   - "@nuxtjs/robots@7.0.0"
+  - "@nuxtjs/robots@7.0.2"
   - "@nuxtjs/sitemap@9.0.1"
-  - nuxt-ai-ready@3.0.1
-  - nuxt-link-checker@6.0.0
-  - nuxt-og-image@7.0.1
-  - nuxt-schema-org@7.0.0
-  - nuxt-seo-utils@9.0.0
+  - "@nuxtjs/sitemap@9.1.0"
+  - nuxt-ai-ready@3.4.0
+  - nuxt-link-checker@6.0.1
+  - nuxt-og-image@7.0.7
+  - nuxt-schema-org@7.0.1
+  - nuxt-seo-utils@9.0.1
+  - nuxt-skew-protection@2.0.3
   - nuxt-site-config-kit@5.0.1
+  - nuxt-site-config-kit@5.0.3
   - nuxt-site-config@5.0.1
-  - nuxt-skew-protection@2.0.1
+  - nuxt-site-config@5.0.3
   - nuxtseo-shared@6.0.1
+  - nuxtseo-shared@6.0.3
   - site-config-stack@5.0.1
+  - site-config-stack@5.0.3
   - sitemapd@0.2.3
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 262800
