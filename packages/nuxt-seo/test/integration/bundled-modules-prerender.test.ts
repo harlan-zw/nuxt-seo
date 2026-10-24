@@ -46,10 +46,10 @@ describe('bundled modules (prerendered)', () => {
     expect(txt).toContain('- [Full Content](https://local.nuxtseo.com/llms-full.txt)')
     expect(txt).toContain('- [robots.txt](https://local.nuxtseo.com/robots.txt)')
 
-    // Pages section: one entry per prerendered route, title templated by seo-utils
+    // Pages section: one entry per prerendered route
     expect(txt).toContain('## Pages')
-    expect(txt).toContain('- [@nuxtjs/seo](/): Fully equipped Technical SEO for busy Nuxters.')
-    expect(txt).toContain('- [About | @nuxtjs/seo](/about): Fully equipped Technical SEO for busy Nuxters.')
+    expect(txt).toContain('- [/](https://local.nuxtseo.com/index.md)')
+    expect(txt).toContain('- [/about](https://local.nuxtseo.com/about.md)')
   })
 
   it('ai-ready prerenders full page content into llms-full.txt', async () => {
@@ -60,24 +60,23 @@ describe('bundled modules (prerendered)', () => {
     expect(txt).toContain('Canonical Origin: https://local.nuxtseo.com')
     expect(txt).toContain('## LLM Resources')
 
-    // Full per-page records with source, description and the page's markdown
-    // body. Prerender completion controls record order, so assert each block
-    // independently rather than the whole document.
+    // Full per-page records with source and description, then the page's
+    // markdown body. Prerender completion controls record order, so assert each
+    // block independently rather than the whole document.
     expect(txt).toContain([
       '- **Page:** @nuxtjs/seo',
       '- **Source:** https://local.nuxtseo.com/',
       '- **Description:** Fully equipped Technical SEO for busy Nuxters.',
-      '',
-      '# home',
     ].join('\n'))
 
     expect(txt).toContain([
       '- **Page:** About | @nuxtjs/seo',
       '- **Source:** https://local.nuxtseo.com/about',
       '- **Description:** Fully equipped Technical SEO for busy Nuxters.',
-      '',
-      '# about',
     ].join('\n'))
+
+    expect(txt).toContain('# home')
+    expect(txt).toContain('# about')
   })
 
   it('ai-ready emits static .md twins for prerendered pages', async () => {
