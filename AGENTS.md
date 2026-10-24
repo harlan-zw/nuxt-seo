@@ -18,6 +18,8 @@ All module repos live in `~/pkg`. The `@nuxtjs/seo` module bundles these:
 | Skew Protection | `nuxt-skew-protection` | `~/pkg/nuxt-skew-protection` |
 | AI Ready        | `nuxt-ai-ready` | `~/pkg/nuxt-ai-ready` |
 
+For example, fix the Sitemap module in `~/pkg/sitemap`, not in this monorepo.
+
 ## Website
 
 The nuxtseo.com website source lives at `~/sites/nuxtseo.com`. It is a Nuxt app deployed to Cloudflare Workers with D1 databases. The Pro dashboard is the `apps/pro` app. Its shared code lives in `layers/pro` and `layers/saas`.
