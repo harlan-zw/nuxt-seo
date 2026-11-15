@@ -3,14 +3,15 @@ import type { Nitro } from 'nitropack'
 import type { NitroConfig } from 'nitropack/types'
 import type { NuxtModule, NuxtPage } from 'nuxt/schema'
 import { readFile } from 'node:fs/promises'
-import { findPackageJSON } from 'node:module'
 import { relative, sep } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { addTemplate, createResolver, getNitroVersion, hasNuxtModule, hasNuxtModuleCompatibility, loadNuxtModuleInstance, tryUseNuxt, useLogger, useNuxt } from '@nuxt/kit'
 import { env, provider } from 'std-env'
+import { findPackageJSON } from './package-json'
 
 export type { NitroRuntimeCompatibility, NitroTypeAugmentations } from './nitro-compatibility'
 export { renderNitroTypeAugmentations, setupNitroRuntimeCompatibility } from './nitro-compatibility'
+export { findPackageJSON } from './package-json'
 export type { RuntimeAliasOptions } from './runtime-aliases'
 export { setupRuntimeAliases } from './runtime-aliases'
 export { isAgent, isCI } from 'std-env'
@@ -32,7 +33,7 @@ function normalizePackageUrl(rootDir: string): string {
 
 async function readPackageVersion(id: string, rootDir: string): Promise<string | undefined> {
   const path = await Promise.resolve().then(() => findPackageJSON(id, new URL('package.json', normalizePackageUrl(rootDir)))).catch((error: unknown) => {
-    if (error && typeof error === 'object' && 'code' in error && (error.code === 'ERR_MODULE_NOT_FOUND' || error.code === 'ENOENT'))
+    if (error && typeof error === 'object' && 'code' in error && (error.code === 'ERR_MODULE_NOT_FOUND' || error.code === 'MODULE_NOT_FOUND' || error.code === 'ENOENT'))
       return undefined
     throw error
   })
