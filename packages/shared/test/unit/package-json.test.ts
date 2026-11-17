@@ -115,13 +115,16 @@ describe.each(implementations)('%s', (_name, find) => {
     expect(find(entry, base())).toBe(join(app, 'package.json'))
   })
 
-  it('returns undefined when no package.json exists above the path', () => {
-    expect(find('/', base())).toBeUndefined()
-  })
-
   it('throws ERR_MODULE_NOT_FOUND for missing targets', () => {
     expect(() => find('does-not-exist', base())).toThrow(expect.objectContaining({ code: 'ERR_MODULE_NOT_FOUND' }))
     expect(() => find('./missing/file.mjs', base())).toThrow(expect.objectContaining({ code: 'ERR_MODULE_NOT_FOUND' }))
+  })
+})
+
+describe('findPackageJSONFallback', () => {
+  it('returns undefined when no package.json exists above the path', () => {
+    // Native Node can return the directory itself when no manifest exists.
+    expect(findPackageJSONFallback('/')).toBeUndefined()
   })
 })
 
