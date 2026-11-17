@@ -114,7 +114,7 @@ useSeoMeta(page.value?.seo || {})
 
 ## Traps
 
-- **Production OG images return 500 without `NUXT_APP_SECRET`.** Only `/_og/` fails; pages render. Dev creates a temporary secret, builds do not. Run `npx nuxt-og-image generate-secret`; set a 32+ character production secret. Static and `ogImage: { zeroRuntime: true }` need none.
+- **Production signing needs `NUXT_APP_SECRET`.** OG Image URL signing and AI Ready Runtime Sync derive separate keys from it. Run `openssl rand -base64 32`, or keep an existing application secret. Set the same value across deployments and instances within each environment. Dev generates a secret when unset; builds never generate one. Missing secrets cause OG image requests to return 500 and Runtime Sync authentication to fail. Pages still render. Static output and `ogImage: { zeroRuntime: true }` need no OG signing key. Scheduler requests use AI Ready's derived token, never the application secret.
 - **Fresh install has no OG images without a template or renderer.** Run `npx nuxt-og-image enable takumi`, or set `ogImage: false`.
 - **A template renderer is missing.** Interactive `nuxt dev` asks to install it. CI and Agent shells log `npx nypm add`, never edit `package.json`; production build then fails if used.
 - **An app submodule replaces the bundled copy.** An old pin stops build; upgrade or remove it.
