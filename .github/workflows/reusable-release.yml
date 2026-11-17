@@ -15,6 +15,10 @@ on:
         description: Use pnpm publish -r for monorepo publishing
         type: boolean
         default: false
+      publish-filter:
+        description: Publish only this workspace package
+        type: string
+        default: ''
       pre-build-command:
         description: Command to run before build (e.g. npx nuxt prepare)
         type: string
@@ -74,15 +78,21 @@ jobs:
         run: |
           TAG="${GITHUB_REF#refs/tags/}"
           if [[ "$TAG" =~ -(beta|rc|alpha) ]]; then
-            DIST_TAG=$(echo "$TAG" | sed 's/.*-\(beta\|rc\|alpha\).*/\1/')
+            DIST_TAG="${BASH_REMATCH[1]}"
             echo "tag=--tag $DIST_TAG" >> "$GITHUB_OUTPUT"
           else
             echo "tag=" >> "$GITHUB_OUTPUT"
           fi
 
       - if: ${{ inputs.monorepo }}
-        run: pnpm publish -r --access public --no-git-checks --provenance ${{
-          steps.prerelease.outputs.tag }}
+        env:
+          PUBLISH_FILTER: ${{ inputs.publish-filter }}
+        run: |
+          if [ -n "$PUBLISH_FILTER" ]; then
+            pnpm -r --filter "$PUBLISH_FILTER" publish --access public --no-git-checks --provenance ${{ steps.prerelease.outputs.tag }}
+          else
+            pnpm publish -r --access public --no-git-checks --provenance ${{ steps.prerelease.outputs.tag }}
+          fi
 
       - if: ${{ !inputs.monorepo }}
         run: pnpm publish --access public --no-git-checks --provenance ${{

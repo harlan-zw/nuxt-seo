@@ -48,7 +48,7 @@ describe('optional DevTools host', () => {
     const tabs: any[] = []
     hooks.get('devtools:customTabs')!(tabs)
     expect(tabs[0].view.type).toBe('launch')
-    expect(tabs[0].view.actions[0].label).toBe('Install nuxtseo-devtools-host@^1.0.1')
+    expect(tabs[0].view.actions[0].label).toBe('Install nuxtseo-devtools-host@^1.0.3')
     await expect(setupDevToolsRpc('fixture', {}, nuxt)).resolves.toBeUndefined()
     expect(hooks.has('vite:serverCreated')).toBe(false)
     expect(mocks.spawn).not.toHaveBeenCalled()
@@ -75,7 +75,7 @@ describe('optional DevTools host', () => {
     hooks.get('devtools:customTabs')!(failure)
     expect(failure[0].view.description).toContain('Installation failed')
     expect(failure[0].view.actions[0].pending).toBe(false)
-    expect(mocks.command).toHaveBeenCalledWith('nuxtseo-devtools-host@^1.0.1', rootDir, { dev: true })
+    expect(mocks.command).toHaveBeenCalledWith('nuxtseo-devtools-host@^1.0.3', rootDir, { dev: true })
     const retry = action()
     await vi.waitFor(() => expect(mocks.spawn).toHaveBeenCalledTimes(2))
     hooks.get('close')!()
