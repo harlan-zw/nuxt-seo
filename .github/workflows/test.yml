@@ -1,9 +1,10 @@
 name: CI
 
 on:
-  # Every push. reusable-ci.yml skips its jobs when only docs change, so the
-  # required checks still report.
+  # Every push and pull request. reusable-ci.yml skips jobs for docs changes.
+  # Required checks still report.
   push:
+  pull_request:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
