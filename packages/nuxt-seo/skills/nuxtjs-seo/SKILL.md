@@ -80,9 +80,11 @@ Both install automatically. On v5 upgrade, remove duplicate `modules` entries; k
 
 ## Nuxt Content v3
 
-For Valibot, install `valibot` and `@valibot/to-json-schema`. Import the four helpers from `@nuxtjs/seo/content/valibot` and use them in `v.object()`.
+Zod: install `zod` 4. Import from `@nuxtjs/seo/content`.
 
-For Zod, install `zod` 4 and import the helpers from `@nuxtjs/seo/content`. Use these Nuxt SEO imports when only `@nuxtjs/seo` is installed.
+Valibot: install `valibot` and `@valibot/to-json-schema`. Import from `@nuxtjs/seo/content/valibot`. Use `v.object()`.
+
+Use these paths if only `@nuxtjs/seo` is installed.
 
 ```ts
 import { defineCollection, defineContentConfig } from '@nuxt/content'
