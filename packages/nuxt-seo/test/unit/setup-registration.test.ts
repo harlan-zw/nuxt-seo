@@ -348,18 +348,67 @@ describe('og Image signing secret', () => {
     expect(result.status).toBe('needs-setup')
     expect(result.requiredPending).toBe(1)
     const report = formatSetupReport([result])
-    expect(report).toContain('npx nuxt-og-image generate-secret')
+    expect(report).toContain('openssl rand -base64 32')
     expect(report).toContain('NUXT_APP_SECRET')
   })
 
   it.each([
     ['a configured app secret', { ogImage: { enabled: true }, env: { NUXT_APP_SECRET: 'a'.repeat(32) } }],
-    ['the deprecated OG Image secret', { ogImage: { enabled: true }, env: { NUXT_APP_SECRET_GENERATED: '1', NUXT_OG_IMAGE_SECRET: 'a'.repeat(32) } }],
+    ['a legacy signing key', { ogImage: { enabled: true }, env: { NUXT_OG_IMAGE_SECRET: 'a'.repeat(32) } }],
+    ['a legacy signing key and an empty app secret', { ogImage: { enabled: true }, env: { NUXT_APP_SECRET: '', NUXT_OG_IMAGE_SECRET: 'a'.repeat(32) } }],
+    ['a legacy signing key and a generated development secret', { ogImage: { enabled: true }, env: { NUXT_APP_SECRET_GENERATED: '1', NUXT_APP_SECRET: 'b'.repeat(64), NUXT_OG_IMAGE_SECRET: 'a'.repeat(32) } }],
     ['signing disabled', { ogImage: { security: { secret: false } }, env: { NUXT_APP_SECRET_GENERATED: '1' } }],
     ['zero runtime images', { ogImage: { zeroRuntime: true }, env: { NUXT_APP_SECRET_GENERATED: '1' } }],
     ['a static app', { ogImage: { enabled: true }, env: { NUXT_APP_SECRET_GENERATED: '1' }, preset: 'static' }],
   ])('does not require a secret with %s', async (_name, options) => {
     const result = await signingCheck(options)
     expect(result.requiredPending).toBe(0)
+  })
+
+  it.each([
+    { NUXT_APP_SECRET: 'short' },
+    { NUXT_OG_IMAGE_SECRET: 'short' },
+    { NUXT_APP_SECRET: 'short', NUXT_OG_IMAGE_SECRET: 'a'.repeat(32) },
+    { NITRO_APP_SECRET: 'short', NUXT_APP_SECRET: 'a'.repeat(32) },
+  ])('requires a valid application secret with %j', async (env) => {
+    const result = await signingCheck({ ogImage: { enabled: true }, env })
+    expect(result.requiredPending).toBe(1)
+  })
+})
+
+describe('aI Runtime Sync application secret', () => {
+  afterEach(() => vi.unstubAllEnvs())
+
+  it.each([
+    [{ runtimeSync: true }, {}, true, 'node-server', 1],
+    [{ runtimeSync: { ttl: 60 } }, {}, true, 'node-server', 1],
+    [{ cron: true }, {}, false, 'node-server', 1],
+    [{ runtimeSync: true, prerender: true }, {}, true, 'node-server', 1],
+    [{ runtimeSync: false, cron: false }, {}, true, 'node-server', 0],
+    [{ runtimeSync: true }, { NUXT_APP_SECRET: 'shared-application-secret-32-characters' }, true, 'node-server', 0],
+    [{ runtimeSync: true, runtimeSyncSecret: 'legacy-token-for-fixture' }, {}, true, 'node-server', 0],
+    [{ runtimeSync: true }, { NUXT_AI_READY_RUNTIME_SYNC_SECRET: 'legacy-token-for-fixture' }, true, 'node-server', 0],
+    [{ runtimeSync: true }, { NUXT_NUXT_AI_READY_RUNTIME_SYNC_SECRET: 'legacy-token-for-fixture' }, true, 'node-server', 0],
+    [{ runtimeSync: true }, { NUXT_APP_SECRET: '', NUXT_NUXT_AI_READY_RUNTIME_SYNC_SECRET: 'legacy-token-for-fixture' }, true, 'node-server', 0],
+    [{ runtimeSync: true }, { NUXT_APP_SECRET: 'short', NUXT_NUXT_AI_READY_RUNTIME_SYNC_SECRET: 'legacy-token-for-fixture' }, true, 'node-server', 1],
+    [{ runtimeSync: true, runtimeSyncSecret: 'legacy-token-for-fixture' }, { NUXT_NUXT_AI_READY_RUNTIME_SYNC_SECRET: '' }, true, 'node-server', 1],
+    [{ runtimeSync: true }, { NUXT_APP_SECRET_GENERATED: '1', NUXT_APP_SECRET: 'a'.repeat(64), NUXT_AI_READY_RUNTIME_SYNC_SECRET: 'legacy-token-for-fixture' }, true, 'node-server', 0],
+    [{ runtimeSync: true }, { NUXT_APP_SECRET_GENERATED: '1', NUXT_APP_SECRET: 'a'.repeat(64) }, true, 'node-server', 1],
+    [{ runtimeSync: true }, {}, true, 'static', 0],
+  ] as const)('checks sync setup %j with environment %j and SSR=%s', async (aiReady, env, ssr, preset, expected) => {
+    for (const name of ['NUXT_APP_SECRET', 'NITRO_APP_SECRET', 'NUXT_APP_SECRET_GENERATED', 'NUXT_NUXT_AI_READY_RUNTIME_SYNC_SECRET', 'NUXT_AI_READY_RUNTIME_SYNC_SECRET'])
+      vi.stubEnv(name, env[name as keyof typeof env])
+    const { nuxt, hooks } = fixture(true)
+    Object.assign(nuxt.options, { ssr, aiReady, _installedModules: [{ meta: { name: 'nuxt-ai-ready' } }] })
+    Object.assign(nuxt.options.nitro, { preset })
+    const metadata = await readSetupMetadata(nuxt, hooks)
+    const [result] = evaluateSetupChecklist({
+      installedModuleSlugs: new Set(metadata.installedModuleSlugs),
+      context: parseSetupChecklistContext(metadata.context),
+      debugData: new Map(),
+    })
+    expect(result!.requiredPending).toBe(expected)
+    expect(JSON.stringify(metadata)).not.toContain('shared-application-secret-32-characters')
+    expect(JSON.stringify(metadata)).not.toContain('legacy-token-for-fixture')
   })
 })

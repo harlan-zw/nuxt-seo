@@ -209,10 +209,11 @@ export interface SetupChecklistContext {
   sitemapPrerendered?: boolean
   hasSitemapOutputHook?: boolean
   /**
-   * OG Image signs runtime URLs with Nuxt's `appSecret`. `missing` means only Nuxt's generated
-   * development secret exists. Unset when production does not sign runtime URLs.
+   * Production secret status for OG Image signing. Unset when runtime URLs are unsigned.
    */
   ogImageSecret?: 'configured' | 'missing'
+  /** Production secret status for AI Ready Runtime Sync. Unset when Runtime Sync is disabled. */
+  aiReadySecret?: 'configured' | 'missing'
   optOuts?: Partial<Record<NuxtSEOModule['slug'], string[]>>
   moduleOptions?: Partial<Record<NuxtSEOModule['slug'], Record<string, unknown>>>
 }
@@ -237,23 +238,26 @@ const SETUP_ACTIONS: Record<string, string> = {
   'renderer': 'Install your OG Image renderer dependencies, or set ogImage: false.',
   'no-validation-errors': 'Correct the robots.txt errors shown in DevTools.',
   'no-source-errors': 'Correct the failing sitemap sources shown in DevTools.',
-  'app-secret': 'Run npx nuxt-og-image generate-secret. Set NUXT_APP_SECRET in .env and in production, 32 characters or more.',
+  'app-secret': 'Set NUXT_APP_SECRET in production. Generate it with openssl rand -base64 32.',
 }
 
 /** Required checks decided from build metadata. Debug endpoints cannot observe these settings. */
 function evaluateContextChecks(slug: NuxtSEOModule['slug'], context: SetupChecklistContext | undefined): ChecklistItemResult[] {
-  if (slug !== 'og-image' || !context?.ogImageSecret)
+  const secret = slug === 'og-image' ? context?.ogImageSecret : slug === 'ai-ready' ? context?.aiReadySecret : undefined
+  if (!secret)
     return []
-  const passed = context.ogImageSecret === 'configured'
+  const passed = secret === 'configured'
   return [{
     id: 'app-secret',
-    label: 'Signing secret set',
-    description: 'OG Image signs runtime image URLs with NUXT_APP_SECRET. Without it, production OG image requests return a 500 error. Pages still render.',
+    label: 'Production secret configured',
+    description: slug === 'og-image'
+      ? 'OG Image needs a production secret to sign image URLs. Without a valid secret, image requests return 500. Pages still render.'
+      : 'AI Ready needs a production secret to authenticate protected Runtime Sync requests.',
     level: 'required',
-    docsUrl: 'https://nuxtseo.com/docs/og-image/guides/security#url-signing',
+    docsUrl: 'https://nuxt.com/docs/4.x/guide/going-further/runtime-config#application-secret',
     status: passed ? 'passed' : 'failed',
     passed,
-    detail: passed ? 'Configured' : 'Nuxt generated a development secret. Production builds do not generate one.',
+    detail: passed ? 'Configured' : 'Local setup has no valid production secret.',
     action: SETUP_ACTIONS['app-secret'],
   }]
 }

@@ -32,7 +32,7 @@ export default defineNuxtConfig({
 
 - Add only `@nuxtjs/seo` to `modules`; Nuxt installs submodules once.
 - Set `site.url` and `site.name`; v5 stopped inferring them from `package.json`.
-- Set `NUXT_APP_SECRET` in production; see the `NUXT_APP_SECRET` trap.
+- If production signing or Runtime Sync needs a new secret, set `NUXT_APP_SECRET`. See the secret setup trap.
 - If the app needs OG images, install a renderer: `npx nuxt-og-image enable takumi`. See the renderer traps.
 
 ## Automatic behaviour
@@ -114,7 +114,8 @@ useSeoMeta(page.value?.seo || {})
 
 ## Traps
 
-- **Production OG images return 500 without `NUXT_APP_SECRET`.** Only `/_og/` fails; pages render. Dev creates a temporary secret, builds do not. Run `npx nuxt-og-image generate-secret`; set a 32+ character production secret. Static and `ogImage: { zeroRuntime: true }` need none.
+- **Production signing and Runtime Sync need a secret.** Use `NUXT_APP_SECRET` for new setups. OG Image and AI Ready derive separate keys from it. Run `openssl rand -base64 32`, or keep an existing application secret. Use the same value across deployments and instances within each environment. If you set an application secret, use AI Ready's derived token for scheduler requests. Dev generates a secret when unset. Builds never generate one. Missing secrets cause OG image requests to return 500 and Runtime Sync authentication to fail. Pages still render. Static output and `ogImage: { zeroRuntime: true }` need no OG signing key.
+- **Existing module secrets work when the application secret is absent.** OG Image accepts `NUXT_OG_IMAGE_SECRET`. AI Ready accepts `aiReady.runtimeSyncSecret`, `NUXT_AI_READY_RUNTIME_SYNC_SECRET`, and `NUXT_NUXT_AI_READY_RUNTIME_SYNC_SECRET`.
 - **Fresh install has no OG images without a template or renderer.** Run `npx nuxt-og-image enable takumi`, or set `ogImage: false`.
 - **A template renderer is missing.** Interactive `nuxt dev` asks to install it. CI and Agent shells log `npx nypm add`, never edit `package.json`; production build then fails if used.
 - **An app submodule replaces the bundled copy.** An old pin stops build; upgrade or remove it.
