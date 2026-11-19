@@ -209,11 +209,10 @@ export interface SetupChecklistContext {
   sitemapPrerendered?: boolean
   hasSitemapOutputHook?: boolean
   /**
-   * OG Image signs runtime URLs with Nuxt's `appSecret`. `missing` means no valid production
-   * secret was found. Unset when production does not sign runtime URLs.
+   * Production secret status for OG Image signing. Unset when runtime URLs are unsigned.
    */
   ogImageSecret?: 'configured' | 'missing'
-  /** AI Ready Runtime Sync derives its token from the application's production secret. */
+  /** Production secret status for AI Ready Runtime Sync. Unset when Runtime Sync is disabled. */
   aiReadySecret?: 'configured' | 'missing'
   optOuts?: Partial<Record<NuxtSEOModule['slug'], string[]>>
   moduleOptions?: Partial<Record<NuxtSEOModule['slug'], Record<string, unknown>>>
@@ -250,15 +249,15 @@ function evaluateContextChecks(slug: NuxtSEOModule['slug'], context: SetupCheckl
   const passed = secret === 'configured'
   return [{
     id: 'app-secret',
-    label: 'Application secret set',
+    label: 'Production secret configured',
     description: slug === 'og-image'
-      ? 'OG Image derives its URL signing key from NUXT_APP_SECRET. Without it, production OG image requests return 500. Pages still render.'
-      : 'AI Ready derives its Runtime Sync token from NUXT_APP_SECRET. Without it, protected Runtime Sync requests fail.',
+      ? 'OG Image needs a production secret to sign image URLs. Without a valid secret, image requests return 500. Pages still render.'
+      : 'AI Ready needs a production secret to authenticate protected Runtime Sync requests.',
     level: 'required',
     docsUrl: 'https://nuxt.com/docs/4.x/guide/going-further/runtime-config#application-secret',
     status: passed ? 'passed' : 'failed',
     passed,
-    detail: passed ? 'Configured' : 'Set a valid production application secret. Builds do not generate one.',
+    detail: passed ? 'Configured' : 'Local setup has no valid production secret.',
     action: SETUP_ACTIONS['app-secret'],
   }]
 }

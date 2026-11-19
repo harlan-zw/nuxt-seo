@@ -81,12 +81,17 @@ export default defineNuxtConfig({
 
 If you need server checks through `isClientOutdated`, enable `skewProtection.cookie` with a cookie configuration object.
 
-If OG Image signs URLs or AI Ready uses Runtime Sync, set `NUXT_APP_SECRET` in production.
+For new OG Image signing or AI Ready Runtime Sync setups, set `NUXT_APP_SECRET` in production.
 Generate a value with `openssl rand -base64 32`, or keep your existing application secret.
 Use the same value across deployments and server instances within each environment.
 Nuxt generates a development secret when unset. Builds never generate one.
-Each module derives its own key. Use AI Ready's derived token for scheduler authentication, rather than the application secret.
+Each module derives its own key. Use AI Ready's derived token for scheduler authentication when you configure an application secret.
 See [Nuxt's application secret guide](https://nuxt.com/docs/4.x/guide/going-further/runtime-config#application-secret).
+
+If production has no application secret, you can keep these existing settings:
+
+- OG Image accepts `NUXT_OG_IMAGE_SECRET`.
+- AI Ready accepts `aiReady.runtimeSyncSecret`, `NUXT_AI_READY_RUNTIME_SYNC_SECRET`, and `NUXT_NUXT_AI_READY_RUNTIME_SYNC_SECRET`.
 
 The [v5 to v6 migration guide](https://nuxtseo.com/docs/nuxt-seo/migration-guide/v5-to-v6) covers every change.
 
