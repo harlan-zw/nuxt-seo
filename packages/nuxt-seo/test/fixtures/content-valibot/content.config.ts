@@ -17,7 +17,7 @@ export default defineContentConfig({
           name: 'content',
           filter: entry => !entry.draft,
           onUrl: (url, entry) => {
-            if (entry.path === '/')
+            if (entry.path === '/' && entry.sitemap?.lastmod?.startsWith('2025-10-01'))
               url.loc = '/featured'
           },
         }),
