@@ -80,7 +80,9 @@ Both install automatically. On v5 upgrade, remove duplicate `modules` entries; k
 
 ## Nuxt Content v3
 
-Import four helpers from `@nuxtjs/seo/content`. With pnpm, `@nuxtjs/robots/content` fails `ERR_MODULE_NOT_FOUND` because submodules are not top-level dependencies. Add `zod` 4; helpers use it as an optional peer.
+For Valibot, install `valibot` and `@valibot/to-json-schema`. Import the four helpers from `@nuxtjs/seo/content/valibot` and use them in `v.object()`.
+
+For Zod, install `zod` 4 and import the helpers from `@nuxtjs/seo/content`. Use these Nuxt SEO imports when only `@nuxtjs/seo` is installed.
 
 ```ts
 import { defineCollection, defineContentConfig } from '@nuxt/content'
@@ -124,7 +126,7 @@ useSeoMeta(page.value?.seo || {})
 ## Version limits
 
 - Nuxt `^4.6.1 || ^5.0.0`; older versions stop build. Run `npx nuxt upgrade`. Nuxt 3 stays on v5.
-- Nuxt Content v2 is not supported; use Content v3 with Zod 4.
+- For Nuxt Content v2 projects, upgrade to Content v3.
 - v6 moves every submodule up one major and bundles AI Ready and Skew Protection. Migration: nuxtseo.com/docs/nuxt-seo/migration-guide/v5-to-v6
 - For bundled modules, pins, `NUXT_APP_SECRET`, DevTools, and `nuxtseo: false`, use the instructions above.
 - `robots:*` and `sitemap:*` contexts use `RequestEvent`: replace `ctx.event.node.req.headers.authorization` with `ctx.event.req.headers.get('authorization')`.
