@@ -21,7 +21,7 @@ vi.mock('#nuxtseo/h3', () => ({
 }))
 vi.mock('#nuxtseo/nitro', () => ({ defineNitroPlugin: (plugin: unknown) => plugin, fetchWithEvent: vi.fn() }))
 vi.mock('#site-config/server', () => ({ getSiteConfig: () => ({ url: 'https://example.com', name: 'Example' }) }))
-vi.mock('../../src/runtime/server/utils/setup-report', () => ({ claimSetupTips: async () => ({ _tag: 'Allowed' }) }))
+vi.mock('../../src/runtime/server/utils/setup-report', () => ({ claimSetupReport: async () => ({ _tag: 'Allowed' }) }))
 vi.mock('../../src/runtime/server/utils/setup', async importOriginal => ({
   ...await importOriginal<typeof import('../../src/runtime/server/utils/setup')>(),
   reportSetupChecklist: runtime.report,

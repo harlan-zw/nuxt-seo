@@ -7,7 +7,7 @@ import { getRequestURL, getResponseHeader } from '#nuxtseo/h3'
 import { defineNitroPlugin, fetchWithEvent } from '#nuxtseo/nitro'
 import { getSiteConfig } from '#site-config/server'
 import { collectSetupDebugData, createHomepageSetupCheck, reportSetupChecklist } from '../utils/setup'
-import { claimSetupTips } from '../utils/setup-report'
+import { claimSetupReport } from '../utils/setup-report'
 
 type SetupEvent = Parameters<typeof fetchWithEvent>[0]
 interface Nitro3ResponseHooks {
@@ -32,8 +32,8 @@ export default defineNitroPlugin((nitroApp) => {
       debugData.get('sitemap')!.siteConfig = siteConfig
     const results = evaluateSetupChecklist({ installedModuleSlugs, disabledModuleSlugs, debugData, context: setup.context })
     await reportSetupChecklist(results, {
-      // Optional tips stay quiet when storage is unavailable. Required warnings remain visible.
-      allowTips: async () => (await claimSetupTips({ stateDirectory: setup.stateDirectory }))._tag === 'Allowed',
+      allowSiteUrlReminder: async () => (await claimSetupReport({ report: 'production-site-url', stateDirectory: setup.stateDirectory }))._tag === 'Allowed',
+      allowTips: async () => (await claimSetupReport({ report: 'setup-tips', stateDirectory: setup.stateDirectory }))._tag === 'Allowed',
       warn: message => logger.warn(message),
       info: message => logger.info(message),
     })

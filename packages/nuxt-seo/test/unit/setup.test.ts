@@ -1,42 +1,79 @@
+import { mkdtemp, rm } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import { evaluateSetupChecklist } from 'nuxtseo-shared/checklist'
 import { describe, expect, it, vi } from 'vitest'
 import { collectSetupDebugData, createHomepageSetupCheck, reportSetupChecklist } from '../../src/runtime/server/utils/setup'
+import { claimSetupReport } from '../../src/runtime/server/utils/setup-report'
 
 describe('quiet terminal reporting', () => {
-  function results(missing: boolean, tipsEnabled = true) {
+  function results(url: string, { name = 'Example', tipsEnabled = true } = {}) {
     return evaluateSetupChecklist({
-      installedModuleSlugs: new Set(['site-config', 'ai-ready']),
-      debugData: new Map([['site-config', { config: { name: 'Example', url: missing ? '' : 'https://example.com' } }]]),
+      installedModuleSlugs: new Set(['site-config', 'sitemap', 'ai-ready']),
+      debugData: new Map([
+        ['site-config', { config: { name, url } }],
+        ['sitemap', { siteConfig: { url }, globalSources: [], sitemaps: {} }],
+      ]),
       context: { ssr: true, hasI18n: false, hasDynamicRoutes: false, hasContent: false, isPrerendered: false, tipsEnabled, moduleOptions: { 'ai-ready': { contentNegotiation: false } } },
     })
   }
 
   it('warns on missing settings across sessions even while tips are on cooldown', async () => {
-    const dependencies = { allowTips: vi.fn(async () => false), warn: vi.fn<(message: string) => void>(), info: vi.fn<(message: string) => void>() }
-    await reportSetupChecklist(results(true), dependencies)
-    await reportSetupChecklist(results(true), dependencies)
+    const dependencies = { allowSiteUrlReminder: vi.fn(async () => false), allowTips: vi.fn(async () => false), warn: vi.fn<(message: string) => void>(), info: vi.fn<(message: string) => void>() }
+    await reportSetupChecklist(results('', { name: '' }), dependencies)
+    await reportSetupChecklist(results('', { name: '' }), dependencies)
     expect(dependencies.warn).toHaveBeenCalledTimes(2)
-    expect(dependencies.warn.mock.calls[0]![0]).toContain('Set site.url')
-    expect(dependencies.warn.mock.calls[0]![0]).not.toContain('Optional tips:')
+    expect(dependencies.warn.mock.calls[0]![0]).toContain('Set site.name')
+    expect(dependencies.warn.mock.calls[0]![0]).not.toMatch(/NUXT_SITE_URL|Sitemap: Needs setup|Optional tips:/)
     expect(dependencies.info).not.toHaveBeenCalled()
   })
 
+  it('shows one production URL reminder across restarts and repeats it after seven days', async () => {
+    const stateDirectory = await mkdtemp(join(tmpdir(), 'nuxt-seo-production-url-'))
+    try {
+      const now = 1_790_000_000_000
+      const week = 7 * 24 * 60 * 60 * 1000
+      await claimSetupReport({ report: 'setup-tips', stateDirectory, now: () => now })
+      const start = async (timestamp: number) => {
+        const warn = vi.fn<(message: string) => void>()
+        await reportSetupChecklist(results('http://localhost:3000'), {
+          allowSiteUrlReminder: async () => (await claimSetupReport({ report: 'production-site-url', stateDirectory, now: () => timestamp }))._tag === 'Allowed',
+          allowTips: async () => (await claimSetupReport({ report: 'setup-tips', stateDirectory, now: () => timestamp }))._tag === 'Allowed',
+          warn,
+          info: vi.fn(),
+        })
+        return warn.mock.calls.map(([message]) => message)
+      }
+      const first = await start(now)
+      expect(first).toHaveLength(1)
+      expect(first[0]).toContain('localhost work during development.')
+      expect(first[0]).toContain('Before deploying')
+      expect(first[0]!.match(/NUXT_SITE_URL/g)).toHaveLength(1)
+      expect(await start(now + week - 1)).toEqual([])
+      expect(await start(now + week)).toHaveLength(1)
+    }
+    finally {
+      await rm(stateDirectory, { recursive: true, force: true })
+    }
+  })
+
   it('stays quiet for healthy apps during cooldown and prints available tips as information', async () => {
-    const dependencies = { allowTips: vi.fn(async () => false), warn: vi.fn<(message: string) => void>(), info: vi.fn<(message: string) => void>() }
-    await reportSetupChecklist(results(false), dependencies)
+    const dependencies = { allowSiteUrlReminder: vi.fn(async () => true), allowTips: vi.fn(async () => false), warn: vi.fn<(message: string) => void>(), info: vi.fn<(message: string) => void>() }
+    await reportSetupChecklist(results('https://example.com'), dependencies)
     expect(dependencies.info).not.toHaveBeenCalled()
     dependencies.allowTips.mockResolvedValue(true)
-    await reportSetupChecklist(results(false), dependencies)
+    await reportSetupChecklist(results('https://example.com'), dependencies)
     expect(dependencies.info).toHaveBeenCalledWith(expect.stringContaining('aiReady: { llmsTxt: { markdownLinks: true } }'))
+    expect(dependencies.allowSiteUrlReminder).not.toHaveBeenCalled()
     expect(dependencies.warn).not.toHaveBeenCalled()
   })
 
   it('does not touch cooldown storage when configuration disables tips', async () => {
-    const dependencies = { allowTips: vi.fn(async () => true), warn: vi.fn<(message: string) => void>(), info: vi.fn<(message: string) => void>() }
-    await reportSetupChecklist(results(true, false), dependencies)
+    const dependencies = { allowSiteUrlReminder: vi.fn(async () => true), allowTips: vi.fn(async () => true), warn: vi.fn<(message: string) => void>(), info: vi.fn<(message: string) => void>() }
+    await reportSetupChecklist(results('', { tipsEnabled: false }), dependencies)
     expect(dependencies.allowTips).not.toHaveBeenCalled()
     expect(dependencies.warn).toHaveBeenCalledOnce()
-    await reportSetupChecklist(results(false, false), dependencies)
+    await reportSetupChecklist(results('https://example.com', { tipsEnabled: false }), dependencies)
     expect(dependencies.info).not.toHaveBeenCalled()
   })
 })
