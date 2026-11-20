@@ -43,11 +43,17 @@ describe('setup checklist', () => {
     expect(results.flatMap(result => result.items).filter(item => item.level === 'required').every(item => item.status === 'unavailable')).toBe(true)
   })
 
-  it('rejects malformed and local production URLs', () => {
-    for (const url of ['oops', 'http://localhost:3000', 'http://127.0.0.1', 'http://[::1]']) {
-      const [result] = evaluateSetupChecklist({ installedModuleSlugs: new Set(['site-config']), debugData: new Map([['site-config', { config: { url, name: 'Example' } }]]) })
-      expect(result!.items.find(item => item.id === 'site-url')!.status).toBe('failed')
-    }
+  it.each([
+    [{}, 'None configured.'],
+    [{ url: 'http://localhost:3000', _context: { url: 'nitro:init' } }, 'None configured.'],
+    [{ url: 'oops' }, 'Use an absolute HTTP or HTTPS URL.'],
+    [{ url: 'ftp://example.com' }, 'Use an absolute HTTP or HTTPS URL.'],
+    [{ url: 'http://localhost:3000' }, 'Local URLs such as localhost work during development.'],
+    [{ url: 'http://127.0.0.1' }, 'Local URLs such as localhost work during development.'],
+    [{ url: 'http://[::1]' }, 'Local URLs such as localhost work during development.'],
+  ])('explains why %j needs a production site URL', (config, detail) => {
+    const [result] = evaluateSetupChecklist({ installedModuleSlugs: new Set(['site-config']), debugData: new Map([['site-config', { config }]]) })
+    expect(result!.items.find(item => item.id === 'site-url')).toMatchObject({ status: 'failed', detail })
   })
 
   it('does not require custom sitemap sources for static routes', () => {

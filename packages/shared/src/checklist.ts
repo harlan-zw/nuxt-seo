@@ -77,21 +77,7 @@ const MODULE_META: Record<string, { label: string, icon: string }> = {
   'schema-org': { label: 'Schema.org', icon: 'carbon:chart-relationship' },
 }
 
-function isValidUrl(value?: string): boolean {
-  if (typeof value !== 'string')
-    return false
-  if (!URL.canParse(value))
-    return false
-  const url = new URL(value)
-  if (!['http:', 'https:'].includes(url.protocol))
-    return false
-  const host = url.hostname.toLowerCase()
-  return host !== 'localhost' && !host.endsWith('.localhost') && host !== '[::1]' && host !== '0.0.0.0' && !host.startsWith('127.')
-}
-
-function isConfiguredUrl(config: Record<string, any> | undefined, stack?: unknown): boolean {
-  if (!isValidUrl(config?.url))
-    return false
+function hasConfiguredSiteUrl(config: Record<string, any> | undefined, stack: unknown): boolean {
   if (typeof config?._context?.url === 'string')
     return config._context.url !== 'nitro:init'
   // Site Config can retain priority -4 when a build environment value overrides it.
@@ -101,20 +87,39 @@ function isConfiguredUrl(config: Record<string, any> | undefined, stack?: unknow
   return true
 }
 
+function detectProductionSiteUrl(config: Record<string, any> | undefined, stack: unknown): ChecklistDetectResult {
+  const value = config?.url
+  if (!value || !hasConfiguredSiteUrl(config, stack))
+    return { passed: false, detail: 'None configured.' }
+
+  const url = typeof value === 'string' && URL.canParse(value) ? new URL(value) : undefined
+  if (!url || (url.protocol !== 'http:' && url.protocol !== 'https:'))
+    return { passed: false, detail: 'Use an absolute HTTP or HTTPS URL.' }
+
+  const host = url.hostname.replace(/\.$/, '')
+  if (host === 'localhost' || host.endsWith('.localhost') || host === '[::1]' || host === '[::]' || host === '0.0.0.0' || /^127\.\d+\.\d+\.\d+$/.test(host))
+    return { passed: false, detail: 'Local URLs such as localhost work during development.' }
+
+  return { passed: true, detail: value }
+}
+
+export function isProductionSiteUrlCheck(item: Pick<ChecklistItemDefinition, 'id'>): boolean {
+  return item.id === 'site-url' || item.id === 'site-url-set'
+}
+
+const productionSiteUrlAction = 'Before deploying, set site.url in nuxt.config.ts or set NUXT_SITE_URL in your deployment environment.'
+const productionSiteUrlDocs = 'https://nuxtseo.com/docs/site-config/guides/setting-site-config'
+
 // Checklist definitions with detection logic per module
 const CHECKLIST_DEFINITIONS: Partial<Record<NuxtSEOModule['slug'], ChecklistItemWithDetect[]>> = {
   'site-config': [
     {
       id: 'site-url',
-      label: 'Site URL configured',
-      description: 'A production site URL is needed for canonical URLs, sitemaps, and OG images to work correctly.',
+      label: 'Production site URL',
+      description: 'Use your live site URL for canonical URLs, sitemaps, and OG images.',
       level: 'required',
-      docsUrl: 'https://nuxtseo.com/docs/site-config/getting-started/how-it-works',
-      detect: (data) => {
-        const url = data?.config?.url || ''
-        const passed = isConfiguredUrl(data?.config, data?.stack)
-        return { passed, detail: passed ? url : 'Set a production site URL.' }
-      },
+      docsUrl: productionSiteUrlDocs,
+      detect: data => detectProductionSiteUrl(data.config, data.stack),
     },
     {
       id: 'site-name',
@@ -146,15 +151,11 @@ const CHECKLIST_DEFINITIONS: Partial<Record<NuxtSEOModule['slug'], ChecklistItem
   'sitemap': [
     {
       id: 'site-url-set',
-      label: 'Site URL set for sitemaps',
-      description: 'Sitemaps require an absolute site URL. Without it, URLs will use localhost in production.',
+      label: 'Production site URL for sitemaps',
+      description: 'Use your live site URL for sitemap entries.',
       level: 'required',
-      docsUrl: 'https://nuxtseo.com/docs/sitemap/getting-started/installation',
-      detect: (data, ctx) => {
-        const url = data?.siteConfig?.url || ''
-        const passed = isConfiguredUrl(data?.siteConfig, ctx.debugData.get('site-config')?.stack)
-        return { passed, detail: passed ? url : 'Site URL not configured' }
-      },
+      docsUrl: productionSiteUrlDocs,
+      detect: (data, ctx) => detectProductionSiteUrl(data.siteConfig, ctx.debugData.get('site-config')?.stack),
     },
     {
       id: 'no-source-errors',
@@ -232,8 +233,8 @@ const AUTOMATIC_MODULES: Record<string, { label: string, icon: string }> = {
 }
 
 const SETUP_ACTIONS: Record<string, string> = {
-  'site-url': 'Set site.url to your production URL, for example https://example.com.',
-  'site-url-set': 'Set site.url to your production URL, for example https://example.com.',
+  'site-url': productionSiteUrlAction,
+  'site-url-set': productionSiteUrlAction,
   'site-name': 'Set site.name to your site name.',
   'renderer': 'Install your OG Image renderer dependencies, or set ogImage: false.',
   'no-validation-errors': 'Correct the robots.txt errors shown in DevTools.',
@@ -312,10 +313,12 @@ export function evaluateSetupChecklist(input: SetupChecklistInput): ModuleCheckl
   })
 }
 
-/** Terminal output uses the same evidence and severity as the DevTools checklist. */
-export function formatSetupReport(results: ModuleChecklistResult[], options: { showTips?: boolean } = {}): string {
+/** Terminal output can hide cooldown-limited findings from the DevTools checklist. */
+export function formatSetupReport(results: ModuleChecklistResult[], options: { showTips?: boolean, showSiteUrlReminder?: boolean } = {}): string {
   const labels: Record<ModuleChecklistStatus, string> = { 'configured': 'Configured', 'needs-setup': 'Needs setup', 'disabled': 'Disabled', 'unavailable': 'Not checked', 'automatic': 'Automatic' }
-  const lines = ['Nuxt SEO setup', ...results.map(result => `  ${result.moduleLabel}: ${labels[result.status]}`)]
+  const summary = results.filter(result => options.showSiteUrlReminder !== false || result.status !== 'needs-setup'
+    || result.items.some(item => item.status === 'failed' && item.level === 'required' && !isProductionSiteUrlCheck(item)))
+  const lines = ['Nuxt SEO setup', ...summary.map(result => `  ${result.moduleLabel}: ${labels[result.status]}`)]
   if (results.some(result => result.status === 'unavailable'))
     lines.push('', 'Some module data was unavailable. Open DevTools to retry setup checks.')
   for (const [level, heading] of [['required', 'Required setup:'], ['recommended', 'Optional tips:']] as const) {
@@ -323,7 +326,8 @@ export function formatSetupReport(results: ModuleChecklistResult[], options: { s
       continue
     const candidates = results.flatMap(result => result.items.filter(item => item.status === 'failed' && item.level === level).map(item => ({ moduleLabel: result.moduleLabel, item })))
     const hasSiteUrlFailure = candidates.some(({ item }) => item.id === 'site-url')
-    const eligible = candidates.filter(({ item }) => item.id !== 'site-url-set' || !hasSiteUrlFailure)
+    const eligible = candidates.filter(({ item }) => !isProductionSiteUrlCheck(item)
+      || (options.showSiteUrlReminder !== false && (item.id === 'site-url' || !hasSiteUrlFailure)))
     const failures = eligible.slice(0, level === 'recommended' ? 3 : undefined)
     if (!failures.length)
       continue

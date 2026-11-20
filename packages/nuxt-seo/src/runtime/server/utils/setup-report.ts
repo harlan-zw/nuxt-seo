@@ -2,9 +2,9 @@ import { randomUUID } from 'node:crypto'
 import * as fs from 'node:fs/promises'
 import { join } from 'node:path'
 
-export type SetupTipsFileSystem = Pick<typeof fs, 'mkdir' | 'readFile' | 'writeFile' | 'stat' | 'rename' | 'rm' | 'rmdir'>
+export type SetupReportFileSystem = Pick<typeof fs, 'mkdir' | 'readFile' | 'writeFile' | 'stat' | 'rename' | 'rm' | 'rmdir'>
 
-type SetupTipsClaim = { _tag: 'Allowed' } | { _tag: 'Skipped', reason: 'cooldown' | 'busy' | 'filesystem' }
+type SetupReportClaim = { _tag: 'Allowed' } | { _tag: 'Skipped', reason: 'cooldown' | 'busy' | 'filesystem' }
 
 const interval = 7 * 24 * 60 * 60 * 1000
 const lockLifetime = 5 * 60 * 1000
@@ -25,21 +25,22 @@ function lastShownAt(value: string): number | undefined {
   }
 }
 
-/** Reserve a visible optional-tip report. Call only when tips are ready to print. */
-export async function claimSetupTips(options: {
+/** Reserve a report that is ready to print. Each report has its own cooldown. */
+export async function claimSetupReport(options: {
+  report: 'setup-tips' | 'production-site-url'
   stateDirectory: string
   now?: () => number
-  fileSystem?: SetupTipsFileSystem
-}): Promise<SetupTipsClaim> {
+  fileSystem?: SetupReportFileSystem
+}): Promise<SetupReportClaim> {
   const fileSystem = options.fileSystem || fs
   const now = (options.now || Date.now)()
-  const lock = join(options.stateDirectory, 'setup-tips.lock')
-  const state = join(options.stateDirectory, 'setup-tips.json')
+  const lock = join(options.stateDirectory, `${options.report}.lock`)
+  const state = join(options.stateDirectory, `${options.report}.json`)
   const token = randomUUID()
   const receipt = join(lock, `${token}.json`)
   let ownsLock = false
 
-  const run = async (): Promise<SetupTipsClaim> => {
+  const run = async (): Promise<SetupReportClaim> => {
     await fileSystem.mkdir(options.stateDirectory, { recursive: true })
     const acquire = () => fileSystem.mkdir(lock).then(() => true).catch((error: unknown) => {
       if (errorCode(error) === 'EEXIST')
@@ -74,8 +75,8 @@ export async function claimSetupTips(options: {
     return { _tag: 'Allowed' }
   }
 
-  const result = await run().catch((): SetupTipsClaim => ({ _tag: 'Skipped', reason: 'filesystem' }))
-  // Cache failures only suppress optional output. Never fail a page request or remove another owner's receipt.
+  const result = await run().catch((): SetupReportClaim => ({ _tag: 'Skipped', reason: 'filesystem' }))
+  // Skip cooldown-limited output if the cache cannot record it. Keep the page request independent.
   if (ownsLock) {
     await fileSystem.rm(receipt, { force: true }).catch(() => {
       // Cleanup is best effort. Expiring leases recover abandoned artifacts on a later request.
