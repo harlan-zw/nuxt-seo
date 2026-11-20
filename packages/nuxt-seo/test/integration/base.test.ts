@@ -24,7 +24,6 @@ describe('base url', () => {
     expect(extractSeoHead(html)).toMatchInlineSnapshot(`
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:image" content="https://local.nuxtseo.com/base/_og/d/description_Fully%2Bequipped%2BTechnical%2BSEO%2Bfor%2Bbusy%2BNuxters.%2Cch_tjb25mqs8mf6%2Cs_fmC-ugHpdiLVBjvs.png">
       <meta property="og:image" content="https://local.nuxtseo.com/base/_og/d/description_Fully%2Bequipped%2BTechnical%2BSEO%2Bfor%2Bbusy%2BNuxters.%2Cch_tjb25mqs8mf6%2Cs_fmC-ugHpdiLVBjvs.png">
       <meta property="og:image:type" content="image/png">
@@ -34,6 +33,7 @@ describe('base url', () => {
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>@nuxtjs&#x2F;seo</title>
       <meta name="description" content="Fully equipped Technical SEO for busy Nuxters.">
+      <meta name="twitter:card" content="summary_large_image">
       <meta property="og:title" data-infer="" content="@nuxtjs/seo">
       <meta property="og:description" data-infer="" content="Fully equipped Technical SEO for busy Nuxters.">
       <link rel="canonical" href="https://local.nuxtseo.com/base">
