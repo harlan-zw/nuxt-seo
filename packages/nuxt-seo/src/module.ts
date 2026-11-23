@@ -60,10 +60,10 @@ const moduleDependencies = {
     version: '>=6.0.2',
   },
   'nuxt-og-image': {
-    version: '>=7.1.0',
+    version: '>=7.1.1',
   },
   'nuxt-schema-org': {
-    version: '>=7.1.0',
+    version: '>=7.1.1',
   },
   'nuxt-seo-utils': {
     version: '>=9.1.0',
