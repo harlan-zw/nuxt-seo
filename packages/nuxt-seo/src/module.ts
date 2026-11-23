@@ -76,7 +76,7 @@ const moduleDependencies = {
     defaults: { updateStrategy: 'polling', cookie: false },
   },
   'nuxt-ai-ready': {
-    version: '>=3.6.0',
+    version: '>=3.6.1',
   },
   '@nuxtjs/i18n': {
     version: '>=10.0',

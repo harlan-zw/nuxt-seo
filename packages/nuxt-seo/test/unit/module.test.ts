@@ -74,7 +74,7 @@ describe('nuxt version', () => {
 
 describe('loaded submodule version', () => {
   it.each([
-    ['nuxt-ai-ready', '3.5.1', '3.6.0'],
+    ['nuxt-ai-ready', '3.6.0', '3.6.1'],
     ['nuxt-skew-protection', '2.0.5', '2.0.6'],
   ])('rejects %s below its minimum version', async (name, oldVersion, fixedVersion) => {
     const nuxt = createNuxt('4.6.1', { [name]: oldVersion })
