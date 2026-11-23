@@ -11,18 +11,21 @@ minimumReleaseAgeExclude:
   - nuxt@4.6.1
   - '@harlan-zw/comark-content@0.2.0'
   - '@nuxt/devtools-kit@4.0.0-beta.4'
-  - '@nuxtjs/robots@7.0.0'
-  - '@nuxtjs/sitemap@9.0.1'
-  - nuxt-ai-ready@3.0.1
-  - nuxt-link-checker@6.0.0
-  - nuxt-og-image@7.0.1
-  - nuxt-schema-org@7.0.0
-  - nuxt-seo-utils@9.0.0
-  - nuxt-site-config-kit@5.0.1
-  - nuxt-site-config@5.0.1
-  - nuxt-skew-protection@2.0.1
-  - site-config-stack@5.0.1
+  - '@nuxtjs/robots@7.1.0'
+  - '@nuxtjs/sitemap@9.2.0'
+  - nuxt-ai-ready@3.6.0
+  - nuxt-link-checker@6.0.2
+  - nuxt-og-image@7.1.0
+  - nuxt-schema-org@7.1.0
+  - nuxt-seo-utils@9.1.0
+  - nuxt-site-config-kit@5.0.4
+  - nuxt-site-config@5.0.4
+  - nuxt-skew-protection@2.0.6
+  - site-config-stack@5.0.4
   - sitemapd@0.2.3
+  - '@unhead/bundler@3.5.0'
+  - '@unhead/vue@3.5.0'
+  - unhead@3.5.0
 
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 262800
@@ -79,8 +82,8 @@ packages:
 overrides:
   '@nuxt/kit': ^4.6.1
   '@nuxt/schema': ^4.6.1
-  '@unhead/bundler': ^3.4.1
-  '@unhead/vue': ^3.4.1
+  '@unhead/bundler': ^3.5.0
+  '@unhead/vue': ^3.5.0
   better-sqlite3: ^13.0.3
   cssnano: 9.2.2
   cssnano-preset-default: 9.2.2
@@ -122,7 +125,7 @@ overrides:
   semver: ^7.8.5
 
   stylehacks: 9.0.7
-  unhead: ^3.4.1
+  unhead: ^3.5.0
   vue: ^3.5.43
 
 allowBuilds:
@@ -163,8 +166,8 @@ catalog:
   '@nuxt/test-utils': ^4.3.3
   '@nuxt/ui': ^4.11.3
   '@nuxtjs/i18n': ^10.6.0
-  '@nuxtjs/robots': ^7.0.0
-  '@nuxtjs/sitemap': ^9.0.1
+  '@nuxtjs/robots': ^7.1.0
+  '@nuxtjs/sitemap': ^9.2.0
   '@resvg/resvg-js': ^2.6.2
   '@shikijs/langs': ^4.5.0
   '@shikijs/themes': ^4.5.0
@@ -187,13 +190,13 @@ catalog:
   lint-staged: ^17.6.0
   nitropack: ^2.13.4
   nuxt: ^4.6.1
-  nuxt-ai-ready: ^3.0.1
-  nuxt-link-checker: ^6.0.0
-  nuxt-og-image: ^7.0.1
-  nuxt-schema-org: ^7.0.0
-  nuxt-seo-utils: ^9.0.0
-  nuxt-site-config: ^5.0.1
-  nuxt-skew-protection: ^2.0.1
+  nuxt-ai-ready: ^3.6.0
+  nuxt-link-checker: ^6.0.2
+  nuxt-og-image: ^7.1.0
+  nuxt-schema-org: ^7.1.0
+  nuxt-seo-utils: ^9.1.0
+  nuxt-site-config: ^5.0.4
+  nuxt-skew-protection: ^2.0.6
   ofetch: ^1.5.1
   pathe: ^2.0.3
   pkg-types: ^2.3.3
