@@ -25,7 +25,11 @@
       "default": "./dist/module.mjs"
     },
     "./const": "./dist/const.mjs",
-    "./content": "./dist/content.mjs"
+    "./content": "./dist/content.mjs",
+    "./content/valibot": {
+      "types": "./dist/content-valibot.d.mts",
+      "default": "./dist/content-valibot.mjs"
+    }
   },
   "main": "./dist/module.mjs",
   "typesVersions": {
@@ -38,6 +42,9 @@
       ],
       "content": [
         "./dist/content.d.mts"
+      ],
+      "content/valibot": [
+        "./dist/content-valibot.d.mts"
       ]
     }
   },
@@ -55,13 +62,19 @@
     "typecheck": "nuxt typecheck playground",
     "prepare:fixtures": "pnpm --dir ../shared build && nuxt prepare test/fixtures/basic && nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/content",
     "test": "pnpm test:run",
-    "test:run": "pnpm prepare:fixtures && vitest run && pnpm test:nitro-parity",
+    "test:run": "pnpm prepare:fixtures && pnpm build && vitest run && pnpm test:nitro-parity",
     "test:attw": "attw --pack --profile esm-only",
     "prepack": "nuxt-module-build build",
     "test:nitro-parity": "pnpm build && pnpm --dir test/fixtures/nitro2 install --frozen-lockfile && pnpm --dir test/fixtures/nuxt5 install --frozen-lockfile && node test/fixtures/nitro-parity/test.mjs"
   },
   "peerDependencies": {
-    "nuxt": "^4.6.1 || ^5.0.0"
+    "nuxt": "^4.6.1 || ^5.0.0",
+    "valibot": "^1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "valibot": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",
@@ -87,6 +100,7 @@
     "@resvg/resvg-js": "catalog:",
     "@types/jest-image-snapshot": "catalog:",
     "@types/semver": "catalog:",
+    "@valibot/to-json-schema": "catalog:",
     "@vue/test-utils": "catalog:",
     "better-sqlite3": "catalog:",
     "execa": "catalog:",
@@ -98,6 +112,7 @@
     "nuxt-skew-protection": "catalog:",
     "satori": "catalog:",
     "typescript": "catalog:",
+    "valibot": "catalog:",
     "vitest": "catalog:"
   },
   "publishConfig": {

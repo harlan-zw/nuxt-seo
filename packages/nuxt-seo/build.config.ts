@@ -5,6 +5,7 @@ export default defineBuildConfig({
   entries: [
     'src/const.ts',
     { input: 'src/content', name: 'content' },
+    { input: 'src/content-valibot', name: 'content-valibot' },
   ],
   externals: [
     'nuxt',

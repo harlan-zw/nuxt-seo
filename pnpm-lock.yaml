@@ -221,6 +221,9 @@ catalogs:
     '@types/semver':
       specifier: ^7.8.0
       version: 7.8.0
+    '@valibot/to-json-schema':
+      specifier: ^1.7.1
+      version: 1.7.1
     '@vue/test-utils':
       specifier: ^2.5.1
       version: 2.5.1
@@ -332,6 +335,9 @@ catalogs:
     unbuild:
       specifier: ^3.6.1
       version: 3.6.1
+    valibot:
+      specifier: ^1.4.2
+      version: 1.4.2
     vitest:
       specifier: ^5.0.3
       version: 5.0.3
@@ -581,6 +587,9 @@ importers:
       '@types/semver':
         specifier: 'catalog:'
         version: 7.8.0
+      '@valibot/to-json-schema':
+        specifier: 'catalog:'
+        version: 1.7.1(valibot@1.4.2(typescript@6.0.3))
       '@vue/test-utils':
         specifier: 'catalog:'
         version: 2.5.1(@vue/compiler-dom@3.5.46)(@vue/server-renderer@3.5.43)(vue@3.5.43(typescript@6.0.3))
@@ -608,6 +617,9 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
+      valibot:
+        specifier: 'catalog:'
+        version: 1.4.2(typescript@6.0.3)
       vitest:
         specifier: 'catalog:'
         version: 5.0.3(@types/node@26.6.3)(happy-dom@20.14.5)(vite@8.3.2(@types/node@26.6.3)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.1))
@@ -17308,7 +17320,6 @@ snapshots:
   '@valibot/to-json-schema@1.7.1(valibot@1.4.2(typescript@6.0.3))':
     dependencies:
       valibot: 1.4.2(typescript@6.0.3)
-    optional: true
 
   '@vercel/nft@1.10.2(rollup@4.62.2)(supports-color@10.2.2)':
     dependencies:
@@ -25924,7 +25935,6 @@ snapshots:
   valibot@1.4.2(typescript@6.0.3):
     optionalDependencies:
       typescript: 6.0.3
-    optional: true
 
   validate-npm-package-name@5.0.1: {}
 
