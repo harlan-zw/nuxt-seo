@@ -48,8 +48,10 @@ export function parseSetupChecklistContext(value: unknown): SetupChecklistContex
     context.nuxtMajor = data.nuxtMajor
   if (typeof data.nitroPreset === 'string' && /^[\w-]+$/.test(data.nitroPreset))
     context.nitroPreset = data.nitroPreset
-  if (data.ogImageSecret === 'configured' || data.ogImageSecret === 'missing')
-    context.ogImageSecret = data.ogImageSecret
+  for (const key of ['ogImageSecret', 'aiReadySecret'] as const) {
+    if (data[key] === 'configured' || data[key] === 'missing')
+      context[key] = data[key]
+  }
   for (const [slug, paths] of Object.entries(OPTION_PATHS)) {
     const options = record(record(data.moduleOptions)?.[slug])
     const selected: Record<string, unknown> = {}

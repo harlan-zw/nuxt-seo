@@ -1,18 +1,59 @@
 import { describe, expect, it } from 'vitest'
-import { evaluateSetupChecklist, formatSetupReport } from '../../src/checklist'
+import { evaluateSetupChecklist, formatSetupReport, parseSetupChecklistContext } from '../../src/checklist'
 
 describe('setup checklist', () => {
+  it('uses the same application-secret setup for OG images and AI Runtime Sync', () => {
+    const context = parseSetupChecklistContext({
+      ssr: true,
+      hasI18n: false,
+      hasDynamicRoutes: false,
+      hasContent: false,
+      ogImageSecret: 'missing',
+      aiReadySecret: 'missing',
+    })
+    const results = evaluateSetupChecklist({
+      installedModuleSlugs: new Set(['og-image', 'ai-ready']),
+      context,
+      debugData: new Map([['og-image', { compatibility: { takumi: true } }]]),
+    })
+    expect(results.map(result => result.requiredPending)).toEqual([1, 1])
+    const actions = results.map(result => result.items.find(item => item.id === 'app-secret')!.action)
+    expect(actions).toEqual([
+      'Set NUXT_APP_SECRET in production. Generate it with openssl rand -base64 32.',
+      'Set NUXT_APP_SECRET in production. Generate it with openssl rand -base64 32.',
+    ])
+    expect(formatSetupReport(results)).toContain('AI Ready: Needs setup')
+  })
+
+  it('accepts a configured AI application secret and rejects malformed setup evidence', () => {
+    const app = { ssr: true, hasI18n: false, hasDynamicRoutes: false, hasContent: false }
+    for (const [aiReadySecret, expected] of [['configured', 'passed'], ['missing', 'failed'], ['invalid', undefined]]) {
+      const [result] = evaluateSetupChecklist({
+        installedModuleSlugs: new Set(['ai-ready']),
+        debugData: new Map(),
+        context: parseSetupChecklistContext({ ...app, aiReadySecret }),
+      })
+      expect(result!.items.find(item => item.id === 'app-secret')?.status).toBe(expected)
+    }
+  })
+
   it('does not report missing debug data as successful validation', () => {
     const results = evaluateSetupChecklist({ installedModuleSlugs: new Set(['robots', 'sitemap']), debugData: new Map() })
     expect(results.every(result => result.status === 'unavailable')).toBe(true)
     expect(results.flatMap(result => result.items).filter(item => item.level === 'required').every(item => item.status === 'unavailable')).toBe(true)
   })
 
-  it('rejects malformed and local production URLs', () => {
-    for (const url of ['oops', 'http://localhost:3000', 'http://127.0.0.1', 'http://[::1]']) {
-      const [result] = evaluateSetupChecklist({ installedModuleSlugs: new Set(['site-config']), debugData: new Map([['site-config', { config: { url, name: 'Example' } }]]) })
-      expect(result!.items.find(item => item.id === 'site-url')!.status).toBe('failed')
-    }
+  it.each([
+    [{}, 'None configured.'],
+    [{ url: 'http://localhost:3000', _context: { url: 'nitro:init' } }, 'None configured.'],
+    [{ url: 'oops' }, 'Use an absolute HTTP or HTTPS URL.'],
+    [{ url: 'ftp://example.com' }, 'Use an absolute HTTP or HTTPS URL.'],
+    [{ url: 'http://localhost:3000' }, 'Local URLs such as localhost work during development.'],
+    [{ url: 'http://127.0.0.1' }, 'Local URLs such as localhost work during development.'],
+    [{ url: 'http://[::1]' }, 'Local URLs such as localhost work during development.'],
+  ])('explains why %j needs a production site URL', (config, detail) => {
+    const [result] = evaluateSetupChecklist({ installedModuleSlugs: new Set(['site-config']), debugData: new Map([['site-config', { config }]]) })
+    expect(result!.items.find(item => item.id === 'site-url')).toMatchObject({ status: 'failed', detail })
   })
 
   it('does not require custom sitemap sources for static routes', () => {

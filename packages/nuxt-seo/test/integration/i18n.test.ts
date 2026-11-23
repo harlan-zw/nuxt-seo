@@ -76,7 +76,6 @@ describe('i18n', () => {
     const xml = await $fetch('/sitemap.xml') as string
     expect(xml).toMatchInlineSnapshot(`
       "<?xml version="1.0" encoding="UTF-8"?>
-      <?xml-stylesheet type="text/xsl" href="/__sitemap__/style.xsl"?>
       <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
           <sitemap>
               <loc>https://nuxtseo.com/__sitemap__/en-US.xml</loc>
@@ -98,6 +97,7 @@ describe('i18n', () => {
         "# START nuxt-robots (indexable)",
         "User-agent: *",
         "Disallow:",
+        "Content-Signal: search=yes, ai-input=yes",
         "",
         "Sitemap: https://nuxtseo.com/sitemap_index.xml",
         "# END nuxt-robots",

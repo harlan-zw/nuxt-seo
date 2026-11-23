@@ -40,17 +40,19 @@ function mergeUserChoices(config: unknown, inline: unknown): Record<string, unkn
   }))
 }
 
-// Matches `SetupChecklistContext['ogImageSecret']` in Shared releases after 6.0.0.
-type OgImageSecret = 'configured' | 'missing'
+type SecretSetup = 'configured' | 'missing'
 
-function hasProductionAppSecret(appSecret: unknown, env: Record<string, string | undefined>): boolean {
-  // OG Image still signs with its deprecated secret when no app secret reaches production.
-  if (env.NUXT_OG_IMAGE_SECRET)
-    return true
+function resolveProductionAppSecret(appSecret: unknown, env: NodeJS.ProcessEnv): unknown {
   // Nuxt marks the development secret it generates, and copies it into these sources.
-  if (env.NUXT_APP_SECRET_GENERATED === '1')
-    return false
-  return [env.NUXT_APP_SECRET, env.NITRO_APP_SECRET, appSecret].some(value => typeof value === 'string' && value !== '')
+  if (env.NUXT_APP_SECRET_GENERATED !== '1')
+    return env.NITRO_APP_SECRET ?? env.NUXT_APP_SECRET ?? appSecret
+}
+
+function getSecretSetup(appSecret: unknown, legacySecret: unknown, minimumLegacyLength: number): SecretSetup {
+  const useLegacy = appSecret === undefined || appSecret === ''
+  const secret = useLegacy ? legacySecret : appSecret
+  const minimumLength = useLegacy ? minimumLegacyLength : 32
+  return typeof secret === 'string' && secret.length >= minimumLength ? 'configured' : 'missing'
 }
 
 export function setupDevelopmentChecks(nuxt: Nuxt, options: { tips: boolean } = { tips: true }): void {
@@ -75,7 +77,8 @@ export function setupDevelopmentChecks(nuxt: Nuxt, options: { tips: boolean } = 
     nitroPreset: resolveNitroPreset(nuxt.options.nitro),
     sitemapPrerendered: nuxt.options.nitro.prerender?.routes?.some(route => typeof route === 'string' && (route.endsWith('/sitemap.xml') || route === '/sitemap_index.xml')) === true,
     hasSitemapOutputHook: typeof (nuxt.options.nitro.hooks as Record<string, unknown> | undefined)?.['sitemap:output'] !== 'undefined',
-    ogImageSecret: undefined as OgImageSecret | undefined,
+    ogImageSecret: undefined as SecretSetup | undefined,
+    aiReadySecret: undefined as SecretSetup | undefined,
     moduleOptions: {} as Partial<Record<NuxtSEOModule['slug'], Record<string, unknown>>>,
     optOuts: {} as Partial<Record<NuxtSEOModule['slug'], string[]>>,
   }
@@ -117,12 +120,21 @@ export function setupDevelopmentChecks(nuxt: Nuxt, options: { tips: boolean } = 
       else if (installed)
         installedModuleSlugs.push(module.slug)
     }
+    const appSecret = resolveProductionAppSecret(nuxt.options.runtimeConfig?.appSecret, process.env)
     // OG Image signing middleware runs on every production server request. Without a secret,
     // OG image requests fail with a 500 error and pages still render. Static output and zero
     // runtime images run no server.
     const ogImage = context.moduleOptions['og-image']
     if (installedModuleSlugs.includes('og-image') && context.ssr && !context.isPrerendered && ogImage?.zeroRuntime !== true && optionRecord(ogImage?.security)?.secret !== false)
-      context.ogImageSecret = hasProductionAppSecret((nuxt.options.runtimeConfig as Record<string, unknown> | undefined)?.appSecret, process.env) ? 'configured' : 'missing'
+      context.ogImageSecret = getSecretSetup(appSecret, process.env.NUXT_OG_IMAGE_SECRET, 32)
+    const aiReady = context.moduleOptions['ai-ready']
+    // Runtime Sync endpoints also run in SPA deployments with a Nitro server.
+    if (installedModuleSlugs.includes('ai-ready') && !context.isPrerendered && (aiReady?.runtimeSync || aiReady?.cron)) {
+      const legacySecret = process.env.NUXT_NUXT_AI_READY_RUNTIME_SYNC_SECRET
+        ?? process.env.NUXT_AI_READY_RUNTIME_SYNC_SECRET
+        ?? aiReady.runtimeSyncSecret
+      context.aiReadySecret = getSecretSetup(appSecret, legacySecret, 1)
+    }
     const i18n = (nuxt.options as unknown as Record<string, unknown>).i18n as { locales?: (string | { code?: string })[], strategy?: string } | undefined
     context.hasI18n = Array.isArray(i18n?.locales) && i18n.locales.length > 0
     const homepagePaths = [nuxt.options.app.baseURL]

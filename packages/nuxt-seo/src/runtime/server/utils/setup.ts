@@ -1,20 +1,23 @@
 import type { ModuleChecklistResult } from 'nuxtseo-shared/checklist'
 import type { NuxtSEOModule } from 'nuxtseo-shared/const'
-import { DEBUG_ENDPOINTS, formatSetupReport } from 'nuxtseo-shared/checklist'
+import { DEBUG_ENDPOINTS, formatSetupReport, isProductionSiteUrlCheck } from 'nuxtseo-shared/checklist'
 
 type ModuleSlug = NuxtSEOModule['slug']
 
-/** Required settings bypass the tips cooldown. Healthy apps stay quiet without eligible tips. */
+/** The production site URL reminder and optional tips have separate cooldowns. */
 export async function reportSetupChecklist(results: ModuleChecklistResult[], dependencies: {
+  allowSiteUrlReminder: () => Promise<boolean>
   allowTips: () => Promise<boolean>
   warn: (message: string) => void
   info: (message: string) => void
 }): Promise<void> {
-  const requiredMissing = results.some(result => result.requiredPending > 0)
+  const required = results.flatMap(result => result.items.filter(item => item.status === 'failed' && item.level === 'required'))
+  const showSiteUrlReminder = required.some(isProductionSiteUrlCheck) && await dependencies.allowSiteUrlReminder()
+  const requiredMissing = showSiteUrlReminder || required.some(item => !isProductionSiteUrlCheck(item))
   const showTips = results.some(result => result.recommendedPending > 0) && await dependencies.allowTips()
   if (!requiredMissing && !showTips)
     return
-  const report = formatSetupReport(results, { showTips })
+  const report = formatSetupReport(results, { showSiteUrlReminder, showTips })
   if (requiredMissing)
     dependencies.warn(report)
   else
