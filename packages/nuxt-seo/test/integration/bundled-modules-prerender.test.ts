@@ -46,10 +46,10 @@ describe('bundled modules (prerendered)', () => {
     expect(txt).toContain('- [Full Content](https://local.nuxtseo.com/llms-full.txt)')
     expect(txt).toContain('- [robots.txt](https://local.nuxtseo.com/robots.txt)')
 
-    // Pages section: one entry per prerendered route, title templated by seo-utils
+    // The page index points to the prerendered Markdown twins.
     expect(txt).toContain('## Pages')
-    expect(txt).toContain('- [@nuxtjs/seo](/): Fully equipped Technical SEO for busy Nuxters.')
-    expect(txt).toContain('- [About | @nuxtjs/seo](/about): Fully equipped Technical SEO for busy Nuxters.')
+    expect(txt).toContain('- [@nuxtjs/seo](https://local.nuxtseo.com/index.md): Fully equipped Technical SEO for busy Nuxters.')
+    expect(txt).toContain('- [About | @nuxtjs/seo](https://local.nuxtseo.com/about.md): Fully equipped Technical SEO for busy Nuxters.')
   })
 
   it('ai-ready prerenders full page content into llms-full.txt', async () => {
@@ -60,24 +60,20 @@ describe('bundled modules (prerendered)', () => {
     expect(txt).toContain('Canonical Origin: https://local.nuxtseo.com')
     expect(txt).toContain('## LLM Resources')
 
-    // Full per-page records with source, description and the page's markdown
-    // body. Prerender completion controls record order, so assert each block
-    // independently rather than the whole document.
-    expect(txt).toContain([
+    const pages = txt.split('\n---\n\n')
+    const home = pages.find(page => page.startsWith([
       '- **Page:** @nuxtjs/seo',
       '- **Source:** https://local.nuxtseo.com/',
       '- **Description:** Fully equipped Technical SEO for busy Nuxters.',
-      '',
-      '# home',
-    ].join('\n'))
-
-    expect(txt).toContain([
+    ].join('\n')))
+    const about = pages.find(page => page.startsWith([
       '- **Page:** About | @nuxtjs/seo',
       '- **Source:** https://local.nuxtseo.com/about',
       '- **Description:** Fully equipped Technical SEO for busy Nuxters.',
-      '',
-      '# about',
-    ].join('\n'))
+    ].join('\n')))
+
+    expect(home).toContain('\n# home\n')
+    expect(about).toContain('\n# about\n')
   })
 
   it('ai-ready emits static .md twins for prerendered pages', async () => {

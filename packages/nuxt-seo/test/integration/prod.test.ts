@@ -27,7 +27,6 @@ describe('dev', () => {
     expect(extractSeoHead(html)).toMatchInlineSnapshot(`
       "<meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name="twitter:card" content="summary_large_image">
       <meta name="twitter:image" content="https://local.nuxtseo.com/_og/d/description_Fully%2Bequipped%2BTechnical%2BSEO%2Bfor%2Bbusy%2BNuxters.%2Cch_tjb25mqs8mf6%2Cs_fmC-ugHpdiLVBjvs.png">
       <meta property="og:image" content="https://local.nuxtseo.com/_og/d/description_Fully%2Bequipped%2BTechnical%2BSEO%2Bfor%2Bbusy%2BNuxters.%2Cch_tjb25mqs8mf6%2Cs_fmC-ugHpdiLVBjvs.png">
       <meta property="og:image:type" content="image/png">
@@ -37,6 +36,7 @@ describe('dev', () => {
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
       <title>@nuxtjs&#x2F;seo</title>
       <meta name="description" content="Fully equipped Technical SEO for busy Nuxters.">
+      <meta name="twitter:card" content="summary_large_image">
       <meta property="og:title" data-infer="" content="@nuxtjs/seo">
       <meta property="og:description" data-infer="" content="Fully equipped Technical SEO for busy Nuxters.">
       <link rel="canonical" href="https://local.nuxtseo.com/">
@@ -48,7 +48,7 @@ describe('dev', () => {
     // extract the <head>
     const xml = await $fetch('/sitemap.xml') as string
     expect(xml).toMatchInlineSnapshot(`
-      "<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="/__sitemap__/style.xsl"?>
+      "<?xml version="1.0" encoding="UTF-8"?>
       <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd http://www.google.com/schemas/sitemap-image/1.1 http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
           <url>
               <loc>https://local.nuxtseo.com/</loc>
@@ -66,6 +66,7 @@ describe('dev', () => {
       "# START nuxt-robots (indexable)
       User-agent: *
       Disallow: 
+      Content-Signal: search=yes, ai-input=yes
 
       Sitemap: https://local.nuxtseo.com/sitemap.xml
       # END nuxt-robots"
