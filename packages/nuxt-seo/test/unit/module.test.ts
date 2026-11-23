@@ -67,7 +67,7 @@ describe('nuxt version', () => {
 
   it('accepts a bundled module whose Nuxt range matches', async () => {
     await expect(install(createNuxt('4.6.1'), [
-      { meta: { name: 'nuxt-og-image', version: '7.1.0', compatibility: { nuxt: '^4.6.1 || ^5.0.0' } } },
+      { meta: { name: 'nuxt-og-image', version: '7.1.1', compatibility: { nuxt: '^4.6.1 || ^5.0.0-0' } } },
     ])).resolves.toBeUndefined()
   })
 })
@@ -75,6 +75,8 @@ describe('nuxt version', () => {
 describe('loaded submodule version', () => {
   it.each([
     ['nuxt-ai-ready', '3.6.0', '3.6.1'],
+    ['nuxt-og-image', '7.1.0', '7.1.1'],
+    ['nuxt-schema-org', '7.1.0', '7.1.1'],
     ['nuxt-skew-protection', '2.0.5', '2.0.6'],
   ])('rejects %s below its minimum version', async (name, oldVersion, fixedVersion) => {
     const nuxt = createNuxt('4.6.1', { [name]: oldVersion })
@@ -122,7 +124,7 @@ describe('loaded submodule version', () => {
   it('falls back to the reported version when the app cannot resolve the package', async () => {
     await expect(install(createNuxt('4.6.1'), [
       { meta: { name: 'nuxt-schema-org', version: '4.9.0' } },
-    ])).rejects.toThrow('`nuxt-schema-org` version (`4.9.0`) does not satisfy `>=7.1.0`')
+    ])).rejects.toThrow('`nuxt-schema-org` version (`4.9.0`) does not satisfy `>=7.1.1`')
   })
 
   it('checks optional modules only when the app installs them', async () => {
