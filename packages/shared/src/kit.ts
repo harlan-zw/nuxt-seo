@@ -7,13 +7,13 @@ import { relative, sep } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { addTemplate, createResolver, getNitroVersion, hasNuxtModule, hasNuxtModuleCompatibility, loadNuxtModuleInstance, tryUseNuxt, useLogger, useNuxt } from '@nuxt/kit'
 import { env, provider } from 'std-env'
-import { findPackageJSON } from './package-json'
+import { findPackageJSON } from './package-json.ts'
 
 export type { NitroRuntimeCompatibility, NitroTypeAugmentations } from './nitro-compatibility'
-export { renderNitroTypeAugmentations, setupNitroRuntimeCompatibility } from './nitro-compatibility'
-export { findPackageJSON } from './package-json'
+export { renderNitroTypeAugmentations, setupNitroRuntimeCompatibility } from './nitro-compatibility.ts'
+export { findPackageJSON } from './package-json.ts'
 export type { RuntimeAliasOptions } from './runtime-aliases'
-export { setupRuntimeAliases } from './runtime-aliases'
+export { setupRuntimeAliases } from './runtime-aliases.ts'
 export { isAgent, isCI } from 'std-env'
 
 export interface NuxtSeoModuleDetection {

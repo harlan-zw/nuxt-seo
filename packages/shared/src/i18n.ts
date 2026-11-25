@@ -2,8 +2,8 @@ import type { LocaleObject, NuxtI18nOptions } from '@nuxtjs/i18n'
 import type { RuntimeI18nConfig, UnlocalizedLocalePage } from './i18n-runtime'
 import { getNuxtModuleVersion, hasNuxtModule, hasNuxtModuleCompatibility } from '@nuxt/kit'
 import { withBase, withHttps } from 'ufo'
-import { localePath, resolveI18nDomain, resolveLocaleAlternates, resolveLocaleFromRoute } from './i18n-runtime'
-import { getNuxtModuleOptions } from './kit'
+import { localePath, resolveI18nDomain, resolveLocaleAlternates, resolveLocaleFromRoute } from './i18n-runtime.ts'
+import { getNuxtModuleOptions } from './kit.ts'
 
 export type {
   LocaleAlternate,

@@ -1,6 +1,6 @@
 import type { NuxtSeoModuleDetection } from './kit'
 import { defineNuxtModule } from '@nuxt/kit'
-import { hookNuxtSeoProDataUpload } from './pro'
+import { hookNuxtSeoProDataUpload } from './pro.ts'
 
 export interface ModuleHooks {
   'nuxt-seo-pro:modules': (modules: NuxtSeoModuleDetection[]) => Promise<void> | void
