@@ -1,7 +1,7 @@
 import type { ChecklistItemDefinition, NuxtSEOModule } from './const'
-import { evaluateSetupTips } from './setup-tips'
+import { evaluateSetupTips } from './setup-tips.ts'
 
-export { getSetupTipOptOuts, parseSetupChecklistContext } from './setup-tips'
+export { getSetupTipOptOuts, parseSetupChecklistContext } from './setup-tips.ts'
 
 export interface ChecklistDetectResult {
   passed: boolean

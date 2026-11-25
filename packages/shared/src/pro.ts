@@ -2,7 +2,7 @@ import type { NuxtSeoModuleDetection } from './kit'
 import { hasNuxtModule, useLogger, useNuxt } from '@nuxt/kit'
 import { $fetch } from 'ofetch'
 import { isTest } from 'std-env'
-import { detectNuxtSeoModules } from './kit'
+import { detectNuxtSeoModules } from './kit.ts'
 
 export function hookNuxtSeoProDataUpload(): void {
   const nuxt = useNuxt()

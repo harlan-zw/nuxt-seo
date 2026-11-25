@@ -3,7 +3,7 @@ import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { defineNuxtModule, getNuxtVersion, hasNuxtCompatibility, normalizeSemanticVersion } from '@nuxt/kit'
 import { satisfies } from 'semver'
-import { setupDevelopmentChecks } from './setup'
+import { setupDevelopmentChecks } from './setup.ts'
 
 export interface ModuleOptions {
   /**

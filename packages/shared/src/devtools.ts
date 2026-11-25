@@ -6,7 +6,7 @@ import { createRequire } from 'node:module'
 import { join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { getAddDependencyCommand, useLogger, useNuxt } from '@nuxt/kit'
-import { findPackageJSON } from './package-json'
+import { findPackageJSON } from './package-json.ts'
 
 export const UNIFIED_CLIENT_ROUTE = '/__nuxt-seo-devtools'
 const HOST_PACKAGE = 'nuxtseo-devtools-host@^1.0.3'

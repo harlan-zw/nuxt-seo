@@ -91,9 +91,9 @@
     "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
   },
   "scripts": {
-    "build": "nuxt-module-build build",
+    "build": "nuxt-module-build prepare && tsdown",
     "dev:prepare": "nuxt-module-build prepare",
-    "stub": "nuxt-module-build build --stub",
+    "stub": "nuxt-module-build prepare && tsdown",
     "test": "vitest",
     "test:run": "vitest run && pnpm test:nuxt5",
     "test:nuxt5": "pnpm build && pnpm --dir test/fixtures/nitro-compat-nuxt5 install --frozen-lockfile && pnpm --dir test/fixtures/nitro-compat-nuxt5 test",
@@ -136,6 +136,7 @@
     "nitropack": "catalog:",
     "nuxt": "catalog:",
     "nuxt-site-config": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
