@@ -759,7 +759,7 @@ importers:
     devDependencies:
       '@nuxt/module-builder':
         specifier: 'catalog:'
-        version: 2.0.0-alpha.1(@nuxt/cli@4.0.1(@nuxt/schema@4.6.1)(jiti@2.7.0)(oxc-parser@0.151.0)(rolldown@1.2.12)(vite@8.3.2(@types/node@26.6.3)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.1)))(@volar/typescript@2.4.28(typescript@6.0.3))(@vue/compiler-core@3.5.46)(@vue/language-core@3.3.11)(esbuild@0.28.0)(rolldown@1.2.12)(tsdown@0.23.7(@volar/typescript@2.4.28(typescript@6.0.3))(@vue/language-core@3.3.11)(typescript@6.0.3)(vue-tsc@3.3.12(typescript@6.0.3)))(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3))
+        version: 2.0.0-alpha.1(@nuxt/cli@4.0.1(@nuxt/schema@4.6.1)(jiti@2.7.0)(oxc-parser@0.151.0)(rolldown@1.2.12)(vite@8.3.2(@types/node@26.6.3)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.1)))(@volar/typescript@2.4.28(typescript@6.0.3))(@vue/compiler-core@3.5.46)(@vue/language-core@3.3.11)(esbuild@0.28.0)(rolldown@1.2.12)(tsdown@0.23.7(@arethetypeswrong/core@0.18.5)(@volar/typescript@2.4.28(typescript@6.0.3))(@vue/language-core@3.3.11)(typescript@6.0.3)(vue-tsc@3.3.12(typescript@6.0.3)))(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3))
       '@nuxt/schema':
         specifier: ^4.6.1
         version: 4.6.1
@@ -772,6 +772,9 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
+      vue-tsc:
+        specifier: 'catalog:'
+        version: 3.3.12(typescript@6.0.3)
 
   playground:
     devDependencies:
@@ -13566,7 +13569,7 @@ snapshots:
       - magic-string
       - unplugin
 
-  '@nuxt/module-builder@2.0.0-alpha.1(@nuxt/cli@4.0.1(@nuxt/schema@4.6.1)(jiti@2.7.0)(oxc-parser@0.151.0)(rolldown@1.2.12)(vite@8.3.2(@types/node@26.6.3)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.1)))(@volar/typescript@2.4.28(typescript@6.0.3))(@vue/compiler-core@3.5.46)(@vue/language-core@3.3.11)(esbuild@0.28.0)(rolldown@1.2.12)(tsdown@0.23.7(@volar/typescript@2.4.28(typescript@6.0.3))(@vue/language-core@3.3.11)(typescript@6.0.3)(vue-tsc@3.3.12(typescript@6.0.3)))(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3))':
+  '@nuxt/module-builder@2.0.0-alpha.1(@nuxt/cli@4.0.1(@nuxt/schema@4.6.1)(jiti@2.7.0)(oxc-parser@0.151.0)(rolldown@1.2.12)(vite@8.3.2(@types/node@26.6.3)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.1)))(@volar/typescript@2.4.28(typescript@6.0.3))(@vue/compiler-core@3.5.46)(@vue/language-core@3.3.11)(esbuild@0.28.0)(rolldown@1.2.12)(tsdown@0.23.7(@arethetypeswrong/core@0.18.5)(@volar/typescript@2.4.28(typescript@6.0.3))(@vue/language-core@3.3.11)(typescript@6.0.3)(vue-tsc@3.3.12(typescript@6.0.3)))(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3))':
     dependencies:
       '@clack/prompts': 1.8.1
       '@nuxt/cli': 4.0.1(@nuxt/schema@4.6.1)(jiti@2.7.0)(oxc-parser@0.151.0)(rolldown@1.2.12)(vite@8.3.2(@types/node@26.6.3)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(yaml@2.9.1))

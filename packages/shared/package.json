@@ -92,13 +92,13 @@
   },
   "scripts": {
     "build": "nuxt-module-build prepare && tsdown",
-    "dev:prepare": "nuxt-module-build prepare",
-    "stub": "nuxt-module-build prepare && tsdown",
+    "dev:prepare": "pnpm run build",
     "test": "vitest",
     "test:run": "vitest run && pnpm test:nuxt5",
     "test:nuxt5": "pnpm build && pnpm --dir test/fixtures/nitro-compat-nuxt5 install --frozen-lockfile && pnpm --dir test/fixtures/nitro-compat-nuxt5 test",
     "test:attw": "attw --pack --profile esm-only",
-    "typecheck": "nuxt typecheck ."
+    "typecheck": "nuxt typecheck .",
+    "prepack": "pnpm run build"
   },
   "peerDependencies": {
     "@nuxt/schema": "^4.6.0 || ^5.0.0",

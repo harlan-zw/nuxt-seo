@@ -23,9 +23,8 @@
   ],
   "scripts": {
     "build": "nuxt-module-build prepare && tsdown",
-    "dev:prepare": "nuxt-module-build prepare",
-    "stub": "nuxt-module-build prepare && tsdown",
-    "test:attw": "true"
+    "dev:prepare": "pnpm run build",
+    "typecheck": "vue-tsc -b --noEmit"
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",
@@ -41,6 +40,7 @@
     "@nuxt/schema": "catalog:",
     "nuxt": "catalog:",
     "tsdown": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vue-tsc": "catalog:"
   }
 }
